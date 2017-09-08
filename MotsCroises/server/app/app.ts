@@ -14,6 +14,9 @@ import * as cors from 'cors';
 
 import * as indexRoute from './routes/index';
 
+import { GenerationDeGrilleService } from './GenerationDeGrilleService';
+
+
 export class Application {
 
   public app: express.Application;
@@ -82,6 +85,10 @@ export class Application {
 
     // use router middleware
     this.app.use(router);
+
+    this.app.use('/GenerationDeGrilleService', function(res, req){
+        console.log("fonctionne bien !");
+    })
 
     // Gestion des erreurs
     this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {

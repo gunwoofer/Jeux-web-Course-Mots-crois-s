@@ -18,7 +18,7 @@ export class Mot {
     }
 
     public simplifierMot(): string{
-
+        return "";
     }
 
     

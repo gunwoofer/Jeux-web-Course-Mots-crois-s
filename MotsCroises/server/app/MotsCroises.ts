@@ -30,11 +30,11 @@ export class MotsCroises {
     }
 
     public estComplete(): boolean {
-        
+        return true;
     }
 
     public validerMot(): boolean {
-
+        return true;
     } 
 
 
