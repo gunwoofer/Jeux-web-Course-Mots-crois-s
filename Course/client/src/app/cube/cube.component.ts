@@ -34,4 +34,9 @@ export class CubeComponent implements AfterViewInit {
   public ngAfterViewInit() {
     this.renderService.initialize(this.container, this.rotationSpeedX, this.rotationSpeedY);
   }
+
+  public onMouseClick(event) {
+    this.renderService.createPoint(event);
+    console.log(event);
+  }
 }

@@ -30,8 +30,26 @@ export class RenderService {
   public rotationSpeedY = 0.01;
 
   private animateCube() {
-    this.cube.rotation.x += this.rotationSpeedX;
-    this.cube.rotation.y += this.rotationSpeedY;
+    //this.cube.rotation.x += this.rotationSpeedX;
+    //this.cube.rotation.y += this.rotationSpeedY;
+    //this.cube.translateX(10);
+  }
+public createPoint( event ) { // Creation du point
+    const geometry = new THREE.Geometry();
+
+    geometry.vertices.push(
+      new THREE.Vector3( 0, 0, 0), // Le point se place l'origine de la fenetre quand on clique
+    );
+
+    var dotMaterial = new THREE.PointsMaterial({
+      size: 10,
+      color: 0x000000,
+      opacity: 1
+    });
+
+    var dot = new THREE.Points( geometry, dotMaterial );
+
+    this.scene.add(dot);
   }
 
   private createCube() {
@@ -43,24 +61,22 @@ export class RenderService {
       geometry.faces[i + 1].color.setHex(hex);
     }
 
+    
+
     const material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors, overdraw: 0.5 });
     this.cube = new THREE.Mesh(geometry, material);
-    this.scene.add(this.cube);
+    //this.scene.add(this.cube);
   }
 
   private createScene() {
     /* Scene */
     this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color( 0xFFFFFF );
 
     /* Camera */
     const aspectRatio = this.getAspectRatio();
-    this.camera = new THREE.PerspectiveCamera(
-      this.fieldOfView,
-      aspectRatio,
-      this.nearClippingPane,
-      this.farClippingPane
-    );
-    this.camera.position.z = this.cameraZ;
+    this.camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 1, 100000);
+    this.camera.position.z = 500;
   }
 
   private getAspectRatio() {
@@ -105,6 +121,7 @@ export class RenderService {
 
     this.createScene();
     this.createCube();
+    //this.createPoint();
     this.initStats();
     this.startRenderingLoop();
   }
