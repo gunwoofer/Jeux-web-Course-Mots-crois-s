@@ -4,7 +4,7 @@ import { Case } from './Case';
 
 
 export const DIMENSION_LIGNE = 10;
-export const dDIMENSION_COLONNE = 10;
+export const DIMENSION_COLONNE = 10;
 
 export enum EtatMotCroise{
     vide,
@@ -21,7 +21,7 @@ export enum Difficulte{
 
 export class MotsCroises {
     private mots : Mot[];
-    private case : Case[];
+    private cases:Case[] = new Array(100);
     private etat : EtatMotCroise;
     private difficulte : Difficulte;
 
@@ -37,5 +37,12 @@ export class MotsCroises {
         return true;
     } 
 
+    public getCase(): Case[] {
+        return this.cases;
+    }
+
+    public ajouterCase(caseAAjouter: Case): void{
+        this.cases.push(caseAAjouter);
+    }
 
 }
