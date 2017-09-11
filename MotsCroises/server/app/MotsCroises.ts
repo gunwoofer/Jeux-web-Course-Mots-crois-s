@@ -1,6 +1,6 @@
 
 import { Mot } from './Mot';
-import { Case } from './Case';
+import { Case, EtatCase } from './Case';
 
 
 export const DIMENSION_LIGNE = 10;
@@ -21,11 +21,20 @@ export enum Difficulte{
 
 export class MotsCroises {
     private mots : Mot[];
-    private cases:Case[] = new Array(100);
+    private cases:Case[][] = new Array();
     private etat : EtatMotCroise;
     private difficulte : Difficulte;
 
     public constructor (){
+
+        // Instancie la grille vide sans espace noir.
+        for(let i:number = 0; i < 10; i++) {
+            this.cases[i] = [];
+            for(let j:number = 0; j < 10; j++) {                
+                let caseBlanche = new Case(i,j, EtatCase.vide);
+                this.cases[i][j] = caseBlanche;
+            }
+        }
 
     }
 
@@ -37,12 +46,15 @@ export class MotsCroises {
         return true;
     } 
 
-    public getCase(): Case[] {
+    public getCase(): Case[][] {
         return this.cases;
     }
 
-    public ajouterCase(caseAAjouter: Case): void{
-        this.cases.push(caseAAjouter);
+    
+    public changerEtatCase(etatCase:EtatCase, x:number, y:number): void{
+
+         this.cases[x][y].setEtat(etatCase);
+
     }
 
 }

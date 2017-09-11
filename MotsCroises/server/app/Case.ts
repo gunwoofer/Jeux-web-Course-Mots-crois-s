@@ -21,11 +21,11 @@ export class Case {
 
     }
 
-    public getx(): number {
+    public getX(): number {
         return this.x;
     }
     
-    public gety(): number {
+    public getY(): number {
         return this.y;
     }
 

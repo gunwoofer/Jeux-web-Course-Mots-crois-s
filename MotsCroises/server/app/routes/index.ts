@@ -9,13 +9,9 @@ module Route {
     export class Index {
 
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
 
-
-
-            let generateur = new GenerateurDeGrilleService();
-            let motsCroises = generateur.genererGrille();
-            
+            let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            let motsCroises:MotsCroises = generateur.genererGrille();           
             
             res.send(JSON.stringify(motsCroises));
         }

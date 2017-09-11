@@ -4,7 +4,8 @@ import { Case, EtatCase } from './Case';
 
 
 export class GenerateurDeGrilleService {
-    private motCroiseGenere : MotsCroises;
+
+    private motCroiseGenere : MotsCroises = new MotsCroises();
 
 
     public constructor(){
@@ -62,20 +63,9 @@ export class GenerateurDeGrilleService {
         tableauNoir.push([7,9]);
         tableauNoir.push([9,9]);
 
-        for(var i = 0; i < 10; i++) {
-            for(var j = 0; j < 10; j++) {
-
-                for(let duo of tableauNoir) {
-                    if(i == duo[0] && j == duo[1]){
-                        let caseNoir = new Case(i,j, EtatCase.noir);
-                        motCroiseVide.ajouterCase(caseNoir);
-                    }
-                    else{
-                        let caseBlanche = new Case(i,j, EtatCase.vide);
-                        motCroiseVide.ajouterCase(caseBlanche);
-                    }
-                }
-            }
+        
+        for(let duo of tableauNoir) {
+            motCroiseVide.changerEtatCase(EtatCase.noir, duo[0], duo[1]);
         }
 
         return motCroiseVide;
@@ -85,7 +75,7 @@ export class GenerateurDeGrilleService {
     }
 
     private remplirGrille(): MotsCroises {
-        let motsCroisesPlein = new MotsCroises;
+        let motsCroisesPlein = this.motCroiseGenere;
         return motsCroisesPlein;
     }
 

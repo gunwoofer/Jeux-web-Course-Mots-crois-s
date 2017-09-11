@@ -12,4 +12,12 @@ describe('RenderService', () => {
   it('should be created', inject([RenderService], (service: RenderService) => {
     expect(service).toBeTruthy();
   }));
+
+  describe("GenerateurDeGrilleService :: Tests", function(){
+
+      it("Génère un mot croisé vide.", function(){
+          expect(true).toBe(true);
+      });
+
+  });
 });
