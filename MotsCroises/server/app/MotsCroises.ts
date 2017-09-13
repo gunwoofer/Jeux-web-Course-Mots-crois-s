@@ -20,7 +20,9 @@ export enum Difficulte{
 
 
 export class MotsCroises {
-    private mots : Mot[];
+    private mots : Mot[] = new Array();
+    private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE);
+    private nombreMotsSurColonne: number[] = new Array(DIMENSION_COLONNE);
     private cases:Case[][] = new Array();
     private etat : EtatMotCroise;
     private difficulte : Difficulte;
@@ -28,9 +30,9 @@ export class MotsCroises {
     public constructor (){
 
         // Instancie la grille vide sans espace noir.
-        for(let i:number = 0; i < 10; i++) {
+        for(let i:number = 0; i < DIMENSION_LIGNE; i++) {
             this.cases[i] = [];
-            for(let j:number = 0; j < 10; j++) {                
+            for(let j:number = 0; j < DIMENSION_COLONNE; j++) {                
                 let caseBlanche = new Case(i,j, EtatCase.vide);
                 this.cases[i][j] = caseBlanche;
             }
@@ -50,6 +52,73 @@ export class MotsCroises {
         return this.cases;
     }
 
+    
+    public changerEtatCase(etatCase:EtatCase, x:number, y:number): void{
+
+         this.cases[x][y].setEtat(etatCase);
+
+    }
+
+    public ajouterMot(mot:Mot, xDepart:number, yDepart:number, xFin:number, yFin:number) {
+
+        this.mots.push(mot);
+        
+        
+        let positionDansLeMot:number = 0;
+
+        // Cas du mot à l'horizontal.
+        if(xDepart === xFin)
+        {
+            for(let caseCourante of this.cases[xDepart])
+            {
+                if(this.dansLaLimiteDuMot(caseCourante.getY(), yDepart, yFin)) {
+                    caseCourante = mot.obtenirLettre(positionDansLeMot);
+                }
+            }
+
+            this.nombreMotsSurLigne[xDepart]++;
+        }
+
+        // Cas du mot à la vertical.
+        if(yDepart === yFin)
+        {
+            for(let i = 0; i < this.cases.length; i++)
+            {
+                if(this.dansLaLimiteDuMot(i, xDepart, xFin)) {
+                    this.cases[i][yDepart] = mot.obtenirLettre(positionDansLeMot);
+                }
+            }
+
+            this.nombreMotsSurColonne[yDepart]++;
+        }
+    }
+
+    public obtenirNombreMotsSurLigne(ligne:number):number {
+
+        if(ligne < DIMENSION_LIGNE) {
+            return this.nombreMotsSurLigne[ligne];
+        }
+
+        return -1;
+    }
+
+    public obtenirNombreMotsSurColonne(ligne:number) {
+
+        if(ligne < DIMENSION_LIGNE) {
+            return this.obtenirNombreMotsSurColonne[ligne];
+        }
+
+        return -1;
+    }
+
+    public dansLaLimiteDuMot(caseCourante:number, debutY:number, finY:number):boolean {
+
+        if(caseCourante >= debutY && caseCourante.getY() <= finY)
+            return true; 
+        return false;
+        
+    }
+
     public obtenirLongueurCases():number {
         return this.cases.length;
     }
@@ -64,13 +133,6 @@ export class MotsCroises {
         }
 
         return nbrCasesY;
-    }
-
-    
-    public changerEtatCase(etatCase:EtatCase, x:number, y:number): void{
-
-         this.cases[x][y].setEtat(etatCase);
-
     }
 
 }

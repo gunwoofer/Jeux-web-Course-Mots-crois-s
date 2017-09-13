@@ -1,4 +1,4 @@
-import { Case } from './Case';
+import { CasePleine } from './CasePleine';
 
 
 export enum Rarete {
@@ -8,19 +8,19 @@ export enum Rarete {
 
 
 export class Mot {
-    private cases : Case[];
+    private cases : CasePleine[];
     private rarete : Rarete;
-    private infice : string[];
+    private indice : string[];
     
-    
-    public constructor(){
-
+    public constructor(cases:CasePleine[]){
+        this.cases = cases;
     }
 
     public simplifierMot(): string{
         return "";
     }
 
-    
-    
+    public obtenirLettre(position:number): CasePleine {
+        return this.cases[position];
+    } 
 }
