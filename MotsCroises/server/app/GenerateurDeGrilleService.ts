@@ -17,8 +17,6 @@ export class GenerateurDeGrilleService {
         this.motCroiseGenere = this.genereGrilleVide();
         this.motCroiseGenere = this.remplirGrille();
         return this.motCroiseGenere;
-
-
     }
 
     private genereGrilleVide(): MotsCroises{

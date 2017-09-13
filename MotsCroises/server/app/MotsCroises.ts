@@ -50,6 +50,22 @@ export class MotsCroises {
         return this.cases;
     }
 
+    public obtenirLongueurCases():number {
+        return this.cases.length;
+    }
+
+    public obtenirHauteurCases():number {
+        let nbrCasesY:number = 0;
+
+        for(let casesDeLaLigne of this.cases) {
+            if(nbrCasesY != 0 && nbrCasesY !== casesDeLaLigne.length)
+                return -1;
+            nbrCasesY = casesDeLaLigne.length;
+        }
+
+        return nbrCasesY;
+    }
+
     
     public changerEtatCase(etatCase:EtatCase, x:number, y:number): void{
 
