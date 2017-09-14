@@ -108,7 +108,7 @@ export class Grille {
             {
                 for(let caseCourante of this.cases[xDepart])
                 {
-                    if(this.dansLaLimiteDuMot(caseCourante.obtenirY(), yDepart, yFin)) {
+                    if(this.dansLaLimiteDuMot(caseCourante.obtenirY(), yDepart, yFin) && mot.estUneLettreValide(positionDansLeMot)) {
                         caseCourante.remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));                        
                     }
                 }
@@ -121,7 +121,7 @@ export class Grille {
             {
                 for(let i = 0; i < this.cases.length; i++)
                 {
-                    if(this.dansLaLimiteDuMot(i, xDepart, xFin)) {
+                    if(this.dansLaLimiteDuMot(i, xDepart, xFin) && mot.estUneLettreValide(positionDansLeMot)) {
                         this.cases[i][yDepart].remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
                     }
                 }

@@ -47,4 +47,22 @@ describe('GenerateurDeGrilleService', () => {
             }
        }    
    });
+   
+  it('Les mots avec apostrophes et traits d\'union sont acceptes, mais ces signes sont ignores dans la representation du mot.', () => {
+      let generateurDeGrilleService = new GenerateurDeGrilleService();     
+      let grille = generateurDeGrilleService.genererGrille(Niveau.facile);
+
+      for(let ligneCasesCourante of grille.obtenirCases())
+      {
+           for(let caseCourante of ligneCasesCourante)
+           {   
+               if(caseCourante.etat == EtatCase.pleine) {
+                   let lettreCourante:string = caseCourante.obtenirLettre();
+                   
+   
+                   assert((lettreCourante != "-") && (lettreCourante !== "'"));
+               }
+           }
+      }    
+  });
 });
