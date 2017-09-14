@@ -7,25 +7,25 @@ import { EmplacementMot } from './EmplacementMot';
 export const DIMENSION_LIGNE = 10;
 export const DIMENSION_COLONNE = 10;
 
-export enum EtatMotCroise{
+export enum EtatGrille{
     vide,
     encours,
     complet
 }
 
-export enum Difficulte{
+export enum Niveau{
     facile,
     moyen,
     difficile
 }
 
-export class MotsCroises {
+export class Grille {
     private mots : Mot[] = new Array();
     private emplacementMots:EmplacementMot[] = new Array();
 
     private cases:Case[][] = new Array();
 
-    private etat : EtatMotCroise;
+    private etat : EtatGrille;
     private difficulte : Difficulte;
     
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE);

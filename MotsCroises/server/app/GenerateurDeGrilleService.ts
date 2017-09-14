@@ -1,5 +1,5 @@
 
-import { MotsCroises } from './MotsCroises';
+import { Grille, Niveau } from './Grille';
 import { Mot } from './Mot';
 import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';
@@ -9,23 +9,23 @@ export const lettresDeAlphabet:string = "abcdefghijklmnopqrstuvwxyz";
 
 export class GenerateurDeGrilleService {
 
-    private motCroiseGenere : MotsCroises = new MotsCroises();
+    private motCroiseGenere : Grille = new Grille();
 
 
     public constructor(){
 
     }
 
-    public genererGrille(): MotsCroises{
+    public genererGrille(niveau:Niveau): Grille{
         //Algorithme de generation
         this.motCroiseGenere = this.genereGrilleVide();
         this.motCroiseGenere = this.remplirGrille();
         return this.motCroiseGenere;
     }
 
-    private genereGrilleVide(): MotsCroises{
+    private genereGrilleVide(): Grille{
 
-        let motCroiseVide = new MotsCroises;
+        let motCroiseVide = new Grille;
 
         let tableauNoir = new Array();
         
@@ -99,10 +99,10 @@ export class GenerateurDeGrilleService {
         return motCroiseVide;   
     }
 
-    private remplirGrille(): MotsCroises {
-        let motsCroisesPlein = this.motCroiseGenere;        
+    private remplirGrille(): Grille {
+        let GrillePlein = this.motCroiseGenere;        
 
-        for(let emplacementMotCourant of motsCroisesPlein.obtenirPositionsEmplacementsVides()) {
+        for(let emplacementMotCourant of GrillePlein.obtenirPositionsEmplacementsVides()) {
 
             let motAjoute:boolean = false;
             
@@ -114,15 +114,15 @@ export class GenerateurDeGrilleService {
                 }
     
                 let motIdiot:Mot = new Mot(chaineIdiote);
-                if(!motsCroisesPlein.contientDejaLeMot(motIdiot)) {
-                    motsCroisesPlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirX(), emplacementMotCourant.obtenirCaseDebut().obtenirY(), emplacementMotCourant.obtenirCaseFin().obtenirX(), emplacementMotCourant.obtenirCaseFin().obtenirY());                
+                if(!GrillePlein.contientDejaLeMot(motIdiot)) {
+                    GrillePlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirX(), emplacementMotCourant.obtenirCaseDebut().obtenirY(), emplacementMotCourant.obtenirCaseFin().obtenirX(), emplacementMotCourant.obtenirCaseFin().obtenirY());                
                     motAjoute = true;
                 }                
             }
 
         }
 
-        return motsCroisesPlein;
+        return GrillePlein;
     }
 
     private nombreAleatoireEntre1Et26():number{
