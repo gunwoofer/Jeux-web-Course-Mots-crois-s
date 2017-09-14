@@ -9,11 +9,11 @@ export class EmplacementMot {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
         
-        if(caseDebut.getX() === caseFin.getX()) {
-            this.grandeur = caseFin.getY() - caseDebut.getY();
+        if(caseDebut.obtenirX() === caseFin.obtenirX()) {
+            this.grandeur = caseFin.obtenirY() - caseDebut.obtenirY();
         }
-        else if (caseDebut.getY() === caseFin.getY()) {
-            this.grandeur = caseFin.getX() - caseDebut.getX();
+        else if (caseDebut.obtenirY() === caseFin.obtenirY()) {
+            this.grandeur = caseFin.obtenirX() - caseDebut.obtenirX();
         }
 
     }

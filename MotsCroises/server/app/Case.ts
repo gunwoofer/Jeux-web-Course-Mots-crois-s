@@ -11,7 +11,7 @@ export class Case {
     private y : number;
 
     private lettre : string;
-    private etat : EtatCase;
+    public etat : EtatCase;
     private intersection : boolean;
 
     constructor(x: number, y: number, etat: EtatCase) {
@@ -21,12 +21,16 @@ export class Case {
 
     }
 
-    public getX(): number {
+    public obtenirX(): number {
         return this.x;
     }
     
-    public getY(): number {
+    public obtenirY(): number {
         return this.y;
+    }
+
+    public obtenirLettre():string{
+        return this.lettre;
     }
 
     public remplirCase(lettre:string) {
@@ -38,11 +42,4 @@ export class Case {
         this.etat = EtatCase.vide;
         this.lettre = "";
     }
-
-    public setEtat(etat : EtatCase): void {
-        this.etat = etat;
-    }
-
-
-
 }

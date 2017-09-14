@@ -65,7 +65,7 @@ export class MotsCroises {
     
     public changerEtatCase(etatCase:EtatCase, x:number, y:number): void{
 
-         this.cases[x][y].setEtat(etatCase);
+         this.cases[x][y].etat = etatCase;
 
     }
 
@@ -80,10 +80,10 @@ export class MotsCroises {
             let caseFin:Case = emplacementMotCourant.obtenirCaseFin();
             
             if  (    
-                    (caseDebut.getX() === xDepart) &&
-                    (caseDebut.getY() === yDepart) &&
-                    (caseFin.getX() === xDepart) &&
-                    (caseFin.getY() === yDepart)         
+                    (caseDebut.obtenirX() === xDepart) &&
+                    (caseDebut.obtenirY() === yDepart) &&
+                    (caseFin.obtenirX() === xDepart) &&
+                    (caseFin.obtenirY() === yDepart)         
                 )
                 return true;
 
@@ -108,8 +108,8 @@ export class MotsCroises {
             {
                 for(let caseCourante of this.cases[xDepart])
                 {
-                    if(this.dansLaLimiteDuMot(caseCourante.getY(), yDepart, yFin)) {
-                        caseCourante.remplirCase(mot.obtenirLettre(positionDansLeMot));                        
+                    if(this.dansLaLimiteDuMot(caseCourante.obtenirY(), yDepart, yFin)) {
+                        caseCourante.remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));                        
                     }
                 }
 
@@ -122,7 +122,7 @@ export class MotsCroises {
                 for(let i = 0; i < this.cases.length; i++)
                 {
                     if(this.dansLaLimiteDuMot(i, xDepart, xFin)) {
-                        this.cases[i][yDepart].remplirCase(mot.obtenirLettre(positionDansLeMot));
+                        this.cases[i][yDepart].remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
                     }
                 }
 

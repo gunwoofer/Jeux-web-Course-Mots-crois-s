@@ -110,12 +110,12 @@ export class GenerateurDeGrilleService {
                 let grandeur = emplacementMotCourant.obtenirGrandeur();
                 let chaineIdiote:string = "";
                 for(let i = 0; i < grandeur; i++) {
-                    chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntre1Et10());
+                    chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntre1Et26());
                 }
     
                 let motIdiot:Mot = new Mot(chaineIdiote);
                 if(!motsCroisesPlein.contientDejaLeMot(motIdiot)) {
-                    motsCroisesPlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().getX(), emplacementMotCourant.obtenirCaseDebut().getY(), emplacementMotCourant.obtenirCaseFin().getX(), emplacementMotCourant.obtenirCaseFin().getY());                
+                    motsCroisesPlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirX(), emplacementMotCourant.obtenirCaseDebut().obtenirY(), emplacementMotCourant.obtenirCaseFin().obtenirX(), emplacementMotCourant.obtenirCaseFin().obtenirY());                
                     motAjoute = true;
                 }                
             }
@@ -125,8 +125,8 @@ export class GenerateurDeGrilleService {
         return motsCroisesPlein;
     }
 
-    private nombreAleatoireEntre1Et10():number{
-        return Math.floor((Math.random() * 10) + 1);
+    private nombreAleatoireEntre1Et26():number{
+        return Math.floor((Math.random() * 26) + 1);
     }
 
 }

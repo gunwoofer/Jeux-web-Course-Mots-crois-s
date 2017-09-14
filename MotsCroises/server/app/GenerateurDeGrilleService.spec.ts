@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { MotsCroises } from './MotsCroises';
+import { Case, EtatCase } from './Case';
 
 describe('GenerateurDeGrilleService', () => {
      it('Une grille est carre et fait dix cases de cote.', () => {
@@ -28,4 +29,22 @@ describe('GenerateurDeGrilleService', () => {
 
         assert(!motsCroises.contientMotDuplique());      
     });
+    
+   it('Les accents, tremas et cedilles sont ignores.', () => {
+       let generateurDeGrilleService = new GenerateurDeGrilleService();     
+       let motsCroises = generateurDeGrilleService.genererGrille();
+
+       for(let ligneCasesCourante of motsCroises.obtenirCases())
+       {
+            for(let caseCourante of ligneCasesCourante)
+            {   
+                if(caseCourante.etat == EtatCase.pleine) {
+                    let lettreCourante:string = caseCourante.obtenirLettre();
+                    let lettreCouranteSimplife:string = lettreCourante.normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+    
+                    assert(lettreCourante === lettreCourante);
+                }
+            }
+       }    
+   });
 });
