@@ -29,6 +29,16 @@ export class Case {
         return this.y;
     }
 
+    public remplirCase(lettre:string) {
+        this.lettre = lettre;
+        this.etat = EtatCase.pleine;
+    }
+
+    public viderCase() {
+        this.etat = EtatCase.vide;
+        this.lettre = "";
+    }
+
     public setEtat(etat : EtatCase): void {
         this.etat = etat;
     }

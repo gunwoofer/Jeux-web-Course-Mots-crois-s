@@ -36,12 +36,14 @@ export class MotsCroises {
         // Instancie la grille vide sans espace noir.
         for(let i:number = 0; i < DIMENSION_LIGNE; i++) {
             this.cases[i] = [];
+            this.nombreMotsSurLigne[i] = 0;
+
             for(let j:number = 0; j < DIMENSION_COLONNE; j++) {                
                 let caseBlanche = new Case(i,j, EtatCase.vide);
+                this.nombreMotsSurColonne[j] = 0;
                 this.cases[i][j] = caseBlanche;
             }
         }
-
     }
 
     public estComplete(): boolean {
@@ -52,8 +54,12 @@ export class MotsCroises {
         return true;
     } 
 
-    public getCase(): Case[][] {
+    public obtenirCases(): Case[][] {
         return this.cases;
+    }
+
+    public obtenirCase(x:number, y:number):Case{
+        return this.cases[x][y];
     }
 
     
@@ -67,6 +73,26 @@ export class MotsCroises {
         this.emplacementMots.push(emplacementMot);
     }
 
+    public existeEmplacementMot(xDepart:number, yDepart:number, xFin:number, yFin:number):boolean {
+
+        for(let emplacementMotCourant of this.emplacementMots) {
+            let caseDebut:Case = emplacementMotCourant.obtenirCaseDebut();
+            let caseFin:Case = emplacementMotCourant.obtenirCaseFin();
+            
+            if  (    
+                    (caseDebut.getX() === xDepart) &&
+                    (caseDebut.getY() === yDepart) &&
+                    (caseFin.getX() === xDepart) &&
+                    (caseFin.getY() === yDepart)         
+                )
+                return true;
+
+        }
+
+        return false;
+
+    }
+
     public ajouterMot(mot:Mot, xDepart:number, yDepart:number, xFin:number, yFin:number) {
 
         this.mots.push(mot);
@@ -74,52 +100,57 @@ export class MotsCroises {
         
         let positionDansLeMot:number = 0;
 
-        // Cas du mot à l'horizontal.
-        if(xDepart === xFin)
-        {
-            for(let caseCourante of this.cases[xDepart])
+        // Commenter jusqu'à avoir le débogueur fonctionnel.
+       // if(this.existeEmplacementMot(xDepart, yDepart, xFin, yFin))
+        //{
+            // Cas du mot à l'horizontal.
+            if(xDepart === xFin)
             {
-                if(this.dansLaLimiteDuMot(caseCourante.getY(), yDepart, yFin)) {
-                    caseCourante = mot.obtenirLettre(positionDansLeMot);
+                for(let caseCourante of this.cases[xDepart])
+                {
+                    if(this.dansLaLimiteDuMot(caseCourante.getY(), yDepart, yFin)) {
+                        caseCourante.remplirCase(mot.obtenirLettre(positionDansLeMot));                        
+                    }
                 }
+
+                this.nombreMotsSurLigne[xDepart]++;
             }
 
-            this.nombreMotsSurLigne[xDepart]++;
-        }
-
-        // Cas du mot à la vertical.
-        if(yDepart === yFin)
-        {
-            for(let i = 0; i < this.cases.length; i++)
+            // Cas du mot à la vertical.
+            if(yDepart === yFin)
             {
-                if(this.dansLaLimiteDuMot(i, xDepart, xFin)) {
-                    this.cases[i][yDepart] = mot.obtenirLettre(positionDansLeMot);
+                for(let i = 0; i < this.cases.length; i++)
+                {
+                    if(this.dansLaLimiteDuMot(i, xDepart, xFin)) {
+                        this.cases[i][yDepart].remplirCase(mot.obtenirLettre(positionDansLeMot));
+                    }
                 }
-            }
 
-            this.nombreMotsSurColonne[yDepart]++;
-        }
+                this.nombreMotsSurColonne[yDepart]++;
+            }
+       // }
     }
 
     public obtenirNombreMotsSurLigne(ligne:number):number {
 
-        if(ligne < DIMENSION_LIGNE) {
-            return this.nombreMotsSurLigne[ligne];
+        if(ligne >= DIMENSION_LIGNE) {
+            return -1;
         }
 
-        return -1;
+        return this.nombreMotsSurLigne[ligne];
     }
 
     public obtenirNombreMotsSurColonne(ligne:number) {
 
-        if(ligne < DIMENSION_LIGNE) {
-            return this.obtenirNombreMotsSurColonne[ligne];
+        if(ligne >= DIMENSION_LIGNE) {
+            return -1;
         }
 
-        return -1;
+        return this.nombreMotsSurColonne[ligne];
     }
 
-    public obtenirPositionsEmplacementsVides(){
+    public obtenirPositionsEmplacementsVides():EmplacementMot[]{
+        return this.emplacementMots;
     }
 
     public dansLaLimiteDuMot(caseCourante:number, debutY:number, finY:number):boolean {

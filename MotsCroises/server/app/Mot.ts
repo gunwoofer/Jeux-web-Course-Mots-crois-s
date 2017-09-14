@@ -8,19 +8,19 @@ export enum Rarete {
 
 
 export class Mot {
-    private cases : CasePleine[];
+    private lettres : string;
     private rarete : Rarete;
     private indice : string[];
     
-    public constructor(cases:CasePleine[]){
-        this.cases = cases;
+    public constructor(lettres:string){
+        this.lettres = lettres;
     }
 
     public simplifierMot(): string{
         return "";
     }
 
-    public obtenirLettre(position:number): CasePleine {
-        return this.cases[position];
+    public obtenirLettre(position:number): string {
+        return this.lettres.charAt(position);
     } 
 }

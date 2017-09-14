@@ -15,12 +15,10 @@ describe('GenerateurDeGrilleService', () => {
         let generateurDeGrilleService = new GenerateurDeGrilleService();     
         let motsCroises = generateurDeGrilleService.genererGrille();
 
-        for(let i = 0 ; i < 10 ; i++) {
-            let nombreMotsColonne = motsCroises.obtenirNombreMotsSurColonne(i);
-            let nombreMotsLigne = motsCroises.obtenirNombreMotsSurLigne(i);
-
-            assert(nombreMotsColonne >= 1 && nombreMotsColonne <= 2);
-            assert(nombreMotsLigne >= 1 && nombreMotsLigne <= 2);
+        for(let i:number = 0; i < 10; i++)
+        {
+            assert((motsCroises.obtenirNombreMotsSurLigne(i) === 1) || (motsCroises.obtenirNombreMotsSurLigne(i) === 2));
+            assert((motsCroises.obtenirNombreMotsSurColonne(i) === 1) || (motsCroises.obtenirNombreMotsSurColonne(i) === 2));
         }
      });
 });

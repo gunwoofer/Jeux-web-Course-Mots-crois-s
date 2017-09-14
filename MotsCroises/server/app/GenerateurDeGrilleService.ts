@@ -1,6 +1,9 @@
 
 import { MotsCroises } from './MotsCroises';
+import { Mot } from './Mot';
+import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';
+import { CasePleine } from './CasePleine';
 
 
 export class GenerateurDeGrilleService {
@@ -67,25 +70,49 @@ export class GenerateurDeGrilleService {
             motCroiseVide.changerEtatCase(EtatCase.noir, duo[0], duo[1]);
         }
 
+        // Ajout des emplacements pour les mots dans la grille
+        // Mots des lignes
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(0,5), motCroiseVide.obtenirCase(0,8)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(1,0), motCroiseVide.obtenirCase(1,5)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(2,5), motCroiseVide.obtenirCase(2,9)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(3,0), motCroiseVide.obtenirCase(3,5)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(4,3), motCroiseVide.obtenirCase(4,9)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(5,0), motCroiseVide.obtenirCase(5,6)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(6,5), motCroiseVide.obtenirCase(6,9)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(7,0), motCroiseVide.obtenirCase(7,4)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(8,4), motCroiseVide.obtenirCase(8,9)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(9,1), motCroiseVide.obtenirCase(9,4)));
         
-
-        return motCroiseVide;
-            
+        // Mots des colonnes
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(5,0), motCroiseVide.obtenirCase(8,0)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(0,1), motCroiseVide.obtenirCase(5,1)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(5,2), motCroiseVide.obtenirCase(9,2)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(0,3), motCroiseVide.obtenirCase(5,3)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(3,4), motCroiseVide.obtenirCase(9,4)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(0,5), motCroiseVide.obtenirCase(6,5)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(4,6), motCroiseVide.obtenirCase(9,6)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(0,7), motCroiseVide.obtenirCase(4,7)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(4,8), motCroiseVide.obtenirCase(9,8)));
+        motCroiseVide.ajouterEmplacementMot(new EmplacementMot(motCroiseVide.obtenirCase(1,9), motCroiseVide.obtenirCase(4,9)));
         
-
+        return motCroiseVide;   
     }
 
     private remplirGrille(): MotsCroises {
-        let motsCroisesPlein = this.motCroiseGenere;
+        let motsCroisesPlein = this.motCroiseGenere;        
 
+        for(let emplacementMotCourant of motsCroisesPlein.obtenirPositionsEmplacementsVides()) {
 
+            let grandeur = emplacementMotCourant.obtenirGrandeur();
+            let chaineIdiote:string = "";
+            for(let i = 0; i < grandeur; i++) {
+                chaineIdiote = chaineIdiote + "a";
+            }
 
+            let motIdiot:Mot = new Mot(chaineIdiote);
+            motsCroisesPlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().getX(), emplacementMotCourant.obtenirCaseDebut().getY(), emplacementMotCourant.obtenirCaseFin().getX(), emplacementMotCourant.obtenirCaseFin().getY())
 
-
-        // Vérifier si l'on peut insérer un mot sans contrainte de positionnement.
-            // Si l'on peut, insérer le mot.
-            // Sinon, vérifier les mots disponibles sans contrainte.
-
+        }
 
         return motsCroisesPlein;
     }
