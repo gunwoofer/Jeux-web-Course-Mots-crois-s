@@ -177,4 +177,31 @@ export class MotsCroises {
         return nbrCasesY;
     }
 
+    public contientDejaLeMot(mot:Mot) {
+        for(let motCourant of this.mots) {
+            if(motCourant.obtenirLettres() === mot.obtenirLettres()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public contientMotDuplique():boolean {
+        for(let motAChercher of this.mots) {
+            let compteur:number = 0;
+            let lettresAChercher:string = motAChercher.obtenirLettres();
+            for(let motCourant of this.mots) {
+                if(lettresAChercher === motCourant.obtenirLettres()) {
+                    compteur++;
+                }
+                if(compteur > 1) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
 }

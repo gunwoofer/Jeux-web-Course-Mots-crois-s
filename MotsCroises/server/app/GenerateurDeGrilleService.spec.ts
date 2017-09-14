@@ -21,4 +21,11 @@ describe('GenerateurDeGrilleService', () => {
             assert((motsCroises.obtenirNombreMotsSurColonne(i) === 1) || (motsCroises.obtenirNombreMotsSurColonne(i) === 2));
         }
      });
+     
+    it('Une grille ne dois pas contenir deux fois le même mot.', () => {
+        let generateurDeGrilleService = new GenerateurDeGrilleService();     
+        let motsCroises = generateurDeGrilleService.genererGrille();
+
+        assert(!motsCroises.contientMotDuplique());      
+    });
 });

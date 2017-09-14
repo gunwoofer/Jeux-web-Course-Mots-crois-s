@@ -23,4 +23,8 @@ export class Mot {
     public obtenirLettre(position:number): string {
         return this.lettres.charAt(position);
     } 
+
+    public obtenirLettres():string{
+        return this.lettres;
+    }
 }

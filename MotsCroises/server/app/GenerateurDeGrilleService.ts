@@ -5,6 +5,7 @@ import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';
 import { CasePleine } from './CasePleine';
 
+export const lettresDeAlphabet:string = "abcdefghijklmnopqrstuvwxyz";
 
 export class GenerateurDeGrilleService {
 
@@ -103,18 +104,29 @@ export class GenerateurDeGrilleService {
 
         for(let emplacementMotCourant of motsCroisesPlein.obtenirPositionsEmplacementsVides()) {
 
-            let grandeur = emplacementMotCourant.obtenirGrandeur();
-            let chaineIdiote:string = "";
-            for(let i = 0; i < grandeur; i++) {
-                chaineIdiote = chaineIdiote + "a";
+            let motAjoute:boolean = false;
+            
+            while(!motAjoute) {
+                let grandeur = emplacementMotCourant.obtenirGrandeur();
+                let chaineIdiote:string = "";
+                for(let i = 0; i < grandeur; i++) {
+                    chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntre1Et10());
+                }
+    
+                let motIdiot:Mot = new Mot(chaineIdiote);
+                if(!motsCroisesPlein.contientDejaLeMot(motIdiot)) {
+                    motsCroisesPlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().getX(), emplacementMotCourant.obtenirCaseDebut().getY(), emplacementMotCourant.obtenirCaseFin().getX(), emplacementMotCourant.obtenirCaseFin().getY());                
+                    motAjoute = true;
+                }                
             }
-
-            let motIdiot:Mot = new Mot(chaineIdiote);
-            motsCroisesPlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().getX(), emplacementMotCourant.obtenirCaseDebut().getY(), emplacementMotCourant.obtenirCaseFin().getX(), emplacementMotCourant.obtenirCaseFin().getY())
 
         }
 
         return motsCroisesPlein;
+    }
+
+    private nombreAleatoireEntre1Et10():number{
+        return Math.floor((Math.random() * 10) + 1);
     }
 
 }
