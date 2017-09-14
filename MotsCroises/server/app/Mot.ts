@@ -1,5 +1,5 @@
 import { CasePleine } from './CasePleine';
-
+import { Indice } from './Indice';
 
 export enum Rarete {
     commun,
@@ -10,7 +10,7 @@ export enum Rarete {
 export class Mot {
     private lettres : string;
     private rarete : Rarete;
-    private indice : string[];
+    private indice : Indice;
     
     public constructor(lettres:string){
         this.lettres = lettres.toUpperCase();
@@ -23,6 +23,14 @@ export class Mot {
 
         return true;
     } 
+
+    public obtenirIndice(): Indice {
+        return this.indice;
+    }
+
+    public obtenirRarete(): Rarete {
+        return this.rarete;
+    }
 
     public obtenirLettreSimplifie(position:number):string{
         return this.lettres[position].normalize('NFD').replace(/[\u0300-\u036f]/g, "");

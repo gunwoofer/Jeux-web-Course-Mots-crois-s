@@ -62,6 +62,10 @@ export class Grille {
         return this.cases[x][y];
     }
 
+    public obtenirMot(): Mot[] {
+        return this.mots;
+    }
+
     
     public changerEtatCase(etatCase:EtatCase, x:number, y:number): void{
 

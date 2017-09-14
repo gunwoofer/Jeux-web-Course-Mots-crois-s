@@ -2,6 +2,8 @@ import { assert } from 'chai';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Grille, Niveau } from './Grille';
 import { Case, EtatCase } from './Case';
+import { Rarete } from './Mot';
+import { Indice, DifficulteDefinition } from './Indice';
 
 describe('GenerateurDeGrilleService', () => {
      it('Une grille est carre et fait dix cases de cote.', () => {
@@ -21,6 +23,27 @@ describe('GenerateurDeGrilleService', () => {
             assert((grille.obtenirNombreMotsSurLigne(i) === 1) || (grille.obtenirNombreMotsSurLigne(i) === 2));
             assert((grille.obtenirNombreMotsSurColonne(i) === 1) || (grille.obtenirNombreMotsSurColonne(i) === 2));
         }
+     });
+
+     it('Le niveau de difficulté d une grille correspond au niveau de difficulte des paires mot:indice qui la composent', () => {
+        let generateurDeGrilleService = new GenerateurDeGrilleService();
+        let grilleFacile = generateurDeGrilleService.genererGrille(Niveau.facile);
+        let grilleMoyen = generateurDeGrilleService.genererGrille(Niveau.moyen);
+        let grilleDifficile = generateurDeGrilleService.genererGrille(Niveau.difficile);
+
+        for (let i:number = 0; i < grilleFacile.obtenirMot().length; i++){
+            assert(grilleFacile.obtenirMot()[i].obtenirRarete() == Rarete.commun );
+            assert(grilleFacile.obtenirMot()[i].obtenirIndice().obtenirRarete() == DifficulteDefinition.PremiereDefinition)
+        }
+        for (let i:number = 0; i < grilleMoyen.obtenirMot().length; i++){
+            assert(grilleMoyen.obtenirMot()[i].obtenirRarete() == Rarete.commun );
+            assert(grilleMoyen.obtenirMot()[i].obtenirIndice().obtenirRarete() == DifficulteDefinition.DefinitionAlternative)
+        }
+        for (let i:number = 0; i < grilleDifficile.obtenirMot().length; i++){
+            assert(grilleDifficile.obtenirMot()[i].obtenirRarete() == Rarete.nonCommun );
+            assert(grilleDifficile.obtenirMot()[i].obtenirIndice().obtenirRarete() == DifficulteDefinition.DefinitionAlternative)
+        }
+
      });
      
     it('Une grille ne dois pas contenir deux fois le même mot.', () => {
