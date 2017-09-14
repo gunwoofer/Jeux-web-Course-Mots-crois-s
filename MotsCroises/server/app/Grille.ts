@@ -26,7 +26,7 @@ export class Grille {
     private cases:Case[][] = new Array();
 
     private etat : EtatGrille;
-    private difficulte : Difficulte;
+    private difficulte : Niveau;
     
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE);
     private nombreMotsSurColonne: number[] = new Array(DIMENSION_COLONNE);

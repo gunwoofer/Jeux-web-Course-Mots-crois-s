@@ -1,8 +1,7 @@
 import * as express from 'express';
 import {Message} from '../../../commun/communication/message';
 import { GenerateurDeGrilleService } from '../GenerateurDeGrilleService';
-import { MotsCroises } from '../MotsCroises';
-
+import { Grille, Niveau } from '../Grille';
 
 module Route {
 
@@ -11,7 +10,7 @@ module Route {
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction) {
 
             let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            let motsCroises:MotsCroises = generateur.genererGrille();           
+            let motsCroises:Grille = generateur.genererGrille(Niveau.facile);           
             
             res.send(JSON.stringify(motsCroises));
         }
