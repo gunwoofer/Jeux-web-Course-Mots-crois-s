@@ -1,6 +1,7 @@
 
 import { Mot } from './Mot';
 import { Case, EtatCase } from './Case';
+import { EmplacementMot } from './EmplacementMot';
 
 
 export const DIMENSION_LIGNE = 10;
@@ -18,14 +19,17 @@ export enum Difficulte{
     difficile
 }
 
-
 export class MotsCroises {
     private mots : Mot[] = new Array();
-    private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE);
-    private nombreMotsSurColonne: number[] = new Array(DIMENSION_COLONNE);
+    private emplacementMots:EmplacementMot[] = new Array();
+
     private cases:Case[][] = new Array();
+
     private etat : EtatMotCroise;
     private difficulte : Difficulte;
+    
+    private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE);
+    private nombreMotsSurColonne: number[] = new Array(DIMENSION_COLONNE);
 
     public constructor (){
 
@@ -57,6 +61,10 @@ export class MotsCroises {
 
          this.cases[x][y].setEtat(etatCase);
 
+    }
+
+    public ajouterEmplacementMot(emplacementMot:EmplacementMot) {
+        this.emplacementMots.push(emplacementMot);
     }
 
     public ajouterMot(mot:Mot, xDepart:number, yDepart:number, xFin:number, yFin:number) {
@@ -111,9 +119,12 @@ export class MotsCroises {
         return -1;
     }
 
+    public obtenirPositionsEmplacementsVides(){
+    }
+
     public dansLaLimiteDuMot(caseCourante:number, debutY:number, finY:number):boolean {
 
-        if(caseCourante >= debutY && caseCourante.getY() <= finY)
+        if(caseCourante >= debutY && caseCourante <= finY)
             return true; 
         return false;
         

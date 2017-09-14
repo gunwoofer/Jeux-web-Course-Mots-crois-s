@@ -25,6 +25,7 @@ export class GenerateurDeGrilleService {
 
         let tableauNoir = new Array();
         
+        // Cases noirs
         tableauNoir.push([0,0]);
         tableauNoir.push([2,0]);
         tableauNoir.push([4,0]);
@@ -66,6 +67,8 @@ export class GenerateurDeGrilleService {
             motCroiseVide.changerEtatCase(EtatCase.noir, duo[0], duo[1]);
         }
 
+        
+
         return motCroiseVide;
             
         
@@ -74,6 +77,16 @@ export class GenerateurDeGrilleService {
 
     private remplirGrille(): MotsCroises {
         let motsCroisesPlein = this.motCroiseGenere;
+
+
+
+
+
+        // Vérifier si l'on peut insérer un mot sans contrainte de positionnement.
+            // Si l'on peut, insérer le mot.
+            // Sinon, vérifier les mots disponibles sans contrainte.
+
+
         return motsCroisesPlein;
     }
 
