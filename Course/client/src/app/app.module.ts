@@ -3,16 +3,16 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { CubeComponent } from './cube/cube.component';
+import { CreateurPiste } from './createurPiste/createurPiste.component'
 
-import {RenderService} from './cube/render.service';
+import {RenderService} from './createurPiste/render.service';
 import {BasicService} from './basic.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CubeComponent
+    CreateurPiste
   ],
   imports: [
     BrowserModule,
