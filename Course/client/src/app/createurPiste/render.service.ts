@@ -16,12 +16,15 @@ export class RenderService {
   private rayCaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private objects: any[] = [];
-
+  
+  private drawIsfinished = false;
   private cameraZ = 400;
   private nearClippingPane = 1;
   private farClippingPane = 1000;
   public rotationSpeedX = 0.005;
   public rotationSpeedY = 0.01;
+  private compteur =0;
+
 
 
   // creation d'un point
@@ -55,36 +58,71 @@ export class RenderService {
 
   public clickPoint(event) { // Creation du point
 
+    this.rayCaster = new THREE.Raycaster();
     let intersects: any[] = [];
-    event.preventDefault();
-    let rectangle = this.renderer.domElement.getBoundingClientRect();
-    this.mouse = new THREE.Vector2();
-
-    this.mouse.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
-    this.mouse.y = - ((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
-
-
-    this.rayCaster = this.createRayCaster();
-    this.rayCaster.setFromCamera(this.mouse, this.camera);
-    intersects = this.rayCaster.intersectObjects(this.scene.children);
+    let coordonneOrigine = new THREE.Vector3();
+    
+    
+    
+    this.mouse = this.getCoordinate(event);
+    intersects = this.getIntersectObject(this.rayCaster,this.mouse,this.camera,this.scene);
 
     if (intersects.length > 0) {
-      let intersect = intersects[0];
+      let objet = intersects[0];
       let dot = this.createPoint();
-      dot.position.copy(intersect.point).add(intersect.face.normal);
-      dot.position.divideScalar(1).floor().multiplyScalar(1).addScalar(1);
+      dot.position.copy(objet.point);
+      
+      if(this.objects.length >0)
+      {
+        let startPoint = this.objects[this.compteur].position;
+        let endPoint = dot.position;
+        let line = this.drawAline(startPoint,endPoint);
+        this.scene.add(line);
+        this.compteur++;
+        
+      }
       this.scene.add(dot);
       this.objects.push(dot);
       this.render();
+
     }
     else {
-      console.log('Error');
+      console.log('DRAW IS FINISH');
     }
+   
   }
 
-  // creation d'un raycaster
-  private createRayCaster() {
-    return new THREE.Raycaster();
+  private drawAline(startPoint : THREE.Vector3, finalPoint : THREE.Vector3){
+    let material = new THREE.LineBasicMaterial({
+      color : 0x0000ff,
+      linewidth : 2
+    })
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(startPoint);
+    geometry.vertices.push(finalPoint);
+
+    return new THREE.Line(geometry, material);
+
+  }
+  
+
+  private getCoordinate(event){
+    event.preventDefault();
+    let rectangle = this.renderer.domElement.getBoundingClientRect();
+    let vector = new THREE.Vector2();
+    vector.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
+    vector.y = - ((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
+
+    return new THREE.Vector2(vector.x,vector.y);
+  }
+
+  private getIntersectObject(rayCaster : THREE.Raycaster, 
+                             mouse : THREE.Vector2, 
+                             camera: THREE.PerspectiveCamera, 
+                             scene : THREE.Scene){
+    rayCaster.setFromCamera(mouse,camera);
+    return rayCaster.intersectObjects(scene.children);
+
   }
 
   private createScene() {
