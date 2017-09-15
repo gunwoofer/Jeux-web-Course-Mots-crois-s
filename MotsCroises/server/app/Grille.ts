@@ -4,8 +4,7 @@ import { Case, EtatCase } from './Case';
 import { EmplacementMot } from './EmplacementMot';
 
 
-export const DIMENSION_LIGNE = 10;
-export const DIMENSION_COLONNE = 10;
+export const DIMENSION_LIGNE_COLONNE = 10;
 
 export enum EtatGrille {
     vide,
@@ -27,19 +26,19 @@ export class Grille {
 
     private etat: EtatGrille;
     private difficulte: Niveau;
-
-    private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE);
-    private nombreMotsSurColonne: number[] = new Array(DIMENSION_COLONNE);
+    
+    private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
+    private nombreMotsSurColonne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
     public constructor() {
 
         // Instancie la grille vide sans espace noir.
-        for (let i: number = 0; i < DIMENSION_LIGNE; i++) {
+        for(let i:number = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             this.cases[i] = [];
             this.nombreMotsSurLigne[i] = 0;
 
-            for (let j: number = 0; j < DIMENSION_COLONNE; j++) {
-                let caseBlanche = new Case(i, j, EtatCase.vide);
+            for(let j:number = 0; j < DIMENSION_LIGNE_COLONNE; j++) {                
+                let caseBlanche = new Case(i,j, EtatCase.vide);
                 this.nombreMotsSurColonne[j] = 0;
                 this.cases[i][j] = caseBlanche;
             }
@@ -142,7 +141,7 @@ export class Grille {
 
     public obtenirNombreMotsSurLigne(ligne: number): number {
 
-        if (ligne >= DIMENSION_LIGNE) {
+        if(ligne >= DIMENSION_LIGNE_COLONNE) {
             return -1;
         }
 
@@ -151,7 +150,7 @@ export class Grille {
 
     public obtenirNombreMotsSurColonne(ligne: number) {
 
-        if (ligne >= DIMENSION_LIGNE) {
+        if(ligne >= DIMENSION_LIGNE_COLONNE) {
             return -1;
         }
 
