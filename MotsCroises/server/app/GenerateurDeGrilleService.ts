@@ -19,14 +19,20 @@ export class GenerateurDeGrilleService {
 
     public genererGrille(niveau: Niveau): Grille {
         //Algorithme de generation
-        this.motCroiseGenere = this.genereGrilleVide();
+        this.motCroiseGenere = this.genereGrilleVideMock();
         this.motCroiseGenere = this.remplirGrille(niveau);
         return this.motCroiseGenere;
     }
 
-    private genereGrilleVide(): Grille {
+    public genereGrilleVide(): Grille {
+        const motCroiseVide = new Grille();
 
-        let motCroiseVide = new Grille;
+        return motCroiseVide;
+    }
+
+    private genereGrilleVideMock(): Grille {
+
+        let motCroiseVide = new Grille();
 
         let tableauNoir = new Array();
 

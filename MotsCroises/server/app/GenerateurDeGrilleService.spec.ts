@@ -12,6 +12,8 @@ describe('GenerateurDeGrilleService', () => {
 
         assert(grille.obtenirHauteurCases() === 10);
         assert(grille.obtenirLongueurCases() === 10);
+
+
      });
 
      it('Chaque ligne et colonne contient un ou deux mots ecrits de gauche a droite et de haut en bas.', () => {
@@ -88,5 +90,22 @@ describe('GenerateurDeGrilleService', () => {
                }
            }
       }    
+  });
+
+  it('Plusieurs grilles vides doivent pouvoir être généré.', () => {
+        const generateurDeGrilleService = new GenerateurDeGrilleService();   
+        const grille1:Grille = generateurDeGrilleService.genereGrilleVide();
+        const grille2:Grille = generateurDeGrilleService.genereGrilleVide();
+        
+        for(let i = 0; i < 10 ; i++) {
+            for(let j = 0; j < 10; j++) {
+                let caseGrille1:Case = grille1.obtenirCase(i, j);
+                let caseGrille2:Case = grille2.obtenirCase(i, j);
+                if(caseGrille1.etat !== caseGrille2.etat)
+                    assert(true);
+            }
+        }
+
+        assert(false);
   });
 });
