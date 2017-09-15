@@ -30,9 +30,9 @@ export class CreateurPiste implements AfterViewInit {
   }
 
   public onMouseClick(event) {
-    this.renderService.drawPoint(event);
+    this.renderService.dessinerPoint(event);
   }
-  
+
   public onMouseRightClick(event) {
     return false;
   }

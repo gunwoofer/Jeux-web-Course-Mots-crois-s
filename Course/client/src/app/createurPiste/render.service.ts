@@ -15,7 +15,9 @@ export class RenderService {
   private fieldOfView = 70;
   private rayCaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
-  private objects: any[] = [];
+  private points: THREE.Points[] = [];
+  private lignes: any[] = [];
+
 
   private drawIsfinished = false;
   private cameraZ = 400;
@@ -25,28 +27,38 @@ export class RenderService {
   public rotationSpeedY = 0.01;
   private compteur = 0;
 
-
-
-  // creation d'un point
-  private createPoint(color: string) {
-
-    const geometry = new THREE.Geometry();
-    geometry.vertices.push(
+  // Creation d'un point
+  private creerPoint(coordonnees: THREE.Vector3, couleur: string) {
+    const geometrie = new THREE.Geometry();
+    geometrie.vertices.push(
       new THREE.Vector3(0, 0, 0)
     );
-
-    const dotMaterial = new THREE.PointsMaterial({
-      size: 5,
-      color: color,
-      opacity: 1
+    const materiel = new THREE.PointsMaterial({
+        size: 5,
+        color: couleur,
+        opacity: 1
     });
-
-    return new THREE.Points(geometry, dotMaterial);
-
+    const point = new THREE.Points(geometrie, materiel);
+    point.position.copy(coordonnees);
+    console.log(couleur);
+    return point;
   }
 
-  // creation d'un plane
-  private createPLane() {
+  // Creation d'une ligne
+  private creerLigne(startPoint: THREE.Vector3, finalPoint: THREE.Vector3) {
+    const materiel = new THREE.LineBasicMaterial({
+      color: 'black',
+      linewidth: 2
+    });
+    const geometrie = new THREE.Geometry();
+    geometrie.vertices.push(startPoint);
+    geometrie.vertices.push(finalPoint);
+    const ligne = new THREE.Line(geometrie, materiel);
+    return ligne;
+  }
+
+  // Creation d'un plan
+  private creerPlan() {
     const geometry = new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight);
     const planeMaterial = new THREE.MeshBasicMaterial({
       visible: false
@@ -55,81 +67,49 @@ export class RenderService {
     this.scene.add(this.plane);
   }
 
-
-
-  public drawPoint(event) { // Creation du point
-
+  // Dessin des points
+  public dessinerPoint(event) {
     this.rayCaster = new THREE.Raycaster();
-    let intersects: any[] = [];
-    let objet, dot, line;
-
+    let intersection: any[] = [];
+    let objet, ligne, point;
     this.mouse = this.getCoordinate(event);
-    intersects = this.getIntersectObject(this.rayCaster, this.mouse, this.camera, this.scene);
-
-
-    if (intersects.length > 0 && !this.drawIsfinished) {
-      objet = intersects[0];
-      dot = this.objects.length ? this.createPoint("green") : this.createPoint("red");
-      dot.position.copy(objet.point);
-      if (this.objects.length > 0) {
-        let distance = dot.position.distanceTo(this.objects[0].position);
-        if(distance >=0 && distance <2)
-        {
-          dot = this.objects[0];
+    this.rayCaster.setFromCamera(this.mouse, this.camera);
+    intersection = this.rayCaster.intersectObjects(this.scene.children);
+    if (intersection.length > 0 && !this.drawIsfinished) {
+      objet = intersection[0];
+        point = this.creerPoint(objet.point, 'red');
+      if (this.points.length > 0) {
+        point.material.color.set('green');
+        const distance = point.position.distanceTo(this.points[0].position);
+        if (distance >= 0 && distance < 2) {
+          point = this.points[0];
           this.drawIsfinished = true;
         }
-        line = this.drawAline(this.objects[this.compteur].position, dot.position);
-        this.scene.add(line);
+        ligne = this.creerLigne(this.points[this.compteur].position, point.position);
+        this.scene.add(ligne);
         this.compteur++;
       }
-        
-      this.scene.add(dot);
-      this.objects.push(dot);
+      this.scene.add(point);
+      this.points.push(point);
       this.render();
+    } else {
+        alert('Dessin termine');
     }
-    else
-      alert('DRAW IS FINISH');
-
   }
-
-  private drawAline(startPoint: THREE.Vector3, finalPoint: THREE.Vector3) {
-    let material = new THREE.LineBasicMaterial({
-      color: "black",
-      linewidth: 2
-    })
-    let geometry = new THREE.Geometry();
-    geometry.vertices.push(startPoint);
-    geometry.vertices.push(finalPoint);
-
-    return new THREE.Line(geometry, material);
-
-  }
-
 
   private getCoordinate(event) {
     event.preventDefault();
-    let rectangle = this.renderer.domElement.getBoundingClientRect();
-    let vector = new THREE.Vector2();
+    const rectangle = this.renderer.domElement.getBoundingClientRect();
+    const vector = new THREE.Vector2();
     vector.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
     vector.y = - ((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
-
     return new THREE.Vector2(vector.x, vector.y);
-  }
-
-  private getIntersectObject(rayCaster: THREE.Raycaster,
-    mouse: THREE.Vector2,
-    camera: THREE.PerspectiveCamera,
-    scene: THREE.Scene) {
-    rayCaster.setFromCamera(mouse, camera);
-    return rayCaster.intersectObjects(scene.children);
-
   }
 
   private createScene() {
     /* Scene */
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xFFFFFF);
-
     /* Camera */
     const aspectRatio = this.getAspectRatio();
     this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
@@ -164,14 +144,13 @@ export class RenderService {
   public onResize() {
     this.camera.aspect = this.getAspectRatio();
     this.camera.updateProjectionMatrix();
-
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
   }
 
   public initialize(container: HTMLDivElement) {
     this.container = container;
     this.createScene();
-    this.createPLane();
+    this.creerPlan();
     this.initStats();
     this.startRenderingLoop();
   }
