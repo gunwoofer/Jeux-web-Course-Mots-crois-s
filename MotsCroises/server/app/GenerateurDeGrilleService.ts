@@ -114,27 +114,22 @@ export class GenerateurDeGrilleService {
                     chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntre1Et26());
                 }
     
-                let motIdiot:Mot = new Mot(chaineIdiote);
-                
-              
-                
+                let indiceIdiot = new Indice (["definition facile", "definition un peu difficile", "definition dure de ouuuuf"]);
+                let motIdiot:Mot = new Mot(chaineIdiote, indiceIdiot);
+            
                 if(niveau == Niveau.facile){
                     motIdiot.setRarete(Rarete.commun);
-                    //motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.PremiereDefinition);
+                    motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.PremiereDefinition);
                    
                 }
-                
-                
                 if(niveau == Niveau.moyen){
                     motIdiot.setRarete(Rarete.commun);
-                   // motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
+                    motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
                 }
                 if(niveau == Niveau.difficile){
                     motIdiot.setRarete(Rarete.nonCommun);
-                   // motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
+                    motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
                 }
-                
-              
                 
                 if(!GrillePlein.contientDejaLeMot(motIdiot)) {
                     GrillePlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirX(), emplacementMotCourant.obtenirCaseDebut().obtenirY(), emplacementMotCourant.obtenirCaseFin().obtenirX(), emplacementMotCourant.obtenirCaseFin().obtenirY());                

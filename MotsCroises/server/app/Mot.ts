@@ -12,8 +12,9 @@ export class Mot {
     private rarete : Rarete;
     private indice : Indice;
     
-    public constructor(lettres:string){
+    public constructor(lettres:string, indice:Indice){
         this.lettres = lettres.toUpperCase();
+        this.indice = indice;
     }
 
     public estUneLettreValide(position:number):boolean{

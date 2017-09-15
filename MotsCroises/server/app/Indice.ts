@@ -8,10 +8,12 @@ export enum DifficulteDefinition {
 
 export class Indice {
 
-    public definitions : string[] = new Array();
     private difficulteDefinition: DifficulteDefinition;
+    public definitions : string[] = new Array();
     
-    constructor() {
+    
+    constructor(definitions: string[]) {
+        this.definitions = definitions;
 
     }
 
