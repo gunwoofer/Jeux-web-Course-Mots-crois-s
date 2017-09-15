@@ -1,5 +1,5 @@
 import { CasePleine } from './CasePleine';
-import { Indice } from './Indice';
+import { Indice, DifficulteDefinition } from './Indice';
 
 export enum Rarete {
     commun,
@@ -23,6 +23,11 @@ export class Mot {
 
         return true;
     } 
+
+    public setRarete(rarete:Rarete):void {
+        this.rarete = rarete;
+    }
+    
 
     public obtenirIndice(): Indice {
         return this.indice;

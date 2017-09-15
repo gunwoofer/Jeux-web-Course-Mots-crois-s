@@ -1,9 +1,10 @@
 
 import { Grille, Niveau } from './Grille';
-import { Mot } from './Mot';
+import { Mot, Rarete } from './Mot';
 import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';
 import { CasePleine } from './CasePleine';
+import { Indice, DifficulteDefinition } from './Indice';
 
 export const lettresDeAlphabet:string = "abcdefghijklmnopqrstuvwxyz";
 
@@ -19,7 +20,7 @@ export class GenerateurDeGrilleService {
     public genererGrille(niveau:Niveau): Grille{
         //Algorithme de generation
         this.motCroiseGenere = this.genereGrilleVide();
-        this.motCroiseGenere = this.remplirGrille();
+        this.motCroiseGenere = this.remplirGrille(niveau);
         return this.motCroiseGenere;
     }
 
@@ -99,7 +100,7 @@ export class GenerateurDeGrilleService {
         return motCroiseVide;   
     }
 
-    private remplirGrille(): Grille {
+    private remplirGrille(niveau:Niveau): Grille {
         let GrillePlein = this.motCroiseGenere;        
 
         for(let emplacementMotCourant of GrillePlein.obtenirPositionsEmplacementsVides()) {
@@ -114,10 +115,32 @@ export class GenerateurDeGrilleService {
                 }
     
                 let motIdiot:Mot = new Mot(chaineIdiote);
+                
+              
+                
+                if(niveau == Niveau.facile){
+                    motIdiot.setRarete(Rarete.commun);
+                    //motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.PremiereDefinition);
+                   
+                }
+                
+                
+                if(niveau == Niveau.moyen){
+                    motIdiot.setRarete(Rarete.commun);
+                   // motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
+                }
+                if(niveau == Niveau.difficile){
+                    motIdiot.setRarete(Rarete.nonCommun);
+                   // motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
+                }
+                
+              
+                
                 if(!GrillePlein.contientDejaLeMot(motIdiot)) {
                     GrillePlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirX(), emplacementMotCourant.obtenirCaseDebut().obtenirY(), emplacementMotCourant.obtenirCaseFin().obtenirX(), emplacementMotCourant.obtenirCaseFin().obtenirY());                
                     motAjoute = true;
-                }                
+                }     
+                
             }
 
         }

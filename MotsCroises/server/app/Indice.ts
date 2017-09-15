@@ -8,15 +8,19 @@ export enum DifficulteDefinition {
 
 export class Indice {
 
-    public definitions : string[];
-    private rarete: DifficulteDefinition;
+    public definitions : string[] = new Array();
+    private difficulteDefinition: DifficulteDefinition;
     
     constructor() {
 
     }
 
-    public obtenirRarete(): DifficulteDefinition {
-        return this.rarete;
+    public obtenirDifficulteDefinition(): DifficulteDefinition {
+        return this.difficulteDefinition;
+    }
+
+    public setDifficulteDefinition(difficultedefinition:DifficulteDefinition): void {
+        this.difficulteDefinition = difficultedefinition;
     }
 
     public obtenirDefinition(difficulte:DifficulteDefinition): string {
