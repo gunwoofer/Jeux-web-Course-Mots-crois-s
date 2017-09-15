@@ -16,19 +16,19 @@ export class RenderService {
   private rayCaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private objects: any[] = [];
-  
+
   private drawIsfinished = false;
   private cameraZ = 400;
   private nearClippingPane = 1;
   private farClippingPane = 1000;
   public rotationSpeedX = 0.005;
   public rotationSpeedY = 0.01;
-  private compteur =0;
+  private compteur = 0;
 
 
 
   // creation d'un point
-  private createPoint() {
+  private createPoint(color: string) {
 
     const geometry = new THREE.Geometry();
     geometry.vertices.push(
@@ -37,7 +37,7 @@ export class RenderService {
 
     const dotMaterial = new THREE.PointsMaterial({
       size: 5,
-      color: 0x000000,
+      color: color,
       opacity: 1
     });
 
@@ -56,46 +56,46 @@ export class RenderService {
   }
 
 
-  public clickPoint(event) { // Creation du point
+
+  public drawPoint(event) { // Creation du point
 
     this.rayCaster = new THREE.Raycaster();
     let intersects: any[] = [];
-    let coordonneOrigine = new THREE.Vector3();
-    
-    
-    
-    this.mouse = this.getCoordinate(event);
-    intersects = this.getIntersectObject(this.rayCaster,this.mouse,this.camera,this.scene);
+    let objet, dot, line;
 
-    if (intersects.length > 0) {
-      let objet = intersects[0];
-      let dot = this.createPoint();
+    this.mouse = this.getCoordinate(event);
+    intersects = this.getIntersectObject(this.rayCaster, this.mouse, this.camera, this.scene);
+
+
+    if (intersects.length > 0 && !this.drawIsfinished) {
+      objet = intersects[0];
+      dot = this.objects.length ? this.createPoint("green") : this.createPoint("red");
       dot.position.copy(objet.point);
-      
-      if(this.objects.length >0)
-      {
-        let startPoint = this.objects[this.compteur].position;
-        let endPoint = dot.position;
-        let line = this.drawAline(startPoint,endPoint);
+      if (this.objects.length > 0) {
+        let distance = dot.position.distanceTo(this.objects[0].position);
+        if(distance >=0 && distance <2)
+        {
+          dot = this.objects[0];
+          this.drawIsfinished = true;
+        }
+        line = this.drawAline(this.objects[this.compteur].position, dot.position);
         this.scene.add(line);
         this.compteur++;
-        
       }
+        
       this.scene.add(dot);
       this.objects.push(dot);
       this.render();
+    }
+    else
+      alert('DRAW IS FINISH');
 
-    }
-    else {
-      console.log('DRAW IS FINISH');
-    }
-   
   }
 
-  private drawAline(startPoint : THREE.Vector3, finalPoint : THREE.Vector3){
+  private drawAline(startPoint: THREE.Vector3, finalPoint: THREE.Vector3) {
     let material = new THREE.LineBasicMaterial({
-      color : 0x0000ff,
-      linewidth : 2
+      color: "black",
+      linewidth: 2
     })
     let geometry = new THREE.Geometry();
     geometry.vertices.push(startPoint);
@@ -104,23 +104,23 @@ export class RenderService {
     return new THREE.Line(geometry, material);
 
   }
-  
 
-  private getCoordinate(event){
+
+  private getCoordinate(event) {
     event.preventDefault();
     let rectangle = this.renderer.domElement.getBoundingClientRect();
     let vector = new THREE.Vector2();
     vector.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
     vector.y = - ((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
 
-    return new THREE.Vector2(vector.x,vector.y);
+    return new THREE.Vector2(vector.x, vector.y);
   }
 
-  private getIntersectObject(rayCaster : THREE.Raycaster, 
-                             mouse : THREE.Vector2, 
-                             camera: THREE.PerspectiveCamera, 
-                             scene : THREE.Scene){
-    rayCaster.setFromCamera(mouse,camera);
+  private getIntersectObject(rayCaster: THREE.Raycaster,
+    mouse: THREE.Vector2,
+    camera: THREE.PerspectiveCamera,
+    scene: THREE.Scene) {
+    rayCaster.setFromCamera(mouse, camera);
     return rayCaster.intersectObjects(scene.children);
 
   }
