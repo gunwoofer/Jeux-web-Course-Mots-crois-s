@@ -29,6 +29,21 @@ export class Case {
         return this.y;
     }
 
+    public obtenirEtatIntersection(): boolean {
+        return this.intersection;
+    }
+
+    public obtenirEtat(): EtatCase {
+        return this.etat;
+    }
+
+    public comparerCase(caseAComparer: Case): boolean {
+        return ((this.etat === caseAComparer.obtenirEtat())
+        && (this.x === caseAComparer.obtenirX())
+        && (this.y === caseAComparer.obtenirY())
+        && (this.lettre === caseAComparer.obtenirLettre()));
+    }
+
     public obtenirLettre():string{
         return this.lettre;
     }

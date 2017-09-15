@@ -1,32 +1,35 @@
 import { Case } from './Case'
 
 export class EmplacementMot {
-    private caseDebut:Case;
-    private caseFin:Case;
-    private grandeur:number;
+    private caseDebut: Case;
+    private caseFin: Case;
+    private cases: Case[];
+    private grandeur: number;
 
     constructor(caseDebut:Case, caseFin:Case) {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
-        
-        if(caseDebut.obtenirX() === caseFin.obtenirX()) {
+        if (caseDebut.obtenirX() === caseFin.obtenirX()) {
             this.grandeur = caseFin.obtenirY() - caseDebut.obtenirY();
-        }
-        else if (caseDebut.obtenirY() === caseFin.obtenirY()) {
+        } else if (caseDebut.obtenirY() === caseFin.obtenirY()) {
             this.grandeur = caseFin.obtenirX() - caseDebut.obtenirX();
         }
 
     }
 
-    public obtenirCaseDebut():Case {
+    public obtenirCases(): Case[] {
+        return this.cases;
+    }
+
+    public obtenirCaseDebut(): Case {
         return this.caseDebut;
     }
 
-    public obtenirCaseFin():Case {
+    public obtenirCaseFin(): Case {
         return this.caseFin;
     }
 
-    public obtenirGrandeur():number {
+    public obtenirGrandeur(): number {
         return this.grandeur;
     }
 }

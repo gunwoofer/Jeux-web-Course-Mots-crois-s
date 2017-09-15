@@ -7,39 +7,39 @@ import { EmplacementMot } from './EmplacementMot';
 export const DIMENSION_LIGNE = 10;
 export const DIMENSION_COLONNE = 10;
 
-export enum EtatGrille{
+export enum EtatGrille {
     vide,
     encours,
     complet
 }
 
-export enum Niveau{
+export enum Niveau {
     facile,
     moyen,
     difficile
 }
 
 export class Grille {
-    private mots : Mot[] = new Array();
-    private emplacementMots:EmplacementMot[] = new Array();
+    private mots: Mot[] = new Array();
+    private emplacementMots: EmplacementMot[] = new Array();
 
-    private cases:Case[][] = new Array();
+    private cases: Case[][] = new Array();
 
-    private etat : EtatGrille;
-    private difficulte : Niveau;
-    
+    private etat: EtatGrille;
+    private difficulte: Niveau;
+
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE);
     private nombreMotsSurColonne: number[] = new Array(DIMENSION_COLONNE);
 
-    public constructor (){
+    public constructor() {
 
         // Instancie la grille vide sans espace noir.
-        for(let i:number = 0; i < DIMENSION_LIGNE; i++) {
+        for (let i: number = 0; i < DIMENSION_LIGNE; i++) {
             this.cases[i] = [];
             this.nombreMotsSurLigne[i] = 0;
 
-            for(let j:number = 0; j < DIMENSION_COLONNE; j++) {                
-                let caseBlanche = new Case(i,j, EtatCase.vide);
+            for (let j: number = 0; j < DIMENSION_COLONNE; j++) {
+                let caseBlanche = new Case(i, j, EtatCase.vide);
                 this.nombreMotsSurColonne[j] = 0;
                 this.cases[i][j] = caseBlanche;
             }
@@ -47,18 +47,25 @@ export class Grille {
     }
 
     public estComplete(): boolean {
+        for (let i = 0; i < 10; i++) {
+            if (((this.obtenirNombreMotsSurLigne(i) !== 1) && (this.obtenirNombreMotsSurLigne(i) !== 2))
+            || ((this.obtenirNombreMotsSurColonne(i) !== 1) && (this.obtenirNombreMotsSurColonne(i) !== 2))) {
+                return false;
+            }
+        }
+        this.etat = EtatGrille.complet;
         return true;
     }
 
     public validerMot(): boolean {
         return true;
-    } 
+    }
 
     public obtenirCases(): Case[][] {
         return this.cases;
     }
 
-    public obtenirCase(x:number, y:number):Case{
+    public obtenirCase(x: number, y: number): Case {
         return this.cases[x][y];
     }
 
@@ -66,29 +73,31 @@ export class Grille {
         return this.mots;
     }
 
-    
-    public changerEtatCase(etatCase:EtatCase, x:number, y:number): void{
 
-         this.cases[x][y].etat = etatCase;
+    public changerEtatCase(etatCase: EtatCase, x: number, y: number): void {
+
+        this.cases[x][y].etat = etatCase;
 
     }
 
-    public ajouterEmplacementMot(emplacementMot:EmplacementMot) {
+
+
+    public ajouterEmplacementMot(emplacementMot: EmplacementMot) {
         this.emplacementMots.push(emplacementMot);
     }
 
-    public existeEmplacementMot(xDepart:number, yDepart:number, xFin:number, yFin:number):boolean {
+    public existeEmplacementMot(xDepart: number, yDepart: number, xFin: number, yFin: number): boolean {
 
-        for(let emplacementMotCourant of this.emplacementMots) {
-            let caseDebut:Case = emplacementMotCourant.obtenirCaseDebut();
-            let caseFin:Case = emplacementMotCourant.obtenirCaseFin();
-            
-            if  (    
-                    (caseDebut.obtenirX() === xDepart) &&
-                    (caseDebut.obtenirY() === yDepart) &&
-                    (caseFin.obtenirX() === xDepart) &&
-                    (caseFin.obtenirY() === yDepart)         
-                )
+        for (let emplacementMotCourant of this.emplacementMots) {
+            let caseDebut: Case = emplacementMotCourant.obtenirCaseDebut();
+            let caseFin: Case = emplacementMotCourant.obtenirCaseFin();
+
+            if (
+                (caseDebut.obtenirX() === xDepart) &&
+                (caseDebut.obtenirY() === yDepart) &&
+                (caseFin.obtenirX() === xDepart) &&
+                (caseFin.obtenirY() === yDepart)
+            )
                 return true;
 
         }
@@ -97,83 +106,79 @@ export class Grille {
 
     }
 
-    public ajouterMot(mot:Mot, xDepart:number, yDepart:number, xFin:number, yFin:number) {
+    public ajouterMot(mot: Mot, xDepart: number, yDepart: number, xFin: number, yFin: number) {
 
         this.mots.push(mot);
-        
-        
-        let positionDansLeMot:number = 0;
+
+
+        let positionDansLeMot: number = 0;
 
         // Commenter jusqu'à avoir le débogueur fonctionnel.
-       // if(this.existeEmplacementMot(xDepart, yDepart, xFin, yFin))
+        // if(this.existeEmplacementMot(xDepart, yDepart, xFin, yFin))
         //{
-            // Cas du mot à l'horizontal.
-            if(xDepart === xFin)
-            {
-                for(let caseCourante of this.cases[xDepart])
-                {
-                    if(this.dansLaLimiteDuMot(caseCourante.obtenirY(), yDepart, yFin) && mot.estUneLettreValide(positionDansLeMot)) {
-                        caseCourante.remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));                        
-                    }
+        // Cas du mot à l'horizontal.
+        if (xDepart === xFin) {
+            for (let caseCourante of this.cases[xDepart]) {
+                if (this.dansLaLimiteDuMot(caseCourante.obtenirY(), yDepart, yFin) && mot.estUneLettreValide(positionDansLeMot)) {
+                    caseCourante.remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
                 }
-
-                this.nombreMotsSurLigne[xDepart]++;
             }
 
-            // Cas du mot à la vertical.
-            if(yDepart === yFin)
-            {
-                for(let i = 0; i < this.cases.length; i++)
-                {
-                    if(this.dansLaLimiteDuMot(i, xDepart, xFin) && mot.estUneLettreValide(positionDansLeMot)) {
-                        this.cases[i][yDepart].remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
-                    }
-                }
+            this.nombreMotsSurLigne[xDepart]++;
+        }
 
-                this.nombreMotsSurColonne[yDepart]++;
+        // Cas du mot à la vertical.
+        if (yDepart === yFin) {
+            for (let i = 0; i < this.cases.length; i++) {
+                if (this.dansLaLimiteDuMot(i, xDepart, xFin) && mot.estUneLettreValide(positionDansLeMot)) {
+                    this.cases[i][yDepart].remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
+                }
             }
-       // }
+
+            this.nombreMotsSurColonne[yDepart]++;
+        }
+        // }
     }
 
-    public obtenirNombreMotsSurLigne(ligne:number):number {
+    public obtenirNombreMotsSurLigne(ligne: number): number {
 
-        if(ligne >= DIMENSION_LIGNE) {
+        if (ligne >= DIMENSION_LIGNE) {
             return -1;
         }
 
         return this.nombreMotsSurLigne[ligne];
     }
 
-    public obtenirNombreMotsSurColonne(ligne:number) {
+    public obtenirNombreMotsSurColonne(ligne: number) {
 
-        if(ligne >= DIMENSION_LIGNE) {
+        if (ligne >= DIMENSION_LIGNE) {
             return -1;
         }
 
         return this.nombreMotsSurColonne[ligne];
     }
 
-    public obtenirPositionsEmplacementsVides():EmplacementMot[]{
+    public obtenirPositionsEmplacementsVides(): EmplacementMot[] {
         return this.emplacementMots;
     }
 
-    public dansLaLimiteDuMot(caseCourante:number, debutY:number, finY:number):boolean {
+    public dansLaLimiteDuMot(caseCourante: number, debutY: number, finY: number): boolean {
 
-        if(caseCourante >= debutY && caseCourante <= finY)
-            return true; 
+        if (caseCourante >= debutY && caseCourante <= finY)
+            return true;
         return false;
-        
+
     }
 
-    public obtenirLongueurCases():number {
+    public obtenirLongueurCases(): number {
         return this.cases.length;
     }
 
-    public obtenirHauteurCases():number {
-        let nbrCasesY:number = 0;
+    public obtenirHauteurCases(): number {
+        let nbrCasesY: number = 0;
 
-        for(let casesDeLaLigne of this.cases) {
-            if(nbrCasesY != 0 && nbrCasesY !== casesDeLaLigne.length)
+        for (let casesDeLaLigne of this.cases) {
+            if (nbrCasesY != 0 && nbrCasesY !== casesDeLaLigne.length)
                 return -1;
             nbrCasesY = casesDeLaLigne.length;
         }
@@ -181,9 +186,9 @@ export class Grille {
         return nbrCasesY;
     }
 
-    public contientDejaLeMot(mot:Mot) {
-        for(let motCourant of this.mots) {
-            if(motCourant.obtenirLettres() === mot.obtenirLettres()) {
+    public contientDejaLeMot(mot: Mot) {
+        for (let motCourant of this.mots) {
+            if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
                 return true;
             }
         }
@@ -191,15 +196,15 @@ export class Grille {
         return false;
     }
 
-    public contientMotDuplique():boolean {
-        for(let motAChercher of this.mots) {
-            let compteur:number = 0;
-            let lettresAChercher:string = motAChercher.obtenirLettres();
-            for(let motCourant of this.mots) {
-                if(lettresAChercher === motCourant.obtenirLettres()) {
+    public contientMotDuplique(): boolean {
+        for (let motAChercher of this.mots) {
+            let compteur: number = 0;
+            let lettresAChercher: string = motAChercher.obtenirLettres();
+            for (let motCourant of this.mots) {
+                if (lettresAChercher === motCourant.obtenirLettres()) {
                     compteur++;
                 }
-                if(compteur > 1) {
+                if (compteur > 1) {
                     return true;
                 }
             }
