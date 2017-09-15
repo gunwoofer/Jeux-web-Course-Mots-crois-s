@@ -13,7 +13,6 @@ export class RenderService {
   private renderer: THREE.WebGLRenderer;
   private scene: THREE.Scene;
   private fieldOfView = 70;
-  private rayCaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private points: THREE.Points[] = [];
   private lignes: THREE.Line[] = [];
@@ -68,20 +67,21 @@ export class RenderService {
 
   // Dessin des points
   public dessinerPoint(event) {
-    this.rayCaster = new THREE.Raycaster();
+    const rayCaster = new THREE.Raycaster();
     let intersection: any[] = [];
     let objet, ligne, point;
     this.mouse = this.obtenirCoordonnees(event);
-    this.rayCaster.setFromCamera(this.mouse, this.camera);
-    intersection = this.rayCaster.intersectObjects(this.scene.children);
+    rayCaster.setFromCamera(this.mouse, this.camera);
+    intersection = rayCaster.intersectObjects(this.scene.children);
     if (intersection.length > 0 && !this.dessinTermine) {
       objet = intersection[0];
       point = this.creerPoint(objet.point, 'red');
       if (this.points.length > 0) {
-        point.material.color.set('green');
+        point.material.color.set('orange');
         const distance = point.position.distanceTo(this.points[0].position);
-        if (distance >= 0 && distance < 5) {
+        if (distance >= 0 && distance < 10) {
           ligne = this.creerLigne(this.points[this.compteur].position, this.points[0].position);
+          point.position.set(this.points[0].position);
           this.dessinTermine = true;
         } else {
           ligne = this.creerLigne(this.points[this.compteur].position, point.position);
@@ -90,9 +90,7 @@ export class RenderService {
         this.scene.add(ligne);
         this.compteur++;
       }
-      if (!this.dessinTermine) {
-        this.scene.add(point);
-      }
+      this.scene.add(point);
       this.points.push(point);
       this.render();
     } else {
