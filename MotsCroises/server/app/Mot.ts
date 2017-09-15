@@ -8,27 +8,27 @@ export enum Rarete {
 
 
 export class Mot {
-    private lettres : string;
-    private rarete : Rarete;
-    private indice : Indice;
-    
-    public constructor(lettres:string, indice:Indice){
+    private lettres: string;
+    private rarete: Rarete;
+    private indice: Indice;
+
+    public constructor(lettres: string, indice: Indice) {
         this.lettres = lettres.toUpperCase();
         this.indice = indice;
     }
 
-    public estUneLettreValide(position:number):boolean{
-        if((this.lettres[position] === "-") || (this.lettres[position] === "'")) {
+    public estUneLettreValide(position: number): boolean {
+        if ((this.lettres[position] === "-") || (this.lettres[position] === "'")) {
             return false;
         }
 
         return true;
-    } 
+    }
 
-    public setRarete(rarete:Rarete):void {
+    public setRarete(rarete: Rarete): void {
         this.rarete = rarete;
     }
-    
+
 
     public obtenirIndice(): Indice {
         return this.indice;
@@ -38,15 +38,15 @@ export class Mot {
         return this.rarete;
     }
 
-    public obtenirLettreSimplifie(position:number):string{
+    public obtenirLettreSimplifie(position: number): string {
         return this.lettres[position].normalize('NFD').replace(/[\u0300-\u036f]/g, "");
     }
 
-    public obtenirLettre(position:number): string {
+    public obtenirLettre(position: number): string {
         return this.lettres.charAt(position);
-    } 
+    }
 
-    public obtenirLettres():string{
+    public obtenirLettres(): string {
         return this.lettres;
     }
 }
