@@ -14,6 +14,8 @@ export class Case {
     public etat : EtatCase;
     private intersection : boolean;
 
+    public pointsDeContraintes: number = 0;
+
     constructor(x: number, y: number, etat: EtatCase) {
         this.x = x;
         this.y = y;
