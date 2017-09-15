@@ -16,10 +16,10 @@ export class RenderService {
   private rayCaster: THREE.Raycaster;
   private mouse: THREE.Vector2;
   private points: THREE.Points[] = [];
-  private lignes: any[] = [];
+  private lignes: THREE.Line[] = [];
 
 
-  private drawIsfinished = false;
+  private dessinTermine = false;
   private cameraZ = 400;
   private nearClippingPane = 1;
   private farClippingPane = 1000;
@@ -40,7 +40,6 @@ export class RenderService {
     });
     const point = new THREE.Points(geometrie, materiel);
     point.position.copy(coordonnees);
-    console.log(couleur);
     return point;
   }
 
@@ -72,24 +71,28 @@ export class RenderService {
     this.rayCaster = new THREE.Raycaster();
     let intersection: any[] = [];
     let objet, ligne, point;
-    this.mouse = this.getCoordinate(event);
+    this.mouse = this.obtenirCoordonnees(event);
     this.rayCaster.setFromCamera(this.mouse, this.camera);
     intersection = this.rayCaster.intersectObjects(this.scene.children);
-    if (intersection.length > 0 && !this.drawIsfinished) {
+    if (intersection.length > 0 && !this.dessinTermine) {
       objet = intersection[0];
-        point = this.creerPoint(objet.point, 'red');
+      point = this.creerPoint(objet.point, 'red');
       if (this.points.length > 0) {
         point.material.color.set('green');
         const distance = point.position.distanceTo(this.points[0].position);
-        if (distance >= 0 && distance < 2) {
-          point = this.points[0];
-          this.drawIsfinished = true;
+        if (distance >= 0 && distance < 5) {
+          ligne = this.creerLigne(this.points[this.compteur].position, this.points[0].position);
+          this.dessinTermine = true;
+        } else {
+          ligne = this.creerLigne(this.points[this.compteur].position, point.position);
         }
-        ligne = this.creerLigne(this.points[this.compteur].position, point.position);
+        this.lignes.push(ligne);
         this.scene.add(ligne);
         this.compteur++;
       }
-      this.scene.add(point);
+      if (!this.dessinTermine) {
+        this.scene.add(point);
+      }
       this.points.push(point);
       this.render();
     } else {
@@ -97,7 +100,18 @@ export class RenderService {
     }
   }
 
-  private getCoordinate(event) {
+  public supprimerPoint(event) {
+    this.dessinTermine = false;
+    this.scene.remove(this.points[this.points.length - 1]);
+    this.points.pop();
+    this.scene.remove(this.lignes[this.lignes.length - 1]);
+    this.lignes.pop();
+    if (this.compteur >= 1) {
+      this.compteur--;
+    }
+  }
+
+  private obtenirCoordonnees(event) {
     event.preventDefault();
     const rectangle = this.renderer.domElement.getBoundingClientRect();
     const vector = new THREE.Vector2();
@@ -106,7 +120,7 @@ export class RenderService {
     return new THREE.Vector2(vector.x, vector.y);
   }
 
-  private createScene() {
+  private creerScene() {
     /* Scene */
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xFFFFFF);
@@ -149,7 +163,7 @@ export class RenderService {
 
   public initialize(container: HTMLDivElement) {
     this.container = container;
-    this.createScene();
+    this.creerScene();
     this.creerPlan();
     this.initStats();
     this.startRenderingLoop();

@@ -29,11 +29,12 @@ export class CreateurPiste implements AfterViewInit {
     this.renderService.initialize(this.container);
   }
 
-  public onMouseClick(event) {
+  public cliqueGauche(event) {
     this.renderService.dessinerPoint(event);
   }
 
-  public onMouseRightClick(event) {
+  public cliqueDroit(event) {
+    this.renderService.supprimerPoint(event);
     return false;
   }
 
