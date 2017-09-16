@@ -1,1 +1,2 @@
-<div #container (click)="cliqueGauche($event)" (mouseover)="onMouseOver($event)" (contextmenu)="cliqueDroit($event)"></div>
+<div #container (click)="cliqueGauche($event)" (contextmenu)="cliqueDroit($event)"></div>
+<app-pisteValidator *ngIf="condition()" [points]="listePoints()" [lignes]="listeLignes()"></app-pisteValidator>

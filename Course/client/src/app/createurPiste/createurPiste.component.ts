@@ -1,5 +1,7 @@
+import { PisteValidationComponent } from './../piste/pisteValidation.component';
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 import {RenderService} from './render.service';
+
 
 @Component({
   moduleId: module.id,
@@ -12,6 +14,10 @@ export class CreateurPiste implements AfterViewInit {
 
   constructor(private renderService: RenderService) {
   }
+
+  points : THREE.Points[];
+  lignes : THREE.Line[];
+  affiche : boolean;
 
   private get container(): HTMLDivElement {
     return this.containerRef.nativeElement;
@@ -38,6 +44,16 @@ export class CreateurPiste implements AfterViewInit {
     return false;
   }
 
-  public onMouseOver(event) {
+  private listePoints() {
+    return this.points = this.renderService.retournerListeLines();
+    
+  }
+
+  private listeLignes() {
+    return this.lignes = this.renderService.retournerListePoints();
+  }
+
+  private condition() {
+    return this.affiche = this.renderService.retourneetatDessin();
   }
 }
