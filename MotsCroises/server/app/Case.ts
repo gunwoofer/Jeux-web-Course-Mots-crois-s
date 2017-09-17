@@ -10,11 +10,11 @@ export class Case {
     private x : number;
     private y : number;
 
-    private lettre : string;
-    public etat : EtatCase;
-    private intersection : boolean;
+    private lettre: string;
+    public etat: EtatCase;
+    public intersection: boolean = false;;
 
-    public pointsDeContraintes: number = 0;
+    private pointsDeContraintes: number = 0;
 
     constructor(x: number, y: number, etat: EtatCase) {
         this.x = x;
@@ -31,16 +31,12 @@ export class Case {
         return this.y;
     }
 
-    public obtenirEtatIntersection(): boolean {
-        return this.intersection;
-    }
-
-    public obtenirEtat(): EtatCase {
-        return this.etat;
+    public obtenirPointsDeContraintes(): number{
+        return this.pointsDeContraintes;
     }
 
     public comparerCase(caseAComparer: Case): boolean {
-        return ((this.etat === caseAComparer.obtenirEtat())
+        return ((this.etat === caseAComparer.etat)
         && (this.x === caseAComparer.obtenirX())
         && (this.y === caseAComparer.obtenirY())
         && (this.lettre === caseAComparer.obtenirLettre()));
@@ -53,6 +49,11 @@ export class Case {
     public remplirCase(lettre:string) {
         this.lettre = lettre;
         this.etat = EtatCase.pleine;
+    }
+
+    public ajouterUnPointDeContrainte() {
+        this.pointsDeContraintes++;
+        this.intersection = true;
     }
 
     public viderCase() {

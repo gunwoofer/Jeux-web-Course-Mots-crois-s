@@ -104,7 +104,7 @@ describe('GenerateurDeGrilleService', () => {
         let tableauCasesIntersection: Case[];
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                if (grille.obtenirCase(i, j).obtenirEtatIntersection() === true) {
+                if (grille.obtenirCase(i, j).intersection === true) {
                     tableauCasesIntersection.push(grille.obtenirCase(i, j));
                 }
             }
@@ -125,21 +125,22 @@ describe('GenerateurDeGrilleService', () => {
         }
     });
 
-    it('Plusieurs grilles vides doivent pouvoir être généré.', () => {
+    it('Plusieurs grilles vides différentes doivent pouvoir être généré.', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();   
         const grille1:Grille = generateurDeGrilleService.genereGrilleVide();
         const grille2:Grille = generateurDeGrilleService.genereGrilleVide();
-        
+        let grilleDifferente: boolean = false;
         for(let i = 0; i < 10 ; i++) {
             for(let j = 0; j < 10; j++) {
                 let caseGrille1:Case = grille1.obtenirCase(i, j);
                 let caseGrille2:Case = grille2.obtenirCase(i, j);
-                if(caseGrille1.etat !== caseGrille2.etat)
-                    assert(true);
+                if(caseGrille1.etat !== caseGrille2.etat) {
+                    grilleDifferente = true;
+                }
             }
         }
 
-        assert(false);
+        assert(grilleDifferente);
   });
 
 });
