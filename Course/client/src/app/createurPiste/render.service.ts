@@ -243,6 +243,22 @@ export class RenderService {
     this.container.appendChild(this.stats.dom);
   }
 
+  public retournerListePoints(){
+    if(this.dessinTermine){
+      return this.points;
+    }
+  }
+
+  public retournerListeLines(){
+    if (this.dessinTermine){
+      return this.lignes;
+    }
+  }
+  
+  public retourneetatDessin(){
+    return this.dessinTermine;
+  }
+
   public onResize() {
     this.camera.aspect = this.getAspectRatio();
     this.camera.updateProjectionMatrix();
