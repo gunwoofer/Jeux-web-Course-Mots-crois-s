@@ -13,8 +13,27 @@ export class AppComponent implements OnInit {
 
   public title = 'LOG2990';
   public message: string;
+  public grille = '';
 
   public ngOnInit(): void {
-    this.basicService.basicGet().then(message => this.message = message.title + ' ' + message.body);
+    this.basicService.obtenirGrille().then(grille => this.afficherGrille(grille));
+  }
+
+  public afficherGrille(grille:any) {
+    this.grille = '<table border=1>';
+    for(const casesLigne of grille.cases) {
+      this.grille += '<tr>';
+      for (const caseCourante of casesLigne) {
+        this.grille += '<td>';
+        if (caseCourante.lettre !== undefined) {
+          this.grille += caseCourante.lettre;
+        } else {
+          this.grille += '*';
+        }
+        this.grille += '</td>';
+      }
+      this.grille += '</tr>';
+    }
+    this.grille += '</table>';
   }
 }

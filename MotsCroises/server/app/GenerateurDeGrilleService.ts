@@ -13,8 +13,10 @@ export const nombreMotMinimumParLigneOuColonne = 1;
 export const nombreMotMaximumParLigneOuColonne = 2;
 
 export const grandeurMotMinimum = 3;
-export const grandeurMotMaximum = 10;
+export const grandeurMotMaximum = 7;
 export const longueurEspaceNoirEntreDeuxMots = 1;
+
+export const tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne = 100;
 
 export class GenerateurDeGrilleService {
 
@@ -62,7 +64,7 @@ export class GenerateurDeGrilleService {
 
             // pour chaque mot.
             for(let j = 0; j < grandeurMots[i].length; j++ ) {
-                positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][j]);
+                positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][0]);
                 xDebut = positionDebutFin[0];
                 yDebut = positionDebutFin[1];
                 xFin = positionDebutFin[2];
@@ -136,16 +138,24 @@ export class GenerateurDeGrilleService {
             let grandeurMaximumDuProchainMot: number;            
 
             if (nombreMots[i] >= nombreMotMaximumParLigneOuColonne) {
-                while (!this.peutAccueillirPlusieursMots(grandeurMots[i][0])) {
+                let tentative:number = 0;
+                while (!this.peutAccueillirPlusieursMots(grandeurMots[i][0]) || 
+                tentative < tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne) {
                     grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
                     
                     grandeurMots[i][0] = grandeurMotLigne;
+                    tentative++;
                 }
 
                 grandeurMaximumDuProchainMot = grandeurMotMaximum - (grandeurMots[i][0] + longueurEspaceNoirEntreDeuxMots);
-                grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMaximumDuProchainMot);
 
-                grandeurMots[i].push(grandeurMotLigne);
+                if(grandeurMaximumDuProchainMot >= grandeurMotMinimum) {
+                    grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMaximumDuProchainMot);
+                    
+                    grandeurMots[i].push(grandeurMotLigne);
+                } else {
+                    nombreMots[i] = 1;
+                }
             }
         }
 

@@ -11,11 +11,19 @@ export class BasicService {
   constructor(private http: Http) { }
 
   private url = 'http://localhost:3000/basic';
+  private urlGrille = 'http://localhost:3000/GenerationDeGrilleService';
 
   public basicGet(): Promise<Message> {
     return this.http.get(this.url)
     .toPromise()
     .then(response => response.json() as Message)
+    .catch(this.handleError);
+  }
+
+  public obtenirGrille(): Promise<string> {
+    return this.http.get(this.urlGrille)
+    .toPromise()
+    .then(response => response.json() as string)
     .catch(this.handleError);
   }
 
