@@ -20,7 +20,7 @@ export const tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne = 100;
 
 export class GenerateurDeGrilleService {
 
-    private motCroiseGenere: Grille = new Grille();
+    private motCroiseGenere: Grille;
 
 
     public constructor() {
@@ -29,13 +29,13 @@ export class GenerateurDeGrilleService {
 
     public genererGrille(niveau: Niveau): Grille {
         //Algorithme de generation
-        this.motCroiseGenere = this.genereGrilleVide();
+        this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);      
         return this.motCroiseGenere;
     }
 
-    public genereGrilleVide(): Grille {
-        let grilleVide = new Grille();        
+    public genereGrilleVide(niveau: Niveau): Grille {
+        let grilleVide = new Grille(niveau);        
 
         // Pour chaque ligne & colonne, on créer un nombre équivaut aux nombre de mots.
         const nombreMotsParLigne: number[] = this.obtenirNombreMots();
@@ -181,9 +181,9 @@ export class GenerateurDeGrilleService {
         return (grandeurDuPremierMot <= grandeurAcceptablePourLePremierMot);
     }
 
-    private genereGrilleVideMock(): Grille {
+    private genereGrilleVideMock(niveau: Niveau): Grille {
 
-        let grilleVide = new Grille(EtatCase.vide);
+        let grilleVide = new Grille(niveau, EtatCase.vide);
 
         let tableauNoir = new Array();
 

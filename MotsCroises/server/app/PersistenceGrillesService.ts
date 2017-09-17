@@ -1,7 +1,11 @@
 let MongoClient = require('mongodb').MongoClient, assert = require('assert');
 
-
+import { UUID } from './utilitaires/UUID';
+import { Grille } from './Grille';
 import * as express from 'express';
+
+
+export const nomTableauGrilles:string = 'grilles';
 
 // Connection URL
 const url = 'mongodb://localhost:27017/motscroises';
@@ -59,7 +63,7 @@ export class PersistenceGrillesService {
             self.verifierSierrConnection(err, db, self);
 
             self.compteurRequetesEntiteePersistente++;
-            db.createCollection("grilles", function(err: any, res: any) {
+            db.createCollection(nomTableauGrilles, function(err: any, res: any) {
                 
                 self.notifierReponseRecuEntiteePersistente();
                 self.verifierSierrConnection(err, db, self);
@@ -69,6 +73,34 @@ export class PersistenceGrillesService {
                 db.close();
             });
         });
+    }
+
+    public insererGrille(grille:Grille) {
+        let self: PersistenceGrillesService = this;
+        let grilleStringify: string = JSON.stringify(grille);
+        let grilleAInserer: Object = {
+            id: UUID.generateUUID(),
+            niveau: grille.obtenirNiveau(),
+            grille: grilleStringify
+        };
+
+        this.compteurRequetesEntiteePersistente++;
+        MongoClient.connect(url, function(err: any, db: any) {
+
+            self.notifierReponseRecuEntiteePersistente();
+            self.verifierSierrConnection(err, db, self);
+            
+            self.compteurRequetesEntiteePersistente++;
+            db.collection(nomTableauGrilles).insertOne(grilleAInserer, function(err: any, res: any) {
+    
+                self.notifierReponseRecuEntiteePersistente();
+                self.verifierSierrConnection(err, db, self);
+                self.envoyerReponse('| 1 document inserted');
+                db.close();
+            });
+        });
+
+
     }
     
     private verifierSierrConnection(err: any, db: any, self:PersistenceGrillesService): boolean {

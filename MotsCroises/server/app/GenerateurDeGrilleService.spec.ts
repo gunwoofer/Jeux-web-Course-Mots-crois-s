@@ -127,8 +127,8 @@ describe('GenerateurDeGrilleService', () => {
 
     it('Plusieurs grilles vides différentes doivent pouvoir être généré.', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();   
-        const grille1:Grille = generateurDeGrilleService.genereGrilleVide();
-        const grille2:Grille = generateurDeGrilleService.genereGrilleVide();
+        const grille1:Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
+        const grille2:Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
         let grilleDifferente: boolean = false;
         for(let i = 0; i < 10 ; i++) {
             for(let j = 0; j < 10; j++) {

@@ -31,12 +31,13 @@ export class Grille {
     private cases: Case[][] = new Array();
 
     private etat: EtatGrille;
-    private difficulte: Niveau;
+    private niveau: Niveau;
     
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
     private nombreMotsSurColonne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
-    public constructor(etatCaseInitial: EtatCase = EtatCase.noir) {
+    public constructor(niveau:Niveau, etatCaseInitial: EtatCase = EtatCase.noir) {
+        this.niveau = niveau;
 
         // Instancie la grille vide sans espace noir.
         for(let i: number = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
@@ -49,6 +50,11 @@ export class Grille {
                 this.cases[i][j] = caseBlanche;
             }
         }
+    }
+
+
+    public obtenirNiveau():Niveau {
+        return this.niveau;
     }
 
     public estComplete(): boolean {

@@ -9,16 +9,20 @@ module Route {
 
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction) {
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            const motsCroises: Grille = generateur.genererGrille(Niveau.facile);
+            const grille: Grille = generateur.genererGrille(Niveau.facile);
 
-            res.send(JSON.stringify(motsCroises));
+            res.send(JSON.stringify(grille));
         }
 
 
         public PersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction) {
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(res);
+            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const grille: Grille = generateur.genererGrille(Niveau.facile);
+            
             persistenceGrilles.connectiondbMotsCroises();
             persistenceGrilles.creerTableauGrilles();
+            persistenceGrilles.insererGrille(grille);
 
         }
     }
