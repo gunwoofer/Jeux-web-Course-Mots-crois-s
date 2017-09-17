@@ -6,9 +6,11 @@ export class EmplacementMot {
     private cases: Case[];
     private grandeur: number;
 
-    constructor(caseDebut:Case, caseFin:Case) {
+    constructor(caseDebut:Case, caseFin:Case, cases:Case[]) {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
+        this.cases = cases;
+        
         if (caseDebut.obtenirX() === caseFin.obtenirX()) {
             this.grandeur = caseFin.obtenirY() - caseDebut.obtenirY();
         } else if (caseDebut.obtenirY() === caseFin.obtenirY()) {

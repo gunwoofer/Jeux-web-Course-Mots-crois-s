@@ -58,6 +58,8 @@ export class GenerateurDeGrilleService {
         let xFin:number;
         let yFin:number;
         let positionDebutFin:number[];
+        let caseCouranteVide:Case;
+        let casesEmplacementMots:Case[] = new Array();
 
         // Positionnez mot de la meilleur façon.
         for(let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
@@ -69,14 +71,29 @@ export class GenerateurDeGrilleService {
                 yDebut = positionDebutFin[1];
                 xFin = positionDebutFin[2];
                 yFin = positionDebutFin[3];
-
-                grille.ajouterEmplacementMot(
-                    new EmplacementMot(grille.obtenirCase(xDebut, yDebut), grille.obtenirCase(xFin, yFin)));
                 
                 // Changer l'état de la case à vide.
-                for(let k = yDebut; k <= yFin - yDebut; k++) {
-                    grille.obtenirCaseSelonPosition(position, i, k).etat = EtatCase.vide;
+                switch(position) {
+                    case Position.Ligne:
+                        for(let k = yDebut; k <= yFin - yDebut; k++) {
+                            caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
+                            caseCouranteVide.etat = EtatCase.vide;
+                            casesEmplacementMots.push(caseCouranteVide);
+                        }
+                    break;
+
+                    case Position.Colonne:
+                        for(let k = xDebut; k <= xFin - xDebut; k++) {
+                            caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
+                            caseCouranteVide.etat = EtatCase.vide;
+                            casesEmplacementMots.push(caseCouranteVide);
+                        }
+                    break;
                 }
+                
+                
+                grille.ajouterEmplacementMot(
+                    new EmplacementMot(grille.obtenirCase(xDebut, yDebut), grille.obtenirCase(xFin, yFin), casesEmplacementMots));
             }
         }
 
@@ -231,28 +248,28 @@ export class GenerateurDeGrilleService {
 
         // Ajout des emplacements pour les mots dans la grille
         // Mots des lignes
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 5), grilleVide.obtenirCase(0, 8)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(1, 0), grilleVide.obtenirCase(1, 5)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(2, 5), grilleVide.obtenirCase(2, 9)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(3, 0), grilleVide.obtenirCase(3, 5)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(4, 3), grilleVide.obtenirCase(4, 9)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(5, 0), grilleVide.obtenirCase(5, 6)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(6, 5), grilleVide.obtenirCase(6, 9)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(7, 0), grilleVide.obtenirCase(7, 4)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(8, 4), grilleVide.obtenirCase(8, 9)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(9, 1), grilleVide.obtenirCase(9, 4)));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 5), grilleVide.obtenirCase(0, 8), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(1, 0), grilleVide.obtenirCase(1, 5), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(2, 5), grilleVide.obtenirCase(2, 9), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(3, 0), grilleVide.obtenirCase(3, 5), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(4, 3), grilleVide.obtenirCase(4, 9), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(5, 0), grilleVide.obtenirCase(5, 6), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(6, 5), grilleVide.obtenirCase(6, 9), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(7, 0), grilleVide.obtenirCase(7, 4), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(8, 4), grilleVide.obtenirCase(8, 9), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(9, 1), grilleVide.obtenirCase(9, 4), new Array()));
 
         // Mots des colonnes
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(5, 0), grilleVide.obtenirCase(8, 0)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 1), grilleVide.obtenirCase(5, 1)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(5, 2), grilleVide.obtenirCase(9, 2)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 3), grilleVide.obtenirCase(5, 3)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(3, 4), grilleVide.obtenirCase(9, 4)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 5), grilleVide.obtenirCase(6, 5)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(4, 6), grilleVide.obtenirCase(9, 6)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 7), grilleVide.obtenirCase(4, 7)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(4, 8), grilleVide.obtenirCase(9, 8)));
-        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(1, 9), grilleVide.obtenirCase(4, 9)));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(5, 0), grilleVide.obtenirCase(8, 0), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 1), grilleVide.obtenirCase(5, 1), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(5, 2), grilleVide.obtenirCase(9, 2), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 3), grilleVide.obtenirCase(5, 3), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(3, 4), grilleVide.obtenirCase(9, 4), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 5), grilleVide.obtenirCase(6, 5), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(4, 6), grilleVide.obtenirCase(9, 6), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(0, 7), grilleVide.obtenirCase(4, 7), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(4, 8), grilleVide.obtenirCase(9, 8), new Array()));
+        grilleVide.ajouterEmplacementMot(new EmplacementMot(grilleVide.obtenirCase(1, 9), grilleVide.obtenirCase(4, 9), new Array()));
 
         return grilleVide;
     }
