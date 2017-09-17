@@ -79,9 +79,12 @@ export class Application {
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
 
-    // home page
+    // Generation d'une grille
     router.get('/GenerationDeGrilleService', index.GenerationDeGrilleService.bind(index.GenerationDeGrilleService));
 
+    // Utilisation de la base de données.
+    router.get('/grilles/persistence', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
+;
     // use router middleware
     this.app.use(router);
 
