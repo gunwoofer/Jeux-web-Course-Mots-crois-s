@@ -93,7 +93,7 @@ export class RenderService {
 
   // Dessin des points
   public dessinerPoint(event) {
-    let objet, ligne, point;
+    let objet, point;
     if (!this.dessinTermine) {
       objet = this.obtenirIntersection(event);
       point = this.creerPoint(objet.point, 'red');
@@ -234,19 +234,19 @@ export class RenderService {
     this.container.appendChild(this.stats.dom);
   }
 
-  public retournerListePoints(){
-    if(this.dessinTermine){
+  public retournerListePoints() {
+    if (this.dessinTermine) {
       return this.points;
     }
   }
 
-  public retournerListeLines(){
-    if (this.dessinTermine){
+  public retournerListeLines() {
+    if (this.dessinTermine) {
       return this.lignes;
     }
   }
 
-  public retourneetatDessin(){
+  public retourneetatDessin() {
     return this.dessinTermine;
   }
 
