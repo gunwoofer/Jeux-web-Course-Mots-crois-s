@@ -239,42 +239,21 @@ export class Grille {
     }
 
 
-    public calculerPointsContraintes(position:Position, positionCourante:number) {
+    public calculerPointsContraintes() {
         
         let caseCourante: Case;
         let casePouvantCreerIntersection: Case;
 
         for(let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            caseCourante = this.obtenirCaseSelonPosition(position, positionCourante, i);
-            
-            this.calculerPointsContraintesDeLaCase(position, caseCourante, positionCourante, i);
+            for(let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                caseCourante = this.obtenirCase(i, j);
+                caseCourante.remettrePointsContraintesAZero();
+                this.calculerPointsContraintesDeLaCase(caseCourante, caseCourante.obtenirX(), caseCourante.obtenirY());
+            }
         }
     }
 
-    private calculerPointsContraintesDeLaCase(position:Position, caseCourante:Case, xCourant:number, yCourant:number) {
-
-        // Cas une case en bas contient une lettre.
-        if(this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant))) {
-            caseCourante.ajouterUnPointDeContrainte(999);
-        }
-
-        // Cas deuxième mot collé à l'autre.
-        switch(position) {
-            case Position.Ligne:
-                if (this.peutAccueillirLettre(this.obtenirCase(xCourant - 1, yCourant)) ||
-                 this.peutAccueillirLettre(this.obtenirCase(xCourant + 1, yCourant))){
-                    caseCourante.ajouterUnPointDeContrainte(999);
-                }
-            break;
-
-            case Position.Colonne:
-                if (this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant-1)) ||
-                this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant+1))){
-                    caseCourante.ajouterUnPointDeContrainte(999);
-                }
-            break;
-        }
-
+    private calculerPointsContraintesDeLaCase(caseCourante:Case, xCourant:number, yCourant:number) {
         // Cas une case en bas contient une lettre.
         if(this.peutAccueillirLettre(this.obtenirCase(xCourant + 1, yCourant))) {
             caseCourante.ajouterUnPointDeContrainte();

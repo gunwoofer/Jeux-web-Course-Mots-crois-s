@@ -51,9 +51,28 @@ export class Case {
         this.etat = EtatCase.pleine;
     }
 
-    public ajouterUnPointDeContrainte(increment:number = 1) {
+    public ajouterUnPointDeContrainte(increment: number = 1) {
         this.pointsDeContraintes += increment;
-        this.intersection = true;
+
+        if(this.pointsDeContraintes >= 3) {
+            this.intersection = true;
+        }
+
+        if(this.obtenirX() === 0 && this.obtenirY() === 0 && this.pointsDeContraintes >= 2) {
+            this.intersection = true;
+        }
+
+        if(this.obtenirX() === 0 && this.obtenirY() === 9 && this.pointsDeContraintes >= 2) {
+            this.intersection = true;
+        }
+
+        if(this.obtenirX() === 9 && this.obtenirY() === 0 && this.pointsDeContraintes >= 2) {
+            this.intersection = true;
+        }
+
+        if(this.obtenirX() === 9 && this.obtenirY() === 9 && this.pointsDeContraintes >= 2) {
+            this.intersection = true;
+        }
     }
 
     public remettrePointsContraintesAZero() {

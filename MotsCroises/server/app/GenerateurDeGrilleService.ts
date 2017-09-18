@@ -48,6 +48,7 @@ export class GenerateurDeGrilleService {
         // Pour chaque mot de lignes & colonnes, positionnez-le pour que celui-ci est le moins d'intersection possible.
         grilleVide = this.ajouterEmplacementMotsMeilleurEndroit(Position.Ligne, grilleVide, grandeurMotsParLigne);
         grilleVide = this.ajouterEmplacementMotsMeilleurEndroit(Position.Colonne, grilleVide, grandeurMotsParColonne);
+        grilleVide.calculerPointsContraintes();
 
         return grilleVide;
     }
@@ -103,6 +104,8 @@ export class GenerateurDeGrilleService {
     private obtenirMeilleurPositionDebutFin(grille: Grille, position: Position, positionCourante: number, grandeurMot: number):number[] {
         let meilleurPosition:number[] = [0, 0, 0, 0]; // [xDebut, yDebut, xFin, yFin]
         let meilleurPositionIndex: number;
+        
+        grille.calculerPointsContraintes();
 
         switch(position) {
             case Position.Ligne:
@@ -110,8 +113,6 @@ export class GenerateurDeGrilleService {
                 // Position dans la ligne courante.
                 meilleurPosition[0] = positionCourante;
                 meilleurPosition[2] = positionCourante;
-
-                grille.calculerPointsContraintes(position, positionCourante);
 
                 // trouver la meilleur position.
                 meilleurPositionIndex = grille.trouverMeilleurPositionIndexDebut(grandeurMot, positionCourante, position);
@@ -127,8 +128,6 @@ export class GenerateurDeGrilleService {
                 // Position dans la colonne courante.
                 meilleurPosition[1] = positionCourante;
                 meilleurPosition[3] = positionCourante;
-
-                grille.calculerPointsContraintes(position, positionCourante);
 
                 // trouver la meilleur position.
                 meilleurPositionIndex = grille.trouverMeilleurPositionIndexDebut(grandeurMot, positionCourante, position);
