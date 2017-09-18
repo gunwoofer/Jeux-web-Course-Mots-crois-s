@@ -1,3 +1,5 @@
+import { Position } from './Grille';
+
 
 export enum EtatCase {
     vide,
@@ -12,9 +14,11 @@ export class Case {
 
     private lettre: string;
     public etat: EtatCase;
-    public intersection: boolean = false;;
+    public intersection: boolean = false;
+    
 
     private pointsDeContraintes: number = 0;
+    private pointsDeContraintesProvenance: Position[];
 
     constructor(x: number, y: number, etat: EtatCase) {
         this.x = x;
@@ -51,8 +55,19 @@ export class Case {
         this.etat = EtatCase.pleine;
     }
 
-    public ajouterUnPointDeContrainte(increment: number = 1) {
+    public ajouterUnPointDeContrainte(position:Position, increment: number = 1) {
         this.pointsDeContraintes += increment;
+        this.pointsDeContraintesProvenance.push(position);
+
+        if(this.pointsDeContraintes >= 2) {
+            let positionPrecedente:Position = this.pointsDeContraintesProvenance[0];
+    
+            for(let positionCourante of this.pointsDeContraintesProvenance) {
+                if(positionPrecedente !== positionCourante) {
+                    this.intersection = true;
+                }
+            }
+        }
 
         if(this.pointsDeContraintes >= 3) {
             this.intersection = true;
@@ -77,6 +92,7 @@ export class Case {
 
     public remettrePointsContraintesAZero() {
         this.pointsDeContraintes = 0;
+        this.pointsDeContraintesProvenance = new Array();
         this.intersection = false;
     }
 

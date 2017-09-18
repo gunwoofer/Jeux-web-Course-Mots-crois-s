@@ -28,7 +28,7 @@ export class Grille {
     private mots: Mot[] = new Array();
     private emplacementMots: EmplacementMot[] = new Array();
 
-    private cases: Case[][] = new Array();
+    private cases: Case[][] = new Array(DIMENSION_LIGNE_COLONNE);
 
     private etat: EtatGrille;
     private niveau: Niveau;
@@ -41,7 +41,7 @@ export class Grille {
 
         // Instancie la grille vide sans espace noir.
         for(let i: number = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            this.cases[i] = [];
+            this.cases[i] = new Array(DIMENSION_LIGNE_COLONNE);
             this.nombreMotsSurLigne[i] = 0;
 
             for(let j:number = 0; j < DIMENSION_LIGNE_COLONNE; j++) {                
@@ -256,22 +256,22 @@ export class Grille {
     private calculerPointsContraintesDeLaCase(caseCourante:Case, xCourant:number, yCourant:number) {
         // Cas une case en bas contient une lettre.
         if(this.peutAccueillirLettre(this.obtenirCase(xCourant + 1, yCourant))) {
-            caseCourante.ajouterUnPointDeContrainte();
+            caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
         }
 
         // Cas une case à droite contient une lettre.
         if(this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant + 1))) {
-            caseCourante.ajouterUnPointDeContrainte();
+            caseCourante.ajouterUnPointDeContrainte(Position.Ligne);
         }
         
         // Cas une case en haut contient une lettre.
         if(this.peutAccueillirLettre(this.obtenirCase(xCourant - 1, yCourant))) {
-            caseCourante.ajouterUnPointDeContrainte();
+            caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
         }
         
         // Cas une case à gauche contient une lettre.
         if(this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant - 1))) {
-            caseCourante.ajouterUnPointDeContrainte();
+            caseCourante.ajouterUnPointDeContrainte(Position.Ligne);
         }
 
         return caseCourante;
