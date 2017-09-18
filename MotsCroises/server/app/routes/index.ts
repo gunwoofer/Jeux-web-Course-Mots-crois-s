@@ -31,6 +31,44 @@ module Route {
             persistenceGrilles.insererPlusieursGrilles(grilles);
 
         }
+
+        public obtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction) {
+            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(res);
+
+            persistenceGrilles.obtenirGrillePersistante(Niveau.facile);
+        }
+        
+        public obtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction) {
+            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(res);
+
+            persistenceGrilles.obtenirGrillePersistante(Niveau.moyen);
+        }
+        
+        public obtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction) {
+            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(res);
+
+            persistenceGrilles.obtenirGrillePersistante(Niveau.difficile);
+        }
+
+        public ajouterGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction) {
+            this.ajouterGrillePersistente(Niveau.facile, res);
+        }
+        
+        public ajouterGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction) {
+            this.ajouterGrillePersistente(Niveau.moyen, res);
+        }
+        
+        public ajouterGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction) {
+            this.ajouterGrillePersistente(Niveau.difficile, res);
+        }
+
+        private ajouterGrillePersistente(niveau:Niveau, res: express.Response) {
+            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(res);
+            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const grille: Grille = generateur.genererGrille(niveau);
+
+            persistenceGrilles.insererGrille(grille);
+        }
     }
 }
 

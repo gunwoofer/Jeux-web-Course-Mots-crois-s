@@ -14,9 +14,30 @@ export class AppComponent implements OnInit {
   public title = 'LOG2990';
   public message: string;
   public grille = '';
+  public grillePersistente = '';
 
   public ngOnInit(): void {
     this.basicService.obtenirGrille().then(grille => this.afficherGrille(grille));
+    this.basicService.obtenirGrillePersistente().then(grille => this.afficherGrillePersistente(grille));
+  }
+
+  public afficherGrillePersistente(grille:any) {
+      this.grillePersistente = '<table border=1>';
+      for(const casesLigne of grille.cases) {
+        this.grillePersistente += '<tr>';
+        for (const caseCourante of casesLigne) {
+          this.grillePersistente += '<td>';
+          if (caseCourante.lettre !== undefined) {
+            this.grillePersistente += caseCourante.lettre;
+          } else {
+            this.grillePersistente += '*';
+          }
+          this.grillePersistente += '</td>';
+        }
+        this.grillePersistente += '</tr>';
+      }
+      this.grillePersistente += '</table>';
+
   }
 
   public afficherGrille(grille:any) {

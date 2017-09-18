@@ -83,8 +83,15 @@ export class Application {
     router.get('/GenerationDeGrilleService', index.GenerationDeGrilleService.bind(index.GenerationDeGrilleService));
 
     // Utilisation de la base de données.
-    router.get('/grilles/persistence', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
-;
+    router.use('/grilles/persistence/grille/facile', index.obtenirGrilleFacile.bind(index.obtenirGrilleFacile));
+    router.use('/grilles/persistence/grille/moyen', index.obtenirGrilleMoyen.bind(index.obtenirGrilleMoyen));
+    router.use('/grilles/persistence/grille/difficile', index.obtenirGrilleDifficile.bind(index.obtenirGrilleDifficile));
+
+    router.use('/grilles/persistence/grille/ajouter/5', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
+    router.use('/grilles/persistence/grille/ajouter/facile', index.ajouterGrilleFacile.bind(index.ajouterGrilleFacile));
+    router.use('/grilles/persistence/grille/ajouter/moyen', index.ajouterGrilleMoyen.bind(index.ajouterGrilleMoyen));
+    router.use('/grilles/persistence/grille/ajouter/difficile', index.ajouterGrilleDifficile.bind(index.ajouterGrilleDifficile));
+
     // use router middleware
     this.app.use(router);
 
