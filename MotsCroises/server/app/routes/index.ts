@@ -18,11 +18,17 @@ module Route {
         public PersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction) {
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(res);
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            const grille: Grille = generateur.genererGrille(Niveau.facile);
+            const grille1: Grille = generateur.genererGrille(Niveau.facile);
+            const grille2: Grille = generateur.genererGrille(Niveau.facile);
+            const grille3: Grille = generateur.genererGrille(Niveau.facile);
+            const grille4: Grille = generateur.genererGrille(Niveau.facile);
+            const grille5: Grille = generateur.genererGrille(Niveau.facile);
+
+            let grilles:Grille[] = [grille1, grille2, grille3, grille4, grille5];
             
-            persistenceGrilles.connectiondbMotsCroises();
-            persistenceGrilles.creerTableauGrilles();
-            persistenceGrilles.insererGrille(grille);
+            //persistenceGrilles.creerTableauGrilles();
+            //persistenceGrilles.insererGrille(grille1);
+            persistenceGrilles.insererPlusieursGrilles(grilles);
 
         }
     }
