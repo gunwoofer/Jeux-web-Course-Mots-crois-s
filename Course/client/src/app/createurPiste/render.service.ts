@@ -308,10 +308,10 @@ export class RenderService {
     let ligneCroisees =  0;
     for (let i = 0 ; i < this.points.length ; i++){
       for (let j = i + 1 ; j < this.points.length - 1; j++){
-        let pointA = this.points[i];
-        let pointB = this.points[i + 1];
-        let pointC = this.points[j];
-        let pointD = this.points[j + 1];
+        const pointA = this.points[i];
+        const pointB = this.points[i + 1];
+        const pointC = this.points[j];
+        const pointD = this.points[j + 1];
         console.log(i,j, this.compteur);
         if(this.segmentsCoises(pointA, pointB, pointC, pointD )){
           console.log('croisé');
