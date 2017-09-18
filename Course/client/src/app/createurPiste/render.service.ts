@@ -114,6 +114,7 @@ export class RenderService {
       this.scene.add(point);
       this.points.push(point);
       this.verifierCroisementLigne();
+      this.redessinerCourbe();
       this.render();
     } else {
         alert('Dessin termine');
@@ -126,6 +127,7 @@ export class RenderService {
     this.points.pop();
     this.scene.remove(this.lignes[this.lignes.length - 1]);
     this.lignes.pop();
+    this.redessinerCourbe();
     if (this.compteur >= 1) {
       this.compteur--;
     }
@@ -329,6 +331,11 @@ export class RenderService {
     this.startRenderingLoop();
   }
 
+
+  /**********************************************************
+                Gestion des déplacements souris
+   *********************************************************/
+
   public onMouseDown(event) {
     this.mouseDownTime = new Date().getTime();
     // console.log('mouseDown');
@@ -352,6 +359,47 @@ export class RenderService {
 
   public onMouseMove(event) {
 
+  }
+
+  /**********************************************************
+          Gestion génération de la courbe
+   *********************************************************/
+
+  private dessinerCourbe(){
+    let curve;
+    const arrayPointPosition = [];
+    for (const point of this.points){
+      arrayPointPosition.push(point.position);
+    }
+    // Create a closed wavey loop
+
+    if (this.dessinTermine){
+      arrayPointPosition.pop();
+    }
+    curve = new THREE.CatmullRomCurve3(arrayPointPosition);
+    curve.closed = this.dessinTermine;
+
+    const geometry = new THREE.Geometry();
+    geometry.vertices = curve.getPoints( 100 );
+
+    const material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+
+    // Create the final object to add to the scene
+    this.courbe = new THREE.Line( geometry, material );
+    this.scene.add(this.courbe);
+  }
+
+  private retirerCourbe(){
+    this.scene.remove(this.courbe);
+  }
+
+  private redessinerCourbe(){
+    if (this.courbe){
+      this.retirerCourbe();
+    }
+    if (this.points.length > 2){
+      this.dessinerCourbe();
+    }
   }
 }
 
