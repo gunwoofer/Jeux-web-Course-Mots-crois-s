@@ -164,7 +164,7 @@ export class RenderService {
       return this.lignes;
     }
   }
-  
+
   public retourneetatDessin(){
     return this.dessinTermine;
   }

@@ -46,7 +46,6 @@ export class CreateurPiste implements AfterViewInit {
 
   private listePoints() {
     return this.points = this.renderService.retournerListeLines();
-    
   }
 
   private listeLignes() {
