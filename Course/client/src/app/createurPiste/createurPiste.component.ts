@@ -35,6 +35,10 @@ export class CreateurPiste implements AfterViewInit {
     this.renderService.initialize(this.container);
   }
 
+  private oncontextmenu(){
+    return false;
+  }
+
   public onMouseMove(event) {
     this.renderService.onMouseMove(event);
   }
@@ -44,6 +48,7 @@ export class CreateurPiste implements AfterViewInit {
   }
   public onMouseUp(event) {
     this.renderService.onMouseUp(event);
+    return false;
   }
 
   private listePoints() {
