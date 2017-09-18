@@ -1,6 +1,5 @@
 <div #container
      (mousemove)="onMouseMove($event)"
-     (contextmenu)="cliqueDroit($event)"
      (mousedown)="onMouseDown($event)"
      (mouseup)="onMouseUp($event)"></div>
 <app-pisteValidator *ngIf="condition()" [points]="listePoints()" [lignes]="listeLignes()"></app-pisteValidator>

@@ -116,7 +116,9 @@ export class RenderService {
         const distance = point.position.distanceTo(this.points[0].position);
         this.dessinerLigne(point, distance);
       }
-      this.scene.add(point);
+      if (!this.dessinTermine){
+        this.scene.add(point);
+      }
       this.points.push(point);
       this.verifierCroisementLigne();
       this.redessinerCourbe();
@@ -344,19 +346,18 @@ export class RenderService {
    *********************************************************/
 
   public onMouseDown(event) {
-    console.log(event);
+    if (event.button === 2){
+      event.preventDefault();
+    }
     this.mouseDownTime = new Date().getTime();
-    // console.log('mouseDown');
     if (this.pointHover) {
       this.dragMode = true;
-      // console.log('dragMode');
     }
   }
 
   public onMouseUp(event) {
     this.mouseUpTime = new Date().getTime();
     const clicDuration = this.mouseUpTime - this.mouseDownTime;
-    console.log('clic duration', clicDuration);
     if(event.button === 2){
       this.supprimerPoint();
     }else if (!this.dragMode || clicDuration < 500 && this.objectDragged.name === '0') {
