@@ -127,15 +127,17 @@ export class RenderService {
         const distance = point.position.distanceTo(this.points[0].position);
         this.dessinerLigne(point, distance);
       }
-      if (!this.dessinTermine) {
+      if (!this.dessinTermine ) {
         this.scene.add(point);
       }
       this.compteurPoints++;
       this.ajouterPointLine(point.position);
       this.points.push(point);
+      if (this.estUnAngleMoins45(this.compteurPoints - 2) || this.nombreSegmentsTropCourts() > 0 ){
+          this.supprimerPoint();
+      }
       this.verifierCroisementLigne();
       this.redessinerCourbe();
-      this.verifierLongueurSegment();
       this.render();
     } else {
         alert('Dessin termine');
@@ -154,8 +156,6 @@ export class RenderService {
       this.compteur--;
       this.compteurPoints--;
     }
-    console.log('Il n\'est pas possible de créer des angles de pistes inférieurs à 45 degrés.  ' +
-      'Veuillez proposer une autre section de parcours.');
   }
 
   public obtenirCoordonnees(event) {
@@ -165,75 +165,44 @@ export class RenderService {
     const vector = new THREE.Vector2();
     vector.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
     vector.y = - ((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
-    const nouveauVectorCalculAngle = new THREE.Vector3();
-    const avantDernierVectorCalculAngle = new THREE.Vector3();
-    const vectorCalculAngle = new THREE.Vector3();
-    const pointX = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
-    const pointY = ((event.clientY - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
+    return new THREE.Vector2(vector.x, vector.y);
 
-    this.pointXVecteur.push(pointX);
-    this.pointYVecteur.push(pointY);
-    vectorCalculAngle.x = vector.x;
-    vectorCalculAngle.y = vector.y;
-    vectorCalculAngle.z = 0;
-
-    if (this.estUnAngleMoins45()) {
-      return new THREE.Vector2(vector.x, vector.y);
-    }
   }
 
-  public estUnAngleMoins45() {
+
+  public estUnAngleMoins45(numeroPoint: number) {
     if (this.points.length > 1) {
-      const angle = this.calculerAngle();
+      const angle = this.calculerAngle(numeroPoint);
 
       if (angle <= 0.785398163) {
-      this.interdictionAngle45();
+        this.interdictionAngle45();
+        return true;
       }
     }
-    return true;
+    return false;
   }
 
-  public calculerAngle() {
+  public calculerAngle(numeroPoint: number) {
 
-   if (this.points.length > 1) {
+   if (this.points.length > 1 && numeroPoint > 1) {
 
-      const point1x = this.pointXVecteur[this.pointXVecteur.length - 3];
-      const point2x = this.pointXVecteur[this.pointXVecteur.length - 2];
-      const point3x = this.pointXVecteur[this.pointXVecteur.length - 1];
-      const point1y = this.pointYVecteur[this.pointYVecteur.length - 3];
-      const point2y = this.pointYVecteur[this.pointYVecteur.length - 2];
-      const point3y = this.pointYVecteur[this.pointYVecteur.length - 1];
+      const point1 = this.points[numeroPoint - 1];
+      const point2 = this.points[numeroPoint];
+      const point3 = this.points[numeroPoint + 1];
 
-      const premierSegmentx = point3x - point2x;
-      const premierSegmenty = point3y - point2y;
-      const precedentSegementx = point2x - point1x;
-      const precedentSegementy = point2y - point1y;
+      const premierSegment = new THREE.Vector2(point3.position.x - point2.position.x, point3.position.y - point2.position.y).normalize();
+      const precedentSegement = new THREE.Vector2(point2.position.x - point1.position.x, point2.position.y - point1.position.y).normalize();
 
-      const multiplicationEnX = (premierSegmentx) * (-precedentSegementx);
-      const multiplicationEnY = (premierSegmenty) * (-precedentSegementy);
-
-      const multiplicationEnZ = 0;
-      const resultatNumerateur = multiplicationEnX + multiplicationEnY + multiplicationEnZ;
-
-      const normeSegment = Math.sqrt(Math.pow(premierSegmentx, 2) + Math.pow(premierSegmenty, 2));
-      const normeSegmentPrecedent = Math.sqrt(Math.pow(precedentSegementx, 2) + Math.pow(precedentSegementy, 2));
-
-      const resultatDenominateur = normeSegment * normeSegmentPrecedent;
-
-      const divisionParUn = Math.pow(resultatDenominateur, -1);
-      const resultatNormalise = divisionParUn * resultatNumerateur;
-
-      const angle = Math.acos(resultatNormalise);
+      const produitScalaire = (premierSegment.x) * (-precedentSegement.x) + (premierSegment.y) * (-precedentSegement.y);
+      const angle = Math.acos(produitScalaire);
 
       return angle;
    }
-   return 0;
+   return NaN;
   }
 
   public interdictionAngle45() {
-    /*alert('Il n\'est pas possible de créer des angles de pistes inférieurs à 45 degrés.  ' +
-      'Veuillez proposer une autre section de parcours.');*/
-    console.log('Il n\'est pas possible de créer des angles de pistes inférieurs à 45 degrés.  ' +
+    alert('Il n\'est pas possible de créer des angles de pistes inférieurs à 45 degrés.  ' +
       'Veuillez proposer une autre section de parcours.');
   }
 
@@ -308,7 +277,7 @@ export class RenderService {
   /**********************************************************
                    Gestion longueur segment
    *********************************************************/
-  private verifierLongueurSegment() {
+  private nombreSegmentsTropCourts() {
     const largeurPiste = 20;
     let segmentTropCourt = 0;
     for (let i = 0; i < this.points.length - 1 ; i ++) {
@@ -320,6 +289,7 @@ export class RenderService {
     if (segmentTropCourt > 0 ) {
       alert(segmentTropCourt + (segmentTropCourt > 1 ? ' segments trop courts' : ' segment trop court'));
     }
+    return segmentTropCourt;
   }
 
 
@@ -397,7 +367,7 @@ export class RenderService {
       this.dessinerPoint(event);
     }else if (this.dragMode) {
       this.verifierCroisementLigne();
-      this.verifierLongueurSegment();
+      this.nombreSegmentsTropCourts();
     }
     this.dragMode = false;
   }
