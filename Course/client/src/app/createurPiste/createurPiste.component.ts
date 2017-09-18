@@ -15,11 +15,11 @@ export class CreateurPiste implements AfterViewInit {
   constructor(private renderService: RenderService) {
   }
 
-  points : THREE.Points[];
-  lignes : THREE.Line[];
-  affiche : boolean;
+  private points: THREE.Points[];
+  private lignes: THREE.Line[];
+  private affiche: boolean;
 
-  private get container(): HTMLDivElement {
+  public get container(): HTMLDivElement {
     return this.containerRef.nativeElement;
   }
 
@@ -46,7 +46,6 @@ export class CreateurPiste implements AfterViewInit {
 
   private listePoints() {
     return this.points = this.renderService.retournerListeLines();
-    
   }
 
   private listeLignes() {
