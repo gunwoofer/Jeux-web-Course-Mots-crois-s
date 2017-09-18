@@ -40,7 +40,7 @@ export class CreateurPiste implements AfterViewInit {
   }
 
   public cliqueDroit(event) {
-    this.renderService.supprimerPoint(event);
+    this.renderService.supprimerPoint();
     return false;
   }
 

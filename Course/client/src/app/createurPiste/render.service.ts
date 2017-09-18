@@ -14,7 +14,7 @@ export class RenderService {
   private scene: THREE.Scene;
   private fieldOfView = 70;
   private mouse: THREE.Vector2;
-  private points: THREE.Points[] = [];
+  private points: any [] = [];
   private lignes: THREE.Line[] = [];
 
   private pointXVecteur: number[] = [];
@@ -126,7 +126,7 @@ export class RenderService {
     }
   }
 
-  public supprimerPoint(event) {
+  public supprimerPoint() {
     this.dessinTermine = false;
     this.scene.remove(this.points[this.points.length - 1]);
     this.points.pop();
@@ -159,7 +159,7 @@ export class RenderService {
     vectorCalculAngle.y = vector.y;
     vectorCalculAngle.z = 0;
 
-    if (this.estUnAngleMoins45() === true) {
+    if (this.estUnAngleMoins45()) {
       return new THREE.Vector2(vector.x, vector.y);
     }
   }
@@ -342,6 +342,7 @@ export class RenderService {
    *********************************************************/
 
   public onMouseDown(event) {
+    console.log(event);
     this.mouseDownTime = new Date().getTime();
     // console.log('mouseDown');
     if (this.pointHover) {
@@ -354,7 +355,9 @@ export class RenderService {
     this.mouseUpTime = new Date().getTime();
     const clicDuration = this.mouseUpTime - this.mouseDownTime;
     console.log('clic duration', clicDuration);
-    if (!this.dragMode || clicDuration < 500 && this.objectDragged.name === '0') {
+    if(event.button === 2){
+      this.supprimerPoint();
+    }else if (!this.dragMode || clicDuration < 500 && this.objectDragged.name === '0') {
       this.dessinerPoint(event);
     }else if (clicDuration < 500 && this.objectDragged.name === '0'){
       this.dessinerPoint(event);
@@ -363,7 +366,51 @@ export class RenderService {
   }
 
   public onMouseMove(event) {
+    const rayCaster = new THREE.Raycaster();
+    this.mouse = this.obtenirCoordonnees(event);
+    let intersects;
+    this.scene.updateMatrixWorld(true);
+    rayCaster.setFromCamera(this.mouse, this.camera);
+    intersects = rayCaster.intersectObjects(this.scene.children);
 
+    if (this.dragMode) {
+      this.dragPoint(intersects[0].point);
+    } else {
+      if (intersects.length > 0) {
+        this.resetPointsColor();
+        this.pointHover = false; // on désactive le hover
+        for (const objet of intersects) {
+          if (objet.object.type === 'Points') {
+            this.hoverPoint(objet.object);
+          }
+        }
+      }
+    }
+  }
+
+  private dragPoint(position){
+    this.objectDragged.position.copy(position);
+    const objectDraggedNumber = parseInt (this.objectDragged.name);
+    // this.modifierPointLine(objectDraggedNumber, this.objectDragged.position);
+    this.redessinerCourbe();
+    if(objectDraggedNumber === 0 && this.dessinTermine){ //On modifie aussi le dernier point
+      this.points[this.compteur-1].position.copy(this.objectDragged.position);
+      // this.modifierPointLine(this.compteur - 1, this.objectDragged.position);
+    }
+  }
+
+  private hoverPoint(point){
+    this.pointHover = true; // ici on informe qu'il y a un point sélectionné eet si on clique on passe en mode selection (drag)
+    this.objectDragged = point;
+    point.material.color.set(0x0000ff); // ici on change la couleur
+    point.material.size = 11;
+  }
+
+  private resetPointsColor(){
+    for (const point of this.points){
+      point.material.color.set(point.material.normalColor);
+      point.material.size = 5 ;
+    }
   }
 
   /**********************************************************
