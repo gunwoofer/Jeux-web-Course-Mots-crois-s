@@ -41,6 +41,7 @@ export class RenderService {
   private courbe;
 
 
+
   // Creation d'un point
   public creerPoint(coordonnees: THREE.Vector3, couleur: string) {
     const geometrie = new THREE.Geometry();
@@ -135,6 +136,7 @@ export class RenderService {
       this.points.push(point);
       this.verifierCroisementLigne();
       this.redessinerCourbe();
+      this.checkLongueurSegment();
       this.render();
     } else {
         alert('Dessin termine');
@@ -289,6 +291,42 @@ export class RenderService {
     return this.dessinTermine;
   }
 
+  public onResize() {
+    this.camera.aspect = this.getAspectRatio();
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+  }
+
+  public initialize(container: HTMLDivElement) {
+    this.container = container;
+    this.creerScene();
+    this.creerPlan();
+    this.initStats();
+    this.creerLignePoints();
+    this.startRenderingLoop();
+  }
+
+  /**********************************************************
+                   Gestion longueur segment
+   *********************************************************/
+  private checkLongueurSegment(){
+    const largeurPiste = 20;
+    let segmentTropCourt = 0;
+    for (let i = 0; i <this.points.length -1 ; i ++){
+      const tailleSegment = this.points[i].position.distanceTo(this.points[i+1].position);
+      if (tailleSegment < 2*largeurPiste){
+        segmentTropCourt ++;
+      }
+    }
+    if (segmentTropCourt > 0 ){
+      alert(segmentTropCourt + (segmentTropCourt > 1 ? ' segments trop courts' : ' segment trop court'));
+    }
+  }
+
+
+  /**********************************************************
+                  Gestion croisements
+   *********************************************************/
   private segmentsCoises(pointA, pointB, pointC, pointD){
 
     const vectAB =  [pointB.position.x - pointA.position.x, pointB.position.y - pointA.position.y];
@@ -334,21 +372,6 @@ export class RenderService {
     }
   }
 
-  public onResize() {
-    this.camera.aspect = this.getAspectRatio();
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-  }
-
-  public initialize(container: HTMLDivElement) {
-    this.container = container;
-    this.creerScene();
-    this.creerPlan();
-    this.initStats();
-    this.creerLignePoints();
-    this.startRenderingLoop();
-  }
-
 
   /**********************************************************
                 Gestion des déplacements souris
@@ -375,6 +398,7 @@ export class RenderService {
       this.dessinerPoint(event);
     }else if (this.dragMode){
       this.verifierCroisementLigne();
+      this.checkLongueurSegment();
     }
     this.dragMode = false;
   }
@@ -449,25 +473,17 @@ export class RenderService {
     const drawCount = 2; // draw the first 2 points, only
     this.geometry.setDrawRange( 0, 0 );
 
-    const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    const material = new THREE.LineBasicMaterial({vertexColors: THREE.VertexColors });
     this.pointsLine = new THREE.Line(this.geometry, material);
     this.scene.add(this.pointsLine);
   }
 
   private modifierPointLine(positionTableauPoints, positionPoint){
-    var newColor = new THREE.Color(0xff0000);
-    console.log(newColor);
     const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
     pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
     pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
     pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
     this.pointsLine.geometry.attributes.position.needsUpdate = true;
-
-    this.pointsLine.geometry.attributes.color.array[positionTableauPoints * 3] = 255;
-    this.pointsLine.geometry.attributes.color.array[positionTableauPoints * 3 + 1] = 255;
-    this.pointsLine.geometry.attributes.color.array[positionTableauPoints * 3 + 2] = 120;
-    this.pointsLine.geometry.attributes.color.needsUpdate = true;
-    console.log(this.pointsLine);
 
   }
 
@@ -477,7 +493,7 @@ export class RenderService {
   }
 
   private retirerAncienPointLine(){
-    this.modifierPointLine(this.compteur , new THREE.Vector3(0,0,0));
+    this.modifierPointLine(this.compteur, new THREE.Vector3(0,0,0));
     this.pointsLine.geometry.setDrawRange( 0, this.compteur );
   }
 
