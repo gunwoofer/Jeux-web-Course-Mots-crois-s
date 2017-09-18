@@ -1,6 +1,10 @@
+
+<h2 *ngIf="erreursCircuit()">{{message}} </h2>
+
 <div #container
      (contextmenu)="oncontextmenu()"
      (mousemove)="onMouseMove($event)"
      (mousedown)="onMouseDown($event)"
      (mouseup)="onMouseUp($event)"></div>
+
 <app-pisteValidator *ngIf="condition()" [points]="listePoints()" [lignes]="listeLignes()"></app-pisteValidator>

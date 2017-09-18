@@ -39,9 +39,9 @@ export class RenderService {
   private compteurPoints = 0;
   private courbe;
 
-  private nbSegmentsCroises = 0;
-  private nbAnglesPlusPetit45 = 0;
-  private nbSegmentsTropProche = 0;
+  public nbSegmentsCroises = 0;
+  public nbAnglesPlusPetit45 = 0;
+  public nbSegmentsTropProche = 0;
 
 
   private listeErreurCouleur = {
@@ -162,7 +162,7 @@ export class RenderService {
       alert('Il y a : \n ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge) \n '
         + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange) \n '
         + this.nbSegmentsCroises + ' segment(s) croisé(s) \n '
-        + 'Veuillez corriger les erreurs pour valider la piste ');
+        + 'Veuillez corriger les erreursCircuit pour valider la piste ');
     }
   }
 
