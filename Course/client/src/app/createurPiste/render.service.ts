@@ -51,6 +51,9 @@ export class RenderService {
     });
     const point = new THREE.Points(geometrie, materiel);
     point.position.copy(coordonnees);
+    point.geometry.computeBoundingSphere();
+    point.geometry.boundingSphere.radius = 100;
+    point.name = '' + this.compteur;
     return point;
   }
 
@@ -106,8 +109,10 @@ export class RenderService {
     if (!this.dessinTermine) {
       objet = this.obtenirIntersection(event);
       point = this.creerPoint(objet.point, 'red');
+      point.material.normalColor = 'red';
       if (this.points.length > 0) {
         point.material.color.set('orange');
+        point.material.normalColor = 'orange';
         const distance = point.position.distanceTo(this.points[0].position);
         this.dessinerLigne(point, distance);
       }
