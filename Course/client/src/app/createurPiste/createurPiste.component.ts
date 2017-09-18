@@ -44,6 +44,17 @@ export class CreateurPiste implements AfterViewInit {
     return false;
   }
 
+  public onMouseMove(event) {
+    this.renderService.onMouseMove(event);
+  }
+
+  public onMouseDown(event) {
+    this.renderService.onMouseDown(event);
+  }
+  public onMouseUp(event) {
+    this.renderService.onMouseUp(event);
+  }
+
   private listePoints() {
     return this.points = this.renderService.retournerListeLines();
   }

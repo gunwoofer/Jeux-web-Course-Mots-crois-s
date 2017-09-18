@@ -29,6 +29,15 @@ export class RenderService {
   private quantiteSegment: number = 0;
   private normeSegment: number = 0;
 
+
+  private mouseDownTime;
+  private mouseUpTime;
+  private dragMode;
+  private pointHover;
+  private objectDragged;
+
+  private courbe;
+
   // Creation d'un point
   public creerPoint(coordonnees: THREE.Vector3, couleur: string) {
     const geometrie = new THREE.Geometry();
@@ -318,6 +327,31 @@ export class RenderService {
     this.creerPlan();
     this.initStats();
     this.startRenderingLoop();
+  }
+
+  public onMouseDown(event) {
+    this.mouseDownTime = new Date().getTime();
+    // console.log('mouseDown');
+    if (this.pointHover) {
+      this.dragMode = true;
+      // console.log('dragMode');
+    }
+  }
+
+  public onMouseUp(event) {
+    this.mouseUpTime = new Date().getTime();
+    const clicDuration = this.mouseUpTime - this.mouseDownTime;
+    console.log('clic duration', clicDuration);
+    if (!this.dragMode || clicDuration < 500 && this.objectDragged.name === '0') {
+      this.dessinerPoint(event);
+    }else if (clicDuration < 500 && this.objectDragged.name === '0'){
+      this.dessinerPoint(event);
+    }
+    this.dragMode = false;
+  }
+
+  public onMouseMove(event) {
+
   }
 }
 
