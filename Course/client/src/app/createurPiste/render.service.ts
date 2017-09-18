@@ -36,6 +36,7 @@ export class RenderService {
   private pointHover;
   private objectDragged;
 
+  private pointsLine;
   private courbe;
 
   // Creation d'un point
@@ -316,7 +317,6 @@ export class RenderService {
         const pointD = this.points[j + 1];
         console.log(i,j, this.compteur);
         if(this.segmentsCoises(pointA, pointB, pointC, pointD )){
-          console.log('croisé');
           ligneCroisees ++;
         }
       }
@@ -394,11 +394,11 @@ export class RenderService {
   private dragPoint(position){
     this.objectDragged.position.copy(position);
     const objectDraggedNumber = parseInt (this.objectDragged.name);
-    // this.modifierPointLine(objectDraggedNumber, this.objectDragged.position);
+    this.modifierPointLine(objectDraggedNumber, this.objectDragged.position);
     this.redessinerCourbe();
     if(objectDraggedNumber === 0 && this.dessinTermine){ //On modifie aussi le dernier point
       this.points[this.compteur-1].position.copy(this.objectDragged.position);
-      // this.modifierPointLine(this.compteur - 1, this.objectDragged.position);
+       this.modifierPointLine(this.compteur - 1, this.objectDragged.position);
     }
   }
 
@@ -415,6 +415,45 @@ export class RenderService {
       point.material.size = 5 ;
     }
   }
+
+  /**********************************************************
+       Gestion génération des droites reliant points
+   *********************************************************/
+
+  private creerLignePoints(){
+    const MAX_POINTS = 500;
+    const geometry = new THREE.BufferGeometry();
+
+    // attributes
+    const positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
+    geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    // draw range
+    const drawCount = 2; // draw the first 2 points, only
+    geometry.setDrawRange( 0, 0 );
+
+    const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
+    this.pointsLine = new THREE.Line(geometry, material);
+    this.scene.add(this.pointsLine);
+  }
+
+  private modifierPointLine(positionTableauPoints, positionPoint){
+    const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
+    pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
+    pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
+    pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
+    this.pointsLine.geometry.attributes.position.needsUpdate = true;
+  }
+
+  private ajouterPointLine(positionNouveauPoint){
+    this.modifierPointLine(this.compteur, positionNouveauPoint);
+    this.pointsLine.geometry.setDrawRange( 0, this.compteur + 1 );
+  }
+
+  private retirerAncienPointLine(){
+    this.modifierPointLine(this.compteur, new THREE.Vector3(0,0,0));
+    this.pointsLine.geometry.setDrawRange( 0, this.compteur - 1 );
+  }
+
 
   /**********************************************************
           Gestion génération de la courbe
