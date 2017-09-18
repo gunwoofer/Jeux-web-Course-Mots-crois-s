@@ -286,7 +286,11 @@ export class RenderService {
 
 
   public retourneetatDessin() {
-    return this.dessinTermine;
+    if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0){
+      return this.dessinTermine;
+    }else{
+      return false;
+    }
   }
 
   public onResize() {
