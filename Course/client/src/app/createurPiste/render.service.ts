@@ -373,8 +373,9 @@ export class RenderService {
       this.dessinerPoint(event);
     }else if (clicDuration < 500 && this.objectDragged.name === '0'){
       this.dessinerPoint(event);
+    }else if (this.dragMode){
+      this.verifierCroisementLigne();
     }
-    this.verifierCroisementLigne();
     this.dragMode = false;
   }
 
@@ -432,28 +433,42 @@ export class RenderService {
        Gestion génération des droites reliant points
    *********************************************************/
 
+  private geometry;
+
   private creerLignePoints(){
     const MAX_POINTS = 500;
-    const geometry = new THREE.BufferGeometry();
+     this.geometry = new THREE.BufferGeometry();
 
     // attributes
     const positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
-    geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    const colors = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
+    this.geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    this.geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
+
     // draw range
     const drawCount = 2; // draw the first 2 points, only
-    geometry.setDrawRange( 0, 0 );
+    this.geometry.setDrawRange( 0, 0 );
 
     const material = new THREE.LineBasicMaterial({ color: 0x0000ff });
-    this.pointsLine = new THREE.Line(geometry, material);
+    this.pointsLine = new THREE.Line(this.geometry, material);
     this.scene.add(this.pointsLine);
   }
 
   private modifierPointLine(positionTableauPoints, positionPoint){
+    var newColor = new THREE.Color(0xff0000);
+    console.log(newColor);
     const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
     pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
     pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
     pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
     this.pointsLine.geometry.attributes.position.needsUpdate = true;
+
+    this.pointsLine.geometry.attributes.color.array[positionTableauPoints * 3] = 255;
+    this.pointsLine.geometry.attributes.color.array[positionTableauPoints * 3 + 1] = 255;
+    this.pointsLine.geometry.attributes.color.array[positionTableauPoints * 3 + 2] = 120;
+    this.pointsLine.geometry.attributes.color.needsUpdate = true;
+    console.log(this.pointsLine);
+
   }
 
   private ajouterPointLine(positionNouveauPoint){
