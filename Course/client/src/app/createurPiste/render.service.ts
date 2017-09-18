@@ -14,8 +14,8 @@ export class RenderService {
   private scene: THREE.Scene;
   private fieldOfView = 70;
   private mouse: THREE.Vector2;
-  private points: any [] = [];
-  private lignes: THREE.Line[] = [];
+  private points: any [] = []; //tableau de points
+  private lignes: any [] = []; //tableau de lignes
 
   private pointXVecteur: number[] = [];
   private pointYVecteur: number[] = [];
@@ -102,9 +102,17 @@ export class RenderService {
       ligne = this.creerLigne(this.points[this.compteur].position, point.position);
     }
     this.lignes.push(ligne);
-    // this.scene.add(ligne);
+    //this.scene.add(ligne); // pour utiliser les lignes séparés, il faut les update toutes
     this.compteur++;
   }
+
+  /*
+  // fonction à appeler dans dragPoint pour actualiser les lignes quand on utilise le tableau de lignes
+  private miseAJourLignes(){
+    for (const ligne of this.lignes){
+      ligne.geometry.verticesNeedUpdate = true;
+    }
+  }*/
 
   // Dessin des points
   public dessinerPoint(event) {
@@ -366,6 +374,7 @@ export class RenderService {
     }else if (clicDuration < 500 && this.objectDragged.name === '0'){
       this.dessinerPoint(event);
     }
+    this.verifierCroisementLigne();
     this.dragMode = false;
   }
 
@@ -397,6 +406,8 @@ export class RenderService {
     const objectDraggedNumber = parseInt (this.objectDragged.name);
     this.modifierPointLine(objectDraggedNumber, this.objectDragged.position);
     this.redessinerCourbe();
+    //this.miseAJourLignes();
+
     if(objectDraggedNumber === 0 && this.dessinTermine){ //On modifie aussi le dernier point
       this.points[this.compteur].position.copy(this.objectDragged.position);
       this.modifierPointLine(this.compteur, this.objectDragged.position);
