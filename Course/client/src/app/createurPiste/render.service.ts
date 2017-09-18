@@ -37,7 +37,9 @@ export class RenderService {
   private objectDragged;
 
   private pointsLine;
+  private compteurPoints = 0;
   private courbe;
+
 
   // Creation d'un point
   public creerPoint(coordonnees: THREE.Vector3, couleur: string) {
@@ -54,7 +56,7 @@ export class RenderService {
     point.position.copy(coordonnees);
     point.geometry.computeBoundingSphere();
     point.geometry.boundingSphere.radius = 100;
-    point.name = '' + this.compteur;
+    point.name = '' + this.compteurPoints;
     return point;
   }
 
@@ -100,7 +102,7 @@ export class RenderService {
       ligne = this.creerLigne(this.points[this.compteur].position, point.position);
     }
     this.lignes.push(ligne);
-    this.scene.add(ligne);
+    // this.scene.add(ligne);
     this.compteur++;
   }
 
@@ -120,6 +122,8 @@ export class RenderService {
       if (!this.dessinTermine){
         this.scene.add(point);
       }
+      this.compteurPoints++;
+      this.ajouterPointLine(point.position);
       this.points.push(point);
       this.verifierCroisementLigne();
       this.redessinerCourbe();
@@ -136,8 +140,10 @@ export class RenderService {
     this.scene.remove(this.lignes[this.lignes.length - 1]);
     this.lignes.pop();
     this.redessinerCourbe();
+    this.retirerAncienPointLine();
     if (this.compteur >= 1) {
       this.compteur--;
+      this.compteurPoints--;
     }
     console.log('Il n\'est pas possible de créer des angles de pistes inférieurs à 45 degrés.  ' +
       'Veuillez proposer une autre section de parcours.');
@@ -289,15 +295,10 @@ export class RenderService {
     const determinantCDCB = vectCD[0] * vectCB[1] -  vectCD[1] * vectCB[0];
     const determinantCDCA = vectCD[0] * vectCA[1] -  vectCD[1] * vectCA[0];
 
-    //console.log(vectCA, vectCB, vectCD);
-    console.log(determinantABAC, determinantABAD, determinantCDCB, determinantCDCA);
-
-
     if(Math.sign(determinantABAC) === 0 || Math.sign(determinantCDCB) === 0){
       return false;
     }else if (Math.sign(determinantABAC) !== Math.sign(determinantABAD) && Math.sign(determinantCDCB) !== Math.sign(determinantCDCA)){
       if(this.dessinTermine) {
-        console.log('ici', vectAD);
         if( vectAD[0] === 0 && vectAD[1] === 0 ) {
           return false;
         }
@@ -315,7 +316,6 @@ export class RenderService {
         const pointB = this.points[i + 1];
         const pointC = this.points[j];
         const pointD = this.points[j + 1];
-        console.log(i,j, this.compteur);
         if(this.segmentsCoises(pointA, pointB, pointC, pointD )){
           ligneCroisees ++;
         }
@@ -337,6 +337,7 @@ export class RenderService {
     this.creerScene();
     this.creerPlan();
     this.initStats();
+    this.creerLignePoints();
     this.startRenderingLoop();
   }
 
@@ -397,8 +398,8 @@ export class RenderService {
     this.modifierPointLine(objectDraggedNumber, this.objectDragged.position);
     this.redessinerCourbe();
     if(objectDraggedNumber === 0 && this.dessinTermine){ //On modifie aussi le dernier point
-      this.points[this.compteur-1].position.copy(this.objectDragged.position);
-       this.modifierPointLine(this.compteur - 1, this.objectDragged.position);
+      this.points[this.compteur].position.copy(this.objectDragged.position);
+      this.modifierPointLine(this.compteur, this.objectDragged.position);
     }
   }
 
@@ -450,8 +451,8 @@ export class RenderService {
   }
 
   private retirerAncienPointLine(){
-    this.modifierPointLine(this.compteur, new THREE.Vector3(0,0,0));
-    this.pointsLine.geometry.setDrawRange( 0, this.compteur - 1 );
+    this.modifierPointLine(this.compteur , new THREE.Vector3(0,0,0));
+    this.pointsLine.geometry.setDrawRange( 0, this.compteur );
   }
 
 
