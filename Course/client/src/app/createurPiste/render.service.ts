@@ -213,7 +213,9 @@ export class RenderService {
   }
 
   public interdictionAngle45() {
-    alert('Il n\'est pas possible de créer des angles de pistes inférieurs à 45 degrés.  ' +
+    /*alert('Il n\'est pas possible de créer des angles de pistes inférieurs à 45 degrés.  ' +
+      'Veuillez proposer une autre section de parcours.');*/
+    console.log('Il n\'est pas possible de créer des angles de pistes inférieurs à 45 degrés.  ' +
       'Veuillez proposer une autre section de parcours.');
   }
 
