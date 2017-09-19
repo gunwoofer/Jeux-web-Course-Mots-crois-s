@@ -38,8 +38,8 @@ export class GenerateurDeGrilleService {
 
     public obtenirGrillesBase(generateur: GenerateurDeGrilleService): Grille[] {
         let grillesFacileObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.facile);
-        let grillesMoyenObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.facile);
-        let grillesDifficileObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.facile);
+        let grillesMoyenObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.moyen);
+        let grillesDifficileObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.difficile);
         
         return grillesFacileObtenue.concat(grillesMoyenObtenue).concat(grillesDifficileObtenue);
     }
