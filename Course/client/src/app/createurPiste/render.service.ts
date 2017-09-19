@@ -36,7 +36,6 @@ export class RenderService {
   private objectDragged;
 
   private pointsLine;
-  private compteurPoints = 0;
   private courbe;
 
   private nbSegmentsCroises = 0;
@@ -65,21 +64,8 @@ export class RenderService {
     point.position.copy(coordonnees);
     point.geometry.computeBoundingSphere();
     point.geometry.boundingSphere.radius = 100;
-    point.name = '' + this.compteurPoints;
+    point.name = '' + this.compteur;
     return point;
-  }
-
-  // Creation d'une ligne
-  public creerLigne(startPoint: THREE.Vector3, finalPoint: THREE.Vector3) {
-    const materiel = new THREE.LineBasicMaterial({
-      color: 'black',
-      linewidth: 2
-    });
-    const geometrie = new THREE.Geometry();
-    geometrie.vertices.push(startPoint);
-    geometrie.vertices.push(finalPoint);
-    const ligne = new THREE.Line(geometrie, materiel);
-    return ligne;
   }
 
   // Creation d'un plan
@@ -118,21 +104,18 @@ export class RenderService {
           point.position.copy(this.points[0].position);
           this.dessinTermine = true;
         }
-        this.compteur++;
+        //this.compteur++;
       }
       if (!this.dessinTermine ) {
         this.scene.add(point);
       }
-      this.compteurPoints++;
       this.ajouterPointLine(point.position);
       this.points.push(point);
-      this.restaurerStatusPoints();
-      this.nombreLignesCroisees();
-      this.nombreSegmentsTropCourts();
-      this.nombreAnglesMoins45();
-      this.actualiserCouleurPoints();
+      this.compteur++;
+      this.actualiserDonnees();
       this.redessinerCourbe();
       this.render();
+
     } else {
         alert('Dessin termine');
     }
@@ -179,9 +162,6 @@ export class RenderService {
     this.retirerAncienPointLine();
     if (this.compteur >= 1) {
       this.compteur--;
-    }
-    if (this.compteurPoints >= 1) {
-      this.compteurPoints--;
     }
   }
 
@@ -397,11 +377,7 @@ export class RenderService {
     this.clickDuration = this.mouseUpTime - this.mouseDownTime;
     if (event.button === 0) {
       if (this.dragMode) {
-        this.restaurerStatusPoints();
-        this.nombreLignesCroisees();
-        this.nombreSegmentsTropCourts();
-        this.nombreAnglesMoins45();
-        this.actualiserCouleurPoints();
+        this.actualiserDonnees();
       }
     }
   }
@@ -434,11 +410,10 @@ export class RenderService {
     const objectDraggedNumber = parseInt(this.objectDragged.name);
     this.modifierPointLine(objectDraggedNumber, this.objectDragged.position);
     this.redessinerCourbe();
-    // this.miseAJourLignes();
 
     if (objectDraggedNumber === 0 && this.dessinTermine) { // On modifie aussi le dernier point
-      this.points[this.compteur].position.copy(this.objectDragged.position);
-      this.modifierPointLine(this.compteur, this.objectDragged.position);
+      this.points[this.compteur - 1].position.copy(this.objectDragged.position);
+      this.modifierPointLine(this.compteur - 1, this.objectDragged.position);
     }
   }
 
@@ -460,6 +435,14 @@ export class RenderService {
     for (const point of this.points){
       point.material.status = 'normal';
     }
+  }
+
+  private actualiserDonnees(){
+    this.restaurerStatusPoints();
+    this.nombreLignesCroisees();
+    this.nombreSegmentsTropCourts();
+    this.nombreAnglesMoins45();
+    this.actualiserCouleurPoints();
   }
 
   /**********************************************************
@@ -500,8 +483,8 @@ export class RenderService {
   }
 
   private retirerAncienPointLine() {
-    this.modifierPointLine(this.compteur, new THREE.Vector3(0, 0, 0));
-    this.pointsLine.geometry.setDrawRange( 0, this.compteur );
+    this.modifierPointLine(this.compteur - 1, new THREE.Vector3(0, 0, 0));
+    this.pointsLine.geometry.setDrawRange( 0, this.compteur - 1 );
   }
 
 
@@ -548,10 +531,6 @@ export class RenderService {
 
   public obtenirScene() {
     return this.scene;
-  }
-
-  public obtenirCompteurPoint() {
-    return this.compteurPoints;
   }
 }
 
