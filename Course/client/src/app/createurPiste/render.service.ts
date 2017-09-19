@@ -144,9 +144,7 @@ export class RenderService {
       this.compteurPoints++;
       this.ajouterPointLine(point.position);
       this.points.push(point);
-      console.log(event.button);
       console.log(this.points.length);
-      console.log(this.points[0].isPoints);
       this.restaurerStatusPoints();
       this.nombreLignesCroisees();
       this.nombreSegmentsTropCourts();

@@ -46,18 +46,27 @@ describe('RenderService', () => {
   });
 
   it('il faut clicker sur le button gauche pour la création de point', () => {
+    fakeClickEvent = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+
+    renderService.onMouseUp(fakeClickEvent);
+    expect(fakeClickEvent.button).toEqual(0);
+});
+
+  it('Le point est crée et ajouté à la scene et le vecteur points', () => {
       fakeClickEvent = new MouseEvent('mouseup', {
         bubbles: true,
         cancelable: true,
         view: window,
       });
-
       renderService.onMouseUp(fakeClickEvent);
-      expect(fakeClickEvent.button).toEqual(0);
-    
-      /*renderService.onMouseUp(fakeClickEvent);
-      /*length = renderService.retournerListePoints().length;
-      /*expect(length).toEqual(1);*/
+      const longueurVecteurPoints = renderService.retournerListePoints().length;
+      const longueurVecteurScene = renderService.obtenirScene().children.length;
+      expect(longueurVecteurPoints).toEqual(1);
+      expect(longueurVecteurScene).toEqual(3);
   });
 
   /*it('lobjet créé à partir du mouseup et ajouté à liste de points est de type points', () => {
