@@ -144,6 +144,8 @@ export class RenderService {
       this.compteurPoints++;
       this.ajouterPointLine(point.position);
       this.points.push(point);
+      console.log(this.points.length);
+      console.log(this.points[0].isPoints);
       this.restaurerStatusPoints();
       this.nombreLignesCroisees();
       this.nombreSegmentsTropCourts();
@@ -296,15 +298,11 @@ export class RenderService {
   }
 
   public retournerListePoints() {
-    if (this.dessinTermine) {
       return this.points;
-    }
   }
 
   public retournerListeLines() {
-    if (this.dessinTermine) {
       return this.lignes;
-    }
   }
 
 

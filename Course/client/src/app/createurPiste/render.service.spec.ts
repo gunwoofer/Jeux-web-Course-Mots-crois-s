@@ -11,6 +11,14 @@ describe('RenderService', () => {
   let component: CreateurPiste;
   let fixture: ComponentFixture<CreateurPiste>;
   let renderService: RenderService;
+  let fakeClickEvent: MouseEvent;
+
+  /*const fakeClickEvent = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });*/
+
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -33,19 +41,27 @@ describe('RenderService', () => {
   });
 
   it('la zone de piste doit être initialement vide', () => {
-    renderService.initialize(component.container);
     const length = renderService.obtenirScene().children.length;
     expect(length).toEqual(2);
   });
 
-  it('il doit y avoir un evenement click', async() => {
-    spyOn(component, 'onMouseDown');
-    const button = fixture.debugElement.nativeElement.querySelector('button');
-    button.click();
-    fixture.whenStable().then(() => {
-      expect(component.onMouseDown).toHaveBeenCalled();
-    });
+  it('il doit y avoir un evenement mouseUp pour créer un point', () => {
+      fakeClickEvent = new MouseEvent('mouseup', {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+      });
+      renderService.onMouseUp(fakeClickEvent);
+      length = renderService.retournerListePoints().length;
+      expect(length).toEqual(1);
   });
+
+
+
+
+
+
+
 
 });
 
