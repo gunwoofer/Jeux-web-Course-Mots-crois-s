@@ -38,5 +38,14 @@ describe('RenderService', () => {
     expect(length).toEqual(2);
   });
 
+  it('il doit y avoir un evenement click', async() => {
+    spyOn(component, 'onMouseDown');
+    const button = fixture.debugElement.nativeElement.querySelector('button');
+    button.click();
+    fixture.whenStable().then(() => {
+      expect(component.onMouseDown).toHaveBeenCalled();
+    });
+  });
+
 });
 
