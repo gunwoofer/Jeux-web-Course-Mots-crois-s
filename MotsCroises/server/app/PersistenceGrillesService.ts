@@ -2,7 +2,8 @@ import { Guid } from './Guid';
 import { Grille, Niveau } from './Grille';
 import * as express from 'express';
 import { Observateur } from './Observateur';
-import { MongoClient } from 'mongodb';
+import { BDImplementation } from './BDImplementation';
+import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 
 
 export const nomTableauGrilles:string = 'grilles';
@@ -16,8 +17,13 @@ export class PersistenceGrillesService {
     private compteurRequetesEntiteePersistente: number = 0;
     private pretPourEnvoyerReponse:boolean = false;
     private observateurs: Observateur[] = new Array();
+    private generateurDeGrilleService:GenerateurDeGrilleService;
+    private aEteEnvoye:boolean = false;
 
-    constructor (reponse?:  express.Response) {
+    private bdImplementation:BDImplementation = new BDImplementation();
+
+    constructor (generateurDeGrilleService: GenerateurDeGrilleService, reponse?:  express.Response) {
+        this.generateurDeGrilleService = generateurDeGrilleService;
         if(reponse !== undefined) {
             this.reponse = reponse;
         }
@@ -36,8 +42,9 @@ export class PersistenceGrillesService {
     public envoyerReponse(message: string){
         this.message += message;
 
-        if(this.pretPourEnvoyerReponse && this.reponse !== undefined) {
+        if(this.pretPourEnvoyerReponse && this.reponse !== undefined && (!this.aEteEnvoye)) {
             this.reponse.send(this.message);
+            this.aEteEnvoye = true;
         }
     }
 
@@ -54,7 +61,7 @@ export class PersistenceGrillesService {
 
        // Connexion à la base de données persistente.
        this.compteurRequetesEntiteePersistente++;
-        MongoClient.connect(url, function(err: any, db: any) {   
+       this.bdImplementation.seConnecter(url, function(err: any, db: any) {   
 
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);          
@@ -85,7 +92,18 @@ export class PersistenceGrillesService {
             self.verifierSierrConnection(err, db, self);
             self.notifier();
             self.envoyerReponse(' | Collection créé !');
+            db.close();
+        });
+    }
+
+    private supprimerGrille(self:PersistenceGrillesService,db:any, id:string) {
+        self.compteurRequetesEntiteePersistente++;
+        db.collection(nomTableauGrilles).deleteOne({id:id}, function(err: any, obj: any) {
             
+            self.notifierReponseRecuEntiteePersistente();
+            self.verifierSierrConnection(err, db, self);
+            self.notifier();
+
             db.close();
         });
     }
@@ -106,6 +124,10 @@ export class PersistenceGrillesService {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
             self.envoyerReponse(result[0].grille.replace('\\', ''));
+            self.notifier();
+
+            self.supprimerGrille(self, db, result[0].id);
+            self.insererGrille(self.generateurDeGrilleService.genererGrille(niveau));
             db.close();
         });
     }
@@ -128,7 +150,7 @@ export class PersistenceGrillesService {
         });
     }
 
-    public insererPlusieursGrilles(grilles:Grille[]) {
+    public insererPlusieursGrilles(grilles: Grille[]) {
         this.connectiondbMotsCroises(this.procedureRappelInsererplusieursGrilles, grilles);
     }
 

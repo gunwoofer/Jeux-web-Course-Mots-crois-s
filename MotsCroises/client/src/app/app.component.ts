@@ -17,6 +17,7 @@ export class AppComponent implements OnInit {
   public grillePersistente = '';
 
   public ngOnInit(): void {
+    this.basicService.ajouterGrillesDeDepart();
     this.basicService.obtenirGrille().then(grille => this.afficherGrille(grille));
     this.basicService.obtenirGrillePersistente().then(grille => this.afficherGrillePersistente(grille));
   }

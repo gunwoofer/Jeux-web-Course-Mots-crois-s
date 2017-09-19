@@ -34,6 +34,27 @@ export class GenerateurDeGrilleService {
         return this.motCroiseGenere;
     }
 
+    
+
+    public obtenirGrillesBase(generateur: GenerateurDeGrilleService): Grille[] {
+        let grillesFacileObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.facile);
+        let grillesMoyenObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.facile);
+        let grillesDifficileObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.facile);
+        
+        return grillesFacileObtenue.concat(grillesMoyenObtenue).concat(grillesDifficileObtenue);
+    }
+
+    private obtenirGrille(generateur: GenerateurDeGrilleService, niveau:Niveau): Grille[] {
+        const grilles: Grille[] = new Array();
+        grilles.push(generateur.genererGrille(niveau));
+        grilles.push(generateur.genererGrille(niveau));
+        grilles.push(generateur.genererGrille(niveau));
+        grilles.push(generateur.genererGrille(niveau));
+        grilles.push(generateur.genererGrille(niveau));
+
+        return grilles;
+    }
+
     public genereGrilleVide(niveau: Niveau): Grille {
         let grilleVide = new Grille(niveau);        
 
@@ -62,7 +83,7 @@ export class GenerateurDeGrilleService {
         let caseCouranteVide:Case;
         let casesEmplacementMots:Case[] = new Array();
 
-        // Positionnez mot de la meilleur façon.
+        // Positionnez mot de la meilleur façon. 
         for(let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
 
             // pour chaque mot.

@@ -11,8 +11,10 @@ export class BasicService {
   constructor(private http: Http) { }
 
   private url = 'http://localhost:3000/basic';
-  private urlGrillePersistente = 'http://localhost:3000/grilles/persistence/grille/moyen';
+  private urlGrillePersistente = 'http://localhost:3000/grilles/persistence/grille/facile';
   private urlGrille = 'http://localhost:3000/GenerationDeGrilleService';
+  private urlCreationGrilles = 'http://localhost:3000/grilles/persistence/grille/ajouter/5';
+
 
   public basicGet(): Promise<Message> {
     return this.http.get(this.url)
@@ -20,7 +22,14 @@ export class BasicService {
     .then(response => response.json() as Message)
     .catch(this.handleError);
   }
-  
+
+  public ajouterGrillesDeDepart() {
+    this.http.get(this.urlCreationGrilles)
+    .toPromise()
+    .then(response => response.json() as string)
+    .catch(this.handleError);
+  }
+
     public obtenirGrille(): Promise<string> {
       return this.http.get(this.urlGrille)
       .toPromise()
