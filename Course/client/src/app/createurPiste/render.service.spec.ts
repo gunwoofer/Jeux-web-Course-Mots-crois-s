@@ -69,14 +69,18 @@ describe('RenderService', () => {
       expect(longueurVecteurScene).toEqual(3);
   });
 
-  /*it('lobjet créé à partir du mouseup et ajouté à liste de points est de type points', () => {
+  it('lobjet ajouté au vecteur de points est de type points', () => {
     fakeClickEvent = new MouseEvent('mouseup', {
       bubbles: true,
       cancelable: true,
       view: window,
     });
-  })*/
-
+    const compteur = 0;
+    renderService.onMouseUp(fakeClickEvent);
+    const pointListe = renderService.retournerListePoints();
+    const typeObjet = pointListe[compteur].isPoints;
+    expect(typeObjet).toEqual(true);
+  });
 
 
 
