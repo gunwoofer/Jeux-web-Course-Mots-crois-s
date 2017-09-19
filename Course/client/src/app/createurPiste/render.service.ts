@@ -15,7 +15,6 @@ export class RenderService {
   private fieldOfView = 70;
   private mouse: THREE.Vector2;
   private points: any [] = []; // tableau de points
-  private lignes: any [] = []; // tableau de lignes
 
   private pointXVecteur: number[] = [];
   private pointYVecteur: number[] = [];
@@ -102,28 +101,6 @@ export class RenderService {
     return intersection[0];
   }
 
-  public dessinerLigne (point, distance) {
-    let ligne;
-    if (distance >= 0 && distance < 10) {
-      ligne = this.creerLigne(this.points[this.compteur].position, this.points[0].position);
-      point.position.copy(this.points[0].position);
-      this.dessinTermine = true;
-    } else {
-      ligne = this.creerLigne(this.points[this.compteur].position, point.position);
-    }
-    this.lignes.push(ligne);
-    // this.scene.add(ligne); // pour utiliser les lignes séparés, il faut les update toutes
-    this.compteur++;
-  }
-
-  /*
-  // fonction à appeler dans dragPoint pour actualiser les lignes quand on utilise le tableau de lignes
-  private miseAJourLignes(){
-    for (const ligne of this.lignes){
-      ligne.geometry.verticesNeedUpdate = true;
-    }
-  }*/
-
   // Dessin des points
   public dessinerPoint(event) {
     console.log('dessinPOint');
@@ -137,7 +114,11 @@ export class RenderService {
         point.material.color.set('green');
         point.material.normalColor = 'green';
         const distance = point.position.distanceTo(this.points[0].position);
-        this.dessinerLigne(point, distance);
+        if (distance >= 0 && distance < 10) {
+          point.position.copy(this.points[0].position);
+          this.dessinTermine = true;
+        }
+        this.compteur++;
       }
       if (!this.dessinTermine ) {
         this.scene.add(point);
@@ -194,8 +175,6 @@ export class RenderService {
     this.dessinTermine = false;
     this.scene.remove(this.points[this.points.length - 1]);
     this.points.pop();
-    this.scene.remove(this.lignes[this.lignes.length - 1]);
-    this.lignes.pop();
     this.redessinerCourbe();
     this.retirerAncienPointLine();
     if (this.compteur >= 1) {
@@ -301,11 +280,6 @@ export class RenderService {
   public retournerListePoints() {
       return this.points;
   }
-
-  public retournerListeLines() {
-      return this.lignes;
-  }
-
 
   public retourneetatDessin() {
     if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {

@@ -5,8 +5,7 @@ export class Piste {
     constructor(private nom: string,
                 private typeCourse: string,
                 private description: string,
-                private listePoints?: THREE.Points[],
-                private listeLignes?: THREE.Line[]) {
+                private listePoints?: THREE.Points[]) {
     }
 
     public obtenirNom(): string {

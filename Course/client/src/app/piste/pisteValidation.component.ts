@@ -15,7 +15,7 @@ export class PisteValidationComponent {
     @Input() private lignes: THREE.Line[];
 
     private onSubmit(form: NgForm) {
-        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, this.points, this.lignes);
+        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, this.points);
         console.log(piste);
     }
 }
