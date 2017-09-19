@@ -115,7 +115,7 @@ export class PersistenceGrillesService {
     public asyncObtenirGrillePersistante(niveau: Niveau): Promise<Grille> {
         const self: PersistenceGrillesService = this;
 
-       return new Promise(function(resolve: any, reject: any){ 
+       return new Promise(function(resolve: any, reject: any){
            self.asyncConnectiondbMotsCroises(self)
                     .then(db => self.asyncProcedureRappelObtenirGrille(self, db, niveau))
                     .then(result => {resolve(result)})
@@ -127,7 +127,7 @@ export class PersistenceGrillesService {
         return new Promise(function(resolve: any, reject: any){
             // Connexion à la base de données persistente.
             self.compteurRequetesEntiteePersistente++;
-            self.bdImplementation.seConnecter(url, function(err: any, db: any) {   
+            self.bdImplementation.seConnecter(url, function(err: any, db: any) {
 
                 self.notifierReponseRecuEntiteePersistente();
                 self.asyncVerifierSierrConnection(err, db, reject);

@@ -6,7 +6,7 @@ export class EmplacementMot {
     private cases: Case[];
     private grandeur: number;
 
-    constructor(caseDebut:Case, caseFin:Case, cases:Case[]) {
+    constructor(caseDebut: Case, caseFin: Case, cases: Case[]) {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
         this.cases = cases;

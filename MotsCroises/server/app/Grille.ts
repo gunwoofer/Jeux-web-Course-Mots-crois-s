@@ -35,7 +35,7 @@ export class Grille {
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
     private nombreMotsSurColonne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
-    public constructor(niveau:Niveau, etatCaseInitial: EtatCase = EtatCase.noir) {
+    public constructor(niveau: Niveau, etatCaseInitial: EtatCase = EtatCase.noir) {
         this.niveau = niveau;
 
         // Instancie la grille vide sans espace noir.
@@ -83,7 +83,7 @@ export class Grille {
         return this.cases[x][y];
     }
 
-    public obtenirCaseSelonPosition(position:Position, indexFixe: number, index:number): Case {
+    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
         switch(position) {
             case Position.Ligne:
                 return this.cases[indexFixe][index];
