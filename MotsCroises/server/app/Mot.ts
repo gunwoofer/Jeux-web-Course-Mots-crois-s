@@ -5,7 +5,6 @@ export enum Rarete {
     nonCommun
 }
 
-
 export class Mot {
     private lettres: string;
     private rarete: Rarete;

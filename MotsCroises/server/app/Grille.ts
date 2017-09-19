@@ -39,11 +39,11 @@ export class Grille {
         this.niveau = niveau;
 
         // Instancie la grille vide sans espace noir.
-        for(let i: number = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+        for(let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             this.cases[i] = new Array(DIMENSION_LIGNE_COLONNE);
             this.nombreMotsSurLigne[i] = 0;
 
-            for(let j: number = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+            for(let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
                 const caseBlanche = new Case(i,j, etatCaseInitial);
                 this.nombreMotsSurColonne[j] = 0;
                 this.cases[i][j] = caseBlanche;
@@ -286,6 +286,7 @@ export class Grille {
     private obtenirLaPositionDeLaPremiereLettreLimiteDuMot(grandeurMot: number): number {
         return DIMENSION_LIGNE_COLONNE - grandeurMot + 1;
     }
+
     public trouverMeilleurPositionIndexDebut(grandeurMot: number, positionCourante: number, position: Position): number {
         let meilleurPositionIndexDebut = 0;
         let meilleurPointage = 0;

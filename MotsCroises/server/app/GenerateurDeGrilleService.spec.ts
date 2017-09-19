@@ -129,8 +129,8 @@ describe('GenerateurDeGrilleService', () => {
         const grille1: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
         const grille2: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
         let grilleDifferente = false;
-        for(let i = 0; i < 10 ; i++) {
-            for(let j = 0; j < 10; j++) {
+        for (let i = 0; i < 10 ; i++) {
+            for (let j = 0; j < 10; j++) {
                 const caseGrille1: Case = grille1.obtenirCase(i, j);
                 const caseGrille2: Case = grille2.obtenirCase(i, j);
                 if (caseGrille1.etat !== caseGrille2.etat) {
@@ -141,5 +141,4 @@ describe('GenerateurDeGrilleService', () => {
 
         assert(grilleDifferente);
   });
-
 });

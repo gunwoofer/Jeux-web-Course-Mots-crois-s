@@ -57,33 +57,32 @@ export class Case {
         this.pointsDeContraintes += increment;
         this.pointsDeContraintesProvenance.push(position);
 
-        if(this.pointsDeContraintes >= 2) {
+        if (this.pointsDeContraintes >= 2) {
             const positionPrecedente: Position = this.pointsDeContraintesProvenance[0];
-    
-            for(const positionCourante of this.pointsDeContraintesProvenance) {
-                if(positionPrecedente !== positionCourante) {
+            for (const positionCourante of this.pointsDeContraintesProvenance) {
+                if (positionPrecedente !== positionCourante) {
                     this.intersection = true;
                 }
             }
         }
 
-        if(this.pointsDeContraintes >= 3) {
+        if (this.pointsDeContraintes >= 3) {
             this.intersection = true;
         }
 
-        if(this.obtenirX() === 0 && this.obtenirY() === 0 && this.pointsDeContraintes >= 2) {
+        if (this.obtenirX() === 0 && this.obtenirY() === 0 && this.pointsDeContraintes >= 2) {
             this.intersection = true;
         }
 
-        if(this.obtenirX() === 0 && this.obtenirY() === 9 && this.pointsDeContraintes >= 2) {
+        if (this.obtenirX() === 0 && this.obtenirY() === 9 && this.pointsDeContraintes >= 2) {
             this.intersection = true;
         }
 
-        if(this.obtenirX() === 9 && this.obtenirY() === 0 && this.pointsDeContraintes >= 2) {
+        if (this.obtenirX() === 9 && this.obtenirY() === 0 && this.pointsDeContraintes >= 2) {
             this.intersection = true;
         }
 
-        if(this.obtenirX() === 9 && this.obtenirY() === 9 && this.pointsDeContraintes >= 2) {
+        if (this.obtenirX() === 9 && this.obtenirY() === 9 && this.pointsDeContraintes >= 2) {
             this.intersection = true;
         }
     }

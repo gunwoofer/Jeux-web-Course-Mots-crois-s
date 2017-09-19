@@ -34,5 +34,4 @@ export class Indice {
     private nombreAleatoireEntre1Etn(n: number): number{
         return Math.floor((Math.random() * n) + 1);
     }
-
 }

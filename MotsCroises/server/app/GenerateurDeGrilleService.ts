@@ -22,21 +22,20 @@ export class GenerateurDeGrilleService {
     private motCroiseGenere: Grille;
 
     public genererGrille(niveau: Niveau): Grille {
-        // Algorithme de generation
         this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);
         return this.motCroiseGenere;
     }
 
     public obtenirGrillesBase(generateur: GenerateurDeGrilleService): Grille[] {
-        const grillesFacileObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.facile);
-        const grillesMoyenObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.moyen);
-        const grillesDifficileObtenue: Grille[] = this.obtenirGrille(generateur, Niveau.difficile);
-        
+        const grillesFacileObtenue: Grille[] = this.obtenirGrilles(generateur, Niveau.facile);
+        const grillesMoyenObtenue: Grille[] = this.obtenirGrilles(generateur, Niveau.moyen);
+        const grillesDifficileObtenue: Grille[] = this.obtenirGrilles(generateur, Niveau.difficile);
+
         return grillesFacileObtenue.concat(grillesMoyenObtenue).concat(grillesDifficileObtenue);
     }
 
-    private obtenirGrille(generateur: GenerateurDeGrilleService, niveau: Niveau): Grille[] {
+    private obtenirGrilles(generateur: GenerateurDeGrilleService, niveau: Niveau): Grille[] {
         const grilles: Grille[] = new Array();
         grilles.push(generateur.genererGrille(niveau));
         grilles.push(generateur.genererGrille(niveau));
@@ -217,7 +216,6 @@ export class GenerateurDeGrilleService {
 
                 while (!motAjoute) {
                     const grandeur = emplacementMotCourant.obtenirGrandeur();
-                    
                     let chaineIdiote = '';
                     for (let i = 0; i < grandeur; i++) {
                         chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntreXEtY(1, nombreLettresDeAlphabet));
