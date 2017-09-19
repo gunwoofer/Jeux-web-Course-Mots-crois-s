@@ -32,6 +32,17 @@ module Route {
             persistenceGrilles.obtenirGrillePersistante(Niveau.facile);
         }
 
+        public asyncObtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction) {
+            
+            let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            let persistenceGrillesService:PersistenceGrillesService = new PersistenceGrillesService(generateur);
+            
+            persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
+                .then(grille => {res.send(grille)})
+                .catch(erreur => {throw new Error(erreur);}); 
+
+        }
+
         public creerTableauGrille(req: express.Request, res: express.Response, next: express.NextFunction) {
             
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();

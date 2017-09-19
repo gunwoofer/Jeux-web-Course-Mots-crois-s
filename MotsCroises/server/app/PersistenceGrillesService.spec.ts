@@ -3,18 +3,23 @@ import { Niveau, Grille } from './Grille';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Observateur, TypeObservateur } from './Observateur';
 import {PersistenceGrillesService } from './PersistenceGrillesService';
-import { MongoClient } from 'mongodb';
 
+export const maxDelaiRetourRequeteMS: number = 1000;
 
 describe('PersistenceGrillesService', () => {
-    it('Le serveur genere une grille facile.', () => {
+    it('Le serveur genere une grille facile.', (done) => {
         let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
         let persistenceGrillesService:PersistenceGrillesService = new PersistenceGrillesService(generateur);
         
-        
-
-         assert(true);
-        
-    });
+        persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
+            .then(grille => {
+                assert(grille);
+                done();
+            })
+            .catch(erreur => { 
+                assert(false);
+                done(erreur);
+            }); 
+    }).timeout(maxDelaiRetourRequeteMS);
 });
 

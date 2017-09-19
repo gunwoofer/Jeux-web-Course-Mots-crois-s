@@ -115,6 +115,62 @@ export class PersistenceGrillesService {
     public obtenirGrillePersistante(niveau: Niveau) {
         this.connectiondbMotsCroises(this.procedureRappelObtenirGrille, niveau);
     }
+    
+    public asyncObtenirGrillePersistante(niveau: Niveau): Promise<Grille> {
+        let self: PersistenceGrillesService = this;
+
+       return new Promise(function(resolve: any, reject: any){ 
+           self.asyncConnectiondbMotsCroises(self)
+                    .then(db => self.asyncProcedureRappelObtenirGrille(self, db, niveau))
+                    .then(result => {resolve(result)})
+                    .catch(error => { reject(error); });
+       });
+    }
+
+    public asyncConnectiondbMotsCroises(self: PersistenceGrillesService): Promise<any> {
+        return new Promise(function(resolve: any, reject: any){
+            // Connexion à la base de données persistente.
+            self.compteurRequetesEntiteePersistente++;
+            self.bdImplementation.seConnecter(url, function(err: any, db: any) {   
+
+                self.notifierReponseRecuEntiteePersistente();
+                self.asyncVerifierSierrConnection(err, db, reject);
+
+                resolve(db);
+            });
+        });
+    }
+
+    private asyncVerifierSierrConnection(err: any, db: any, reject: any): boolean {
+            if(err) {
+                reject(err);
+                db.close();
+                return true;
+            }
+            
+            return false;
+    }
+    
+    private asyncProcedureRappelObtenirGrille(self:PersistenceGrillesService, db: any, niveau: Niveau): Promise<Grille> {
+
+        return new Promise( 
+            function(resolve: any, reject: any)
+            {                
+                self.compteurRequetesEntiteePersistente++;
+                db.collection(nomTableauGrilles).find({niveau: niveau}).toArray(function(err: any, result: any) {
+
+                    self.notifierReponseRecuEntiteePersistente();
+                    self.asyncVerifierSierrConnection(err, db, reject);
+                    resolve(result[0].grille.replace('\\', ''));
+                    self.notifier();
+
+                    self.supprimerGrille(self, db, result[0].id);
+                    self.insererGrille(self.generateurDeGrilleService.genererGrille(niveau));
+                    db.close();
+                });
+            }
+        );
+    }
 
     private procedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau) {
 
