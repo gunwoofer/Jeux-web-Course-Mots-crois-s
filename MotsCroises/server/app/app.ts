@@ -90,6 +90,8 @@ export class Application {
     router.use('/grilles/persistence/grille/difficile/async', index.asyncObtenirGrilleDifficile.bind(index.asyncObtenirGrilleDifficile));
     router.use('/grilles/persistence/grille/difficile', index.obtenirGrilleDifficile.bind(index.obtenirGrilleDifficile));
 
+    router.use('/grilles/persistence/grille/ajouter/5/async', 
+                                index.asyncPersistenceGrillesService.bind(index.asyncPersistenceGrillesService));
     router.use('/grilles/persistence/grille/ajouter/5', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
     router.use('/grilles/tableau/creer', index.creerTableauGrille.bind(index.creerTableauGrille));
     

@@ -210,6 +210,51 @@ export class PersistenceGrillesService {
         this.connectiondbMotsCroises(this.procedureRappelInsererplusieursGrilles, grilles);
     }
 
+    public asyncInsererPlusieursGrilles(grilles: Grille[]): Promise<string> {
+
+        let self: PersistenceGrillesService = this;
+        
+        return new Promise(function(resolve: any, reject: any){ 
+            self.asyncConnectiondbMotsCroises(self)
+                    .then(db => self.asyncProcedureRappelInsererplusieursGrilles(self, db, grilles))
+                    .then(result => {resolve(result)})
+                    .catch(error => { reject(error); });
+        });
+    }
+    
+    private asyncProcedureRappelInsererplusieursGrilles(self: PersistenceGrillesService, db: any, grilles: Grille[]): Promise<string> {
+        
+
+        return new Promise( 
+            function(resolve: any, reject: any)
+            {    
+                
+                let grilleStringify: string;
+                let grilleAInserer: Object;
+                let grillesAInserer: Object[] = new Array();
+                
+                for(let grille of grilles) {
+                    grilleStringify = JSON.stringify(grille);
+                    grilleAInserer = {
+                        id: Guid.generateGUID(),
+                        niveau: grille.obtenirNiveau(),
+                        grille: grilleStringify
+                    };
+                    grillesAInserer.push(grilleAInserer);
+                }
+        
+                self.compteurRequetesEntiteePersistente++;
+                db.collection(nomTableauGrilles).insertMany(grillesAInserer, function(err: any, res: any) {
+                    self.notifierReponseRecuEntiteePersistente();
+                    self.asyncVerifierSierrConnection(err, db, self);
+                    self.notifier();
+                    resolve(' | ' + res.insertedCount + ' grilles insérés (async)');
+                    db.close();
+                });
+            }
+        );
+    }
+
     private procedureRappelInsererplusieursGrilles(self: PersistenceGrillesService, db: any, grilles: Grille[]) {
         let grilleStringify: string;
         let grilleAInserer: Object;

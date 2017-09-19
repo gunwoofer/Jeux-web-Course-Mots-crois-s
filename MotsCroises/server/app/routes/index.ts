@@ -23,6 +23,19 @@ module Route {
             persistenceGrilles.insererPlusieursGrilles(generateur.obtenirGrillesBase(generateur));
 
         }
+        
+        
+        public asyncPersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction) {
+            
+            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
+            let grilles:Grille[] = generateur.obtenirGrillesBase(generateur);
+
+            persistenceGrilles.asyncInsererPlusieursGrilles(grilles)
+                .then(resultat => {res.send(resultat)})
+                .catch(erreur => {throw new Error(erreur);}); 
+
+        }
 
         public obtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction) {
             

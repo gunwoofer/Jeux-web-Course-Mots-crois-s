@@ -13,7 +13,7 @@ export const nombreMotMinimumParLigneOuColonne = 1;
 export const nombreMotMaximumParLigneOuColonne = 2;
 
 export const grandeurMotMinimum = 3;
-export const grandeurMotMaximum = 7;
+export const grandeurMotMaximum = 10;
 export const longueurEspaceNoirEntreDeuxMots = 1;
 
 export const tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne = 100;

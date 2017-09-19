@@ -39,7 +39,10 @@ export class Mot {
     }
 
     public obtenirLettreSimplifie(position: number): string {
-        return this.lettres[position].normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        if(this.lettres[position] !== undefined) {            
+            return this.lettres[position].normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        }
+        return '';
     }
 
     public obtenirLettre(position: number): string {
