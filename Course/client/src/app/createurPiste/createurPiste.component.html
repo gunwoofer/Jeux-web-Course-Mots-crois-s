@@ -2,6 +2,6 @@
     <strong>Warning! </strong><br>{{message}}</h4>
 
 
-<div #container (contextmenu)="oncontextmenu()" (mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"></div>
+<div #container (contextmenu)="oncontextmenu()" (click)="onMouseClick($event)" (mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"></div>
 <br>
 <app-pistevalidator-component *ngIf="condition()" [points]="listePoints()" [lignes]="listeLignes()"></app-pistevalidator-component>

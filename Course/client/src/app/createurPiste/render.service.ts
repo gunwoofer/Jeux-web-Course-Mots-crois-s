@@ -31,6 +31,7 @@ export class RenderService {
 
   private mouseDownTime;
   private mouseUpTime;
+  private clickDuration;
   private dragMode;
   private pointHover;
   private objectDragged;
@@ -199,6 +200,8 @@ export class RenderService {
     this.retirerAncienPointLine();
     if (this.compteur >= 1) {
       this.compteur--;
+    }
+    if (this.compteurPoints >= 1) {
       this.compteurPoints--;
     }
   }
@@ -397,32 +400,36 @@ export class RenderService {
    *********************************************************/
 
   public onMouseDown(event) {
-    if (event.button === 2) {
-      event.preventDefault();
-    }
     this.mouseDownTime = new Date().getTime();
     if (this.pointHover) {
       this.dragMode = true;
     }
   }
 
-  public onMouseUp(event) {
-    this.mouseUpTime = new Date().getTime();
-    const clicDuration = this.mouseUpTime - this.mouseDownTime;
-    if (event.button === 2) {
-      this.supprimerPoint();
-    }else if (!this.dragMode || clicDuration < 1000 && this.objectDragged.name === '0') {
+  public onMouseClick(event) {
+    if (!this.dragMode || this.clickDuration < 500 && this.objectDragged && this.objectDragged.name === '0') {
       this.dessinerPoint(event);
-    }else if (clicDuration < 500 && this.objectDragged.name === '0') {
-      this.dessinerPoint(event);
-    }else if (this.dragMode) {
-      this.restaurerStatusPoints();
-      this.nombreLignesCroisees();
-      this.nombreSegmentsTropCourts();
-      this.nombreAnglesMoins45();
-      this.actualiserCouleurPoints();
     }
     this.dragMode = false;
+  }
+
+  public rightClick(event) {
+    this.supprimerPoint();
+    this.dragMode = false;
+  }
+
+  public onMouseUp(event) {
+    this.mouseUpTime = new Date().getTime();
+    this.clickDuration = this.mouseUpTime - this.mouseDownTime;
+    if (event.button === 0) {
+      if (this.dragMode) {
+        this.restaurerStatusPoints();
+        this.nombreLignesCroisees();
+        this.nombreSegmentsTropCourts();
+        this.nombreAnglesMoins45();
+        this.actualiserCouleurPoints();
+      }
+    }
   }
 
   public onMouseMove(event) {
@@ -567,6 +574,10 @@ export class RenderService {
 
   public obtenirScene() {
     return this.scene;
+  }
+
+  public obtenirCompteurPoint() {
+    return this.compteurPoints;
   }
 }
 

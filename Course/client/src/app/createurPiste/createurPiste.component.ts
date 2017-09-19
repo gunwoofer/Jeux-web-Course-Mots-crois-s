@@ -37,11 +37,16 @@ export class CreateurPiste implements AfterViewInit {
   }
 
   private oncontextmenu() {
+    this.renderService.rightClick(event);
     return false;
   }
 
   public onMouseMove(event) {
     this.renderService.onMouseMove(event);
+  }
+
+  public onMouseClick(event) {
+     this.renderService.onMouseClick(event);
   }
 
   public onMouseDown(event) {

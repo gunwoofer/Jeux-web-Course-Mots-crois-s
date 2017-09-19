@@ -13,11 +13,16 @@ describe('RenderService', () => {
   let renderService: RenderService;
   let fakeClickEvent: MouseEvent;
 
-  /*const fakeClickEvent = new MouseEvent('mouseup', {
+  function mousevent(type: string, coordonneX: number, coordonneY: number, partie: number ) {
+    return new MouseEvent(type, {
       bubbles: true,
       cancelable: true,
       view: window,
-    });*/
+      clientX: coordonneX,
+      clientY: coordonneY,
+      button: partie
+    });
+  }
 
 
   beforeEach(async(() => {
@@ -39,53 +44,6 @@ describe('RenderService', () => {
   it('should be created', () => {
     expect(renderService).toBeTruthy();
   });
-
-  it('la zone de piste doit être initialement vide', () => {
-    const length = renderService.obtenirScene().children.length;
-    expect(length).toEqual(2);
-  });
-
-  it('il faut clicker sur le button gauche pour la création de point', () => {
-    fakeClickEvent = new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    });
-
-    renderService.onMouseUp(fakeClickEvent);
-    expect(fakeClickEvent.button).toEqual(0);
-});
-
-  it('Le point est crée et ajouté à la scene et le vecteur points', () => {
-      fakeClickEvent = new MouseEvent('mouseup', {
-        bubbles: true,
-        cancelable: true,
-        view: window,
-      });
-      renderService.onMouseUp(fakeClickEvent);
-      const longueurVecteurPoints = renderService.retournerListePoints().length;
-      const longueurVecteurScene = renderService.obtenirScene().children.length;
-      expect(longueurVecteurPoints).toEqual(1);
-      expect(longueurVecteurScene).toEqual(3);
-  });
-
-  it('lobjet ajouté au vecteur de points est de type points', () => {
-    fakeClickEvent = new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    });
-    const compteur = 0;
-    renderService.onMouseUp(fakeClickEvent);
-    const pointListe = renderService.retournerListePoints();
-    const typeObjet = pointListe[compteur].isPoints;
-    expect(typeObjet).toEqual(true);
-  });
-
-
-
-
-
 
 
 });
