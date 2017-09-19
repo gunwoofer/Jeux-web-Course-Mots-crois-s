@@ -39,9 +39,9 @@ export class RenderService {
   private compteurPoints = 0;
   private courbe;
 
-  public nbSegmentsCroises = 0;
-  public nbAnglesPlusPetit45 = 0;
-  public nbSegmentsTropProche = 0;
+  private nbSegmentsCroises = 0;
+  private nbAnglesPlusPetit45 = 0;
+  private nbSegmentsTropProche = 0;
 
 
   private listeErreurCouleur = {
@@ -125,7 +125,7 @@ export class RenderService {
 
   // Dessin des points
   public dessinerPoint(event) {
-    console.log("dessinPOint");
+    console.log('dessinPOint');
     let objet, point;
     if (!this.dessinTermine) {
       objet = this.obtenirIntersection(event);
@@ -149,7 +149,6 @@ export class RenderService {
       this.nombreSegmentsTropCourts();
       this.nombreAnglesMoins45();
       this.actualiserCouleurPoints();
-      this.afficherMessageErreurs();
       this.redessinerCourbe();
       this.render();
     } else {
@@ -157,13 +156,37 @@ export class RenderService {
     }
   }
 
-  private afficherMessageErreurs(){
-    if (this.nbAnglesPlusPetit45 > 0 || this.nbSegmentsTropProche > 0 || this.nbSegmentsCroises > 0){
-      alert('Il y a : \n ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge) \n '
-        + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange) \n '
-        + this.nbSegmentsCroises + ' segment(s) croisé(s) \n '
-        + 'Veuillez corriger les erreursCircuit pour valider la piste ');
+  public afficherMessageErreurs(messages?: string) {
+    let message: string;
+    if (this.nbAnglesPlusPetit45 > 0) {
+      message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge).'
+      + ' Veuillez corriger les erreursCircuit pour valider la piste.';
     }
+    if (this.nbSegmentsTropProche > 0) {
+      message = 'Il y a : ' + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange).'
+      + ' Veuillez corriger les erreursCircuit pour valider la piste.';
+    }
+    if (this.nbSegmentsCroises > 0) {
+      message = 'Il y a : ' + this.nbSegmentsCroises + ' segment(s) croisé(s). Veuillez corriger les erreursCircuit pour valider la piste.';
+    }
+    if (this.nbAnglesPlusPetit45 > 0 && this.nbSegmentsTropProche > 0) {
+      message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge) et '
+      + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange). Veuillez corriger les erreursCircuit pour valider la piste.';
+    }
+    if (this.nbAnglesPlusPetit45 > 0 && this.nbSegmentsCroises > 0) {
+      message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge) et '
+      + this.nbSegmentsCroises + ' segment(s) croisé(s). ' + 'Veuillez corriger les erreursCircuit pour valider la piste.';
+    }
+    if (this.nbSegmentsTropProche > 0 && this.nbSegmentsCroises > 0) {
+      message = 'Il y a : ' + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange) et '
+        + this.nbSegmentsCroises + ' segment(s) croisé(s). Veuillez corriger les erreursCircuit pour valider la piste.';
+    }
+    if (this.nbAnglesPlusPetit45 > 0 && this.nbSegmentsTropProche > 0 && this.nbSegmentsCroises > 0) {
+      message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge), '
+        + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange) et '
+        + this.nbSegmentsCroises + ' segment(s) croisé(s). Veuillez corriger les erreursCircuit pour valider la piste.';
+    }
+    return message;
   }
 
   public supprimerPoint() {
@@ -195,7 +218,7 @@ export class RenderService {
   private nombreAnglesMoins45() {
     let nbAnglesMoins45 = 0;
     for (let i = 1;  i < this.points.length - 1 ; i++) {
-      if(this.estUnAngleMoins45(i)){
+      if (this.estUnAngleMoins45(i)) {
         nbAnglesMoins45 ++;
       }
     }
@@ -222,7 +245,7 @@ export class RenderService {
 
    if (this.points.length > 1 ) {
 
-      const point1 = this.points[numeroPoint === 0 ? this.compteur-1 : numeroPoint -1];
+      const point1 = this.points[numeroPoint === 0 ? this.compteur - 1 : numeroPoint - 1];
       const point2 = this.points[numeroPoint];
       const point3 = this.points[numeroPoint + 1];
       const premierSegment = new THREE.Vector2(point3.position.x - point2.position.x, point3.position.y - point2.position.y).normalize();
@@ -286,9 +309,9 @@ export class RenderService {
 
 
   public retourneetatDessin() {
-    if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0){
+    if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {
       return this.dessinTermine;
-    }else{
+    }else {
       return false;
     }
   }
@@ -402,7 +425,6 @@ export class RenderService {
       this.nombreSegmentsTropCourts();
       this.nombreAnglesMoins45();
       this.actualiserCouleurPoints();
-      this.afficherMessageErreurs();
     }
     this.dragMode = false;
   }
@@ -457,7 +479,7 @@ export class RenderService {
     }
   }
 
-  private restaurerStatusPoints(){
+  private restaurerStatusPoints() {
     for (const point of this.points){
       point.material.status = 'normal';
     }

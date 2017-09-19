@@ -9,30 +9,28 @@ export class Piste {
                 private listeLignes?: THREE.Line[]) {
     }
 
-    public obtenirNom() : string {
+    public obtenirNom(): string {
         return this.nom;
     }
 
-    public obtenirTypeCourse() : string {
+    public obtenirTypeCourse(): string {
         return this.typeCourse;
     }
 
-    public obtenirDescription() : string {
+    public obtenirDescription(): string {
         return this.description;
     }
 
-    public modifierNom(nom : string) {
+    public modifierNom(nom: string) {
         this.nom = nom;
     }
 
-    public modifierTypeCourse(type : string){
+    public modifierTypeCourse(type: string) {
         this.typeCourse = type;
     }
 
-    public modifierDescription(description : string){
+    public modifierDescription(description: string) {
         this.description = description;
     }
-
-  
 
 }
