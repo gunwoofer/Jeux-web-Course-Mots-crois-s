@@ -3,7 +3,7 @@ export class Uuid {
     public static generateUUID() {
         let d = new Date().getTime();
 
-        const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        const uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
             // tslint:disable-next-line:no-bitwise
             let r = (d + Math.random() * 16) % 16 | 0;
             d = Math.floor(d / 16);

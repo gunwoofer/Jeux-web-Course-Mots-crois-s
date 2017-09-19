@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 
 import 'rxjs/add/operator/toPromise';
 
-import {Message} from '../../../commun/communication/message';
+import { Message } from '../../../commun/communication/message';
 
 @Injectable()
 export class BasicService {
@@ -20,44 +20,44 @@ export class BasicService {
 
   public basicGet(): Promise<Message> {
     return this.http.get(this.url)
-    .toPromise()
-    .then(response => response.json() as Message)
-    .catch(this.handleError);
+      .toPromise()
+      .then(response => response.json() as Message)
+      .catch(this.handleError);
   }
 
   public ajouterGrillesDeDepart() {
     this.http.get(this.urlCreationGrilles)
-    .toPromise()
-    .then(response => response.json() as string)
-    .catch(this.handleError);
+      .toPromise()
+      .then(response => response.json() as string)
+      .catch(this.handleError);
   }
 
   public obtenirGrille(): Promise<string> {
     return this.http.get(this.urlGrille)
-    .toPromise()
-    .then(response => response.json() as string)
-    .catch(this.handleError);
+      .toPromise()
+      .then(response => response.json() as string)
+      .catch(this.handleError);
   }
 
   public obtenirGrillePersistenteFacile(): Promise<string> {
     return this.http.get(this.urlGrillePersistenteFacile)
-    .toPromise()
-    .then(response => response.json() as string)
-    .catch(this.handleError);
+      .toPromise()
+      .then(response => response.json() as string)
+      .catch(this.handleError);
   }
 
   public obtenirGrillePersistenteMoyen(): Promise<string> {
     return this.http.get(this.urlGrillePersistenteMoyen)
-    .toPromise()
-    .then(response => response.json() as string)
-    .catch(this.handleError);
+      .toPromise()
+      .then(response => response.json() as string)
+      .catch(this.handleError);
   }
 
   public obtenirGrillePersistenteDifficile(): Promise<string> {
     return this.http.get(this.urlGrillePersistenteDifficile)
-    .toPromise()
-    .then(response => response.json() as string)
-    .catch(this.handleError);
+      .toPromise()
+      .then(response => response.json() as string)
+      .catch(this.handleError);
   }
 
   private handleError(error: any): Promise<any> {

@@ -1,4 +1,4 @@
-import { Indice} from './Indice';
+import { Indice } from './Indice';
 
 export enum Rarete {
     commun,
@@ -37,7 +37,7 @@ export class Mot {
     }
 
     public obtenirLettreSimplifie(position: number): string {
-        if(this.lettres[position] !== undefined) {
+        if (this.lettres[position] !== undefined) {
             return this.lettres[position].normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         }
         return '';

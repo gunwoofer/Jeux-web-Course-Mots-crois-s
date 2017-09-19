@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 
-export enum TypeObservateur{
+export enum TypeObservateur {
     Validateur,
     Autre
 }
@@ -13,10 +13,10 @@ export class Observateur {
     }
 
     public notifier() {
-        switch(this.type) {
+        switch (this.type) {
             case TypeObservateur.Validateur:
                 assert(true);
-            break;
+                break;
         }
     }
 }

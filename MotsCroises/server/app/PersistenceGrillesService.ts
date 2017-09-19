@@ -12,7 +12,7 @@ export const nomTableauGrilles = 'grilles';
 const url = 'mongodb://localhost:27017/motscroises';
 
 export class PersistenceGrillesService {
-    private reponse:  express.Response;
+    private reponse: express.Response;
     public message = '';
     private compteurRequetesEntiteePersistente = 0;
     private pretPourEnvoyerReponse = false;
@@ -22,7 +22,7 @@ export class PersistenceGrillesService {
 
     private bdImplementation: BDImplementation = new BDImplementation();
 
-    constructor (generateurDeGrilleService: GenerateurDeGrilleService, reponse?:  express.Response) {
+    constructor(generateurDeGrilleService: GenerateurDeGrilleService, reponse?: express.Response) {
         this.generateurDeGrilleService = generateurDeGrilleService;
         if (reponse !== undefined) {
             this.reponse = reponse;
@@ -39,7 +39,7 @@ export class PersistenceGrillesService {
         }
     }
 
-    public envoyerReponse(message: string){
+    public envoyerReponse(message: string) {
         this.message += message;
 
         if (this.pretPourEnvoyerReponse && this.reponse !== undefined && (!this.aEteEnvoye)) {
@@ -59,9 +59,9 @@ export class PersistenceGrillesService {
     private connectiondbMotsCroises(callback?: any, donneesAuCallback?: any) {
         const self: PersistenceGrillesService = this;
 
-       // Connexion à la base de données persistente.
-       this.compteurRequetesEntiteePersistente++;
-       this.bdImplementation.seConnecter(url, function(err: any, db: any) {
+        // Connexion à la base de données persistente.
+        this.compteurRequetesEntiteePersistente++;
+        this.bdImplementation.seConnecter(url, function (err: any, db: any) {
 
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
@@ -84,7 +84,7 @@ export class PersistenceGrillesService {
 
     private procedureRappelCreerTableauGrilles(self: PersistenceGrillesService, db: any) {
         self.compteurRequetesEntiteePersistente++;
-        db.createCollection(nomTableauGrilles, function(err: any, res: any) {
+        db.createCollection(nomTableauGrilles, function (err: any, res: any) {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
             self.notifier();
@@ -95,7 +95,7 @@ export class PersistenceGrillesService {
 
     private supprimerGrille(self: PersistenceGrillesService, db: any, id: string) {
         self.compteurRequetesEntiteePersistente++;
-        db.collection(nomTableauGrilles).deleteOne({id: id}, function(err: any, obj: any) {
+        db.collection(nomTableauGrilles).deleteOne({ id: id }, function (err: any, obj: any) {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
             self.notifier();
@@ -115,19 +115,19 @@ export class PersistenceGrillesService {
     public asyncObtenirGrillePersistante(niveau: Niveau): Promise<Grille> {
         const self: PersistenceGrillesService = this;
 
-       return new Promise(function(resolve: any, reject: any){
-           self.asyncConnectiondbMotsCroises(self)
-                    .then(db => self.asyncProcedureRappelObtenirGrille(self, db, niveau))
-                    .then(result => {resolve(result)})
-                    .catch(error => { reject(error); });
-       });
+        return new Promise(function (resolve: any, reject: any) {
+            self.asyncConnectiondbMotsCroises(self)
+                .then(db => self.asyncProcedureRappelObtenirGrille(self, db, niveau))
+                .then(result => { resolve(result) })
+                .catch(error => { reject(error); });
+        });
     }
 
     public asyncConnectiondbMotsCroises(self: PersistenceGrillesService): Promise<any> {
-        return new Promise(function(resolve: any, reject: any){
+        return new Promise(function (resolve: any, reject: any) {
             // Connexion à la base de données persistente.
             self.compteurRequetesEntiteePersistente++;
-            self.bdImplementation.seConnecter(url, function(err: any, db: any) {
+            self.bdImplementation.seConnecter(url, function (err: any, db: any) {
 
                 self.notifierReponseRecuEntiteePersistente();
                 self.asyncVerifierSierrConnection(err, db, reject);
@@ -138,22 +138,21 @@ export class PersistenceGrillesService {
     }
 
     private asyncVerifierSierrConnection(err: any, db: any, reject: any): boolean {
-            if (err) {
-                reject(err);
-                db.close();
-                return true;
-            }
+        if (err) {
+            reject(err);
+            db.close();
+            return true;
+        }
 
-            return false;
+        return false;
     }
 
     private asyncProcedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau): Promise<Grille> {
 
-        return new Promise( 
-            function(resolve: any, reject: any)
-            {
+        return new Promise(
+            function (resolve: any, reject: any) {
                 self.compteurRequetesEntiteePersistente++;
-                db.collection(nomTableauGrilles).find({niveau: niveau}).toArray(function(err: any, result: any) {
+                db.collection(nomTableauGrilles).find({ niveau: niveau }).toArray(function (err: any, result: any) {
 
                     self.notifierReponseRecuEntiteePersistente();
                     self.asyncVerifierSierrConnection(err, db, reject);
@@ -171,7 +170,7 @@ export class PersistenceGrillesService {
     private procedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau) {
 
         self.compteurRequetesEntiteePersistente++;
-        db.collection(nomTableauGrilles).find({niveau: niveau}).toArray(function(err: any, result: any) {
+        db.collection(nomTableauGrilles).find({ niveau: niveau }).toArray(function (err: any, result: any) {
 
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
@@ -193,7 +192,7 @@ export class PersistenceGrillesService {
         };
 
         self.compteurRequetesEntiteePersistente++;
-        db.collection(nomTableauGrilles).insertOne(grilleAInserer, function(err: any, res: any) {
+        db.collection(nomTableauGrilles).insertOne(grilleAInserer, function (err: any, res: any) {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
             self.notifier();
@@ -209,18 +208,17 @@ export class PersistenceGrillesService {
     public asyncInsererPlusieursGrilles(grilles: Grille[]): Promise<string> {
         const self: PersistenceGrillesService = this;
 
-        return new Promise(function(resolve: any, reject: any){ 
+        return new Promise(function (resolve: any, reject: any) {
             self.asyncConnectiondbMotsCroises(self)
-                    .then(db => self.asyncProcedureRappelInsererplusieursGrilles(self, db, grilles))
-                    .then(result => {resolve(result)})
-                    .catch(error => { reject(error); });
+                .then(db => self.asyncProcedureRappelInsererplusieursGrilles(self, db, grilles))
+                .then(result => { resolve(result) })
+                .catch(error => { reject(error); });
         });
     }
 
     private asyncProcedureRappelInsererplusieursGrilles(self: PersistenceGrillesService, db: any, grilles: Grille[]): Promise<string> {
-        return new Promise( 
-            function(resolve: any, reject: any)
-            {
+        return new Promise(
+            function (resolve: any, reject: any) {
 
                 let grilleStringify: string;
                 let grilleAInserer: Object;
@@ -237,7 +235,7 @@ export class PersistenceGrillesService {
                 }
 
                 self.compteurRequetesEntiteePersistente++;
-                db.collection(nomTableauGrilles).insertMany(grillesAInserer, function(err: any, res: any) {
+                db.collection(nomTableauGrilles).insertMany(grillesAInserer, function (err: any, res: any) {
                     self.notifierReponseRecuEntiteePersistente();
                     self.asyncVerifierSierrConnection(err, db, self);
                     self.notifier();
@@ -264,7 +262,7 @@ export class PersistenceGrillesService {
         }
 
         self.compteurRequetesEntiteePersistente++;
-        db.collection(nomTableauGrilles).insertMany(grillesAInserer, function(err: any, res: any) {
+        db.collection(nomTableauGrilles).insertMany(grillesAInserer, function (err: any, res: any) {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
             self.notifier();

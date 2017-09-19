@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Niveau, Grille } from './Grille';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import {PersistenceGrillesService } from './PersistenceGrillesService';
+import { PersistenceGrillesService } from './PersistenceGrillesService';
 
 export const maxDelaiRetourRequeteMS = 1000;
 export const maxDelaiInserer15Grilles = 10000;
@@ -59,8 +59,8 @@ describe('PersistenceGrillesService', () => {
 
         persistenceGrilles.asyncInsererPlusieursGrilles(grilles)
             .then(resultat => {
-                    assert(resultat !== undefined);
-                    done();
+                assert(resultat !== undefined);
+                done();
             })
             .catch(erreur => {
                 assert(false);

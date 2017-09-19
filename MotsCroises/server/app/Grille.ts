@@ -39,12 +39,12 @@ export class Grille {
         this.niveau = niveau;
 
         // Instancie la grille vide sans espace noir.
-        for(let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             this.cases[i] = new Array(DIMENSION_LIGNE_COLONNE);
             this.nombreMotsSurLigne[i] = 0;
 
-            for(let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                const caseBlanche = new Case(i,j, etatCaseInitial);
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                const caseBlanche = new Case(i, j, etatCaseInitial);
                 this.nombreMotsSurColonne[j] = 0;
                 this.cases[i][j] = caseBlanche;
             }
@@ -52,14 +52,14 @@ export class Grille {
     }
 
 
-    public obtenirNiveau():Niveau {
+    public obtenirNiveau(): Niveau {
         return this.niveau;
     }
 
     public estComplete(): boolean {
         for (let i = 0; i < 10; i++) {
             if (((this.obtenirNombreMotsSurLigne(i) !== 1) && (this.obtenirNombreMotsSurLigne(i) !== 2))
-            || ((this.obtenirNombreMotsSurColonne(i) !== 1) && (this.obtenirNombreMotsSurColonne(i) !== 2))) {
+                || ((this.obtenirNombreMotsSurColonne(i) !== 1) && (this.obtenirNombreMotsSurColonne(i) !== 2))) {
                 return false;
             }
         }
@@ -76,7 +76,7 @@ export class Grille {
     }
 
     public obtenirCase(x: number, y: number): Case {
-        if(x < 0 || y < 0 || x >= DIMENSION_LIGNE_COLONNE || y >= DIMENSION_LIGNE_COLONNE) {
+        if (x < 0 || y < 0 || x >= DIMENSION_LIGNE_COLONNE || y >= DIMENSION_LIGNE_COLONNE) {
             return null;
         }
 
@@ -84,7 +84,7 @@ export class Grille {
     }
 
     public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
-        switch(position) {
+        switch (position) {
             case Position.Ligne:
                 return this.cases[indexFixe][index];
 
@@ -163,7 +163,7 @@ export class Grille {
 
     public obtenirNombreMotsSurLigne(ligne: number): number {
 
-        if(ligne >= DIMENSION_LIGNE_COLONNE) {
+        if (ligne >= DIMENSION_LIGNE_COLONNE) {
             return -1;
         }
 
@@ -172,7 +172,7 @@ export class Grille {
 
     public obtenirNombreMotsSurColonne(ligne: number) {
 
-        if(ligne >= DIMENSION_LIGNE_COLONNE) {
+        if (ligne >= DIMENSION_LIGNE_COLONNE) {
             return -1;
         }
 
@@ -308,8 +308,7 @@ export class Grille {
                 pointageCourant += caseCourante.obtenirPointsDeContraintes();
             }
 
-            if (i === 0 || meilleurPointage > pointageCourant)
-            {
+            if (i === 0 || meilleurPointage > pointageCourant) {
                 meilleurPositionIndexDebut = positionCaseIndexDebut;
                 meilleurPointage = pointageCourant;
             }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import {BasicService} from './basic.service';
+import { BasicService } from './basic.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +9,7 @@ import {BasicService} from './basic.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor (private basicService: BasicService) {}
+  constructor(private basicService: BasicService) { }
 
   public title = 'LOG2990';
   public message: string;
@@ -45,7 +45,7 @@ export class AppComponent implements OnInit {
   public obtenirTableauMotsCroises(grille: any): string {
     let grilleEnTableau = '';
     grilleEnTableau = '<table border=1>';
-    for(const casesLigne of grille.cases) {
+    for (const casesLigne of grille.cases) {
       grilleEnTableau += '<tr>';
       for (const caseCourante of casesLigne) {
         grilleEnTableau += '<td>';

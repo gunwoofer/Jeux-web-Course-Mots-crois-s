@@ -31,8 +31,8 @@ module Route {
             const grilles: Grille[] = generateur.obtenirGrillesBase(generateur);
 
             persistenceGrilles.asyncInsererPlusieursGrilles(grilles)
-                .then(resultat => {res.send(resultat)})
-                .catch(erreur => {throw new Error(erreur);});
+                .then(resultat => { res.send(resultat) })
+                .catch(erreur => { throw new Error(erreur); });
 
         }
 
@@ -50,8 +50,8 @@ module Route {
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
 
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
-                .then(grille => {res.send(grille)})
-                .catch(erreur => {throw new Error(erreur);});
+                .then(grille => { res.send(grille) })
+                .catch(erreur => { throw new Error(erreur); });
 
         }
 
@@ -61,8 +61,8 @@ module Route {
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
 
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.moyen)
-                .then(grille => {res.send(grille)})
-                .catch(erreur => {throw new Error(erreur);});
+                .then(grille => { res.send(grille) })
+                .catch(erreur => { throw new Error(erreur); });
 
         }
 
@@ -72,8 +72,8 @@ module Route {
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
 
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.difficile)
-                .then(grille => {res.send(grille)})
-                .catch(erreur => {throw new Error(erreur);});
+                .then(grille => { res.send(grille) })
+                .catch(erreur => { throw new Error(erreur); });
 
         }
 

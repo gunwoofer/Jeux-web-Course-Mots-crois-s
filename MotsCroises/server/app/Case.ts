@@ -33,18 +33,18 @@ export class Case {
         return this.y;
     }
 
-    public obtenirPointsDeContraintes(): number{
+    public obtenirPointsDeContraintes(): number {
         return this.pointsDeContraintes;
     }
 
     public comparerCase(caseAComparer: Case): boolean {
         return ((this.etat === caseAComparer.etat)
-        && (this.x === caseAComparer.obtenirX())
-        && (this.y === caseAComparer.obtenirY())
-        && (this.lettre === caseAComparer.obtenirLettre()));
+            && (this.x === caseAComparer.obtenirX())
+            && (this.y === caseAComparer.obtenirY())
+            && (this.lettre === caseAComparer.obtenirLettre()));
     }
 
-    public obtenirLettre(): string{
+    public obtenirLettre(): string {
         return this.lettre;
     }
 

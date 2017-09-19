@@ -34,16 +34,16 @@ describe('GenerateurDeGrilleService', () => {
         for (let i = 0; i < grilleFacile.obtenirMot().length; i++) {
             assert(grilleFacile.obtenirMot()[i].obtenirRarete() === Rarete.commun);
             assert(grilleFacile.obtenirMot()[i].obtenirIndice().obtenirDifficulteDefinition() ===
-            DifficulteDefinition.PremiereDefinition);
+                DifficulteDefinition.PremiereDefinition);
 
 
             assert(grilleMoyen.obtenirMot()[i].obtenirRarete() === Rarete.commun);
             assert(grilleMoyen.obtenirMot()[i].obtenirIndice().obtenirDifficulteDefinition() ===
-            DifficulteDefinition.DefinitionAlternative);
+                DifficulteDefinition.DefinitionAlternative);
 
             assert(grilleDifficile.obtenirMot()[i].obtenirRarete() === Rarete.nonCommun);
             assert(grilleDifficile.obtenirMot()[i].obtenirIndice().obtenirDifficulteDefinition() ===
-            DifficulteDefinition.DefinitionAlternative);
+                DifficulteDefinition.DefinitionAlternative);
         }
     });
 
@@ -89,8 +89,8 @@ describe('GenerateurDeGrilleService', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
-        for(let i = 0; i < 10; i++){
-            for(let j = 0; j < 10; j++){
+        for (let i = 0; i < 10; i++) {
+            for (let j = 0; j < 10; j++) {
                 assert((grille.obtenirCase(i, j).etat === EtatCase.noir) || (grille.obtenirCase(i, j).etat === EtatCase.pleine));
             }
         }
@@ -110,7 +110,7 @@ describe('GenerateurDeGrilleService', () => {
         }
         for (let i = 0; i < tableauCasesIntersection.length; i++) {
             const tableau2EmplacementsCroises: EmplacementMot[] = new Array(2);
-            const positionIntersectionDansEmplacement : number[] = new Array();
+            const positionIntersectionDansEmplacement: number[] = new Array();
             for (const emplacements of grille.obtenirPositionsEmplacementsVides()) {
                 for (let j = 0; j < emplacements.obtenirCases().length; j++) {
                     if (emplacements.obtenirCases()[j].comparerCase(tableauCasesIntersection[i])) {
@@ -119,7 +119,7 @@ describe('GenerateurDeGrilleService', () => {
                     }
                 }
             }
-                 assert (tableau2EmplacementsCroises[0].obtenirCases()[positionIntersectionDansEmplacement[0]]
+            assert(tableau2EmplacementsCroises[0].obtenirCases()[positionIntersectionDansEmplacement[0]]
                 .comparerCase(tableau2EmplacementsCroises[1].obtenirCases()[positionIntersectionDansEmplacement[1]]));
         }
     });
@@ -129,7 +129,7 @@ describe('GenerateurDeGrilleService', () => {
         const grille1: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
         const grille2: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
         let grilleDifferente = false;
-        for (let i = 0; i < 10 ; i++) {
+        for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
                 const caseGrille1: Case = grille1.obtenirCase(i, j);
                 const caseGrille2: Case = grille2.obtenirCase(i, j);
@@ -140,5 +140,5 @@ describe('GenerateurDeGrilleService', () => {
         }
 
         assert(grilleDifferente);
-  });
+    });
 });

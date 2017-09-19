@@ -65,7 +65,7 @@ export class GenerateurDeGrilleService {
         return grilleVide;
     }
 
-    private ajouterEmplacementMotsMeilleurEndroit(position: Position, grille: Grille, grandeurMots: number[][]): Grille {        
+    private ajouterEmplacementMotsMeilleurEndroit(position: Position, grille: Grille, grandeurMots: number[][]): Grille {
         let xDebut: number;
         let yDebut: number;
         let xFin: number;
@@ -78,7 +78,7 @@ export class GenerateurDeGrilleService {
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
 
             // pour chaque mot.
-            for(let j = 0; j < grandeurMots[i].length; j++ ) {
+            for (let j = 0; j < grandeurMots[i].length; j++) {
                 positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][0]);
                 xDebut = positionDebutFin[0];
                 yDebut = positionDebutFin[1];
@@ -86,22 +86,22 @@ export class GenerateurDeGrilleService {
                 yFin = positionDebutFin[3];
 
                 // Changer l'état de la case à vide.
-                switch(position) {
+                switch (position) {
                     case Position.Ligne:
-                        for(let k = yDebut; k <= yFin - yDebut; k++) {
+                        for (let k = yDebut; k <= yFin - yDebut; k++) {
                             caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
                             caseCouranteVide.etat = EtatCase.vide;
                             casesEmplacementMots.push(caseCouranteVide);
                         }
-                    break;
+                        break;
 
                     case Position.Colonne:
-                        for(let k = xDebut; k <= xFin - xDebut; k++) {
+                        for (let k = xDebut; k <= xFin - xDebut; k++) {
                             caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
                             caseCouranteVide.etat = EtatCase.vide;
                             casesEmplacementMots.push(caseCouranteVide);
                         }
-                    break;
+                        break;
                 }
                 grille.ajouterEmplacementMot(
                     new EmplacementMot(grille.obtenirCase(xDebut, yDebut), grille.obtenirCase(xFin, yFin), casesEmplacementMots));
@@ -111,13 +111,13 @@ export class GenerateurDeGrilleService {
         return grille;
     }
 
-    private obtenirMeilleurPositionDebutFin(grille: Grille, position: Position, positionCourante: number, grandeurMot: number):number[] {
+    private obtenirMeilleurPositionDebutFin(grille: Grille, position: Position, positionCourante: number, grandeurMot: number): number[] {
         const meilleurPosition: number[] = [0, 0, 0, 0]; // [xDebut, yDebut, xFin, yFin]
         let meilleurPositionIndex: number;
 
         grille.calculerPointsContraintes();
 
-        switch(position) {
+        switch (position) {
             case Position.Ligne:
                 // Position dans la ligne courante.
                 meilleurPosition[0] = positionCourante;
@@ -130,7 +130,7 @@ export class GenerateurDeGrilleService {
                 meilleurPosition[1] = meilleurPositionIndex;
                 meilleurPosition[3] = meilleurPositionIndex + grandeurMot - 1;
 
-            break;
+                break;
 
             case Position.Colonne:
 
@@ -145,16 +145,16 @@ export class GenerateurDeGrilleService {
                 meilleurPosition[0] = meilleurPositionIndex;
                 meilleurPosition[2] = meilleurPositionIndex + grandeurMot - 1;
 
-            break;
+                break;
         }
 
         return meilleurPosition;
     }
 
-    private obtenirGrandeurMots(nombreMots:number[]): number[][] {
+    private obtenirGrandeurMots(nombreMots: number[]): number[][] {
         const grandeurMots: number[][] = new Array(DIMENSION_LIGNE_COLONNE);
 
-        for(let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             grandeurMots[i] = new Array();
             let grandeurMotLigne: number = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
 
@@ -165,7 +165,7 @@ export class GenerateurDeGrilleService {
             if (nombreMots[i] >= nombreMotMaximumParLigneOuColonne) {
                 let tentative = 0;
                 while (!this.peutAccueillirPlusieursMots(grandeurMots[i][0]) ||
-                tentative < tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne) {
+                    tentative < tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne) {
                     grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
 
                     grandeurMots[i][0] = grandeurMotLigne;
@@ -174,7 +174,7 @@ export class GenerateurDeGrilleService {
 
                 grandeurMaximumDuProchainMot = grandeurMotMaximum - (grandeurMots[i][0] + longueurEspaceNoirEntreDeuxMots);
 
-                if(grandeurMaximumDuProchainMot >= grandeurMotMinimum) {
+                if (grandeurMaximumDuProchainMot >= grandeurMotMinimum) {
                     grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMaximumDuProchainMot);
 
                     grandeurMots[i].push(grandeurMotLigne);
@@ -187,10 +187,10 @@ export class GenerateurDeGrilleService {
         return grandeurMots;
     }
 
-    private obtenirNombreMots(): number[]{
+    private obtenirNombreMots(): number[] {
         const nombreMots: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
-        for(let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             const grandeurMot: number = this.nombreAleatoireEntreXEtY(nombreMotMinimumParLigneOuColonne,
                 nombreMotMaximumParLigneOuColonne);
 
