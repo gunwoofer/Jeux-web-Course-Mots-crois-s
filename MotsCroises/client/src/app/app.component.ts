@@ -14,48 +14,51 @@ export class AppComponent implements OnInit {
   public title = 'LOG2990';
   public message: string;
   public grille = '';
-  public grillePersistente = '';
+  public grillePersistenteFacile = '';
+  public grillePersistenteMoyen = '';
+  public grillePersistenteDifficile = '';
 
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
     this.basicService.obtenirGrille().then(grille => this.afficherGrille(grille));
-    this.basicService.obtenirGrillePersistente().then(grille => this.afficherGrillePersistente(grille));
+    this.basicService.obtenirGrillePersistenteFacile().then(grille => this.afficherGrillePersistenteFacile(grille));
+    this.basicService.obtenirGrillePersistenteMoyen().then(grille => this.afficherGrillePersistenteMoyen(grille));
+    this.basicService.obtenirGrillePersistenteDifficile().then(grille => this.afficherGrillePersistenteDifficile(grille));
   }
 
-  public afficherGrillePersistente(grille:any) {
-      this.grillePersistente = '<table border=1>';
-      for(const casesLigne of grille.cases) {
-        this.grillePersistente += '<tr>';
-        for (const caseCourante of casesLigne) {
-          this.grillePersistente += '<td>';
-          if (caseCourante.lettre !== undefined) {
-            this.grillePersistente += caseCourante.lettre;
-          } else {
-            this.grillePersistente += '*';
-          }
-          this.grillePersistente += '</td>';
-        }
-        this.grillePersistente += '</tr>';
-      }
-      this.grillePersistente += '</table>';
-
+  public afficherGrillePersistenteFacile(grille: any) {
+    this.grillePersistenteFacile = this.obtenirTableauMotsCroises(grille);
   }
 
-  public afficherGrille(grille:any) {
-    this.grille = '<table border=1>';
+  public afficherGrillePersistenteMoyen(grille: any) {
+    this.grillePersistenteMoyen = this.obtenirTableauMotsCroises(grille);
+  }
+
+  public afficherGrillePersistenteDifficile(grille: any) {
+    this.grillePersistenteDifficile = this.obtenirTableauMotsCroises(grille);
+  }
+
+  public afficherGrille(grille: any) {
+    this.grille = this.obtenirTableauMotsCroises(grille);
+  }
+
+  public obtenirTableauMotsCroises(grille: any): string {
+    let grilleEnTableau: string = '';
+    grilleEnTableau = '<table border=1>';
     for(const casesLigne of grille.cases) {
-      this.grille += '<tr>';
+      grilleEnTableau += '<tr>';
       for (const caseCourante of casesLigne) {
-        this.grille += '<td>';
+        grilleEnTableau += '<td>';
         if (caseCourante.lettre !== undefined) {
-          this.grille += caseCourante.lettre;
+          grilleEnTableau += caseCourante.lettre;
         } else {
-          this.grille += '*';
+          grilleEnTableau += '*';
         }
-        this.grille += '</td>';
+        grilleEnTableau += '</td>';
       }
-      this.grille += '</tr>';
+      grilleEnTableau += '</tr>';
     }
-    this.grille += '</table>';
+    grilleEnTableau += '</table>';
+    return grilleEnTableau;
   }
 }

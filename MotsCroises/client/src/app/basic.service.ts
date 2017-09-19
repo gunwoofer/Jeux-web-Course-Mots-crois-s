@@ -11,7 +11,9 @@ export class BasicService {
   constructor(private http: Http) { }
 
   private url = 'http://localhost:3000/basic';
-  private urlGrillePersistente = 'http://localhost:3000/grilles/persistence/grille/facile';
+  private urlGrillePersistenteFacile = 'http://localhost:3000/grilles/persistence/grille/facile/async';
+  private urlGrillePersistenteMoyen = 'http://localhost:3000/grilles/persistence/grille/moyen/async';
+  private urlGrillePersistenteDifficile = 'http://localhost:3000/grilles/persistence/grille/difficile/async';
   private urlGrille = 'http://localhost:3000/GenerationDeGrilleService';
   private urlCreationGrilles = 'http://localhost:3000/grilles/persistence/grille/ajouter/5';
 
@@ -30,15 +32,29 @@ export class BasicService {
     .catch(this.handleError);
   }
 
-    public obtenirGrille(): Promise<string> {
-      return this.http.get(this.urlGrille)
-      .toPromise()
-      .then(response => response.json() as string)
-      .catch(this.handleError);
-    }
+  public obtenirGrille(): Promise<string> {
+    return this.http.get(this.urlGrille)
+    .toPromise()
+    .then(response => response.json() as string)
+    .catch(this.handleError);
+  }
 
-  public obtenirGrillePersistente(): Promise<string> {
-    return this.http.get(this.urlGrillePersistente)
+  public obtenirGrillePersistenteFacile(): Promise<string> {
+    return this.http.get(this.urlGrillePersistenteFacile)
+    .toPromise()
+    .then(response => response.json() as string)
+    .catch(this.handleError);
+  }
+
+  public obtenirGrillePersistenteMoyen(): Promise<string> {
+    return this.http.get(this.urlGrillePersistenteMoyen)
+    .toPromise()
+    .then(response => response.json() as string)
+    .catch(this.handleError);
+  }
+
+  public obtenirGrillePersistenteDifficile(): Promise<string> {
+    return this.http.get(this.urlGrillePersistenteDifficile)
     .toPromise()
     .then(response => response.json() as string)
     .catch(this.handleError);

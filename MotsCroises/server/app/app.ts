@@ -85,7 +85,9 @@ export class Application {
     // Utilisation de la base de données.
     router.use('/grilles/persistence/grille/facile/async', index.asyncObtenirGrilleFacile.bind(index.asyncObtenirGrilleFacile));
     router.use('/grilles/persistence/grille/facile', index.obtenirGrilleFacile.bind(index.obtenirGrilleFacile));
+    router.use('/grilles/persistence/grille/moyen/async', index.asyncObtenirGrilleMoyen.bind(index.asyncObtenirGrilleMoyen));
     router.use('/grilles/persistence/grille/moyen', index.obtenirGrilleMoyen.bind(index.obtenirGrilleMoyen));
+    router.use('/grilles/persistence/grille/difficile/async', index.asyncObtenirGrilleDifficile.bind(index.asyncObtenirGrilleDifficile));
     router.use('/grilles/persistence/grille/difficile', index.obtenirGrilleDifficile.bind(index.obtenirGrilleDifficile));
 
     router.use('/grilles/persistence/grille/ajouter/5', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));

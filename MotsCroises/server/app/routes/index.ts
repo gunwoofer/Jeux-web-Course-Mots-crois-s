@@ -42,6 +42,28 @@ module Route {
                 .catch(erreur => {throw new Error(erreur);}); 
 
         }
+        
+        public asyncObtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction) {
+            
+            let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            let persistenceGrillesService:PersistenceGrillesService = new PersistenceGrillesService(generateur);
+            
+            persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.moyen)
+                .then(grille => {res.send(grille)})
+                .catch(erreur => {throw new Error(erreur);}); 
+
+        }
+                
+        public asyncObtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction) {
+            
+            let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            let persistenceGrillesService:PersistenceGrillesService = new PersistenceGrillesService(generateur);
+            
+            persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.difficile)
+                .then(grille => {res.send(grille)})
+                .catch(erreur => {throw new Error(erreur);}); 
+
+        }
 
         public creerTableauGrille(req: express.Request, res: express.Response, next: express.NextFunction) {
             
