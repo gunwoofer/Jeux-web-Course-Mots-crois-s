@@ -45,16 +45,28 @@ describe('RenderService', () => {
     expect(length).toEqual(2);
   });
 
-  it('il doit y avoir un evenement mouseUp pour créer un point', () => {
+  it('il faut clicker sur le button gauche pour la création de point', () => {
       fakeClickEvent = new MouseEvent('mouseup', {
         bubbles: true,
         cancelable: true,
         view: window,
       });
+
       renderService.onMouseUp(fakeClickEvent);
-      length = renderService.retournerListePoints().length;
-      expect(length).toEqual(1);
+      expect(fakeClickEvent.button).toEqual(0);
+    
+      /*renderService.onMouseUp(fakeClickEvent);
+      /*length = renderService.retournerListePoints().length;
+      /*expect(length).toEqual(1);*/
   });
+
+  /*it('lobjet créé à partir du mouseup et ajouté à liste de points est de type points', () => {
+    fakeClickEvent = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+    });
+  })*/
 
 
 
