@@ -12,7 +12,6 @@ import { PisteValidationComponent } from './piste/pisteValidation.component';
 
 import {RenderService} from './createurPiste/render.service';
 import {BasicService} from './basic.service';
-import { PisteService } from './piste/piste.service';
 
 
 @NgModule({
@@ -23,13 +22,12 @@ import { PisteService } from './piste/piste.service';
   ],
   imports: [
     BrowserModule,
-    HttpModule, 
+    HttpModule,
     FormsModule
   ],
   providers: [
     RenderService,
     BasicService,
-    PisteService
   ],
   bootstrap: [AppComponent]
 })

@@ -546,5 +546,9 @@ export class RenderService {
       this.dessinerCourbe();
     }
   }
+
+  public obtenirScene() {
+    return this.scene;
+  }
 }
 
