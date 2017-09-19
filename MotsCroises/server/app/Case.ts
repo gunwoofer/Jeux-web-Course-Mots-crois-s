@@ -1,23 +1,21 @@
 import { Position } from './Grille';
 
-
 export enum EtatCase {
     vide,
     pleine,
     noir
 }
 
-
 export class Case {
-    private x : number;
-    private y : number;
+    private x: number;
+    private y: number;
 
     private lettre: string;
     public etat: EtatCase;
-    public intersection: boolean = false;
-    
+    public intersection = false;
 
-    private pointsDeContraintes: number = 0;
+
+    private pointsDeContraintes = 0;
     private pointsDeContraintesProvenance: Position[];
 
     constructor(x: number, y: number, etat: EtatCase) {
@@ -30,7 +28,7 @@ export class Case {
     public obtenirX(): number {
         return this.x;
     }
-    
+
     public obtenirY(): number {
         return this.y;
     }
@@ -46,23 +44,23 @@ export class Case {
         && (this.lettre === caseAComparer.obtenirLettre()));
     }
 
-    public obtenirLettre():string{
+    public obtenirLettre(): string{
         return this.lettre;
     }
 
-    public remplirCase(lettre:string) {
+    public remplirCase(lettre: string) {
         this.lettre = lettre;
         this.etat = EtatCase.pleine;
     }
 
-    public ajouterUnPointDeContrainte(position:Position, increment: number = 1) {
+    public ajouterUnPointDeContrainte(position: Position, increment: number = 1) {
         this.pointsDeContraintes += increment;
         this.pointsDeContraintesProvenance.push(position);
 
         if(this.pointsDeContraintes >= 2) {
-            let positionPrecedente:Position = this.pointsDeContraintesProvenance[0];
+            const positionPrecedente: Position = this.pointsDeContraintesProvenance[0];
     
-            for(let positionCourante of this.pointsDeContraintesProvenance) {
+            for(const positionCourante of this.pointsDeContraintesProvenance) {
                 if(positionPrecedente !== positionCourante) {
                     this.intersection = true;
                 }
@@ -98,6 +96,6 @@ export class Case {
 
     public viderCase() {
         this.etat = EtatCase.vide;
-        this.lettre = "";
+        this.lettre = '';
     }
 }

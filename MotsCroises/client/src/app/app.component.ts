@@ -43,7 +43,7 @@ export class AppComponent implements OnInit {
   }
 
   public obtenirTableauMotsCroises(grille: any): string {
-    let grilleEnTableau: string = '';
+    let grilleEnTableau = '';
     grilleEnTableau = '<table border=1>';
     for(const casesLigne of grille.cases) {
       grilleEnTableau += '<tr>';

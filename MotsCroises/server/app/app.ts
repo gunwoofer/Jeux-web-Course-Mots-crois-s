@@ -94,7 +94,7 @@ export class Application {
                                 index.asyncPersistenceGrillesService.bind(index.asyncPersistenceGrillesService));
     router.use('/grilles/persistence/grille/ajouter/5', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
     router.use('/grilles/tableau/creer', index.creerTableauGrille.bind(index.creerTableauGrille));
-    
+
     // use router middleware
     this.app.use(router);
 

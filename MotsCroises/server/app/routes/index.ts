@@ -16,29 +16,28 @@ module Route {
 
 
         public PersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
+
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
-            
+
             persistenceGrilles.insererPlusieursGrilles(generateur.obtenirGrillesBase(generateur));
 
         }
-        
-        
+
         public asyncPersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
+
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
-            let grilles:Grille[] = generateur.obtenirGrillesBase(generateur);
+            const grilles: Grille[] = generateur.obtenirGrillesBase(generateur);
 
             persistenceGrilles.asyncInsererPlusieursGrilles(grilles)
                 .then(resultat => {res.send(resultat)})
-                .catch(erreur => {throw new Error(erreur);}); 
+                .catch(erreur => {throw new Error(erreur);});
 
         }
 
         public obtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
+
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
 
@@ -46,57 +45,57 @@ module Route {
         }
 
         public asyncObtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
-            let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            let persistenceGrillesService:PersistenceGrillesService = new PersistenceGrillesService(generateur);
-            
+
+            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
+
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
                 .then(grille => {res.send(grille)})
-                .catch(erreur => {throw new Error(erreur);}); 
+                .catch(erreur => {throw new Error(erreur);});
 
         }
-        
+
         public asyncObtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
-            let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            let persistenceGrillesService:PersistenceGrillesService = new PersistenceGrillesService(generateur);
-            
+
+            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
+
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.moyen)
                 .then(grille => {res.send(grille)})
-                .catch(erreur => {throw new Error(erreur);}); 
+                .catch(erreur => {throw new Error(erreur);});
 
         }
-                
+
         public asyncObtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
-            let generateur:GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            let persistenceGrillesService:PersistenceGrillesService = new PersistenceGrillesService(generateur);
-            
+
+            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
+
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.difficile)
                 .then(grille => {res.send(grille)})
-                .catch(erreur => {throw new Error(erreur);}); 
+                .catch(erreur => {throw new Error(erreur);});
 
         }
 
         public creerTableauGrille(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
+
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
 
             persistenceGrilles.creerTableauGrilles();
 
         }
-        
+
         public obtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
+
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
 
             persistenceGrilles.obtenirGrillePersistante(Niveau.moyen);
         }
-        
+
         public obtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction) {
-            
+
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
 

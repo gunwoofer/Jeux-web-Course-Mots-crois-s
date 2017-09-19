@@ -1,5 +1,4 @@
-import { CasePleine } from './CasePleine';
-import { Indice, DifficulteDefinition } from './Indice';
+import { Indice} from './Indice';
 
 export enum Rarete {
     commun,
@@ -18,7 +17,7 @@ export class Mot {
     }
 
     public estUneLettreValide(position: number): boolean {
-        if ((this.lettres[position] === "-") || (this.lettres[position] === "'")) {
+        if ((this.lettres[position] === '-') || (this.lettres[position] === '\'')) {
             return false;
         }
 
@@ -39,8 +38,8 @@ export class Mot {
     }
 
     public obtenirLettreSimplifie(position: number): string {
-        if(this.lettres[position] !== undefined) {            
-            return this.lettres[position].normalize('NFD').replace(/[\u0300-\u036f]/g, "");
+        if(this.lettres[position] !== undefined) {
+            return this.lettres[position].normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         }
         return '';
     }

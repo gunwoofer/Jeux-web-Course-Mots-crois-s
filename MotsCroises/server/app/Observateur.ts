@@ -6,7 +6,7 @@ export enum TypeObservateur{
 }
 
 export class Observateur {
-    private type:TypeObservateur;
+    private type: TypeObservateur;
 
     constructor(type: TypeObservateur = TypeObservateur.Autre) {
         this.type = type;
