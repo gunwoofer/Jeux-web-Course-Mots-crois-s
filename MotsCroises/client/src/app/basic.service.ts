@@ -25,7 +25,7 @@ export class BasicService {
       .catch(this.handleError);
   }
 
-  public ajouterGrillesDeDepart() {
+  public ajouterGrillesDeDepart(): void {
     this.http.get(this.urlCreationGrilles)
       .toPromise()
       .then(response => response.json() as string)

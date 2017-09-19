@@ -26,19 +26,19 @@ export class AppComponent implements OnInit {
     this.basicService.obtenirGrillePersistenteDifficile().then(grille => this.afficherGrillePersistenteDifficile(grille));
   }
 
-  public afficherGrillePersistenteFacile(grille: any) {
+  public afficherGrillePersistenteFacile(grille: any): void {
     this.grillePersistenteFacile = this.obtenirTableauMotsCroises(grille);
   }
 
-  public afficherGrillePersistenteMoyen(grille: any) {
+  public afficherGrillePersistenteMoyen(grille: any): void {
     this.grillePersistenteMoyen = this.obtenirTableauMotsCroises(grille);
   }
 
-  public afficherGrillePersistenteDifficile(grille: any) {
+  public afficherGrillePersistenteDifficile(grille: any): void {
     this.grillePersistenteDifficile = this.obtenirTableauMotsCroises(grille);
   }
 
-  public afficherGrille(grille: any) {
+  public afficherGrille(grille: any): void {
     this.grille = this.obtenirTableauMotsCroises(grille);
   }
 

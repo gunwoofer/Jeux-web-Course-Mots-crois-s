@@ -12,7 +12,7 @@ export class Observateur {
         this.type = type;
     }
 
-    public notifier() {
+    public notifier(): void {
         switch (this.type) {
             case TypeObservateur.Validateur:
                 assert(true);

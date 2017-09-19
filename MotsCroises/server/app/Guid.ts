@@ -1,5 +1,5 @@
 export class Guid {
-    public static generateGUID() {
+    public static generateGUID(): string {
         let d = new Date().getTime();
 
         // Librairie externe pour générer des GUID.

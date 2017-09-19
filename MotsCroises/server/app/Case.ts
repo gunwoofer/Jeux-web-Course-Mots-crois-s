@@ -48,12 +48,12 @@ export class Case {
         return this.lettre;
     }
 
-    public remplirCase(lettre: string) {
+    public remplirCase(lettre: string): void {
         this.lettre = lettre;
         this.etat = EtatCase.pleine;
     }
 
-    public ajouterUnPointDeContrainte(position: Position, increment: number = 1) {
+    public ajouterUnPointDeContrainte(position: Position, increment: number = 1): void {
         this.pointsDeContraintes += increment;
         this.pointsDeContraintesProvenance.push(position);
 
@@ -87,13 +87,13 @@ export class Case {
         }
     }
 
-    public remettrePointsContraintesAZero() {
+    public remettrePointsContraintesAZero(): void {
         this.pointsDeContraintes = 0;
         this.pointsDeContraintesProvenance = new Array();
         this.intersection = false;
     }
 
-    public viderCase() {
+    public viderCase(): void {
         this.etat = EtatCase.vide;
         this.lettre = '';
     }

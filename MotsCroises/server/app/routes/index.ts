@@ -7,7 +7,7 @@ module Route {
 
     export class Index {
 
-        public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const grille: Grille = generateur.genererGrille(Niveau.facile);
 
@@ -15,7 +15,7 @@ module Route {
         }
 
 
-        public PersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public PersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
@@ -24,7 +24,7 @@ module Route {
 
         }
 
-        public asyncPersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public asyncPersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
@@ -36,7 +36,7 @@ module Route {
 
         }
 
-        public obtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public obtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
@@ -44,7 +44,7 @@ module Route {
             persistenceGrilles.obtenirGrillePersistante(Niveau.facile);
         }
 
-        public asyncObtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public asyncObtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
@@ -55,7 +55,7 @@ module Route {
 
         }
 
-        public asyncObtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public asyncObtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
@@ -66,7 +66,7 @@ module Route {
 
         }
 
-        public asyncObtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public asyncObtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
@@ -77,7 +77,7 @@ module Route {
 
         }
 
-        public creerTableauGrille(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public creerTableauGrille(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
@@ -86,7 +86,7 @@ module Route {
 
         }
 
-        public obtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public obtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
@@ -94,7 +94,7 @@ module Route {
             persistenceGrilles.obtenirGrillePersistante(Niveau.moyen);
         }
 
-        public obtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public obtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);

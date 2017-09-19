@@ -33,13 +33,13 @@ export class PersistenceGrillesService {
         this.observateurs.push(observateur);
     }
 
-    public notifier() {
+    public notifier(): void {
         for (const observateur of this.observateurs) {
             observateur.notifier();
         }
     }
 
-    public envoyerReponse(message: string) {
+    public envoyerReponse(message: string): void {
         this.message += message;
 
         if (this.pretPourEnvoyerReponse && this.reponse !== undefined && (!this.aEteEnvoye)) {
@@ -48,7 +48,7 @@ export class PersistenceGrillesService {
         }
     }
 
-    public notifierReponseRecuEntiteePersistente() {
+    public notifierReponseRecuEntiteePersistente(): void {
         this.compteurRequetesEntiteePersistente--;
 
         if (this.compteurRequetesEntiteePersistente === 0) {
@@ -56,7 +56,7 @@ export class PersistenceGrillesService {
         }
     }
 
-    private connectiondbMotsCroises(callback?: any, donneesAuCallback?: any) {
+    private connectiondbMotsCroises(callback?: any, donneesAuCallback?: any): void {
         const self: PersistenceGrillesService = this;
 
         // Connexion à la base de données persistente.
@@ -78,11 +78,11 @@ export class PersistenceGrillesService {
         });
     }
 
-    public creerTableauGrilles() {
+    public creerTableauGrilles(): void {
         this.connectiondbMotsCroises(this.procedureRappelCreerTableauGrilles);
     }
 
-    private procedureRappelCreerTableauGrilles(self: PersistenceGrillesService, db: any) {
+    private procedureRappelCreerTableauGrilles(self: PersistenceGrillesService, db: any): void {
         self.compteurRequetesEntiteePersistente++;
         db.createCollection(nomTableauGrilles, function (err: any, res: any) {
             self.notifierReponseRecuEntiteePersistente();
@@ -93,7 +93,7 @@ export class PersistenceGrillesService {
         });
     }
 
-    private supprimerGrille(self: PersistenceGrillesService, db: any, id: string) {
+    private supprimerGrille(self: PersistenceGrillesService, db: any, id: string): void {
         self.compteurRequetesEntiteePersistente++;
         db.collection(nomTableauGrilles).deleteOne({ id: id }, function (err: any, obj: any) {
             self.notifierReponseRecuEntiteePersistente();
@@ -104,11 +104,11 @@ export class PersistenceGrillesService {
         });
     }
 
-    public insererGrille(grille: Grille) {
+    public insererGrille(grille: Grille): void {
         this.connectiondbMotsCroises(this.procedureRappelInsererGrille, grille);
     }
 
-    public obtenirGrillePersistante(niveau: Niveau) {
+    public obtenirGrillePersistante(niveau: Niveau): void {
         this.connectiondbMotsCroises(this.procedureRappelObtenirGrille, niveau);
     }
 
@@ -167,7 +167,7 @@ export class PersistenceGrillesService {
         );
     }
 
-    private procedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau) {
+    private procedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau): void {
 
         self.compteurRequetesEntiteePersistente++;
         db.collection(nomTableauGrilles).find({ niveau: niveau }).toArray(function (err: any, result: any) {
@@ -183,7 +183,7 @@ export class PersistenceGrillesService {
         });
     }
 
-    private procedureRappelInsererGrille(self: PersistenceGrillesService, db: any, grille: Grille) {
+    private procedureRappelInsererGrille(self: PersistenceGrillesService, db: any, grille: Grille): void {
         const grilleStringify: string = JSON.stringify(grille);
         const grilleAInserer: Object = {
             id: Guid.generateGUID(),
@@ -201,7 +201,7 @@ export class PersistenceGrillesService {
         });
     }
 
-    public insererPlusieursGrilles(grilles: Grille[]) {
+    public insererPlusieursGrilles(grilles: Grille[]): void {
         this.connectiondbMotsCroises(this.procedureRappelInsererplusieursGrilles, grilles);
     }
 
@@ -246,7 +246,7 @@ export class PersistenceGrillesService {
         );
     }
 
-    private procedureRappelInsererplusieursGrilles(self: PersistenceGrillesService, db: any, grilles: Grille[]) {
+    private procedureRappelInsererplusieursGrilles(self: PersistenceGrillesService, db: any, grilles: Grille[]): void {
         let grilleStringify: string;
         let grilleAInserer: Object;
         const grillesAInserer: Object[] = new Array();

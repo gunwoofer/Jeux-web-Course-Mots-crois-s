@@ -106,7 +106,7 @@ export class Grille {
 
 
 
-    public ajouterEmplacementMot(emplacementMot: EmplacementMot) {
+    public ajouterEmplacementMot(emplacementMot: EmplacementMot): void {
         this.emplacementMots.push(emplacementMot);
     }
 
@@ -131,7 +131,7 @@ export class Grille {
 
     }
 
-    public ajouterMot(mot: Mot, xDepart: number, yDepart: number, xFin: number, yFin: number) {
+    public ajouterMot(mot: Mot, xDepart: number, yDepart: number, xFin: number, yFin: number): void {
 
         this.mots.push(mot);
 
@@ -170,7 +170,7 @@ export class Grille {
         return this.nombreMotsSurLigne[ligne];
     }
 
-    public obtenirNombreMotsSurColonne(ligne: number) {
+    public obtenirNombreMotsSurColonne(ligne: number): number {
 
         if (ligne >= DIMENSION_LIGNE_COLONNE) {
             return -1;
@@ -208,7 +208,7 @@ export class Grille {
         return nbrCasesY;
     }
 
-    public contientDejaLeMot(mot: Mot) {
+    public contientDejaLeMot(mot: Mot): boolean {
         for (const motCourant of this.mots) {
             if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
                 return true;
@@ -236,7 +236,7 @@ export class Grille {
     }
 
 
-    public calculerPointsContraintes() {
+    public calculerPointsContraintes(): void {
         let caseCourante: Case;
 
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
@@ -248,7 +248,7 @@ export class Grille {
         }
     }
 
-    private calculerPointsContraintesDeLaCase(caseCourante: Case, xCourant: number, yCourant: number) {
+    private calculerPointsContraintesDeLaCase(caseCourante: Case, xCourant: number, yCourant: number): Case {
         // Cas une case en bas contient une lettre.
         if (this.peutAccueillirLettre(this.obtenirCase(xCourant + 1, yCourant))) {
             caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
