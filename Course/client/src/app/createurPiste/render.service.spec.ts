@@ -40,12 +40,12 @@ describe('RenderService', () => {
     expect(renderService).toBeTruthy();
   });
 
-  it('la zone de piste doit être initialement vide', () => {
+  it('La zone d\'édition est initialement vide.', () => {
     const length = renderService.obtenirScene().children.length;
     expect(length).toEqual(2);
   });
 
-  it('il faut clicker sur le button gauche pour la création de point', () => {
+  it('L\'ajout d\'un point se fait avec le bouton gauche de la souris.', () => {
     fakeClickEvent = new MouseEvent('mouseup', {
       bubbles: true,
       cancelable: true,
@@ -69,7 +69,7 @@ describe('RenderService', () => {
       expect(longueurVecteurScene).toEqual(3);
   });
 
-  it('lobjet ajouté au vecteur de points est de type points', () => {
+  it('L\'objet ajouté au vecteur de points est de type point', () => {
     fakeClickEvent = new MouseEvent('mouseup', {
       bubbles: true,
       cancelable: true,
