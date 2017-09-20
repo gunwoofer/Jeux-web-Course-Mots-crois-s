@@ -41,7 +41,7 @@ describe('RenderService', () => {
   });
 
   it('La zone d\'édition est initialement vide.', () => {
-    const length = renderService.obtenirScene().children.length;
+    const length = renderService.scene.children.length;
     expect(length).toEqual(2);
   });
 
@@ -63,8 +63,8 @@ describe('RenderService', () => {
         view: window,
       });
       renderService.onMouseClick(fakeClickEvent);
-      const longueurVecteurPoints = renderService.retournerListePoints().length;
-      const longueurVecteurScene = renderService.obtenirScene().children.length;
+      const longueurVecteurPoints = renderService.points.length;
+      const longueurVecteurScene = renderService.scene.children.length;
       expect(longueurVecteurPoints).toEqual(1);
       expect(longueurVecteurScene).toEqual(3);
   });
@@ -77,7 +77,7 @@ describe('RenderService', () => {
     });
     const compteur = 0;
     renderService.onMouseClick(fakeClickEvent);
-    const pointListe = renderService.retournerListePoints();
+    const pointListe = renderService.points;
     const typeObjet = pointListe[compteur].isPoints;
     expect(typeObjet).toEqual(true);
   });
@@ -93,8 +93,8 @@ describe('RenderService', () => {
       });
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
-    const longueurVecteurPoints = renderService.retournerListePoints().length;
-    const longueurVecteurScene = renderService.obtenirScene().children.length;
+    const longueurVecteurPoints = renderService.points.length;
+    const longueurVecteurScene = renderService.scene.children.length;
     const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
     const longueurVecteurLignes = vecteurLignes.length;
     let nombreDeLignes = 0;
@@ -141,13 +141,34 @@ describe('RenderService', () => {
     for (let i = 0; i <= 3; i++) {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
-    const longueurVecteurPoints = renderService.retournerListePoints().length;
-    const premierPointX = renderService.retournerListePoints()[0].clientX;
-    const dernierPointX = renderService.retournerListePoints()[longueurVecteurPoints - 1].clientX;
-    const premierPointY = renderService.retournerListePoints()[0].clientY;
-    const dernierPointY = renderService.retournerListePoints()[longueurVecteurPoints - 1].clientY;
+    const longueurVecteurPoints = renderService.points.length;
+    const premierPointX = renderService.points[0].clientX;
+    const dernierPointX = renderService.points[longueurVecteurPoints - 1].clientX;
+    const premierPointY = renderService.points[0].clientY;
+    const dernierPointY = renderService.points[longueurVecteurPoints - 1].clientY;
     expect(longueurVecteurPoints).toEqual(4);
     expect(premierPointX).toEqual(dernierPointX);
     expect(premierPointY).toEqual(dernierPointY);
+  });
+
+  it('Le retrait du dernier point ajouté se fait avec le bouton droit de la souris.', () => {
+    fakeClickEventArray[0] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 500,
+      clientY: 200
+    });
+    fakeClickEventArray[1] = new MouseEvent('contextmenu', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 500,
+      clientY: 200
+    });
+    renderService.onMouseClick(fakeClickEventArray[0]);
+    expect(renderService.points.length).toEqual(1);
+    renderService.rightClick(fakeClickEventArray[1]);
+    expect(renderService.points.length).toEqual(0);
   });
 });
