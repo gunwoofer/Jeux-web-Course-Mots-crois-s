@@ -40,7 +40,7 @@ describe('RenderService', () => {
     fixture.detectChanges();
   }));
 
-  it('should be created', () => {
+ it('should be created', () => {
     expect(renderService).toBeTruthy();
   });
 
@@ -147,5 +147,33 @@ describe('RenderService', () => {
     }
     const longueurVecteurPoints = renderService.retournerListePoints().length;
     expect(longueurVecteurPoints).toEqual(4);
+  });
+  it ('Il ne peut y avoir un angle de 45 degres ou moins.', () => {
+      fakeClickEventArray[0] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 758,
+      clientY: 266
+    });
+      fakeClickEventArray[1] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 784,
+      clientY: 170
+    });
+      fakeClickEventArray[2] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 813,
+      clientY: 405
+    });
+    for (let i = 0; i <= 3; i++) {
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    const longueurVecteurPoints = renderService.retournerListePoints().length;
+    expect(longueurVecteurPoints).toEqual(true);
   });
 });

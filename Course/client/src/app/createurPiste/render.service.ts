@@ -184,6 +184,7 @@ export class RenderService {
   }
 
 
+
   private nombreAnglesMoins45() {
     let nbAnglesMoins45 = 0;
     for (let i = 1;  i < this.points.length - 1 ; i++) {
@@ -199,7 +200,7 @@ export class RenderService {
     this.nbAnglesPlusPetit45 = nbAnglesMoins45;
   }
 
-  private estUnAngleMoins45(numeroPoint: number) {
+  public estUnAngleMoins45(numeroPoint: number) {
     if (this.points.length > 1) {
       const angle = this.calculerAngle(numeroPoint);
       if (angle <= 0.785398163) {
@@ -213,7 +214,6 @@ export class RenderService {
   public calculerAngle(numeroPoint: number) {
 
    if (this.points.length > 1 ) {
-
       const point1 = this.points[numeroPoint === 0 ? this.compteur - 1 : numeroPoint - 1];
       const point2 = this.points[numeroPoint];
       const point3 = this.points[numeroPoint + 1];
