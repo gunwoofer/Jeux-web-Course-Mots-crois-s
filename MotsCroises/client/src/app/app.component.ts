@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BasicService } from './basic.service';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -17,6 +19,10 @@ export class AppComponent implements OnInit {
   public grillePersistenteFacile = '';
   public grillePersistenteMoyen = '';
   public grillePersistenteDifficile = '';
+  public niveaux: string[] = ['facile', 'moyen', 'difficile'];
+  public types: string[] = ['classique', 'dynamique'];
+  public typePartie = 'classique';
+  public niveauPartie = 'normal';
 
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
@@ -60,5 +66,13 @@ export class AppComponent implements OnInit {
     }
     grilleEnTableau += '</table>';
     return grilleEnTableau;
+  }
+
+  public ajouterTypePartie(typePartie: string): void {
+    this.typePartie = typePartie;
+  }
+
+  public ajouterNiveauPartie(niveauPartie: string): void {
+    this.niveauPartie = niveauPartie;
   }
 }
