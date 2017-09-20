@@ -25,6 +25,18 @@ describe('GenerateurDeGrilleService', () => {
         }
     });
 
+    it('Les emplacements mots sur chaque ligne ou chaque colonne sont différentes.', () => {
+        const generateurDeGrilleService = new GenerateurDeGrilleService();
+        const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
+
+        let aTrouveDoublonSurMemeLigneOuMemeColonne = false;
+
+        for (const emplacementMotAVerifier of grille.obtenirPositionsEmplacementsVides()) {
+            aTrouveDoublonSurMemeLigneOuMemeColonne = !grille.emplacementMotDifferent(emplacementMotAVerifier);
+        }
+        assert(!aTrouveDoublonSurMemeLigneOuMemeColonne);
+    });
+
     it('Le niveau de difficulté d une grille correspond au niveau de difficulte des paires mot:indice qui la composent', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grilleFacile = generateurDeGrilleService.genererGrille(Niveau.facile);

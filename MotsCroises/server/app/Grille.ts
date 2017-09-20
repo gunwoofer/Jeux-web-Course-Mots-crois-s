@@ -107,7 +107,26 @@ export class Grille {
 
 
     public ajouterEmplacementMot(emplacementMot: EmplacementMot): void {
-        this.emplacementMots.push(emplacementMot);
+        if (this.emplacementMotDifferent(emplacementMot)) {
+            this.emplacementMots.push(emplacementMot);
+        }
+    }
+
+    public emplacementMotDifferent(emplacementMotAVerifier: EmplacementMot): boolean {
+        let compteur = 0;
+
+        for (const emplacementMotCourant of this.obtenirPositionsEmplacementsVides()) {
+            if (emplacementMotCourant.obtenirCaseDebut() === emplacementMotAVerifier.obtenirCaseDebut() &&
+                emplacementMotCourant.obtenirCaseFin() === emplacementMotAVerifier.obtenirCaseFin()) {
+                compteur++;
+            }
+        }
+
+        if (compteur >= 2) {
+            return false;
+        }
+
+        return true;
     }
 
     public existeEmplacementMot(xDepart: number, yDepart: number, xFin: number, yFin: number): boolean {
