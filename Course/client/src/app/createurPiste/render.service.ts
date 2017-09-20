@@ -50,6 +50,13 @@ export class RenderService {
     premier : 'purple'
   };
 
+  public obtenirLigneDeDepart () {
+    if (this.pointsLine.geometry.attributes.position.array.length > 0) {
+      return this.pointsLine.geometry.attributes.position.array[0];
+    } else {
+      return null;
+    }
+  }
 
   public obtenirIntersection(event) {
     const rayCaster = new THREE.Raycaster();

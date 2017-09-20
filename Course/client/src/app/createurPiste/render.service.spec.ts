@@ -226,4 +226,20 @@ describe('RenderService', () => {
       expect(renderService.points[i].material.color.getHex()).toEqual(0x008000);
     }
   });
+
+  it('Le premier segment est celui sur lequel se trouve la zone de départ.', () => {
+    for (let i = 0; i <= 4; i++) {
+      fakeClickEventArray[i] = new MouseEvent('mouseup', {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        clientX: 758 - (i * 50),
+        clientY: 266 + (i * 20)
+      });
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
+    const premierSegment = vecteurLignes[0];
+    expect(renderService.obtenirLigneDeDepart()).toEqual(premierSegment);
+  });
 });
