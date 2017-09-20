@@ -209,4 +209,21 @@ describe('RenderService', () => {
     expect(angle).toBeLessThanOrEqual(0.785398163);
     expect(renderService.nbAnglesPlusPetit45).toEqual(1);
   });
+
+  it('Le premier point devra être identifié avec un contour particulier.', () => {
+    for (let i = 0; i <= 4; i++) {
+      fakeClickEventArray[i] = new MouseEvent('mouseup', {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        clientX: 758 - (i * 50),
+        clientY: 266 + (i * 20)
+      });
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    expect(renderService.points[0].material.color.getHex()).toEqual(0x800080);
+    for (let i = 1; i <= 4; i++) {
+      expect(renderService.points[i].material.color.getHex()).toEqual(0x008000);
+    }
+  });
 });
