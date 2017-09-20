@@ -14,12 +14,6 @@ describe('RenderService', () => {
   let fakeClickEvent: MouseEvent;
   const fakeClickEventArray: MouseEvent[] = [];
 
-  /*const fakeClickEvent = new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-    });*/
-
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [RenderService],
@@ -185,6 +179,7 @@ describe('RenderService', () => {
     expect(premierPointY).toEqual(renderService.points[0].position.y);
     expect(renderService.points[2]).toBeUndefined();
   });
+
   it ('Il ne peut y avoir un angle de 45 degres ou moins.', () => {
       fakeClickEventArray[0] = new MouseEvent('mouseup', {
       bubbles: true,
@@ -207,10 +202,11 @@ describe('RenderService', () => {
       clientX: 813,
       clientY: 405
     });
-    for (let i = 0; i <= 3; i++) {
+    for (let i = 0; i <= 2; i++) {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
-    const longueurVecteurPoints = renderService.retournerListePoints().length;
-    expect(longueurVecteurPoints).toEqual(true);
+    const angle = renderService.calculerAngle(1);
+    expect(angle).toBeLessThanOrEqual(0.785398163);
+    expect(renderService.nbAnglesPlusPetit45).toEqual(1);
   });
 });

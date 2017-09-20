@@ -39,7 +39,7 @@ export class RenderService {
   private courbe;
 
   private nbSegmentsCroises = 0;
-  private nbAnglesPlusPetit45 = 0;
+  public nbAnglesPlusPetit45 = 0;
   private nbSegmentsTropProche = 0;
 
 
@@ -185,7 +185,7 @@ export class RenderService {
 
 
 
-  private nombreAnglesMoins45() {
+  public nombreAnglesMoins45() {
     let nbAnglesMoins45 = 0;
     for (let i = 1;  i < this.points.length - 1 ; i++) {
       if (this.estUnAngleMoins45(i)) {
