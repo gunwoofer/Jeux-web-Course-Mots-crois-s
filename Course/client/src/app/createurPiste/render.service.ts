@@ -90,22 +90,28 @@ export class RenderService {
   // Dessin des points
   public dessinerPoint(event) {
     console.log('dessinPOint');
-    let objet, point;
+    let objet, point, distance;
     if (!this.dessinTermine) {
       objet = this.obtenirIntersection(event);
       point = this.creerPoint(objet.point, 'black');
-      point.material.normalColor = 'black';
-      point.material.status = 'normal';
-      if (this.points.length > 0) {
-        point.material.color.set('green');
-        point.material.normalColor = 'green';
-        const distance = point.position.distanceTo(this.points[0].position);
-        if (distance >= 0 && distance < 10) {
+      point.material.color.set('green');
+      point.material.normalColor = 'green';
+      if (this.points.length === 0) {
+        point.material.normalColor = 'black';
+        point.material.status = 'normal';
+      }else{
+        distance = point.position.distanceTo(this.points[0].position);
+      }
+      if (distance >= 0 && distance < 10) {
+        if (this.points.length > 2){
           point.position.copy(this.points[0].position);
           this.dessinTermine = true;
+        }else {
+          alert('une piste a trois points minimum');
+          return ;
         }
-        //this.compteur++;
       }
+
       if (!this.dessinTermine ) {
         this.scene.add(point);
       }
@@ -158,6 +164,7 @@ export class RenderService {
     this.dessinTermine = false;
     this.scene.remove(this.points[this.points.length - 1]);
     this.points.pop();
+    this.actualiserDonnees();
     this.redessinerCourbe();
     this.retirerAncienPointLine();
     if (this.compteur >= 1) {
