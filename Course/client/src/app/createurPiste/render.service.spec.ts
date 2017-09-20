@@ -14,6 +14,9 @@ describe('RenderService', () => {
   let fakeClickEvent: MouseEvent;
   let fakeClickEventA: MouseEvent;
   let fakeClickEventB: MouseEvent;
+  let fakeClickEventC: MouseEvent;
+  let fakeClickEventD: MouseEvent;
+  let fakeClickEventArray: MouseEvent[] = [];
 
   /*const fakeClickEvent = new MouseEvent('mouseup', {
       bubbles: true,
@@ -84,22 +87,16 @@ describe('RenderService', () => {
   });
 
   it('Chaque point ajouté se connecte au précédent et créer un segment de piste.', () => {
-    fakeClickEventA = new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-      clientX: 200,
-      clientY: 200
-    });
-    fakeClickEventB = new MouseEvent('mouseup', {
-      bubbles: true,
-      cancelable: true,
-      view: window,
-      clientX: 400,
-      clientY: 100
-    });
-    renderService.onMouseClick(fakeClickEventA);
-    renderService.onMouseClick(fakeClickEventB);
+    for (let i = 0; i <= 1; i++) {
+      fakeClickEventArray[i] = new MouseEvent('mouseup', {
+        bubbles: true,
+        cancelable: true,
+        view: window,
+        clientX: 200 + 200 * i,
+        clientY: 200 - 100 * i
+      });
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
     const longueurVecteurPoints = renderService.retournerListePoints().length;
     const longueurVecteurScene = renderService.obtenirScene().children.length;
     const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
@@ -116,9 +113,39 @@ describe('RenderService', () => {
     expect(nombreDeLignes).toEqual(1);
   });
 
-
-
-
-
+  it ('Pour clore la boucle, un point doit être ajouté sur le premier.', () => {
+    fakeClickEventArray[0] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 200,
+      clientY: 200
+    });
+    fakeClickEventArray[1] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 400,
+      clientY: 100
+    });
+    fakeClickEventArray[2] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 500,
+      clientY: 200
+    });
+    fakeClickEventArray[3] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 200,
+      clientY: 200
+    });
+    for (let i = 0; i <= 3; i++) {
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    const longueurVecteurPoints = renderService.retournerListePoints().length;
+    expect(longueurVecteurPoints).toEqual(4);
+  });
 });
-

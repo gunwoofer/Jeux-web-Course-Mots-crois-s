@@ -99,11 +99,11 @@ export class RenderService {
       if (this.points.length === 0) {
         point.material.normalColor = 'black';
         point.material.status = 'normal';
-      }else{
+      }else {
         distance = point.position.distanceTo(this.points[0].position);
       }
       if (distance >= 0 && distance < 10) {
-        if (this.points.length > 2){
+        if (this.points.length > 2) {
           point.position.copy(this.points[0].position);
           this.dessinTermine = true;
         }else {
