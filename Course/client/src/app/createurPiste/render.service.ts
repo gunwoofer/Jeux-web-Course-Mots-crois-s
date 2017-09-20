@@ -46,7 +46,8 @@ export class RenderService {
   private listeErreurCouleur = {
     normal : 'green',
     angle45 : 'red',
-    proche : 'orange'
+    proche : 'orange',
+    premier : 'purple'
   };
 
 
@@ -83,16 +84,13 @@ export class RenderService {
 
   // Dessin des points
   public dessinerPoint(event) {
-    console.log('dessinPOint');
+    console.log('dessinPoint');
     let objet, point, distance = 100;
     if (!this.dessinTermine) {
       objet = this.obtenirIntersection(event);
       point = this.creerPoint(objet.point, 'black');
-      point.material.color.set('green');
-      point.material.normalColor = 'green';
       if (this.points.length === 0) {
-        point.material.normalColor = 'black';
-        point.material.status = 'normal';
+        point.material.status = 'premier';
       }else {
         distance = point.position.distanceTo(this.points[0].position);
         if (distance >= 0 && distance < 10) {
@@ -143,8 +141,8 @@ export class RenderService {
   }
 
   private restaurerStatusPoints() {
-    for (const point of this.points){
-      point.material.status = 'normal';
+    for (let i = 1; i < this.points.length; i++) {
+      this.points[i].material.status = 'normal';
     }
   }
 
