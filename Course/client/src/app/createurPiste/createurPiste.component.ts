@@ -36,7 +36,7 @@ export class CreateurPiste implements AfterViewInit {
   }
 
   private oncontextmenu() {
-    this.renderService.rightClick(event);
+    this.renderService.rightClick();
     return false;
   }
 

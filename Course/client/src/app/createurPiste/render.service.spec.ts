@@ -142,10 +142,10 @@ describe('RenderService', () => {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
     const longueurVecteurPoints = renderService.points.length;
-    const premierPointX = renderService.points[0].clientX;
-    const dernierPointX = renderService.points[longueurVecteurPoints - 1].clientX;
-    const premierPointY = renderService.points[0].clientY;
-    const dernierPointY = renderService.points[longueurVecteurPoints - 1].clientY;
+    const premierPointX = renderService.points[0].position.x;
+    const dernierPointX = renderService.points[longueurVecteurPoints - 1].position.x;
+    const premierPointY = renderService.points[0].position.y;
+    const dernierPointY = renderService.points[longueurVecteurPoints - 1].position.y;
     expect(longueurVecteurPoints).toEqual(4);
     expect(premierPointX).toEqual(dernierPointX);
     expect(premierPointY).toEqual(dernierPointY);
@@ -159,16 +159,30 @@ describe('RenderService', () => {
       clientX: 500,
       clientY: 200
     });
-    fakeClickEventArray[1] = new MouseEvent('contextmenu', {
+    fakeClickEventArray[1] = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window,
-      clientX: 500,
+      clientX: 700,
       clientY: 200
     });
+    fakeClickEventArray[2] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 800,
+      clientY: 300
+    });
     renderService.onMouseClick(fakeClickEventArray[0]);
-    expect(renderService.points.length).toEqual(1);
-    renderService.rightClick(fakeClickEventArray[1]);
-    expect(renderService.points.length).toEqual(0);
+    renderService.onMouseClick(fakeClickEventArray[1]);
+    renderService.onMouseClick(fakeClickEventArray[2]);
+    const premierPointX = renderService.points[0].position.x;
+    const premierPointY = renderService.points[0].position.y;
+    expect(renderService.points.length).toEqual(3);
+    renderService.rightClick();
+    expect(renderService.points.length).toEqual(2);
+    expect(premierPointX).toEqual(renderService.points[0].position.x);
+    expect(premierPointY).toEqual(renderService.points[0].position.y);
+    expect(renderService.points[2]).toBeUndefined();
   });
 });

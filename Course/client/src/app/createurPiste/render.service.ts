@@ -394,7 +394,7 @@ export class RenderService {
     this.dragMode = false;
   }
 
-  public rightClick(event) {
+  public rightClick() {
     this.supprimerPoint();
     this.dragMode = false;
   }
