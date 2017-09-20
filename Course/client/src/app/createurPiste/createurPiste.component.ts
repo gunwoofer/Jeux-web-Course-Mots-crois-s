@@ -16,7 +16,6 @@ export class CreateurPiste implements AfterViewInit {
   }
 
   private points: THREE.Points[];
-  private lignes: THREE.Line[];
   private affiche: boolean;
   private message;
 
@@ -37,7 +36,7 @@ export class CreateurPiste implements AfterViewInit {
   }
 
   private oncontextmenu() {
-    this.renderService.rightClick(event);
+    this.renderService.rightClick();
     return false;
   }
 
@@ -59,7 +58,7 @@ export class CreateurPiste implements AfterViewInit {
   }
 
   private listePoints() {
-    return this.lignes = this.renderService.retournerListePoints();
+    return this.points = this.renderService.points;
   }
 
   private condition() {

@@ -11,10 +11,10 @@ export class RenderService {
   private cube: THREE.Mesh;
   private plane: THREE.Mesh;
   private renderer: THREE.WebGLRenderer;
-  private scene: THREE.Scene;
+  public scene: THREE.Scene;
   private fieldOfView = 70;
   private mouse: THREE.Vector2;
-  private points: any [] = []; // tableau de points
+  public points: any [] = []; // tableau de points
 
   private pointXVecteur: number[] = [];
   private pointYVecteur: number[] = [];
@@ -49,6 +49,19 @@ export class RenderService {
     proche : 'orange'
   };
 
+
+  public obtenirIntersection(event) {
+    const rayCaster = new THREE.Raycaster();
+    this.mouse = this.obtenirCoordonnees(event);
+    rayCaster.setFromCamera(this.mouse, this.camera);
+    const intersection = rayCaster.intersectObjects(this.scene.children);
+    return intersection[0];
+  }
+
+
+  /**********************************************************
+                     Gestion Point
+   *********************************************************/
   // Creation d'un point
   public creerPoint(coordonnees: THREE.Vector3, couleur: string) {
     const geometrie = new THREE.Geometry();
@@ -56,9 +69,9 @@ export class RenderService {
       new THREE.Vector3(0, 0, 0)
     );
     const materiel = new THREE.PointsMaterial({
-        size: 5,
-        color: couleur,
-        opacity: 1
+      size: 5,
+      color: couleur,
+      opacity: 1
     });
     const point = new THREE.Points(geometrie, materiel);
     point.position.copy(coordonnees);
@@ -68,29 +81,10 @@ export class RenderService {
     return point;
   }
 
-  // Creation d'un plan
-  public creerPlan() {
-    const geometry = new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight);
-    const planeMaterial = new THREE.MeshBasicMaterial({
-      visible: false
-    });
-    this.plane = new THREE.Mesh(geometry, planeMaterial);
-    this.scene.add(this.plane);
-  }
-
-  public obtenirIntersection(event) {
-    const rayCaster = new THREE.Raycaster();
-    let intersection: any[] = [];
-    this.mouse = this.obtenirCoordonnees(event);
-    rayCaster.setFromCamera(this.mouse, this.camera);
-    intersection = rayCaster.intersectObjects(this.scene.children);
-    return intersection[0];
-  }
-
   // Dessin des points
   public dessinerPoint(event) {
     console.log('dessinPOint');
-    let objet, point, distance;
+    let objet, point, distance = 100;
     if (!this.dessinTermine) {
       objet = this.obtenirIntersection(event);
       point = this.creerPoint(objet.point, 'black');
@@ -101,29 +95,56 @@ export class RenderService {
         point.material.status = 'normal';
       }else {
         distance = point.position.distanceTo(this.points[0].position);
-      }
-      if (distance >= 0 && distance < 10) {
-        if (this.points.length > 2) {
-          point.position.copy(this.points[0].position);
-          this.dessinTermine = true;
-        }else {
-          alert('une piste a trois points minimum');
-          return ;
+        if (distance >= 0 && distance < 10) {
+          if (this.points.length > 2) {
+            point.position.copy(this.points[0].position);
+            this.dessinTermine = true;
+          }else {
+            alert('une piste a trois points minimum');
+            return ;
+          }
         }
       }
-
-      if (!this.dessinTermine ) {
-        this.scene.add(point);
-      }
-      this.ajouterPointLine(point.position);
-      this.points.push(point);
-      this.compteur++;
+      this.ajouterPoint(point);
       this.actualiserDonnees();
       this.redessinerCourbe();
       this.render();
-
     } else {
         alert('Dessin termine');
+    }
+  }
+
+  public ajouterPoint(point) {
+    if (!this.dessinTermine ) {
+      this.scene.add(point);
+    }
+    this.ajouterPointLine(point.position);
+    this.points.push(point);
+    this.compteur++;
+  }
+
+  public supprimerPoint() {
+    this.dessinTermine = false;
+    this.scene.remove(this.points[this.points.length - 1]);
+    this.points.pop();
+    this.actualiserDonnees();
+    this.redessinerCourbe();
+    this.retirerAncienPointLine();
+    if (this.compteur >= 1) {
+      this.compteur--;
+    }
+  }
+
+  private actualiserCouleurPoints() {
+    for (const point of this.points){
+      point.material.color.set(this.listeErreurCouleur[point.material.status]);
+      point.material.size = 5 ;
+    }
+  }
+
+  private restaurerStatusPoints() {
+    for (const point of this.points){
+      point.material.status = 'normal';
     }
   }
 
@@ -160,28 +181,9 @@ export class RenderService {
     return message;
   }
 
-  public supprimerPoint() {
-    this.dessinTermine = false;
-    this.scene.remove(this.points[this.points.length - 1]);
-    this.points.pop();
-    this.actualiserDonnees();
-    this.redessinerCourbe();
-    this.retirerAncienPointLine();
-    if (this.compteur >= 1) {
-      this.compteur--;
-    }
-  }
-
-  public obtenirCoordonnees(event) {
-
-    event.preventDefault();
-    const rectangle = this.renderer.domElement.getBoundingClientRect();
-    const vector = new THREE.Vector2();
-    vector.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
-    vector.y = - ((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
-    return new THREE.Vector2(vector.x, vector.y);
-
-  }
+  /**********************************************************
+                      Gestion angles
+   *********************************************************/
 
 
 
@@ -229,14 +231,42 @@ export class RenderService {
   }
 
 
+
+  /**********************************************************
+                     Fonctions initialisation
+   *********************************************************/
   public creerScene() {
     /* Scene */
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xFFFFFF);
     /* Camera */
-    const aspectRatio = this.getAspectRatio();
-    this.camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 10000);
+    this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 10000);
     this.camera.position.z = 100;
+  }
+
+  // Creation d'un plan
+  public creerPlan() {
+    const geometry = new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight);
+    const planeMaterial = new THREE.MeshBasicMaterial({
+      visible: false
+    });
+    this.plane = new THREE.Mesh(geometry, planeMaterial);
+    this.scene.add(this.plane);
+  }
+
+  public initialize(container: HTMLDivElement) {
+    this.container = container;
+    this.creerScene();
+    this.creerPlan();
+    this.initStats();
+    this.creerLignePoints();
+    this.startRenderingLoop();
+  }
+
+  public initStats() {
+    this.stats = new Stats();
+    this.stats.dom.style.position = 'absolute';
+    this.container.appendChild(this.stats.dom);
   }
 
   public getAspectRatio() {
@@ -247,7 +277,6 @@ export class RenderService {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-
     this.container.appendChild(this.renderer.domElement);
     this.render();
   }
@@ -258,22 +287,13 @@ export class RenderService {
     this.stats.update();
   }
 
-  public initStats() {
-    this.stats = new Stats();
-    this.stats.dom.style.position = 'absolute';
-    this.container.appendChild(this.stats.dom);
-  }
-
-  public retournerListePoints() {
-      return this.points;
-  }
-
-  public retourneetatDessin() {
-    if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {
-      return this.dessinTermine;
-    }else {
-      return false;
-    }
+  public obtenirCoordonnees(event) {
+    event.preventDefault();
+    const rectangle = this.renderer.domElement.getBoundingClientRect();
+    const vector = new THREE.Vector2();
+    vector.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
+    vector.y = - ((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
+    return new THREE.Vector2(vector.x, vector.y);
   }
 
   public onResize() {
@@ -282,13 +302,13 @@ export class RenderService {
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
   }
 
-  public initialize(container: HTMLDivElement) {
-    this.container = container;
-    this.creerScene();
-    this.creerPlan();
-    this.initStats();
-    this.creerLignePoints();
-    this.startRenderingLoop();
+
+  public retourneetatDessin() {
+    if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {
+      return this.dessinTermine;
+    }else {
+      return false;
+    }
   }
 
   /**********************************************************
@@ -374,7 +394,7 @@ export class RenderService {
     this.dragMode = false;
   }
 
-  public rightClick(event) {
+  public rightClick() {
     this.supprimerPoint();
     this.dragMode = false;
   }
@@ -431,20 +451,8 @@ export class RenderService {
     point.material.size = 11;
   }
 
-  private actualiserCouleurPoints() {
-    for (const point of this.points){
-      point.material.color.set(this.listeErreurCouleur[point.material.status]);
-      point.material.size = 5 ;
-    }
-  }
 
-  private restaurerStatusPoints() {
-    for (const point of this.points){
-      point.material.status = 'normal';
-    }
-  }
-
-  private actualiserDonnees(){
+  private actualiserDonnees() {
     this.restaurerStatusPoints();
     this.nombreLignesCroisees();
     this.nombreSegmentsTropCourts();
@@ -534,10 +542,6 @@ export class RenderService {
     if (this.points.length > 2) {
       this.dessinerCourbe();
     }
-  }
-
-  public obtenirScene() {
-    return this.scene;
   }
 }
 

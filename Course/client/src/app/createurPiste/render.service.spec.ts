@@ -12,11 +12,7 @@ describe('RenderService', () => {
   let fixture: ComponentFixture<CreateurPiste>;
   let renderService: RenderService;
   let fakeClickEvent: MouseEvent;
-  let fakeClickEventA: MouseEvent;
-  let fakeClickEventB: MouseEvent;
-  let fakeClickEventC: MouseEvent;
-  let fakeClickEventD: MouseEvent;
-  let fakeClickEventArray: MouseEvent[] = [];
+  const fakeClickEventArray: MouseEvent[] = [];
 
   /*const fakeClickEvent = new MouseEvent('mouseup', {
       bubbles: true,
@@ -44,12 +40,12 @@ describe('RenderService', () => {
     expect(renderService).toBeTruthy();
   });
 
-  it('la zone de piste doit être initialement vide', () => {
-    const length = renderService.obtenirScene().children.length;
+  it('La zone d\'édition est initialement vide.', () => {
+    const length = renderService.scene.children.length;
     expect(length).toEqual(2);
   });
 
-  it('il faut clicker sur le button gauche pour la création de point', () => {
+  it('L\'ajout d\'un point se fait avec le bouton gauche de la souris.', () => {
     fakeClickEvent = new MouseEvent('mouseup', {
       bubbles: true,
       cancelable: true,
@@ -67,13 +63,13 @@ describe('RenderService', () => {
         view: window,
       });
       renderService.onMouseClick(fakeClickEvent);
-      const longueurVecteurPoints = renderService.retournerListePoints().length;
-      const longueurVecteurScene = renderService.obtenirScene().children.length;
+      const longueurVecteurPoints = renderService.points.length;
+      const longueurVecteurScene = renderService.scene.children.length;
       expect(longueurVecteurPoints).toEqual(1);
       expect(longueurVecteurScene).toEqual(3);
   });
 
-  it('lobjet ajouté au vecteur de points est de type points', () => {
+  it('L\'objet ajouté au vecteur de points est de type point', () => {
     fakeClickEvent = new MouseEvent('mouseup', {
       bubbles: true,
       cancelable: true,
@@ -81,7 +77,7 @@ describe('RenderService', () => {
     });
     const compteur = 0;
     renderService.onMouseClick(fakeClickEvent);
-    const pointListe = renderService.retournerListePoints();
+    const pointListe = renderService.points;
     const typeObjet = pointListe[compteur].isPoints;
     expect(typeObjet).toEqual(true);
   });
@@ -97,8 +93,8 @@ describe('RenderService', () => {
       });
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
-    const longueurVecteurPoints = renderService.retournerListePoints().length;
-    const longueurVecteurScene = renderService.obtenirScene().children.length;
+    const longueurVecteurPoints = renderService.points.length;
+    const longueurVecteurScene = renderService.scene.children.length;
     const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
     const longueurVecteurLignes = vecteurLignes.length;
     let nombreDeLignes = 0;
@@ -145,8 +141,49 @@ describe('RenderService', () => {
     for (let i = 0; i <= 3; i++) {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
-    const longueurVecteurPoints = renderService.retournerListePoints().length;
+    const longueurVecteurPoints = renderService.points.length;
+    const premierPointX = renderService.points[0].position.x;
+    const dernierPointX = renderService.points[longueurVecteurPoints - 1].position.x;
+    const premierPointY = renderService.points[0].position.y;
+    const dernierPointY = renderService.points[longueurVecteurPoints - 1].position.y;
     expect(longueurVecteurPoints).toEqual(4);
+    expect(premierPointX).toEqual(dernierPointX);
+    expect(premierPointY).toEqual(dernierPointY);
+  });
+
+  it('Le retrait du dernier point ajouté se fait avec le bouton droit de la souris.', () => {
+    fakeClickEventArray[0] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 500,
+      clientY: 200
+    });
+    fakeClickEventArray[1] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 700,
+      clientY: 200
+    });
+    fakeClickEventArray[2] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 800,
+      clientY: 300
+    });
+    renderService.onMouseClick(fakeClickEventArray[0]);
+    renderService.onMouseClick(fakeClickEventArray[1]);
+    renderService.onMouseClick(fakeClickEventArray[2]);
+    const premierPointX = renderService.points[0].position.x;
+    const premierPointY = renderService.points[0].position.y;
+    expect(renderService.points.length).toEqual(3);
+    renderService.rightClick();
+    expect(renderService.points.length).toEqual(2);
+    expect(premierPointX).toEqual(renderService.points[0].position.x);
+    expect(premierPointY).toEqual(renderService.points[0].position.y);
+    expect(renderService.points[2]).toBeUndefined();
   });
   it ('Il ne peut y avoir un angle de 45 degres ou moins.', () => {
       fakeClickEventArray[0] = new MouseEvent('mouseup', {
