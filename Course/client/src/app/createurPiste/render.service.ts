@@ -35,7 +35,7 @@ export class RenderService {
   private pointHover;
   private objectDragged;
 
-  private pointsLine;
+  public pointsLine;
   private courbe;
 
   private nbSegmentsCroises = 0;
