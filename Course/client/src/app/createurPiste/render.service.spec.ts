@@ -12,11 +12,7 @@ describe('RenderService', () => {
   let fixture: ComponentFixture<CreateurPiste>;
   let renderService: RenderService;
   let fakeClickEvent: MouseEvent;
-  let fakeClickEventA: MouseEvent;
-  let fakeClickEventB: MouseEvent;
-  let fakeClickEventC: MouseEvent;
-  let fakeClickEventD: MouseEvent;
-  let fakeClickEventArray: MouseEvent[] = [];
+  const fakeClickEventArray: MouseEvent[] = [];
 
   /*const fakeClickEvent = new MouseEvent('mouseup', {
       bubbles: true,
@@ -146,6 +142,12 @@ describe('RenderService', () => {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
     const longueurVecteurPoints = renderService.retournerListePoints().length;
+    const premierPointX = renderService.retournerListePoints()[0].clientX;
+    const dernierPointX = renderService.retournerListePoints()[longueurVecteurPoints - 1].clientX;
+    const premierPointY = renderService.retournerListePoints()[0].clientY;
+    const dernierPointY = renderService.retournerListePoints()[longueurVecteurPoints - 1].clientY;
     expect(longueurVecteurPoints).toEqual(4);
+    expect(premierPointX).toEqual(dernierPointX);
+    expect(premierPointY).toEqual(dernierPointY);
   });
 });
