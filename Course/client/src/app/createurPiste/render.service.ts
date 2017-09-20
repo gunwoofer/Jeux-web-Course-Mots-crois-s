@@ -24,7 +24,7 @@ export class RenderService {
   private farClippingPane = 1000;
   public rotationSpeedX = 0.005;
   public rotationSpeedY = 0.01;
-  private compteur = 0;
+  public compteur = 0;
   private normeSegment = 0;
 
 

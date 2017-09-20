@@ -91,16 +91,10 @@ describe('RenderService', () => {
     const longueurVecteurScene = renderService.scene.children.length;
     const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
     const longueurVecteurLignes = vecteurLignes.length;
-    let nombreDeLignes = 0;
-    for ( nombreDeLignes < longueurVecteurLignes; nombreDeLignes++; ) {
-      if (vecteurLignes[nombreDeLignes] === 0) {
-        break;
-      }
-    }
     expect(longueurVecteurPoints).toEqual(2);
     expect(longueurVecteurScene).toEqual(4);
     expect(longueurVecteurLignes).toEqual(1500);
-    expect(nombreDeLignes).toEqual(1);
+    expect(renderService.compteur - 1).toEqual(1);
   });
 
   it ('Pour clore la boucle, un point doit être ajouté sur le premier.', () => {
@@ -233,7 +227,7 @@ describe('RenderService', () => {
         bubbles: true,
         cancelable: true,
         view: window,
-        clientX: 758 - (i * 50),
+        clientX: 458 - (i * 100),
         clientY: 266 + (i * 20)
       });
       renderService.onMouseClick(fakeClickEventArray[i]);
@@ -241,5 +235,6 @@ describe('RenderService', () => {
     const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
     const premierSegment = vecteurLignes[0];
     expect(renderService.obtenirLigneDeDepart()).toEqual(premierSegment);
+    expect(renderService.compteur - 1).toEqual(4);
   });
 });
