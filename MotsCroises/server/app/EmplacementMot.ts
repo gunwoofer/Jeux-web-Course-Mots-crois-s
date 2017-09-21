@@ -23,6 +23,10 @@ export class EmplacementMot {
         return this.cases;
     }
 
+    public obtenirCase(i:number): Case {
+        return this.cases[i];
+    }
+
     public obtenirCaseDebut(): Case {
         return this.caseDebut;
     }

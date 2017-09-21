@@ -3,7 +3,9 @@ import { Grille, Niveau, DIMENSION_LIGNE_COLONNE, Position } from './Grille';
 import { Mot, Rarete } from './Mot';
 import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';
+import { Contrainte } from './Contrainte';
 import { Indice, DifficulteDefinition } from './Indice';
+import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
 
 export const lettresDeAlphabet = 'abcdefghijklmnopqrstuvwxyz';
 export const nombreLettresDeAlphabet = 26;
@@ -248,6 +250,77 @@ export class GenerateurDeGrilleService {
             }
         }
         return grillePlein;
+    }
+
+    private remplirGrilleVB(niveau: Niveau): Grille {
+        let sortirBoucle: boolean;
+        let motAjoute: boolean
+        let GrillePlein = this.motCroiseGenere;
+        //let grilleTemp  = GrillePlein;
+        let grilleTemp: Grille = new Grille(niveau);
+        grilleTemp = grilleTemp.copieGrille(JSON.parse(JSON.stringify(GrillePlein)));
+        let tableauGrilles: Grille[] = new Array();
+        tableauGrilles.push(grilleTemp);  //Tableau qui garde en memoire une grille pour chaque ajout dans le but d utiliser le backtracking
+        let GrilleTemmporaire: Grille;
+
+        while (!GrillePlein.estComplete()) {
+            for (let emplacementMotCourant of GrillePlein.obtenirPositionsEmplacementsVides()) {
+                console.log("emplacement suivant : x = " + emplacementMotCourant.obtenirCaseDebut().obtenirX() + " y = " + emplacementMotCourant.obtenirCaseDebut().obtenirY() + " x = " + emplacementMotCourant.obtenirCaseFin().obtenirX() + " y = " + emplacementMotCourant.obtenirCaseFin().obtenirY());
+                sortirBoucle = false;
+                motAjoute = false;
+                let tableauContraintes: Contrainte[] = new Array();
+
+                while ((!motAjoute) && (!sortirBoucle)) {
+
+                    const grandeur = emplacementMotCourant.obtenirGrandeur();
+                    tableauContraintes = new Array();
+
+                    //Contraintes de l emplacement courant
+                    for (let i = 0; i < emplacementMotCourant.obtenirCases().length; i++) {
+                        if (emplacementMotCourant.obtenirCase(i).obtenirEtat() === EtatCase.pleine) {
+                            let nouvelleContrainte = new Contrainte(emplacementMotCourant.obtenirCase(i).obtenirLettre(), i);
+                            tableauContraintes.push(nouvelleContrainte);
+                        }
+                    }
+
+                    let monGenerateurDeMot = new GenerateurDeMotContrainteService(emplacementMotCourant.obtenirGrandeur(), tableauContraintes);
+
+                    try {
+                        let mot = monGenerateurDeMot.genererMot(niveau).then((mot) => {
+                            console.log("mot avant d ajouter : " + mot.obtenirLettres());
+                            if (mot.obtenirLettres() === '') {
+                                //Si on ne trouve pas de mot
+                                console.log("On ne trouve pas de mot");
+                                tableauGrilles.pop();
+                                GrillePlein = tableauGrilles[tableauGrilles.length - 1];
+                                sortirBoucle = true;
+                            }
+    
+                            if (!GrillePlein.contientDejaLeMot(mot) && !sortirBoucle) {
+                                console.log("Ne contient pas le mot");
+                                GrillePlein.ajouterMot(mot, emplacementMotCourant.obtenirCaseDebut().obtenirX(),
+                                    emplacementMotCourant.obtenirCaseDebut().obtenirY(), emplacementMotCourant.obtenirCaseFin().obtenirX(),
+                                    emplacementMotCourant.obtenirCaseFin().obtenirY());
+                                tableauGrilles.push(GrillePlein);
+                                GrilleTemmporaire = new Grille(GrillePlein.obtenirNiveau());
+                                GrilleTemmporaire = GrilleTemmporaire.copieGrille(JSON.parse(JSON.stringify(GrillePlein)));
+                                motAjoute = true;
+                            }
+                            if (GrillePlein.contientDejaLeMot(mot)) {
+                                sortirBoucle = true;
+                            }
+    
+                            GrillePlein = GrilleTemmporaire;
+                        });
+                    }
+                    catch (Exception) {
+                        console.log(Exception);
+                        throw Exception;
+                    }
+                }
+            }
+        }
+        return GrillePlein;
     }
 
     private nombreAleatoireEntreXEtY(min: number, max: number): number {

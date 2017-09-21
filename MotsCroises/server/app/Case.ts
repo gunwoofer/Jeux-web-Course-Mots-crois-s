@@ -48,6 +48,10 @@ export class Case {
         return this.lettre;
     }
 
+    public obtenirEtat(): EtatCase {
+        return this.etat;
+    }
+
     public remplirCase(lettre: string): void {
         this.lettre = lettre;
         this.etat = EtatCase.pleine;

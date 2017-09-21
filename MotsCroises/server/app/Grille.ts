@@ -50,6 +50,17 @@ export class Grille {
             }
         }
     }
+    
+    public copieGrille(grilleDeserialise: any): Grille {
+        this.cases = grilleDeserialise.cases;
+        this.etat = grilleDeserialise.etat;
+        this.nombreMotsSurColonne = grilleDeserialise.nombreMotsSurColonne;
+        this.nombreMotsSurLigne = grilleDeserialise.nombreMotsSurLigne;
+        this.niveau = grilleDeserialise.niveau;
+        this.emplacementMots = grilleDeserialise.emplacementMots;
+        this.mots = grilleDeserialise.mots;
+        return this;
+    }
 
 
     public obtenirNiveau(): Niveau {
