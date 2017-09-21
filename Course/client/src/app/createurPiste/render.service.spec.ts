@@ -272,6 +272,7 @@ describe('RenderService', () => {
     for (let i = 0; i <= 3; i++) {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
-    expect(renderService.dessinTermine).toEqual(true);
+    expect(renderService.dessinTermine).toBeTruthy();
+    expect(renderService.points.length).toBeGreaterThan(2);
   });
 });
