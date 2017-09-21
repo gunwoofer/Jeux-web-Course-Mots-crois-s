@@ -1,15 +1,17 @@
 import { FormsModule } from '@angular/forms';
-import { PisteValidationComponent } from './../piste/pisteValidation.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
-import { CreateurPiste } from './createurPiste.component';
 import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing';
+
+import { CreateurPisteComponent } from './createurPiste.component';
+import { PisteValidationComponent } from './../piste/pisteValidation.component';
+
 
 import { RenderService } from './render.service';
 
 describe('RenderService', () => {
 
-  let component: CreateurPiste;
-  let fixture: ComponentFixture<CreateurPiste>;
+  let component: CreateurPisteComponent;
+  let fixture: ComponentFixture<CreateurPisteComponent>;
   let renderService: RenderService;
   let fakeClickEvent: MouseEvent;
   const fakeClickEventArray: MouseEvent[] = [];
@@ -17,7 +19,7 @@ describe('RenderService', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       providers: [RenderService],
-      declarations: [ CreateurPiste, PisteValidationComponent ],
+      declarations: [ CreateurPisteComponent, PisteValidationComponent ],
       imports: [FormsModule]
     })
     .compileComponents();
@@ -25,7 +27,7 @@ describe('RenderService', () => {
 
   beforeEach(inject([RenderService], (service: RenderService) => {
     renderService = service;
-    fixture = TestBed.createComponent(CreateurPiste);
+    fixture = TestBed.createComponent(CreateurPisteComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   }));
@@ -93,7 +95,7 @@ describe('RenderService', () => {
     const longueurVecteurLignes = vecteurLignes.length;
     expect(longueurVecteurPoints).toEqual(2);
     expect(longueurVecteurScene).toEqual(4);
-    expect(longueurVecteurLignes).toEqual(1500);
+    expect(longueurVecteurLignes).toEqual(3000);
     expect(renderService.compteur - 1).toEqual(1);
   });
 
@@ -175,21 +177,21 @@ describe('RenderService', () => {
   });
 
   it ('Il ne peut y avoir un angle de 45 degres ou moins.', () => {
-      fakeClickEventArray[0] = new MouseEvent('mouseup', {
+      fakeClickEventArray[0] = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window,
       clientX: 758,
       clientY: 266
     });
-      fakeClickEventArray[1] = new MouseEvent('mouseup', {
+      fakeClickEventArray[1] = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window,
       clientX: 784,
       clientY: 170
     });
-      fakeClickEventArray[2] = new MouseEvent('mouseup', {
+      fakeClickEventArray[2] = new MouseEvent('click', {
       bubbles: true,
       cancelable: true,
       view: window,
@@ -206,7 +208,7 @@ describe('RenderService', () => {
 
   it('Le premier point devra être identifié avec un contour particulier.', () => {
     for (let i = 0; i <= 4; i++) {
-      fakeClickEventArray[i] = new MouseEvent('mouseup', {
+      fakeClickEventArray[i] = new MouseEvent('click', {
         bubbles: true,
         cancelable: true,
         view: window,
@@ -223,7 +225,7 @@ describe('RenderService', () => {
 
   it('Le premier segment est celui sur lequel se trouve la zone de départ.', () => {
     for (let i = 0; i <= 4; i++) {
-      fakeClickEventArray[i] = new MouseEvent('mouseup', {
+      fakeClickEventArray[i] = new MouseEvent('click', {
         bubbles: true,
         cancelable: true,
         view: window,

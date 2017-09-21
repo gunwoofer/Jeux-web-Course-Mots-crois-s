@@ -4,7 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { CreateurPiste } from './createurPiste/createurPiste.component';
+import { CreateurPisteComponent } from './createurPiste/createurPiste.component';
 import { PisteValidationComponent } from './piste/pisteValidation.component';
 
 
@@ -17,7 +17,7 @@ import {BasicService} from './basic.service';
 @NgModule({
   declarations: [
     AppComponent,
-    CreateurPiste,
+    CreateurPisteComponent,
     PisteValidationComponent
   ],
   imports: [

@@ -10,7 +10,7 @@ import {RenderService} from './render.service';
   styleUrls: ['./createurPiste.component.css']
 })
 
-export class CreateurPiste implements AfterViewInit {
+export class CreateurPisteComponent implements AfterViewInit {
 
   constructor(private renderService: RenderService) {
   }
@@ -31,41 +31,41 @@ export class CreateurPiste implements AfterViewInit {
     this.renderService.onResize();
   }
 
-  public ngAfterViewInit() {
+  public ngAfterViewInit(): void {
     this.renderService.initialize(this.container);
   }
 
-  private oncontextmenu() {
+  private oncontextmenu(): boolean {
     this.renderService.rightClick();
     return false;
   }
 
-  public onMouseMove(event) {
+  public onMouseMove(event): void {
     this.renderService.onMouseMove(event);
   }
 
-  public onMouseClick(event) {
+  public onMouseClick(event): void {
      this.renderService.onMouseClick(event);
   }
 
-  public onMouseDown(event) {
+  public onMouseDown(event): void {
     this.renderService.onMouseDown(event);
   }
 
-  public onMouseUp(event) {
+  public onMouseUp(event): boolean {
     this.renderService.onMouseUp(event);
     return false;
   }
 
-  private listePoints() {
+  private listePoints(): THREE.Points[] {
     return this.points = this.renderService.points;
   }
 
-  private condition() {
+  private condition(): boolean {
     return this.affiche = this.renderService.retourneetatDessin();
   }
 
-  private erreursCircuit() {
+  private erreursCircuit(): boolean {
     if (this.renderService.afficherMessageErreurs()) {
       this.message = this.renderService.afficherMessageErreurs();
       return true;

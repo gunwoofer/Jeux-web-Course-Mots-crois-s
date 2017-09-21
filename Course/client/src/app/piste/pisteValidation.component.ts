@@ -5,8 +5,8 @@ import { Piste } from './piste.model';
 import { RenderService } from './../createurPiste/render.service';
 
 @Component({
-    selector : 'app-pistevalidator-component',
-    templateUrl : './pisteValidation.component.html',
+    selector: 'app-pistevalidator-component',
+    templateUrl: './pisteValidation.component.html',
     styleUrls: ['./pisteValidation.component.css']
 })
 
@@ -17,14 +17,12 @@ export class PisteValidationComponent {
 
     private display: boolean;
 
-    private onSubmit(form: NgForm) {
+    private onSubmit(form: NgForm): void {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, this.points);
-        console.log(piste);
+        alert('La piste ' + piste.obtenirNom() + ' a été enregistré avec success');
     }
 
-    private onClick() {
+    private onClick(): void {
         this.display = !this.display;
-        console.log(this.display);
-
     }
 }

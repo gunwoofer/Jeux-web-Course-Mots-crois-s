@@ -1,6 +1,5 @@
 <div class="col-md-8 col-md-offset-2">
     <button [style.display]="display ? 'none' : 'active'" class="btn btn-primary" (click)="onClick()">Enregistrer Piste</button>
-
     <form *ngIf="display" ngNativeValidate (ngSubmit)="onSubmit(f)" #f="ngForm">
         <div class="form-group">
             <label for="nomPiste">Nom de la piste</label>
