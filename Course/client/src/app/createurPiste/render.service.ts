@@ -177,6 +177,7 @@ export class RenderService {
     if (this.nbSegmentsCroises > 0) {
       message += 'Segment(s) croisé(s) => ' + this.nbSegmentsCroises + ' ; ';
     }
+
     return message;
   }
 

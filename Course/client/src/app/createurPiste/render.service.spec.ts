@@ -304,4 +304,41 @@ describe('RenderService', () => {
     expect(renderService.nbAnglesPlusPetit45).toEqual(1);
     expect(renderService.afficherMessageErreurs()).toEqual('Angle(s) inférieurs à 45° => 1 ; ');
   });
+
+  it('Une piste ne peut être sauvegardée si deux segments se joignant à un même point forment un angle de moins de 45 degrés.', () => {
+    fakeClickEventArray[0] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 758,
+      clientY: 266
+    });
+      fakeClickEventArray[1] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 784,
+      clientY: 170
+    });
+      fakeClickEventArray[2] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 813,
+      clientY: 405
+    });
+    fakeClickEventArray[3] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 758,
+      clientY: 266
+    });
+    for (let i = 0; i <= 3; i++) {
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    expect(renderService.nbAnglesPlusPetit45).toEqual(2);
+    expect(renderService.afficherMessageErreurs()).toEqual('Angle(s) inférieurs à 45° => 2 ; ');
+    expect(renderService.retourneEtatDessin()).toBeFalsy();
+  });
 });
