@@ -14,7 +14,7 @@ export class RenderService {
   public scene: THREE.Scene;
   private fieldOfView = 70;
   private mouse: THREE.Vector2;
-  public points: any [] = []; // tableau de points
+  public points: any[] = []; // tableau de points
 
   private pointXVecteur: number[] = [];
   private pointYVecteur: number[] = [];
@@ -44,13 +44,13 @@ export class RenderService {
 
 
   private listeErreurCouleur = {
-    normal : 'green',
-    angle45 : 'red',
-    proche : 'orange',
-    premier : 'purple'
+    normal: 'green',
+    angle45: 'red',
+    proche: 'orange',
+    premier: 'purple'
   };
 
-  public obtenirLigneDeDepart () {
+  public obtenirLigneDeDepart() {
     if (this.pointsLine.geometry.attributes.position.array.length > 0) {
       return this.pointsLine.geometry.attributes.position.array[0];
     } else {
@@ -91,11 +91,11 @@ export class RenderService {
 
   public dessinerDernierPoint(point) {
     const distance = point.position.distanceTo(this.points[0].position);
-    if (distance >= 0 && distance < 10) {
+    if (distance >= 0 && distance < 3) {
       if (this.points.length > 2) {
         point.position.copy(this.points[0].position);
         this.dessinTermine = true;
-      }else {
+      } else {
         throw new Error('une piste a trois points minimum');
       }
     }
@@ -114,7 +114,7 @@ export class RenderService {
           this.dessinerDernierPoint(point);
         } catch (e) {
           alert(e.message);
-          return ;
+          return;
         }
       }
       this.ajouterPoint(point);
@@ -122,12 +122,12 @@ export class RenderService {
       this.redessinerCourbe();
       this.render();
     } else {
-        return 0;
+      return 0;
     }
   }
 
   public ajouterPoint(point) {
-    if (!this.dessinTermine ) {
+    if (!this.dessinTermine) {
       this.scene.add(point);
     }
     this.ajouterPointLine(point.position);
@@ -148,9 +148,9 @@ export class RenderService {
   }
 
   private actualiserCouleurPoints() {
-    for (const point of this.points){
+    for (const point of this.points) {
       point.material.color.set(this.listeErreurCouleur[point.material.status]);
-      point.material.size = 5 ;
+      point.material.size = 5;
     }
   }
 
@@ -164,22 +164,22 @@ export class RenderService {
     let message: string;
     if (this.nbAnglesPlusPetit45 > 0) {
       message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge).'
-      + ' Veuillez corriger les erreursCircuit pour valider la piste.';
+        + ' Veuillez corriger les erreursCircuit pour valider la piste.';
     }
     if (this.nbSegmentsTropProche > 0) {
       message = 'Il y a : ' + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange).'
-      + ' Veuillez corriger les erreursCircuit pour valider la piste.';
+        + ' Veuillez corriger les erreursCircuit pour valider la piste.';
     }
     if (this.nbSegmentsCroises > 0) {
       message = 'Il y a : ' + this.nbSegmentsCroises + ' segment(s) croisé(s). Veuillez corriger les erreursCircuit pour valider la piste.';
     }
     if (this.nbAnglesPlusPetit45 > 0 && this.nbSegmentsTropProche > 0) {
       message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge) et '
-      + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange). Veuillez corriger les erreursCircuit pour valider la piste.';
+        + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange). Veuillez corriger les erreursCircuit pour valider la piste.';
     }
     if (this.nbAnglesPlusPetit45 > 0 && this.nbSegmentsCroises > 0) {
       message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge) et '
-      + this.nbSegmentsCroises + ' segment(s) croisé(s). ' + 'Veuillez corriger les erreursCircuit pour valider la piste.';
+        + this.nbSegmentsCroises + ' segment(s) croisé(s). ' + 'Veuillez corriger les erreursCircuit pour valider la piste.';
     }
     if (this.nbSegmentsTropProche > 0 && this.nbSegmentsCroises > 0) {
       message = 'Il y a : ' + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange) et '
@@ -201,14 +201,14 @@ export class RenderService {
 
   public nombreAnglesMoins45() {
     let nbAnglesMoins45 = 0;
-    for (let i = 1;  i < this.points.length - 1 ; i++) {
+    for (let i = 1; i < this.points.length - 1; i++) {
       if (this.estUnAngleMoins45(i)) {
-        nbAnglesMoins45 ++;
+        nbAnglesMoins45++;
       }
     }
     if (this.dessinTermine) {
       if (this.estUnAngleMoins45(0)) {
-        nbAnglesMoins45 ++;
+        nbAnglesMoins45++;
       }
     }
     this.nbAnglesPlusPetit45 = nbAnglesMoins45;
@@ -227,7 +227,7 @@ export class RenderService {
 
   public calculerAngle(numeroPoint: number) {
 
-   if (this.points.length > 1 ) {
+    if (this.points.length > 1) {
       const point1 = this.points[numeroPoint === 0 ? this.compteur - 1 : numeroPoint - 1];
       const point2 = this.points[numeroPoint];
       const point3 = this.points[numeroPoint + 1];
@@ -238,8 +238,8 @@ export class RenderService {
       const angle = Math.acos(produitScalaire);
 
       return angle;
-   }
-   return NaN;
+    }
+    return NaN;
   }
 
 
@@ -318,7 +318,7 @@ export class RenderService {
   public retourneetatDessin() {
     if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {
       return this.dessinTermine;
-    }else {
+    } else {
       return false;
     }
   }
@@ -329,10 +329,10 @@ export class RenderService {
   private nombreSegmentsTropCourts() {
     const largeurPiste = 10;
     let segmentTropCourt = 0;
-    for (let i = 0; i < this.points.length - 1 ; i ++) {
+    for (let i = 0; i < this.points.length - 1; i++) {
       const tailleSegment = this.points[i].position.distanceTo(this.points[i + 1].position);
       if (tailleSegment < 2 * largeurPiste) {
-        segmentTropCourt ++;
+        segmentTropCourt++;
         this.points[i].material.status = 'proche';
         this.points[i + 1].material.status = 'proche';
       }
@@ -346,23 +346,23 @@ export class RenderService {
    *********************************************************/
   private segmentsCoises(pointA, pointB, pointC, pointD) {
 
-    const vectAB =  [pointB.position.x - pointA.position.x, pointB.position.y - pointA.position.y];
-    const vectAC =  [pointC.position.x - pointA.position.x, pointC.position.y - pointA.position.y];
-    const vectAD =  [pointD.position.x - pointA.position.x, pointD.position.y - pointA.position.y];
-    const vectCA =  vectAC.map(function(x) { return x * -1; });
-    const vectCB =  [pointB.position.x - pointC.position.x, pointB.position.y - pointC.position.y];
-    const vectCD =  [pointD.position.x - pointC.position.x, pointD.position.y - pointC.position.y];
+    const vectAB = [pointB.position.x - pointA.position.x, pointB.position.y - pointA.position.y];
+    const vectAC = [pointC.position.x - pointA.position.x, pointC.position.y - pointA.position.y];
+    const vectAD = [pointD.position.x - pointA.position.x, pointD.position.y - pointA.position.y];
+    const vectCA = vectAC.map(function (x) { return x * -1; });
+    const vectCB = [pointB.position.x - pointC.position.x, pointB.position.y - pointC.position.y];
+    const vectCD = [pointD.position.x - pointC.position.x, pointD.position.y - pointC.position.y];
 
-    const determinantABAC = vectAB[0] * vectAC[1] -  vectAB[1] * vectAC[0];
-    const determinantABAD = vectAB[0] * vectAD[1] -  vectAB[1] * vectAD[0];
-    const determinantCDCB = vectCD[0] * vectCB[1] -  vectCD[1] * vectCB[0];
-    const determinantCDCA = vectCD[0] * vectCA[1] -  vectCD[1] * vectCA[0];
+    const determinantABAC = vectAB[0] * vectAC[1] - vectAB[1] * vectAC[0];
+    const determinantABAD = vectAB[0] * vectAD[1] - vectAB[1] * vectAD[0];
+    const determinantCDCB = vectCD[0] * vectCB[1] - vectCD[1] * vectCB[0];
+    const determinantCDCA = vectCD[0] * vectCA[1] - vectCD[1] * vectCA[0];
 
     if (Math.sign(determinantABAC) === 0 || Math.sign(determinantCDCB) === 0) {
       return false;
-    }else if (Math.sign(determinantABAC) !== Math.sign(determinantABAD) && Math.sign(determinantCDCB) !== Math.sign(determinantCDCA)) {
+    } else if (Math.sign(determinantABAC) !== Math.sign(determinantABAD) && Math.sign(determinantCDCB) !== Math.sign(determinantCDCA)) {
       if (this.dessinTermine) {
-        if ( vectAD[0] === 0 && vectAD[1] === 0 ) {
+        if (vectAD[0] === 0 && vectAD[1] === 0) {
           return false;
         }
       }
@@ -372,15 +372,15 @@ export class RenderService {
   }
 
   private nombreLignesCroisees() {
-    let nbSegmentsCroises =  0;
-    for (let i = 0 ; i < this.points.length ; i++) {
-      for (let j = i + 1 ; j < this.points.length - 1; j++) {
+    let nbSegmentsCroises = 0;
+    for (let i = 0; i < this.points.length; i++) {
+      for (let j = i + 1; j < this.points.length - 1; j++) {
         const pointA = this.points[i];
         const pointB = this.points[i + 1];
         const pointC = this.points[j];
         const pointD = this.points[j + 1];
-        if (this.segmentsCoises(pointA, pointB, pointC, pointD )) {
-          nbSegmentsCroises ++;
+        if (this.segmentsCoises(pointA, pointB, pointC, pointD)) {
+          nbSegmentsCroises++;
         }
       }
     }
@@ -481,45 +481,50 @@ export class RenderService {
     const geometry = new THREE.BufferGeometry();
 
     // attributes
-    const positions = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
-    const colors = new Float32Array( MAX_POINTS * 3 ); // 3 vertices per point
-    geometry.addAttribute( 'position', new THREE.BufferAttribute( positions, 3 ) );
+    const positions = new Float32Array(MAX_POINTS * 3); // 3 vertices per point
+    const colors = new Float32Array(MAX_POINTS * 3); // 3 vertices per point
+    geometry.addAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometry.addAttribute('color', new THREE.BufferAttribute(colors, 3));
 
     // draw range
     const drawCount = 2; // draw the first 2 points, only
-    geometry.setDrawRange( 0, 0 );
+    geometry.setDrawRange(0, 0);
 
-    const material = new THREE.LineBasicMaterial({vertexColors: THREE.VertexColors });
+    const material = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
     this.pointsLine = new THREE.Line(geometry, material);
     this.scene.add(this.pointsLine);
   }
 
+  private modificationdecouleuur(position) {
+    const couleurListe = this.pointsLine.geometry.attributes.color.array;
+    const couleur = new THREE.Color(0x4fc3f7);
+    if (this.points.length < 1) {
+      couleurListe[position * 3] = couleur.r;
+      couleurListe[position * 3 + 1] = couleur.g;
+      couleurListe[position * 3 + 2] = couleur.b;
+    }
+    this.pointsLine.geometry.attributes.color.needsUpdate = true;
+  }
+
   private modifierPointLine(positionTableauPoints, positionPoint) {
     const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
-    const couleurListe = this.pointsLine.geometry.attributes.color.array;
-    const couleur = new THREE.Color(0xEEEEEE);
-    if (this.points.length < 1) {
-      couleurListe[positionTableauPoints * 3] = couleur.r;
-      couleurListe[positionTableauPoints * 3 + 1] = couleur.g;
-      couleurListe[positionTableauPoints * 3 + 2] = couleur.b;
-    }
+    this.modificationdecouleuur(positionTableauPoints);
     pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
     pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
     pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
-    this.pointsLine.geometry.attributes.color.needsUpdate = true;
+
     this.pointsLine.geometry.attributes.position.needsUpdate = true;
 
   }
 
   private ajouterPointLine(positionNouveauPoint) {
     this.modifierPointLine(this.compteur, positionNouveauPoint);
-    this.pointsLine.geometry.setDrawRange( 0, this.compteur + 1 );
+    this.pointsLine.geometry.setDrawRange(0, this.compteur + 1);
   }
 
   private retirerAncienPointLine() {
     this.modifierPointLine(this.compteur - 1, new THREE.Vector3(0, 0, 0));
-    this.pointsLine.geometry.setDrawRange( 0, this.compteur - 1 );
+    this.pointsLine.geometry.setDrawRange(0, this.compteur - 1);
   }
 
 
@@ -530,7 +535,7 @@ export class RenderService {
   private dessinerCourbe() {
     let curve;
     const arrayPointPosition = [];
-    for (const point of this.points){
+    for (const point of this.points) {
       arrayPointPosition.push(point.position);
     }
     // Create a closed wavey loop
@@ -542,12 +547,12 @@ export class RenderService {
     curve.closed = this.dessinTermine;
 
     const geometry = new THREE.Geometry();
-    geometry.vertices = curve.getPoints( 100 );
+    geometry.vertices = curve.getPoints(100);
 
-    const material = new THREE.LineBasicMaterial( { color : 0xff0000 } );
+    const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
 
     // Create the final object to add to the scene
-    this.courbe = new THREE.Line( geometry, material );
+    this.courbe = new THREE.Line(geometry, material);
     this.scene.add(this.courbe);
   }
 
@@ -562,6 +567,35 @@ export class RenderService {
     if (this.points.length > 2) {
       this.dessinerCourbe();
     }
+  }
+
+  public pointsYminimum() {
+    const pointsY: number[] = [];
+
+    for (let i = 0; i < this.points.length - 1; i++) {
+      pointsY.push(this.points[i].position.y);
+    }
+
+    return Math.min.apply(null, pointsY);
+  }
+
+  public placementPointPlusBas() {
+    const pointDepart = this.points[0];
+    const pointMinimum = this.pointsYminimum();
+    const longueurListe = this.points.length - 1;
+    let positionPointMinimum = 0;
+    let distanceDepointDepart = 0;
+    const han = [];
+    for (let i = 0; i < longueurListe; i++) {
+      if (pointMinimum === this.points[i].position.y) {
+        positionPointMinimum = i;
+        distanceDepointDepart = (positionPointMinimum <= longueurListe / 2) ? i : longueurListe - positionPointMinimum;
+      }
+    }
+    han.push(positionPointMinimum);
+    han.push(distanceDepointDepart);
+    return han;
+
   }
 }
 
