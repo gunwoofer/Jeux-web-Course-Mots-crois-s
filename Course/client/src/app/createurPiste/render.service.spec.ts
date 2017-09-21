@@ -275,4 +275,33 @@ describe('RenderService', () => {
     expect(renderService.dessinTermine).toBeTruthy();
     expect(renderService.points.length).toBeGreaterThan(2);
   });
+
+  it('Test de la méthode afficherMessageErreurs', () => {
+    fakeClickEventArray[0] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 758,
+      clientY: 266
+    });
+      fakeClickEventArray[1] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 784,
+      clientY: 170
+    });
+      fakeClickEventArray[2] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 813,
+      clientY: 405
+    });
+    for (let i = 0; i <= 2; i++) {
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    expect(renderService.nbAnglesPlusPetit45).toEqual(1);
+    expect(renderService.afficherMessageErreurs()).toEqual('Angle(s) inférieurs à 45° => 1 ; ');
+  });
 });

@@ -167,34 +167,15 @@ export class RenderService {
   }
 
   public afficherMessageErreurs(): string {
-    let message: string;
+    let message = '';
     if (this.nbAnglesPlusPetit45 > 0) {
-      message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge).'
-        + ' Veuillez corriger les erreursCircuit pour valider la piste.';
+      message += 'Angle(s) inférieurs à 45° => ' + this.nbAnglesPlusPetit45 + ' ; ';
     }
     if (this.nbSegmentsTropProche > 0) {
-      message = 'Il y a : ' + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange).'
-        + ' Veuillez corriger les erreursCircuit pour valider la piste.';
+      message += 'Segment(s) trop proche(s) => ' + this.nbSegmentsTropProche + ' ; ';
     }
     if (this.nbSegmentsCroises > 0) {
-      message = 'Il y a : ' + this.nbSegmentsCroises + ' segment(s) croisé(s). Veuillez corriger les erreursCircuit pour valider la piste.';
-    }
-    if (this.nbAnglesPlusPetit45 > 0 && this.nbSegmentsTropProche > 0) {
-      message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge) et '
-        + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange). Veuillez corriger les erreursCircuit pour valider la piste.';
-    }
-    if (this.nbAnglesPlusPetit45 > 0 && this.nbSegmentsCroises > 0) {
-      message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge) et '
-        + this.nbSegmentsCroises + ' segment(s) croisé(s). ' + 'Veuillez corriger les erreursCircuit pour valider la piste.';
-    }
-    if (this.nbSegmentsTropProche > 0 && this.nbSegmentsCroises > 0) {
-      message = 'Il y a : ' + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange) et '
-        + this.nbSegmentsCroises + ' segment(s) croisé(s). Veuillez corriger les erreursCircuit pour valider la piste.';
-    }
-    if (this.nbAnglesPlusPetit45 > 0 && this.nbSegmentsTropProche > 0 && this.nbSegmentsCroises > 0) {
-      message = 'Il y a : ' + this.nbAnglesPlusPetit45 + ' angle(s) plus petit(s) que 45 degrés (en rouge), '
-        + this.nbSegmentsTropProche + ' segment(s) trop proche(s) (en orange) et '
-        + this.nbSegmentsCroises + ' segment(s) croisé(s). Veuillez corriger les erreursCircuit pour valider la piste.';
+      message += 'Segment(s) croisé(s) => ' + this.nbSegmentsCroises + ' ; ';
     }
     return message;
   }
