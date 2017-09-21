@@ -89,24 +89,32 @@ export class RenderService {
     return point;
   }
 
+  public dessinerDernierPoint(point) {
+    const distance = point.position.distanceTo(this.points[0].position);
+    if (distance >= 0 && distance < 10) {
+      if (this.points.length > 2) {
+        point.position.copy(this.points[0].position);
+        this.dessinTermine = true;
+      }else {
+        throw new Error('une piste a trois points minimum');
+      }
+    }
+  }
+
   // Dessin des points
   public dessinerPoint(event) {
-    let objet, point, distance = 100;
+    let objet, point;
     if (!this.dessinTermine) {
       objet = this.obtenirIntersection(event);
       point = this.creerPoint(objet.point, 'black');
       if (this.points.length === 0) {
         point.material.status = 'premier';
-      }else {
-        distance = point.position.distanceTo(this.points[0].position);
-        if (distance >= 0 && distance < 10) {
-          if (this.points.length > 2) {
-            point.position.copy(this.points[0].position);
-            this.dessinTermine = true;
-          }else {
-            alert('une piste a trois points minimum');
-            return ;
-          }
+      } else {
+        try {
+          this.dessinerDernierPoint(point);
+        } catch (e) {
+          alert(e.message);
+          return ;
         }
       }
       this.ajouterPoint(point);
