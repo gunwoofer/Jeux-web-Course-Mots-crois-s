@@ -425,7 +425,7 @@ describe('RenderService', () => {
     for (let i = 0; i <= 4; i++) {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
-    expect(renderService.nbSegmentsTropProche).toEqual(1);
+    expect(renderService.nombreSegmentsTropCourts()).toEqual(1);
     expect(renderService.afficherMessageErreurs()).toEqual('Segment(s) trop proche(s) => 1 ; ');
     expect(renderService.retourneEtatDessin()).toBeFalsy();
   });

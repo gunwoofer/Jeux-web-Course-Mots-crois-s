@@ -36,7 +36,7 @@ export class RenderService {
 
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
-  public nbSegmentsTropProche = 0;
+  private nbSegmentsTropProche = 0;
 
 
   private listeErreurCouleur = {
@@ -305,7 +305,7 @@ export class RenderService {
   /**********************************************************
                    Gestion longueur segment
    *********************************************************/
-  private nombreSegmentsTropCourts(): void {
+  public nombreSegmentsTropCourts(): void {
     const largeurPiste = 10;
     let segmentTropCourt = 0;
     for (let i = 0; i < this.points.length - 1; i++) {
