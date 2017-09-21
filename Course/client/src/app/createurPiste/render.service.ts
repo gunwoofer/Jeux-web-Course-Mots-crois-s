@@ -433,16 +433,16 @@ export class RenderService {
     this.modifierPointLine(objetGlisseNumber, this.objetGlisse.position);
     this.redessinerCourbe();
 
-    if (objetGlisseNumber === 0 && this.dessinTermine) { // On modifie aussi le dernier point
+    if (objetGlisseNumber === 0 && this.dessinTermine) { 
       this.points[this.compteur - 1].position.copy(this.objetGlisse.position);
       this.modifierPointLine(this.compteur - 1, this.objetGlisse.position);
     }
   }
 
   private hoverPoint(point): void {
-    this.pointHover = true; // ici on informe qu'il y a un point sélectionné eet si on clique on passe en mode selection (drag)
+    this.pointHover = true; 
     this.objetGlisse = point;
-    point.material.color.set(0x0000ff); // ici on change la couleur
+    point.material.color.set(0x0000ff); 
     point.material.size = 11;
   }
 
