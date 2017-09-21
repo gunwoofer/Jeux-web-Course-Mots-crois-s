@@ -3,8 +3,8 @@ import { Niveau, Grille } from './Grille';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
 
-export const maxDelaiRetourRequeteMS = 1000;
-export const maxDelaiInserer15Grilles = 10000;
+export const maxDelaiRetourRequeteMS = 10000;
+export const maxDelaiInserer15Grilles = 20000;
 
 describe('PersistenceGrillesService', () => {
     it('Il est possible d\'obtenir une grille facile de la base de données.', (done) => {

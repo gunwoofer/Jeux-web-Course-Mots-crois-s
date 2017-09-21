@@ -11,6 +11,7 @@ export const nomTableauGrilles = 'grilles';
 // Connection URL
 const url = 'mongodb://localhost:27017/motscroises';
 const urlPoly = 'mongodb://parapluie.info.polymtl.ca/motscroises';
+const urlPolyEtInfoConnexion = 'mongodb://LOG2990-10:rK54nG58@parapluie.info.polymtl.ca:27017/LOG2990-10-db';
 
 export class PersistenceGrillesService {
     private reponse: express.Response;
@@ -62,7 +63,7 @@ export class PersistenceGrillesService {
 
         // Connexion à la base de données persistente.
         this.compteurRequetesEntiteePersistente++;
-        this.bdImplementation.seConnecter(url, (err: any, db: any) => {
+        this.bdImplementation.seConnecter(urlPolyEtInfoConnexion, (err: any, db: any) => {
 
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
@@ -128,7 +129,7 @@ export class PersistenceGrillesService {
         return new Promise((resolve: any, reject: any) => {
             // Connexion à la base de données persistente.
             self.compteurRequetesEntiteePersistente++;
-            self.bdImplementation.seConnecter(url, (err: any, db: any) => {
+            self.bdImplementation.seConnecter(urlPolyEtInfoConnexion, (err: any, db: any) => {
 
                 self.notifierReponseRecuEntiteePersistente();
                 self.asyncVerifierSierrConnection(err, db, reject);

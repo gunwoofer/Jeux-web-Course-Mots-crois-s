@@ -95,7 +95,9 @@ export class Application {
             index.asyncPersistenceGrillesService.bind(index.asyncPersistenceGrillesService));
         router.use('/grilles/persistence/grille/ajouter/5', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
         router.use('/grilles/tableau/creer', index.creerTableauGrille.bind(index.creerTableauGrille));
-
+        
+        //Generation De mot
+        router.use('/GenerationDeMotContrainteService', index.GenerationDeMotContrainteService.bind(index.GenerationDeMotContrainteService));
         // use router middleware
         this.app.use(router);
 

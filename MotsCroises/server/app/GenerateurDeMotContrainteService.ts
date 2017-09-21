@@ -19,104 +19,112 @@ export class GenerateurDeMotContrainteService {
     }
 
 
-    public async genererMot(niveau: Niveau): Promise<Mot> {
-        let tableauIndice: string[];
-        let chaineContrainte = "";
-        let monIndice: Indice;
-        let monMot: Mot;
-        //Un score au dessus de 1000 indique un mot commun et inferieure a 1000 non commun
-        let score: number;
-        let tableauCommun = new Array<any>();   // À défénir
-        let tableauNonCommun = new Array<any>();
+    public genererMot(niveau: Niveau): Promise<Mot> {
+        return new Promise((resolve: any, reject: any) => {
+            
+            let tableauIndice: string[];
+            let chaineContrainte = "";
+            let monIndice: Indice;
+            let monMot: Mot;
+            //Un score au dessus de 1000 indique un mot commun et inferieure a 1000 non commun
+            let score: number;
+            let tableauCommun = new Array<any>();   // À défénir
+            let tableauNonCommun = new Array<any>();
 
-        for (let i = 0; i < this.tailleEmplacement; i++) {
-            chaineContrainte += '?';
-        }
-        if (this.contrainte !== undefined) {
-            for (let i = 0; i < this.contrainte.length-1; i++) {
-                chaineContrainte = this.replaceCharAt(chaineContrainte, this.contrainte[i].obtenirPositionContrainte(), this.contrainte[i].obtenirLettre());
+            for (let i = 0; i < this.tailleEmplacement; i++) {
+                chaineContrainte += '?';
             }
-        }
-
-        let self: GenerateurDeMotContrainteService = this;
-
-        let mot: string;
-        let json = await datamuse.request('words?sp=' + chaineContrainte + '&md=d');
-
-        let nombreMotPossible = json.length;
-        if (nombreMotPossible === 0) {
-            mot = "";
-            monIndice = new Indice([""]);
-            let pasDeMot = new Mot(mot, monIndice);
-            return pasDeMot;
-        } else {
-            for (let i = 0; i < nombreMotPossible; i++) {
-                if (json[i].score > 1000) {
-                    tableauCommun.push(json[i]);
-                }
-                else if (json[i].score < 1000) {
-                    tableauNonCommun.push(json[i]);
+            if (this.contrainte !== undefined) {
+                for (let i = 0; i < this.contrainte.length-1; i++) {
+                    chaineContrainte = this.replaceCharAt(chaineContrainte, this.contrainte[i].obtenirPositionContrainte(), this.contrainte[i].obtenirLettre());
                 }
             }
 
-            if (niveau === Niveau.facile) {
+            let self: GenerateurDeMotContrainteService = this;
+
+            let mot: string;
+            datamuse.request('words?sp=' + chaineContrainte + '&md=d').then((json: any) => {
+
                 
-                if (tableauCommun.length === 0) {
-                    mot = "";
-                    monIndice = new Indice([""]);
-                    let pasDeMot = new Mot(mot, monIndice);
-                    return pasDeMot;
+            let nombreMotPossible = json.length;
+            if (nombreMotPossible === 0) {
+                mot = "";
+                monIndice = new Indice([""]);
+                let pasDeMot = new Mot(mot, monIndice);
+                return pasDeMot;
+            } else {
+                for (let i = 0; i < nombreMotPossible; i++) {
+                    if (json[i].score > 1000) {
+                        tableauCommun.push(json[i]);
+                    }
+                    else if (json[i].score < 1000) {
+                        tableauNonCommun.push(json[i]);
+                    }
                 }
-                let nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauCommun.length - 1);
-                
-                //if (self.res !== undefined) {
+
+                if (niveau === Niveau.facile) {
                     
-                    mot = tableauCommun[nombrealeat].word;
-                    tableauIndice = tableauCommun[nombrealeat].defs;
-                    monIndice = new Indice(tableauIndice);
-                    monIndice.setDifficulteDefinition(DifficulteDefinition.PremiereDefinition);
-                    monMot = new Mot(mot, monIndice);
-                    monMot.setRarete(Rarete.commun);
-                //}
-            }
-            if (niveau === Niveau.moyen) {
-                if (tableauCommun.length === 0) {
-                    mot = "";
-                    monIndice = new Indice([""]);
-                    let pasDeMot = new Mot(mot, monIndice);
-                    return pasDeMot;
-                }
-                let nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauCommun.length);
-                
-                    mot = tableauCommun[nombrealeat].word;
-                    tableauIndice = tableauCommun[nombrealeat].defs;
-                    monIndice = new Indice(tableauIndice);
-                    monIndice.setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
-                    monMot = new Mot(mot, monIndice);
-                    monMot.setRarete(Rarete.commun);
-                
-            }
-            if (niveau === Niveau.difficile) {
-                if (tableauNonCommun.length === 0) {
-                    mot = "";
-                    monIndice = new Indice([""]);
-                    let pasDeMot = new Mot(mot, monIndice);
-                    return pasDeMot;
-                }
-                let nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauNonCommun.length);
-                
-                    mot = tableauNonCommun[nombrealeat].word;
-                    tableauIndice = tableauNonCommun[nombrealeat].defs;
-                    monIndice = new Indice(tableauIndice);
-                    monIndice.setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
-                    monMot = new Mot(mot, monIndice);
-                    monMot.setRarete(Rarete.nonCommun);
-                
+                    if (tableauCommun.length === 0) {
+                        mot = "";
+                        monIndice = new Indice([""]);
+                        let pasDeMot = new Mot(mot, monIndice);
+                        return pasDeMot;
+                    }
+                    let nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauCommun.length - 1);
                     
+                    //if (self.res !== undefined) {
+                        
+                        mot = tableauCommun[nombrealeat].word;
+                        tableauIndice = tableauCommun[nombrealeat].defs;
+                        monIndice = new Indice(tableauIndice);
+                        monIndice.setDifficulteDefinition(DifficulteDefinition.PremiereDefinition);
+                        monMot = new Mot(mot, monIndice);
+                        monMot.setRarete(Rarete.commun);
+                    //}
+                }
+                if (niveau === Niveau.moyen) {
+                    if (tableauCommun.length === 0) {
+                        mot = "";
+                        monIndice = new Indice([""]);
+                        let pasDeMot = new Mot(mot, monIndice);
+                        return pasDeMot;
+                    }
+                    let nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauCommun.length);
+                    
+                        mot = tableauCommun[nombrealeat].word;
+                        tableauIndice = tableauCommun[nombrealeat].defs;
+                        monIndice = new Indice(tableauIndice);
+                        monIndice.setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
+                        monMot = new Mot(mot, monIndice);
+                        monMot.setRarete(Rarete.commun);
+                    
+                }
+                if (niveau === Niveau.difficile) {
+                    if (tableauNonCommun.length === 0) {
+                        mot = "";
+                        monIndice = new Indice([""]);
+                        let pasDeMot = new Mot(mot, monIndice);
+                        return pasDeMot;
+                    }
+                    let nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauNonCommun.length);
+                    
+                        mot = tableauNonCommun[nombrealeat].word;
+                        tableauIndice = tableauNonCommun[nombrealeat].defs;
+                        monIndice = new Indice(tableauIndice);
+                        monIndice.setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
+                        monMot = new Mot(mot, monIndice);
+                        monMot.setRarete(Rarete.nonCommun);
+                    
+                        
+                }
             }
-        }
-        
-        return monMot;
+            
+            resolve(monMot);
+            }).catch((erreur: any) => {
+                reject(erreur);
+            });
+
+        });
     }
 
     private nombreAleatoireEntreXEtY(min: number, max: number): number {

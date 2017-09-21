@@ -107,6 +107,9 @@ export class Grille {
     public obtenirMot(): Mot[] {
         return this.mots;
     }
+    public obtenirMotParticulier(i: number) {
+        return this.mots[i];
+    }
 
 
     public changerEtatCase(etatCase: EtatCase, x: number, y: number): void {
