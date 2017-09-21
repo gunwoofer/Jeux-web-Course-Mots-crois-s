@@ -10,6 +10,7 @@ export const nomTableauGrilles = 'grilles';
 
 // Connection URL
 const url = 'mongodb://localhost:27017/motscroises';
+const urlPoly = 'mongodb://parapluie.info.polymtl.ca/motscroises';
 
 export class PersistenceGrillesService {
     private reponse: express.Response;
