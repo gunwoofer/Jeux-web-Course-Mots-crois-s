@@ -1,4 +1,4 @@
-import { Case } from './Case'
+import { Case } from './Case';
 
 export class EmplacementMot {
     private caseDebut: Case;
@@ -6,11 +6,11 @@ export class EmplacementMot {
     private cases: Case[];
     private grandeur: number;
 
-    constructor(caseDebut:Case, caseFin:Case, cases:Case[]) {
+    constructor(caseDebut: Case, caseFin: Case, cases: Case[]) {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
         this.cases = cases;
-        
+
         if (caseDebut.obtenirX() === caseFin.obtenirX()) {
             this.grandeur = caseFin.obtenirY() - caseDebut.obtenirY();
         } else if (caseDebut.obtenirY() === caseFin.obtenirY()) {
@@ -21,6 +21,10 @@ export class EmplacementMot {
 
     public obtenirCases(): Case[] {
         return this.cases;
+    }
+
+    public obtenirCase(i:number): Case {
+        return this.cases[i];
     }
 
     public obtenirCaseDebut(): Case {

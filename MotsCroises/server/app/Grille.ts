@@ -1,4 +1,3 @@
-
 import { Mot } from './Mot';
 import { Case, EtatCase } from './Case';
 import { EmplacementMot } from './EmplacementMot';
@@ -28,39 +27,50 @@ export class Grille {
     private mots: Mot[] = new Array();
     private emplacementMots: EmplacementMot[] = new Array();
 
-    private cases: Case[][] = new Array();
+    private cases: Case[][] = new Array(DIMENSION_LIGNE_COLONNE);
 
     private etat: EtatGrille;
     private niveau: Niveau;
-    
+
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
     private nombreMotsSurColonne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
-    public constructor(niveau:Niveau, etatCaseInitial: EtatCase = EtatCase.noir) {
+    public constructor(niveau: Niveau, etatCaseInitial: EtatCase = EtatCase.noir) {
         this.niveau = niveau;
 
         // Instancie la grille vide sans espace noir.
-        for(let i: number = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            this.cases[i] = [];
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+            this.cases[i] = new Array(DIMENSION_LIGNE_COLONNE);
             this.nombreMotsSurLigne[i] = 0;
 
-            for(let j:number = 0; j < DIMENSION_LIGNE_COLONNE; j++) {                
-                let caseBlanche = new Case(i,j, etatCaseInitial);
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                const caseBlanche = new Case(i, j, etatCaseInitial);
                 this.nombreMotsSurColonne[j] = 0;
                 this.cases[i][j] = caseBlanche;
             }
         }
     }
+    
+    public copieGrille(grilleDeserialise: any): Grille {
+        this.cases = grilleDeserialise.cases;
+        this.etat = grilleDeserialise.etat;
+        this.nombreMotsSurColonne = grilleDeserialise.nombreMotsSurColonne;
+        this.nombreMotsSurLigne = grilleDeserialise.nombreMotsSurLigne;
+        this.niveau = grilleDeserialise.niveau;
+        this.emplacementMots = grilleDeserialise.emplacementMots;
+        this.mots = grilleDeserialise.mots;
+        return this;
+    }
 
 
-    public obtenirNiveau():Niveau {
+    public obtenirNiveau(): Niveau {
         return this.niveau;
     }
 
     public estComplete(): boolean {
         for (let i = 0; i < 10; i++) {
             if (((this.obtenirNombreMotsSurLigne(i) !== 1) && (this.obtenirNombreMotsSurLigne(i) !== 2))
-            || ((this.obtenirNombreMotsSurColonne(i) !== 1) && (this.obtenirNombreMotsSurColonne(i) !== 2))) {
+                || ((this.obtenirNombreMotsSurColonne(i) !== 1) && (this.obtenirNombreMotsSurColonne(i) !== 2))) {
                 return false;
             }
         }
@@ -77,15 +87,15 @@ export class Grille {
     }
 
     public obtenirCase(x: number, y: number): Case {
-        if(x < 0 || y < 0 || x >= DIMENSION_LIGNE_COLONNE || y >= DIMENSION_LIGNE_COLONNE) {
+        if (x < 0 || y < 0 || x >= DIMENSION_LIGNE_COLONNE || y >= DIMENSION_LIGNE_COLONNE) {
             return null;
         }
-        
+
         return this.cases[x][y];
     }
 
-    public obtenirCaseSelonPosition(position:Position, indexFixe:number, index:number): Case {
-        switch(position) {
+    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
+        switch (position) {
             case Position.Ligne:
                 return this.cases[indexFixe][index];
 
@@ -107,23 +117,43 @@ export class Grille {
 
 
 
-    public ajouterEmplacementMot(emplacementMot: EmplacementMot) {
-        this.emplacementMots.push(emplacementMot);
+    public ajouterEmplacementMot(emplacementMot: EmplacementMot): void {
+        if (this.emplacementMotDifferent(emplacementMot)) {
+            this.emplacementMots.push(emplacementMot);
+        }
+    }
+
+    public emplacementMotDifferent(emplacementMotAVerifier: EmplacementMot): boolean {
+        let compteur = 0;
+
+        for (const emplacementMotCourant of this.obtenirPositionsEmplacementsVides()) {
+            if (emplacementMotCourant.obtenirCaseDebut() === emplacementMotAVerifier.obtenirCaseDebut() &&
+                emplacementMotCourant.obtenirCaseFin() === emplacementMotAVerifier.obtenirCaseFin()) {
+                compteur++;
+            }
+        }
+
+        if (compteur >= 2) {
+            return false;
+        }
+
+        return true;
     }
 
     public existeEmplacementMot(xDepart: number, yDepart: number, xFin: number, yFin: number): boolean {
 
-        for (let emplacementMotCourant of this.emplacementMots) {
-            let caseDebut: Case = emplacementMotCourant.obtenirCaseDebut();
-            let caseFin: Case = emplacementMotCourant.obtenirCaseFin();
+        for (const emplacementMotCourant of this.emplacementMots) {
+            const caseDebut: Case = emplacementMotCourant.obtenirCaseDebut();
+            const caseFin: Case = emplacementMotCourant.obtenirCaseFin();
 
             if (
                 (caseDebut.obtenirX() === xDepart) &&
                 (caseDebut.obtenirY() === yDepart) &&
                 (caseFin.obtenirX() === xDepart) &&
                 (caseFin.obtenirY() === yDepart)
-            )
+            ) {
                 return true;
+            }
 
         }
 
@@ -131,19 +161,16 @@ export class Grille {
 
     }
 
-    public ajouterMot(mot: Mot, xDepart: number, yDepart: number, xFin: number, yFin: number) {
+    public ajouterMot(mot: Mot, xDepart: number, yDepart: number, xFin: number, yFin: number): void {
 
         this.mots.push(mot);
 
 
-        let positionDansLeMot: number = 0;
+        const positionDansLeMot = 0;
 
-        // Commenter jusqu'à avoir le débogueur fonctionnel.
-        // if(this.existeEmplacementMot(xDepart, yDepart, xFin, yFin))
-        // {
         // Cas du mot à l'horizontal.
         if (xDepart === xFin) {
-            for (let caseCourante of this.cases[xDepart]) {
+            for (const caseCourante of this.cases[xDepart]) {
                 if (this.dansLaLimiteDuMot(caseCourante.obtenirY(), yDepart, yFin) && mot.estUneLettreValide(positionDansLeMot)) {
                     caseCourante.remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
                 }
@@ -162,21 +189,20 @@ export class Grille {
 
             this.nombreMotsSurColonne[yDepart]++;
         }
-        // }
     }
 
     public obtenirNombreMotsSurLigne(ligne: number): number {
 
-        if(ligne >= DIMENSION_LIGNE_COLONNE) {
+        if (ligne >= DIMENSION_LIGNE_COLONNE) {
             return -1;
         }
 
         return this.nombreMotsSurLigne[ligne];
     }
 
-    public obtenirNombreMotsSurColonne(ligne: number) {
+    public obtenirNombreMotsSurColonne(ligne: number): number {
 
-        if(ligne >= DIMENSION_LIGNE_COLONNE) {
+        if (ligne >= DIMENSION_LIGNE_COLONNE) {
             return -1;
         }
 
@@ -188,11 +214,11 @@ export class Grille {
     }
 
     public dansLaLimiteDuMot(caseCourante: number, debutY: number, finY: number): boolean {
-
-        if (caseCourante >= debutY && caseCourante <= finY)
+        if (caseCourante >= debutY && caseCourante <= finY) {
             return true;
-        return false;
+        }
 
+        return false;
     }
 
     public obtenirLongueurCases(): number {
@@ -202,17 +228,18 @@ export class Grille {
     public obtenirHauteurCases(): number {
         let nbrCasesY = 0;
 
-        for (let casesDeLaLigne of this.cases) {
-            if (nbrCasesY != 0 && nbrCasesY !== casesDeLaLigne.length)
+        for (const casesDeLaLigne of this.cases) {
+            if (nbrCasesY !== 0 && nbrCasesY !== casesDeLaLigne.length) {
                 return -1;
+            }
             nbrCasesY = casesDeLaLigne.length;
         }
 
         return nbrCasesY;
     }
 
-    public contientDejaLeMot(mot: Mot) {
-        for (let motCourant of this.mots) {
+    public contientDejaLeMot(mot: Mot): boolean {
+        for (const motCourant of this.mots) {
             if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
                 return true;
             }
@@ -222,10 +249,10 @@ export class Grille {
     }
 
     public contientMotDuplique(): boolean {
-        for (let motAChercher of this.mots) {
+        for (const motAChercher of this.mots) {
             let compteur = 0;
-            let lettresAChercher: string = motAChercher.obtenirLettres();
-            for (let motCourant of this.mots) {
+            const lettresAChercher: string = motAChercher.obtenirLettres();
+            for (const motCourant of this.mots) {
                 if (lettresAChercher === motCourant.obtenirLettres()) {
                     compteur++;
                 }
@@ -239,102 +266,79 @@ export class Grille {
     }
 
 
-    public calculerPointsContraintes(position:Position, positionCourante:number) {
-        
+    public calculerPointsContraintes(): void {
         let caseCourante: Case;
-        let casePouvantCreerIntersection: Case;
 
-        for(let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            caseCourante = this.obtenirCaseSelonPosition(position, positionCourante, i);
-            
-            this.calculerPointsContraintesDeLaCase(position, caseCourante, positionCourante, i);
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                caseCourante = this.obtenirCase(i, j);
+                caseCourante.remettrePointsContraintesAZero();
+                this.calculerPointsContraintesDeLaCase(caseCourante, caseCourante.obtenirX(), caseCourante.obtenirY());
+            }
         }
     }
 
-    private calculerPointsContraintesDeLaCase(position:Position, caseCourante:Case, xCourant:number, yCourant:number) {
-
+    private calculerPointsContraintesDeLaCase(caseCourante: Case, xCourant: number, yCourant: number): Case {
         // Cas une case en bas contient une lettre.
-        if(this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant))) {
-            caseCourante.ajouterUnPointDeContrainte(999);
-        }
-
-        // Cas deuxième mot collé à l'autre.
-        switch(position) {
-            case Position.Ligne:
-                if (this.peutAccueillirLettre(this.obtenirCase(xCourant - 1, yCourant)) ||
-                 this.peutAccueillirLettre(this.obtenirCase(xCourant + 1, yCourant))){
-                    caseCourante.ajouterUnPointDeContrainte(999);
-                }
-            break;
-
-            case Position.Colonne:
-                if (this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant-1)) ||
-                this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant+1))){
-                    caseCourante.ajouterUnPointDeContrainte(999);
-                }
-            break;
-        }
-
-        // Cas une case en bas contient une lettre.
-        if(this.peutAccueillirLettre(this.obtenirCase(xCourant + 1, yCourant))) {
-            caseCourante.ajouterUnPointDeContrainte();
+        if (this.peutAccueillirLettre(this.obtenirCase(xCourant + 1, yCourant))) {
+            caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
         }
 
         // Cas une case à droite contient une lettre.
-        if(this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant + 1))) {
-            caseCourante.ajouterUnPointDeContrainte();
+        if (this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant + 1))) {
+            caseCourante.ajouterUnPointDeContrainte(Position.Ligne);
         }
-        
+
         // Cas une case en haut contient une lettre.
-        if(this.peutAccueillirLettre(this.obtenirCase(xCourant - 1, yCourant))) {
-            caseCourante.ajouterUnPointDeContrainte();
+        if (this.peutAccueillirLettre(this.obtenirCase(xCourant - 1, yCourant))) {
+            caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
         }
-        
+
         // Cas une case à gauche contient une lettre.
-        if(this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant - 1))) {
-            caseCourante.ajouterUnPointDeContrainte();
+        if (this.peutAccueillirLettre(this.obtenirCase(xCourant, yCourant - 1))) {
+            caseCourante.ajouterUnPointDeContrainte(Position.Ligne);
         }
 
         return caseCourante;
     }
 
     private peutAccueillirLettre(caseAVerifier: Case): boolean {
-        if(caseAVerifier !== null) {
-            if(caseAVerifier.etat === EtatCase.vide) {
+        if (caseAVerifier !== null) {
+            if (caseAVerifier.etat === EtatCase.vide) {
                 return true;
             }
         }
 
         return false;
     }
-    
+
 
     private obtenirLaPositionDeLaPremiereLettreLimiteDuMot(grandeurMot: number): number {
         return DIMENSION_LIGNE_COLONNE - grandeurMot + 1;
     }
-    public trouverMeilleurPositionIndexDebut(grandeurMot:number, positionCourante:number, position:Position): number {
+
+    public trouverMeilleurPositionIndexDebut(grandeurMot: number, positionCourante: number, position: Position): number {
         let meilleurPositionIndexDebut = 0;
         let meilleurPointage = 0;
 
         let pointageCourant: number;
         let positionCaseIndexDebut: number;
-        let positionIndexCaseCourante:number
+        let positionIndexCaseCourante: number;
 
-        let caseCourante:Case;
+        let caseCourante: Case;
 
-        for(let i = 0; i < this.obtenirLaPositionDeLaPremiereLettreLimiteDuMot(grandeurMot); i++) {
+        for (let i = 0; i < this.obtenirLaPositionDeLaPremiereLettreLimiteDuMot(grandeurMot); i++) {
             pointageCourant = 0;
             positionCaseIndexDebut = i;
 
-            for(let j = 0; j < grandeurMot; j++) {
+            for (let j = 0; j < grandeurMot; j++) {
                 positionIndexCaseCourante = i + j;
                 caseCourante = this.obtenirCaseSelonPosition(position, positionCourante, positionIndexCaseCourante);
 
                 pointageCourant += caseCourante.obtenirPointsDeContraintes();
             }
 
-            if (i === 0 || meilleurPointage > pointageCourant)
-            {
+            if (i === 0 || meilleurPointage > pointageCourant) {
                 meilleurPositionIndexDebut = positionCaseIndexDebut;
                 meilleurPointage = pointageCourant;
             }

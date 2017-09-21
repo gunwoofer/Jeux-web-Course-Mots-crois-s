@@ -37,7 +37,6 @@ export class GenerateurDeMotContrainteService {
                 chaineContrainte = this.replaceCharAt(chaineContrainte, this.contrainte[i].obtenirPositionContrainte(), this.contrainte[i].obtenirLettre());
             }
         }
-        console.log(chaineContrainte);
 
         let self: GenerateurDeMotContrainteService = this;
 
@@ -116,8 +115,7 @@ export class GenerateurDeMotContrainteService {
                     
             }
         }
-
-        console.log("mot" + monMot.obtenirLettres());
+        
         return monMot;
     }
 

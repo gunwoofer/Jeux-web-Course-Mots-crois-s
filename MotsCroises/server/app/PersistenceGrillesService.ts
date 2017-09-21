@@ -1,115 +1,284 @@
-let MongoClient = require('mongodb').MongoClient, assert = require('assert');
-
-import { UUID } from './utilitaires/UUID';
-import { Grille } from './Grille';
+import { Guid } from './Guid';
+import { Grille, Niveau } from './Grille';
 import * as express from 'express';
+import { Observateur } from './Observateur';
+import { BDImplementation } from './BDImplementation';
+import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 
 
-export const nomTableauGrilles:string = 'grilles';
+export const nomTableauGrilles = 'grilles';
 
 // Connection URL
 const url = 'mongodb://localhost:27017/motscroises';
+const urlPoly = 'mongodb://parapluie.info.polymtl.ca/motscroises';
 
 export class PersistenceGrillesService {
-    private reponse:  express.Response;
-    private message: string = '';
-    private compteurRequetesEntiteePersistente: number = 0;
-    private pretPourEnvoyerReponse:boolean = false;
+    private reponse: express.Response;
+    public message = '';
+    private compteurRequetesEntiteePersistente = 0;
+    private pretPourEnvoyerReponse = false;
+    private observateurs: Observateur[] = new Array();
+    private generateurDeGrilleService: GenerateurDeGrilleService;
+    private aEteEnvoye = false;
 
-    constructor (reponse:  express.Response) {
-        this.reponse = reponse;
-    }
+    private bdImplementation: BDImplementation = new BDImplementation();
 
-    public envoyerReponse(message: string){
-        this.message += message;
-
-        if(this.pretPourEnvoyerReponse) {
-            this.reponse.send(this.message);
+    constructor(generateurDeGrilleService: GenerateurDeGrilleService, reponse?: express.Response) {
+        this.generateurDeGrilleService = generateurDeGrilleService;
+        if (reponse !== undefined) {
+            this.reponse = reponse;
         }
     }
 
-    public notifierReponseRecuEntiteePersistente() {
+    public inscrire(observateur: Observateur) {
+        this.observateurs.push(observateur);
+    }
+
+    public notifier(): void {
+        for (const observateur of this.observateurs) {
+            observateur.notifier();
+        }
+    }
+
+    public envoyerReponse(message: string): void {
+        this.message += message;
+
+        if (this.pretPourEnvoyerReponse && this.reponse !== undefined && (!this.aEteEnvoye)) {
+            this.reponse.send(this.message);
+            this.aEteEnvoye = true;
+        }
+    }
+
+    public notifierReponseRecuEntiteePersistente(): void {
         this.compteurRequetesEntiteePersistente--;
 
-        if(this.compteurRequetesEntiteePersistente === 0) {
+        if (this.compteurRequetesEntiteePersistente === 0) {
             this.pretPourEnvoyerReponse = true;
         }
     }
 
-    public connectiondbMotsCroises() {
-        let self: PersistenceGrillesService = this;
+    private connectiondbMotsCroises(callback?: any, donneesAuCallback?: any): void {
+        const self: PersistenceGrillesService = this;
 
-       // Use connect method to connect to the server
-       this.compteurRequetesEntiteePersistente++;
-        MongoClient.connect(url, function(err: any, db: any) {    
-
+        // Connexion à la base de données persistente.
+        this.compteurRequetesEntiteePersistente++;
+        this.bdImplementation.seConnecter(url, (err: any, db: any) => {
 
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
-    
-            self.envoyerReponse('Connexion avec succès à MongoDB');
-            
+
+            if (callback !== undefined) {
+                if (donneesAuCallback !== undefined) {
+                    callback(self, db, donneesAuCallback);
+                } else {
+                    callback(self, db);
+                }
+            } else {
+                db.close();
+            }
+        });
+    }
+
+    public creerTableauGrilles(): void {
+        this.connectiondbMotsCroises(this.procedureRappelCreerTableauGrilles);
+    }
+
+    private procedureRappelCreerTableauGrilles(self: PersistenceGrillesService, db: any): void {
+        self.compteurRequetesEntiteePersistente++;
+        db.createCollection(nomTableauGrilles, (err: any, res: any) => {
+            self.notifierReponseRecuEntiteePersistente();
+            self.verifierSierrConnection(err, db, self);
+            self.notifier();
+            self.envoyerReponse(' | Collection créé !');
             db.close();
         });
     }
 
-    public creerTableauGrilles() {
-        let self: PersistenceGrillesService = this;
-
-        this.compteurRequetesEntiteePersistente++;
-        MongoClient.connect(url, function(err: any, db: any) {     
-
+    private supprimerGrille(self: PersistenceGrillesService, db: any, id: string): void {
+        self.compteurRequetesEntiteePersistente++;
+        db.collection(nomTableauGrilles).deleteOne({ id: id }, (err: any, obj: any) => {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
+            self.notifier();
 
+            db.close();
+        });
+    }
+
+    public insererGrille(grille: Grille): void {
+        this.connectiondbMotsCroises(this.procedureRappelInsererGrille, grille);
+    }
+
+    public obtenirGrillePersistante(niveau: Niveau): void {
+        this.connectiondbMotsCroises(this.procedureRappelObtenirGrille, niveau);
+    }
+
+    public asyncObtenirGrillePersistante(niveau: Niveau): Promise<Grille> {
+        const self: PersistenceGrillesService = this;
+
+        return new Promise((resolve: any, reject: any) => {
+            self.asyncConnectiondbMotsCroises(self)
+                .then(db => self.asyncProcedureRappelObtenirGrille(self, db, niveau))
+                .then(result => { resolve(result) })
+                .catch(error => { reject(error); });
+        });
+    }
+
+    public asyncConnectiondbMotsCroises(self: PersistenceGrillesService): Promise<any> {
+        return new Promise((resolve: any, reject: any) => {
+            // Connexion à la base de données persistente.
             self.compteurRequetesEntiteePersistente++;
-            db.createCollection(nomTableauGrilles, function(err: any, res: any) {
-                
-                self.notifierReponseRecuEntiteePersistente();
-                self.verifierSierrConnection(err, db, self);
+            self.bdImplementation.seConnecter(url, (err: any, db: any) => {
 
-                self.envoyerReponse(' | Collection créé !');
-                
-                db.close();
+                self.notifierReponseRecuEntiteePersistente();
+                self.asyncVerifierSierrConnection(err, db, reject);
+
+                resolve(db);
             });
         });
     }
 
-    public insererGrille(grille:Grille) {
-        let self: PersistenceGrillesService = this;
-        let grilleStringify: string = JSON.stringify(grille);
-        let grilleAInserer: Object = {
-            id: UUID.generateUUID(),
+    private asyncVerifierSierrConnection(err: any, db: any, reject: any): boolean {
+        if (err) {
+            reject(err);
+            db.close();
+            return true;
+        }
+
+        return false;
+    }
+
+    private asyncProcedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau): Promise<Grille> {
+
+        return new Promise(
+            (resolve: any, reject: any) => {
+                self.compteurRequetesEntiteePersistente++;
+                db.collection(nomTableauGrilles).find({ niveau: niveau }).toArray((err: any, result: any) => {
+
+                    self.notifierReponseRecuEntiteePersistente();
+                    self.asyncVerifierSierrConnection(err, db, reject);
+                    resolve(result[0].grille.replace('\\', ''));
+                    self.notifier();
+
+                    self.supprimerGrille(self, db, result[0].id);
+                    self.insererGrille(self.generateurDeGrilleService.genererGrille(niveau));
+                    db.close();
+                });
+            }
+        );
+    }
+
+    private procedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau): void {
+
+        self.compteurRequetesEntiteePersistente++;
+        db.collection(nomTableauGrilles).find({ niveau: niveau }).toArray((err: any, result: any) => {
+
+            self.notifierReponseRecuEntiteePersistente();
+            self.verifierSierrConnection(err, db, self);
+            self.envoyerReponse(result[0].grille.replace('\\', ''));
+            self.notifier();
+
+            self.supprimerGrille(self, db, result[0].id);
+            self.insererGrille(self.generateurDeGrilleService.genererGrille(niveau));
+            db.close();
+        });
+    }
+
+    private procedureRappelInsererGrille(self: PersistenceGrillesService, db: any, grille: Grille): void {
+        const grilleStringify: string = JSON.stringify(grille);
+        const grilleAInserer: Object = {
+            id: Guid.generateGUID(),
             niveau: grille.obtenirNiveau(),
             grille: grilleStringify
         };
 
-        this.compteurRequetesEntiteePersistente++;
-        MongoClient.connect(url, function(err: any, db: any) {
-
+        self.compteurRequetesEntiteePersistente++;
+        db.collection(nomTableauGrilles).insertOne(grilleAInserer, (err: any, res: any) => {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
-            
-            self.compteurRequetesEntiteePersistente++;
-            db.collection(nomTableauGrilles).insertOne(grilleAInserer, function(err: any, res: any) {
-    
-                self.notifierReponseRecuEntiteePersistente();
-                self.verifierSierrConnection(err, db, self);
-                self.envoyerReponse('| 1 document inserted');
-                db.close();
-            });
+            self.notifier();
+            self.envoyerReponse('| 1 grille inséré');
+            db.close();
         });
-
-
     }
-    
-    private verifierSierrConnection(err: any, db: any, self:PersistenceGrillesService): boolean {
-        if(err) {
+
+    public insererPlusieursGrilles(grilles: Grille[]): void {
+        this.connectiondbMotsCroises(this.procedureRappelInsererplusieursGrilles, grilles);
+    }
+
+    public asyncInsererPlusieursGrilles(grilles: Grille[]): Promise<string> {
+        const self: PersistenceGrillesService = this;
+
+        return new Promise((resolve: any, reject: any) => {
+            self.asyncConnectiondbMotsCroises(self)
+                .then(db => self.asyncProcedureRappelInsererplusieursGrilles(self, db, grilles))
+                .then(result => { resolve(result) })
+                .catch(error => { reject(error); });
+        });
+    }
+
+    private asyncProcedureRappelInsererplusieursGrilles(self: PersistenceGrillesService, db: any, grilles: Grille[]): Promise<string> {
+        return new Promise(
+            (resolve: any, reject: any) => {
+
+                let grilleStringify: string;
+                let grilleAInserer: Object;
+                const grillesAInserer: Object[] = new Array();
+
+                for (const grille of grilles) {
+                    grilleStringify = JSON.stringify(grille);
+                    grilleAInserer = {
+                        id: Guid.generateGUID(),
+                        niveau: grille.obtenirNiveau(),
+                        grille: grilleStringify
+                    };
+                    grillesAInserer.push(grilleAInserer);
+                }
+
+                self.compteurRequetesEntiteePersistente++;
+                db.collection(nomTableauGrilles).insertMany(grillesAInserer, (err: any, res: any) => {
+                    self.notifierReponseRecuEntiteePersistente();
+                    self.asyncVerifierSierrConnection(err, db, self);
+                    self.notifier();
+                    resolve(' | ' + res.insertedCount + ' grilles insérés (async)');
+                    db.close();
+                });
+            }
+        );
+    }
+
+    private procedureRappelInsererplusieursGrilles(self: PersistenceGrillesService, db: any, grilles: Grille[]): void {
+        let grilleStringify: string;
+        let grilleAInserer: Object;
+        const grillesAInserer: Object[] = new Array();
+
+        for (const grille of grilles) {
+            grilleStringify = JSON.stringify(grille);
+            grilleAInserer = {
+                id: Guid.generateGUID(),
+                niveau: grille.obtenirNiveau(),
+                grille: grilleStringify
+            };
+            grillesAInserer.push(grilleAInserer);
+        }
+
+        self.compteurRequetesEntiteePersistente++;
+        db.collection(nomTableauGrilles).insertMany(grillesAInserer, (err: any, res: any) => {
+            self.notifierReponseRecuEntiteePersistente();
+            self.verifierSierrConnection(err, db, self);
+            self.notifier();
+            self.envoyerReponse(' | ' + res.insertedCount + ' grilles insérés');
+            db.close();
+        });
+    }
+
+    private verifierSierrConnection(err: any, db: any, self: PersistenceGrillesService): boolean {
+        if (err) {
             db.close();
             self.reponse.send(err);
             return true;
         }
-        
+
         return false;
     }
 }

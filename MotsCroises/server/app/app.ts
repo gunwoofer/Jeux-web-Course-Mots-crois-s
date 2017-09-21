@@ -18,102 +18,113 @@ import * as indexRoute from './routes/index';
 
 export class Application {
 
-  public app: express.Application;
+    public app: express.Application;
 
-  /**
-   * Bootstrap the application.
-   *
-   * @class Server
-   * @method bootstrap
-   * @static
-   * @return {ng.auto.IInjectorService} Returns the newly created injector for this this.app.
-   */
-  public static bootstrap(): Application {
-    return new Application();
-  }
+    /**
+     * Bootstrap the application.
+     *
+     * @class Server
+     * @method bootstrap
+     * @static
+     * @return {ng.auto.IInjectorService} Returns the newly created injector for this this.app.
+     */
+    public static bootstrap(): Application {
+        return new Application();
+    }
 
-  /**
-   * Constructor.
-   *
-   * @class Server
-   * @constructor
-   */
-  constructor() {
+    /**
+     * Constructor.
+     *
+     * @class Server
+     * @constructor
+     */
+    constructor() {
 
-    // Application instantiation
-    this.app = express();
+        // Application instantiation
+        this.app = express();
 
-    // configure this.application
-    this.config();
+        // configure this.application
+        this.config();
 
-    // configure routes
-    this.routes();
-  }
+        // configure routes
+        this.routes();
+    }
 
-  /**
-   * The config function.
-   *
-   * @class Server
-   * @method config
-   */
-  private config() {
-    // Middlewares configuration
-    this.app.use(logger('dev'));
-    this.app.use(bodyParser.json());
-    this.app.use(bodyParser.urlencoded({ extended: true }));
-    this.app.use(cookieParser());
-    this.app.use(express.static(path.join(__dirname, '../client')));
-    this.app.use(cors());
-  }
+    /**
+     * The config function.
+     *
+     * @class Server
+     * @method config
+     */
+    private config() {
+        // Middlewares configuration
+        this.app.use(logger('dev'));
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
+        this.app.use(cookieParser());
+        this.app.use(express.static(path.join(__dirname, '../client')));
+        this.app.use(cors());
+    }
 
-  /**
-   * The routes function.
-   *
-   * @class Server
-   * @method routes
-   */
-  public routes() {
-    let router: express.Router;
-    router = express.Router();
+    /**
+     * The routes function.
+     *
+     * @class Server
+     * @method routes
+     */
+    public routes() {
+        let router: express.Router;
+        router = express.Router();
 
-    // create routes
-    const index: indexRoute.Index = new indexRoute.Index();
+        // create routes
+        const index: indexRoute.Index = new indexRoute.Index();
 
-    // Generation d'une grille
-    router.get('/GenerationDeGrilleService', index.GenerationDeGrilleService.bind(index.GenerationDeGrilleService));
+        // Generation d'une grille
+        router.get('/GenerationDeGrilleService', index.GenerationDeGrilleService.bind(index.GenerationDeGrilleService));
 
-    // Utilisation de la base de données.
-    router.get('/grilles/persistence', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
-;
-    // use router middleware
-    this.app.use(router);
+        // Utilisation de la base de données.
+        router.use('/grilles/persistence/grille/facile/async', index.asyncObtenirGrilleFacile.bind(index.asyncObtenirGrilleFacile));
+        router.use('/grilles/persistence/grille/facile', index.obtenirGrilleFacile.bind(index.obtenirGrilleFacile));
+        router.use('/grilles/persistence/grille/moyen/async', index.asyncObtenirGrilleMoyen.bind(index.asyncObtenirGrilleMoyen));
+        router.use('/grilles/persistence/grille/moyen', index.obtenirGrilleMoyen.bind(index.obtenirGrilleMoyen));
+        router.use('/grilles/persistence/grille/difficile/async',
+            index.asyncObtenirGrilleDifficile.bind(index.asyncObtenirGrilleDifficile));
+        router.use('/grilles/persistence/grille/difficile', index.obtenirGrilleDifficile.bind(index.obtenirGrilleDifficile));
 
-    // Gestion des erreurs
-    this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const err = new Error('Not Found');
-        next(err);
-    });
+        router.use('/grilles/persistence/grille/ajouter/5/async',
+            index.asyncPersistenceGrillesService.bind(index.asyncPersistenceGrillesService));
+        router.use('/grilles/persistence/grille/ajouter/5', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
+        router.use('/grilles/tableau/creer', index.creerTableauGrille.bind(index.creerTableauGrille));
 
-    // development error handler
-    // will print stacktrace
-    if (this.app.get('env') === 'development') {
+        // use router middleware
+        this.app.use(router);
+
+        // Gestion des erreurs
+        this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
+            const err = new Error('Not Found');
+            next(err);
+        });
+
+        // development error handler
+        // will print stacktrace
+        if (this.app.get('env') === 'development') {
+            this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+                res.status(err.status || 500);
+                res.send({
+                    message: err.message,
+                    error: err
+                });
+            });
+        }
+
+        // production error handler
+        // no stacktraces leaked to user (in production env only)
         this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
             res.status(err.status || 500);
             res.send({
                 message: err.message,
-                error: err
+                error: {}
             });
         });
     }
-
-    // production error handler
-    // no stacktraces leaked to user (in production env only)
-    this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-        res.status(err.status || 500);
-        res.send({
-            message: err.message,
-            error: {}
-        });
-    });
-  }
 }

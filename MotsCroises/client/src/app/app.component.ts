@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
-import {BasicService} from './basic.service';
+import { BasicService } from './basic.service';
+import {Router} from '@angular/router';
+
 
 @Component({
   selector: 'app-root',
@@ -9,31 +11,68 @@ import {BasicService} from './basic.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor (private basicService: BasicService) {}
+  constructor(private basicService: BasicService) { }
 
   public title = 'LOG2990';
   public message: string;
   public grille = '';
+  public grillePersistenteFacile = '';
+  public grillePersistenteMoyen = '';
+  public grillePersistenteDifficile = '';
+  public niveaux: string[] = ['facile', 'moyen', 'difficile'];
+  public types: string[] = ['classique', 'dynamique'];
+  public typePartie = 'classique';
+  public niveauPartie = 'normal';
 
   public ngOnInit(): void {
+    this.basicService.ajouterGrillesDeDepart();
     this.basicService.obtenirGrille().then(grille => this.afficherGrille(grille));
+    this.basicService.obtenirGrillePersistenteFacile().then(grille => this.afficherGrillePersistenteFacile(grille));
+    this.basicService.obtenirGrillePersistenteMoyen().then(grille => this.afficherGrillePersistenteMoyen(grille));
+    this.basicService.obtenirGrillePersistenteDifficile().then(grille => this.afficherGrillePersistenteDifficile(grille));
   }
 
-  public afficherGrille(grille:any) {
-    this.grille = '<table border=1>';
-    for(const casesLigne of grille.cases) {
-      this.grille += '<tr>';
+  public afficherGrillePersistenteFacile(grille: any): void {
+    this.grillePersistenteFacile = this.obtenirTableauMotsCroises(grille);
+  }
+
+  public afficherGrillePersistenteMoyen(grille: any): void {
+    this.grillePersistenteMoyen = this.obtenirTableauMotsCroises(grille);
+  }
+
+  public afficherGrillePersistenteDifficile(grille: any): void {
+    this.grillePersistenteDifficile = this.obtenirTableauMotsCroises(grille);
+  }
+
+  public afficherGrille(grille: any): void {
+    this.grille = this.obtenirTableauMotsCroises(grille);
+  }
+
+  public obtenirTableauMotsCroises(grille: any): string {
+    let grilleEnTableau = '';
+    grilleEnTableau = '<table border=1>';
+    for (const casesLigne of grille.cases) {
+      grilleEnTableau += '<tr>';
       for (const caseCourante of casesLigne) {
-        this.grille += '<td>';
+        grilleEnTableau += '<td>';
         if (caseCourante.lettre !== undefined) {
-          this.grille += caseCourante.lettre;
+          grilleEnTableau += caseCourante.lettre;
         } else {
-          this.grille += '*';
+          grilleEnTableau += '*';
         }
-        this.grille += '</td>';
+        grilleEnTableau += '</td>';
       }
-      this.grille += '</tr>';
+      grilleEnTableau += '</tr>';
     }
-    this.grille += '</table>';
+    grilleEnTableau += '</table>';
+    return grilleEnTableau;
+  }
+
+  public ajouterTypePartie(typePartie: string): void {
+    this.typePartie = typePartie;
+  }
+
+  public ajouterNiveauPartie(niveauPartie: string): void {
+    this.niveauPartie = niveauPartie;
   }
 }
