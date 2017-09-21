@@ -235,8 +235,16 @@ describe('RenderService', () => {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
     const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
-    const premierSegment = vecteurLignes[0];
-    expect(renderService.obtenirLigneDeDepart()).toEqual(premierSegment);
+    const vecteurCouleurs = renderService.pointsLine.geometry.attributes.color.array;
+    const premierSegmentCouleurR = vecteurCouleurs[0];
+    const premierSegmentCouleurG = vecteurCouleurs[1];
+    const premierSegmentCouleurB = vecteurCouleurs[2];
+    expect(premierSegmentCouleurR).toBeCloseTo(0.55);
+    expect(premierSegmentCouleurG).toBeCloseTo(0.91);
+    expect(premierSegmentCouleurB).toBeCloseTo(0.64);
+    for (let i = 0; i < 6; i++) {
+      expect(renderService.obtenirLigneDeDepart()[i]).toEqual(vecteurLignes[i]);
+    }
     expect(renderService.compteur - 1).toEqual(4);
   });
 
@@ -425,7 +433,7 @@ describe('RenderService', () => {
     for (let i = 0; i <= 4; i++) {
       renderService.onMouseClick(fakeClickEventArray[i]);
     }
-    expect(renderService.nombreSegmentsTropCourts()).toEqual(1);
+    expect(renderService.nbSegmentsTropProche).toEqual(1);
     expect(renderService.afficherMessageErreurs()).toEqual('Segment(s) trop proche(s) => 1 ; ');
     expect(renderService.retourneEtatDessin()).toBeFalsy();
   });

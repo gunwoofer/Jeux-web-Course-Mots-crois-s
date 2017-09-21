@@ -36,7 +36,7 @@ export class RenderService {
 
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
-  private nbSegmentsTropProche = 0;
+  public nbSegmentsTropProche = 0;
 
 
   private listeErreurCouleur = {
@@ -55,9 +55,13 @@ export class RenderService {
     this.startRenderingLoop();
   }
 
-  public obtenirLigneDeDepart(): number {
+  public obtenirLigneDeDepart(): number[] {
+    const positions = [];
     if (this.pointsLine.geometry.attributes.position.array.length > 0) {
-      return this.pointsLine.geometry.attributes.position.array[0];
+      for (let i = 0; i < 6; i++) {
+        positions[i] = this.pointsLine.geometry.attributes.position.array[i];
+      }
+      return positions;
     } else {
       return null;
     }
@@ -473,11 +477,10 @@ export class RenderService {
 
   private modificationdecouleuur(position): void {
     const couleurListe = this.pointsLine.geometry.attributes.color.array;
-    const couleur = new THREE.Color(0x4fc3f7);
     if (this.points.length < 2) {
-      couleurListe[position * 3] = couleur.r;
-      couleurListe[position * 3 + 1] = couleur.g;
-      couleurListe[position * 3 + 2] = couleur.b;
+      couleurListe[position * 3] = 0.55;
+      couleurListe[position * 3 + 1] = 0.91;
+      couleurListe[position * 3 + 2] = 0.64;
     }
     this.pointsLine.geometry.attributes.color.needsUpdate = true;
   }
