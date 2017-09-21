@@ -497,9 +497,17 @@ export class RenderService {
 
   private modifierPointLine(positionTableauPoints, positionPoint) {
     const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
+    const couleurListe = this.pointsLine.geometry.attributes.color.array;
+    const couleur = new THREE.Color(0xEEEEEE);
+    if (this.points.length < 1) {
+      couleurListe[positionTableauPoints * 3] = couleur.r;
+      couleurListe[positionTableauPoints * 3 + 1] = couleur.g;
+      couleurListe[positionTableauPoints * 3 + 2] = couleur.b;
+    }
     pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
     pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
     pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
+    this.pointsLine.geometry.attributes.color.needsUpdate = true;
     this.pointsLine.geometry.attributes.position.needsUpdate = true;
 
   }
