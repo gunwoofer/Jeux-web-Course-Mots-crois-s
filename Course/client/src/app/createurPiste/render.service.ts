@@ -431,7 +431,7 @@ export class RenderService {
     } else {
       if (intersects.length > 0) {
         this.actualiserCouleurPoints();
-        this.pointHover = false; // on désactive le hover
+        this.pointHover = false;
         for (const objet of intersects) {
           if (objet.object.type === 'Points') {
             this.hoverPoint(objet.object);
@@ -532,7 +532,6 @@ export class RenderService {
     for (const point of this.points) {
       arrayPointPosition.push(point.position);
     }
-    // Create a closed wavey loop
 
     if (this.dessinTermine) {
       arrayPointPosition.pop();
@@ -544,8 +543,6 @@ export class RenderService {
     geometry.vertices = curve.getPoints(100);
 
     const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-
-    // Create the final object to add to the scene
     this.courbe = new THREE.Line(geometry, material);
     this.scene.add(this.courbe);
   }
