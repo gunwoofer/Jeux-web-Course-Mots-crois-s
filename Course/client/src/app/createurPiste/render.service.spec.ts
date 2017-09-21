@@ -239,4 +239,39 @@ describe('RenderService', () => {
     expect(renderService.obtenirLigneDeDepart()).toEqual(premierSegment);
     expect(renderService.compteur - 1).toEqual(4);
   });
+
+  it('Test de la méthode dessiner dernierPoint', () => {
+    fakeClickEventArray[0] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 200,
+      clientY: 200
+    });
+    fakeClickEventArray[1] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 400,
+      clientY: 100
+    });
+    fakeClickEventArray[2] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 500,
+      clientY: 200
+    });
+    fakeClickEventArray[3] = new MouseEvent('mouseup', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 200,
+      clientY: 200
+    });
+    for (let i = 0; i <= 3; i++) {
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    expect(renderService.dessinTermine).toEqual(true);
+  });
 });

@@ -62,7 +62,7 @@ export class CreateurPisteComponent implements AfterViewInit {
   }
 
   private condition(): boolean {
-    return this.affiche = this.renderService.retourneetatDessin();
+    return this.affiche = this.renderService.retourneEtatDessin();
   }
 
   private erreursCircuit(): boolean {

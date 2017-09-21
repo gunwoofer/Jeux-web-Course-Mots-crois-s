@@ -17,7 +17,7 @@ export class RenderService {
 
   private pointXVecteur: number[] = [];
   private pointYVecteur: number[] = [];
-  private dessinTermine = false;
+  public dessinTermine = false;
   private cameraZ = 400;
   public compteur = 0;
   private normeSegment = 0;
@@ -312,7 +312,7 @@ export class RenderService {
   }
 
 
-  public retourneetatDessin(): boolean {
+  public retourneEtatDessin(): boolean {
     if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {
       return this.dessinTermine;
     } else {
