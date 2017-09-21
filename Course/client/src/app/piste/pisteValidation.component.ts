@@ -7,6 +7,7 @@ import { RenderService } from './../createurPiste/render.service';
 @Component({
     selector : 'app-pistevalidator-component',
     templateUrl : './pisteValidation.component.html',
+    styleUrls: ['./pisteValidation.component.css']
 })
 
 export class PisteValidationComponent {
@@ -14,8 +15,16 @@ export class PisteValidationComponent {
     @Input() private points: THREE.Points[];
     @Input() private lignes: THREE.Line[];
 
+    private display: boolean;
+
     private onSubmit(form: NgForm) {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, this.points);
         console.log(piste);
+    }
+
+    private onClick() {
+        this.display = !this.display;
+        console.log(this.display);
+
     }
 }

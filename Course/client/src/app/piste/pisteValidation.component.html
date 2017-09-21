@@ -1,5 +1,7 @@
 <div class="col-md-8 col-md-offset-2">
-    <form ngNativeValidate (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <button [style.display]="display ? 'none' : 'active'" class="btn btn-primary" (click)="onClick()">Enregistrer Piste</button>
+
+    <form *ngIf="display" ngNativeValidate (ngSubmit)="onSubmit(f)" #f="ngForm">
         <div class="form-group">
             <label for="nomPiste">Nom de la piste</label>
             <input type="text" class="form-control" ngModel name="nomPiste">
@@ -15,6 +17,6 @@
             <label for="description">Description</label>
             <input type="text" class="form-control" ngModel name="description">
         </div>
-        <button class="btn btn-primary" type="submit">Sauvegarder Circuit</button>
+        <button class="btn btn-success" type="submit">Sauvegarder Circuit</button>
     </form>
 </div>

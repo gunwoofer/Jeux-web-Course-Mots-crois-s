@@ -91,7 +91,6 @@ export class RenderService {
 
   // Dessin des points
   public dessinerPoint(event) {
-    console.log('dessinPoint');
     let objet, point, distance = 100;
     if (!this.dessinTermine) {
       objet = this.obtenirIntersection(event);
@@ -115,7 +114,7 @@ export class RenderService {
       this.redessinerCourbe();
       this.render();
     } else {
-        alert('Dessin termine');
+        return 0;
     }
   }
 
