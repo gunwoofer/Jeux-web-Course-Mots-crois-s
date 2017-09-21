@@ -32,7 +32,7 @@ describe('RenderService', () => {
     fixture.detectChanges();
   }));
 
- it('should be created', () => {
+ it('Devrait être créée', () => {
     expect(renderService).toBeTruthy();
   });
 
