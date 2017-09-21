@@ -285,28 +285,14 @@ export class GenerateurDeGrilleService {
 
                 while (!motAjoute) {
                     const grandeur = emplacementMotCourant.obtenirGrandeur();
-                    /*
-                    let tableauContraintes: [string, number][] = new Array();
-                    for (let i = 0; i < emplacementMotCourant.obtenirCases().length; i++) {
-                        if (emplacementMotCourant.obtenirCases()[i].obtenirEtat() ==  EtatCase.pleine) {
-                            tableauContraintes.push([emplacementMotCourant.obtenirCases()[i].obtenirLettre(), i]);
-                        }
-
-                    }
-                    */
+                    
                     ///////MOCKING/DU/DICTIONNAIRE///////
                     let chaineIdiote = '';
                     for (let i = 0; i < grandeur; i++) {
                         chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntreXEtY(1, nombreLettresDeAlphabet));
                     }
-                    /*
-                    for (let i = 0; i < tableauContraintes.length; i++) {
-                        chaineIdiote[tableauContraintes[i][0]] = tableauContraintes[i][1];
-                    }
-                    */
                     
-                    
-
+            
                     let indiceIdiot = new Indice(['definition facile', 'definition un peu difficile', 'definition dure de ouuuuf']);
                     const motIdiot: Mot = new Mot(chaineIdiote, indiceIdiot);
 
