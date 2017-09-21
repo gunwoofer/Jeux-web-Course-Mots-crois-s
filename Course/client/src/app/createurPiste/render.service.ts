@@ -34,9 +34,9 @@ export class RenderService {
   private courbe;
   private POINTS_MAXIMUM = 1000;
 
-  private nbSegmentsCroises = 0;
+  public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
-  private nbSegmentsTropProche = 0;
+  public nbSegmentsTropProche = 0;
 
 
   private listeErreurCouleur = {

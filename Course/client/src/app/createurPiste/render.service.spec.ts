@@ -341,4 +341,92 @@ describe('RenderService', () => {
     expect(renderService.afficherMessageErreurs()).toEqual('Angle(s) inférieurs à 45° => 2 ; ');
     expect(renderService.retourneEtatDessin()).toBeFalsy();
   });
+
+  it('Une piste ne peut être sauvegardée si deux section se croisent.', () => {
+    fakeClickEventArray[0] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 558,
+      clientY: 266
+    });
+      fakeClickEventArray[1] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 784,
+      clientY: 170
+    });
+      fakeClickEventArray[2] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 813,
+      clientY: 305
+    });
+    fakeClickEventArray[3] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 558,
+      clientY: 166
+    });
+    fakeClickEventArray[4] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 558,
+      clientY: 266
+    });
+    for (let i = 0; i <= 4; i++) {
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    expect(renderService.nbSegmentsCroises).toEqual(1);
+    expect(renderService.afficherMessageErreurs()).toEqual('Segment(s) croisé(s) => 1 ; ');
+    expect(renderService.retourneEtatDessin()).toBeFalsy();
+  });
+
+  it('Une piste ne peut être sauvegardée si la longueur d\'un segment est moins de deux fois la largeur de la piste.', () => {
+    fakeClickEventArray[0] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 300,
+      clientY: 100
+    });
+      fakeClickEventArray[1] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 784,
+      clientY: 170
+    });
+      fakeClickEventArray[2] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 813,
+      clientY: 405
+    });
+    fakeClickEventArray[3] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 793,
+      clientY: 405
+    });
+    fakeClickEventArray[4] = new MouseEvent('click', {
+      bubbles: true,
+      cancelable: true,
+      view: window,
+      clientX: 300,
+      clientY: 100
+    });
+    for (let i = 0; i <= 4; i++) {
+      renderService.onMouseClick(fakeClickEventArray[i]);
+    }
+    expect(renderService.nbSegmentsTropProche).toEqual(1);
+    expect(renderService.afficherMessageErreurs()).toEqual('Segment(s) trop proche(s) => 1 ; ');
+    expect(renderService.retourneEtatDessin()).toBeFalsy();
+  });
 });
