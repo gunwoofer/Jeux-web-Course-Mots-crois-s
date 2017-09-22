@@ -1,26 +1,33 @@
+import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { CubeComponent } from './cube/cube.component';
+import { CreateurPisteComponent } from './createurPiste/createurPiste.component';
+import { PisteValidationComponent } from './piste/pisteValidation.component';
 
-import {RenderService} from './cube/render.service';
+
+
+
+import {RenderService} from './createurPiste/render.service';
 import {BasicService} from './basic.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CubeComponent
+    CreateurPisteComponent,
+    PisteValidationComponent
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpModule,
+    FormsModule
   ],
   providers: [
     RenderService,
-    BasicService
+    BasicService,
   ],
   bootstrap: [AppComponent]
 })
