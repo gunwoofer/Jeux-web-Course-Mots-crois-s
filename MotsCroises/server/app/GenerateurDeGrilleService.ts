@@ -218,6 +218,8 @@ export class GenerateurDeGrilleService {
 
                 while (!motAjoute) {
                     const grandeur = emplacementMotCourant.obtenirGrandeur();
+                    
+                    ///////MOCKING/DU/DICTIONNAIRE///////
                     let chaineIdiote = '';
                     for (let i = 0; i < grandeur; i++) {
                         chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntreXEtY(1, nombreLettresDeAlphabet));

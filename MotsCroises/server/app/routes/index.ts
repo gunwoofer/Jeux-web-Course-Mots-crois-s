@@ -1,7 +1,9 @@
 import * as express from 'express';
 import { GenerateurDeGrilleService } from '../GenerateurDeGrilleService';
 import { PersistenceGrillesService } from '../PersistenceGrillesService';
+import { GenerateurDeMotContrainteService } from '../GenerateurDeMotContrainteService';
 import { Grille, Niveau } from '../Grille';
+import { Contrainte } from '../Contrainte';
 
 module Route {
 
@@ -14,6 +16,16 @@ module Route {
             res.send(JSON.stringify(grille));
         }
 
+        public GenerationDeMotContrainteService(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            let contrainte1 = new Contrainte('h', 0);
+            let contrainte2 = new Contrainte('e', 1);
+            let nombreLettre: number = 5;
+    
+            const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre, [contrainte1, contrainte2]);
+            monGenerateurDeMot.genererMot(Niveau.facile).then((mot) => {
+                res.send(JSON.stringify(mot));
+            });
+        }
 
         public PersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction): void {
 

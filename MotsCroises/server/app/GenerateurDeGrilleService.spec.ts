@@ -44,17 +44,17 @@ describe('GenerateurDeGrilleService', () => {
         const grilleDifficile = generateurDeGrilleService.genererGrille(Niveau.difficile);
 
         for (let i = 0; i < grilleFacile.obtenirMot().length; i++) {
-            assert(grilleFacile.obtenirMot()[i].obtenirRarete() === Rarete.commun);
-            assert(grilleFacile.obtenirMot()[i].obtenirIndice().obtenirDifficulteDefinition() ===
+            assert(grilleFacile.obtenirMotParticulier(i).obtenirRarete() === Rarete.commun);
+            assert(grilleFacile.obtenirMotParticulier(i).obtenirIndice().obtenirDifficulteDefinition() ===
                 DifficulteDefinition.PremiereDefinition);
 
 
-            assert(grilleMoyen.obtenirMot()[i].obtenirRarete() === Rarete.commun);
-            assert(grilleMoyen.obtenirMot()[i].obtenirIndice().obtenirDifficulteDefinition() ===
+            assert(grilleMoyen.obtenirMotParticulier(i).obtenirRarete() === Rarete.commun);
+            assert(grilleMoyen.obtenirMotParticulier(i).obtenirIndice().obtenirDifficulteDefinition() ===
                 DifficulteDefinition.DefinitionAlternative);
 
-            assert(grilleDifficile.obtenirMot()[i].obtenirRarete() === Rarete.nonCommun);
-            assert(grilleDifficile.obtenirMot()[i].obtenirIndice().obtenirDifficulteDefinition() ===
+            assert(grilleDifficile.obtenirMotParticulier(i).obtenirRarete() === Rarete.nonCommun);
+            assert(grilleDifficile.obtenirMotParticulier(i).obtenirIndice().obtenirDifficulteDefinition() ===
                 DifficulteDefinition.DefinitionAlternative);
         }
     });
@@ -108,33 +108,7 @@ describe('GenerateurDeGrilleService', () => {
         }
     });
 
-    it('Chaque intersection a bien une lettre commune aux 2 mots qui se coupent', () => {
-        const generateurDeGrilleService = new GenerateurDeGrilleService();
-        const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
-        const tableauCasesIntersection: Case[] = new Array();
-
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-                if (grille.obtenirCase(i, j).intersection === true) {
-                    tableauCasesIntersection.push(grille.obtenirCase(i, j));
-                }
-            }
-        }
-        for (let i = 0; i < tableauCasesIntersection.length; i++) {
-            const tableau2EmplacementsCroises: EmplacementMot[] = new Array(2);
-            const positionIntersectionDansEmplacement: number[] = new Array();
-            for (const emplacements of grille.obtenirPositionsEmplacementsVides()) {
-                for (let j = 0; j < emplacements.obtenirCases().length; j++) {
-                    if (emplacements.obtenirCases()[j].comparerCase(tableauCasesIntersection[i])) {
-                        tableau2EmplacementsCroises.push(emplacements);
-                        positionIntersectionDansEmplacement.push(j);
-                    }
-                }
-            }
-            assert(tableau2EmplacementsCroises[0].obtenirCases()[positionIntersectionDansEmplacement[0]]
-                .comparerCase(tableau2EmplacementsCroises[1].obtenirCases()[positionIntersectionDansEmplacement[1]]));
-        }
-    });
+    
 
     it('Plusieurs grilles vides différentes doivent pouvoir être généré.', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();

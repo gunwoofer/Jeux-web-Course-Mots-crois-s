@@ -6,7 +6,7 @@ export enum Rarete {
 }
 
 export class Mot {
-    private lettres: string;
+    public lettres: string;
     private rarete: Rarete;
     private indice: Indice;
 
