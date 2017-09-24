@@ -1,6 +1,8 @@
-import {PisteValidationComponent} from './../piste/pisteValidation.component';
 import {AfterViewInit, Component, ElementRef, ViewChild, HostListener} from '@angular/core';
+
+
 import {RenderService} from './render.service';
+import { PisteValidationComponent } from './../pisteValidator/pisteValidation.component';
 
 
 @Component({

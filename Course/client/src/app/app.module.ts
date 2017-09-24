@@ -5,20 +5,24 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 import { CreateurPisteComponent } from './createurPiste/createurPiste.component';
-import { PisteValidationComponent } from './piste/pisteValidation.component';
+import { PisteValidationComponent } from './pisteValidator/pisteValidation.component';
+import { PisteComponent } from './piste/piste.component';
+import { ListePisteComponent } from './listePiste/listePiste.component';
 
 
+import { RenderService } from './createurPiste/render.service';
+import { BasicService } from './basic.service';
+import { PisteService } from './piste/piste.service';
 
-
-import {RenderService} from './createurPiste/render.service';
-import {BasicService} from './basic.service';
 
 
 @NgModule({
   declarations: [
     AppComponent,
     CreateurPisteComponent,
-    PisteValidationComponent
+    PisteValidationComponent,
+    PisteComponent,
+    ListePisteComponent
   ],
   imports: [
     BrowserModule,
@@ -28,6 +32,7 @@ import {BasicService} from './basic.service';
   providers: [
     RenderService,
     BasicService,
+    PisteService
   ],
   bootstrap: [AppComponent]
 })

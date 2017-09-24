@@ -1,8 +1,8 @@
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 
-import { Piste } from './piste.model';
-import { RenderService } from './../createurPiste/render.service';
+import { Piste } from '../piste/piste.model';
+import { PisteService } from './../piste/piste.service';
 
 @Component({
     selector: 'app-pistevalidator-component',
@@ -12,6 +12,9 @@ import { RenderService } from './../createurPiste/render.service';
 
 export class PisteValidationComponent {
 
+    constructor(private pisteService: PisteService) {
+    }
+
     @Input() private points: THREE.Points[];
     @Input() private lignes: THREE.Line[];
 
@@ -19,7 +22,10 @@ export class PisteValidationComponent {
 
     private onSubmit(form: NgForm): void {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, this.points);
-        alert('La piste ' + piste.obtenirNom() + ' a été enregistré avec success');
+        alert('La piste ' + piste.obtenirNom() + ' a été créée.');
+        this.pisteService.ajouterPiste(piste);
+        console.log(this.pisteService.retournerListePiste());
+        form.resetForm();
     }
 
     private onClick(): void {
