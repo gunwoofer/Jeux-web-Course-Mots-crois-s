@@ -288,7 +288,7 @@ export class GenerateurDeGrilleService {
                     let monGenerateurDeMot = new GenerateurDeMotContrainteService(emplacementMotCourant.obtenirGrandeur(), tableauContraintes);
 
                     try {
-                        let mot = monGenerateurDeMot.genererMot(niveau).then((mot) => {
+                        let mot = monGenerateurDeMot.genererMotAleatoire(niveau).then((mot) => {
                             console.log("mot avant d ajouter : " + mot.obtenirLettres());
                             if (mot.obtenirLettres() === '') {
                                 //Si on ne trouve pas de mot

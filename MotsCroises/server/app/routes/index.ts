@@ -16,13 +16,29 @@ module Route {
             res.send(JSON.stringify(grille));
         }
 
-        public GenerationDeMotContrainteService(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            let contrainte1 = new Contrainte('h', 0);
-            let contrainte2 = new Contrainte('e', 1);
-            let nombreLettre: number = 5;
-    
-            const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre, [contrainte1, contrainte2]);
-            monGenerateurDeMot.genererMot(Niveau.facile).then((mot) => {
+        public GenererMotAleatoireFacile(req: express.Request, res: express.Response, next: express.NextFunction): void {
+             const nombreLettre = 5;
+
+            const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre);
+            monGenerateurDeMot.genererMotAleatoire(Niveau.facile).then((mot) => {
+                res.send(JSON.stringify(mot));
+            });
+        }
+        
+        public GenererMotAleatoireMoyen(req: express.Request, res: express.Response, next: express.NextFunction): void {
+                const nombreLettre = 5;
+
+            const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre);
+            monGenerateurDeMot.genererMotAleatoire(Niveau.moyen).then((mot) => {
+                res.send(JSON.stringify(mot));
+            });
+        }
+        
+        public GenererMotAleatoireDifficile(req: express.Request, res: express.Response, next: express.NextFunction): void {
+                const nombreLettre = 5;
+
+            const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre);
+            monGenerateurDeMot.genererMotAleatoire(Niveau.difficile).then((mot) => {
                 res.send(JSON.stringify(mot));
             });
         }
