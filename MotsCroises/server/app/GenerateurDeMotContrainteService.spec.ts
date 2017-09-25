@@ -1,51 +1,51 @@
 import { assert } from 'chai';
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { GenerateurDeMotContrainteService, aucunMotObtenuDeDataMuse } from './GenerateurDeMotContrainteService';
-import { Grille, Niveau } from './Grille';
-import { Case, EtatCase } from './Case';
+import { Niveau } from './Grille';
 import { Rarete } from './Mot';
-import { Indice, DifficulteDefinition } from './Indice';
-import { EmplacementMot } from './EmplacementMot';
+import { DifficulteDefinition } from './Indice';
 import { Contrainte } from './Contrainte';
-import { Mot } from './Mot';
 
 export const maxDelaiRetourRequeteMS = 10000;
 
 describe('GenerateurDeMotContrainteService', () => {
-    /*
-    it('Un mot peut etre genere aleatoirement selon certaines contraintes d emplacements de lettres', (done) => {
 
-        let contrainte1 = new Contrainte('h', 0);
-        let contrainte2 = new Contrainte('e', 1);
-        let nombreLettre: number = 5;
+    it('Un mot peut etre genere aleatoirement selon certaines contraintes d\'emplacements de lettres', (done) => {
+
+        const contrainte1 = new Contrainte('h', 0);
+        const contrainte2 = new Contrainte('e', 1);
+        const nombreLettre = 5;
 
         const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre, [contrainte1, contrainte2]);
-        monGenerateurDeMot.genererMot(Niveau.facile).then((donnees: any) => {
+        monGenerateurDeMot.genererMotAleatoire(Niveau.facile).then((donnees: any) => {
             const lettresObtenu: string = donnees.lettres;
             const premiereLettre: string = lettresObtenu.charAt(0);
             const deuxiemeLettre: string = lettresObtenu.charAt(1);
             assert(premiereLettre === 'H');
             assert(deuxiemeLettre === 'E');
             done();
-        }).catch((Error) => {
+        }).catch((erreur) => {
             assert(false);
-            done(Error);
-        });
-
-    }).timeout(maxDelaiRetourRequeteMS);
-    it('Un mot peut etre genere aleatoirement selon une taille', (done) => {
-        let nombreLettre: number = 6;
-
-        const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre);
-        monGenerateurDeMot.genererMot(Niveau.facile).then((mot) => {
-            assert(mot.obtenirLettres().length === nombreLettre);
             done();
         });
+
     }).timeout(maxDelaiRetourRequeteMS);
-    */
+
+    it('Un mot peut être généré aléatoirement selon une taille', (done) => {
+        const nombreLettre = 6;
+
+        const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre);
+        monGenerateurDeMot.genererMotAleatoire(Niveau.facile).then((mot) => {
+            assert(mot.obtenirLettres().length === nombreLettre);
+            done();
+        })
+        .catch((erreur => {
+            assert(false);
+            done();
+        }));
+    }).timeout(maxDelaiRetourRequeteMS);
 
     it('Si aucun mot ne respecte les contraintes alors cela donne une erreur.', (done) => {
-        //Un mot commencant par 'lnnn' n'existe pas... !
+        // Un mot commencant par 'lnnn' n'existe pas... !
         const contrainte1 = new Contrainte('l', 0);
         const contrainte2 = new Contrainte('n', 3);
         const contrainte3 = new Contrainte('n', 4);
@@ -99,7 +99,3 @@ describe('GenerateurDeMotContrainteService', () => {
 
     }).timeout(maxDelaiRetourRequeteMS);
 });
-
-
-
-
