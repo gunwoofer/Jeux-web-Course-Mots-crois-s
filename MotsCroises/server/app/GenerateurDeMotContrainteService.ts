@@ -6,17 +6,17 @@ import { MotDataMuse } from './MotDataMuse';
 
 const datamuse = require('datamuse');
 
-const aucunMotObtenuDeDataMuse = 'Aucune mot n\'a été reccueilli de l\'API datamuse.';
-const aucunMotDansTableauCommun = 'Aucune mot se trouve dans le tableau commun des mots reccueillis.';
-const aucunMotDansTableauNonCommun = 'Aucune mot se trouve dans le tableau non commun des mots reccueillis.';
+export const aucunMotObtenuDeDataMuse = 'Aucune mot n\'a été reccueilli de l\'API datamuse.';
+export const aucunMotDansTableauCommun = 'Aucune mot se trouve dans le tableau commun des mots reccueillis.';
+export const aucunMotDansTableauNonCommun = 'Aucune mot se trouve dans le tableau non commun des mots reccueillis.';
 
 export class GenerateurDeMotContrainteService {
 
-    private contrainte: Contrainte[];
+    private contraintes: Contrainte[];
     private tailleEmplacement: number;
 
-    public constructor(nbreLettres: number, contrainte?: Contrainte[]) {
-        this.contrainte = contrainte;
+    public constructor(nbreLettres: number, contraintes?: Contrainte[]) {
+        this.contraintes = contraintes;
         this.tailleEmplacement = nbreLettres;
     }
 
@@ -37,10 +37,10 @@ export class GenerateurDeMotContrainteService {
             contrainte += '?';
         }
 
-        if (this.contrainte !== undefined) {
-            for (let i = 0; i < this.contrainte.length - 1; i++) {
-                contrainte = this.replaceCharAt(contrainte, this.contrainte[i].obtenirPositionContrainte(),
-                    this.contrainte[i].obtenirLettre());
+        if (this.contraintes !== undefined) {
+            for (let i = 0; i < this.contraintes.length; i++) {
+                contrainte = this.replaceCharAt(contrainte, this.contraintes[i].obtenirPositionContrainte(),
+                    this.contraintes[i].obtenirLettre());
             }
         }
 

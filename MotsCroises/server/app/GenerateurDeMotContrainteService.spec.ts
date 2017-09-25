@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
+import { GenerateurDeMotContrainteService, aucunMotObtenuDeDataMuse } from './GenerateurDeMotContrainteService';
 import { Grille, Niveau } from './Grille';
 import { Case, EtatCase } from './Case';
 import { Rarete } from './Mot';
@@ -42,44 +42,28 @@ describe('GenerateurDeMotContrainteService', () => {
             done();
         });
     }).timeout(maxDelaiRetourRequeteMS);
+    */
 
-    it('Si aucun mot ne respecte les contraintes donnees le generateur renvoi un mot vide', (done) => {
-        //Un mot commencant par 'lnnn'
-        let contrainte1 = new Contrainte('l', 0);
-        let contrainte2 = new Contrainte('n', 3);
-        let contrainte3 = new Contrainte('n', 4);
-        let contrainte4 = new Contrainte('n', 5);
-        let nombreLettre: number = 8;
+    it('Si aucun mot ne respecte les contraintes alors cela donne une erreur.', (done) => {
+        //Un mot commencant par 'lnnn' n'existe pas... !
+        const contrainte1 = new Contrainte('l', 0);
+        const contrainte2 = new Contrainte('n', 3);
+        const contrainte3 = new Contrainte('n', 4);
+        const contrainte4 = new Contrainte('n', 5);
+        const nombreLettre = 8;
 
         const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre, [contrainte1, contrainte2, contrainte3, contrainte4]);
-        monGenerateurDeMot.genererMot(Niveau.facile).then((mot) => {
-            assert(mot.obtenirLettres() === '');
+        monGenerateurDeMot.genererMotAleatoire(Niveau.facile).then((mot) => {
+            assert(false);
             done();
-        });
-    }).timeout(maxDelaiRetourRequeteMS);
-
-    it('Il est possible d obtenir des mots communs ou non communs', (done) => {
-
-        let nombreLettre = 5;
-
-        const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre);
-        let compteur = 2;
-        monGenerateurDeMot.genererMot(Niveau.facile).then((mot) => {
-            assert(mot.obtenirRarete() === Rarete.commun);
-            compteur--;
-            if (compteur === 0) {
-                done();
-            }
-        });
-        monGenerateurDeMot.genererMot(Niveau.difficile).then((mot) => {
-            assert(mot.obtenirRarete() === Rarete.nonCommun);
-            compteur--;
-            if (compteur === 0) {
+        })
+        .catch((erreur) => {
+            if(erreur === aucunMotObtenuDeDataMuse) {
+                assert(true);
                 done();
             }
         });
     }).timeout(maxDelaiRetourRequeteMS);
-    */
 
     it('Il est possible d obtenir un mot commun et ses definitions', (done) => {
         const nombreLettre = 5;
@@ -92,6 +76,7 @@ describe('GenerateurDeMotContrainteService', () => {
         })
         .catch((erreur) => {
             assert(false);
+            done();
             console.log(erreur);
         });
 
@@ -108,6 +93,7 @@ describe('GenerateurDeMotContrainteService', () => {
         })
         .catch((erreur) => {
             assert(false);
+            done();
             console.log(erreur);
         });
 
