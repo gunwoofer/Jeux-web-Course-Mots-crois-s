@@ -1,11 +1,22 @@
-import { Component } from '@angular/core';
+import { Piste } from '../piste/piste.model';
+import { PisteService } from './../piste/piste.service';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-listepiste-component',
-  templateUrl: './listePiste.component.html',
-  styleUrls: ['./listePiste.component.css']
+  template: `
+  <div class="col-md-8 col-md-offset-2">
+    <app-piste-component [piste]="piste" *ngFor="let piste of listePistes"></app-piste-component>
+  </div>
+  `,
 })
 
-export class ListePisteComponent {
+export class ListePisteComponent implements OnInit {
+  constructor(private pisteService: PisteService) { }
 
+  public listePistes: Piste[];
+
+  public ngOnInit() {
+    this.pisteService.retournerListePiste();
+  }
 }

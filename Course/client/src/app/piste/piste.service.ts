@@ -19,4 +19,7 @@ export class PisteService {
         this.pistes.splice(this.pistes.indexOf(piste));
     }
 
+    public modifierPiste(piste: Piste) {
+    }
+
 }

@@ -1,0 +1,9 @@
+.panel-heading,
+.config {
+    cursor: pointer;
+}
+
+a,
+i {
+    margin-right: 10px;
+}

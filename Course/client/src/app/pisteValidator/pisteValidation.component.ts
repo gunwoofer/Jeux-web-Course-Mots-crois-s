@@ -12,8 +12,7 @@ import { PisteService } from './../piste/piste.service';
 
 export class PisteValidationComponent {
 
-    constructor(private pisteService: PisteService) {
-    }
+    constructor(private pisteService: PisteService) {}
 
     @Input() private points: THREE.Points[];
     @Input() private lignes: THREE.Line[];
@@ -24,7 +23,6 @@ export class PisteValidationComponent {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, this.points);
         alert('La piste ' + piste.obtenirNom() + ' a été créée.');
         this.pisteService.ajouterPiste(piste);
-        console.log(this.pisteService.retournerListePiste());
         form.resetForm();
     }
 
