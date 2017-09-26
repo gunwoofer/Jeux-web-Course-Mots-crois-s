@@ -243,9 +243,9 @@ export class GenerateurDeGrilleService {
                     }
 
                     if (!grillePlein.contientDejaLeMot(motIdiot)) {
-                        grillePlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirX(),
-                            emplacementMotCourant.obtenirCaseDebut().obtenirY(), emplacementMotCourant.obtenirCaseFin().obtenirX(),
-                            emplacementMotCourant.obtenirCaseFin().obtenirY());
+                        grillePlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne(),
+                            emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne(), emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne(),
+                            emplacementMotCourant.obtenirCaseFin().obtenirNumeroColonne());
                         motAjoute = true;
                     }
                 }
@@ -267,7 +267,7 @@ export class GenerateurDeGrilleService {
 
         while (!GrillePlein.estComplete()) {
             for (let emplacementMotCourant of GrillePlein.obtenirPositionsEmplacementsVides()) {
-                console.log("emplacement suivant : x = " + emplacementMotCourant.obtenirCaseDebut().obtenirX() + " y = " + emplacementMotCourant.obtenirCaseDebut().obtenirY() + " x = " + emplacementMotCourant.obtenirCaseFin().obtenirX() + " y = " + emplacementMotCourant.obtenirCaseFin().obtenirY());
+                console.log("emplacement suivant : x = " + emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne() + " y = " + emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne() + " x = " + emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne() + " y = " + emplacementMotCourant.obtenirCaseFin().obtenirNumeroColonne());
                 sortirBoucle = false;
                 motAjoute = false;
                 let tableauContraintes: Contrainte[] = new Array();
@@ -300,9 +300,9 @@ export class GenerateurDeGrilleService {
     
                             if (!GrillePlein.contientDejaLeMot(mot) && !sortirBoucle) {
                                 console.log("Ne contient pas le mot");
-                                GrillePlein.ajouterMot(mot, emplacementMotCourant.obtenirCaseDebut().obtenirX(),
-                                    emplacementMotCourant.obtenirCaseDebut().obtenirY(), emplacementMotCourant.obtenirCaseFin().obtenirX(),
-                                    emplacementMotCourant.obtenirCaseFin().obtenirY());
+                                GrillePlein.ajouterMot(mot, emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne(),
+                                    emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne(), emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne(),
+                                    emplacementMotCourant.obtenirCaseFin().obtenirNumeroColonne());
                                 tableauGrilles.push(GrillePlein);
                                 GrilleTemmporaire = new Grille(GrillePlein.obtenirNiveau());
                                 GrilleTemmporaire = GrilleTemmporaire.copieGrille(JSON.parse(JSON.stringify(GrillePlein)));

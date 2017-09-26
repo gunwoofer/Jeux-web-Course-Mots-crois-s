@@ -11,10 +11,10 @@ export class EmplacementMot {
         this.caseFin = caseFin;
         this.cases = cases;
 
-        if (caseDebut.obtenirX() === caseFin.obtenirX()) {
-            this.grandeur = caseFin.obtenirY() - caseDebut.obtenirY();
-        } else if (caseDebut.obtenirY() === caseFin.obtenirY()) {
-            this.grandeur = caseFin.obtenirX() - caseDebut.obtenirX();
+        if (caseDebut.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne()) {
+            this.grandeur = caseFin.obtenirNumeroColonne() - caseDebut.obtenirNumeroColonne() + 1;
+        } else if (caseDebut.obtenirNumeroColonne() === caseFin.obtenirNumeroColonne()) {
+            this.grandeur = caseFin.obtenirNumeroLigne() - caseDebut.obtenirNumeroLigne() + 1;
         }
 
     }
