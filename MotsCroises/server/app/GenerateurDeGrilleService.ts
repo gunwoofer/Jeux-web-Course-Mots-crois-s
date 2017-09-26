@@ -74,13 +74,14 @@ export class GenerateurDeGrilleService {
         let numeroColonneFin: number;
         let positionDebutFin: number[];
         let caseCouranteVide: Case;
-        const casesEmplacementMots: Case[] = new Array();
+        let casesEmplacementMots: Case[] = new Array();
 
         // Positionnez mot de la meilleur façon. 
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
 
             // pour chaque mot.
             for (let j = 0; j < grandeurMots[i].length; j++) {
+                casesEmplacementMots = new Array();
                 positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][0]);
                 numeroLigneDebut = positionDebutFin[0];
                 numeroColonneDebut = positionDebutFin[1];
