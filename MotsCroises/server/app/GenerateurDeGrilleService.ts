@@ -68,10 +68,10 @@ export class GenerateurDeGrilleService {
     }
 
     private ajouterEmplacementMotsMeilleurEndroit(position: Position, grille: Grille, grandeurMots: number[][]): Grille {
-        let xDebut: number;
-        let yDebut: number;
-        let xFin: number;
-        let yFin: number;
+        let numeroLigneDebut: number;
+        let numeroColonneDebut: number;
+        let numeroLigneFin: number;
+        let numeroColonneFin: number;
         let positionDebutFin: number[];
         let caseCouranteVide: Case;
         const casesEmplacementMots: Case[] = new Array();
@@ -82,15 +82,15 @@ export class GenerateurDeGrilleService {
             // pour chaque mot.
             for (let j = 0; j < grandeurMots[i].length; j++) {
                 positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][0]);
-                xDebut = positionDebutFin[0];
-                yDebut = positionDebutFin[1];
-                xFin = positionDebutFin[2];
-                yFin = positionDebutFin[3];
+                numeroLigneDebut = positionDebutFin[0];
+                numeroColonneDebut = positionDebutFin[1];
+                numeroLigneFin = positionDebutFin[2];
+                numeroColonneFin = positionDebutFin[3];
 
                 // Changer l'état de la case à vide.
                 switch (position) {
                     case Position.Ligne:
-                        for (let k = yDebut; k <= yFin - yDebut; k++) {
+                        for (let k = numeroColonneDebut; k <= numeroColonneFin; k++) {
                             caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
                             caseCouranteVide.etat = EtatCase.vide;
                             casesEmplacementMots.push(caseCouranteVide);
@@ -98,7 +98,7 @@ export class GenerateurDeGrilleService {
                         break;
 
                     case Position.Colonne:
-                        for (let k = xDebut; k <= xFin - xDebut; k++) {
+                        for (let k = numeroLigneDebut; k <= numeroLigneFin; k++) {
                             caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
                             caseCouranteVide.etat = EtatCase.vide;
                             casesEmplacementMots.push(caseCouranteVide);
@@ -106,7 +106,8 @@ export class GenerateurDeGrilleService {
                         break;
                 }
                 grille.ajouterEmplacementMot(
-                    new EmplacementMot(grille.obtenirCase(xDebut, yDebut), grille.obtenirCase(xFin, yFin), casesEmplacementMots));
+                    new EmplacementMot(grille.obtenirCase(numeroLigneDebut, numeroColonneDebut),
+                        grille.obtenirCase(numeroLigneFin, numeroColonneFin), casesEmplacementMots));
             }
         }
 
@@ -155,38 +156,35 @@ export class GenerateurDeGrilleService {
 
     private obtenirGrandeurMots(nombreMots: number[]): number[][] {
         const grandeurMots: number[][] = new Array(DIMENSION_LIGNE_COLONNE);
+        let grandeurMotLigne: number;
 
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             grandeurMots[i] = new Array();
-            let grandeurMotLigne: number = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
+            grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
 
             grandeurMots[i].push(grandeurMotLigne);
 
-            let grandeurMaximumDuProchainMot: number;
-
-            if (nombreMots[i] >= nombreMotMaximumParLigneOuColonne) {
-                let tentative = 0;
-                while (!this.peutAccueillirPlusieursMots(grandeurMots[i][0]) ||
-                    tentative < tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne) {
-                    grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
-
-                    grandeurMots[i][0] = grandeurMotLigne;
-                    tentative++;
-                }
-
-                grandeurMaximumDuProchainMot = grandeurMotMaximum - (grandeurMots[i][0] + longueurEspaceNoirEntreDeuxMots);
-
-                if (grandeurMaximumDuProchainMot >= grandeurMotMinimum) {
-                    grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMaximumDuProchainMot);
-
-                    grandeurMots[i].push(grandeurMotLigne);
-                } else {
-                    nombreMots[i] = 1;
-                }
+            if (this.peutAccueillirSecondMot(nombreMots[i], grandeurMots[i][0])) {
+                grandeurMots[i].push(this.obtenirGrandeurSecondMot(grandeurMots[i][0]));
+            } else {
+                nombreMots[i] = 1;
             }
         }
 
         return grandeurMots;
+    }
+
+    private peutAccueillirSecondMot(nombreMots: number, grandeurPremierMot: number): boolean {
+        const grandeurMaximumDuProchainMot: number = grandeurMotMaximum - (grandeurPremierMot + longueurEspaceNoirEntreDeuxMots);
+
+        return ((nombreMots === nombreMotMaximumParLigneOuColonne) && this.peutAccueillirPlusieursMots(grandeurPremierMot)
+            && (grandeurMaximumDuProchainMot >= grandeurMotMinimum));
+    }
+
+    private obtenirGrandeurSecondMot(grandeurPremierMot: number): number {
+        const grandeurMaximumDuProchainMot: number = grandeurMotMaximum - (grandeurPremierMot + longueurEspaceNoirEntreDeuxMots);
+
+        return this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMaximumDuProchainMot);
     }
 
     private obtenirNombreMots(): number[] {
@@ -218,7 +216,7 @@ export class GenerateurDeGrilleService {
 
                 while (!motAjoute) {
                     const grandeur = emplacementMotCourant.obtenirGrandeur();
-                    
+
                     ///////MOCKING/DU/DICTIONNAIRE///////
                     let chaineIdiote = '';
                     for (let i = 0; i < grandeur; i++) {
@@ -297,7 +295,7 @@ export class GenerateurDeGrilleService {
                                 GrillePlein = tableauGrilles[tableauGrilles.length - 1];
                                 sortirBoucle = true;
                             }
-    
+
                             if (!GrillePlein.contientDejaLeMot(mot) && !sortirBoucle) {
                                 console.log("Ne contient pas le mot");
                                 GrillePlein.ajouterMot(mot, emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne(),
@@ -311,7 +309,7 @@ export class GenerateurDeGrilleService {
                             if (GrillePlein.contientDejaLeMot(mot)) {
                                 sortirBoucle = true;
                             }
-    
+
                             GrillePlein = GrilleTemmporaire;
                         });
                     }
