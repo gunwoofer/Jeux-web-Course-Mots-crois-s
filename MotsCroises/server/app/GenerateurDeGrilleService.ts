@@ -60,9 +60,11 @@ export class GenerateurDeGrilleService {
         const grandeurMotsParColonne: number[][] = this.obtenirGrandeurMots(nombreMotsParColonne);
 
         // Pour chaque mot de lignes & colonnes, positionnez-le pour que celui-ci est le moins d'intersection possible.
-        grilleVide = this.ajouterEmplacementMotsMeilleurEndroit(Position.Ligne, grilleVide, grandeurMotsParLigne);
-        grilleVide = this.ajouterEmplacementMotsMeilleurEndroit(Position.Colonne, grilleVide, grandeurMotsParColonne);
+        grilleVide = this.ajouterCasesMeilleurEndroit(Position.Ligne, grilleVide, grandeurMotsParLigne);
+        grilleVide = this.ajouterCasesMeilleurEndroit(Position.Colonne, grilleVide, grandeurMotsParColonne);
         grilleVide.calculerPointsContraintes();
+
+        grilleVide.genererEmplacementsMot();
 
         return grilleVide;
     }
@@ -87,7 +89,7 @@ export class GenerateurDeGrilleService {
         return false;
     }
 
-    private ajouterEmplacementMotsMeilleurEndroit(position: Position, grille: Grille, grandeurMots: number[][]): Grille {
+    private ajouterCasesMeilleurEndroit(position: Position, grille: Grille, grandeurMots: number[][]): Grille {
         let numeroLigneDebut: number;
         let numeroColonneDebut: number;
         let numeroLigneFin: number;
@@ -130,10 +132,6 @@ export class GenerateurDeGrilleService {
                             }
                             break;
                     }
-
-                    grille.ajouterEmplacementMot(
-                        new EmplacementMot(grille.obtenirCase(numeroLigneDebut, numeroColonneDebut),
-                            grille.obtenirCase(numeroLigneFin, numeroColonneFin), casesEmplacementMots));
                 }
             }
         }

@@ -51,6 +51,7 @@ public emplacementsMot = '';
     for(const emplacementMot of grille.emplacementMots) {
       this.emplacementsMot += 'Debut : {' + emplacementMot.caseDebut.numeroLigne + ',' + emplacementMot.caseDebut.numeroColonne + '}';
       this.emplacementsMot += ' | Fin : {' + emplacementMot.caseFin.numeroLigne + ',' + emplacementMot.caseFin.numeroColonne + '}';
+      this.emplacementsMot += ' | Grandeur : ' + emplacementMot.grandeur;
       this.emplacementsMot += ' | Cases : ' + emplacementMot.cases.length + '<br />';
 
     }

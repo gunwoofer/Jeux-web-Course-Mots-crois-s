@@ -1,6 +1,7 @@
 import { Mot } from './Mot';
 import { Case, EtatCase } from './Case';
 import { EmplacementMot } from './EmplacementMot';
+import { grandeurMotMinimum } from './GenerateurDeGrilleService';
 
 
 export const DIMENSION_LIGNE_COLONNE = 10;
@@ -119,9 +120,98 @@ export class Grille {
     }
 
 
+    private contientEmplacementsMotAuLimites(caseDebut: Case, caseFin: Case, position: Position): boolean {
+        const numeroLigneDebut: number = caseDebut.obtenirNumeroLigne();
+        const numeroLigneFin: number = caseFin.obtenirNumeroLigne();
+        const numeroColonneDebut: number = caseDebut.obtenirNumeroColonne();
+        const numeroColonneFin: number = caseFin.obtenirNumeroColonne();
+
+        for (const emplacementMotCourant of this.emplacementMots) {
+            switch (position) {
+                case Position.Ligne:
+                    if ((emplacementMotCourant.obtenirCaseSelonLigneColonne(numeroLigneDebut, numeroColonneDebut - 1) !== undefined) ||
+                        (emplacementMotCourant.obtenirCaseSelonLigneColonne(numeroLigneFin, numeroColonneFin + 1) !== undefined)) {
+                        return true;
+                    }
+                    break;
+
+                case Position.Colonne:
+                    if ((emplacementMotCourant.obtenirCaseSelonLigneColonne(numeroLigneDebut - 1, numeroColonneDebut - 1) !== undefined) ||
+                        (emplacementMotCourant.obtenirCaseSelonLigneColonne(numeroLigneFin + 1, numeroColonneFin + 1) !== undefined)) {
+                        return true;
+                    }
+                    break;
+
+            }
+
+        }
+
+        return false;
+
+    }
+
+    private ajusterEmplacementMots(emplacementMot: EmplacementMot): EmplacementMot {
+        const numeroLigneDebut: number = emplacementMot.obtenirCaseDebut().obtenirNumeroLigne();
+        const numeroLigneFin: number = emplacementMot.obtenirCaseFin().obtenirNumeroLigne();
+        const numeroColonneDebut: number = emplacementMot.obtenirCaseDebut().obtenirNumeroColonne();
+        const numeroColonneFin: number = emplacementMot.obtenirCaseFin().obtenirNumeroColonne();
+
+        let casesAjuster = new Array();
+        let caseAGaucheDuMot: Case;
+        let caseADroiteDuMot: Case;
+        let caseEnHautDuMot: Case;
+        let caseEnBasDuMot: Case;
+
+        for (const emplacementMotCourant of this.emplacementMots) {
+            switch (emplacementMot.obtenirPosition()) {
+                case Position.Ligne:
+                    caseAGaucheDuMot = emplacementMotCourant.obtenirCaseSelonLigneColonne(numeroLigneDebut, numeroColonneDebut - 1);
+                    caseADroiteDuMot = emplacementMotCourant.obtenirCaseSelonLigneColonne(numeroLigneFin, numeroColonneFin + 1);
+
+                    if (caseAGaucheDuMot !== undefined) {
+                        casesAjuster.push(caseAGaucheDuMot);
+                        casesAjuster = casesAjuster.concat(emplacementMot.obtenirCases());
+                        return new EmplacementMot(caseAGaucheDuMot, emplacementMot.obtenirCaseFin(), casesAjuster)
+                    }
+                    if (caseADroiteDuMot !== undefined) {
+                        casesAjuster = casesAjuster.concat(emplacementMot.obtenirCases());
+                        casesAjuster.push(caseADroiteDuMot);
+                        return new EmplacementMot(emplacementMot.obtenirCaseDebut(), caseADroiteDuMot, casesAjuster);
+                    }
+                    break;
+
+                case Position.Colonne:
+                    caseEnHautDuMot = emplacementMotCourant.obtenirCaseSelonLigneColonne(numeroLigneDebut - 1, numeroColonneDebut);
+                    caseEnBasDuMot = emplacementMotCourant.obtenirCaseSelonLigneColonne(numeroLigneFin + 1, numeroColonneFin);
+
+                    if (caseEnHautDuMot !== undefined) {
+                        casesAjuster.push(caseEnHautDuMot);
+                        casesAjuster = casesAjuster.concat(emplacementMot.obtenirCases());
+                        return new EmplacementMot(caseEnHautDuMot, emplacementMot.obtenirCaseFin(), casesAjuster)
+                    }
+                    if (caseEnBasDuMot !== undefined) {
+                        casesAjuster = casesAjuster.concat(emplacementMot.obtenirCases());
+                        casesAjuster.push(caseEnBasDuMot);
+                        return new EmplacementMot(emplacementMot.obtenirCaseDebut(), caseEnBasDuMot, casesAjuster);
+                    }
+                    break;
+
+            }
+
+        }
+
+        return emplacementMot;
+    }
 
     public ajouterEmplacementMot(emplacementMot: EmplacementMot): void {
         if (this.emplacementMotDifferent(emplacementMot)) {
+
+            // vérifier s'il y a des cases qui sont collés à l'emplacement mot. Si oui, augmenter la taille et ajouter les cases.
+            if (this.contientEmplacementsMotAuLimites(emplacementMot.obtenirCaseDebut(),
+                emplacementMot.obtenirCaseFin(), emplacementMot.obtenirPosition())) {
+                emplacementMot = this.ajusterEmplacementMots(emplacementMot);
+            }
+
             this.emplacementMots.push(emplacementMot);
         }
     }
@@ -157,6 +247,79 @@ export class Grille {
 
         return false;
 
+    }
+
+    public genererEmplacementsMot() {
+        this.genererEmplacementsMotLigne();
+        this.genererEmplacementsMotColonne();
+    }
+
+    private genererEmplacementsMotLigne() {
+        let caseCourante: Case;
+        let caseDebut: Case = undefined;
+        let caseFin: Case = undefined;
+        let casesEmplacementMot: Case[] = new Array();
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                caseCourante = this.cases[i][j];
+
+                if ((caseCourante.obtenirEtat() === EtatCase.vide) && caseDebut === undefined) {
+                    caseDebut = caseCourante;
+                }
+
+                if (caseDebut !== undefined) {
+                    casesEmplacementMot.push(caseCourante);
+                }
+
+                if (((j + 1 < DIMENSION_LIGNE_COLONNE) && (this.cases[i][j + 1].obtenirEtat() !== EtatCase.vide)) ||
+                    (j + 1 === DIMENSION_LIGNE_COLONNE)) {
+                    caseFin = caseCourante;
+                    casesEmplacementMot.push(caseFin);
+
+                    if(casesEmplacementMot.length >= grandeurMotMinimum) {
+                        this.emplacementMots.push(new EmplacementMot(caseDebut, caseFin, casesEmplacementMot));
+                    }
+                    caseFin = undefined;
+                    caseDebut = undefined;
+                    casesEmplacementMot = new Array();
+                    j++;
+                }
+
+            }
+        }
+    }
+
+    private genererEmplacementsMotColonne() {
+        let caseCourante: Case;
+        let caseDebut: Case = undefined;
+        let caseFin: Case = undefined;
+        let casesEmplacementMot: Case[] = new Array();
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                caseCourante = this.cases[j][i];
+
+                if ((caseCourante.obtenirEtat() === EtatCase.vide) && caseDebut === undefined) {
+                    caseDebut = caseCourante;
+                    casesEmplacementMot.push(caseDebut);
+                } else if (caseDebut !== undefined) {
+                    casesEmplacementMot.push(caseCourante);
+                }
+
+                if ((j + 1 < DIMENSION_LIGNE_COLONNE) && (this.cases[j + 1][i].obtenirEtat() !== EtatCase.vide) ||
+                    (j + 1 === DIMENSION_LIGNE_COLONNE)) {
+                    caseFin = caseCourante;
+
+                    if(casesEmplacementMot.length >= grandeurMotMinimum) {
+                        this.emplacementMots.push(new EmplacementMot(caseDebut, caseFin, casesEmplacementMot));
+                    }
+                    caseFin = undefined;
+                    caseDebut = undefined;
+                    casesEmplacementMot = new Array();
+                    j++;
+                }
+
+            }
+        }
     }
 
     public ajouterMot(mot: Mot, numeroLigneDepart: number,
