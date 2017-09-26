@@ -67,6 +67,26 @@ export class GenerateurDeGrilleService {
         return grilleVide;
     }
 
+    private meilleurPositionDebutFinSeChevauchent(grille: Grille, numeroLigneDebut: number, numeroColonneDebut: number,
+        numeroLigneFin: number, numeroColonneFin: number) {
+        const caseDebut: Case = grille.obtenirCase(numeroLigneDebut, numeroColonneDebut);
+        const caseFin: Case = grille.obtenirCase(numeroLigneFin, numeroColonneFin);
+
+        for (const emplacementMotCourant of grille.obtenirPositionsEmplacementsVides()) {
+            for (let casesEmplacementMot of emplacementMotCourant.obtenirCases()) {
+                if ((casesEmplacementMot.obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
+                    && (casesEmplacementMot.obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())) {
+                    return true;
+                }
+                if ((casesEmplacementMot.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())
+                    && (casesEmplacementMot.obtenirNumeroColonne() === caseFin.obtenirNumeroColonne())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
     private ajouterEmplacementMotsMeilleurEndroit(position: Position, grille: Grille, grandeurMots: number[][]): Grille {
         let numeroLigneDebut: number;
         let numeroColonneDebut: number;
@@ -76,39 +96,45 @@ export class GenerateurDeGrilleService {
         let caseCouranteVide: Case;
         let casesEmplacementMots: Case[] = new Array();
 
-        // Positionnez mot de la meilleur façon. 
+        // Positionnez mot de la meilleur façon.
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
 
             // pour chaque mot.
             for (let j = 0; j < grandeurMots[i].length; j++) {
                 casesEmplacementMots = new Array();
-                positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][0]);
+                positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][j]);
                 numeroLigneDebut = positionDebutFin[0];
                 numeroColonneDebut = positionDebutFin[1];
                 numeroLigneFin = positionDebutFin[2];
                 numeroColonneFin = positionDebutFin[3];
 
-                // Changer l'état de la case à vide.
-                switch (position) {
-                    case Position.Ligne:
-                        for (let k = numeroColonneDebut; k <= numeroColonneFin; k++) {
-                            caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
-                            caseCouranteVide.etat = EtatCase.vide;
-                            casesEmplacementMots.push(caseCouranteVide);
-                        }
-                        break;
+                // Vérifier si le mot chevauche un autre présent sur la même colonne | même ligne.
+                if (!this.meilleurPositionDebutFinSeChevauchent(grille, numeroLigneDebut,
+                    numeroColonneDebut, numeroLigneFin, numeroColonneFin) || j === 0) {
 
-                    case Position.Colonne:
-                        for (let k = numeroLigneDebut; k <= numeroLigneFin; k++) {
-                            caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
-                            caseCouranteVide.etat = EtatCase.vide;
-                            casesEmplacementMots.push(caseCouranteVide);
-                        }
-                        break;
+                    // Changer l'état des cases à vide.
+                    switch (position) {
+                        case Position.Ligne:
+                            for (let k = numeroColonneDebut; k <= numeroColonneFin; k++) {
+                                caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
+                                caseCouranteVide.etat = EtatCase.vide;
+                                casesEmplacementMots.push(caseCouranteVide);
+                            }
+                            break;
+
+                        case Position.Colonne:
+                            for (let k = numeroLigneDebut; k <= numeroLigneFin; k++) {
+                                caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
+                                caseCouranteVide.etat = EtatCase.vide;
+                                casesEmplacementMots.push(caseCouranteVide);
+                            }
+                            break;
+                    }
+
+                    grille.ajouterEmplacementMot(
+                        new EmplacementMot(grille.obtenirCase(numeroLigneDebut, numeroColonneDebut),
+                            grille.obtenirCase(numeroLigneFin, numeroColonneFin), casesEmplacementMots));
                 }
-                grille.ajouterEmplacementMot(
-                    new EmplacementMot(grille.obtenirCase(numeroLigneDebut, numeroColonneDebut),
-                        grille.obtenirCase(numeroLigneFin, numeroColonneFin), casesEmplacementMots));
             }
         }
 
@@ -167,8 +193,6 @@ export class GenerateurDeGrilleService {
 
             if (this.peutAccueillirSecondMot(nombreMots[i], grandeurMots[i][0])) {
                 grandeurMots[i].push(this.obtenirGrandeurSecondMot(grandeurMots[i][0]));
-            } else {
-                nombreMots[i] = 1;
             }
         }
 
@@ -176,14 +200,13 @@ export class GenerateurDeGrilleService {
     }
 
     private peutAccueillirSecondMot(nombreMots: number, grandeurPremierMot: number): boolean {
-        const grandeurMaximumDuProchainMot: number = grandeurMotMaximum - (grandeurPremierMot + longueurEspaceNoirEntreDeuxMots);
+        const grandeurMaximumDuProchainMot: number = grandeurMotMaximum - grandeurPremierMot - longueurEspaceNoirEntreDeuxMots;
 
-        return ((nombreMots === nombreMotMaximumParLigneOuColonne) && this.peutAccueillirPlusieursMots(grandeurPremierMot)
-            && (grandeurMaximumDuProchainMot >= grandeurMotMinimum));
+        return ((nombreMots === nombreMotMaximumParLigneOuColonne) && (grandeurMaximumDuProchainMot >= grandeurMotMinimum));
     }
 
     private obtenirGrandeurSecondMot(grandeurPremierMot: number): number {
-        const grandeurMaximumDuProchainMot: number = grandeurMotMaximum - (grandeurPremierMot + longueurEspaceNoirEntreDeuxMots);
+        const grandeurMaximumDuProchainMot: number = grandeurMotMaximum - grandeurPremierMot - longueurEspaceNoirEntreDeuxMots;
 
         return this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMaximumDuProchainMot);
     }
@@ -199,12 +222,6 @@ export class GenerateurDeGrilleService {
         }
 
         return nombreMots;
-    }
-
-    private peutAccueillirPlusieursMots(grandeurDuPremierMot: number): boolean {
-        const grandeurAcceptablePourLePremierMot: number = grandeurMotMaximum - (grandeurMotMinimum + 1);
-
-        return (grandeurDuPremierMot <= grandeurAcceptablePourLePremierMot);
     }
 
     private remplirGrille(niveau: Niveau): Grille {

@@ -127,17 +127,11 @@ export class Grille {
     }
 
     public emplacementMotDifferent(emplacementMotAVerifier: EmplacementMot): boolean {
-        let compteur = 0;
-
         for (const emplacementMotCourant of this.obtenirPositionsEmplacementsVides()) {
             if (emplacementMotCourant.obtenirCaseDebut() === emplacementMotAVerifier.obtenirCaseDebut() &&
                 emplacementMotCourant.obtenirCaseFin() === emplacementMotAVerifier.obtenirCaseFin()) {
-                compteur++;
+                return false;
             }
-        }
-
-        if (compteur >= 2) {
-            return false;
         }
 
         return true;
