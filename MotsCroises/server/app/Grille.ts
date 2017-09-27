@@ -273,12 +273,14 @@ export class Grille {
 
     public contientDejaLeMot(mot: Mot): boolean {
         for (const motCourant of this.mots) {
+            console.log(motCourant);
             if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
                 return true;
             }
         }
 
         return false;
+        
     }
 
     public contientMotDuplique(): boolean {
