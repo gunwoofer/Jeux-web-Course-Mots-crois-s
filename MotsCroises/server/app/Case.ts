@@ -25,6 +25,18 @@ export class Case {
 
     }
 
+    public copieCase(): Case {
+        let newCase = new Case(this.numeroLigne, this.numeroColonne, this.etat);
+        newCase.lettre = this.lettre;
+        newCase.intersection = this.intersection;
+        newCase.pointsDeContraintes = this.pointsDeContraintes;
+        newCase.pointsDeContraintesProvenance = new Array();
+        for(let i = 0; i < this.pointsDeContraintesProvenance.length; i++) {
+            newCase.pointsDeContraintesProvenance[i] = this.pointsDeContraintesProvenance[i];
+        }
+        return newCase;
+    }
+
     public obtenirNumeroLigne(): number {
         return this.numeroLigne;
     }

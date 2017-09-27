@@ -52,15 +52,24 @@ export class Grille {
         }
     }
 
-    public copieGrille(grilleDeserialise: any): Grille {
-        this.cases = grilleDeserialise.cases;
-        this.etat = grilleDeserialise.etat;
-        this.nombreMotsSurColonne = grilleDeserialise.nombreMotsSurColonne;
-        this.nombreMotsSurLigne = grilleDeserialise.nombreMotsSurLigne;
-        this.niveau = grilleDeserialise.niveau;
-        this.emplacementMots = grilleDeserialise.emplacementMots;
-        this.mots = grilleDeserialise.mots;
-        return this;
+    public copieGrille(): Grille {
+        let newGrille: Grille = new Grille(this.niveau);
+        newGrille.etat = this.etat;
+        newGrille.nombreMotsSurColonne = this.nombreMotsSurColonne;
+        newGrille.nombreMotsSurLigne = this.nombreMotsSurLigne;
+       
+        for(let i = 0; i < this.cases.length; i++) {
+            for(let j = 0; j < this.cases[i].length; j++) {
+                newGrille.cases[i][j] = this.cases[i][j].copieCase();
+            }
+        }
+        for(let i = 0; i < this.emplacementMots.length; i++) {
+            newGrille.emplacementMots[i] = this.emplacementMots[i].copieEmplacement();
+        }
+        for(let i = 0; i < this.mots.length; i++) {
+            newGrille.mots[i] = this.mots[i].copieMot();
+        }
+        return newGrille
     }
 
 

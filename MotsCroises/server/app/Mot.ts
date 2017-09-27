@@ -15,6 +15,12 @@ export class Mot {
         this.indice = indice;
     }
 
+    public copieMot(): Mot {
+        let newMot = new Mot(this.lettres, this.indice.copieIndice());
+        return newMot;
+    }
+
+
     public estUneLettreValide(position: number): boolean {
         if ((this.lettres[position] === '-') || (this.lettres[position] === '\'')) {
             return false;

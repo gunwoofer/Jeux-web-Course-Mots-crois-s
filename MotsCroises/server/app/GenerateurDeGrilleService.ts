@@ -281,12 +281,10 @@ export class GenerateurDeGrilleService {
         let motVide: boolean;
         let motAjoute: boolean;
         let GrillePlein = this.motCroiseGenere;
+        //Tableau qui garde en memoire une grille pour chaque ajout dans le but d utiliser le backtracking
         let tableauGrilles: Grille[] = new Array();
-        let grilleTemp: Grille = new Grille(niveau);
-        //grilleTemp = grilleTemp.copieGrille(JSON.parse(JSON.stringify(GrillePlein)));
-        extend(grilleTemp, JSON.parse(JSON.stringify(GrillePlein)));   // GrilleTemp <- GrillePlein
-        tableauGrilles.push(grilleTemp);  //Tableau qui garde en memoire une grille pour chaque ajout dans le but d utiliser le backtracking
-        let GrilleTemporaire: Grille;
+        let grilleTemp = GrillePlein.copieGrille();
+        tableauGrilles.push(grilleTemp);  
 
         while (!GrillePlein.estComplete()) {
             for (let emplacementMotCourant of GrillePlein.obtenirPositionsEmplacementsVides()) {
@@ -311,15 +309,9 @@ export class GenerateurDeGrilleService {
                         GrillePlein.ajouterMot(mot, emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne(),
                             emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne(), emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne(),
                             emplacementMotCourant.obtenirCaseFin().obtenirNumeroColonne());
-                        tableauGrilles.push(GrillePlein);
-                        GrilleTemporaire = new Grille(niveau);
-                        //GrilleTemmporaire = GrilleTemmporaire.copieGrille(JSON.parse(JSON.stringify(GrillePlein)));
-                        extend(true, GrilleTemporaire, JSON.parse(JSON.stringify(GrillePlein)));
+                        tableauGrilles.push(GrillePlein.copieGrille());
                         motAjoute = true;
                     }
-                    extend(true, GrillePlein, JSON.parse(JSON.stringify(GrilleTemporaire)));
-                    //GrillePlein = GrillePlein.copieGrille(JSON.parse(JSON.stringify(GrilleTemmporaire)));;
-
                 }
                 catch (Exception) {
                     console.log(Exception);

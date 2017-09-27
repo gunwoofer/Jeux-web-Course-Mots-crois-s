@@ -8,7 +8,7 @@ export class EmplacementMot {
     private grandeur: number;
     private position: Position;
 
-    constructor(caseDebut: Case, caseFin: Case, cases: Case[]) {
+    constructor(caseDebut?: Case, caseFin?: Case, cases?: Case[]) {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
         this.cases = cases;
@@ -21,6 +21,19 @@ export class EmplacementMot {
             this.position = Position.Colonne;
         }
 
+    }
+
+    public copieEmplacement(): EmplacementMot {
+        
+       let newEmplacement = new EmplacementMot(this.caseDebut.copieCase(), this.caseFin.copieCase());
+       newEmplacement.cases = new Array();
+       for(let i = 0; i < this.cases.length; i++) {
+           newEmplacement.cases[i] = this.cases[i].copieCase();
+       }
+       newEmplacement.grandeur = this.grandeur;
+       newEmplacement.position = this.position;
+       
+       return newEmplacement;
     }
 
     public obtenirPosition(): Position {
