@@ -1,4 +1,5 @@
 import {AfterViewInit, Component, ElementRef, ViewChild, HostListener} from '@angular/core';
+import { Location } from '@angular/common';
 
 
 import {RenderService} from './render.service';
@@ -14,7 +15,8 @@ import { PisteValidationComponent } from './../pisteValidator/pisteValidation.co
 
 export class CreateurPisteComponent implements AfterViewInit {
 
-  constructor(private renderService: RenderService) {
+  constructor(private renderService: RenderService,
+              private location: Location) {
   }
 
   private points: THREE.Points[];
@@ -74,5 +76,9 @@ export class CreateurPisteComponent implements AfterViewInit {
     }else {
       return false;
     }
+  }
+
+  private revenirEnarriere() {
+    this.location.back();
   }
 }

@@ -1,3 +1,4 @@
+import { RenderService } from './../createurPiste/render.service';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 
@@ -12,7 +13,7 @@ import { PisteService } from './../piste/piste.service';
 
 export class PisteValidationComponent {
 
-    constructor(private pisteService: PisteService) { }
+    constructor(private pisteService: PisteService, private renderService: RenderService) { }
 
     @Input() private points: THREE.Points[];
     @Input() private lignes: THREE.Line[];

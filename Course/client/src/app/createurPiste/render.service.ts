@@ -433,16 +433,16 @@ export class RenderService {
     this.modifierPointLine(objetGlisseNumber, this.objetGlisse.position);
     this.redessinerCourbe();
 
-    if (objetGlisseNumber === 0 && this.dessinTermine) { 
+    if (objetGlisseNumber === 0 && this.dessinTermine) {
       this.points[this.compteur - 1].position.copy(this.objetGlisse.position);
       this.modifierPointLine(this.compteur - 1, this.objetGlisse.position);
     }
   }
 
   private hoverPoint(point): void {
-    this.pointHover = true; 
+    this.pointHover = true;
     this.objetGlisse = point;
-    point.material.color.set(0x0000ff); 
+    point.material.color.set(0x0000ff);
     point.material.size = 11;
   }
 
@@ -568,5 +568,8 @@ export class RenderService {
       }
     }
   }
+
 }
+
+
 

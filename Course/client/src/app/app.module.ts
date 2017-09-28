@@ -15,7 +15,7 @@ import { RenderService } from './createurPiste/render.service';
 import { BasicService } from './basic.service';
 import { PisteService } from './piste/piste.service';
 
-import { routage } from './app.routing';
+import { AppRoutingModule } from './app.routing';
 
 
 
@@ -32,7 +32,7 @@ import { routage } from './app.routing';
     BrowserModule,
     HttpModule,
     FormsModule,
-    routage
+    AppRoutingModule
   ],
   providers: [
     RenderService,

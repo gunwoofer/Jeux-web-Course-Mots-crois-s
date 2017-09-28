@@ -1,3 +1,4 @@
+import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
 import { CreateurPisteComponent } from './createurPiste/createurPiste.component';
@@ -10,4 +11,9 @@ const APP_ROUTES: Routes = [
     { path: 'createurPiste', component: CreateurPisteComponent }
 ];
 
-export const routage = RouterModule.forRoot(APP_ROUTES);
+@NgModule({
+    imports: [ RouterModule.forRoot(APP_ROUTES) ],
+    exports: [ RouterModule ]
+  })
+
+export class AppRoutingModule {}

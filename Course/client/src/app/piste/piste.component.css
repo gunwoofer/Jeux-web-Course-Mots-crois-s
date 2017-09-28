@@ -7,3 +7,13 @@ a,
 i {
     margin-right: 10px;
 }
+
+.panel>.panel-heading:hover {
+    background-image: none;
+    background-color: red;
+    color: white;
+}
+
+p {
+    font-family: fantasy
+}
