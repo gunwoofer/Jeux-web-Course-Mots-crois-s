@@ -1,3 +1,4 @@
+import { CourseComponent } from './course.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -14,6 +15,8 @@ import { RenderService } from './createurPiste/render.service';
 import { BasicService } from './basic.service';
 import { PisteService } from './piste/piste.service';
 
+import { routage } from './app.routing';
+
 
 
 @NgModule({
@@ -22,12 +25,14 @@ import { PisteService } from './piste/piste.service';
     CreateurPisteComponent,
     PisteValidationComponent,
     PisteComponent,
-    ListePisteComponent
+    ListePisteComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
     HttpModule,
-    FormsModule
+    FormsModule,
+    routage
   ],
   providers: [
     RenderService,
