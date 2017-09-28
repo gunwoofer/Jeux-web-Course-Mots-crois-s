@@ -7,6 +7,8 @@ import { Injectable } from '@angular/core';
 export class PisteService {
     private pistes: Piste[] = [];
 
+
+
     public ajouterPiste(piste: Piste) {
         this.pistes.push(piste);
     }
