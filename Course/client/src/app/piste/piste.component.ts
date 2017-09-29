@@ -25,4 +25,7 @@ export class PisteComponent {
   private onClick() {
     this.display = !this.display;
   }
+
+  private montrerLesScores() {
+  }
 }
