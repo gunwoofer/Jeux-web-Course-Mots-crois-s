@@ -18,7 +18,6 @@ export enum Niveau {
     difficile
 }
 
-
 export enum Position {
     Ligne,
     Colonne
@@ -282,7 +281,6 @@ export class Grille {
 
     public contientDejaLeMot(mot: Mot): boolean {
         for (const motCourant of this.mots) {
-            console.log(motCourant);
             if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
                 return true;
             }
@@ -391,4 +389,55 @@ export class Grille {
         return meilleurPositionIndexDebut;
     }
 
+
+    public emplacementsHorizontaux(): EmplacementMot[] {
+        let emplacementsHorizontaux: EmplacementMot[] = new Array();
+        for(let i = 0; i < this.emplacementMots.length; i++) {
+            if(this.emplacementMots[i].estHorizontal()) {
+                emplacementsHorizontaux.push(this.emplacementMots[i]);
+            }
+        }
+        return emplacementsHorizontaux;
+    }
+
+    public emplacementsVerticaux(): EmplacementMot[] {
+        let emplacementsVerticaux: EmplacementMot[] = new Array();
+        for(let i = 0; i < this.emplacementMots.length; i++) {
+            if(this.emplacementMots[i].estVertical()) {
+                emplacementsVerticaux.push(this.emplacementMots[i]);
+            }
+        }
+        return emplacementsVerticaux;
+    }
+
+    public genererEmplacementsAlterne(): EmplacementMot[] {
+        let tableauEmplacementsHorizontaux: EmplacementMot[] = this.emplacementsHorizontaux();
+        let tableauEmplacementsVerticaux : EmplacementMot[] = this.emplacementsVerticaux();
+        let newEmplacements: EmplacementMot[] = new Array();
+        let j: number = 0;
+        let max: number = 0;
+        let min: number = 0;
+
+        max = Math.max(tableauEmplacementsVerticaux.length, tableauEmplacementsHorizontaux.length);
+        min = Math.min(tableauEmplacementsVerticaux.length, tableauEmplacementsHorizontaux.length);
+
+        for (let i = 0; i < this.emplacementMots.length; i++) {
+            if (j < min) {
+                newEmplacements[i] = tableauEmplacementsHorizontaux[j];
+                i++;
+                newEmplacements[i] = tableauEmplacementsVerticaux[j];
+                j++;
+            }
+            if (tableauEmplacementsHorizontaux.length === max && j >= min) {
+                newEmplacements[i] = tableauEmplacementsHorizontaux[j];
+                j++;
+            }
+            if (tableauEmplacementsVerticaux.length === max && j >= min) {
+                newEmplacements[i] = tableauEmplacementsVerticaux[j];
+                j++;
+            }
+        }
+
+        return newEmplacements;
+    }
 }

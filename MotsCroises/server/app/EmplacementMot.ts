@@ -1,6 +1,9 @@
 import { Case } from './Case';
 import { Position } from './Grille';
 
+
+
+
 export class EmplacementMot {
     private caseDebut: Case;
     private caseFin: Case;
@@ -21,6 +24,20 @@ export class EmplacementMot {
             this.position = Position.Colonne;
         }
 
+    }
+
+    public estHorizontal(): boolean {
+        if(this.position == Position.Ligne) {
+            return true;
+        }
+        return false;
+    }
+
+    public estVertical(): boolean {
+        if(this.position == Position.Colonne) {
+            return true;
+        }
+        return false;
     }
 
     public copieEmplacement(): EmplacementMot {
