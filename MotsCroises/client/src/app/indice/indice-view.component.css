@@ -4,3 +4,7 @@
   margin:10px;
   text-decoration: underline;
 }
+
+li.selected {
+  color: #00FFFF;
+}

@@ -35,67 +35,55 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas = this.canvas.getContext('2d');
     this.ctxCanvas.imageSmoothingEnabled = false;
     this.dessinerLignesGrille();
-    this.afficherPositionMotSurCase(5, 1, 4, 3, '#0000DD');
-    this.ecrireLettreDansCase('A', 4,3, this.couleurRouge);
-    this.ecrireMotDansCase('Fuck', 0, 1, 1, '#000000');
-    this.ecrireMotDansCase('This', 1, 4, 4, '#000000');
+    this.afficherSelecteurMotSurGrille(5, 1, 4, 3, '#0000DD');
+    this.ecrireLettreDansCase('A', 4, 3, this.couleurRouge);
+    this.ecrireMotDansGrille('Fuck', 0, 1, 1, '#000000');
+    this.ecrireMotDansGrille('This', 1, 4, 4, '#000000');
   }
 
-  public dessinerLignesGrille(){
+  public dessinerLignesGrille() {
     this.ctxCanvas.fillStyle = '#000000';
-    for (let i = 1; i < this.nbCases; i++){
-      this.ecrireLettreDansCase(i, i, 0, this.couleurNoire);
-      this.ecrireLettreDansCase(i, 0, i, this.couleurNoire);
+    for (let i = 1; i < this.nbCases; i++) {
+      this.ecrireLettreDansCase(i.toString(), i, 0, this.couleurNoire);
+      this.ecrireLettreDansCase(i.toString(), 0, i, this.couleurNoire);
       this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase, 1, this.canvas.height);
       this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * i, this.canvas.width, 1);
     }
     this.ctxCanvas.fillRect(this.largeurCase * this.nbCases - 1, this.hauteurCase, 1, this.canvas.height);
     this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * this.nbCases - 1, this.canvas.width, 1);
-    //this.ctxCanvas.fillRect(0, 0, 10, 10);
   }
 
-  public ecrireChiffreGrille(){
-
-  }
-  public ecrireMotDansCase(mot, sens, i, j, couleur){
-
-      
-        if(sens ===0){
-          for(let u=0;u<mot.length; u++){
-            this.ecrireLettreDansCase(mot.charAt(u), i+u, j, couleur);
-          }
-      }else{
-        for(let v=0;v<mot.length; v++){
-           this.ecrireLettreDansCase(mot.charAt(v), i, j+v, couleur);        
-            }
+  public ecrireMotDansGrille(mot: string, sens: number, i:number, j:number, couleur: string) {
+    if (sens === 0) {
+      for (let u = 0; u < mot.length; u++) {
+        this.ecrireLettreDansCase(mot.charAt(u), i + u, j, couleur);
+      }
+    } else {
+      for (let v = 0; v < mot.length; v++) {
+        this.ecrireLettreDansCase(mot.charAt(v), i, j + v, couleur);
+      }
     }
   }
 
-
-  public afficherPositionMotSurCase(tailleMot, sens, i, j, couleur){
-    
-    this.ctxCanvas.strokeStyle = couleur;
-    this.ctxCanvas.lineWidth = '3';
-    this.ctxCanvas.setLineDash([5, 3]);
-    if (sens === 0){
-      this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
-      this.ctxCanvas.stroke();
-    }else{
-      this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase , this.hauteurCase * tailleMot);
-      this.ctxCanvas.stroke();
-    }
-  }
-
-  public ecrireLettreDansCase(lettre, i, j, couleur){
+  public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string) {
     this.ctxCanvas.font = '10px Arial';
     this.ctxCanvas.fillStyle = couleur;
     this.ctxCanvas.textAlign = 'center';
     this.ctxCanvas.textBaseline = 'middle';
-    this.ctxCanvas.fillText(lettre, this.largeurCase * (i + 1 / 2) , this.hauteurCase * (j +1 / 2));
+    this.ctxCanvas.fillText(lettre, this.largeurCase * (i + 1 / 2), this.hauteurCase * (j + 1 / 2));
   }
 
-
-
-
+  public afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string) {
+    this.ctxCanvas.strokeStyle = couleur;
+    this.ctxCanvas.lineWidth = '3';
+    this.ctxCanvas.setLineDash([5, 3]);
+    if (sens === 0) {
+      this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
+      this.ctxCanvas.stroke();
+    } else {
+      this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.hauteurCase * tailleMot);
+      this.ctxCanvas.stroke();
+    }
+  }
 
 }
