@@ -1,0 +1,16 @@
+.container{
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+}
+
+.player_info{
+  width:300px;
+  vertical-align: middle;
+}
+
+.titre{
+  font-size: 20px;
+  font-weight: 800;
+}
+

@@ -9,8 +9,9 @@ import { RenderService } from './cube/render.service';
 import { BasicService } from './basic.service';
 import {AppRoutingModule} from './app-routing.module';
 import {GameViewComponent} from './game_view/game-view.component';
-import {TableViewComponent} from "./game_view/table-view.component";
-import {CanvasViewComponent} from "./canvas/canvas-view.component";
+import {CanvasViewComponent} from './canvas/canvas-view.component';
+import {IndiceViewComponent} from './indice/indice-view.component';
+import {InfosJeuViewComponent} from "./infos_jeu/infos-jeu-view.component";
 
 
 @NgModule({
@@ -18,8 +19,9 @@ import {CanvasViewComponent} from "./canvas/canvas-view.component";
     AppComponent,
     CubeComponent,
     GameViewComponent,
-    TableViewComponent,
-    CanvasViewComponent
+    CanvasViewComponent,
+    IndiceViewComponent,
+    InfosJeuViewComponent
   ],
   imports: [
     BrowserModule,
@@ -39,4 +41,4 @@ RouterModule.forRoot([
     path: 'partie',
     component: AppComponent
   }
-])
+]);

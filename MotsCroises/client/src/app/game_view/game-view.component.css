@@ -1,12 +1,12 @@
 .info_jeu {
   font-size: large;
-  height: 100px;
   width: auto;
   text-align: center;
   align-content: center;
   border: 3px solid black;
   margin: 10px;
   vertical-align: middle;
+
 }
 
 .game_container{
@@ -35,3 +35,5 @@ div h1{
   color: blue;
   text-align: center;
 }
+
+

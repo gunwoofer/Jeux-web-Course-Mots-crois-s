@@ -6,7 +6,12 @@ canvas {
 .container{
   box-sizing: border-box;
   padding: 5px;
-
 }
+
+h1{
+  color: blue;
+  text-align: center;
+}
+
 
 
