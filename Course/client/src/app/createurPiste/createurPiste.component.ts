@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, ElementRef, ViewChild, HostListener} from '@angular/core';
+import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 import { Location } from '@angular/common';
 
 
-import {RenderService} from './render.service';
+import { RenderService } from './render.service';
 import { PisteValidationComponent } from './../pisteValidator/pisteValidation.component';
 
 
@@ -16,7 +16,7 @@ import { PisteValidationComponent } from './../pisteValidator/pisteValidation.co
 export class CreateurPisteComponent implements AfterViewInit {
 
   constructor(private renderService: RenderService,
-              private location: Location) {
+    private location: Location) {
   }
 
   private points: THREE.Points[];
@@ -49,7 +49,7 @@ export class CreateurPisteComponent implements AfterViewInit {
   }
 
   public onMouseClick(event): void {
-     this.renderService.onMouseClick(event);
+    this.renderService.onMouseClick(event);
   }
 
   public onMouseDown(event): void {
@@ -73,12 +73,18 @@ export class CreateurPisteComponent implements AfterViewInit {
     if (this.renderService.afficherMessageErreurs()) {
       this.message = this.renderService.afficherMessageErreurs();
       return true;
-    }else {
+    } else {
       return false;
     }
   }
 
   private revenirEnarriere() {
-    this.location.back();
+    if (this.renderService.points.length === 0) {
+      this.location.back();
+    }
+  }
+
+  private reinitialiser() {
+    this.renderService.reinitialiserScene();
   }
 }

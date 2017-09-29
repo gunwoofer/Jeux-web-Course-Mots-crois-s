@@ -2,10 +2,10 @@
     <strong>Warning! </strong><br>{{message}}</h4>
 <h4 class="alert alert-success" *ngIf="condition()">
     <strong>Success! </strong><br>Votre dessin est terminé mais vous pouvez le modifier encore.</h4>
-
-
-
+<button class="btn btn-primary" (click)="revenirEnarriere()">Back</button>
+<button class="btn btn-danger" (click)="reinitialiser()">Réinitialiser Zone édition</button>
+<br>
+<br>
 <div #container (contextmenu)="oncontextmenu()" (click)="onMouseClick($event)" (mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"></div>
 <br>
-<button class="btn btn-primary" (click)="revenirEnarriere()">Back</button>
 <app-pistevalidator-component *ngIf="condition()" [points]="listePoints()"></app-pistevalidator-component>

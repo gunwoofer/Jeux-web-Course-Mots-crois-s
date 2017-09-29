@@ -246,6 +246,7 @@ export class RenderService {
     /* Camera */
     this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 10000);
     this.camera.position.z = 100;
+    this.camera.position.x = 100;
   }
 
   // Creation d'un plan
@@ -567,6 +568,27 @@ export class RenderService {
         distanceDepointDepart = (positionPointMinimum <= longueurListe / 2) ? i : longueurListe - positionPointMinimum;
       }
     }
+  }
+
+  public viderListeDesPoints(): void {
+    for (let i = this.points.length - 1; i >= 0; i--) {
+      this.points.pop();
+    }
+  }
+
+  public viderScene(): void {
+    for (let i = 0; i < this.points.length; i++) {
+      this.retirerAncienPointLine();
+      this.scene.remove(this.points[i]);
+      this.retirerCourbe();
+      this.compteur--;
+    }
+  }
+
+  public reinitialiserScene(): void {
+    this.viderScene();
+    this.viderListeDesPoints();
+    this.dessinTermine = false;
   }
 
 }
