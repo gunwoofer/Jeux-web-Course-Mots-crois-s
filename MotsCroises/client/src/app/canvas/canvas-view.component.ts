@@ -15,7 +15,7 @@ export class CanvasViewComponent implements AfterViewInit {
   private hauteurCase: number;
   private nbCases = 11;
   private couleurNoire = '#000000';
-  private couleurRouge = '#DD0000'
+  private couleurRouge = '#DD0000';
 
   constructor() {
   }
@@ -37,7 +37,8 @@ export class CanvasViewComponent implements AfterViewInit {
     this.dessinerLignesGrille();
     this.afficherPositionMotSurCase(5, 1, 4, 3, '#0000DD');
     this.ecrireLettreDansCase('A', 4,3, this.couleurRouge);
-
+    this.ecrireMotDansCase('Fuck', 0, 1, 1, '#000000');
+    this.ecrireMotDansCase('This', 1, 4, 4, '#000000');
   }
 
   public dessinerLignesGrille(){
@@ -56,12 +57,23 @@ export class CanvasViewComponent implements AfterViewInit {
   public ecrireChiffreGrille(){
 
   }
+  public ecrireMotDansCase(mot, sens, i, j, couleur){
 
-  public ecrireDansCase(i, j){
-
+      
+        if(sens ===0){
+          for(let u=0;u<mot.length; u++){
+            this.ecrireLettreDansCase(mot.charAt(u), i+u, j, couleur);
+          }
+      }else{
+        for(let v=0;v<mot.length; v++){
+           this.ecrireLettreDansCase(mot.charAt(v), i, j+v, couleur);        
+            }
+    }
   }
 
+
   public afficherPositionMotSurCase(tailleMot, sens, i, j, couleur){
+    
     this.ctxCanvas.strokeStyle = couleur;
     this.ctxCanvas.lineWidth = '3';
     this.ctxCanvas.setLineDash([5, 3]);
