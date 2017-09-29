@@ -1,5 +1,6 @@
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
+import { TableauScoreComponent } from '../tableauScore/tableauScore.component';
 import { Component, OnInit } from '@angular/core';
 
 @Component({

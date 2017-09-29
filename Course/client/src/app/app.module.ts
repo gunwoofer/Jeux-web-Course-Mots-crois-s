@@ -9,6 +9,7 @@ import { CreateurPisteComponent } from './createurPiste/createurPiste.component'
 import { PisteValidationComponent } from './pisteValidator/pisteValidation.component';
 import { PisteComponent } from './piste/piste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
+import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 
 
 import { RenderService } from './createurPiste/render.service';
@@ -26,7 +27,8 @@ import { AppRoutingModule } from './app.routing';
     PisteValidationComponent,
     PisteComponent,
     ListePisteComponent,
-    CourseComponent
+    CourseComponent,
+    TableauScoreComponent
   ],
   imports: [
     BrowserModule,

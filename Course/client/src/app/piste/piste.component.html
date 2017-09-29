@@ -10,6 +10,9 @@
             <p>Nombre de fois jouée: {{ piste.nombreFoisJouee }} </p>
             <button type="button" (click)="montrerLesScores()">Meilleurs scores</button>
         </div>
+        <div *ngIf="score">
+            <app-tableauscore-component [temps]="piste.meilleursTemps"></app-tableauscore-component>
+        </div>
         <footer class="panel-footer">
             <div>
                 <a class="config" class="btn btn-warning" (click)="onEdit()">

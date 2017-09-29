@@ -13,6 +13,7 @@ export class PisteComponent {
 
   @Input() private piste: Piste;
   private display = false;
+  private score = false;
 
   private onEdit() {
     this.pisteService.modifierPiste(this.piste);
@@ -27,5 +28,6 @@ export class PisteComponent {
   }
 
   private montrerLesScores() {
+    this.score = !this.score;
   }
 }

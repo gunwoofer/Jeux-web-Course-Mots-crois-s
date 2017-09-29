@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
     selector: 'app-tableauscore-component',
@@ -6,6 +6,11 @@ import { Component } from '@angular/core';
     styleUrls: ['./tableauScore.component.css']
 })
 
-export class tableauScoreComponent {
+export class TableauScoreComponent {
+    constructor () {}
 
+    @Input() private temps: number[];
+    /*public afficherTableauDesScores() {
+
+    }*/
 }

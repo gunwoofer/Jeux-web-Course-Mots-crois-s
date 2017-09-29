@@ -1,14 +1,16 @@
 import * as THREE from 'three';
 
-
 export class Piste {
 
     public nombreFoisJouee: number;
     public coteAppreciation: number;
-    public meilleursScore: Float32Array;
+    public meilleursTemps: number[] = [];
     constructor(public nom: string, public typeCourse: string, public description: string, public listePoints?: THREE.Points[]) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = 0;
+        for (let i = 0; i < 5; i++) {
+            this.meilleursTemps[i] = i * 2 + 4;
+        }
     }
 
 }
