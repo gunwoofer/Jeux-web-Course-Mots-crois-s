@@ -29,6 +29,28 @@ describe('GenerateurDeGrilleService', () => {
         assert(!grille.contientMotDuplique());
     });
 
+    it('Une grille ne contient pas d\'emplacements de mot qui se chevauchent sur la même colonne ou sur la même ligne.', () => {
+        const generateurDeGrilleService = new GenerateurDeGrilleService();
+        const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
+        let compteur = 0;
+
+        for (let emplacementAEvaluer of grille.obtenirPositionsEmplacementsVides()) {
+            compteur = 0;
+            for (let emplacementCourant of grille.obtenirPositionsEmplacementsVides()) {
+                if ((emplacementAEvaluer.obtenirCaseDebut() === emplacementCourant.obtenirCaseDebut()) &&
+                    (emplacementAEvaluer.obtenirCaseFin() === emplacementCourant.obtenirCaseFin())) {
+                    compteur++;
+                    if (compteur > 1) {
+                        assert(false);
+                    }
+                }
+            }
+        }
+
+        assert(true);
+
+    });
+
     it('Les accents, tremas et cedilles sont ignores.', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);

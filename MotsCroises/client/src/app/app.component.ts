@@ -24,6 +24,8 @@ export class AppComponent implements OnInit {
   public typePartie = 'classique';
   public niveauPartie = 'normal';
 
+public emplacementsMot = '';
+
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
     this.basicService.obtenirGrille().then(grille => this.afficherGrille(grille));
@@ -46,6 +48,13 @@ export class AppComponent implements OnInit {
 
   public afficherGrille(grille: any): void {
     this.grille = this.obtenirTableauMotsCroises(grille);
+    for(const emplacementMot of grille.emplacementMots) {
+      this.emplacementsMot += 'Debut : {' + emplacementMot.caseDebut.numeroLigne + ',' + emplacementMot.caseDebut.numeroColonne + '}';
+      this.emplacementsMot += ' | Fin : {' + emplacementMot.caseFin.numeroLigne + ',' + emplacementMot.caseFin.numeroColonne + '}';
+      this.emplacementsMot += ' | Grandeur : ' + emplacementMot.grandeur;
+      this.emplacementsMot += ' | Cases : ' + emplacementMot.cases.length + '<br />';
+
+    }
   }
 
   public obtenirTableauMotsCroises(grille: any): string {

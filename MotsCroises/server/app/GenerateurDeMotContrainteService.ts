@@ -1,118 +1,124 @@
 import { Mot, Rarete } from './Mot';
 import { Contrainte } from './Contrainte';
 import { Indice, DifficulteDefinition } from './Indice';
-import { Grille, Niveau } from './Grille';
+import { Niveau } from './Grille';
+import { MotDataMuse } from './MotDataMuse';
 
 const datamuse = require('datamuse');
 
+export const aucunMotObtenuDeDataMuse = 'Aucune mot n\'a été reccueilli de l\'API datamuse.';
+export const aucunMotDansTableauCommun = 'Aucune mot se trouve dans le tableau commun des mots reccueillis.';
+export const aucunMotDansTableauNonCommun = 'Aucune mot se trouve dans le tableau non commun des mots reccueillis.';
+
 export class GenerateurDeMotContrainteService {
 
-    private contrainte: Contrainte[];
+    private contraintes: Contrainte[];
     private tailleEmplacement: number;
 
-    public constructor(nbreLettres: number, contrainte?: Contrainte[]) {
-        this.contrainte = contrainte;
+    public constructor(nbreLettres: number, contraintes?: Contrainte[]) {
+        this.contraintes = contraintes;
         this.tailleEmplacement = nbreLettres;
     }
 
-
-    public genererMot(niveau: Niveau): Promise<Mot> {
+    public genererMotAleatoire(niveau: Niveau): Promise<Mot> {
         return new Promise((resolve: any, reject: any) => {
-            let tableauIndice: string[];
-            let chaineContrainte = '';
-            let monIndice: Indice;
-            let monMot: Mot;
+            const contrainte = this.preparerContrainte();
 
-            // Un score au dessus de 1000 indique un mot commun et inferieure a 1000 non commun
-            const tableauCommun = new Array<any>();   // À défénir
-            const tableauNonCommun = new Array<any>();
+            this.obtenirMotAleatoireDeDataMuse(contrainte, niveau)
+                .then((resultat: Mot) => { resolve(resultat); })
+                .catch((erreur: string) => { reject(erreur); });
+        });
+    }
 
-            for (let i = 0; i < this.tailleEmplacement; i++) {
-                chaineContrainte += '?';
+    public preparerContrainte(): string {
+        let contrainte = '';
+
+        for (let i = 0; i < this.tailleEmplacement; i++) {
+            contrainte += '?';
+        }
+
+        if (this.contraintes !== undefined) {
+            for (let i = 0; i < this.contraintes.length; i++) {
+                contrainte = this.replaceCharAt(contrainte, this.contraintes[i].obtenirPositionContrainte(),
+                    this.contraintes[i].obtenirLettre());
             }
-            if (this.contrainte !== undefined) {
-                for (let i = 0; i < this.contrainte.length - 1; i++) {
-                    chaineContrainte = this.replaceCharAt(chaineContrainte, this.contrainte[i].obtenirPositionContrainte(),
-                        this.contrainte[i].obtenirLettre());
-                }
-            }
+        }
 
-            let mot: string;
-            datamuse.request('words?sp=' + chaineContrainte + '&md=d').then((json: any) => {
+        return contrainte;
+    }
 
+    private creerMotAleatoireAPartirDe(motsDataMuse: MotDataMuse[], difficulteDefinition: DifficulteDefinition, rarete: Rarete): Mot {
+        let mot: Mot;
+        const nombrealeat = this.nombreAleatoireEntreXEtY(0, motsDataMuse.length - 1);
+        const monIndice: Indice = new Indice(motsDataMuse[nombrealeat].defs);
 
-                const nombreMotPossible = json.length;
+        monIndice.setDifficulteDefinition(difficulteDefinition);
+        mot = new Mot(motsDataMuse[nombrealeat].word, monIndice);
+        mot.setRarete(rarete);
+
+        return mot;
+    }
+
+    private obtenirMotAleatoireDeDataMuse(contrainte: string, niveau: Niveau): Promise<Mot> {
+
+        // Un score au dessus de 1000 indique un mot commun et inferieure a 1000 non commun
+        const tableauCommun = new Array<any>();
+        const tableauNonCommun = new Array<any>();
+
+        return new Promise((resolve: any, reject: any) => {
+            datamuse.request('words?sp=' + contrainte + '&md=df').then((motsDataMuse: MotDataMuse[]) => {
+                motsDataMuse = MotDataMuse.convertirJsonEnMotsDataMuse(motsDataMuse);
+
+                const nombreMotPossible = motsDataMuse.length;
+
                 if (nombreMotPossible === 0) {
-                    mot = '';
-                    monIndice = new Indice(['']);
-                    const pasDeMot = new Mot(mot, monIndice);
-                    return pasDeMot;
-                } else {
-                    for (let i = 0; i < nombreMotPossible; i++) {
-                        if (json[i].score > 1000) {
-                            tableauCommun.push(json[i]);
-                        } else if (json[i].score < 1000) {
-                            tableauNonCommun.push(json[i]);
-                        }
-                    }
+                    reject(aucunMotObtenuDeDataMuse);
+                }
 
-                    if (niveau === Niveau.facile) {
+                for (const motDataMuseCourant of motsDataMuse) {
 
-                        if (tableauCommun.length === 0) {
-                            mot = '';
-                            monIndice = new Indice(['']);
-                            let pasDeMot = new Mot(mot, monIndice);
-                            return pasDeMot;
-                        }
-                        const nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauCommun.length - 1);
-
-                        mot = tableauCommun[nombrealeat].word;
-                        tableauIndice = tableauCommun[nombrealeat].defs;
-                        monIndice = new Indice(tableauIndice);
-                        monIndice.setDifficulteDefinition(DifficulteDefinition.PremiereDefinition);
-                        monMot = new Mot(mot, monIndice);
-                        monMot.setRarete(Rarete.commun);
-                    }
-                    if (niveau === Niveau.moyen) {
-                        if (tableauCommun.length === 0) {
-                            mot = '';
-                            monIndice = new Indice(['']);
-                            const pasDeMot = new Mot(mot, monIndice);
-                            return pasDeMot;
-                        }
-                        const nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauCommun.length);
-
-                        mot = tableauCommun[nombrealeat].word;
-                        tableauIndice = tableauCommun[nombrealeat].defs;
-                        monIndice = new Indice(tableauIndice);
-                        monIndice.setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
-                        monMot = new Mot(mot, monIndice);
-                        monMot.setRarete(Rarete.commun);
-
-                    }
-                    if (niveau === Niveau.difficile) {
-                        if (tableauNonCommun.length === 0) {
-                            mot = '';
-                            monIndice = new Indice(['']);
-                            const pasDeMot = new Mot(mot, monIndice);
-                            return pasDeMot;
-                        }
-                        const nombrealeat = this.nombreAleatoireEntreXEtY(0, tableauNonCommun.length);
-
-                        mot = tableauNonCommun[nombrealeat].word;
-                        tableauIndice = tableauNonCommun[nombrealeat].defs;
-                        monIndice = new Indice(tableauIndice);
-                        monIndice.setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
-                        monMot = new Mot(mot, monIndice);
-                        monMot.setRarete(Rarete.nonCommun);
+                    if (motDataMuseCourant.estUnMotNonCommun()) {
+                        tableauCommun.push(motDataMuseCourant);
+                    } else {
+                        tableauNonCommun.push(motDataMuseCourant);
                     }
                 }
 
-                resolve(monMot);
+                switch (niveau) {
+                    case Niveau.facile:
+                        if (tableauCommun.length > 0) {
+                            resolve(this.creerMotAleatoireAPartirDe(tableauCommun, DifficulteDefinition.PremiereDefinition, Rarete.commun));
+                        } else {
+                            reject(aucunMotDansTableauCommun);
+                        }
+                        break;
+
+                    case Niveau.moyen:
+                        if (tableauCommun.length > 0) {
+                            resolve(this.creerMotAleatoireAPartirDe(tableauCommun,
+                                DifficulteDefinition.DefinitionAlternative, Rarete.commun));
+                        } else {
+                            reject(aucunMotDansTableauCommun);
+                        }
+                        break;
+
+                    case Niveau.difficile:
+                        if (tableauNonCommun.length > 0) {
+                            resolve(this.creerMotAleatoireAPartirDe(tableauNonCommun,
+                                DifficulteDefinition.DefinitionAlternative, Rarete.nonCommun));
+                        } else {
+                            reject(aucunMotDansTableauNonCommun);
+                        }
+                        break;
+
+                    default:
+                        reject();
+                        break;
+                }
+
             }).catch((erreur: any) => {
                 reject(erreur);
             });
-
         });
     }
 

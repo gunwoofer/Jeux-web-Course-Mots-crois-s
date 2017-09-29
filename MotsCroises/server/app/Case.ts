@@ -7,8 +7,8 @@ export enum EtatCase {
 }
 
 export class Case {
-    private x: number;
-    private y: number;
+    private numeroLigne: number;
+    private numeroColonne: number;
 
     private lettre: string;
     public etat: EtatCase;
@@ -18,19 +18,31 @@ export class Case {
     private pointsDeContraintes = 0;
     private pointsDeContraintesProvenance: Position[];
 
-    constructor(x: number, y: number, etat: EtatCase) {
-        this.x = x;
-        this.y = y;
+    constructor(numeroLigne: number, numeroColonne: number, etat: EtatCase) {
+        this.numeroLigne = numeroLigne;
+        this.numeroColonne = numeroColonne;
         this.etat = etat;
 
     }
 
-    public obtenirX(): number {
-        return this.x;
+    public copieCase(): Case {
+        let newCase = new Case(this.numeroLigne, this.numeroColonne, this.etat);
+        newCase.lettre = this.lettre;
+        newCase.intersection = this.intersection;
+        newCase.pointsDeContraintes = this.pointsDeContraintes;
+        newCase.pointsDeContraintesProvenance = new Array();
+        for(let i = 0; i < this.pointsDeContraintesProvenance.length; i++) {
+            newCase.pointsDeContraintesProvenance[i] = this.pointsDeContraintesProvenance[i];
+        }
+        return newCase;
     }
 
-    public obtenirY(): number {
-        return this.y;
+    public obtenirNumeroLigne(): number {
+        return this.numeroLigne;
+    }
+
+    public obtenirNumeroColonne(): number {
+        return this.numeroColonne;
     }
 
     public obtenirPointsDeContraintes(): number {
@@ -39,8 +51,8 @@ export class Case {
 
     public comparerCase(caseAComparer: Case): boolean {
         return ((this.etat === caseAComparer.etat)
-            && (this.x === caseAComparer.obtenirX())
-            && (this.y === caseAComparer.obtenirY())
+            && (this.numeroLigne === caseAComparer.obtenirNumeroLigne())
+            && (this.numeroColonne === caseAComparer.obtenirNumeroColonne())
             && (this.lettre === caseAComparer.obtenirLettre()));
     }
 
@@ -74,19 +86,19 @@ export class Case {
             this.intersection = true;
         }
 
-        if (this.obtenirX() === 0 && this.obtenirY() === 0 && this.pointsDeContraintes >= 2) {
+        if (this.obtenirNumeroLigne() === 0 && this.obtenirNumeroColonne() === 0 && this.pointsDeContraintes >= 2) {
             this.intersection = true;
         }
 
-        if (this.obtenirX() === 0 && this.obtenirY() === 9 && this.pointsDeContraintes >= 2) {
+        if (this.obtenirNumeroLigne() === 0 && this.obtenirNumeroColonne() === 9 && this.pointsDeContraintes >= 2) {
             this.intersection = true;
         }
 
-        if (this.obtenirX() === 9 && this.obtenirY() === 0 && this.pointsDeContraintes >= 2) {
+        if (this.obtenirNumeroLigne() === 9 && this.obtenirNumeroColonne() === 0 && this.pointsDeContraintes >= 2) {
             this.intersection = true;
         }
 
-        if (this.obtenirX() === 9 && this.obtenirY() === 9 && this.pointsDeContraintes >= 2) {
+        if (this.obtenirNumeroLigne() === 9 && this.obtenirNumeroColonne() === 9 && this.pointsDeContraintes >= 2) {
             this.intersection = true;
         }
     }
