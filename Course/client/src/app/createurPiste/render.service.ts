@@ -433,16 +433,16 @@ export class RenderService {
     this.modifierPointLine(objetGlisseNumber, this.objetGlisse.position);
     this.redessinerCourbe();
 
-    if (objetGlisseNumber === 0 && this.dessinTermine) { 
+    if (objetGlisseNumber === 0 && this.dessinTermine) {
       this.points[this.compteur - 1].position.copy(this.objetGlisse.position);
       this.modifierPointLine(this.compteur - 1, this.objetGlisse.position);
     }
   }
 
   private hoverPoint(point): void {
-    this.pointHover = true; 
+    this.pointHover = true;
     this.objetGlisse = point;
-    point.material.color.set(0x0000ff); 
+    point.material.color.set(0x0000ff);
     point.material.size = 11;
   }
 
@@ -470,7 +470,10 @@ export class RenderService {
     const nombreTirage = 2;
     geometrie.setDrawRange(0, 0);
 
-    const materiel = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
+    const materiel = new THREE.LineBasicMaterial({
+      vertexColors: THREE.VertexColors,
+      linewidth: 10,
+    });
     this.pointsLine = new THREE.Line(geometrie, materiel);
     this.scene.add(this.pointsLine);
   }
@@ -487,12 +490,13 @@ export class RenderService {
 
   private modifierPointLine(positionTableauPoints, positionPoint): void {
     const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
-    this.modificationdecouleuur(positionTableauPoints);
     pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
     pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
     pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
 
     this.pointsLine.geometry.attributes.position.needsUpdate = true;
+    this.modificationdecouleuur(positionTableauPoints);
+
 
   }
 

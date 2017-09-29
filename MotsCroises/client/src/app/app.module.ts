@@ -7,16 +7,24 @@ import { CubeComponent } from './cube/cube.component';
 
 import { RenderService } from './cube/render.service';
 import { BasicService } from './basic.service';
+import {AppRoutingModule} from './app-routing.module';
+import {GameViewComponent} from './game_view/game-view.component';
+import {TableViewComponent} from "./game_view/table-view.component";
+import {CanvasViewComponent} from "./canvas/canvas-view.component";
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    CubeComponent
+    CubeComponent,
+    GameViewComponent,
+    TableViewComponent,
+    CanvasViewComponent
   ],
   imports: [
     BrowserModule,
-    HttpModule
+    HttpModule,
+    AppRoutingModule
   ],
   providers: [
     RenderService,
