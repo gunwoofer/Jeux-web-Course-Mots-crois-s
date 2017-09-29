@@ -28,14 +28,6 @@ export class GenerateurDeGrilleService {
     public genererGrille(niveau: Niveau): Grille {
         this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);
-        
-        /*
-        this.remplirGrilleVraisMots(niveau).then((grille) => {
-            this.motCroiseGenere = grille;
-        });
-        */
-        
-        
 
         return this.motCroiseGenere;
     }
