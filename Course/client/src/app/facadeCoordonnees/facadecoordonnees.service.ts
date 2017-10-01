@@ -7,7 +7,7 @@ export class FacadeCoordonneesService {
     constructor () {}
     public mouse: THREE.Vector2;
 
-    public obtenirIntersection(event, scene: THREE.Scene, camera: THREE.Camera, 
+    public obtenirIntersection(event, scene: THREE.Scene, camera: THREE.Camera,
         renderer: THREE.WebGLRenderer): THREE.Intersection {
 
         const rayCaster = new THREE.Raycaster();

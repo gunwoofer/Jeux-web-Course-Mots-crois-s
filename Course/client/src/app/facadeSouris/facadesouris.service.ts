@@ -49,15 +49,11 @@ export class FacadeSourisService {
 
       public onMouseMove(event): void {
         const rayCaster = new THREE.Raycaster();
-        // this.mouse = this.obtenirCoordonnees(event);
-        // this.mouse = this.facadeCoordonneesService.obtenirCoordonnees(event, this.renderer);
         this.facadeCoordonneesService.miseAJourMouse(event, this.renderService.renderer);
         let intersects;
         this.renderService.scene.updateMatrixWorld(true);
-        // rayCaster.setFromCamera(this.mouse, this.camera);
         rayCaster.setFromCamera(this.facadeCoordonneesService.mouse, this.renderService.camera);
         intersects = rayCaster.intersectObjects(this.renderService.scene.children);
-
         if (this.modeGlissement) {
           this.dragPoint(intersects[0].point);
         } else {
@@ -78,7 +74,6 @@ export class FacadeSourisService {
         const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
         this.renderService.modifierPointLine(objetGlisseNumber, this.objetGlisse.position);
         this.renderService.redessinerCourbe();
-
         if (objetGlisseNumber === 0 && this.renderService.dessinTermine) {
           this.renderService.points[this.renderService.compteur - 1].position.copy(this.objetGlisse.position);
           this.renderService.modifierPointLine(this.renderService.compteur - 1, this.objetGlisse.position);
