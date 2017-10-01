@@ -3,7 +3,7 @@ import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing';
 
 import { CreateurPisteComponent } from './createurPiste.component';
-import { PisteValidationComponent } from './../piste/pisteValidation.component';
+import { PisteValidationComponent } from '../pisteValidator/pisteValidation.component';
 
 
 import { RenderService } from './render.service';

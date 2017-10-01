@@ -16,6 +16,7 @@ import { RenderService } from './createurPiste/render.service';
 import { BasicService } from './basic.service';
 import { PisteService } from './piste/piste.service';
 
+import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
 
 
@@ -39,7 +40,8 @@ import { AppRoutingModule } from './app.routing';
   providers: [
     RenderService,
     BasicService,
-    PisteService
+    PisteService,
+    { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
 })
