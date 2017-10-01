@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { TableauScoreService } from './tableauScoreService.service';
 
 @Component({
     selector: 'app-tableauscore-component',
@@ -7,10 +8,7 @@ import { Component, Input } from '@angular/core';
 })
 
 export class TableauScoreComponent {
-    constructor () {}
+    constructor (tableauScoreService: TableauScoreService) {}
 
     @Input() private temps: number[];
-    /*public afficherTableauDesScores() {
-
-    }*/
 }
