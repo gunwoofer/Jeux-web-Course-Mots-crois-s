@@ -12,7 +12,7 @@ import { ListePisteComponent } from './listePiste/listePiste.component';
 import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 
 
-import { RenderService } from './createurPiste/render.service';
+import { RenderService } from './renderService/render.service';
 import { BasicService } from './basic.service';
 import { PisteService } from './piste/piste.service';
 

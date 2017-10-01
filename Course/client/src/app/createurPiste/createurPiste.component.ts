@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 
 
-import { RenderService } from './render.service';
+import { RenderService } from '../renderService/render.service';
 import { PisteValidationComponent } from './../pisteValidator/pisteValidation.component';
 
 

@@ -1,4 +1,4 @@
-import { RenderService } from './../createurPiste/render.service';
+import { RenderService } from '../renderService/render.service';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 

@@ -2,7 +2,7 @@ import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing';
 
-import { CreateurPisteComponent } from './createurPiste.component';
+import { CreateurPisteComponent } from '../createurPiste/createurPiste.component';
 import { PisteValidationComponent } from '../pisteValidator/pisteValidation.component';
 
 
