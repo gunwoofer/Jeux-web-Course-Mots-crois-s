@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
+
 import * as THREE from 'three';
 import Stats = require('stats.js');
+
+import { FacadePointService } from '../facadePoint/facadepoint.service';
+import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 
 @Injectable()
 export class RenderService {
@@ -38,6 +42,9 @@ export class RenderService {
   public nbAnglesPlusPetit45 = 0;
   public nbSegmentsTropProche = 0;
 
+  private facadePointService = new FacadePointService();
+  private facadeCoordonneesService = new FacadeCoordonneesService();
+
 
   private listeErreurCouleur = {
     normal: 'green',
@@ -69,7 +76,8 @@ export class RenderService {
 
   public obtenirIntersection(event): THREE.Intersection {
     const rayCaster = new THREE.Raycaster();
-    this.mouse = this.obtenirCoordonnees(event);
+    // this.mouse = this.obtenirCoordonnees(event);
+    this.mouse = this.facadeCoordonneesService.obtenirCoordonnees(event, this.renderer);
     rayCaster.setFromCamera(this.mouse, this.camera);
     const intersection = rayCaster.intersectObjects(this.scene.children);
     return intersection[0];
@@ -115,18 +123,22 @@ export class RenderService {
   public dessinerPoint(event): number {
     let objet, point;
     if (!this.dessinTermine) {
-      objet = this.obtenirIntersection(event);
+      // objet = this.obtenirIntersection(event);
+      objet = this.facadeCoordonneesService.obtenirIntersection(event, this.scene, this.camera, this.renderer);
       point = this.creerPoint(objet.point, 'black');
+      // point = this.facadePointService.creerPoint(objet.point, 'black', this.compteur);
       if (this.points.length === 0) {
         point.material.status = 'premier';
       } else {
         try {
+          // this.facadePointService.dessinerDernierPoint(point, this.points, this.dessinTermine);
           this.dessinerDernierPoint(point);
         } catch (e) {
           alert(e.message);
           return;
         }
       }
+      // this.facadePointService.ajouterPoint(point, this.scene, this.dessinTermine, this.points, this.compteur, this.pointsLine);
       this.ajouterPoint(point);
       this.actualiserDonnees();
       this.redessinerCourbe();
@@ -407,10 +419,13 @@ export class RenderService {
 
   public onMouseMove(event): void {
     const rayCaster = new THREE.Raycaster();
-    this.mouse = this.obtenirCoordonnees(event);
+    // this.mouse = this.obtenirCoordonnees(event);
+    // this.mouse = this.facadeCoordonneesService.obtenirCoordonnees(event, this.renderer);
+    this.facadeCoordonneesService.miseAJourMouse(event, this.renderer);
     let intersects;
     this.scene.updateMatrixWorld(true);
-    rayCaster.setFromCamera(this.mouse, this.camera);
+    // rayCaster.setFromCamera(this.mouse, this.camera);
+    rayCaster.setFromCamera(this.facadeCoordonneesService.mouse, this.camera);
     intersects = rayCaster.intersectObjects(this.scene.children);
 
     if (this.modeGlissement) {
@@ -431,12 +446,12 @@ export class RenderService {
   private dragPoint(position): void {
     this.objetGlisse.position.copy(position);
     const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
-    this.modifierPointLine(objetGlisseNumber, this.objetGlisse.position);
+    this.facadePointService.modifierPointLine(objetGlisseNumber, this.objetGlisse.position, this.pointsLine, this.points);
     this.redessinerCourbe();
 
     if (objetGlisseNumber === 0 && this.dessinTermine) {
       this.points[this.compteur - 1].position.copy(this.objetGlisse.position);
-      this.modifierPointLine(this.compteur - 1, this.objetGlisse.position);
+      this.facadePointService.modifierPointLine(this.compteur - 1, this.objetGlisse.position, this.pointsLine, this.points);
     }
   }
 
@@ -503,7 +518,7 @@ export class RenderService {
   }
 
   private retirerAncienPointLine(): void {
-    this.modifierPointLine(this.compteur - 1, new THREE.Vector3(0, 0, 0));
+    this.facadePointService.modifierPointLine(this.compteur - 1, new THREE.Vector3(0, 0, 0), this.pointsLine, this.points);
     this.pointsLine.geometry.setDrawRange(0, this.compteur - 1);
   }
 
