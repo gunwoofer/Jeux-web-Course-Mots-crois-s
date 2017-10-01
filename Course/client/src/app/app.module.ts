@@ -15,6 +15,8 @@ import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 import { RenderService } from './renderService/render.service';
 import { BasicService } from './basic.service';
 import { PisteService } from './piste/piste.service';
+import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
+import { FacadeSourisService } from './facadeSouris/facadesouris.service';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
@@ -41,6 +43,8 @@ import { AppRoutingModule } from './app.routing';
     RenderService,
     BasicService,
     PisteService,
+    FacadeCoordonneesService,
+    FacadeSourisService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

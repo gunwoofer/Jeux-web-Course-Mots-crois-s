@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@angular/core';
 
-
+import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
 import { PisteValidationComponent } from './../pisteValidator/pisteValidation.component';
 
@@ -14,7 +14,7 @@ import { PisteValidationComponent } from './../pisteValidator/pisteValidation.co
 
 export class CreateurPisteComponent implements AfterViewInit {
 
-  constructor(private renderService: RenderService) {
+  constructor(private renderService: RenderService, private facadeSourisService: FacadeSourisService) {
   }
 
   private points: THREE.Points[];
@@ -38,24 +38,24 @@ export class CreateurPisteComponent implements AfterViewInit {
   }
 
   private oncontextmenu(): boolean {
-    this.renderService.rightClick();
+    this.facadeSourisService.rightClick();
     return false;
   }
 
   public onMouseMove(event): void {
-    this.renderService.onMouseMove(event);
+    this.facadeSourisService.onMouseMove(event);
   }
 
   public onMouseClick(event): void {
-    this.renderService.onMouseClick(event);
+    this.facadeSourisService.onMouseClick(event);
   }
 
   public onMouseDown(event): void {
-    this.renderService.onMouseDown(event);
+    this.facadeSourisService.onMouseDown(event);
   }
 
   public onMouseUp(event): boolean {
-    this.renderService.onMouseUp(event);
+    this.facadeSourisService.onMouseUp(event);
     return false;
   }
 

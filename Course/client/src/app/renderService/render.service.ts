@@ -10,11 +10,11 @@ import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees
 export class RenderService {
 
   private container: HTMLDivElement;
-  private camera: THREE.PerspectiveCamera;
+  public camera: THREE.PerspectiveCamera;
   private stats: Stats;
   private cube: THREE.Mesh;
   private plane: THREE.Mesh;
-  private renderer: THREE.WebGLRenderer;
+  public renderer: THREE.WebGLRenderer;
   public scene: THREE.Scene;
   private mouse: THREE.Vector2;
   public points = [];
@@ -159,7 +159,7 @@ export class RenderService {
     }
   }
 
-  private actualiserCouleurPoints(): void {
+  public actualiserCouleurPoints(): void {
     for (const point of this.points) {
       point.material.color.set(this.listeErreurCouleur[point.material.status]);
       point.material.size = 5;
@@ -364,87 +364,7 @@ export class RenderService {
     this.nbSegmentsCroises = nbSegmentsCroises;
   }
 
-
-  /**********************************************************
-                Gestion des déplacements souris
-   *********************************************************/
-
-  public onMouseDown(event): void {
-    this.tempsMouseDown = new Date().getTime();
-    if (this.pointHover) {
-      this.modeGlissement = true;
-    }
-  }
-
-  public onMouseClick(event): void {
-    if (!this.modeGlissement || this.dureeClick < 500 && this.objetGlisse && this.objetGlisse.name === '0') {
-      this.dessinerPoint(event);
-    }
-    this.modeGlissement = false;
-  }
-
-  public rightClick(): void {
-    this.supprimerPoint();
-    this.modeGlissement = false;
-  }
-
-  public onMouseUp(event): void {
-    this.tempsMouseUp = new Date().getTime();
-    this.dureeClick = this.tempsMouseUp - this.tempsMouseDown;
-    if (event.button === 0) {
-      if (this.modeGlissement) {
-        this.actualiserDonnees();
-      }
-    }
-  }
-
-  public onMouseMove(event): void {
-    const rayCaster = new THREE.Raycaster();
-    // this.mouse = this.obtenirCoordonnees(event);
-    // this.mouse = this.facadeCoordonneesService.obtenirCoordonnees(event, this.renderer);
-    this.facadeCoordonneesService.miseAJourMouse(event, this.renderer);
-    let intersects;
-    this.scene.updateMatrixWorld(true);
-    // rayCaster.setFromCamera(this.mouse, this.camera);
-    rayCaster.setFromCamera(this.facadeCoordonneesService.mouse, this.camera);
-    intersects = rayCaster.intersectObjects(this.scene.children);
-
-    if (this.modeGlissement) {
-      this.dragPoint(intersects[0].point);
-    } else {
-      if (intersects.length > 0) {
-        this.actualiserCouleurPoints();
-        this.pointHover = false;
-        for (const objet of intersects) {
-          if (objet.object.type === 'Points') {
-            this.hoverPoint(objet.object);
-          }
-        }
-      }
-    }
-  }
-
-  private dragPoint(position): void {
-    this.objetGlisse.position.copy(position);
-    const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
-    this.facadePointService.modifierPointLine(objetGlisseNumber, this.objetGlisse.position, this.pointsLine, this.points);
-    this.redessinerCourbe();
-
-    if (objetGlisseNumber === 0 && this.dessinTermine) {
-      this.points[this.compteur - 1].position.copy(this.objetGlisse.position);
-      this.facadePointService.modifierPointLine(this.compteur - 1, this.objetGlisse.position, this.pointsLine, this.points);
-    }
-  }
-
-  private hoverPoint(point): void {
-    this.pointHover = true;
-    this.objetGlisse = point;
-    point.material.color.set(0x0000ff);
-    point.material.size = 11;
-  }
-
-
-  private actualiserDonnees(): void {
+  public actualiserDonnees(): void {
     this.restaurerStatusPoints();
     this.nombreLignesCroisees();
     this.nombreSegmentsTropCourts();
@@ -482,7 +402,7 @@ export class RenderService {
     this.pointsLine.geometry.attributes.color.needsUpdate = true;
   }
 
-  private modifierPointLine(positionTableauPoints, positionPoint): void {
+  public modifierPointLine(positionTableauPoints, positionPoint): void {
     const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
     this.modificationdecouleuur(positionTableauPoints);
     pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
@@ -533,7 +453,7 @@ export class RenderService {
     this.scene.remove(this.courbe);
   }
 
-  private redessinerCourbe(): void {
+  public redessinerCourbe(): void {
     if (this.courbe) {
       this.retirerCourbe();
     }
