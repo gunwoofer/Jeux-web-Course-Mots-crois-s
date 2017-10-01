@@ -74,16 +74,6 @@ export class RenderService {
     }
   }
 
-  public obtenirIntersection(event): THREE.Intersection {
-    const rayCaster = new THREE.Raycaster();
-    // this.mouse = this.obtenirCoordonnees(event);
-    this.mouse = this.facadeCoordonneesService.obtenirCoordonnees(event, this.renderer);
-    rayCaster.setFromCamera(this.mouse, this.camera);
-    const intersection = rayCaster.intersectObjects(this.scene.children);
-    return intersection[0];
-  }
-
-
   /**********************************************************
                      Gestion Point
    *********************************************************/
@@ -293,15 +283,6 @@ export class RenderService {
     requestAnimationFrame(() => this.render());
     this.renderer.render(this.scene, this.camera);
     this.stats.update();
-  }
-
-  public obtenirCoordonnees(event): THREE.Vector2 {
-    event.preventDefault();
-    const rectangle = this.renderer.domElement.getBoundingClientRect();
-    const vector = new THREE.Vector2();
-    vector.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
-    vector.y = - ((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
-    return new THREE.Vector2(vector.x, vector.y);
   }
 
   public onResize(): void {
