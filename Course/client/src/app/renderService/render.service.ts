@@ -65,24 +65,6 @@ export class RenderService {
   /**********************************************************
                      Gestion Point
    *********************************************************/
-  public creerPoint(coordonnees: THREE.Vector3, couleur: string): THREE.Points {
-    const geometrie = new THREE.Geometry();
-    geometrie.vertices.push(
-      new THREE.Vector3(0, 0, 0)
-    );
-    const materiel = new THREE.PointsMaterial({
-      size: 5,
-      color: couleur,
-      opacity: 1
-    });
-    const point = new THREE.Points(geometrie, materiel);
-    point.position.copy(coordonnees);
-    point.geometry.computeBoundingSphere();
-    point.geometry.boundingSphere.radius = 100;
-    point.name = '' + this.facadePointService.compteur;
-    return point;
-  }
-
   public dessinerDernierPoint(point): void {
     const distance = point.position.distanceTo(this.points[0].position);
     if (distance >= 0 && distance < 3) {
@@ -99,7 +81,7 @@ export class RenderService {
     let objet, point;
     if (!this.dessinTermine) {
       objet = this.facadeCoordonneesService.obtenirIntersection(event, this.scene, this.camera, this.renderer);
-      point = this.creerPoint(objet.point, 'black');
+      point = this.facadePointService.creerPoint(objet.point, 'black');
       if (this.points.length === 0) {
         point.material.status = 'premier';
       } else {
