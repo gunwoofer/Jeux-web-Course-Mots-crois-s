@@ -26,14 +26,6 @@ export class RenderService {
   public compteur = 0;
   private normeSegment = 0;
 
-
-  private tempsMouseDown;
-  private tempsMouseUp;
-  private dureeClick;
-  private modeGlissement;
-  private pointHover;
-  private objetGlisse;
-
   public pointsLine;
   private courbe;
   private POINTS_MAXIMUM = 1000;
