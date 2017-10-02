@@ -322,19 +322,9 @@ export class RenderService {
   /**********************************************************
        Gestion génération des droites reliant points
    *********************************************************/
-  private modificationdecouleuur(position): void {
-    const couleurListe = this.pointsLine.geometry.attributes.color.array;
-    if (this.points.length < 2) {
-      couleurListe[position * 3] = 0.55;
-      couleurListe[position * 3 + 1] = 0.91;
-      couleurListe[position * 3 + 2] = 0.64;
-    }
-    this.pointsLine.geometry.attributes.color.needsUpdate = true;
-  }
-
   public modifierPointLine(positionTableauPoints, positionPoint): void {
     const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
-    this.modificationdecouleuur(positionTableauPoints);
+    this.facadeLigne.modificationdecouleuur(positionTableauPoints, this.pointsLine, this.points);
     pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
     pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
     pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;

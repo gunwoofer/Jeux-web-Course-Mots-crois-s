@@ -18,4 +18,13 @@ export class FacadeLigneService {
         return pointsLine;
       }
 
+      public modificationdecouleuur(position, pointsLine: any, points: any[]): void {
+        const couleurListe = pointsLine.geometry.attributes.color.array;
+        if (points.length < 2) {
+          couleurListe[position * 3] = 0.55;
+          couleurListe[position * 3 + 1] = 0.91;
+          couleurListe[position * 3 + 2] = 0.64;
+        }
+        pointsLine.geometry.attributes.color.needsUpdate = true;
+      }
 }
