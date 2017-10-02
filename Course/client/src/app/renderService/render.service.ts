@@ -101,7 +101,7 @@ export class RenderService {
     }
   }
 
-  public ajouterPoint(point): void {
+  public ajouterPoint(point: THREE.Points): void {
     if (!this.dessinTermine) {
       this.scene.add(point);
     }
