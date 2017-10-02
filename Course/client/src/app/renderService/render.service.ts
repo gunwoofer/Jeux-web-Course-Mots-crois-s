@@ -8,7 +8,6 @@ import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees
 
 @Injectable()
 export class RenderService {
-
   private container: HTMLDivElement;
   public camera: THREE.PerspectiveCamera;
   private stats: Stats;
@@ -37,7 +36,6 @@ export class RenderService {
   private facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
 
-
   private listeErreurCouleur = {
     normal: 'green',
     angle45: 'red',
@@ -65,12 +63,9 @@ export class RenderService {
       return null;
     }
   }
-
   /**********************************************************
                      Gestion Point
    *********************************************************/
-
-  // Creation d'un point
   public creerPoint(coordonnees: THREE.Vector3, couleur: string): THREE.Points {
     const geometrie = new THREE.Geometry();
     geometrie.vertices.push(
@@ -101,26 +96,21 @@ export class RenderService {
     }
   }
 
-  // Dessin des points
   public dessinerPoint(event): number {
     let objet, point;
     if (!this.dessinTermine) {
-      // objet = this.obtenirIntersection(event);
       objet = this.facadeCoordonneesService.obtenirIntersection(event, this.scene, this.camera, this.renderer);
       point = this.creerPoint(objet.point, 'black');
-      // point = this.facadePointService.creerPoint(objet.point, 'black', this.compteur);
       if (this.points.length === 0) {
         point.material.status = 'premier';
       } else {
         try {
-          // this.facadePointService.dessinerDernierPoint(point, this.points, this.dessinTermine);
           this.dessinerDernierPoint(point);
         } catch (e) {
           alert(e.message);
           return;
         }
       }
-      // this.facadePointService.ajouterPoint(point, this.scene, this.dessinTermine, this.points, this.compteur, this.pointsLine);
       this.ajouterPoint(point);
       this.actualiserDonnees();
       this.redessinerCourbe();
@@ -175,16 +165,11 @@ export class RenderService {
     if (this.nbSegmentsCroises > 0) {
       message += 'Segment(s) croisé(s) => ' + this.nbSegmentsCroises + ' ; ';
     }
-
     return message;
   }
-
   /**********************************************************
                       Gestion angles
    *********************************************************/
-
-
-
   public nombreAnglesMoins45(): void {
     let nbAnglesMoins45 = 0;
     for (let i = 1; i < this.points.length - 1; i++) {
@@ -212,38 +197,28 @@ export class RenderService {
   }
 
   public calculerAngle(numeroPoint: number): number {
-
     if (this.points.length > 1) {
       const point1 = this.points[numeroPoint === 0 ? this.compteur - 1 : numeroPoint - 1];
       const point2 = this.points[numeroPoint];
       const point3 = this.points[numeroPoint + 1];
       const premierSegment = new THREE.Vector2(point3.position.x - point2.position.x, point3.position.y - point2.position.y).normalize();
       const precedentSegement = new THREE.Vector2(point2.position.x - point1.position.x, point2.position.y - point1.position.y).normalize();
-
       const produitScalaire = (premierSegment.x) * (-precedentSegement.x) + (premierSegment.y) * (-precedentSegement.y);
       const angle = Math.acos(produitScalaire);
-
       return angle;
     }
     return NaN;
   }
-
-
-
   /**********************************************************
                      Fonctions initialisation
    *********************************************************/
   public creerScene(): void {
-    /* Scene */
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xFFFFFF);
-    /* Camera */
     this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 10000);
     this.camera.position.z = 100;
     this.camera.position.x = 100;
   }
-
-  // Creation d'un plan
   public creerPlan(): void {
     const geometry = new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight);
     const planeMaterial = new THREE.MeshBasicMaterial({
@@ -283,7 +258,6 @@ export class RenderService {
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
   }
 
-
   public retourneEtatDessin(): boolean {
     if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {
       return this.dessinTermine;
@@ -291,7 +265,6 @@ export class RenderService {
       return false;
     }
   }
-
   /**********************************************************
                    Gestion longueur segment
    *********************************************************/
@@ -308,25 +281,20 @@ export class RenderService {
     }
     this.nbSegmentsTropProche = segmentTropCourt;
   }
-
-
   /**********************************************************
                   Gestion croisements
    *********************************************************/
   private segmentsCoises(pointA, pointB, pointC, pointD): boolean {
-
     const vectAB = [pointB.position.x - pointA.position.x, pointB.position.y - pointA.position.y];
     const vectAC = [pointC.position.x - pointA.position.x, pointC.position.y - pointA.position.y];
     const vectAD = [pointD.position.x - pointA.position.x, pointD.position.y - pointA.position.y];
     const vectCA = vectAC.map(function (x) { return x * -1; });
     const vectCB = [pointB.position.x - pointC.position.x, pointB.position.y - pointC.position.y];
     const vectCD = [pointD.position.x - pointC.position.x, pointD.position.y - pointC.position.y];
-
     const determinantABAC = vectAB[0] * vectAC[1] - vectAB[1] * vectAC[0];
     const determinantABAD = vectAB[0] * vectAD[1] - vectAB[1] * vectAD[0];
     const determinantCDCB = vectCD[0] * vectCB[1] - vectCD[1] * vectCB[0];
     const determinantCDCA = vectCD[0] * vectCA[1] - vectCD[1] * vectCA[0];
-
     if (Math.sign(determinantABAC) === 0 || Math.sign(determinantCDCB) === 0) {
       return false;
     } else if (Math.sign(determinantABAC) !== Math.sign(determinantABAD) && Math.sign(determinantCDCB) !== Math.sign(determinantCDCA)) {
@@ -363,22 +331,17 @@ export class RenderService {
     this.nombreAnglesMoins45();
     this.actualiserCouleurPoints();
   }
-
   /**********************************************************
        Gestion génération des droites reliant points
    *********************************************************/
-
   private creerLignePoints(): void {
-
     const geometrie = new THREE.BufferGeometry();
     const positions = new Float32Array(this.POINTS_MAXIMUM * 3);
     const colors = new Float32Array(this.POINTS_MAXIMUM * 3);
     geometrie.addAttribute('position', new THREE.BufferAttribute(positions, 3));
     geometrie.addAttribute('color', new THREE.BufferAttribute(colors, 3));
-
     const nombreTirage = 2;
     geometrie.setDrawRange(0, 0);
-
     const materiel = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
     this.pointsLine = new THREE.Line(geometrie, materiel);
     this.scene.add(this.pointsLine);
@@ -400,9 +363,7 @@ export class RenderService {
     pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
     pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
     pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
-
     this.pointsLine.geometry.attributes.position.needsUpdate = true;
-
   }
 
   private ajouterPointLine(positionNouveauPoint): void {
@@ -414,28 +375,22 @@ export class RenderService {
     this.modifierPointLine(this.compteur - 1, new THREE.Vector3(0, 0, 0));
     this.pointsLine.geometry.setDrawRange(0, this.compteur - 1);
   }
-
-
   /**********************************************************
           Gestion génération de la courbe
    *********************************************************/
-
   private dessinerCourbe(): void {
     let curve;
     const arrayPointPosition = [];
     for (const point of this.points) {
       arrayPointPosition.push(point.position);
     }
-
     if (this.dessinTermine) {
       arrayPointPosition.pop();
     }
     curve = new THREE.CatmullRomCurve3(arrayPointPosition);
     curve.closed = this.dessinTermine;
-
     const geometry = new THREE.Geometry();
     geometry.vertices = curve.getPoints(100);
-
     const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
     this.courbe = new THREE.Line(geometry, material);
     this.scene.add(this.courbe);
@@ -456,11 +411,9 @@ export class RenderService {
 
   public pointyMinimum(): number {
     const pointsY: number[] = [];
-
     for (let i = 0; i < this.points.length - 1; i++) {
       pointsY.push(this.points[i].position.y);
     }
-
     return Math.min.apply(null, pointsY);
   }
 
@@ -498,8 +451,4 @@ export class RenderService {
     this.viderListeDesPoints();
     this.dessinTermine = false;
   }
-
 }
-
-
-
