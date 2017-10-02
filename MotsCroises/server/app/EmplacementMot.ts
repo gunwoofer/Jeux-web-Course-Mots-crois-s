@@ -1,6 +1,6 @@
 import { Case } from './Case';
 import { Position } from './Grille';
-
+import { Mot } from './Mot';
 
 
 
@@ -10,11 +10,13 @@ export class EmplacementMot {
     private cases: Case[];
     private grandeur: number;
     private position: Position;
+    public motsImpossible: Mot[];
 
     constructor(caseDebut?: Case, caseFin?: Case, cases?: Case[]) {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
         this.cases = cases;
+        this.motsImpossible = new Array();
 
         if (caseDebut.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne()) {
             this.grandeur = caseFin.obtenirNumeroColonne() - caseDebut.obtenirNumeroColonne() + 1;
@@ -23,7 +25,32 @@ export class EmplacementMot {
             this.grandeur = caseFin.obtenirNumeroLigne() - caseDebut.obtenirNumeroLigne() + 1;
             this.position = Position.Colonne;
         }
+    }
 
+    public estEgale(emplacement: EmplacementMot): boolean {
+        if(emplacement.grandeur !== this.grandeur) {
+            return false;
+        }
+        for(let i = 0; i < this.grandeur; i++) {
+            if((this.cases[i].obtenirNumeroLigne() !== emplacement.cases[i].obtenirNumeroLigne()) 
+                || (this.cases[i].obtenirNumeroColonne() !== emplacement.cases[i].obtenirNumeroColonne())) {
+                    return false;
+                }
+        }
+        return true;
+    }
+
+    public estBanni(mot: Mot): boolean {
+        for(let i = 0; i < this.motsImpossible.length; i++) {
+            if(mot.estEgale(this.motsImpossible[i])) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public ajouterMotImpossible(mot: Mot) {
+        this.motsImpossible.push(mot);
     }
 
     public estHorizontal(): boolean {
@@ -47,8 +74,12 @@ export class EmplacementMot {
        for(let i = 0; i < this.cases.length; i++) {
            newEmplacement.cases[i] = this.cases[i].copieCase();
        }
+       for(let i = 0; i < this.motsImpossible.length; i++) {
+           newEmplacement.motsImpossible[i] = this.motsImpossible[i].copieMot();
+       }
        newEmplacement.grandeur = this.grandeur;
        newEmplacement.position = this.position;
+
        
        return newEmplacement;
     }

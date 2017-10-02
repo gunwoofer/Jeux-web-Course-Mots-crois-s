@@ -5,6 +5,7 @@ import { grandeurMotMinimum } from './GenerateurDeGrilleService';
 
 
 export const DIMENSION_LIGNE_COLONNE = 10;
+export const contientDejaLeMot = 'Deja le mot';
 
 export enum EtatGrille {
     vide,
@@ -56,16 +57,16 @@ export class Grille {
         newGrille.etat = this.etat;
         newGrille.nombreMotsSurColonne = this.nombreMotsSurColonne;
         newGrille.nombreMotsSurLigne = this.nombreMotsSurLigne;
-       
-        for(let i = 0; i < this.cases.length; i++) {
-            for(let j = 0; j < this.cases[i].length; j++) {
+
+        for (let i = 0; i < this.cases.length; i++) {
+            for (let j = 0; j < this.cases[i].length; j++) {
                 newGrille.cases[i][j] = this.cases[i][j].copieCase();
             }
         }
-        for(let i = 0; i < this.emplacementMots.length; i++) {
+        for (let i = 0; i < this.emplacementMots.length; i++) {
             newGrille.emplacementMots[i] = this.emplacementMots[i].copieEmplacement();
         }
-        for(let i = 0; i < this.mots.length; i++) {
+        for (let i = 0; i < this.mots.length; i++) {
             newGrille.mots[i] = this.mots[i].copieMot();
         }
         return newGrille
@@ -139,10 +140,10 @@ export class Grille {
         let casesEmplacementMot: Case[] = new Array();
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                caseCourante = this.cases[i][j];
+                caseCourante = this.cases[i][j].copieCase();
 
                 if ((caseCourante.obtenirEtat() === EtatCase.vide) && caseDebut === undefined) {
-                    caseDebut = caseCourante;
+                    caseDebut = caseCourante.copieCase();
                 }
 
                 if (caseDebut !== undefined) {
@@ -151,9 +152,9 @@ export class Grille {
 
                 if (((j + 1 < DIMENSION_LIGNE_COLONNE) && (this.cases[i][j + 1].obtenirEtat() !== EtatCase.vide)) ||
                     (j + 1 === DIMENSION_LIGNE_COLONNE)) {
-                    caseFin = caseCourante;
+                    caseFin = caseCourante.copieCase();
 
-                    if(casesEmplacementMot.length >= grandeurMotMinimum) {
+                    if (casesEmplacementMot.length >= grandeurMotMinimum) {
                         this.emplacementMots.push(new EmplacementMot(caseDebut, caseFin, casesEmplacementMot));
                     }
                     caseFin = undefined;
@@ -186,7 +187,7 @@ export class Grille {
                     (j + 1 === DIMENSION_LIGNE_COLONNE)) {
                     caseFin = caseCourante;
 
-                    if(casesEmplacementMot.length >= grandeurMotMinimum) {
+                    if (casesEmplacementMot.length >= grandeurMotMinimum) {
                         this.emplacementMots.push(new EmplacementMot(caseDebut, caseFin, casesEmplacementMot));
                     }
                     caseFin = undefined;
@@ -199,6 +200,43 @@ export class Grille {
         }
     }
 
+    public ajouterMotEmplacement(mot: Mot, emplacement: EmplacementMot): void {
+        this.mots.push(mot);
+
+        let positionDansLeMot = 0;
+        let numeroLigneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
+        let numeroLigneFin: number = emplacement.obtenirCaseFin().obtenirNumeroLigne();
+        let numeroColonneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroColonne();
+        let numeroColonneFin: number = emplacement.obtenirCaseFin().obtenirNumeroColonne();
+
+        if (numeroLigneDepart === numeroLigneFin) {
+            // Cas du mot à l'horizontal.
+
+            for (const caseCourante of emplacement.obtenirCases()) {
+                if (this.dansLaLimiteDuMot(caseCourante.obtenirNumeroColonne(),
+                    numeroColonneDepart, numeroColonneFin) && mot.estUneLettreValide(positionDansLeMot)) {
+                    caseCourante.remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
+                    positionDansLeMot++;
+                }
+            }
+
+            this.nombreMotsSurLigne[numeroLigneDepart]++;
+
+        } else if (numeroColonneDepart === numeroColonneFin) {
+            // Cas du mot à la vertical.
+
+            for (let i = 0; i < this.cases.length; i++) {
+                if (this.dansLaLimiteDuMot(i, numeroLigneDepart, numeroLigneFin) && mot.estUneLettreValide(positionDansLeMot)) {
+                    this.cases[i][numeroColonneDepart].remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
+                    positionDansLeMot++;
+                }
+            }
+
+            this.nombreMotsSurColonne[numeroColonneDepart]++;
+        }
+
+
+    }
     public ajouterMot(mot: Mot, numeroLigneDepart: number,
         numeroColonneDepart: number, numeroLigneFin: number, numeroColonneFin: number): void {
 
@@ -280,14 +318,15 @@ export class Grille {
     }
 
     public contientDejaLeMot(mot: Mot): boolean {
+
         for (const motCourant of this.mots) {
             if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
-                return true;
+                throw new Error(contientDejaLeMot);
             }
         }
-
         return false;
-        
+
+
     }
 
     public contientMotDuplique(): boolean {
@@ -392,8 +431,8 @@ export class Grille {
 
     public emplacementsHorizontaux(): EmplacementMot[] {
         let emplacementsHorizontaux: EmplacementMot[] = new Array();
-        for(let i = 0; i < this.emplacementMots.length; i++) {
-            if(this.emplacementMots[i].estHorizontal()) {
+        for (let i = 0; i < this.emplacementMots.length; i++) {
+            if (this.emplacementMots[i].estHorizontal()) {
                 emplacementsHorizontaux.push(this.emplacementMots[i]);
             }
         }
@@ -402,8 +441,8 @@ export class Grille {
 
     public emplacementsVerticaux(): EmplacementMot[] {
         let emplacementsVerticaux: EmplacementMot[] = new Array();
-        for(let i = 0; i < this.emplacementMots.length; i++) {
-            if(this.emplacementMots[i].estVertical()) {
+        for (let i = 0; i < this.emplacementMots.length; i++) {
+            if (this.emplacementMots[i].estVertical()) {
                 emplacementsVerticaux.push(this.emplacementMots[i]);
             }
         }
@@ -412,7 +451,7 @@ export class Grille {
 
     public genererEmplacementsAlterne(): EmplacementMot[] {
         let tableauEmplacementsHorizontaux: EmplacementMot[] = this.emplacementsHorizontaux();
-        let tableauEmplacementsVerticaux : EmplacementMot[] = this.emplacementsVerticaux();
+        let tableauEmplacementsVerticaux: EmplacementMot[] = this.emplacementsVerticaux();
         let newEmplacements: EmplacementMot[] = new Array();
         let j: number = 0;
         let max: number = 0;
@@ -439,5 +478,72 @@ export class Grille {
         }
 
         return newEmplacements;
+    }
+
+
+
+    public genererEmplacementsNonComplet(): EmplacementMot[] {
+        let emplacementsNonComplets: EmplacementMot[] = new Array();
+        for (let emplacementCourant of this.emplacementMots) {
+            let estComplet: boolean = true;
+            for (let i = 0; i < emplacementCourant.obtenirCases().length; i++) {
+                // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
+                let ligne = emplacementCourant.obtenirCase(i).obtenirNumeroLigne();
+                let colonne = emplacementCourant.obtenirCase(i).obtenirNumeroColonne();
+                if (this.obtenirCase(ligne, colonne).etat === EtatCase.vide) {
+                    estComplet = false;
+                }
+            }
+            if (!estComplet) {
+                emplacementsNonComplets.push(emplacementCourant);
+            }
+        }
+        return emplacementsNonComplets;
+    }
+
+    public genererEmplacementPlusDeContraintes(): EmplacementMot {
+        let emplacementsNonComplet = this.genererEmplacementsNonComplet();
+        let emplacementsPlusDeContrainte: EmplacementMot;
+        let maxPointsContrainte: number = -1;
+        for (let emplacementCourant of emplacementsNonComplet) {
+            let pointsContrainte: number = 0;
+            for (let j = 0; j < emplacementCourant.obtenirCases().length; j++) {
+                // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
+                let ligne = emplacementCourant.obtenirCase(j).obtenirNumeroLigne();
+                let colonne = emplacementCourant.obtenirCase(j).obtenirNumeroColonne();
+                if (this.obtenirCase(ligne, colonne).etat === EtatCase.pleine) {
+                    pointsContrainte += 1;
+                }
+            }
+            if (pointsContrainte > maxPointsContrainte) {
+                emplacementsPlusDeContrainte = emplacementCourant.copieEmplacement();
+                maxPointsContrainte = pointsContrainte;
+            }
+        }
+        return emplacementsPlusDeContrainte;
+    }
+
+    public affichageConsole(): void {
+        console.log("-----------------------");
+        let ligne: string[] = new Array();
+        let buffer: string = '';
+        for (let i = 0; i < this.cases.length; i++) {
+            for (let j = 0; j < this.cases[i].length; j++) {
+
+                ligne.push(this.cases[i][j].obtenirLettre());
+            }
+            for (let k = 0; k < ligne.length; k++) {
+                if (ligne[k] !== undefined) {
+                    buffer += " " + ligne[k] + " ";
+                }
+                else {
+                    buffer += ' * ';
+                }
+            }
+            console.log(buffer);
+            buffer = "";
+            ligne = new Array();
+        }
+        console.log("-----------------------");
     }
 }

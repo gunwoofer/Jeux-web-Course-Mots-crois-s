@@ -56,4 +56,11 @@ export class Mot {
     public obtenirLettres(): string {
         return this.lettres;
     }
+
+    public estEgale(mot: Mot) {
+        if(this.obtenirLettres() === mot.obtenirLettres()) {
+            return true;
+        }
+        return false;
+    }
 }
