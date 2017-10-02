@@ -22,7 +22,6 @@ export class RenderService {
   private pointYVecteur: number[] = [];
   public dessinTermine = false;
   private cameraZ = 400;
-  public compteur = 0;
   private normeSegment = 0;
 
   public pointsLine;
@@ -33,7 +32,7 @@ export class RenderService {
   public nbAnglesPlusPetit45 = 0;
   public nbSegmentsTropProche = 0;
 
-  private facadePointService = new FacadePointService();
+  public facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
 
   private listeErreurCouleur = {
@@ -80,7 +79,7 @@ export class RenderService {
     point.position.copy(coordonnees);
     point.geometry.computeBoundingSphere();
     point.geometry.boundingSphere.radius = 100;
-    point.name = '' + this.compteur;
+    point.name = '' + this.facadePointService.compteur;
     return point;
   }
 
@@ -126,7 +125,7 @@ export class RenderService {
     }
     this.ajouterPointLine(point.position);
     this.points.push(point);
-    this.compteur++;
+    this.facadePointService.compteur++;
   }
 
   public supprimerPoint(): void {
@@ -136,8 +135,8 @@ export class RenderService {
     this.actualiserDonnees();
     this.redessinerCourbe();
     this.retirerAncienPointLine();
-    if (this.compteur >= 1) {
-      this.compteur--;
+    if (this.facadePointService.compteur >= 1) {
+      this.facadePointService.compteur--;
     }
   }
 
@@ -198,7 +197,7 @@ export class RenderService {
 
   public calculerAngle(numeroPoint: number): number {
     if (this.points.length > 1) {
-      const point1 = this.points[numeroPoint === 0 ? this.compteur - 1 : numeroPoint - 1];
+      const point1 = this.points[numeroPoint === 0 ? this.facadePointService.compteur - 1 : numeroPoint - 1];
       const point2 = this.points[numeroPoint];
       const point3 = this.points[numeroPoint + 1];
       const premierSegment = new THREE.Vector2(point3.position.x - point2.position.x, point3.position.y - point2.position.y).normalize();
@@ -367,13 +366,13 @@ export class RenderService {
   }
 
   private ajouterPointLine(positionNouveauPoint): void {
-    this.modifierPointLine(this.compteur, positionNouveauPoint);
-    this.pointsLine.geometry.setDrawRange(0, this.compteur + 1);
+    this.modifierPointLine(this.facadePointService.compteur, positionNouveauPoint);
+    this.pointsLine.geometry.setDrawRange(0, this.facadePointService.compteur + 1);
   }
 
   private retirerAncienPointLine(): void {
-    this.modifierPointLine(this.compteur - 1, new THREE.Vector3(0, 0, 0));
-    this.pointsLine.geometry.setDrawRange(0, this.compteur - 1);
+    this.modifierPointLine(this.facadePointService.compteur - 1, new THREE.Vector3(0, 0, 0));
+    this.pointsLine.geometry.setDrawRange(0, this.facadePointService.compteur - 1);
   }
   /**********************************************************
           Gestion génération de la courbe
@@ -442,7 +441,7 @@ export class RenderService {
       this.retirerAncienPointLine();
       this.scene.remove(this.points[i]);
       this.retirerCourbe();
-      this.compteur--;
+      this.facadePointService.compteur--;
     }
   }
 

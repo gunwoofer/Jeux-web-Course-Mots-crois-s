@@ -1,3 +1,4 @@
+import { FacadePointService } from './../facadePoint/facadepoint.service';
 import { FormsModule } from '@angular/forms';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing';
@@ -14,6 +15,7 @@ describe('RenderService', () => {
   let fixture: ComponentFixture<CreateurPisteComponent>;
   let renderService: RenderService;
   let facadeSourisService: FacadeSourisService;
+  let facadePointService: FacadePointService;
   let fakeClickEvent: MouseEvent;
   const fakeClickEventArray: MouseEvent[] = [];
 
@@ -102,7 +104,7 @@ describe('RenderService', () => {
     expect(longueurVecteurPoints).toEqual(2);
     expect(longueurVecteurScene).toEqual(4);
     expect(longueurVecteurLignes).toEqual(3000);
-    expect(renderService.compteur - 1).toEqual(1);
+    expect(renderService.facadePointService.compteur - 1).toEqual(1);
   });
 
   it ('Pour clore la boucle, un point doit être ajouté sur le premier.', () => {
@@ -251,7 +253,7 @@ describe('RenderService', () => {
     for (let i = 0; i < 6; i++) {
       expect(renderService.obtenirLigneDeDepart()[i]).toEqual(vecteurLignes[i]);
     }
-    expect(renderService.compteur - 1).toEqual(4);
+    expect(renderService.facadePointService.compteur - 1).toEqual(4);
   });
 
   it('Test de la méthode dessiner dernierPoint', () => {
