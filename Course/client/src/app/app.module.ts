@@ -18,6 +18,7 @@ import { PisteService } from './piste/piste.service';
 import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
 import { FacadeSourisService } from './facadeSouris/facadesouris.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
+import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
@@ -47,6 +48,7 @@ import { AppRoutingModule } from './app.routing';
     FacadeCoordonneesService,
     FacadeSourisService,
     FacadePointService,
+    FacadeLigneService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

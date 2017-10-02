@@ -1,3 +1,4 @@
+import { FacadeLigneService } from './../facadeLigne/facadeligne.service';
 import { Injectable } from '@angular/core';
 
 import * as THREE from 'three';
@@ -34,6 +35,7 @@ export class RenderService {
 
   public facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
+  private facadeLigne = new FacadeLigneService();
 
   private listeErreurCouleur = {
     normal: 'green',
@@ -42,12 +44,17 @@ export class RenderService {
     premier: 'purple'
   };
 
+  public initialisationLigne() {
+    this.pointsLine = this.facadeLigne.creerLignePoints();
+    this.scene.add(this.pointsLine);
+  }
+
   public initialize(container: HTMLDivElement): void {
     this.container = container;
     this.creerScene();
     this.creerPlan();
     this.initStats();
-    this.creerLignePoints();
+    this.initialisationLigne();
     this.startRenderingLoop();
   }
 
@@ -315,19 +322,6 @@ export class RenderService {
   /**********************************************************
        Gestion génération des droites reliant points
    *********************************************************/
-  private creerLignePoints(): void {
-    const geometrie = new THREE.BufferGeometry();
-    const positions = new Float32Array(this.POINTS_MAXIMUM * 3);
-    const colors = new Float32Array(this.POINTS_MAXIMUM * 3);
-    geometrie.addAttribute('position', new THREE.BufferAttribute(positions, 3));
-    geometrie.addAttribute('color', new THREE.BufferAttribute(colors, 3));
-    const nombreTirage = 2;
-    geometrie.setDrawRange(0, 0);
-    const materiel = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
-    this.pointsLine = new THREE.Line(geometrie, materiel);
-    this.scene.add(this.pointsLine);
-  }
-
   private modificationdecouleuur(position): void {
     const couleurListe = this.pointsLine.geometry.attributes.color.array;
     if (this.points.length < 2) {
