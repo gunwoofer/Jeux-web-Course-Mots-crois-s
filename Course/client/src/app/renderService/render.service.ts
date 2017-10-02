@@ -411,7 +411,7 @@ export class RenderService {
   }
 
   private retirerAncienPointLine(): void {
-    this.facadePointService.modifierPointLine(this.compteur - 1, new THREE.Vector3(0, 0, 0), this.pointsLine, this.points);
+    this.modifierPointLine(this.compteur - 1, new THREE.Vector3(0, 0, 0));
     this.pointsLine.geometry.setDrawRange(0, this.compteur - 1);
   }
 

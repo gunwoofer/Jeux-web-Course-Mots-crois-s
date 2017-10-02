@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 @Injectable()
 export class FacadePointService {
-    public creerPoint(coordonnees: THREE.Vector3, couleur: string, compteur: number): THREE.Points {
+    /*public creerPoint(coordonnees: THREE.Vector3, couleur: string, compteur: number): THREE.Points {
         const geometrie = new THREE.Geometry();
         geometrie.vertices.push(
           new THREE.Vector3(0, 0, 0)
@@ -69,7 +69,7 @@ export class FacadePointService {
         pointsLine.geometry.setDrawRange(0, compteur + 1);
       }
 
-      /*public dessinerPoint(event, dessinTermine: boolean, ): number {
+      public dessinerPoint(event, dessinTermine: boolean, ): number {
         let objet, point;
         if (!this.dessinTermine) {
           objet = this.obtenirIntersection(event);
