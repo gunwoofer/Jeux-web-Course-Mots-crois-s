@@ -6,6 +6,7 @@ import Stats = require('stats.js');
 
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
+import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
 
 @Injectable()
 export class RenderService {
@@ -35,6 +36,7 @@ export class RenderService {
   public facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
+  private contraintesCircuitService = new ContraintesCircuitService();
 
   public initialisationLigne() {
     this.pointsLine = this.facadeLigne.creerLignePoints();
@@ -128,27 +130,13 @@ export class RenderService {
 
   public estUnAngleMoins45(numeroPoint: number): boolean {
     if (this.points.length > 1) {
-      const angle = this.calculerAngle(numeroPoint);
+      const angle = this.contraintesCircuitService.calculerAngle(numeroPoint, this.points, this.facadePointService.compteur);
       if (angle <= 0.785398163) {
         this.points[numeroPoint].material.status = 'angle45';
         return true;
       }
     }
     return false;
-  }
-
-  public calculerAngle(numeroPoint: number): number {
-    if (this.points.length > 1) {
-      const point1 = this.points[numeroPoint === 0 ? this.facadePointService.compteur - 1 : numeroPoint - 1];
-      const point2 = this.points[numeroPoint];
-      const point3 = this.points[numeroPoint + 1];
-      const premierSegment = new THREE.Vector2(point3.position.x - point2.position.x, point3.position.y - point2.position.y).normalize();
-      const precedentSegement = new THREE.Vector2(point2.position.x - point1.position.x, point2.position.y - point1.position.y).normalize();
-      const produitScalaire = (premierSegment.x) * (-precedentSegement.x) + (premierSegment.y) * (-precedentSegement.y);
-      const angle = Math.acos(produitScalaire);
-      return angle;
-    }
-    return NaN;
   }
   /**********************************************************
                      Fonctions initialisation

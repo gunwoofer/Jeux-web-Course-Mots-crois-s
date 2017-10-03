@@ -5,6 +5,7 @@ import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing'
 import { CreateurPisteComponent } from '../createurPiste/createurPiste.component';
 import { PisteValidationComponent } from '../pisteValidator/pisteValidation.component';
 
+import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
 import { FacadeLigneService } from '../facadeLigne/facadeligne.service';
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
@@ -12,6 +13,7 @@ import { RenderService } from './render.service';
 
 describe('RenderService', () => {
 
+  const contraintesCircuitService = new ContraintesCircuitService();
   const messageErreurService = new MessageErreurService();
   const facadeligne = new FacadeLigneService();
   let component: CreateurPisteComponent;
@@ -211,7 +213,7 @@ describe('RenderService', () => {
     for (let i = 0; i <= 2; i++) {
       facadeSourisService.onMouseClick(fakeClickEventArray[i]);
     }
-    const angle = renderService.calculerAngle(1);
+    const angle = contraintesCircuitService.calculerAngle(1, renderService.points, renderService.facadePointService.compteur);
     expect(angle).toBeLessThanOrEqual(0.785398163);
     expect(renderService.nbAnglesPlusPetit45).toEqual(1);
   });
