@@ -51,9 +51,7 @@ export class RenderService {
     this.initialisationLigne();
     this.startRenderingLoop();
   }
-  /**********************************************************
-                     Gestion Point
-   *********************************************************/
+
   public dessinerDernierPoint(point): void {
     const distance = point.position.distanceTo(this.points[0].position);
     if (distance >= 0 && distance < 3) {
@@ -125,9 +123,7 @@ export class RenderService {
     }
     this.nbAnglesPlusPetit45 = nbAnglesMoins45;
   }
-  /**********************************************************
-                     Fonctions initialisation
-   *********************************************************/
+
   public creerScene(): void {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(0xFFFFFF);
@@ -181,9 +177,7 @@ export class RenderService {
       return false;
     }
   }
-  /**********************************************************
-                   Gestion longueur segment
-   *********************************************************/
+
   public nombreSegmentsTropCourts(): void {
     const largeurPiste = 10;
     let segmentTropCourt = 0;
@@ -197,32 +191,6 @@ export class RenderService {
     }
     this.nbSegmentsTropProche = segmentTropCourt;
   }
-  /**********************************************************
-                  Gestion croisements
-   *********************************************************/
-  private segmentsCoises(pointA, pointB, pointC, pointD): boolean {
-    const vectAB = [pointB.position.x - pointA.position.x, pointB.position.y - pointA.position.y];
-    const vectAC = [pointC.position.x - pointA.position.x, pointC.position.y - pointA.position.y];
-    const vectAD = [pointD.position.x - pointA.position.x, pointD.position.y - pointA.position.y];
-    const vectCA = vectAC.map(function (x) { return x * -1; });
-    const vectCB = [pointB.position.x - pointC.position.x, pointB.position.y - pointC.position.y];
-    const vectCD = [pointD.position.x - pointC.position.x, pointD.position.y - pointC.position.y];
-    const determinantABAC = vectAB[0] * vectAC[1] - vectAB[1] * vectAC[0];
-    const determinantABAD = vectAB[0] * vectAD[1] - vectAB[1] * vectAD[0];
-    const determinantCDCB = vectCD[0] * vectCB[1] - vectCD[1] * vectCB[0];
-    const determinantCDCA = vectCD[0] * vectCA[1] - vectCD[1] * vectCA[0];
-    if (Math.sign(determinantABAC) === 0 || Math.sign(determinantCDCB) === 0) {
-      return false;
-    } else if (Math.sign(determinantABAC) !== Math.sign(determinantABAD) && Math.sign(determinantCDCB) !== Math.sign(determinantCDCA)) {
-      if (this.dessinTermine) {
-        if (vectAD[0] === 0 && vectAD[1] === 0) {
-          return false;
-        }
-      }
-      return true;
-    }
-    return false;
-  }
 
   private nombreLignesCroisees(): void {
     let nbSegmentsCroises = 0;
@@ -232,7 +200,7 @@ export class RenderService {
         const pointB = this.points[i + 1];
         const pointC = this.points[j];
         const pointD = this.points[j + 1];
-        if (this.segmentsCoises(pointA, pointB, pointC, pointD)) {
+        if (this.contraintesCircuitService.segmentsCoises(pointA, pointB, pointC, pointD, this.dessinTermine)) {
           nbSegmentsCroises++;
         }
       }
@@ -247,9 +215,7 @@ export class RenderService {
     this.nombreAnglesMoins45();
     this.facadePointService.actualiserCouleurPoints(this.points);
   }
-  /**********************************************************
-          Gestion génération de la courbe
-   *********************************************************/
+
   private dessinerCourbe(): void {
     let curve;
     const arrayPointPosition = [];

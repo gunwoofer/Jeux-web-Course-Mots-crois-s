@@ -29,4 +29,28 @@ export class ContraintesCircuitService {
     }
     return false;
   }
+
+  public segmentsCoises(pointA, pointB, pointC, pointD, dessinTermine: boolean): boolean {
+    const vectAB = [pointB.position.x - pointA.position.x, pointB.position.y - pointA.position.y];
+    const vectAC = [pointC.position.x - pointA.position.x, pointC.position.y - pointA.position.y];
+    const vectAD = [pointD.position.x - pointA.position.x, pointD.position.y - pointA.position.y];
+    const vectCA = vectAC.map(function (x) { return x * -1; });
+    const vectCB = [pointB.position.x - pointC.position.x, pointB.position.y - pointC.position.y];
+    const vectCD = [pointD.position.x - pointC.position.x, pointD.position.y - pointC.position.y];
+    const determinantABAC = vectAB[0] * vectAC[1] - vectAB[1] * vectAC[0];
+    const determinantABAD = vectAB[0] * vectAD[1] - vectAB[1] * vectAD[0];
+    const determinantCDCB = vectCD[0] * vectCB[1] - vectCD[1] * vectCB[0];
+    const determinantCDCA = vectCD[0] * vectCA[1] - vectCD[1] * vectCA[0];
+    if (Math.sign(determinantABAC) === 0 || Math.sign(determinantCDCB) === 0) {
+      return false;
+    } else if (Math.sign(determinantABAC) !== Math.sign(determinantABAD) && Math.sign(determinantCDCB) !== Math.sign(determinantCDCA)) {
+      if (dessinTermine) {
+        if (vectAD[0] === 0 && vectAD[1] === 0) {
+          return false;
+        }
+      }
+      return true;
+    }
+    return false;
+  }
 }
