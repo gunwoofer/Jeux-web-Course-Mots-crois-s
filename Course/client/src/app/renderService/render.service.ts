@@ -123,7 +123,7 @@ export class RenderService {
     this.points.pop();
     this.actualiserDonnees();
     this.redessinerCourbe();
-    this.retirerAncienPointLine();
+    this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
     if (this.facadePointService.compteur >= 1) {
       this.facadePointService.compteur--;
     }
@@ -320,13 +320,6 @@ export class RenderService {
     this.actualiserCouleurPoints();
   }
   /**********************************************************
-       Gestion génération des droites reliant points
-   *********************************************************/
-  private retirerAncienPointLine(): void {
-    this.facadeLigne.modifierPointLine(this.facadePointService.compteur - 1, new THREE.Vector3(0, 0, 0), this.pointsLine, this.points);
-    this.pointsLine.geometry.setDrawRange(0, this.facadePointService.compteur - 1);
-  }
-  /**********************************************************
           Gestion génération de la courbe
    *********************************************************/
   private dessinerCourbe(): void {
@@ -390,7 +383,7 @@ export class RenderService {
 
   public viderScene(): void {
     for (let i = 0; i < this.points.length; i++) {
-      this.retirerAncienPointLine();
+      this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
       this.scene.remove(this.points[i]);
       this.retirerCourbe();
       this.facadePointService.compteur--;

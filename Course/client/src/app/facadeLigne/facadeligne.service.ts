@@ -43,4 +43,9 @@ export class FacadeLigneService {
         this.modifierPointLine(compteur, positionNouveauPoint, pointsLine, points);
         pointsLine.geometry.setDrawRange(0, compteur + 1);
       }
+
+      public retirerAncienPointLine(compteur: number, pointsLine: any, points: any[]): void {
+        this.modifierPointLine(compteur - 1, new THREE.Vector3(0, 0, 0), pointsLine, points);
+        pointsLine.geometry.setDrawRange(0, compteur - 1);
+      }
 }
