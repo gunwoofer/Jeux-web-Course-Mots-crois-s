@@ -281,28 +281,6 @@ export class RenderService {
     }
   }
 
-  public pointyMinimum(): number {
-    const pointsY: number[] = [];
-    for (let i = 0; i < this.points.length - 1; i++) {
-      pointsY.push(this.points[i].position.y);
-    }
-    return Math.min.apply(null, pointsY);
-  }
-
-  public placementPointPlusBas(): void {
-    const pointMinimum = this.pointyMinimum();
-    const longueurListe = this.points.length - 1;
-    let positionPointMinimum = 0;
-    let distanceDepointDepart = 0;
-    const han = [];
-    for (let i = 0; i < longueurListe; i++) {
-      if (pointMinimum === this.points[i].position.y) {
-        positionPointMinimum = i;
-        distanceDepointDepart = (positionPointMinimum <= longueurListe / 2) ? i : longueurListe - positionPointMinimum;
-      }
-    }
-  }
-
   public viderListeDesPoints(): void {
     for (let i = this.points.length - 1; i >= 0; i--) {
       this.points.pop();
