@@ -120,20 +120,6 @@ export class RenderService {
       this.facadePointService.compteur--;
     }
   }
-
-  public afficherMessageErreurs(): string {
-    let message = '';
-    if (this.nbAnglesPlusPetit45 > 0) {
-      message += 'Angle(s) inférieurs à 45° => ' + this.nbAnglesPlusPetit45 + ' ; ';
-    }
-    if (this.nbSegmentsTropProche > 0) {
-      message += 'Segment(s) trop proche(s) => ' + this.nbSegmentsTropProche + ' ; ';
-    }
-    if (this.nbSegmentsCroises > 0) {
-      message += 'Segment(s) croisé(s) => ' + this.nbSegmentsCroises + ' ; ';
-    }
-    return message;
-  }
   /**********************************************************
                       Gestion angles
    *********************************************************/

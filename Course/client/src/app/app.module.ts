@@ -19,6 +19,7 @@ import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.
 import { FacadeSourisService } from './facadeSouris/facadesouris.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
+import { MessageErreurService } from './messageErreurs/messageerreur.service';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
@@ -49,6 +50,7 @@ import { AppRoutingModule } from './app.routing';
     FacadeSourisService,
     FacadePointService,
     FacadeLigneService,
+    MessageErreurService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

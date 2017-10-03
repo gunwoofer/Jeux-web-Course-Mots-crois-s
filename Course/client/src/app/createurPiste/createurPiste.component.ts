@@ -3,6 +3,7 @@ import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
 import { PisteValidationComponent } from './../pisteValidator/pisteValidation.component';
+import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 
 
 @Component({
@@ -17,6 +18,7 @@ export class CreateurPisteComponent implements AfterViewInit {
   constructor(private renderService: RenderService, private facadeSourisService: FacadeSourisService) {
   }
 
+  private messageErreurService = new MessageErreurService();
   private points: THREE.Points[];
   private affiche: boolean;
   private message;
@@ -68,8 +70,8 @@ export class CreateurPisteComponent implements AfterViewInit {
   }
 
   private erreursCircuit(): boolean {
-    if (this.renderService.afficherMessageErreurs()) {
-      this.message = this.renderService.afficherMessageErreurs();
+    if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45, this.renderService.nbSegmentsTropProche, this.renderService.nbSegmentsCroises)) {
+      this.message = this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45, this.renderService.nbSegmentsTropProche, this.renderService.nbSegmentsCroises);
       return true;
     } else {
       return false;
