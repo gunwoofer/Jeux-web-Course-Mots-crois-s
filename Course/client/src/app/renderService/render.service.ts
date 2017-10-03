@@ -38,11 +38,6 @@ export class RenderService {
   public facadeLigne = new FacadeLigneService();
   private contraintesCircuitService = new ContraintesCircuitService();
 
-  public initialisationLigne() {
-    this.pointsLine = this.facadeLigne.creerLignePoints();
-    this.scene.add(this.pointsLine);
-  }
-
   public initialize(container: HTMLDivElement): void {
     this.container = container;
     this.creerScene();
@@ -52,15 +47,76 @@ export class RenderService {
     this.startRenderingLoop();
   }
 
-  public dessinerDernierPoint(point): void {
-    const distance = point.position.distanceTo(this.points[0].position);
-    if (distance >= 0 && distance < 3) {
-      if (this.points.length > 2) {
-        point.position.copy(this.points[0].position);
-        this.dessinTermine = true;
-      } else {
-        throw new Error('une piste a trois points minimum');
-      }
+  public creerScene(): void {
+    this.scene = new THREE.Scene();
+    this.scene.background = new THREE.Color(0xFFFFFF);
+    this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 10000);
+    this.camera.position.z = 100;
+    this.camera.position.x = 100;
+  }
+
+  public creerPlan(): void {
+    const geometry = new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight);
+    const planeMaterial = new THREE.MeshBasicMaterial({
+      visible: false
+    });
+    this.plane = new THREE.Mesh(geometry, planeMaterial);
+    this.scene.add(this.plane);
+  }
+
+  public initStats(): void {
+    this.stats = new Stats();
+    this.stats.dom.style.position = 'absolute';
+    this.container.appendChild(this.stats.dom);
+  }
+
+  public initialisationLigne() {
+    this.pointsLine = this.facadeLigne.creerLignePoints();
+    this.scene.add(this.pointsLine);
+  }
+
+  public startRenderingLoop(): void {
+    this.renderer = new THREE.WebGLRenderer();
+    this.renderer.setPixelRatio(devicePixelRatio);
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    this.container.appendChild(this.renderer.domElement);
+    this.render();
+  }
+
+  public render(): void {
+    requestAnimationFrame(() => this.render());
+    this.renderer.render(this.scene, this.camera);
+    this.stats.update();
+  }
+
+  public onResize(): void {
+    this.camera.aspect = this.getAspectRatio();
+    this.camera.updateProjectionMatrix();
+    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+  }
+
+  public getAspectRatio(): number {
+    return this.container.clientWidth / this.container.clientHeight;
+  }
+
+  public ajouterPoint(point: THREE.Points): void {
+    if (!this.dessinTermine) {
+      this.scene.add(point);
+    }
+    this.facadeLigne.ajouterPointLine(point.position, this.facadePointService.compteur, this.pointsLine, this.points);
+    this.points.push(point);
+    this.facadePointService.compteur++;
+  }
+
+  public supprimerPoint(): void {
+    this.dessinTermine = false;
+    this.scene.remove(this.points[this.points.length - 1]);
+    this.points.pop();
+    this.actualiserDonnees();
+    this.redessinerCourbe();
+    this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
+    if (this.facadePointService.compteur >= 1) {
+      this.facadePointService.compteur--;
     }
   }
 
@@ -88,24 +144,15 @@ export class RenderService {
     }
   }
 
-  public ajouterPoint(point: THREE.Points): void {
-    if (!this.dessinTermine) {
-      this.scene.add(point);
-    }
-    this.facadeLigne.ajouterPointLine(point.position, this.facadePointService.compteur, this.pointsLine, this.points);
-    this.points.push(point);
-    this.facadePointService.compteur++;
-  }
-
-  public supprimerPoint(): void {
-    this.dessinTermine = false;
-    this.scene.remove(this.points[this.points.length - 1]);
-    this.points.pop();
-    this.actualiserDonnees();
-    this.redessinerCourbe();
-    this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
-    if (this.facadePointService.compteur >= 1) {
-      this.facadePointService.compteur--;
+  public dessinerDernierPoint(point): void {
+    const distance = point.position.distanceTo(this.points[0].position);
+    if (distance >= 0 && distance < 3) {
+      if (this.points.length > 2) {
+        point.position.copy(this.points[0].position);
+        this.dessinTermine = true;
+      } else {
+        throw new Error('une piste a trois points minimum');
+      }
     }
   }
 
@@ -122,52 +169,6 @@ export class RenderService {
       }
     }
     this.nbAnglesPlusPetit45 = nbAnglesMoins45;
-  }
-
-  public creerScene(): void {
-    this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xFFFFFF);
-    this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 10000);
-    this.camera.position.z = 100;
-    this.camera.position.x = 100;
-  }
-  public creerPlan(): void {
-    const geometry = new THREE.PlaneGeometry(this.container.clientWidth, this.container.clientHeight);
-    const planeMaterial = new THREE.MeshBasicMaterial({
-      visible: false
-    });
-    this.plane = new THREE.Mesh(geometry, planeMaterial);
-    this.scene.add(this.plane);
-  }
-
-  public initStats(): void {
-    this.stats = new Stats();
-    this.stats.dom.style.position = 'absolute';
-    this.container.appendChild(this.stats.dom);
-  }
-
-  public getAspectRatio(): number {
-    return this.container.clientWidth / this.container.clientHeight;
-  }
-
-  public startRenderingLoop(): void {
-    this.renderer = new THREE.WebGLRenderer();
-    this.renderer.setPixelRatio(devicePixelRatio);
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    this.container.appendChild(this.renderer.domElement);
-    this.render();
-  }
-
-  public render(): void {
-    requestAnimationFrame(() => this.render());
-    this.renderer.render(this.scene, this.camera);
-    this.stats.update();
-  }
-
-  public onResize(): void {
-    this.camera.aspect = this.getAspectRatio();
-    this.camera.updateProjectionMatrix();
-    this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
   }
 
   public retourneEtatDessin(): boolean {
