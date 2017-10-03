@@ -37,4 +37,10 @@ export class FacadePointService {
       point.material.size = 5;
     }
   }
+
+  public restaurerStatusPoints(points: any[]): void {
+    for (let i = 1; i < points.length; i++) {
+      points[i].material.status = 'normal';
+    }
+  }
 }

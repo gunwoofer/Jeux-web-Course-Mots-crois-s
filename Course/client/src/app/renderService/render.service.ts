@@ -121,12 +121,6 @@ export class RenderService {
     }
   }
 
-  private restaurerStatusPoints(): void {
-    for (let i = 1; i < this.points.length; i++) {
-      this.points[i].material.status = 'normal';
-    }
-  }
-
   public afficherMessageErreurs(): string {
     let message = '';
     if (this.nbAnglesPlusPetit45 > 0) {
@@ -298,7 +292,7 @@ export class RenderService {
   }
 
   public actualiserDonnees(): void {
-    this.restaurerStatusPoints();
+    this.facadePointService.restaurerStatusPoints(this.points);
     this.nombreLignesCroisees();
     this.nombreSegmentsTropCourts();
     this.nombreAnglesMoins45();
