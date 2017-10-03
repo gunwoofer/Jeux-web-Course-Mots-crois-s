@@ -110,33 +110,20 @@ export class RenderService {
       this.facadePointService.compteur--;
     }
   }
-  /**********************************************************
-                      Gestion angles
-   *********************************************************/
+
   public nombreAnglesMoins45(): void {
     let nbAnglesMoins45 = 0;
     for (let i = 1; i < this.points.length - 1; i++) {
-      if (this.estUnAngleMoins45(i)) {
+      if (this.contraintesCircuitService.estUnAngleMoins45(i, this.points, this.facadePointService.compteur)) {
         nbAnglesMoins45++;
       }
     }
     if (this.dessinTermine) {
-      if (this.estUnAngleMoins45(0)) {
+      if (this.contraintesCircuitService.estUnAngleMoins45(0, this.points, this.facadePointService.compteur)) {
         nbAnglesMoins45++;
       }
     }
     this.nbAnglesPlusPetit45 = nbAnglesMoins45;
-  }
-
-  public estUnAngleMoins45(numeroPoint: number): boolean {
-    if (this.points.length > 1) {
-      const angle = this.contraintesCircuitService.calculerAngle(numeroPoint, this.points, this.facadePointService.compteur);
-      if (angle <= 0.785398163) {
-        this.points[numeroPoint].material.status = 'angle45';
-        return true;
-      }
-    }
-    return false;
   }
   /**********************************************************
                      Fonctions initialisation

@@ -18,4 +18,15 @@ export class ContraintesCircuitService {
     }
     return NaN;
   }
+
+  public estUnAngleMoins45(numeroPoint: number, points: any[], compteur: number): boolean {
+    if (points.length > 1) {
+      const angle = this.calculerAngle(numeroPoint, points, compteur);
+      if (angle <= 0.785398163) {
+        points[numeroPoint].material.status = 'angle45';
+        return true;
+      }
+    }
+    return false;
+  }
 }
