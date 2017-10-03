@@ -248,12 +248,6 @@ export class RenderService {
     }
   }
 
-  public viderListeDesPoints(): void {
-    for (let i = this.points.length - 1; i >= 0; i--) {
-      this.points.pop();
-    }
-  }
-
   public viderScene(): void {
     for (let i = 0; i < this.points.length; i++) {
       this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
@@ -265,7 +259,7 @@ export class RenderService {
 
   public reinitialiserScene(): void {
     this.viderScene();
-    this.viderListeDesPoints();
+    this.facadePointService.viderListeDesPoints(this.points);
     this.dessinTermine = false;
   }
 }

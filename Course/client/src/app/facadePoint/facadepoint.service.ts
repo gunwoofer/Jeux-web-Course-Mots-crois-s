@@ -43,4 +43,10 @@ export class FacadePointService {
       points[i].material.status = 'normal';
     }
   }
+
+  public viderListeDesPoints(points: any[]): void {
+    for (let i = points.length - 1; i >= 0; i--) {
+      points.pop();
+    }
+  }
 }
