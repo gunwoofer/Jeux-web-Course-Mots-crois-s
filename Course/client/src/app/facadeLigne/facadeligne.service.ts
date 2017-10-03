@@ -1,8 +1,6 @@
 import { Injectable, Component } from '@angular/core';
 import * as THREE from 'three';
 
-import { FacadePointService } from '../facadePoint/facadepoint.service';
-
 @Injectable()
 export class FacadeLigneService {
     private POINTS_MAXIMUM = 1000;

@@ -2,7 +2,6 @@ import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
-import { PisteValidationComponent } from './../pisteValidator/pisteValidation.component';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 
 
