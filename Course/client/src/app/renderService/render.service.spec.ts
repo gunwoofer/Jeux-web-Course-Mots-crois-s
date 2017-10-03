@@ -5,6 +5,7 @@ import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing'
 import { CreateurPisteComponent } from '../createurPiste/createurPiste.component';
 import { PisteValidationComponent } from '../pisteValidator/pisteValidation.component';
 
+import { FacadeLigneService } from '../facadeLigne/facadeligne.service';
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { RenderService } from './render.service';
@@ -12,6 +13,7 @@ import { RenderService } from './render.service';
 describe('RenderService', () => {
 
   const messageErreurService = new MessageErreurService();
+  const facadeligne = new FacadeLigneService();
   let component: CreateurPisteComponent;
   let fixture: ComponentFixture<CreateurPisteComponent>;
   let renderService: RenderService;
@@ -251,7 +253,7 @@ describe('RenderService', () => {
     expect(premierSegmentCouleurG).toBeCloseTo(0.91);
     expect(premierSegmentCouleurB).toBeCloseTo(0.64);
     for (let i = 0; i < 6; i++) {
-      expect(renderService.obtenirLigneDeDepart()[i]).toEqual(vecteurLignes[i]);
+      expect(facadeligne.obtenirLigneDeDepart(renderService.pointsLine)[i]).toEqual(vecteurLignes[i]);
     }
     expect(renderService.facadePointService.compteur - 1).toEqual(4);
   });

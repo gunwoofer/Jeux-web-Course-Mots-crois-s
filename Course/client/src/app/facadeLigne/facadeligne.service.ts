@@ -48,4 +48,16 @@ export class FacadeLigneService {
         this.modifierPointLine(compteur - 1, new THREE.Vector3(0, 0, 0), pointsLine, points);
         pointsLine.geometry.setDrawRange(0, compteur - 1);
       }
+
+      public obtenirLigneDeDepart(pointsLine: any): number[] {
+        const positions = [];
+        if (pointsLine.geometry.attributes.position.array.length > 0) {
+          for (let i = 0; i < 6; i++) {
+            positions[i] = pointsLine.geometry.attributes.position.array[i];
+          }
+          return positions;
+        } else {
+          return null;
+        }
+      }
 }

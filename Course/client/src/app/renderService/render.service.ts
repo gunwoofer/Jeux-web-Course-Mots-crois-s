@@ -49,18 +49,6 @@ export class RenderService {
     this.initialisationLigne();
     this.startRenderingLoop();
   }
-
-  public obtenirLigneDeDepart(): number[] {
-    const positions = [];
-    if (this.pointsLine.geometry.attributes.position.array.length > 0) {
-      for (let i = 0; i < 6; i++) {
-        positions[i] = this.pointsLine.geometry.attributes.position.array[i];
-      }
-      return positions;
-    } else {
-      return null;
-    }
-  }
   /**********************************************************
                      Gestion Point
    *********************************************************/
