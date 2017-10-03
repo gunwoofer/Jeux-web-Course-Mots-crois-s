@@ -3,6 +3,13 @@ import * as THREE from 'three';
 
 @Injectable()
 export class FacadePointService {
+  private listeErreurCouleur = {
+    normal: 'green',
+    angle45: 'red',
+    proche: 'orange',
+    premier: 'purple'
+  };
+
   public compteur: number;
   constructor () { this.compteur = 0; }
 
@@ -22,5 +29,12 @@ export class FacadePointService {
     point.geometry.boundingSphere.radius = 100;
     point.name = '' + this.compteur;
     return point;
+  }
+
+  public actualiserCouleurPoints(points: any[]): void {
+    for (const point of points) {
+      point.material.color.set(this.listeErreurCouleur[point.material.status]);
+      point.material.size = 5;
+    }
   }
 }

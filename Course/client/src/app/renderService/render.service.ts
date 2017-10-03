@@ -27,7 +27,6 @@ export class RenderService {
 
   public pointsLine;
   private courbe;
-  private POINTS_MAXIMUM = 1000;
 
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
@@ -36,13 +35,6 @@ export class RenderService {
   public facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
-
-  private listeErreurCouleur = {
-    normal: 'green',
-    angle45: 'red',
-    proche: 'orange',
-    premier: 'purple'
-  };
 
   public initialisationLigne() {
     this.pointsLine = this.facadeLigne.creerLignePoints();
@@ -126,13 +118,6 @@ export class RenderService {
     this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
     if (this.facadePointService.compteur >= 1) {
       this.facadePointService.compteur--;
-    }
-  }
-
-  public actualiserCouleurPoints(): void {
-    for (const point of this.points) {
-      point.material.color.set(this.listeErreurCouleur[point.material.status]);
-      point.material.size = 5;
     }
   }
 
@@ -317,7 +302,7 @@ export class RenderService {
     this.nombreLignesCroisees();
     this.nombreSegmentsTropCourts();
     this.nombreAnglesMoins45();
-    this.actualiserCouleurPoints();
+    this.facadePointService.actualiserCouleurPoints(this.points);
   }
   /**********************************************************
           Gestion génération de la courbe

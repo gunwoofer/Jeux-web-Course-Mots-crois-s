@@ -4,6 +4,7 @@ import * as THREE from 'three';
 
 import { RenderService } from '../renderService/render.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
+import { FacadePointService } from '../facadePoint/facadepoint.service';
 
 @Injectable()
 export class FacadeSourisService {
@@ -17,6 +18,7 @@ export class FacadeSourisService {
     private objetGlisse;
 
     private facadeCoordonneesService = new FacadeCoordonneesService();
+    private facadePointService = new FacadePointService();
 
     public onMouseDown(event): void {
         this.tempsMouseDown = new Date().getTime();
@@ -58,7 +60,7 @@ export class FacadeSourisService {
           this.dragPoint(intersects[0].point);
         } else {
           if (intersects.length > 0) {
-            this.renderService.actualiserCouleurPoints();
+            this.facadePointService.actualiserCouleurPoints(this.renderService.points);
             this.pointHover = false;
             for (const objet of intersects) {
               if (objet.object.type === 'Points') {
