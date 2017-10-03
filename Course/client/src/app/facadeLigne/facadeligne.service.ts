@@ -1,6 +1,8 @@
 import { Injectable, Component } from '@angular/core';
 import * as THREE from 'three';
 
+import { FacadePointService } from '../facadePoint/facadepoint.service';
+
 @Injectable()
 export class FacadeLigneService {
     private POINTS_MAXIMUM = 1000;
@@ -35,5 +37,10 @@ export class FacadeLigneService {
         pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
         pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
         pointsLine.geometry.attributes.position.needsUpdate = true;
+      }
+
+      public ajouterPointLine(positionNouveauPoint, compteur: number, pointsLine: any, points: any[]): void {
+        this.modifierPointLine(compteur, positionNouveauPoint, pointsLine, points);
+        pointsLine.geometry.setDrawRange(0, compteur + 1);
       }
 }

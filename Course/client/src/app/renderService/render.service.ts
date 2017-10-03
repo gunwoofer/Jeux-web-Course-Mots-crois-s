@@ -112,7 +112,7 @@ export class RenderService {
     if (!this.dessinTermine) {
       this.scene.add(point);
     }
-    this.ajouterPointLine(point.position);
+    this.facadeLigne.ajouterPointLine(point.position, this.facadePointService.compteur, this.pointsLine, this.points);
     this.points.push(point);
     this.facadePointService.compteur++;
   }
@@ -322,11 +322,6 @@ export class RenderService {
   /**********************************************************
        Gestion génération des droites reliant points
    *********************************************************/
-  private ajouterPointLine(positionNouveauPoint): void {
-    this.facadeLigne.modifierPointLine(this.facadePointService.compteur, positionNouveauPoint, this.pointsLine, this.points);
-    this.pointsLine.geometry.setDrawRange(0, this.facadePointService.compteur + 1);
-  }
-
   private retirerAncienPointLine(): void {
     this.facadeLigne.modifierPointLine(this.facadePointService.compteur - 1, new THREE.Vector3(0, 0, 0), this.pointsLine, this.points);
     this.pointsLine.geometry.setDrawRange(0, this.facadePointService.compteur - 1);
