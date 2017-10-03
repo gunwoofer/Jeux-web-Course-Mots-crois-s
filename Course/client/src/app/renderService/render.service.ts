@@ -1,9 +1,7 @@
-import { FacadeLigneService } from './../facadeLigne/facadeligne.service';
 import { Injectable } from '@angular/core';
-
 import * as THREE from 'three';
-import Stats = require('stats.js');
 
+import { FacadeLigneService } from './../facadeLigne/facadeligne.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
@@ -12,7 +10,6 @@ import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCirc
 export class RenderService {
   private container: HTMLDivElement;
   public camera: THREE.PerspectiveCamera;
-  private stats: Stats;
   private plane: THREE.Mesh;
   public renderer: THREE.WebGLRenderer;
   public scene: THREE.Scene;
@@ -20,11 +17,9 @@ export class RenderService {
   public dessinTermine = false;
   public pointsLine;
   private courbe;
-
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
   public nbSegmentsTropProche = 0;
-
   public facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
@@ -34,7 +29,6 @@ export class RenderService {
     this.container = container;
     this.creerScene();
     this.creerPlan();
-    this.initStats();
     this.initialisationLigne();
     this.startRenderingLoop();
   }
@@ -56,12 +50,6 @@ export class RenderService {
     this.scene.add(this.plane);
   }
 
-  public initStats(): void {
-    this.stats = new Stats();
-    this.stats.dom.style.position = 'absolute';
-    this.container.appendChild(this.stats.dom);
-  }
-
   public initialisationLigne() {
     this.pointsLine = this.facadeLigne.creerLignePoints();
     this.scene.add(this.pointsLine);
@@ -78,7 +66,6 @@ export class RenderService {
   public render(): void {
     requestAnimationFrame(() => this.render());
     this.renderer.render(this.scene, this.camera);
-    this.stats.update();
   }
 
   public onResize(): void {
@@ -105,7 +92,7 @@ export class RenderService {
     this.scene.remove(this.points[this.points.length - 1]);
     this.points.pop();
     this.actualiserDonnees();
-    this.redessinerCourbe();
+    // this.redessinerCourbe();
     this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
     if (this.facadePointService.compteur >= 1) {
       this.facadePointService.compteur--;
@@ -129,7 +116,7 @@ export class RenderService {
       }
       this.ajouterPoint(point);
       this.actualiserDonnees();
-      this.redessinerCourbe();
+      // this.redessinerCourbe();
       this.render();
     } else {
       return 0;
@@ -148,21 +135,6 @@ export class RenderService {
     }
   }
 
-  public nombreAnglesMoins45(): void {
-    let nbAnglesMoins45 = 0;
-    for (let i = 1; i < this.points.length - 1; i++) {
-      if (this.contraintesCircuitService.estUnAngleMoins45(i, this.points, this.facadePointService.compteur)) {
-        nbAnglesMoins45++;
-      }
-    }
-    if (this.dessinTermine) {
-      if (this.contraintesCircuitService.estUnAngleMoins45(0, this.points, this.facadePointService.compteur)) {
-        nbAnglesMoins45++;
-      }
-    }
-    this.nbAnglesPlusPetit45 = nbAnglesMoins45;
-  }
-
   public retourneEtatDessin(): boolean {
     if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {
       return this.dessinTermine;
@@ -171,80 +143,22 @@ export class RenderService {
     }
   }
 
-  public nombreSegmentsTropCourts(): void {
-    const largeurPiste = 10;
-    let segmentTropCourt = 0;
-    for (let i = 0; i < this.points.length - 1; i++) {
-      const tailleSegment = this.points[i].position.distanceTo(this.points[i + 1].position);
-      if (tailleSegment < 2 * largeurPiste) {
-        segmentTropCourt++;
-        this.points[i].material.status = 'proche';
-        this.points[i + 1].material.status = 'proche';
-      }
-    }
-    this.nbSegmentsTropProche = segmentTropCourt;
-  }
-
-  private nombreLignesCroisees(): void {
-    let nbSegmentsCroises = 0;
-    for (let i = 0; i < this.points.length; i++) {
-      for (let j = i + 1; j < this.points.length - 1; j++) {
-        const pointA = this.points[i];
-        const pointB = this.points[i + 1];
-        const pointC = this.points[j];
-        const pointD = this.points[j + 1];
-        if (this.contraintesCircuitService.segmentsCoises(pointA, pointB, pointC, pointD, this.dessinTermine)) {
-          nbSegmentsCroises++;
-        }
-      }
-    }
-    this.nbSegmentsCroises = nbSegmentsCroises;
+  public actualiserContrainte(): void {
+    this.nbSegmentsCroises = this.contraintesCircuitService.nombreLignesCroisees(this.points, this.dessinTermine);
+    this.nbSegmentsTropProche = this.contraintesCircuitService.nombreSegmentsTropCourts(this.points);
+    this.nbAnglesPlusPetit45 = this.contraintesCircuitService.nombreAnglesMoins45(this.points,this.facadePointService.compteur,this.dessinTermine);
   }
 
   public actualiserDonnees(): void {
     this.facadePointService.restaurerStatusPoints(this.points);
-    this.nombreLignesCroisees();
-    this.nombreSegmentsTropCourts();
-    this.nombreAnglesMoins45();
+    this.actualiserContrainte();
     this.facadePointService.actualiserCouleurPoints(this.points);
-  }
-
-  private dessinerCourbe(): void {
-    let curve;
-    const arrayPointPosition = [];
-    for (const point of this.points) {
-      arrayPointPosition.push(point.position);
-    }
-    if (this.dessinTermine) {
-      arrayPointPosition.pop();
-    }
-    curve = new THREE.CatmullRomCurve3(arrayPointPosition);
-    curve.closed = this.dessinTermine;
-    const geometry = new THREE.Geometry();
-    geometry.vertices = curve.getPoints(100);
-    const material = new THREE.LineBasicMaterial({ color: 0xff0000 });
-    this.courbe = new THREE.Line(geometry, material);
-    this.scene.add(this.courbe);
-  }
-
-  private retirerCourbe(): void {
-    this.scene.remove(this.courbe);
-  }
-
-  public redessinerCourbe(): void {
-    if (this.courbe) {
-      this.retirerCourbe();
-    }
-    if (this.points.length > 2) {
-      this.dessinerCourbe();
-    }
   }
 
   public viderScene(): void {
     for (let i = 0; i < this.points.length; i++) {
       this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
       this.scene.remove(this.points[i]);
-      this.retirerCourbe();
       this.facadePointService.compteur--;
     }
   }

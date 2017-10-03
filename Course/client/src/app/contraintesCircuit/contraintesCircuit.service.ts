@@ -5,6 +5,7 @@ import { RenderService } from '../renderService/render.service';
 
 @Injectable()
 export class ContraintesCircuitService {
+
   public calculerAngle(numeroPoint: number, points: any[], compteur: number): number {
     if (points.length > 1) {
       const point1 = points[numeroPoint === 0 ? compteur - 1 : numeroPoint - 1];
@@ -52,5 +53,50 @@ export class ContraintesCircuitService {
       return true;
     }
     return false;
+  }
+
+  public nombreSegmentsTropCourts(points: any[]): number {
+    const largeurPiste = 10;
+    let segmentTropCourt = 0;
+    for (let i = 0; i < points.length - 1; i++) {
+      const tailleSegment = points[i].position.distanceTo(points[i + 1].position);
+      if (tailleSegment < 2 * largeurPiste) {
+        segmentTropCourt++;
+        points[i].material.status = 'proche';
+        points[i + 1].material.status = 'proche';
+      }
+    }
+    return segmentTropCourt;
+  }
+
+  public nombreLignesCroisees(points: any[], dessinTermine: boolean): number {
+    let nbSegmentsCroises = 0;
+    for (let i = 0; i < points.length; i++) {
+      for (let j = i + 1; j < points.length - 1; j++) {
+        const pointA = points[i];
+        const pointB = points[i + 1];
+        const pointC = points[j];
+        const pointD = points[j + 1];
+        if (this.segmentsCoises(pointA, pointB, pointC, pointD, dessinTermine)) {
+          nbSegmentsCroises++;
+        }
+      }
+    }
+    return nbSegmentsCroises;
+  }
+
+  public nombreAnglesMoins45(points: any[], compteur: number, dessinTermine: boolean): number {
+    let nbAnglesMoins45 = 0;
+    for (let i = 1; i < points.length - 1; i++) {
+      if (this.estUnAngleMoins45(i, points, compteur)) {
+        nbAnglesMoins45++;
+      }
+    }
+    if (dessinTermine) {
+      if (this.estUnAngleMoins45(0, points, compteur)) {
+        nbAnglesMoins45++;
+      }
+    }
+    return nbAnglesMoins45;
   }
 }
