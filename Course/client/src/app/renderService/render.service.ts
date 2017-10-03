@@ -13,19 +13,11 @@ export class RenderService {
   private container: HTMLDivElement;
   public camera: THREE.PerspectiveCamera;
   private stats: Stats;
-  private cube: THREE.Mesh;
   private plane: THREE.Mesh;
   public renderer: THREE.WebGLRenderer;
   public scene: THREE.Scene;
-  private mouse: THREE.Vector2;
   public points = [];
-
-  private pointXVecteur: number[] = [];
-  private pointYVecteur: number[] = [];
   public dessinTermine = false;
-  private cameraZ = 400;
-  private normeSegment = 0;
-
   public pointsLine;
   private courbe;
 
