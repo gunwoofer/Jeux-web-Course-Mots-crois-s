@@ -43,7 +43,5 @@ export class FacadeCourbeService {
       this.facadePointService.compteur--;
     }
   }
-  
-  
   */
 }

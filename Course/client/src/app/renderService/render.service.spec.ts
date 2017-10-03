@@ -322,7 +322,12 @@ describe('RenderService', () => {
       facadeSourisService.onMouseClick(fakeClickEventArray[i]);
     }
     expect(renderService.nbAnglesPlusPetit45).toEqual(1);
-    expect(messageErreurService.afficherMessageErreurs(renderService.nbAnglesPlusPetit45, renderService.nbSegmentsTropProche, renderService.nbSegmentsCroises)).toEqual('Angle(s) inférieurs à 45° => 1 ; ');
+    expect(
+      messageErreurService.afficherMessageErreurs(
+        renderService.nbAnglesPlusPetit45,
+        renderService.nbSegmentsTropProche,
+        renderService.nbSegmentsCroises
+      )).toEqual('Angle(s) inférieurs à 45° => 1 ; ');
   });
 
   it('Une piste ne peut être sauvegardée si deux segments se joignant à un même point forment un angle de moins de 45 degrés.', () => {
@@ -358,7 +363,12 @@ describe('RenderService', () => {
       facadeSourisService.onMouseClick(fakeClickEventArray[i]);
     }
     expect(renderService.nbAnglesPlusPetit45).toEqual(2);
-    expect(messageErreurService.afficherMessageErreurs(renderService.nbAnglesPlusPetit45, renderService.nbSegmentsTropProche, renderService.nbSegmentsCroises)).toEqual('Angle(s) inférieurs à 45° => 2 ; ');
+    expect(
+      messageErreurService.afficherMessageErreurs(
+        renderService.nbAnglesPlusPetit45,
+        renderService.nbSegmentsTropProche,
+        renderService.nbSegmentsCroises
+      )).toEqual('Angle(s) inférieurs à 45° => 2 ; ');
     expect(renderService.retourneEtatDessin()).toBeFalsy();
   });
 
@@ -402,7 +412,12 @@ describe('RenderService', () => {
       facadeSourisService.onMouseClick(fakeClickEventArray[i]);
     }
     expect(renderService.nbSegmentsCroises).toEqual(1);
-    expect(messageErreurService.afficherMessageErreurs(renderService.nbAnglesPlusPetit45, renderService.nbSegmentsTropProche, renderService.nbSegmentsCroises)).toEqual('Segment(s) croisé(s) => 1 ; ');
+    expect(
+      messageErreurService.afficherMessageErreurs(
+        renderService.nbAnglesPlusPetit45,
+        renderService.nbSegmentsTropProche,
+        renderService.nbSegmentsCroises
+      )).toEqual('Segment(s) croisé(s) => 1 ; ');
     expect(renderService.retourneEtatDessin()).toBeFalsy();
   });
 
@@ -446,7 +461,12 @@ describe('RenderService', () => {
       facadeSourisService.onMouseClick(fakeClickEventArray[i]);
     }
     expect(renderService.nbSegmentsTropProche).toEqual(1);
-    expect(messageErreurService.afficherMessageErreurs(renderService.nbAnglesPlusPetit45, renderService.nbSegmentsTropProche, renderService.nbSegmentsCroises)).toEqual('Segment(s) trop proche(s) => 1 ; ');
+    expect(
+      messageErreurService.afficherMessageErreurs(
+        renderService.nbAnglesPlusPetit45,
+        renderService.nbSegmentsTropProche,
+        renderService.nbSegmentsCroises
+      )).toEqual('Segment(s) trop proche(s) => 1 ; ');
     expect(renderService.retourneEtatDessin()).toBeFalsy();
   });
 });

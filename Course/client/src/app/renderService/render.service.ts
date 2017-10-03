@@ -92,7 +92,6 @@ export class RenderService {
     this.scene.remove(this.points[this.points.length - 1]);
     this.points.pop();
     this.actualiserDonnees();
-    // this.redessinerCourbe();
     this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
     if (this.facadePointService.compteur >= 1) {
       this.facadePointService.compteur--;
@@ -116,7 +115,6 @@ export class RenderService {
       }
       this.ajouterPoint(point);
       this.actualiserDonnees();
-      // this.redessinerCourbe();
       this.render();
     } else {
       return 0;
@@ -146,7 +144,9 @@ export class RenderService {
   public actualiserContrainte(): void {
     this.nbSegmentsCroises = this.contraintesCircuitService.nombreLignesCroisees(this.points, this.dessinTermine);
     this.nbSegmentsTropProche = this.contraintesCircuitService.nombreSegmentsTropCourts(this.points);
-    this.nbAnglesPlusPetit45 = this.contraintesCircuitService.nombreAnglesMoins45(this.points,this.facadePointService.compteur,this.dessinTermine);
+    this.nbAnglesPlusPetit45 = this.contraintesCircuitService.nombreAnglesMoins45(
+      this.points, this.facadePointService.compteur, this.dessinTermine
+    );
   }
 
   public actualiserDonnees(): void {
