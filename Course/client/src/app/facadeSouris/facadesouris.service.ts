@@ -72,11 +72,11 @@ export class FacadeSourisService {
       private dragPoint(position): void {
         this.objetGlisse.position.copy(position);
         const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
-        this.renderService.modifierPointLine(objetGlisseNumber, this.objetGlisse.position);
+        this.renderService.facadeLigne.modifierPointLine(objetGlisseNumber, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.points);
         this.renderService.redessinerCourbe();
         if (objetGlisseNumber === 0 && this.renderService.dessinTermine) {
           this.renderService.points[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
-          this.renderService.modifierPointLine(this.renderService.facadePointService.compteur - 1, this.objetGlisse.position);
+          this.renderService.facadeLigne.modifierPointLine(this.renderService.facadePointService.compteur - 1, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.points);
         }
       }
 

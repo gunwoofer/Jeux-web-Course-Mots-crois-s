@@ -35,7 +35,7 @@ export class RenderService {
 
   public facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
-  private facadeLigne = new FacadeLigneService();
+  public facadeLigne = new FacadeLigneService();
 
   private listeErreurCouleur = {
     normal: 'green',
@@ -322,22 +322,13 @@ export class RenderService {
   /**********************************************************
        Gestion génération des droites reliant points
    *********************************************************/
-  public modifierPointLine(positionTableauPoints, positionPoint): void {
-    const pointsLinePosition = this.pointsLine.geometry.attributes.position.array;
-    this.facadeLigne.modificationdecouleuur(positionTableauPoints, this.pointsLine, this.points);
-    pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
-    pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
-    pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
-    this.pointsLine.geometry.attributes.position.needsUpdate = true;
-  }
-
   private ajouterPointLine(positionNouveauPoint): void {
-    this.modifierPointLine(this.facadePointService.compteur, positionNouveauPoint);
+    this.facadeLigne.modifierPointLine(this.facadePointService.compteur, positionNouveauPoint, this.pointsLine, this.points);
     this.pointsLine.geometry.setDrawRange(0, this.facadePointService.compteur + 1);
   }
 
   private retirerAncienPointLine(): void {
-    this.modifierPointLine(this.facadePointService.compteur - 1, new THREE.Vector3(0, 0, 0));
+    this.facadeLigne.modifierPointLine(this.facadePointService.compteur - 1, new THREE.Vector3(0, 0, 0), this.pointsLine, this.points);
     this.pointsLine.geometry.setDrawRange(0, this.facadePointService.compteur - 1);
   }
   /**********************************************************

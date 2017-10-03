@@ -18,7 +18,7 @@ export class FacadeLigneService {
         return pointsLine;
       }
 
-      public modificationdecouleuur(position, pointsLine: any, points: any[]): void {
+      public modificationdecouleur(position, pointsLine: any, points: any[]): void {
         const couleurListe = pointsLine.geometry.attributes.color.array;
         if (points.length < 2) {
           couleurListe[position * 3] = 0.55;
@@ -26,5 +26,14 @@ export class FacadeLigneService {
           couleurListe[position * 3 + 2] = 0.64;
         }
         pointsLine.geometry.attributes.color.needsUpdate = true;
+      }
+
+      public modifierPointLine(positionTableauPoints, positionPoint, pointsLine: any, points: any[]): void {
+        const pointsLinePosition = pointsLine.geometry.attributes.position.array;
+        this.modificationdecouleur(positionTableauPoints, pointsLine, points);
+        pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
+        pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
+        pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
+        pointsLine.geometry.attributes.position.needsUpdate = true;
       }
 }
