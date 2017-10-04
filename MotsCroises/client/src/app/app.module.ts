@@ -12,6 +12,7 @@ import {GameViewComponent} from './game_view/game-view.component';
 import {CanvasViewComponent} from './canvas/canvas-view.component';
 import {IndiceViewComponent} from './indice/indice-view.component';
 import {InfosJeuViewComponent} from "./infos_jeu/infos-jeu-view.component";
+import {IndiceViewService} from "./indice/indice-view.service";
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {InfosJeuViewComponent} from "./infos_jeu/infos-jeu-view.component";
   ],
   providers: [
     RenderService,
-    BasicService
+    BasicService,
+    IndiceViewService
   ],
   bootstrap: [AppComponent]
 })

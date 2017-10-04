@@ -1,10 +1,12 @@
-import {AfterViewInit, Component, ElementRef, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
+import {IndiceViewService} from '../indice/indice-view.service';
+import {Indice} from '../indice/indice-view.component';
 
 
 @Component({
   selector: 'canvas-view-component',
   templateUrl: './canvas-view.component.html',
-  styleUrls: ['./canvas-view.component.css']
+  styleUrls: ['./canvas-view.component.css'],
 })
 
 export class CanvasViewComponent implements AfterViewInit {
@@ -13,15 +15,50 @@ export class CanvasViewComponent implements AfterViewInit {
   private ctxCanvas: any;
   private largeurCase: number;
   private hauteurCase: number;
+  private margeEffacement: number;
   private nbCases = 11;
   private couleurNoire = '#000000';
   private couleurRouge = '#DD0000';
+  private ligneActuelle: number;
+  private colonneActuelle: number;
+  private motEcrit = '';
+  private indice: Indice;
 
-  constructor() {
+  constructor(private indiceViewService: IndiceViewService) {
+    this.indiceViewService.indiceSelectionneL.subscribe(indice => {
+      this.indice = indice;
+      this.definirCaseActive(indice.positionI, indice.positionJ);
+      this.rafraichirCanvas();
+      this.afficherSelecteurMotSurGrille(indice.tailleMot, indice.sens, indice.positionI, indice.positionJ, this.couleurRouge);
+    });
   }
 
   @ViewChild('canvasjeu')
   private containerRef: ElementRef;
+
+  @HostListener('document:keyup', ['$event'])
+  public onKeyUp(ev: KeyboardEvent) {
+    // do something meaningful with it
+    console.log(`The user just pressed ${ev.key}!`);
+    const cleMot = ev.key;
+    this.actionToucheAppuyee(cleMot);
+    console.log(this.motEcrit);
+  }
+
+  public actionToucheAppuyee(cleMot: string){
+    if (cleMot === 'Backspace') {
+      if (this.motEcrit.length === 0) {
+        return;
+      }
+      this.reculerCaseActive(this.indice.sens);
+      this.effacerLettreDansCaseActive();
+      this.motEcrit = this.motEcrit.substring(0, this.motEcrit.length - 1);
+    } else {
+      this.motEcrit = this.motEcrit + cleMot;
+      this.ecrireLettreDansCaseActive(cleMot, this.couleurNoire);
+      this.avancerCaseActive(this.indice.sens);
+    }
+  }
 
   public obtenirCanvasJeu(): void {
     this.canvas = this.containerRef.nativeElement;
@@ -32,10 +69,10 @@ export class CanvasViewComponent implements AfterViewInit {
     this.canvas.height = this.canvas.width;
     this.largeurCase = this.canvas.width / 11;
     this.hauteurCase = this.canvas.height / 11;
+    this.margeEffacement = Math.round(this.largeurCase / 10);
     this.ctxCanvas = this.canvas.getContext('2d');
-    this.ctxCanvas.imageSmoothingEnabled = false;
     this.dessinerLignesGrille();
-    this.afficherSelecteurMotSurGrille(5, 1, 4, 3, '#0000DD');
+    //this.afficherSelecteurMotSurGrille(5, 1, 4, 3, '#0000DD');
     this.ecrireLettreDansCase('A', 4, 3, this.couleurRouge);
     this.ecrireMotDansGrille('Fuck', 0, 1, 1, '#000000');
     this.ecrireMotDansGrille('This', 1, 4, 4, '#000000');
@@ -53,7 +90,12 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * this.nbCases - 1, this.canvas.width, 1);
   }
 
-  public ecrireMotDansGrille(mot: string, sens: number, i:number, j:number, couleur: string) {
+  public rafraichirCanvas() {
+    this.ctxCanvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
+    this.dessinerLignesGrille();
+  }
+
+  public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
     if (sens === 0) {
       for (let u = 0; u < mot.length; u++) {
         this.ecrireLettreDansCase(mot.charAt(u), i + u, j, couleur);
@@ -77,6 +119,7 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas.strokeStyle = couleur;
     this.ctxCanvas.lineWidth = '3';
     this.ctxCanvas.setLineDash([5, 3]);
+    this.ctxCanvas.beginPath();
     if (sens === 0) {
       this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
       this.ctxCanvas.stroke();
@@ -84,6 +127,32 @@ export class CanvasViewComponent implements AfterViewInit {
       this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.hauteurCase * tailleMot);
       this.ctxCanvas.stroke();
     }
+  }
+
+  public ecrireLettreDansCaseActive(lettre: string, couleur: string) {
+    this.ecrireLettreDansCase(lettre, this.ligneActuelle, this.colonneActuelle, couleur);
+  }
+
+
+  public definirCaseActive(i: number, j: number) {
+    this.ligneActuelle = i;
+    this.colonneActuelle = j;
+  }
+
+  public avancerCaseActive(sens) {
+    sens === 0 ? this.ligneActuelle++ : this.colonneActuelle++;
+  }
+
+  public reculerCaseActive(sens) {
+    sens === 0 ? this.ligneActuelle-- : this.colonneActuelle--;
+  }
+
+  public effacerLettreDansCase(i: number, j: number) {
+    this.ctxCanvas.clearRect(this.largeurCase * i + this.margeEffacement, this.hauteurCase * j + this.margeEffacement, this.largeurCase - 2 * this.margeEffacement, this.hauteurCase - 2 * this.margeEffacement);
+  }
+
+  public effacerLettreDansCaseActive() {
+    this.effacerLettreDansCase(this.ligneActuelle, this.colonneActuelle);
   }
 
 }
