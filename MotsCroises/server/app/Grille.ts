@@ -36,6 +36,50 @@ export class Grille {
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
     private nombreMotsSurColonne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
+
+    public static creerInstanceAvecJSON(jsonGrille: string): Grille {        
+        let jsonEnGrille = (JSON.parse(jsonGrille) as Grille);  
+        
+        let vraieGrille: Grille = new Grille(Niveau.facile);
+        
+        Object.assign(vraieGrille, jsonEnGrille);
+
+        let vraiEmplacementsMot: EmplacementMot[] = this.creerInstanceAvecJSONEmplacementMots(jsonEnGrille);
+
+
+        vraieGrille.modifierEmplacementsMot(vraiEmplacementsMot);
+
+
+        return vraieGrille;
+    }
+
+    private static creerInstanceAvecJSONEmplacementMots(jsonEnGrille: Grille): EmplacementMot[] {
+        let vraiEmplacementsMot: EmplacementMot[] = new Array();
+        let vraieEmplacementMot: EmplacementMot;
+        for(let emplacementMotCourant of jsonEnGrille.emplacementMots) {
+            vraieEmplacementMot = new EmplacementMot();
+            Object.assign(vraieEmplacementMot, emplacementMotCourant as EmplacementMot);
+
+            vraieEmplacementMot.modifierCases(this.creerInstanceAvecJSONCasesEmplacementMots(vraieEmplacementMot));
+            vraiEmplacementsMot.push(vraieEmplacementMot);
+        }
+
+        return vraiEmplacementsMot;
+    }
+
+    public static creerInstanceAvecJSONCasesEmplacementMots(vraieEmplacementMot : EmplacementMot): Case[] {
+        let vraieCasesEmplacementMot: Case[] = new Array();
+        let vraieCase: Case;
+
+        for(let caseCourante of vraieEmplacementMot.obtenirCases()) {
+            vraieCase = new Case(0, 0, EtatCase.noir);
+            Object.assign(vraieCase, caseCourante as Case);
+            vraieCasesEmplacementMot.push(vraieCase);
+        }
+
+        return vraieCasesEmplacementMot;
+    }
+
     public constructor(niveau: Niveau, etatCaseInitial: EtatCase = EtatCase.noir) {
         this.niveau = niveau;
 
@@ -274,8 +318,12 @@ export class Grille {
         return this.nombreMotsSurColonne[ligne];
     }
 
-    public obtenirPositionsEmplacementsVides(): EmplacementMot[] {
+    public obtenirEmplacementsMot(): EmplacementMot[] {
         return this.emplacementMots;
+    }
+
+    public modifierEmplacementsMot(emplacementsMot: EmplacementMot[]) {
+        this.emplacementMots = emplacementsMot;
     }
 
     public dansLaLimiteDuMot(caseCourante: number, debutNumeroColonne: number, finNumeroColonne: number): boolean {

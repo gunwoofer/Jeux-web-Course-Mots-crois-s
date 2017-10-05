@@ -16,19 +16,34 @@ export class EmplacementMot {
     private etatEmplacementMot: EtatEmplacementMot;
     public motsImpossible: MotComplet[];
 
+    public static creerInstanceAvecJSON(jsonEmplacementMot: any): EmplacementMot {        
+        
+        let jsonEnEmplacementMot = (JSON.parse(jsonEmplacementMot) as EmplacementMot);
+        let vraieEmplacementMot: EmplacementMot = new EmplacementMot();
+        
+        Object.assign(vraieEmplacementMot, jsonEnEmplacementMot);
+        return vraieEmplacementMot;
+    }
+
     constructor(caseDebut?: Case, caseFin?: Case, cases?: Case[]) {
-        this.caseDebut = caseDebut;
-        this.caseFin = caseFin;
+        if(caseDebut !== undefined) {
+            this.caseDebut = caseDebut;
+        }
+        if(caseFin !== undefined) {
+            this.caseFin = caseFin;
+        }
         this.cases = cases;
         this.etatEmplacementMot = EtatEmplacementMot.Masque;
         this.motsImpossible = new Array();
 
-        if (caseDebut.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne()) {
-            this.grandeur = caseFin.obtenirNumeroColonne() - caseDebut.obtenirNumeroColonne() + 1;
-            this.position = Position.Ligne;
-        } else if (caseDebut.obtenirNumeroColonne() === caseFin.obtenirNumeroColonne()) {
-            this.grandeur = caseFin.obtenirNumeroLigne() - caseDebut.obtenirNumeroLigne() + 1;
-            this.position = Position.Colonne;
+        if(caseDebut !== undefined && caseFin !== undefined) {
+            if (caseDebut.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne()) {
+                this.grandeur = caseFin.obtenirNumeroColonne() - caseDebut.obtenirNumeroColonne() + 1;
+                this.position = Position.Ligne;
+            } else if (caseDebut.obtenirNumeroColonne() === caseFin.obtenirNumeroColonne()) {
+                this.grandeur = caseFin.obtenirNumeroLigne() - caseDebut.obtenirNumeroLigne() + 1;
+                this.position = Position.Colonne;
+            }
         }
     }
 
@@ -136,5 +151,9 @@ export class EmplacementMot {
 
     public obtenirGrandeur(): number {
         return this.grandeur;
+    }
+
+    public modifierCases(cases: Case[]) {
+        this.cases = cases;
     }
 }

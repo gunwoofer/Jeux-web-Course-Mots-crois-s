@@ -154,7 +154,7 @@ export class PersistenceGrillesService {
 
                     self.notifierReponseRecuEntiteePersistente();
                     self.asyncVerifierSierrConnection(err, db, reject);
-                    resolve(result[0].grille.replace('\\', ''));
+                    resolve(Grille.creerInstanceAvecJSON(result[0].grille.replace('\\', '')));
                     self.notifier();
 
                     self.supprimerGrille(self, db, result[0].id);

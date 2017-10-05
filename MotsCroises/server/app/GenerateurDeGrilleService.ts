@@ -30,13 +30,7 @@ export class GenerateurDeGrilleService {
     public genererGrille(niveau: Niveau): Grille {
         this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);
-
-        /*
-        this.remplirGrilleVraisMots(niveau).then((grille) => {
-            this.motCroiseGenere = grille;
-        });
-
-        */
+        
         return this.motCroiseGenere;
     }
 
@@ -85,7 +79,7 @@ export class GenerateurDeGrilleService {
         const caseDebut: Case = grille.obtenirCase(numeroLigneDebut, numeroColonneDebut);
         const caseFin: Case = grille.obtenirCase(numeroLigneFin, numeroColonneFin);
 
-        for (const emplacementMotCourant of grille.obtenirPositionsEmplacementsVides()) {
+        for (const emplacementMotCourant of grille.obtenirEmplacementsMot()) {
             for (let casesEmplacementMot of emplacementMotCourant.obtenirCases()) {
                 if ((casesEmplacementMot.obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
                     && (casesEmplacementMot.obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())) {
@@ -237,7 +231,7 @@ export class GenerateurDeGrilleService {
         const grillePlein = this.motCroiseGenere;
 
         while (!grillePlein.estComplete()) {
-            for (const emplacementMotCourant of grillePlein.obtenirPositionsEmplacementsVides()) {
+            for (const emplacementMotCourant of grillePlein.obtenirEmplacementsMot()) {
 
                 let motAjoute = false;
 

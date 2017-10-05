@@ -57,7 +57,7 @@ describe('GestionnaireDePartieService', () => {
                 done();
             });
     }).timeout(maxDelaiRetourRequeteMS);
-    /*
+    
     it('Il est possible de vérifier un mauvais mot dans la grille.', (done) => {
         const joueur: Joueur = new Joueur();
         const typePartie: TypePartie = TypePartie.dynamique;
@@ -69,7 +69,6 @@ describe('GestionnaireDePartieService', () => {
         persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
             .then((grilleDepart: Grille)=>{
                 guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-                console.log(grilleDepart);
                 const emplacementsMot: EmplacementMot[] = grilleDepart.emplacementsHorizontaux();
                 const emplacementMot: EmplacementMot = emplacementsMot[0];
                 const caseDebut: Case = emplacementMot.obtenirCaseDebut();
@@ -90,5 +89,5 @@ describe('GestionnaireDePartieService', () => {
                 done();
             });
     }).timeout(maxDelaiRetourRequeteMS);
-    */
+    
 });
