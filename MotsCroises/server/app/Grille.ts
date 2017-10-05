@@ -1,4 +1,4 @@
-import { Mot } from './Mot';
+import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from './Case';
 import { EmplacementMot } from './EmplacementMot';
 import { grandeurMotMinimum } from './GenerateurDeGrilleService';
@@ -24,7 +24,7 @@ export enum Position {
 }
 
 export class Grille {
-    private mots: Mot[] = new Array();
+    private mots: MotComplet[] = new Array();
     private emplacementMots: EmplacementMot[] = new Array();
 
     private cases: Case[][] = new Array(DIMENSION_LIGNE_COLONNE);
@@ -113,7 +113,7 @@ export class Grille {
         }
     }
 
-    public obtenirMot(): Mot[] {
+    public obtenirMot(): MotComplet[] {
         return this.mots;
     }
     public obtenirMotParticulier(i: number) {
@@ -199,7 +199,7 @@ export class Grille {
         }
     }
 
-    public ajouterMot(mot: Mot, numeroLigneDepart: number,
+    public ajouterMot(mot: MotComplet, numeroLigneDepart: number,
         numeroColonneDepart: number, numeroLigneFin: number, numeroColonneFin: number): void {
 
         this.mots.push(mot);
@@ -279,7 +279,33 @@ export class Grille {
         return nbrCasesY;
     }
 
-    public contientDejaLeMot(mot: Mot): boolean {
+    public verifierMot(motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
+        
+        for (const emplacementMot of this.emplacementMots) {
+            if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin) && emplacementMot.obtenirMotDesCases() === motAVerifier) {
+                emplacementMot.estTrouve();
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public obtenirEmplacementMot(caseDebut: Case, caseFin: Case): EmplacementMot {
+        for (const emplacementMot of this.emplacementMots) {
+            if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin)) {
+                return emplacementMot;
+            }
+        }
+
+        return undefined;
+    }
+
+    private estLeBonEmplacementMot(emplacementMot: EmplacementMot, caseDebut: Case, caseFin: Case): boolean{
+        return (emplacementMot.obtenirCaseDebut() === caseDebut) && (emplacementMot.obtenirCaseFin() === caseFin);
+    }
+
+    public contientDejaLeMot(mot: MotComplet): boolean {
         for (const motCourant of this.mots) {
             if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
                 return true;

@@ -1,6 +1,6 @@
 
 import { Grille, Niveau, DIMENSION_LIGNE_COLONNE, Position } from './Grille';
-import { Mot, Rarete } from './Mot';
+import { MotComplet, Rarete } from './MotComplet';
 import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';
 import { Contrainte } from './Contrainte';
@@ -243,7 +243,7 @@ export class GenerateurDeGrilleService {
                     }
 
                     const indiceIdiot = new Indice(['definition facile', 'definition un peu difficile', 'definition dure de ouuuuf']);
-                    const motIdiot: Mot = new Mot(chaineIdiote, indiceIdiot);
+                    const motIdiot: MotComplet = new MotComplet(chaineIdiote, indiceIdiot);
 
                     if (niveau === Niveau.facile) {
                         motIdiot.setRarete(Rarete.commun);

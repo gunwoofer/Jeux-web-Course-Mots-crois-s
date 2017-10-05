@@ -1,8 +1,10 @@
 import { Case } from './Case';
 import { Position } from './Grille';
 
-
-
+export enum EtatEmplacementMot {
+    Masque,
+    Trouve
+}
 
 export class EmplacementMot {
     private caseDebut: Case;
@@ -10,11 +12,13 @@ export class EmplacementMot {
     private cases: Case[];
     private grandeur: number;
     private position: Position;
+    private etatEmplacementMot: EtatEmplacementMot;
 
     constructor(caseDebut?: Case, caseFin?: Case, cases?: Case[]) {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
         this.cases = cases;
+        this.etatEmplacementMot = EtatEmplacementMot.Masque;
 
         if (caseDebut.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne()) {
             this.grandeur = caseFin.obtenirNumeroColonne() - caseDebut.obtenirNumeroColonne() + 1;
@@ -26,15 +30,19 @@ export class EmplacementMot {
 
     }
 
+    public estTrouve() {
+        this.etatEmplacementMot = EtatEmplacementMot.Trouve;
+    }
+
     public estHorizontal(): boolean {
-        if(this.position == Position.Ligne) {
+        if(this.position === Position.Ligne) {
             return true;
         }
         return false;
     }
 
     public estVertical(): boolean {
-        if(this.position == Position.Colonne) {
+        if(this.position === Position.Colonne) {
             return true;
         }
         return false;
@@ -59,6 +67,16 @@ export class EmplacementMot {
 
     public obtenirCases(): Case[] {
         return this.cases;
+    }
+
+    public obtenirMotDesCases(): String {
+        let motDansLesCases: String = '';
+
+        for(let caseCourante of this.cases) {
+            motDansLesCases += caseCourante.obtenirLettre();
+        }
+
+        return motDansLesCases;
     }
 
     public obtenirCase(i: number): Case {

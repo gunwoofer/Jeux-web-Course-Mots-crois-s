@@ -5,7 +5,7 @@ export enum Rarete {
     nonCommun
 }
 
-export class Mot {
+export class MotComplet {
     public lettres: string;
     private rarete: Rarete;
     private indice: Indice;
@@ -15,8 +15,8 @@ export class Mot {
         this.indice = indice;
     }
 
-    public copieMot(): Mot {
-        let newMot = new Mot(this.lettres, this.indice.copieIndice());
+    public copieMot(): MotComplet {
+        let newMot = new MotComplet(this.lettres, this.indice.copieIndice());
         return newMot;
     }
 
