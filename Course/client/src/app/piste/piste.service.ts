@@ -1,13 +1,14 @@
 import { Piste } from './piste.model';
 import { Injectable } from '@angular/core';
 
+import { RenderService } from '../renderService/render.service';
 
 @Injectable()
 
 export class PisteService {
     private pistes: Piste[] = [];
 
-
+    constructor(private renderService: RenderService) {}
 
     public ajouterPiste(piste: Piste) {
         this.pistes.push(piste);
@@ -22,6 +23,7 @@ export class PisteService {
     }
 
     public modifierPiste(piste: Piste) {
+        this.renderService.chargerPiste(piste);
     }
 
 }

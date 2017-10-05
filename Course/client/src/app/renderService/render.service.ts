@@ -6,6 +6,8 @@ import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
 
+import { Piste } from '../piste/piste.model';
+
 @Injectable()
 export class RenderService {
   private container: HTMLDivElement;
@@ -102,6 +104,7 @@ export class RenderService {
     let objet, point;
     if (!this.dessinTermine) {
       objet = this.facadeCoordonneesService.obtenirIntersection(event, this.scene, this.camera, this.renderer);
+      console.log(objet.point);
       point = this.facadePointService.creerPoint(objet.point, 'black');
       if (this.points.length === 0) {
         point.material.status = 'premier';
@@ -167,5 +170,21 @@ export class RenderService {
     this.viderScene();
     this.facadePointService.viderListeDesPoints(this.points);
     this.dessinTermine = false;
+  }
+
+  public chargerPiste(piste: Piste) {
+    console.log(piste.listePoints.length);
+    /*for (let i = 0; i < piste.listePoints.length; i++) {
+      console.log('POINT POSITION : ' + i + ' => ');
+      console.log(piste.listePoints[i].position);
+      this.dessinerPointDejaConnu(piste.listePoints[i].position);
+    }*/
+    console.log(piste.listePoints[0]);
+    this.dessinerPointDejaConnu(piste.listePoints[0].position);
+  }
+
+  public dessinerPointDejaConnu(position: THREE.Vector3) {
+    let point = this.facadePointService.creerPoint(position, 'black');
+    this.scene.add(point);  // this.ajouterPoint(point);
   }
 }
