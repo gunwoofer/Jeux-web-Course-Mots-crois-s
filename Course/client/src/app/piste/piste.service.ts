@@ -23,7 +23,7 @@ export class PisteService {
     }
 
     public modifierPiste(piste: Piste) {
-        this.renderService.chargerPiste(piste);
+       // this.renderService.chargerPiste(piste);
     }
 
 }

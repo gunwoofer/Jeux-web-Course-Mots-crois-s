@@ -3,6 +3,7 @@
 <h4 class="alert alert-success" *ngIf="condition()">
     <strong>Success! </strong><br>Votre dessin est terminé mais vous pouvez le modifier encore.</h4>
 <button class="btn btn-danger" (click)="reinitialiser()">Réinitialiser Zone édition</button>
+<button (click)="importerPiste()">Importer la piste precedente</button>
 <br>
 <br>
 <div #container (contextmenu)="oncontextmenu()" (click)="onMouseClick($event)" (mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"></div>

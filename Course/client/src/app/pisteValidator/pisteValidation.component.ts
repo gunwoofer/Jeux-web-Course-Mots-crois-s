@@ -24,6 +24,8 @@ export class PisteValidationComponent {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, this.renderService.points);
         alert('La piste ' + piste.nom + ' a été créée.');
         this.pisteService.ajouterPiste(piste);
+        this.renderService.piste = piste;
+        console.log(this.renderService.piste);
         form.resetForm();
     }
 

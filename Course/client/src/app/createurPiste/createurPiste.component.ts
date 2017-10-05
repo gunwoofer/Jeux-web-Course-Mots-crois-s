@@ -80,4 +80,8 @@ export class CreateurPisteComponent implements AfterViewInit {
   private reinitialiser() {
     this.renderService.reinitialiserScene();
   }
+
+  private importerPiste() {
+    this.renderService.chargerPiste();
+  }
 }

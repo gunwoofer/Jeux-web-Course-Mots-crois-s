@@ -26,6 +26,7 @@ export class RenderService {
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
   private contraintesCircuitService = new ContraintesCircuitService();
+  public piste: Piste;
 
   public initialize(container: HTMLDivElement): void {
     this.container = container;
@@ -172,19 +173,15 @@ export class RenderService {
     this.dessinTermine = false;
   }
 
-  public chargerPiste(piste: Piste) {
-    console.log(piste.listePoints.length);
-    /*for (let i = 0; i < piste.listePoints.length; i++) {
-      console.log('POINT POSITION : ' + i + ' => ');
-      console.log(piste.listePoints[i].position);
-      this.dessinerPointDejaConnu(piste.listePoints[i].position);
-    }*/
-    console.log(piste.listePoints[0]);
-    this.dessinerPointDejaConnu(piste.listePoints[0].position);
+  public chargerPiste() {
+    console.log(this.piste.listePoints.length);
+    for (let i = 0; i < this.piste.listePoints.length; i++) {
+      this.dessinerPointDejaConnu(this.piste.listePoints[i].position);
+    }
   }
 
   public dessinerPointDejaConnu(position: THREE.Vector3) {
-    let point = this.facadePointService.creerPoint(position, 'black');
+    const point = this.facadePointService.creerPoint(position, 'black');
     this.scene.add(point);  // this.ajouterPoint(point);
   }
 }
