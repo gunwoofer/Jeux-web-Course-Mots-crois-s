@@ -23,6 +23,7 @@ export class GenerateurDeMotContrainteService {
     public genererMotAleatoire(niveau: Niveau): Promise<MotComplet> {
         return new Promise((resolve: any, reject: any) => {
             const contrainte = this.preparerContrainte();
+            console.log("Contrainte pour l emplacement actuel : " + contrainte);
 
             this.obtenirMotAleatoireDeDataMuse(contrainte, niveau)
                 .then((resultat: MotComplet) => { resolve(resultat); })
@@ -75,12 +76,13 @@ export class GenerateurDeMotContrainteService {
                     reject(aucunMotObtenuDeDataMuse);
                 }
 
-                for (const motDataMuseCourant of motsDataMuse) {
 
-                    if (motDataMuseCourant.estUnMotNonCommun()) {
-                        tableauCommun.push(motDataMuseCourant);
-                    } else {
+                for (const motDataMuseCourant of motsDataMuse) {
+                    
+                    if ((motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined) && (motDataMuseCourant.defs.length !== 1)) {
                         tableauNonCommun.push(motDataMuseCourant);
+                    } else if ((!motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined) && (motDataMuseCourant.defs.length !== 1)) {
+                        tableauCommun.push(motDataMuseCourant);
                     }
                 }
 

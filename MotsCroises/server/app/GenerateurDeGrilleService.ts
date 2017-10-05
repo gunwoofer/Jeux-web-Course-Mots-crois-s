@@ -14,10 +14,12 @@ export const nombreMotMinimumParLigneOuColonne = 1;
 export const nombreMotMaximumParLigneOuColonne = 2;
 
 export const grandeurMotMinimum = 3;
-export const grandeurMotMaximum = 10;
+export const grandeurMotMaximum = 6;
 export const longueurEspaceNoirEntreDeuxMots = 1;
 
 export const tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne = 100;
+
+
 
 let extend = require('extend');
 
@@ -29,6 +31,12 @@ export class GenerateurDeGrilleService {
         this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);
 
+        /*
+        this.remplirGrilleVraisMots(niveau).then((grille) => {
+            this.motCroiseGenere = grille;
+        });
+
+        */
         return this.motCroiseGenere;
     }
 
@@ -271,52 +279,43 @@ export class GenerateurDeGrilleService {
         return grillePlein;
     }
 
-
+    
     // REMPLIR GRILLE AVEC VRAIES MOTS
     private async remplirGrilleVraisMots(niveau: Niveau): Promise<Grille> {
-        let compteur: number = 0;
-        let motVide: boolean;
-        let motAjoute: boolean;
-        let GrillePlein = this.motCroiseGenere;
-        //Tableau qui garde en memoire une grille pour chaque ajout dans le but d utiliser le backtracking
+        let compteur_iteration: number = 0;
+        let GrillePlein = this.motCroiseGenere.copieGrille();
+        //Tableau de backtracking
         let tableauGrilles: Grille[] = new Array();
         tableauGrilles.push(GrillePlein.copieGrille());
+        GrillePlein.affichageConsole();
 
-    
         while (!GrillePlein.estComplete()) {
-            
-
-            let emplacementsAlterne = GrillePlein.genererEmplacementsAlterne();
-            for (let emplacementMotCourant of emplacementsAlterne) {
-
-                console.log("emplacement suivant : ligne = " + emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne() + " col = " + emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne() + " ligne = " + emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne() + " col = " + emplacementMotCourant.obtenirCaseFin().obtenirNumeroColonne());
-                motVide = false;
-                motAjoute = false;
-                let tableauContraintes: Contrainte[] = new Array();
-                tableauContraintes = this.genererTableauContraintes(GrillePlein, emplacementMotCourant);
-                let monGenerateurDeMot = new GenerateurDeMotContrainteService(emplacementMotCourant.obtenirGrandeur(), tableauContraintes);
-
-                try {
-                    let mot = await monGenerateurDeMot.genererMotAleatoire(niveau);
-                    console.log("mot avant d ajouter : " + mot.obtenirLettres());
-                   
-                    if (!GrillePlein.contientDejaLeMot(mot)) {
-                        GrillePlein.ajouterMot(mot, emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne(),
-                            emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne(), emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne(),
-                            emplacementMotCourant.obtenirCaseFin().obtenirNumeroColonne());
-                        tableauGrilles.push(GrillePlein.copieGrille());
-                    }
+            let emplacementMotCourant = GrillePlein.genererEmplacementPlusDeContraintes();
+            console.log("Iteration : " + compteur_iteration);
+            console.log("emplacement suivant : ligne = " + emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne() + " col = " + emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne() + " ligne = " + emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne() + " col = " + emplacementMotCourant.obtenirCaseFin().obtenirNumeroColonne());
+            let tableauContraintes = this.genererTableauContraintes(GrillePlein, emplacementMotCourant);
+            let monGenerateurDeMot = new GenerateurDeMotContrainteService(emplacementMotCourant.obtenirGrandeur(), tableauContraintes);
+            try {
+                let mot = await monGenerateurDeMot.genererMotAleatoire(niveau);
+                if (!GrillePlein.contientDejaLeMot(mot)) { 
+                    GrillePlein.ajouterMotEmplacement(mot, emplacementMotCourant);
+                    tableauGrilles.push(GrillePlein.copieGrille());
+                    GrillePlein.affichageConsole();
+                    compteur_iteration++;
                 }
-                catch (Exception) {
-                    //Si on ne trouve pas de mot
-                    console.log(Exception);
-                    tableauGrilles.pop();
-                    GrillePlein = tableauGrilles[tableauGrilles.length - 1].copieGrille();
-                }
+            }
+            catch (Exception) {
+                //Si on ne trouve pas de mot
+                console.log(Exception + "=> On revient en arriere");
+                tableauGrilles.pop();
+                let dernierMot: MotComplet = GrillePlein.obtenirMot()[GrillePlein.obtenirMot().length - 1];
+                GrillePlein.affichageConsole();
+                compteur_iteration++;
             }
         }
         return GrillePlein;
     }
+    
 
     private nombreAleatoireEntreXEtY(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -328,16 +327,89 @@ export class GenerateurDeGrilleService {
 
         //Contraintes de l emplacement courant
         for (let i = 0; i < emplacement.obtenirCases().length; i++) {
-            if (emplacement.obtenirCase(i).obtenirEtat() === EtatCase.pleine) {
-                let nouvelleContrainte = new Contrainte(emplacement.obtenirCase(i).obtenirLettre(), i);
+            // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
+            let ligne = emplacement.obtenirCase(i).obtenirNumeroLigne();
+            let colonne = emplacement.obtenirCase(i).obtenirNumeroColonne();
+            if (grille.obtenirCase(ligne, colonne).etat === EtatCase.pleine) {
+                let nouvelleContrainte = new Contrainte(grille.obtenirCase(ligne, colonne).obtenirLettre(), i);
                 tableauContraintes.push(nouvelleContrainte);
             }
         }
         return tableauContraintes;
     }
 
-    
+   
 
 
 
+    /*
+    private async remplirGrilleVraisMotsBannissement(niveau: Niveau): Promise<Grille> {
+        
+        let compteur_iteration: number = 0;
+        let GrillePlein = this.motCroiseGenere.copieGrille();
+        let motsBannisParIndiceEmplacement: string[][] = new Array(GrillePlein.emplacementMots.length);
+        for(let i = 0; i < motsBannisParIndiceEmplacement.length; i++) {
+            motsBannisParIndiceEmplacement[i] = new Array();
+        }
+        //Tableau de backtracking
+        let tableauGrilles: Grille[] = new Array();
+        tableauGrilles.push(GrillePlein.copieGrille());
+        GrillePlein.affichageConsole();
+        let emplacementPlusContraignant: EmplacementMot;
+        let emplacementPrecedent: EmplacementMot;
+        let motbanni: boolean = false;
+        let compteur_essai: number = 0;
+        while (!GrillePlein.estComplete()) {
+            console.log("nombre de mots :  " + GrillePlein.emplacementMots.length);
+            if(emplacementPlusContraignant != undefined) {
+                emplacementPrecedent = emplacementPlusContraignant.copieEmplacement();
+            }
+            emplacementPlusContraignant = GrillePlein.genererEmplacementPlusDeContraintes();
+            let tableauContraintes = this.genererTableauContraintes(GrillePlein, emplacementPlusContraignant);
+            let monGenerateurDeMot = new GenerateurDeMotContrainteService(emplacementPlusContraignant.obtenirGrandeur(), tableauContraintes);
+            try {
+                let mot = await monGenerateurDeMot.genererMotAleatoire(niveau);
+                let indice: number = GrillePlein.trouverIndiceEmplacement(emplacementPlusContraignant);
+                if(this.motEstBanni(indice, mot, motsBannisParIndiceEmplacement)){
+                    motbanni = true;
+                    throw new Error("mot banni de cet emplacement");
+                }
+                if(!GrillePlein.contientDejaLeMot(mot)){
+                    GrillePlein.ajouterMotEmplacement(mot, emplacementPlusContraignant);
+                    tableauGrilles.push(GrillePlein.copieGrille());
+                    GrillePlein.affichageConsole();
+                }
+            }
+            catch(Erreur) {
+                console.log(Erreur);
+                if(!motbanni) {
+                    try {
+                        let indice: number = GrillePlein.trouverIndiceEmplacement(emplacementPrecedent);
+                        let motABannir = GrillePlein.trouverMotEmplacement(emplacementPrecedent);
+                        motsBannisParIndiceEmplacement[indice].push(motABannir.obtenirLettres());
+                    }
+                    catch{
+                        tableauGrilles.pop();
+                        GrillePlein = tableauGrilles[tableauGrilles.length - 1].copieGrille();
+                        GrillePlein.affichageConsole();
+                        motbanni = false;
+                    }
+                }
+                tableauGrilles.pop();
+                GrillePlein = tableauGrilles[tableauGrilles.length - 1].copieGrille();
+                GrillePlein.affichageConsole();
+                motbanni = false;
+            }
+        }
+        return GrillePlein;
+    }
+
+    public motEstBanni(indice: number, mot: Mot, listeMotsBanni: string[][]): boolean {
+        for(let i = 0; i < listeMotsBanni[indice].length; i++ ) {
+            if(mot.obtenirLettres() == listeMotsBanni[indice][i]){
+                return true;
+            }
+        }
+        return false;
+        */
 }
