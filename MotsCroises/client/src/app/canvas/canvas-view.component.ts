@@ -1,6 +1,6 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {IndiceViewService} from '../indice/indice-view.service';
-import {Indice} from '../indice/indice-view.component';
+import {Indice, INDICES} from '../indice/indice-view.component';
 
 
 @Component({
@@ -20,6 +20,7 @@ export class CanvasViewComponent implements AfterViewInit {
   private couleurNoire = '#000000';
   private couleurRouge = '#DD0000';
   private couleurJoueur = '#2baa87';
+  private couleurMotTrouve = '#3665aa';
   private policeLettres = '35px Arial';
   private ligneActuelle: number;
   private colonneActuelle: number;
@@ -32,6 +33,7 @@ export class CanvasViewComponent implements AfterViewInit {
         this.rafraichirCanvas();
         return;
       }
+      this.motEcrit = '';
       this.indice = indice;
       this.definirCaseActive(indice.positionI, indice.positionJ);
       this.rafraichirCanvas();
@@ -64,7 +66,7 @@ export class CanvasViewComponent implements AfterViewInit {
       if (!this.testCaseDisponible(this.ligneActuelle, this.colonneActuelle)) {
         alert('taille maximale du mot atteinte');
         return;
-      }else if (codeLettre < 65 || (codeLettre > 91 && codeLettre < 97) || codeLettre > 123  ) {
+      } else if (codeLettre < 65 || (codeLettre > 91 && codeLettre < 97) || codeLettre > 123) {
         alert('touche non valide');
         return;
       }
@@ -73,6 +75,21 @@ export class CanvasViewComponent implements AfterViewInit {
       this.avancerCaseActive(this.indice.sens);
     }
     this.indiceViewService.mettreAJourMotEntre(this.motEcrit);
+    this.validerMotEntre();
+  }
+
+  public validerMotEntre() {
+    if (this.motEcrit.length === this.indice.tailleMot && this.indice.name.toUpperCase() === this.motEcrit) {
+      this.indice.motTrouve = true;
+    }
+  }
+
+  public ecrireMotsTrouves() {
+    for (const i of INDICES) {
+      if (i.motTrouve) {
+        this.ecrireMotDansGrille(i.name, i.sens, i.positionI, i.positionJ, this.couleurMotTrouve);
+      }
+    }
   }
 
   public obtenirCanvasJeu(): void {
@@ -108,6 +125,7 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.dessinerLignesGrille();
     this.ngAfterViewInit();
+    this.ecrireMotsTrouves();
   }
 
   public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
@@ -173,7 +191,7 @@ export class CanvasViewComponent implements AfterViewInit {
 
   public testCaseDisponible(i: number, j: number) {
     if (this.indice.sens === 0) {
-      return i < this.indice.positionI + this.indice.tailleMot ;
+      return i < this.indice.positionI + this.indice.tailleMot;
     } else {
       return j < this.indice.positionJ + this.indice.tailleMot;
     }

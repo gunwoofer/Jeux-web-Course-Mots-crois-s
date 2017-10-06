@@ -12,8 +12,7 @@ export class IndiceViewComponent  {
   public indices: Indice[]= INDICES;
   public indicesVerticale: Indice[] = INDICES;
   public selectedIndice: Indice;
-  constructor(private indiceViewService: IndiceViewService) { }
-
+  constructor(private indiceViewService: IndiceViewService) {}
 
   public onSelect(indice: Indice, event: Event): void {
     event.stopPropagation();
@@ -30,10 +29,6 @@ export class IndiceViewComponent  {
   }
 }
 
-
-
-
-
 // MOCK
 export const INDICES: Indice[] = [
   { id: 11, name: 'voiture', tailleMot: 7, sens: 0, positionI: 3, positionJ: 5, motTrouve: false},
@@ -47,7 +42,6 @@ export const INDICESVERTICAL: Indice[] = [
 ];
 
 export class Indice {
-
   public id: number;
   public name: string;
   public tailleMot: number;
@@ -55,9 +49,6 @@ export class Indice {
   public positionI:  number;
   public positionJ: number;
   public motTrouve: boolean;
-
-
-
 
   constructor(id: number, name: string, tailleMot: number, sens: number, positionI: number, positionJ: number, motTrouve: boolean = false) {
     this.id = id;
@@ -68,7 +59,5 @@ export class Indice {
     this.positionJ = positionJ;
     this.motTrouve = motTrouve;
   }
-
-
 }
 

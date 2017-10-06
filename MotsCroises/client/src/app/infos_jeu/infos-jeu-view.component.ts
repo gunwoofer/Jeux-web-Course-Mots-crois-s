@@ -9,7 +9,7 @@ import {IndiceViewService} from "../indice/indice-view.service";
 })
 
 export class InfosJeuViewComponent  {
-  public motEnCours1 : string = "banane";
+  public motEnCours1: string;
 
   constructor(private indiceViewService: IndiceViewService) {
     this.indiceViewService.motEcrit$.subscribe(nouveauMot => {

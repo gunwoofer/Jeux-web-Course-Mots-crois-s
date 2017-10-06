@@ -15,5 +15,5 @@ span.selected {
 }
 
 .indiceTrouve{
-  color: #dd0917;
+  text-decoration: line-through;
 }

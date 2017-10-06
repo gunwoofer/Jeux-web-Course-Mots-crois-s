@@ -10,9 +10,7 @@ export class IndiceViewService {
   public indiceSelectionneL = this.indiceSelectionne.asObservable();
   public motEcrit$ = this.motEcrit.asObservable();
 
-
-  constructor() {
-  }
+  constructor() {}
 
   public afficherSelectionIndice(indice: Indice) {
     this.indiceSelectionne.next(indice);
@@ -21,5 +19,4 @@ export class IndiceViewService {
   public mettreAJourMotEntre(motEntre: string) {
     this.motEcrit.next(motEntre);
   }
-
 }
