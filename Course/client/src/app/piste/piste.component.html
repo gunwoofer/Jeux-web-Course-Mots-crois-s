@@ -1,0 +1,27 @@
+<div class="col-md-8 col-md-offset-2">
+    <div class="panel panel-default">
+        <div class="panel-heading" (click)="onClick()">
+            <strong>{{ piste.nom }}</strong>
+        </div>
+        <div class="panel-body" *ngIf="display">
+            <p>Type Course: {{ piste.typeCourse }}</p>
+            <p>Description: {{ piste.description }}</p>
+            <p>Cote appréciation: {{ piste.coteAppreciation }}/5</p>
+            <p>Nombre de fois jouée: {{ piste.nombreFoisJouee }} </p>
+            <button type="button" (click)="montrerLesScores()">Meilleurs scores</button>
+        </div>
+        <div *ngIf="score">
+            <app-tableauscore-component [temps]="piste.meilleursTemps"></app-tableauscore-component>
+        </div>
+        <footer class="panel-footer">
+            <div>
+                <a class="config" class="btn btn-warning" (click)="onEdit()">
+                    <i class="fa fa-cog" aria-hidden="true"></i>Modifier
+                </a>
+                <a class="config" class="btn btn-danger" (click)="onDelete()">
+                    <i class="fa fa-trash-o" aria-hidden="true"></i>Supprimer
+                </a>
+            </div>
+        </footer>
+    </div>
+</div>

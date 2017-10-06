@@ -1,6 +1,8 @@
-import {PisteValidationComponent} from './../piste/pisteValidation.component';
-import {AfterViewInit, Component, ElementRef, ViewChild, HostListener} from '@angular/core';
-import {RenderService} from './render.service';
+import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@angular/core';
+
+import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
+import { RenderService } from '../renderService/render.service';
+import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 
 
 @Component({
@@ -12,9 +14,10 @@ import {RenderService} from './render.service';
 
 export class CreateurPisteComponent implements AfterViewInit {
 
-  constructor(private renderService: RenderService) {
+  constructor(private renderService: RenderService, private facadeSourisService: FacadeSourisService) {
   }
 
+  private messageErreurService = new MessageErreurService();
   private points: THREE.Points[];
   private affiche: boolean;
   private message;
@@ -36,24 +39,24 @@ export class CreateurPisteComponent implements AfterViewInit {
   }
 
   private oncontextmenu(): boolean {
-    this.renderService.rightClick();
+    this.facadeSourisService.rightClick();
     return false;
   }
 
   public onMouseMove(event): void {
-    this.renderService.onMouseMove(event);
+    this.facadeSourisService.onMouseMove(event);
   }
 
   public onMouseClick(event): void {
-     this.renderService.onMouseClick(event);
+    this.facadeSourisService.onMouseClick(event);
   }
 
   public onMouseDown(event): void {
-    this.renderService.onMouseDown(event);
+    this.facadeSourisService.onMouseDown(event);
   }
 
   public onMouseUp(event): boolean {
-    this.renderService.onMouseUp(event);
+    this.facadeSourisService.onMouseUp(event);
     return false;
   }
 
@@ -66,11 +69,15 @@ export class CreateurPisteComponent implements AfterViewInit {
   }
 
   private erreursCircuit(): boolean {
-    if (this.renderService.afficherMessageErreurs()) {
-      this.message = this.renderService.afficherMessageErreurs();
+    if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45, this.renderService.nbSegmentsTropProche, this.renderService.nbSegmentsCroises)) {
+      this.message = this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45, this.renderService.nbSegmentsTropProche, this.renderService.nbSegmentsCroises);
       return true;
-    }else {
+    } else {
       return false;
     }
+  }
+
+  private reinitialiser() {
+    this.renderService.reinitialiserScene();
   }
 }
