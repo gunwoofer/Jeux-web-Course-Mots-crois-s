@@ -81,6 +81,7 @@ export class CanvasViewComponent implements AfterViewInit {
   public validerMotEntre() {
     if (this.motEcrit.length === this.indice.tailleMot && this.indice.name.toUpperCase() === this.motEcrit) {
       this.indice.motTrouve = true;
+      this.ecrireMotsTrouves();
     }
   }
 
@@ -97,16 +98,14 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.obtenirCanvasJeu()
+    this.obtenirCanvasJeu();
     this.canvas.height = this.canvas.width;
     this.largeurCase = this.canvas.width / 11;
     this.hauteurCase = this.canvas.height / 11;
     this.margeEffacement = Math.round(this.largeurCase / 10);
     this.ctxCanvas = this.canvas.getContext('2d');
     this.dessinerLignesGrille();
-    this.ecrireLettreDansCase('A', 4, 3, this.couleurRouge);
-    this.ecrireMotDansGrille('Fuck', 0, 1, 1, '#000000');
-    this.ecrireMotDansGrille('This', 1, 4, 4, '#000000');
+    this.ecrireMotsTrouves();
   }
 
   public dessinerLignesGrille() {
