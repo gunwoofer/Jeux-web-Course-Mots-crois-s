@@ -23,9 +23,10 @@ export class PisteValidationComponent {
     private display: boolean;
 
     private onSubmit(form: NgForm): void {
-        const listepositions = [];
-        Object.assign(listepositions, this.renderService.points); // Mettre chaque position de chaque point
-        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description);
+        const listepositions: any[] = [];
+        Object.assign(listepositions, this.renderService.obtenirPositions());
+        console.log(listepositions);
+        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepositions);
         alert('La piste ' + piste.nom + ' a été créée.');
         this.pisteService.ajouterPiste(piste).subscribe(
             donnee => console.log(donnee),

@@ -178,8 +178,16 @@ export class RenderService {
     this.reinitialiserScene();
     console.log(this.piste.listePoints.length);
     for (let i = 0; i < this.piste.listePoints.length; i++) {
-      this.dessinerPointDejaConnu(this.piste.listePoints[i].position);
+      this.dessinerPointDejaConnu(this.piste.listePoints[i]);
     }
+  }
+
+  public obtenirPositions(): any[] {
+    const vecteur: any[] = [];
+    for (const point of this.points) {
+      vecteur.push(new THREE.Vector3(point.position.x, point.position.y, point.position.z));
+    }
+    return vecteur;
   }
 
   public dessinerPointDejaConnu(position: THREE.Vector3) {
