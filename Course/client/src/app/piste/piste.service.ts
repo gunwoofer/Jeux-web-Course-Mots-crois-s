@@ -1,8 +1,11 @@
-import { Http } from '@angular/http';
+import { Http, Headers, Response } from '@angular/http';
 import { Piste } from './piste.model';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
 
 import { RenderService } from '../renderService/render.service';
+
+import 'rxjs/Rx';
 
 @Injectable()
 
@@ -11,10 +14,13 @@ export class PisteService {
 
     constructor(private renderService: RenderService, private http: Http) {}
 
-    public ajouterPiste(piste: Piste) {
+    public ajouterPiste(piste: Piste): Observable<Response> {
         this.pistes.push(piste);
         const donnee = JSON.stringify(piste);
-        this.http.post('http://localhost:3000/createurPiste', donnee);
+        const entete = new Headers({ 'Content-Type': 'application/json'});
+        return this.http.post('http://localhost:3000/createurPiste', donnee, { headers: entete })
+            .map((reponse: Response) => reponse.json())
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
     public retournerListePiste() {

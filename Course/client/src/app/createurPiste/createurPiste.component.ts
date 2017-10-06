@@ -82,6 +82,6 @@ export class CreateurPisteComponent implements AfterViewInit {
   }
 
   private importerPiste() {
-    this.renderService.chargerPiste();
+    this.renderService.chargerPiste(); // Sans paramètre, utilise l'attribut piste de renderService pour charger une piste.
   }
 }

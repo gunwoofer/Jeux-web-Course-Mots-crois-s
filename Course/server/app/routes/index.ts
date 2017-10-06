@@ -12,8 +12,10 @@ module Route {
             res.send(JSON.stringify(message));
         }
 
-        public ajouterPiste() {
-            
+        public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            const data = 'Hello World !';
+            res.send(JSON.stringify(data));
+            // console.log('allo jai recu la piste');
         }
     }
 }

@@ -79,8 +79,8 @@ export class Application {
 
     // home page
     router.get('/basic', index.index.bind(index.index));
-
-    router.post('/piste/ajout', );
+    // createur de piste
+    router.post('/createurPiste', index.ajouterPiste.bind(index.ajouterPiste));
 
     // use router middleware
     this.app.use(router);
