@@ -1,9 +1,14 @@
 <h1>Indices</h1>
 <div class='group-name'>
   Vertical :
-  <li  *ngFor="let indice of indices" (click)="onSelect(indice)" [class.selected]="indice === selectedIndice">
-    <span class="badge">{{indice.id}}</span> {{indice.name}}
-  </li>
+  <span  *ngFor="let indice of indices" (click)="onSelect(indice)" [class.selected]="indice === selectedIndice">
+    <li *ngIf="indice.sens">{{indice.id}} {{indice.name}}</li> 
+  </span>
 </div>
 
-<div class='group-name'>Horizontal : </div>
+<div class='group-name'>
+  Horizontal : 
+  <span  *ngFor="let indice of indices" (click)="onSelect(indice)" [class.selected]="indice === selectedIndice">
+    <li *ngIf="!indice.sens">{{indice.id}} {{indice.name}}</li> 
+  </span>
+  </div>

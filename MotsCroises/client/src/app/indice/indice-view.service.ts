@@ -14,7 +14,9 @@ export class IndiceViewService {
   }
 
   public afficherSelectionIndice(indice: Indice){
+
     this.indiceSelectionne.next(indice);
+  
   }
 
 }
