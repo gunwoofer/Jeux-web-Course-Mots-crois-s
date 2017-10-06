@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import {IndiceViewService} from "../indice/indice-view.service";
 
 
 @Component({
@@ -8,8 +9,13 @@ import { Component } from '@angular/core';
 })
 
 export class InfosJeuViewComponent  {
+  public motEnCours1 : string = "banane";
 
-  constructor() { }
+  constructor(private indiceViewService: IndiceViewService) {
+    this.indiceViewService.motEcrit$.subscribe(nouveauMot => {
+      this.motEnCours1 = nouveauMot;
+    });
+  }
 
 
 }

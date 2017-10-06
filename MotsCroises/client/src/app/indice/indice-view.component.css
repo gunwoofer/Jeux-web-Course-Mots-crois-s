@@ -5,6 +5,12 @@
   text-decoration: underline;
 }
 
-li.selected {
+span.selected {
   color: #00FFFF;
 }
+
+.indice {
+  display: inline-block;
+  text-decoration: none;
+}
+

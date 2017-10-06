@@ -51,6 +51,7 @@ export class CanvasViewComponent implements AfterViewInit {
 
   public actionToucheAppuyee(event: KeyboardEvent) {
     const cleMot = event.key;
+    const codeLettre = event.keyCode;
     if (cleMot === 'Backspace') {
       if (this.motEcrit.length === 0) {
         return;
@@ -62,7 +63,7 @@ export class CanvasViewComponent implements AfterViewInit {
       if (!this.testCaseDisponible(this.ligneActuelle, this.colonneActuelle)) {
         alert('taille maximale du mot atteinte');
         return;
-      }else if (event.keyCode < 46) {
+      }else if (codeLettre < 65 || (codeLettre > 91 && codeLettre < 97) || codeLettre > 123  ) {
         alert('touche non valide');
         return;
       }
@@ -70,6 +71,7 @@ export class CanvasViewComponent implements AfterViewInit {
       this.ecrireLettreDansCaseActive(cleMot.toUpperCase(), this.couleurJoueur);
       this.avancerCaseActive(this.indice.sens);
     }
+    this.indiceViewService.mettreAJourMotEntre(this.motEcrit);
   }
 
   public obtenirCanvasJeu(): void {
