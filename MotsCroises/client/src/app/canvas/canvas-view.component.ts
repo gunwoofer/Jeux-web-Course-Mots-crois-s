@@ -19,6 +19,7 @@ export class CanvasViewComponent implements AfterViewInit {
   private nbCases = 11;
   private couleurNoire = '#000000';
   private couleurRouge = '#DD0000';
+  private couleurJoueur = '#2baa87';
   private ligneActuelle: number;
   private colonneActuelle: number;
   private motEcrit = '';
@@ -44,7 +45,6 @@ export class CanvasViewComponent implements AfterViewInit {
   public onKeyUp(ev: KeyboardEvent) {
     // do something meaningful with it
     console.log(`The user just pressed ${ev.keyCode}!`);
-    const cleMot = ev.key;
     this.actionToucheAppuyee(ev);
     console.log(this.motEcrit);
   }
@@ -67,7 +67,7 @@ export class CanvasViewComponent implements AfterViewInit {
         return;
       }
       this.motEcrit = this.motEcrit + cleMot.toUpperCase();
-      this.ecrireLettreDansCaseActive(cleMot.toUpperCase(), this.couleurNoire);
+      this.ecrireLettreDansCaseActive(cleMot.toUpperCase(), this.couleurJoueur);
       this.avancerCaseActive(this.indice.sens);
     }
   }
@@ -104,6 +104,7 @@ export class CanvasViewComponent implements AfterViewInit {
   public rafraichirCanvas() {
     this.ctxCanvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.dessinerLignesGrille();
+    this.ngAfterViewInit();
   }
 
   public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
