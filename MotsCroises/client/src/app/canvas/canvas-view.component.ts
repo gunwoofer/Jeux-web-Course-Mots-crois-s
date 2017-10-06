@@ -26,6 +26,10 @@ export class CanvasViewComponent implements AfterViewInit {
 
   constructor(private indiceViewService: IndiceViewService) {
     this.indiceViewService.indiceSelectionneL.subscribe(indice => {
+      if (!indice) {
+        this.rafraichirCanvas();
+        return;
+      }
       this.indice = indice;
       this.definirCaseActive(indice.positionI, indice.positionJ);
       this.rafraichirCanvas();
@@ -39,13 +43,14 @@ export class CanvasViewComponent implements AfterViewInit {
   @HostListener('document:keyup', ['$event'])
   public onKeyUp(ev: KeyboardEvent) {
     // do something meaningful with it
-    console.log(`The user just pressed ${ev.key}!`);
+    console.log(`The user just pressed ${ev.keyCode}!`);
     const cleMot = ev.key;
-    this.actionToucheAppuyee(cleMot);
+    this.actionToucheAppuyee(ev);
     console.log(this.motEcrit);
   }
 
-  public actionToucheAppuyee(cleMot: string){
+  public actionToucheAppuyee(event: KeyboardEvent) {
+    const cleMot = event.key;
     if (cleMot === 'Backspace') {
       if (this.motEcrit.length === 0) {
         return;
@@ -54,8 +59,15 @@ export class CanvasViewComponent implements AfterViewInit {
       this.effacerLettreDansCaseActive();
       this.motEcrit = this.motEcrit.substring(0, this.motEcrit.length - 1);
     } else {
-      this.motEcrit = this.motEcrit + cleMot;
-      this.ecrireLettreDansCaseActive(cleMot, this.couleurNoire);
+      if (!this.testCaseDisponible(this.ligneActuelle, this.colonneActuelle)) {
+        alert('taille maximale du mot atteinte');
+        return;
+      }else if (event.keyCode < 46) {
+        alert('touche non valide');
+        return;
+      }
+      this.motEcrit = this.motEcrit + cleMot.toUpperCase();
+      this.ecrireLettreDansCaseActive(cleMot.toUpperCase(), this.couleurNoire);
       this.avancerCaseActive(this.indice.sens);
     }
   }
@@ -65,14 +77,13 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.obtenirCanvasJeu();
+    this.obtenirCanvasJeu()
     this.canvas.height = this.canvas.width;
     this.largeurCase = this.canvas.width / 11;
     this.hauteurCase = this.canvas.height / 11;
     this.margeEffacement = Math.round(this.largeurCase / 10);
     this.ctxCanvas = this.canvas.getContext('2d');
     this.dessinerLignesGrille();
-    //this.afficherSelecteurMotSurGrille(5, 1, 4, 3, '#0000DD');
     this.ecrireLettreDansCase('A', 4, 3, this.couleurRouge);
     this.ecrireMotDansGrille('Fuck', 0, 1, 1, '#000000');
     this.ecrireMotDansGrille('This', 1, 4, 4, '#000000');
@@ -108,7 +119,7 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string) {
-    this.ctxCanvas.font = '10px Arial';
+    this.ctxCanvas.font = '15px Arial';
     this.ctxCanvas.fillStyle = couleur;
     this.ctxCanvas.textAlign = 'center';
     this.ctxCanvas.textBaseline = 'middle';
@@ -117,8 +128,8 @@ export class CanvasViewComponent implements AfterViewInit {
 
   public afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string) {
     this.ctxCanvas.strokeStyle = couleur;
-    this.ctxCanvas.lineWidth = '3';
-    this.ctxCanvas.setLineDash([5, 3]);
+    this.ctxCanvas.lineWidth = '5';
+    this.ctxCanvas.setLineDash([10, 10]);
     this.ctxCanvas.beginPath();
     if (sens === 0) {
       this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
@@ -148,11 +159,21 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public effacerLettreDansCase(i: number, j: number) {
-    this.ctxCanvas.clearRect(this.largeurCase * i + this.margeEffacement, this.hauteurCase * j + this.margeEffacement, this.largeurCase - 2 * this.margeEffacement, this.hauteurCase - 2 * this.margeEffacement);
+    this.ctxCanvas.clearRect(this.largeurCase * i + this.margeEffacement, this.hauteurCase * j + this.margeEffacement,
+      this.largeurCase - 2 * this.margeEffacement, this.hauteurCase - 2 * this.margeEffacement);
   }
 
   public effacerLettreDansCaseActive() {
     this.effacerLettreDansCase(this.ligneActuelle, this.colonneActuelle);
   }
+
+  public testCaseDisponible(i: number, j: number) {
+    if (this.indice.sens === 0) {
+      return i < this.indice.positionI + this.indice.tailleMot ;
+    } else {
+      return j < this.indice.positionJ + this.indice.tailleMot;
+    }
+  }
+
 
 }

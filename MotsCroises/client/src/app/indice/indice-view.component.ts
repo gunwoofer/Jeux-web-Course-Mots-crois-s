@@ -13,12 +13,16 @@ export class IndiceViewComponent  {
   public selectedIndice: Indice;
   constructor(private indiceViewService: IndiceViewService) { }
 
-  public onSelect(indice: Indice): void {
+  public onSelect(indice: Indice, event: Event): void {
     this.selectedIndice = indice;
     this.indiceViewService.afficherSelectionIndice(indice);
+    event.stopPropagation();
   }
 
-
+  public annulerSelectionIndice() {
+    this.selectedIndice = null;
+    this.indiceViewService.afficherSelectionIndice(null);
+  }
 
 }
 
