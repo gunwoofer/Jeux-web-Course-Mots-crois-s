@@ -25,15 +25,12 @@ export class PisteValidationComponent {
     private onSubmit(form: NgForm): void {
         const listepositions: any[] = [];
         Object.assign(listepositions, this.renderService.obtenirPositions());
-        console.log(listepositions);
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepositions);
         alert('La piste ' + piste.nom + ' a été créée.');
         this.pisteService.ajouterPiste(piste).subscribe(
             donnee => console.log(donnee),
             erreur => console.error(erreur)
         );
-        this.renderService.piste = piste; // TEST: Attribut piste de renderService
-        console.log(this.renderService.piste);
         form.resetForm();
     }
 

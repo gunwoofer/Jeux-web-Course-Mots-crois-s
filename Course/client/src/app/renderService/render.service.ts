@@ -190,6 +190,10 @@ export class RenderService {
     return vecteur;
   }
 
+  public redessiner(position: any[]) {
+    console.log(position);
+  }
+
   public dessinerPointDejaConnu(position: THREE.Vector3) {
     let point;
     if (!this.dessinTermine) {

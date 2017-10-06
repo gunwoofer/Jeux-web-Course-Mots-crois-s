@@ -1,4 +1,6 @@
-import { AfterViewInit, Component, ElementRef, ViewChild, HostListener } from '@angular/core';
+import { Piste } from './../piste/piste.model';
+import { PisteService } from '../piste/piste.service';
+import { AfterViewInit, Component, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
@@ -12,9 +14,11 @@ import { MessageErreurService } from '../messageErreurs/messageerreur.service';
   styleUrls: ['./createurPiste.component.css']
 })
 
-export class CreateurPisteComponent implements AfterViewInit {
+export class CreateurPisteComponent implements AfterViewInit, OnInit {
 
-  constructor(private renderService: RenderService, private facadeSourisService: FacadeSourisService) {
+  constructor(private renderService: RenderService,
+    private facadeSourisService: FacadeSourisService,
+    private pisteService: PisteService) {
   }
 
   private messageErreurService = new MessageErreurService();
@@ -69,8 +73,12 @@ export class CreateurPisteComponent implements AfterViewInit {
   }
 
   private erreursCircuit(): boolean {
-    if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45, this.renderService.nbSegmentsTropProche, this.renderService.nbSegmentsCroises)) {
-      this.message = this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45, this.renderService.nbSegmentsTropProche, this.renderService.nbSegmentsCroises);
+    if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
+      this.renderService.nbSegmentsTropProche,
+      this.renderService.nbSegmentsCroises)) {
+      this.message = this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
+        this.renderService.nbSegmentsTropProche,
+        this.renderService.nbSegmentsCroises);
       return true;
     } else {
       return false;
@@ -83,5 +91,11 @@ export class CreateurPisteComponent implements AfterViewInit {
 
   private importerPiste() {
     this.renderService.chargerPiste(); // Sans paramètre, utilise l'attribut piste de renderService pour charger une piste.
+  }
+
+  public ngOnInit() {
+    this.pisteService.pisteAEditer.subscribe(
+      (piste: Piste) => {this.renderService.redessiner(piste.listePoints); }
+    );
   }
 }

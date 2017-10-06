@@ -1,5 +1,6 @@
 import * as express from 'express';
-import {Message} from '../../../commun/communication/message';
+import { Message } from '../../../commun/communication/message';
+import { Piste } from '../pisteModel';
 
 module Route {
 
@@ -15,7 +16,8 @@ module Route {
         public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
             const data = 'Hello World !';
             res.send(JSON.stringify(data));
-            // console.log('allo jai recu la piste');
+            const piste = new Piste(req.body);
+            console.log(piste);
         }
     }
 }
