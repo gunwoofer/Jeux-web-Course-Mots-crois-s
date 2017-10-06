@@ -168,12 +168,14 @@ export class RenderService {
   }
 
   public reinitialiserScene(): void {
+    console.log('Reinitialisation');
     this.viderScene();
     this.facadePointService.viderListeDesPoints(this.points);
     this.dessinTermine = false;
   }
 
   public chargerPiste() {
+    this.reinitialiserScene();
     console.log(this.piste.listePoints.length);
     for (let i = 0; i < this.piste.listePoints.length; i++) {
       this.dessinerPointDejaConnu(this.piste.listePoints[i].position);
@@ -181,7 +183,25 @@ export class RenderService {
   }
 
   public dessinerPointDejaConnu(position: THREE.Vector3) {
-    const point = this.facadePointService.creerPoint(position, 'black');
-    this.scene.add(point);  // this.ajouterPoint(point);
+    let point;
+    if (!this.dessinTermine) {
+      console.log(position);
+      point = this.facadePointService.creerPoint(position, 'black');
+      if (this.points.length === 0) {
+        point.material.status = 'premier';
+      } else {
+        try {
+          this.dessinerDernierPoint(point);
+        } catch (e) {
+          alert(e.message);
+          return;
+        }
+      }
+      this.ajouterPoint(point);
+      this.actualiserDonnees();
+      this.render();
+    } else {
+      return 0;
+    }
   }
 }
