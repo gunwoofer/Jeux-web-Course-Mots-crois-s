@@ -21,7 +21,9 @@ export class PisteValidationComponent {
     private display: boolean;
 
     private onSubmit(form: NgForm): void {
-        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, this.renderService.points);
+        const listepoints = [];
+        Object.assign(listepoints, this.renderService.points);
+        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepoints);
         alert('La piste ' + piste.nom + ' a été créée.');
         this.pisteService.ajouterPiste(piste);
         this.renderService.piste = piste;
