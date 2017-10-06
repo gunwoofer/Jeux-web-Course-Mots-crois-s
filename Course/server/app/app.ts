@@ -80,6 +80,8 @@ export class Application {
     // home page
     router.get('/basic', index.index.bind(index.index));
 
+    router.post('/piste/ajout', );
+
     // use router middleware
     this.app.use(router);
 

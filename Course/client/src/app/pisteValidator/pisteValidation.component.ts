@@ -1,3 +1,4 @@
+import { Http } from '@angular/http';
 import { RenderService } from '../renderService/render.service';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
@@ -9,6 +10,7 @@ import { PisteService } from './../piste/piste.service';
     selector: 'app-pistevalidator-component',
     templateUrl: './pisteValidation.component.html',
     styleUrls: ['./pisteValidation.component.css']
+    // providers
 })
 
 export class PisteValidationComponent {
@@ -26,7 +28,7 @@ export class PisteValidationComponent {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepoints);
         alert('La piste ' + piste.nom + ' a été créée.');
         this.pisteService.ajouterPiste(piste);
-        this.renderService.piste = piste;
+        this.renderService.piste = piste; // TEST: Attribut piste de renderService
         console.log(this.renderService.piste);
         form.resetForm();
     }
