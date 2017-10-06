@@ -17,13 +17,8 @@ export class IndiceViewComponent  {
   public onSelect(indice: Indice): void {
 
     this.selectedIndice = indice;
-   this.indiceViewService.afficherSelectionIndice(indice);
-    //this.indiceViewService.afficherSelctionIndiceVerticale(indice);
-    
+    this.indiceViewService.afficherSelectionIndice(indice);  
   }
-
-
-
 }
 
 

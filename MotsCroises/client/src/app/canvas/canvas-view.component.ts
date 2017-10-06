@@ -93,6 +93,7 @@ export class CanvasViewComponent implements AfterViewInit {
   public rafraichirCanvas() {
     this.ctxCanvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.dessinerLignesGrille();
+    this.ngAfterViewInit();
   }
 
   public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
