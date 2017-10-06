@@ -20,6 +20,7 @@ export class CanvasViewComponent implements AfterViewInit {
   private couleurNoire = '#000000';
   private couleurRouge = '#DD0000';
   private couleurJoueur = '#2baa87';
+  private policeLettres = '35px Arial';
   private ligneActuelle: number;
   private colonneActuelle: number;
   private motEcrit = '';
@@ -122,11 +123,11 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string) {
-    this.ctxCanvas.font = '15px Arial';
+    this.ctxCanvas.font = this.policeLettres;
     this.ctxCanvas.fillStyle = couleur;
     this.ctxCanvas.textAlign = 'center';
     this.ctxCanvas.textBaseline = 'middle';
-    this.ctxCanvas.fillText(lettre, this.largeurCase * (i + 1 / 2), this.hauteurCase * (j + 1 / 2));
+    this.ctxCanvas.fillText(lettre.toUpperCase(), this.largeurCase * (i + 1 / 2), this.hauteurCase * (j + 1 / 2));
   }
 
   public afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string) {

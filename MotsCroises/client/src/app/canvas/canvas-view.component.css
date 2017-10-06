@@ -1,16 +1,14 @@
 canvas {
-  width: 100%;
+  width: 50%;
+  display:block;
+  margin: auto;
+  padding: 10px;
 
 }
 
 .container{
   box-sizing: border-box;
   padding: 5px;
-}
-
-h1{
-  color: blue;
-  text-align: center;
 }
 
 
