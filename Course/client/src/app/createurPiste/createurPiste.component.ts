@@ -90,12 +90,12 @@ export class CreateurPisteComponent implements AfterViewInit, OnInit {
   }
 
   private importerPiste() {
-    this.renderService.chargerPiste(); // Sans paramètre, utilise l'attribut piste de renderService pour charger une piste.
+    //this.renderService.chargerPiste(); // Sans paramètre, utilise l'attribut piste de renderService pour charger une piste.
   }
 
   public ngOnInit() {
     this.pisteService.pisteAEditer.subscribe(
-      (piste: Piste) => {this.renderService.redessiner(piste.listePoints); }
+      (piste: Piste) => {this.renderService.chargerPiste(piste.listepositions); }
     );
   }
 }

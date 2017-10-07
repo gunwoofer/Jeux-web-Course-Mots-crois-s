@@ -17,9 +17,7 @@ export class PisteService {
 
     public ajouterPiste(piste: Piste): Observable<Response> {
         this.pistes.push(piste);
-        const donnee = JSON.stringify(piste);
-        const entete = new Headers({ 'Content-Type': 'application/json' });
-        return this.http.post('http://localhost:3000/createurPiste', donnee, { headers: entete })
+        return this.http.post('http://localhost:3000/createurPiste', piste)
             .map((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }

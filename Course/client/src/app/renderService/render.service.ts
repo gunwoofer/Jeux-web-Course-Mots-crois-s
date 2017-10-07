@@ -174,8 +174,9 @@ export class RenderService {
     this.dessinTermine = false;
   }
 
-  public chargerPiste() {
+  public chargerPiste(position: any[]) {
     this.reinitialiserScene();
+    this.piste.listePoints = position;
     console.log(this.piste.listePoints.length);
     for (let i = 0; i < this.piste.listePoints.length; i++) {
       this.dessinerPointDejaConnu(this.piste.listePoints[i]);
@@ -190,9 +191,6 @@ export class RenderService {
     return vecteur;
   }
 
-  public redessiner(position: any[]) {
-    console.log(position);
-  }
 
   public dessinerPointDejaConnu(position: THREE.Vector3) {
     let point;

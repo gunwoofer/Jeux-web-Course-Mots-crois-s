@@ -8,6 +8,6 @@ export const pisteSchema: Schema = new Schema({
   description: String,
   nombreFoisJouee: Number,
   coteAppreciation: Number,
-  meilleursTemps: Number,
-  listePoints: []
+  meilleursTemps: [],
+  listepositions: []
 });

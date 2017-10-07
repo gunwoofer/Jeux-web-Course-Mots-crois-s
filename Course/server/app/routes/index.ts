@@ -14,10 +14,21 @@ module Route {
         }
 
         public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            const data = 'Hello World !';
-            res.send(JSON.stringify(data));
             const piste = new Piste(req.body);
             console.log(piste);
+            piste.save((err, result) => {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'An error occurred',
+                        error: err
+                    });
+                }
+                res.status(201).json({
+                    message: 'Save piste',
+                    obj: result
+                });
+            });
+
         }
     }
 }

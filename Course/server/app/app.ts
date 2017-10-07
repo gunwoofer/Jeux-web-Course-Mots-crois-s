@@ -11,7 +11,7 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import * as mongoose from 'mongoose';
+import mongoose = require('mongoose');
 
 import * as indexRoute from './routes/index';
 
@@ -64,7 +64,8 @@ export class Application {
     this.app.use(express.static(path.join(__dirname, '../client')));
     this.app.use(cors());
 
-    mongoose.connect('mongodb://localhost/test' , { useMongoClient: true });
+    mongoose.Promise = global.Promise;
+    mongoose.connect('mongodb://localhost/Bdpiste' , { useMongoClient: true });
     mongoose.connection.on("error", error => {
       console.error(error);
     });
