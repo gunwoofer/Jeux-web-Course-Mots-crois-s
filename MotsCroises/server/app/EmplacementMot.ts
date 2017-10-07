@@ -10,20 +10,11 @@ export enum EtatEmplacementMot {
 export class EmplacementMot {
     private caseDebut: Case;
     private caseFin: Case;
-    private cases: Case[];
+    private cases: Case[] = new Array();
     private grandeur: number;
     private position: Position;
     private etatEmplacementMot: EtatEmplacementMot;
-    public motsImpossible: MotComplet[];
-
-    public static creerInstanceAvecJSON(jsonEmplacementMot: any): EmplacementMot {        
-        
-        let jsonEnEmplacementMot = (JSON.parse(jsonEmplacementMot) as EmplacementMot);
-        let vraieEmplacementMot: EmplacementMot = new EmplacementMot();
-        
-        Object.assign(vraieEmplacementMot, jsonEnEmplacementMot);
-        return vraieEmplacementMot;
-    }
+    public motsImpossible: MotComplet[] = new Array();
 
     constructor(caseDebut?: Case, caseFin?: Case, cases?: Case[]) {
         if(caseDebut !== undefined) {
@@ -32,7 +23,9 @@ export class EmplacementMot {
         if(caseFin !== undefined) {
             this.caseFin = caseFin;
         }
-        this.cases = cases;
+        if(cases !== undefined) {
+            this.cases = cases;
+        }
         this.etatEmplacementMot = EtatEmplacementMot.Masque;
         this.motsImpossible = new Array();
 
@@ -116,8 +109,8 @@ export class EmplacementMot {
         return this.cases;
     }
 
-    public obtenirMotDesCases(): String {
-        let motDansLesCases: String = '';
+    public obtenirMotDesCases(): string {
+        let motDansLesCases: string = '';
 
         for(let caseCourante of this.cases) {
             motDansLesCases += caseCourante.obtenirLettre();

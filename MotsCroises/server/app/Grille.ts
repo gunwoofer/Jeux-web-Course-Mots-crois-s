@@ -2,6 +2,7 @@ import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from './Case';
 import { EmplacementMot } from './EmplacementMot';
 import { grandeurMotMinimum } from './GenerateurDeGrilleService';
+import { Cases } from './Cases';
 
 
 export const DIMENSION_LIGNE_COLONNE = 10;
@@ -29,6 +30,8 @@ export class Grille {
     private emplacementMots: EmplacementMot[] = new Array();
 
     private cases: Case[][] = new Array(DIMENSION_LIGNE_COLONNE);
+
+    private casesExterne: Cases = new Cases();
 
     private etat: EtatGrille;
     private niveau: Niveau;
@@ -92,6 +95,7 @@ export class Grille {
                 const caseBlanche = new Case(i, j, etatCaseInitial);
                 this.nombreMotsSurColonne[j] = 0;
                 this.cases[i][j] = caseBlanche;
+                this.casesExterne.ajouterCase(caseBlanche, i, j);
             }
         }
     }
@@ -102,9 +106,10 @@ export class Grille {
         newGrille.nombreMotsSurColonne = this.nombreMotsSurColonne;
         newGrille.nombreMotsSurLigne = this.nombreMotsSurLigne;
 
-        for (let i = 0; i < this.cases.length; i++) {
-            for (let j = 0; j < this.cases[i].length; j++) {
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
                 newGrille.cases[i][j] = this.cases[i][j].copieCase();
+                this.casesExterne.ajouterCase(this.casesExterne.obtenirCase(i, j).copieCase(), i, j);
             }
         }
         for (let i = 0; i < this.emplacementMots.length; i++) {
@@ -169,6 +174,7 @@ export class Grille {
     public changerEtatCase(etatCase: EtatCase, numeroLigne: number, numeroColonne: number): void {
 
         this.cases[numeroLigne][numeroColonne].etat = etatCase;
+        this.casesExterne.changerEtatCase(etatCase, numeroLigne, numeroColonne);
 
     }
 
@@ -184,7 +190,9 @@ export class Grille {
         let casesEmplacementMot: Case[] = new Array();
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                caseCourante = this.casesExterne.obtenirCase(i, j) .copieCase();
                 caseCourante = this.cases[i][j].copieCase();
+                
 
                 if ((caseCourante.obtenirEtat() === EtatCase.vide) && caseDebut === undefined) {
                     caseDebut = caseCourante.copieCase();
@@ -218,6 +226,7 @@ export class Grille {
         let casesEmplacementMot: Case[] = new Array();
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                caseCourante = this.casesExterne.obtenirCase(i, j);
                 caseCourante = this.cases[j][i];
 
                 if ((caseCourante.obtenirEtat() === EtatCase.vide) && caseDebut === undefined) {
@@ -254,9 +263,12 @@ export class Grille {
         let numeroColonneFin: number = emplacement.obtenirCaseFin().obtenirNumeroColonne();
 
         for (const caseCourante of emplacement.obtenirCases()) {
-            let ligne = caseCourante.obtenirNumeroLigne();
-            let colonne = caseCourante.obtenirNumeroColonne();
-            this.cases[ligne][colonne].remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
+            let ligne: number = caseCourante.obtenirNumeroLigne();
+            let colonne: number = caseCourante.obtenirNumeroColonne();
+            let lettreSimplifie: string = mot.obtenirLettreSimplifie(positionDansLeMot);
+
+            this.casesExterne.remplirCase(lettreSimplifie, ligne, colonne);
+            this.cases[ligne][colonne].remplirCase(lettreSimplifie);
             positionDansLeMot++;
         }
         if (numeroLigneDepart === numeroLigneFin) {
@@ -289,9 +301,12 @@ export class Grille {
         } else if (numeroColonneDepart === numeroColonneFin) {
             // Cas du mot à la vertical.
 
-            for (let i = 0; i < this.cases.length; i++) {
+            let lettreSimplifie: string;
+            for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
                 if (this.dansLaLimiteDuMot(i, numeroLigneDepart, numeroLigneFin) && mot.estUneLettreValide(positionDansLeMot)) {
-                    this.cases[i][numeroColonneDepart].remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
+                    lettreSimplifie = mot.obtenirLettreSimplifie(positionDansLeMot);
+                    this.casesExterne.remplirCase(lettreSimplifie, i, numeroColonneDepart);
+                    this.cases[i][numeroColonneDepart].remplirCase(lettreSimplifie);
                     positionDansLeMot++;
                 }
             }
@@ -335,7 +350,7 @@ export class Grille {
     }
 
     public obtenirLongueurCases(): number {
-        return this.cases.length;
+        return DIMENSION_LIGNE_COLONNE;
     }
 
     public obtenirHauteurCases(): number {
@@ -380,7 +395,7 @@ export class Grille {
     public contientDejaLeMot(mot: MotComplet): boolean {
         for (const motCourant of this.mots) {
             if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
-                throw new Error(contientDejaLeMot);
+                return true;
             }
         }
         return false;
@@ -657,10 +672,10 @@ export class Grille {
         console.log("-----------------------");
         let ligne: string[] = new Array();
         let buffer: string = '';
-        for (let i = 0; i < this.cases.length; i++) {
-            for (let j = 0; j < this.cases[i].length; j++) {
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
 
-                ligne.push(this.cases[i][j].obtenirLettre());
+                ligne.push(this.casesExterne.obtenirCase(i, j).obtenirLettre());
             }
             for (let k = 0; k < ligne.length; k++) {
                 if (ligne[k] !== undefined) {

@@ -18,6 +18,7 @@ export const grandeurMotMaximum = 6;
 export const longueurEspaceNoirEntreDeuxMots = 1;
 
 export const tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne = 100;
+export const LETTRE_PAR_DEFAUT_A_INSERER_MOCK_GRILLE = 'a';
 
 
 
@@ -30,6 +31,13 @@ export class GenerateurDeGrilleService {
     public genererGrille(niveau: Niveau): Grille {
         this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);
+        
+        return this.motCroiseGenere;
+    }
+
+    public genererGrilleMemeLettrePartout(niveau: Niveau): Grille {
+        this.motCroiseGenere = this.genereGrilleVide(niveau);
+        this.motCroiseGenere = this.remplirGrille(niveau, true);
         
         return this.motCroiseGenere;
     }
@@ -227,7 +235,7 @@ export class GenerateurDeGrilleService {
         return nombreMots;
     }
 
-    private remplirGrille(niveau: Niveau): Grille {
+    private remplirGrille(niveau: Niveau, toujoursMemeLettre: boolean = false): Grille {
         const grillePlein = this.motCroiseGenere;
 
         while (!grillePlein.estComplete()) {
@@ -237,11 +245,16 @@ export class GenerateurDeGrilleService {
 
                 while (!motAjoute) {
                     const grandeur = emplacementMotCourant.obtenirGrandeur();
-
-                    ///////MOCKING/DU/DICTIONNAIRE///////
                     let chaineIdiote = '';
-                    for (let i = 0; i < grandeur; i++) {
-                        chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntreXEtY(1, nombreLettresDeAlphabet));
+
+                    if(!toujoursMemeLettre) {
+                        for (let i = 0; i < grandeur; i++) {
+                            chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntreXEtY(1, nombreLettresDeAlphabet));
+                        }
+                    }  else {
+                        for (let i = 0; i < grandeur; i++) {
+                            chaineIdiote = chaineIdiote + LETTRE_PAR_DEFAUT_A_INSERER_MOCK_GRILLE;
+                        }
                     }
 
                     const indiceIdiot = new Indice(['definition facile', 'definition un peu difficile', 'definition dure de ouuuuf']);
@@ -261,7 +274,7 @@ export class GenerateurDeGrilleService {
                         motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
                     }
 
-                    if (!grillePlein.contientDejaLeMot(motIdiot)) {
+                    if (toujoursMemeLettre || !grillePlein.contientDejaLeMot(motIdiot)) {
                         grillePlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne(),
                             emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne(), emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne(),
                             emplacementMotCourant.obtenirCaseFin().obtenirNumeroColonne());
