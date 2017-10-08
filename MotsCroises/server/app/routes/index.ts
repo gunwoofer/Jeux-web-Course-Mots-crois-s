@@ -4,6 +4,11 @@ import { PersistenceGrillesService } from '../PersistenceGrillesService';
 import { GenerateurDeMotContrainteService } from '../GenerateurDeMotContrainteService';
 import { Grille, Niveau } from '../Grille';
 import { Contrainte } from '../Contrainte';
+import { GestionnaireDePartieService } from '../GestionnaireDePartieService';
+import { Partie, TypePartie } from '../Partie';
+import { Joueur } from '../Joueur';
+import { EmplacementMot } from '../EmplacementMot';
+import { Case } from '../Case';
 
 module Route {
 
@@ -128,6 +133,38 @@ module Route {
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
 
             persistenceGrilles.obtenirGrillePersistante(Niveau.difficile);
+        }
+
+
+        public verifierMauvaisMot(req: express.Request, res: express.Response, next: express.NextFunction): void {
+
+            const joueur: Joueur = new Joueur();
+            const typePartie: TypePartie = TypePartie.dynamique;
+            const generateurDeGrilleService:GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
+            const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
+            let guidPartie = '';
+    
+            persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
+                .then((grilleDepart: Grille)=>{
+                    guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+                    const emplacementsMot: EmplacementMot[] = grilleDepart.emplacementsHorizontaux();
+                    const emplacementMot: EmplacementMot = emplacementsMot[0];
+                    const caseDebut: Case = emplacementMot.obtenirCaseDebut();
+                    const caseFin: Case = emplacementMot.obtenirCaseFin();
+                    const longueurMot: number = emplacementMot.obtenirGrandeur();
+                    let motAVerifier: string;
+    
+                    for(let i = 0; i < longueurMot; i++) {
+                        motAVerifier += 'a';
+                    }
+    
+                    res.send(!gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
+                })
+                .catch((erreur) => {
+                    console.log(erreur);
+                });
+
         }
     }
 }

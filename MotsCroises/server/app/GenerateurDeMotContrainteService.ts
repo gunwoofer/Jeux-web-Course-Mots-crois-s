@@ -1,4 +1,4 @@
-import { Mot, Rarete } from './Mot';
+import { MotComplet, Rarete } from './MotComplet';
 import { Contrainte } from './Contrainte';
 import { Indice, DifficulteDefinition } from './Indice';
 import { Niveau } from './Grille';
@@ -20,12 +20,13 @@ export class GenerateurDeMotContrainteService {
         this.tailleEmplacement = nbreLettres;
     }
 
-    public genererMotAleatoire(niveau: Niveau): Promise<Mot> {
+    public genererMotAleatoire(niveau: Niveau): Promise<MotComplet> {
         return new Promise((resolve: any, reject: any) => {
             const contrainte = this.preparerContrainte();
+            console.log("Contrainte pour l emplacement actuel : " + contrainte);
 
             this.obtenirMotAleatoireDeDataMuse(contrainte, niveau)
-                .then((resultat: Mot) => { resolve(resultat); })
+                .then((resultat: MotComplet) => { resolve(resultat); })
                 .catch((erreur: string) => { reject(erreur); });
         });
     }
@@ -47,19 +48,19 @@ export class GenerateurDeMotContrainteService {
         return contrainte;
     }
 
-    private creerMotAleatoireAPartirDe(motsDataMuse: MotDataMuse[], difficulteDefinition: DifficulteDefinition, rarete: Rarete): Mot {
-        let mot: Mot;
+    private creerMotAleatoireAPartirDe(motsDataMuse: MotDataMuse[], difficulteDefinition: DifficulteDefinition, rarete: Rarete): MotComplet {
+        let mot: MotComplet;
         const nombrealeat = this.nombreAleatoireEntreXEtY(0, motsDataMuse.length - 1);
         const monIndice: Indice = new Indice(motsDataMuse[nombrealeat].defs);
 
         monIndice.setDifficulteDefinition(difficulteDefinition);
-        mot = new Mot(motsDataMuse[nombrealeat].word, monIndice);
+        mot = new MotComplet(motsDataMuse[nombrealeat].word, monIndice);
         mot.setRarete(rarete);
 
         return mot;
     }
 
-    private obtenirMotAleatoireDeDataMuse(contrainte: string, niveau: Niveau): Promise<Mot> {
+    private obtenirMotAleatoireDeDataMuse(contrainte: string, niveau: Niveau): Promise<MotComplet> {
 
         // Un score au dessus de 1000 indique un mot commun et inferieure a 1000 non commun
         const tableauCommun = new Array<any>();
@@ -75,12 +76,13 @@ export class GenerateurDeMotContrainteService {
                     reject(aucunMotObtenuDeDataMuse);
                 }
 
-                for (const motDataMuseCourant of motsDataMuse) {
 
-                    if (motDataMuseCourant.estUnMotNonCommun()) {
-                        tableauCommun.push(motDataMuseCourant);
-                    } else {
+                for (const motDataMuseCourant of motsDataMuse) {
+                    
+                    if ((motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined) && (motDataMuseCourant.defs.length !== 1)) {
                         tableauNonCommun.push(motDataMuseCourant);
+                    } else if ((!motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined) && (motDataMuseCourant.defs.length !== 1)) {
+                        tableauCommun.push(motDataMuseCourant);
                     }
                 }
 

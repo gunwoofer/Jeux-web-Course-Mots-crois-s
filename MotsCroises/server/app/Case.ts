@@ -10,7 +10,7 @@ export class Case {
     private numeroLigne: number;
     private numeroColonne: number;
 
-    private lettre: string;
+    private lettre = '';
     public etat: EtatCase;
     public intersection = false;
 

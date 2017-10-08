@@ -34,9 +34,9 @@ describe('GenerateurDeGrilleService', () => {
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
         let compteur = 0;
 
-        for (let emplacementAEvaluer of grille.obtenirPositionsEmplacementsVides()) {
+        for (let emplacementAEvaluer of grille.obtenirEmplacementsMot()) {
             compteur = 0;
-            for (let emplacementCourant of grille.obtenirPositionsEmplacementsVides()) {
+            for (let emplacementCourant of grille.obtenirEmplacementsMot()) {
                 if ((emplacementAEvaluer.obtenirCaseDebut() === emplacementCourant.obtenirCaseDebut()) &&
                     (emplacementAEvaluer.obtenirCaseFin() === emplacementCourant.obtenirCaseFin())) {
                     compteur++;

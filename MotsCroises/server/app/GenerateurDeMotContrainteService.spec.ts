@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { GenerateurDeMotContrainteService, aucunMotObtenuDeDataMuse } from './GenerateurDeMotContrainteService';
 import { Niveau } from './Grille';
-import { Rarete } from './Mot';
+import { Rarete } from './MotComplet';
 import { DifficulteDefinition } from './Indice';
 import { Contrainte } from './Contrainte';
 
