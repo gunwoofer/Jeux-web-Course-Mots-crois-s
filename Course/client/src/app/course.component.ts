@@ -10,6 +10,7 @@ import { Component } from '@angular/core';
             <ul class="nav nav-pills">
                 <li routerLinkActive="active"><a [routerLink]="['/createurPiste']">Createur de piste</a></li>
                 <li routerLinkActive="active"><a [routerLink]="['/listePiste']">Liste de Piste</a></li>
+                <li routerLinkActive="active"><a [routerLink]="['/generationpiste']">Generateur de Piste</a></li>
             </ul>
         </nav>
     </header>

@@ -1,3 +1,4 @@
+import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { CourseComponent } from './course.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -34,7 +35,8 @@ import { AppRoutingModule } from './app.routing';
     PisteComponent,
     ListePisteComponent,
     CourseComponent,
-    TableauScoreComponent
+    TableauScoreComponent,
+    GenerateurPisteComponent
   ],
   imports: [
     BrowserModule,
