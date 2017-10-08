@@ -21,7 +21,8 @@ export class PisteComponent {
 
   private onDelete() {
     this.pisteService.supprimerListePiste(this.piste)
-      .then(message => console.log(message));
+      .then(message => console.log(message))
+      .catch(erreur => console.error(erreur));
   }
 
   private onClick() {

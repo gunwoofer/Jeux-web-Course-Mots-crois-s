@@ -41,10 +41,11 @@ export class PisteService {
     }
 
     public supprimerListePiste(piste: Piste) {
-        this.pistes.splice(this.pistes.indexOf(piste));
-        return this.http.delete('http://localhost:3000/listePiste' + piste.id)
+        this.pistes.splice(this.pistes.indexOf(piste), 1);
+        return this.http.delete('http://localhost:3000/listePiste/' + piste.id)
             .toPromise()
-            .then(response => response.json());
+            .then(response => response.json())
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
     public modifierPiste(piste: Piste) {

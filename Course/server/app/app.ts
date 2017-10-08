@@ -65,7 +65,7 @@ export class Application {
     this.app.use(cors());
 
     mongoose.Promise = global.Promise;
-    mongoose.connect('mongodb://localhost/Bdpiste' , { useMongoClient: true });
+    mongoose.connect('mongodb://localhost/Bdpiste', { useMongoClient: true });
     mongoose.connection.on("error", error => {
       console.error(error);
     });
@@ -84,41 +84,41 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
-    router.delete('/listePiste:id',index.supprimerPiste.bind(index.supprimerPiste));
+    router.delete('/listePiste/:id', index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
     // createur de piste
     router.post('/createurPiste', index.ajouterPiste.bind(index.ajouterPiste));
-  
+
 
     // use router middleware
     this.app.use(router);
 
     // Gestion des erreurs
     this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const err = new Error('Not Found');
-        next(err);
+      const err = new Error('Not Found');
+      next(err);
     });
 
     // development error handler
     // will print stacktrace
     if (this.app.get('env') === 'development') {
-        this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-            res.status(err.status || 500);
-            res.send({
-                message: err.message,
-                error: err
-            });
+      this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        res.status(err.status || 500);
+        res.send({
+          message: err.message,
+          error: err
         });
+      });
     }
 
     // production error handler
     // no stacktraces leaked to user (in production env only)
     this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-        res.status(err.status || 500);
-        res.send({
-            message: err.message,
-            error: {}
-        });
+      res.status(err.status || 500);
+      res.send({
+        message: err.message,
+        error: {}
+      });
     });
   }
 }

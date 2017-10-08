@@ -39,6 +39,7 @@ module Route {
         }
 
         public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            console.log(req.params.id);
             Piste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({
@@ -46,13 +47,7 @@ module Route {
                         error: err
                     });
                 }
-                if (!piste) {
-                    return res.status(500).json({
-                        title: 'La piste est indisponible',
-                        error: err
-                    });
-                }
-                Piste.remove((err, resultat) => {
+                Piste.remove((err: any, resultat: any) => {
                     if (err) {
                         return res.status(500).json({
                             title: 'une erreur est survenue lors de la sauvegarde',
