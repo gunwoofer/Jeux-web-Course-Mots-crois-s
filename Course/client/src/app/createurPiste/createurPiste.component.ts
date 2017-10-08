@@ -94,8 +94,8 @@ export class CreateurPisteComponent implements AfterViewInit, OnInit {
   }
 
   public ngOnInit() {
-    this.pisteService.pisteAEditer.subscribe(
+    /*this.pisteService.pisteAEditer.subscribe(
       (piste: Piste) => {this.renderService.chargerPiste(piste.listepositions); }
-    );
+    );*/
   }
 }

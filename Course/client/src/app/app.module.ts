@@ -13,7 +13,6 @@ import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 
 
 import { RenderService } from './renderService/render.service';
-import { BasicService } from './basic.service';
 import { PisteService } from './piste/piste.service';
 import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
 import { FacadeSourisService } from './facadeSouris/facadesouris.service';
@@ -44,7 +43,6 @@ import { AppRoutingModule } from './app.routing';
   ],
   providers: [
     RenderService,
-    BasicService,
     PisteService,
     FacadeCoordonneesService,
     FacadeSourisService,

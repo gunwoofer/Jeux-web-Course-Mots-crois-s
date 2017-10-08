@@ -174,14 +174,14 @@ export class RenderService {
     this.dessinTermine = false;
   }
 
-  public chargerPiste(position: any[]) {
+  /*public chargerPiste(position: any[]) {
     this.reinitialiserScene();
     this.piste.listePoints = position;
     console.log(this.piste.listePoints.length);
     for (let i = 0; i < this.piste.listePoints.length; i++) {
       this.dessinerPointDejaConnu(this.piste.listePoints[i]);
     }
-  }
+  }*/
 
   public obtenirPositions(): any[] {
     const vecteur: any[] = [];
