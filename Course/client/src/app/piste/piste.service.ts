@@ -25,7 +25,19 @@ export class PisteService {
     public retournerListePiste() {
         return this.http.get('http://localhost:3000/listePiste')
             .toPromise()
-            .then(response => response.json().obj);
+            .then(response => {
+                const pistes = response.json().obj;
+                const pisteTemporaire: Piste[] = [];
+                for (const piste of pistes) {
+                    const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
+                    pist.coteAppreciation = piste.coteAppreciation;
+                    pist.nombreFoisJouee = piste.nombreFoisJouee;
+                    pist.meilleursTemps = piste.meilleursTemps;
+                    pisteTemporaire.push(pist);
+                }
+                this.pistes = pisteTemporaire;
+                return pisteTemporaire;
+            });
     }
 
     public supprimerListePiste(piste: Piste) {

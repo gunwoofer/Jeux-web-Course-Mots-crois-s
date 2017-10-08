@@ -18,7 +18,7 @@ export class ListePisteComponent implements OnInit {
   public value;
 
   public ngOnInit() {
-    this.pisteService.retournerListePiste().then(value => console.log(value));
+    this.pisteService.retournerListePiste().then((pistes: Piste[]) => this.listePistes = pistes);
   }
 
   public onSelect(piste) {
@@ -26,9 +26,6 @@ export class ListePisteComponent implements OnInit {
     console.log(this.pisteSelectionne);
   }
 
-  public click() {
-    console.log(this.listePistes[0].meilleursTemps);
-    console.log(this.listePistes[0].listepositions);
-  }
+
 }
 
