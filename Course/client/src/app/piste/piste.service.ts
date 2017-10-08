@@ -23,7 +23,9 @@ export class PisteService {
     }
 
     public retournerListePiste() {
-        return this.pistes;
+        return this.http.get('http://localhost:3000/listePiste')
+            .toPromise()
+            .then(response => response.json().obj);
     }
 
     public supprimerListePiste(piste: Piste) {

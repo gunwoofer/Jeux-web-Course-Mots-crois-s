@@ -84,10 +84,10 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
-
-    
+    router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
     // createur de piste
     router.post('/createurPiste', index.ajouterPiste.bind(index.ajouterPiste));
+  
 
     // use router middleware
     this.app.use(router);
