@@ -422,8 +422,10 @@ export class Grille {
 
         let casesEmplacementMot: Case[] = new Array();
         for (const emplacementMot of this.emplacementMots) {
-            casesEmplacementMot = this.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(), emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-            if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin) && this.obtenirMotDesCases(casesEmplacementMot) === motAVerifier) {
+            casesEmplacementMot = this.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+                emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
+            if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin) &&
+                this.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
                 emplacementMot.estTrouve();
                 return true;
             }
@@ -765,7 +767,7 @@ export class Grille {
 
     public trouverIndiceEmplacement(emplacement: EmplacementMot): number {
         for (let indice = 0; indice < this.emplacementMots.length; indice++) {
-            if (this.estEgale(this.emplacementMots[indice],emplacement)) {
+            if (this.estEgale(this.emplacementMots[indice], emplacement)) {
                 return indice;
             }
         }

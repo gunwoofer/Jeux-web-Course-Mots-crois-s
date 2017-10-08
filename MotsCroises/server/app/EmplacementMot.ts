@@ -71,11 +71,12 @@ export class EmplacementMot {
         this.etatEmplacementMot = EtatEmplacementMot.Trouve;
     }
 
+    public aEteTrouve(): boolean {
+        return (this.etatEmplacementMot === EtatEmplacementMot.Trouve) ? true : false;
+    }
+
     public estHorizontal(): boolean {
-        if(this.position === Position.Ligne) {
-            return true;
-        }
-        return false;
+        return (this.position === Position.Ligne) ? true : false;
     }
 
     public estVertical(): boolean {

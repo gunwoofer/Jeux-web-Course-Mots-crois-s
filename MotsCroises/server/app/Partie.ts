@@ -18,7 +18,7 @@ export enum TypePartie {
 }
 
 export class Partie {
-    private joueurs: Joueur[] = new Array(LIMITE_JOUEURS);
+    private joueurs: Joueur[] = new Array();
     private grille: Grille;
     private compteur: Compteur;
     private etat: EtatPartie = EtatPartie.En_Preparation;
@@ -28,9 +28,7 @@ export class Partie {
     constructor(grille: Grille, joueurs: Joueur[], type: TypePartie) {
         this.grille = grille;
 
-        if (joueurs.length <= 2) {
-            this.joueurs.concat(joueurs);
-        }
+        this.joueurs = joueurs;
 
         this.type = type;
     }
@@ -54,7 +52,7 @@ export class Partie {
                 return joueur;
             }
         }
-        
+
         return undefined;
     }
 
@@ -66,5 +64,19 @@ export class Partie {
         if (this.joueurs.length <= LIMITE_JOUEURS) {
             this.joueurs.push(joueur);
         }
+    }
+
+    public partieEstTermine(): boolean {
+        let totalPointage = 0;
+
+        for(let joueur of this.joueurs) {
+            totalPointage += joueur.obtenirPointage();
+        }
+
+        if(totalPointage >= this.grille.obtenirEmplacementsMot().length) {
+            return true;
+        }
+
+        return false;
     }
 }

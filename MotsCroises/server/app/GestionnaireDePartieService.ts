@@ -12,7 +12,11 @@ export class GestionnaireDePartieService {
     private parties: Partie[] = new Array();
 
     public creerPartie(joueur: Joueur, typePartie: TypePartie, grilleDepart: Grille, niveau: Niveau, joueur2?: Joueur ): string {
-        const joueurs = new Array(LIMITE_JOUEURS);
+        let joueurs: Joueur[] = [joueur];
+
+        if(joueur2 !== undefined) {
+            joueurs.push(joueur2);
+        }
 
         const partie: Partie = new Partie(grilleDepart, joueurs, typePartie);
         this.parties.push(partie);
@@ -38,5 +42,12 @@ export class GestionnaireDePartieService {
         }
 
         throw new Error(AUCUNE_PARTIE_CORREPSONDANT_GUID);
+    }
+
+    public voirSiPartieTermine(guidPartie: string): boolean {
+        if(this.obtenirPartieEnCours(guidPartie).partieEstTermine()) {
+            return true;
+        }
+        return false;
     }
 }
