@@ -174,14 +174,13 @@ export class RenderService {
     this.dessinTermine = false;
   }
 
-  /*public chargerPiste(position: any[]) {
+  public chargerPiste(points: any[]) {
     this.reinitialiserScene();
-    this.piste.listePoints = position;
-    console.log(this.piste.listePoints.length);
-    for (let i = 0; i < this.piste.listePoints.length; i++) {
-      this.dessinerPointDejaConnu(this.piste.listePoints[i]);
+    console.log(points.length);
+    for (let i = 0; i < points.length; i++) {
+      this.dessinerPointDejaConnu(points[i].position);
     }
-  }*/
+  }
 
   public obtenirPositions(): any[] {
     const vecteur: any[] = [];
@@ -190,7 +189,6 @@ export class RenderService {
     }
     return vecteur;
   }
-
 
   public dessinerPointDejaConnu(position: THREE.Vector3) {
     let point;
