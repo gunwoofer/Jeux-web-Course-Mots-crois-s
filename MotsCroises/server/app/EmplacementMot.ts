@@ -49,19 +49,6 @@ export class EmplacementMot {
         this.caseDebut = caseDebut;
         this.caseFin = caseFin;
     }
-
-    public estEgale(emplacement: EmplacementMot): boolean {
-        if(emplacement.grandeur !== this.grandeur) {
-            return false;
-        }
-        for(let i = 0; i < this.grandeur; i++) {
-            if((this.cases[i].obtenirNumeroLigne() !== emplacement.cases[i].obtenirNumeroLigne()) 
-                || (this.cases[i].obtenirNumeroColonne() !== emplacement.cases[i].obtenirNumeroColonne())) {
-                    return false;
-                }
-        }
-        return true;
-    }
     
     public obtenirIndexFixe(): number {
         return this.indexFixe;
@@ -101,10 +88,6 @@ export class EmplacementMot {
     public copieEmplacement(): EmplacementMot {
         
        let newEmplacement = new EmplacementMot(this.caseDebut.copieCase(), this.caseFin.copieCase());
-       newEmplacement.cases = new Array();
-       for(let i = 0; i < this.cases.length; i++) {
-           newEmplacement.cases[i] = this.cases[i].copieCase();
-       }
        for(let i = 0; i < this.motsImpossible.length; i++) {
            newEmplacement.motsImpossible[i] = this.motsImpossible[i].copieMot();
        }
@@ -119,25 +102,6 @@ export class EmplacementMot {
         return this.position;
     }
 
-    public obtenirCases(): Case[] {
-        return this.cases;
-    }
-
-    public obtenirCase(i: number): Case {
-        return this.cases[i];
-    }
-
-    public obtenirCaseSelonLigneColonne(numeroLigne: number, numeroColonne: number): Case {
-        for (const caseCourante of this.cases) {
-            if ((caseCourante.obtenirNumeroLigne() === numeroLigne)
-                && (caseCourante.obtenirNumeroColonne() === numeroColonne)) {
-                return caseCourante;
-            }
-        }
-
-        return undefined;
-    }
-
     public obtenirCaseDebut(): Case {
         return this.caseDebut;
     }
@@ -148,9 +112,5 @@ export class EmplacementMot {
 
     public obtenirGrandeur(): number {
         return this.grandeur;
-    }
-
-    public modifierCases(cases: Case[]) {
-        this.cases = cases;
     }
 }
