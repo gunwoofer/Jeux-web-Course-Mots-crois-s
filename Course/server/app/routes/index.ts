@@ -12,12 +12,12 @@ module Route {
             piste.save((err, resultat) => {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occurred',
+                        title: 'une erreur est survenue lors de la sauvegarde',
                         error: err
                     });
                 }
                 res.status(201).json({
-                    message: 'Save piste',
+                    message: 'La piste est sauvegardée',
                     obj: resultat
                 });
             });
@@ -27,7 +27,7 @@ module Route {
             Piste.find((err, pistes) => {
                 if (err) {
                     return res.status(500).json({
-                        title: 'An error occurred',
+                        title: 'Une erreur est survenue',
                         error: err
                     });
                 }
@@ -39,10 +39,33 @@ module Route {
         }
 
         public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            const message = new Message();
-            message.title = 'Hello';
-            message.body = 'World';
-            res.send(JSON.stringify(message));
+            Piste.findById(req.params.id, (err, piste) => {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'Une erreur est survenue',
+                        error: err
+                    });
+                }
+                if (!piste) {
+                    return res.status(500).json({
+                        title: 'La piste est indisponible',
+                        error: err
+                    });
+                }
+                Piste.remove((err, resultat) => {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'une erreur est survenue lors de la sauvegarde',
+                            error: err
+                        });
+                    }
+                    res.status(201).json({
+                        message: 'La piste est supprimée',
+                        obj: resultat
+                    });
+                });
+
+            });
         }
     }
 }
