@@ -42,6 +42,9 @@ export class PisteService {
 
     public supprimerListePiste(piste: Piste) {
         this.pistes.splice(this.pistes.indexOf(piste));
+        return this.http.get('http://localhost:3000/listePiste' + piste.id)
+            .toPromise()
+            .then(response => response.json());
     }
 
     public modifierPiste(piste: Piste) {

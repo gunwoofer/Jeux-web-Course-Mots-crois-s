@@ -19,8 +19,9 @@ export class PisteComponent {
     this.pisteService.modifierPiste(this.piste);
   }
 
-  private Delete() {
-    this.pisteService.supprimerListePiste(this.piste);
+  private onDelete() {
+    this.pisteService.supprimerListePiste(this.piste)
+      .then(message => console.log(message));
   }
 
   private onClick() {

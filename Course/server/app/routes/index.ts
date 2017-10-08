@@ -37,6 +37,13 @@ module Route {
                 });
             });
         }
+
+        public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            const message = new Message();
+            message.title = 'Hello';
+            message.body = 'World';
+            res.send(JSON.stringify(message));
+        }
     }
 }
 

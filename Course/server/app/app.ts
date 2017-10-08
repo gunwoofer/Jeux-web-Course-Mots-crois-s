@@ -84,6 +84,7 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
+    router.get('/listePiste:id',index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
     // createur de piste
     router.post('/createurPiste', index.ajouterPiste.bind(index.ajouterPiste));
