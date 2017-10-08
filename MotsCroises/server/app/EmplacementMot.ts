@@ -1,4 +1,4 @@
-import { Case } from './Case';
+import { Case, EtatCase } from './Case';
 import { Position } from './Grille';
 import { MotComplet } from './MotComplet';
 
@@ -13,18 +13,21 @@ export class EmplacementMot {
     private cases: Case[] = new Array();
     private grandeur: number;
     private position: Position;
+    private indexFixe: number;
     private etatEmplacementMot: EtatEmplacementMot;
     public motsImpossible: MotComplet[] = new Array();
 
-    constructor(caseDebut?: Case, caseFin?: Case, cases?: Case[]) {
+    public static creerInstanceAvecJSON(): EmplacementMot {
+        return new EmplacementMot(new Case(1,1,EtatCase.vide), new Case(1,3,EtatCase.vide));
+    }
+
+
+    constructor(caseDebut: Case, caseFin: Case) {
         if(caseDebut !== undefined) {
             this.caseDebut = caseDebut;
         }
         if(caseFin !== undefined) {
             this.caseFin = caseFin;
-        }
-        if(cases !== undefined) {
-            this.cases = cases;
         }
         this.etatEmplacementMot = EtatEmplacementMot.Masque;
         this.motsImpossible = new Array();
@@ -33,11 +36,18 @@ export class EmplacementMot {
             if (caseDebut.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne()) {
                 this.grandeur = caseFin.obtenirNumeroColonne() - caseDebut.obtenirNumeroColonne() + 1;
                 this.position = Position.Ligne;
+                this.indexFixe = caseFin.obtenirNumeroLigne();
             } else if (caseDebut.obtenirNumeroColonne() === caseFin.obtenirNumeroColonne()) {
                 this.grandeur = caseFin.obtenirNumeroLigne() - caseDebut.obtenirNumeroLigne() + 1;
                 this.position = Position.Colonne;
+                this.indexFixe = caseDebut.obtenirNumeroColonne();
             }
         }
+    }
+
+    public modifierCaseDebutFin(caseDebut: Case, caseFin: Case): void {
+        this.caseDebut = caseDebut;
+        this.caseFin = caseFin;
     }
 
     public estEgale(emplacement: EmplacementMot): boolean {
@@ -51,6 +61,10 @@ export class EmplacementMot {
                 }
         }
         return true;
+    }
+    
+    public obtenirIndexFixe(): number {
+        return this.indexFixe;
     }
 
     public estBanni(mot: MotComplet): boolean {
@@ -107,16 +121,6 @@ export class EmplacementMot {
 
     public obtenirCases(): Case[] {
         return this.cases;
-    }
-
-    public obtenirMotDesCases(): string {
-        let motDansLesCases: string = '';
-
-        for(let caseCourante of this.cases) {
-            motDansLesCases += caseCourante.obtenirLettre();
-        }
-
-        return motDansLesCases;
     }
 
     public obtenirCase(i: number): Case {

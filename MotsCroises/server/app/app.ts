@@ -100,6 +100,10 @@ export class Application {
         router.use('/mot/creer/facile', index.GenererMotAleatoireFacile.bind(index.GenererMotAleatoireFacile));
         router.use('/mot/creer/moyen', index.GenererMotAleatoireMoyen.bind(index.GenererMotAleatoireMoyen));
         router.use('/mot/creer/difficile', index.GenererMotAleatoireDifficile.bind(index.GenererMotAleatoireDifficile));
+
+        // partie        
+        router.use('/partie/test/verifier/mot', index.verifierMauvaisMot.bind(index.verifierMauvaisMot));
+        
         // use router middleware
         this.app.use(router);
 

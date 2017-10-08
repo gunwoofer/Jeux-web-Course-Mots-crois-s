@@ -31,14 +31,14 @@ export class GenerateurDeGrilleService {
     public genererGrille(niveau: Niveau): Grille {
         this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);
-        
+
         return this.motCroiseGenere;
     }
 
     public genererGrilleMemeLettrePartout(niveau: Niveau): Grille {
         this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau, true);
-        
+
         return this.motCroiseGenere;
     }
 
@@ -86,15 +86,19 @@ export class GenerateurDeGrilleService {
         numeroLigneFin: number, numeroColonneFin: number) {
         const caseDebut: Case = grille.obtenirCase(numeroLigneDebut, numeroColonneDebut);
         const caseFin: Case = grille.obtenirCase(numeroLigneFin, numeroColonneFin);
+        let casesEmplacementMot: Case[];
 
         for (const emplacementMotCourant of grille.obtenirEmplacementsMot()) {
-            for (let casesEmplacementMot of emplacementMotCourant.obtenirCases()) {
-                if ((casesEmplacementMot.obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
-                    && (casesEmplacementMot.obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())) {
+            casesEmplacementMot = grille.obtenirCasesSelonCaseDebut(emplacementMotCourant.obtenirCaseDebut(),
+                emplacementMotCourant.obtenirPosition(), emplacementMotCourant.obtenirGrandeur());
+
+            for (let caseCourante of casesEmplacementMot) {
+                if ((caseCourante.obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
+                    && (caseCourante.obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())) {
                     return true;
                 }
-                if ((casesEmplacementMot.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())
-                    && (casesEmplacementMot.obtenirNumeroColonne() === caseFin.obtenirNumeroColonne())) {
+                if ((caseCourante.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())
+                    && (caseCourante.obtenirNumeroColonne() === caseFin.obtenirNumeroColonne())) {
                     return true;
                 }
             }
@@ -247,11 +251,11 @@ export class GenerateurDeGrilleService {
                     const grandeur = emplacementMotCourant.obtenirGrandeur();
                     let chaineIdiote = '';
 
-                    if(!toujoursMemeLettre) {
+                    if (!toujoursMemeLettre) {
                         for (let i = 0; i < grandeur; i++) {
                             chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(this.nombreAleatoireEntreXEtY(1, nombreLettresDeAlphabet));
                         }
-                    }  else {
+                    } else {
                         for (let i = 0; i < grandeur; i++) {
                             chaineIdiote = chaineIdiote + LETTRE_PAR_DEFAUT_A_INSERER_MOCK_GRILLE;
                         }
@@ -286,7 +290,7 @@ export class GenerateurDeGrilleService {
         return grillePlein;
     }
 
-    
+
     // REMPLIR GRILLE AVEC VRAIES MOTS
     private async remplirGrilleVraisMots(niveau: Niveau): Promise<Grille> {
         let compteur_iteration: number = 0;
@@ -304,7 +308,7 @@ export class GenerateurDeGrilleService {
             let monGenerateurDeMot = new GenerateurDeMotContrainteService(emplacementMotCourant.obtenirGrandeur(), tableauContraintes);
             try {
                 let mot = await monGenerateurDeMot.genererMotAleatoire(niveau);
-                if (!GrillePlein.contientDejaLeMot(mot)) { 
+                if (!GrillePlein.contientDejaLeMot(mot)) {
                     GrillePlein.ajouterMotEmplacement(mot, emplacementMotCourant);
                     tableauGrilles.push(GrillePlein.copieGrille());
                     GrillePlein.affichageConsole();
@@ -322,7 +326,7 @@ export class GenerateurDeGrilleService {
         }
         return GrillePlein;
     }
-    
+
 
     private nombreAleatoireEntreXEtY(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -331,21 +335,23 @@ export class GenerateurDeGrilleService {
     private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
         const grandeur = emplacement.obtenirGrandeur();
         let tableauContraintes: Contrainte[] = new Array();
+        let grandeurEmplacement: number = emplacement.obtenirGrandeur();
+        let emplacementPosition: Position = emplacement.obtenirPosition();
+        let caseCourante: Case;
 
         //Contraintes de l emplacement courant
-        for (let i = 0; i < emplacement.obtenirCases().length; i++) {
+        for (let i = 0; i < grandeurEmplacement; i++) {
             // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
-            let ligne = emplacement.obtenirCase(i).obtenirNumeroLigne();
-            let colonne = emplacement.obtenirCase(i).obtenirNumeroColonne();
-            if (grille.obtenirCase(ligne, colonne).etat === EtatCase.pleine) {
-                let nouvelleContrainte = new Contrainte(grille.obtenirCase(ligne, colonne).obtenirLettre(), i);
+            caseCourante = grille.obtenirCaseSelonPosition(emplacementPosition, emplacement.obtenirIndexFixe(), i);
+            if (caseCourante.etat === EtatCase.pleine) {
+                let nouvelleContrainte = new Contrainte(caseCourante.obtenirLettre(), i);
                 tableauContraintes.push(nouvelleContrainte);
             }
         }
         return tableauContraintes;
     }
 
-   
+
 
 
 

@@ -113,7 +113,6 @@ describe('GestionnaireDePartieService', () => {
         //console.log(motAVerifier);
         grilleDepart.obtenirCases()[0][0].remplirCase('BOB');
         console.log("DANS LE TEST ::");
-        console.log(emplacementMot.obtenirCases()[0]);
         console.log("DANS LA GRILLE");
         console.log(grilleDepart.obtenirCases()[0][0]);
         assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));

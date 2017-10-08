@@ -60,11 +60,11 @@ public emplacementsMot = '';
   public obtenirTableauMotsCroises(grille: any): string {
     let grilleEnTableau = '';
     grilleEnTableau = '<table border=1>';
-    for (const casesLigne of grille.cases) {
+    for (const casesLigne of grille.cases.cases) {
       grilleEnTableau += '<tr>';
       for (const caseCourante of casesLigne) {
         grilleEnTableau += '<td>';
-        if (caseCourante.lettre !== undefined) {
+        if (caseCourante.lettre !== '') {
           grilleEnTableau += caseCourante.lettre;
         } else {
           grilleEnTableau += '*';
