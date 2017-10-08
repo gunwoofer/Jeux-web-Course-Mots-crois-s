@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { BasicService } from './basic.service';
 import {Router} from '@angular/router';
+import * as socket from 'socket.io-client';
 
 
 @Component({
@@ -32,6 +33,12 @@ public emplacementsMot = '';
     this.basicService.obtenirGrillePersistenteFacile().then(grille => this.afficherGrillePersistenteFacile(grille));
     this.basicService.obtenirGrillePersistenteMoyen().then(grille => this.afficherGrillePersistenteMoyen(grille));
     this.basicService.obtenirGrillePersistenteDifficile().then(grille => this.afficherGrillePersistenteDifficile(grille));
+
+    const connexionSocket = socket.connect('http://localhost:3001');
+
+    connexionSocket.on('connect', function(data) {
+      connexionSocket.emit('join', 'Hello World from client');
+    });
   }
 
   public afficherGrillePersistenteFacile(grille: any): void {

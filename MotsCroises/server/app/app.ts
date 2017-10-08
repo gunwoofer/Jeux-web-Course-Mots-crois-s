@@ -102,8 +102,23 @@ export class Application {
         router.use('/mot/creer/difficile', index.GenererMotAleatoireDifficile.bind(index.GenererMotAleatoireDifficile));
 
         // partie        
-        router.use('/partie/test/verifier/mot', index.verifierMauvaisMot.bind(index.verifierMauvaisMot));
+        router.use('/partie/test/verifier/mot', index.verifierMauvaisMot.bind(index.verifierMauvaisMot));   
         
+        // Socket IO         
+        var server = require('http').createServer(this.app);  
+        var io = require('socket.io')(server);
+
+        io.on('connection', function(client: any) {  
+            console.log('Client connected...');
+        
+            client.on('join', function(data: any) {
+                console.log(data);
+            });
+        
+        });
+
+        server.listen(3001);
+
         // use router middleware
         this.app.use(router);
 
