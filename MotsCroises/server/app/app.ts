@@ -13,7 +13,9 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
 import * as indexRoute from './routes/index';
+import { ConnexionTempsReel } from './ConnexionTempsReel';
 
+export const PORT_SOCKET_IO = 3001;
 
 
 export class Application {
@@ -104,20 +106,11 @@ export class Application {
         // partie        
         router.use('/partie/test/verifier/mot', index.verifierMauvaisMot.bind(index.verifierMauvaisMot));   
         
-        // Socket IO         
-        var server = require('http').createServer(this.app);  
-        var io = require('socket.io')(server);
 
-        io.on('connection', function(client: any) {  
-            console.log('Client connected...');
-        
-            client.on('join', function(data: any) {
-                console.log(data);
-            });
-        
-        });
 
-        server.listen(3001);
+        // Socket IO   
+        let connexionTempsReel:ConnexionTempsReel = new ConnexionTempsReel(this.app);
+        connexionTempsReel.ecouterPourConnexionClients();
 
         // use router middleware
         this.app.use(router);

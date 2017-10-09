@@ -2,8 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { BasicService } from './basic.service';
 import {Router} from '@angular/router';
-import * as socket from 'socket.io-client';
-
+import { ConnexionTempsReelClient } from './ConnexionTempsReelClient';
 
 @Component({
   selector: 'app-root',
@@ -24,6 +23,7 @@ export class AppComponent implements OnInit {
   public types: string[] = ['classique', 'dynamique'];
   public typePartie = 'classique';
   public niveauPartie = 'normal';
+  public estConnecte = false;
 
 public emplacementsMot = '';
 
@@ -34,11 +34,9 @@ public emplacementsMot = '';
     this.basicService.obtenirGrillePersistenteMoyen().then(grille => this.afficherGrillePersistenteMoyen(grille));
     this.basicService.obtenirGrillePersistenteDifficile().then(grille => this.afficherGrillePersistenteDifficile(grille));
 
-    const connexionSocket = socket.connect('http://localhost:3001');
-
-    connexionSocket.on('connect', function(data) {
-      connexionSocket.emit('join', 'Hello World from client');
-    });
+    // Communication temps réel avec le serveur.
+    const connexionTempsReelClient: ConnexionTempsReelClient = new ConnexionTempsReelClient();
+    connexionTempsReelClient.demarerConnexion();
   }
 
   public afficherGrillePersistenteFacile(grille: any): void {
