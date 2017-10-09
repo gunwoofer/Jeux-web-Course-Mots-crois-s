@@ -1,8 +1,8 @@
-import { Partie, TypePartie } from './Partie';
+import { Partie } from './Partie';
 import { Grille } from './Grille';
 import { Case } from './Case';
 import { Niveau } from '../../commun/Niveau';
-
+import { TypePartie } from '../../commun/TypePartie';
 import { Joueur } from '../../commun/Joueur';
 
 export const NOMBRE_GRILLES_PARTIE_DYNAMIQUE = 5;

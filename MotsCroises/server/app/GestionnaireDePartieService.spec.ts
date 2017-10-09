@@ -3,11 +3,12 @@ import { Joueur } from '../../commun/Joueur';
 import { Case } from './Case';
 import { EmplacementMot } from './EmplacementMot';
 import { Grille } from './Grille';
-import { TypePartie, Partie } from './Partie';
+import { Partie } from './Partie';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
 import { Niveau } from '../../commun/Niveau';
+import { TypePartie } from '../../commun/TypePartie';
 
 export const maxDelaiRetourRequeteMS = 10000;
 

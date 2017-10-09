@@ -1,12 +1,10 @@
 
 import * as socket from 'socket.io-client';
+import * as requetes from '../../../commun/constantes/RequetesTempsReel';
 
 export const URL_SOCKETIO_SERVER = 'http://localhost:3001';
 export const MESSAGE_CONFIRMATION_DECONNEXION_SERVER = 'client_deconnecte';
 export const PREMIER_MESSAGE_DU_CLIENT = 'bonjour du client';
-
-export const REQUETE_SERVER_ENVOYER = 'envoyer';
-export const REQUETE_SERVER_QUITTER = 'quitter';
 
 export class ConnexionTempsReelClient {
     private estConnecte = false;
@@ -18,11 +16,11 @@ export class ConnexionTempsReelClient {
             this.connexionSocket = socket.connect(URL_SOCKETIO_SERVER);
 
             this.connexionSocket.on('connect', function(data) {
-                self.connexionSocket.emit(REQUETE_SERVER_ENVOYER, PREMIER_MESSAGE_DU_CLIENT);
-                self.connexionSocket.emit(REQUETE_SERVER_QUITTER);
+                self.connexionSocket.emit(requetes.REQUETE_SERVER_ENVOYER, PREMIER_MESSAGE_DU_CLIENT);
+                self.connexionSocket.emit(requetes.REQUETE_SERVER_QUITTER);
             });
 
-            this.connexionSocket.on('messages', function(data) {
+            this.connexionSocket.on(requetes.REQUETE_CLIENT_MESSAGE, function(data) {
                 alert(data);
                 if (data === 'Client a quitte') {
                     self.connexionSocket.close();
@@ -75,11 +73,11 @@ export class ConnexionTempsReelClient {
                 this.connexionSocket = socket.connect(URL_SOCKETIO_SERVER);
 
                 this.connexionSocket.on('connect', function(data) {
-                    self.connexionSocket.emit(REQUETE_SERVER_ENVOYER, PREMIER_MESSAGE_DU_CLIENT);
+                    self.connexionSocket.emit(requetes.REQUETE_SERVER_ENVOYER, PREMIER_MESSAGE_DU_CLIENT);
                     resolve(true);
                 });
 
-                this.connexionSocket.on('confirmationConnexion', function(data) {
+                this.connexionSocket.on(requetes.REQUETE_CLIENT_RAPPEL_CONNEXION, function(data) {
                     console.log(data);
                     resolve(true);
                 });
@@ -96,9 +94,9 @@ export class ConnexionTempsReelClient {
             const self: ConnexionTempsReelClient = this;
 
             if (this.estConnecte) {
-                this.connexionSocket.emit(REQUETE_SERVER_QUITTER);
+                this.connexionSocket.emit(requetes.REQUETE_SERVER_QUITTER);
 
-                this.connexionSocket.on('rappelQuitter', (message) => {
+                this.connexionSocket.on(requetes.REQUETE_CLIENT_RAPPEL_QUITTER, (message) => {
                     if (message === MESSAGE_CONFIRMATION_DECONNEXION_SERVER) {
                         resolve(true);
                     } else {

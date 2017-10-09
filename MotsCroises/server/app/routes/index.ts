@@ -5,7 +5,7 @@ import { GenerateurDeMotContrainteService } from '../GenerateurDeMotContrainteSe
 import { Grille } from '../Grille';
 import { Niveau } from '../../../commun/Niveau';
 import { GestionnaireDePartieService } from '../GestionnaireDePartieService';
-import { TypePartie } from '../Partie';
+import { TypePartie } from '../../../commun/TypePartie';
 import { Joueur } from '../../../commun/Joueur';
 import { EmplacementMot } from '../EmplacementMot';
 import { Case } from '../Case';
@@ -29,7 +29,7 @@ module Route {
                 res.send(JSON.stringify(mot));
             });
         }
-        
+
         public GenererMotAleatoireMoyen(req: express.Request, res: express.Response, next: express.NextFunction): void {
                 const nombreLettre = 5;
 
@@ -38,7 +38,7 @@ module Route {
                 res.send(JSON.stringify(mot));
             });
         }
-        
+
         public GenererMotAleatoireDifficile(req: express.Request, res: express.Response, next: express.NextFunction): void {
                 const nombreLettre = 5;
 
@@ -144,7 +144,7 @@ module Route {
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
             const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
             let guidPartie = '';
-    
+
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
                 .then((grilleDepart: Grille)=>{
                     guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
@@ -154,11 +154,11 @@ module Route {
                     const caseFin: Case = emplacementMot.obtenirCaseFin();
                     const longueurMot: number = emplacementMot.obtenirGrandeur();
                     let motAVerifier: string;
-    
+
                     for(let i = 0; i < longueurMot; i++) {
                         motAVerifier += 'a';
                     }
-    
+
                     res.send(!gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
                 })
                 .catch((erreur) => {

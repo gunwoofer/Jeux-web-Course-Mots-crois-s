@@ -4,18 +4,9 @@ import { Grille } from './Grille';
 import { Case } from './Case';
 import { Guid } from '../../commun/Guid';
 import { NOMBRE_GRILLES_PARTIE_DYNAMIQUE } from './GestionnaireDePartieService';
+import { EtatPartie } from '../../commun/EtatPartie';
+import { TypePartie } from '../../commun/TypePartie';
 export const LIMITE_JOUEURS = 2;
-
-export enum EtatPartie {
-    En_Preparation,
-    En_Cours,
-    Termine
-}
-
-export enum TypePartie {
-    classique,
-    dynamique
-}
 
 export class Partie {
     private joueurs: Joueur[] = new Array();
