@@ -22,7 +22,9 @@ export class ConnexionTempsReelServer {
     public ecouterPourConnexionClients(): void {
         const self: ConnexionTempsReelServer = this;
         this.io.on('connection', (client: SocketIO.Socket) => this.miseEnPlaceRequetesClient(client, self));
-        this.server.listen(PORT_SOCKET_IO);
+        this.server.listen(PORT_SOCKET_IO, () => {
+            console.log("Listening to " + PORT_SOCKET_IO);
+        });
     }
 
     private miseEnPlaceRequetesClient(client: SocketIO.Socket, self: ConnexionTempsReelServer): void {
