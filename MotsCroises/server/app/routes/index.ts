@@ -2,11 +2,11 @@ import * as express from 'express';
 import { GenerateurDeGrilleService } from '../GenerateurDeGrilleService';
 import { PersistenceGrillesService } from '../PersistenceGrillesService';
 import { GenerateurDeMotContrainteService } from '../GenerateurDeMotContrainteService';
-import { Grille, Niveau } from '../Grille';
-import { Contrainte } from '../Contrainte';
+import { Grille } from '../Grille';
+import { Niveau } from '../../../commun/Niveau';
 import { GestionnaireDePartieService } from '../GestionnaireDePartieService';
-import { Partie, TypePartie } from '../Partie';
-import { Joueur } from '../Joueur';
+import { TypePartie } from '../Partie';
+import { Joueur } from '../../../commun/Joueur';
 import { EmplacementMot } from '../EmplacementMot';
 import { Case } from '../Case';
 

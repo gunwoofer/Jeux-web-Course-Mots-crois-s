@@ -1,5 +1,6 @@
 
-import { Grille, Niveau, DIMENSION_LIGNE_COLONNE, Position } from './Grille';
+import { Grille, DIMENSION_LIGNE_COLONNE, Position } from './Grille';
+import { Niveau } from '../../commun/Niveau';
 import { MotComplet, Rarete } from './MotComplet';
 import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';

@@ -13,7 +13,7 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
 import * as indexRoute from './routes/index';
-import { ConnexionTempsReel } from './ConnexionTempsReel';
+import { ConnexionTempsReelServer } from './ConnexionTempsReelServer';
 
 export const PORT_SOCKET_IO = 3001;
 
@@ -109,8 +109,8 @@ export class Application {
 
 
         // Socket IO   
-        let connexionTempsReel:ConnexionTempsReel = new ConnexionTempsReel(this.app);
-        connexionTempsReel.ecouterPourConnexionClients();
+        let connexionTempsReelServer: ConnexionTempsReelServer = new ConnexionTempsReelServer(this.app);
+        connexionTempsReelServer.ecouterPourConnexionClients();
 
         // use router middleware
         this.app.use(router);

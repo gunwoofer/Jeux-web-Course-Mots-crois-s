@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { Joueur } from './Joueur';
+import { Joueur } from '../../commun/Joueur';
 import { Case } from './Case';
 import { EmplacementMot } from './EmplacementMot';
 import { Grille } from './Grille';
@@ -7,7 +7,7 @@ import { TypePartie, Partie } from './Partie';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
-import { Niveau } from './Grille';
+import { Niveau } from '../../commun/Niveau';
 
 export const maxDelaiRetourRequeteMS = 10000;
 

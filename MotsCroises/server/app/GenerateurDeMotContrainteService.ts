@@ -1,7 +1,7 @@
 import { MotComplet, Rarete } from './MotComplet';
 import { Contrainte } from './Contrainte';
 import { Indice, DifficulteDefinition } from './Indice';
-import { Niveau } from './Grille';
+import { Niveau } from '../../commun/Niveau';
 import { MotDataMuse } from './MotDataMuse';
 
 const datamuse = require('datamuse');

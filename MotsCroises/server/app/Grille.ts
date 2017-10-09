@@ -3,6 +3,7 @@ import { Case, EtatCase } from './Case';
 import { EmplacementMot } from './EmplacementMot';
 import { grandeurMotMinimum } from './GenerateurDeGrilleService';
 import { Cases } from './Cases';
+import { Niveau } from '../../commun/Niveau';
 
 
 export const DIMENSION_LIGNE_COLONNE = 10;
@@ -12,12 +13,6 @@ export enum EtatGrille {
     vide,
     encours,
     complet
-}
-
-export enum Niveau {
-    facile,
-    moyen,
-    difficile
 }
 
 export enum Position {

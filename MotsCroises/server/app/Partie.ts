@@ -1,8 +1,8 @@
-import { Joueur } from './Joueur';
+import { Joueur } from '../../commun/Joueur';
 import { Compteur } from './Compteur';
 import { Grille } from './Grille';
 import { Case } from './Case';
-import { Guid } from './Guid';
+import { Guid } from '../../commun/Guid';
 import { NOMBRE_GRILLES_PARTIE_DYNAMIQUE } from './GestionnaireDePartieService';
 export const LIMITE_JOUEURS = 2;
 
@@ -38,7 +38,7 @@ export class Partie {
 
        if(this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
             joueur = this.obtenirJoueur(guidJoueur);
-            joueur.aTrouveMot(this.grille.obtenirEmplacementMot(caseDebut, caseFin));
+            joueur.aTrouveMot();
 
             return true;
        }
