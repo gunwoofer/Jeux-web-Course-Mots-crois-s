@@ -31,6 +31,8 @@ export class PisteValidationComponent {
             donnee => console.log(donnee),
             erreur => console.error(erreur)
         );
+        this.renderService.reinitialiserScene();
+        console.log(this.renderService.scene.children.length);
         form.resetForm();
     }
 

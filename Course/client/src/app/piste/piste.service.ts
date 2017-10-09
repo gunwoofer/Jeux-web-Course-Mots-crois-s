@@ -1,6 +1,6 @@
 import { Http, Headers, Response } from '@angular/http';
 import { Piste } from './piste.model';
-import { EventEmitter, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { RenderService } from '../renderService/render.service';
@@ -11,7 +11,6 @@ import 'rxjs/Rx';
 
 export class PisteService {
     private pistes: Piste[] = [];
-    public pisteAEditer = new EventEmitter<Piste>();
 
     constructor(private renderService: RenderService, private http: Http) { }
 
@@ -49,7 +48,8 @@ export class PisteService {
     }
 
     public modifierPiste(piste: Piste) {
-        this.pisteAEditer.emit(piste);
+        this.renderService.chargerPiste(piste.listepositions);
+
     }
 
 }

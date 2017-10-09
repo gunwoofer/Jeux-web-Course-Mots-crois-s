@@ -174,12 +174,13 @@ export class RenderService {
     this.dessinTermine = false;
   }
 
-  public chargerPiste(points: any[]) {
+  public chargerPiste(position: any[]) {
+    console.log(position);
     this.reinitialiserScene();
-    console.log(points.length);
-    for (let i = 0; i < points.length; i++) {
-      this.dessinerPointDejaConnu(points[i].position);
-    }
+     console.log(position.length);
+     for (let i = 0; i < position.length; i++) {
+       this.dessinerPointDejaConnu(position[i].position);
+     }
   }
 
   public obtenirPositions(): any[] {

@@ -1,4 +1,3 @@
-import { CourseComponent } from './course.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -10,6 +9,7 @@ import { PisteValidationComponent } from './pisteValidator/pisteValidation.compo
 import { PisteComponent } from './piste/piste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
 import { TableauScoreComponent } from './tableauScore/tableauScore.component';
+import { CourseComponent } from './course/course.component';
 
 
 import { RenderService } from './renderService/render.service';

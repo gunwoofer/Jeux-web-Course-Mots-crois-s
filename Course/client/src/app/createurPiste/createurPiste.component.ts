@@ -14,7 +14,7 @@ import { MessageErreurService } from '../messageErreurs/messageerreur.service';
   styleUrls: ['./createurPiste.component.css']
 })
 
-export class CreateurPisteComponent implements AfterViewInit, OnInit {
+export class CreateurPisteComponent implements AfterViewInit {
 
   constructor(private renderService: RenderService,
     private facadeSourisService: FacadeSourisService,
@@ -83,19 +83,5 @@ export class CreateurPisteComponent implements AfterViewInit, OnInit {
     } else {
       return false;
     }
-  }
-
-  private reinitialiser() {
-    this.renderService.reinitialiserScene();
-  }
-
-  private importerPiste() {
-    //this.renderService.chargerPiste(); // Sans paramètre, utilise l'attribut piste de renderService pour charger une piste.
-  }
-
-  public ngOnInit() {
-    /*this.pisteService.pisteAEditer.subscribe(
-      (piste: Piste) => {this.renderService.chargerPiste(piste.listepositions); }
-    );*/
   }
 }
