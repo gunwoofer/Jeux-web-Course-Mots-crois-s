@@ -19,6 +19,8 @@ import { FacadeSourisService } from './facadeSouris/facadesouris.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
+import { TableauScoreService } from './tableauScore/tableauScoreService.service';
+
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
@@ -43,6 +45,7 @@ import { AppRoutingModule } from './app.routing';
   ],
   providers: [
     RenderService,
+    TableauScoreService,
     PisteService,
     FacadeCoordonneesService,
     FacadeSourisService,
