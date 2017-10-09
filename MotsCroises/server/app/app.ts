@@ -15,8 +15,6 @@ import * as cors from 'cors';
 import * as indexRoute from './routes/index';
 import { ConnexionTempsReelServer } from './ConnexionTempsReelServer';
 
-export const PORT_SOCKET_IO = 3001;
-
 
 export class Application {
 
@@ -109,7 +107,8 @@ export class Application {
 
 
         // Socket IO   
-        let connexionTempsReelServer: ConnexionTempsReelServer = new ConnexionTempsReelServer(this.app);
+        const connexionTempsReelServer: ConnexionTempsReelServer = new ConnexionTempsReelServer(this.app);
+        console.log('partir écoute ...');
         connexionTempsReelServer.ecouterPourConnexionClients();
 
         // use router middleware

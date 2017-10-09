@@ -1,6 +1,5 @@
 import { Case, EtatCase } from './Case';
-import { Position } from './Grille';
-import { MotComplet } from './MotComplet';
+import { Position } from './Position';
 
 export enum EtatEmplacementMot {
     Masque,
@@ -10,12 +9,11 @@ export enum EtatEmplacementMot {
 export class EmplacementMot {
     private caseDebut: Case;
     private caseFin: Case;
-    private cases: Case[] = new Array();
     private grandeur: number;
     private position: Position;
     private indexFixe: number;
     private etatEmplacementMot: EtatEmplacementMot;
-    public motsImpossible: MotComplet[] = new Array();
+    public motsImpossible: string[] = new Array();
 
     public static creerInstanceAvecJSON(): EmplacementMot {
         return new EmplacementMot(new Case(1,1,EtatCase.vide), new Case(1,3,EtatCase.vide));
@@ -54,16 +52,16 @@ export class EmplacementMot {
         return this.indexFixe;
     }
 
-    public estBanni(mot: MotComplet): boolean {
+    public estBanni(mot: string): boolean {
         for(let i = 0; i < this.motsImpossible.length; i++) {
-            if(mot.estEgale(this.motsImpossible[i])) {
+            if(mot === this.motsImpossible[i]) {
                 return true;
             }
         }
         return false;
     }
 
-    public ajouterMotImpossible(mot: MotComplet) {
+    public ajouterMotImpossible(mot: string) {
         this.motsImpossible.push(mot);
     }
 
@@ -90,7 +88,7 @@ export class EmplacementMot {
         
        let newEmplacement = new EmplacementMot(this.caseDebut.copieCase(), this.caseFin.copieCase());
        for(let i = 0; i < this.motsImpossible.length; i++) {
-           newEmplacement.motsImpossible[i] = this.motsImpossible[i].copieMot();
+           newEmplacement.motsImpossible[i] = this.motsImpossible[i];
        }
        newEmplacement.grandeur = this.grandeur;
        newEmplacement.position = this.position;

@@ -1,4 +1,4 @@
-import { Case, EtatCase } from './Case'; 
+import { Case, EtatCase } from './Case';
 
 export const DIMENSION_LIGNE_COLONNE = 10;
 

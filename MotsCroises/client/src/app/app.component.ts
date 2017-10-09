@@ -1,8 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BasicService } from './basic.service';
-import {Router} from '@angular/router';
+import { Router } from '@angular/router';
 import { ConnexionTempsReelClient } from './ConnexionTempsReelClient';
+import * as requetes from '../../../commun/constantes/RequetesTempsReel';
+import { SpecificationPartie } from '../../../commun/SpecificationPartie';
+import { TypePartie } from '../../../commun/TypePartie';
+import { Joueur } from '../../../commun/Joueur';
+import { Niveau } from '../../../commun/Niveau';
 
 @Component({
   selector: 'app-root',
@@ -25,7 +30,7 @@ export class AppComponent implements OnInit {
   public niveauPartie = 'normal';
   public estConnecte = false;
 
-public emplacementsMot = '';
+  public emplacementsMot = '';
 
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
@@ -36,7 +41,18 @@ public emplacementsMot = '';
 
     // Communication temps réel avec le serveur.
     const connexionTempsReelClient: ConnexionTempsReelClient = new ConnexionTempsReelClient();
+    connexionTempsReelClient.demarerConnexionMock();
+    /*
     connexionTempsReelClient.demarerConnexion();
+    const joueur: Joueur = new Joueur();
+    const specificationPartie: SpecificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique)
+    connexionTempsReelClient.envoyerRecevoirRequete(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
+      specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.rappelCreerPartieSolo);
+      */
+  }
+
+  public rappelCreerPartieSolo(specificationPartie: SpecificationPartie) {
+      console.log('GUIDPARTIE : ' + specificationPartie.guidPartie);
   }
 
   public afficherGrillePersistenteFacile(grille: any): void {
@@ -53,7 +69,7 @@ public emplacementsMot = '';
 
   public afficherGrille(grille: any): void {
     this.grille = this.obtenirTableauMotsCroises(grille);
-    for(const emplacementMot of grille.emplacementMots) {
+    for (const emplacementMot of grille.emplacementMots) {
       this.emplacementsMot += 'Debut : {' + emplacementMot.caseDebut.numeroLigne + ',' + emplacementMot.caseDebut.numeroColonne + '}';
       this.emplacementsMot += ' | Fin : {' + emplacementMot.caseFin.numeroLigne + ',' + emplacementMot.caseFin.numeroColonne + '}';
       this.emplacementsMot += ' | Grandeur : ' + emplacementMot.grandeur;

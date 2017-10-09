@@ -1,9 +1,10 @@
 
-import { Grille, DIMENSION_LIGNE_COLONNE, Position } from './Grille';
+import { Grille, DIMENSION_LIGNE_COLONNE } from './Grille';
 import { Niveau } from '../../commun/Niveau';
 import { MotComplet, Rarete } from './MotComplet';
-import { EmplacementMot } from './EmplacementMot';
-import { Case, EtatCase } from './Case';
+import { EmplacementMot } from '../../commun/EmplacementMot';
+import { Case, EtatCase } from '../../commun/Case';
+import { Position } from '../../commun/Position';
 import { Contrainte } from './Contrainte';
 import { Indice, DifficulteDefinition } from './Indice';
 import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';

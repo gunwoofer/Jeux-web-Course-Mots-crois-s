@@ -1,9 +1,10 @@
 import { MotComplet } from './MotComplet';
-import { Case, EtatCase } from './Case';
-import { EmplacementMot } from './EmplacementMot';
+import { Case, EtatCase } from '../../commun/Case';
+import { EmplacementMot } from '../../commun/EmplacementMot';
 import { grandeurMotMinimum } from './GenerateurDeGrilleService';
-import { Cases } from './Cases';
+import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
+import { Position } from '../../commun/Position';
 
 
 export const DIMENSION_LIGNE_COLONNE = 10;
@@ -13,11 +14,6 @@ export enum EtatGrille {
     vide,
     encours,
     complet
-}
-
-export enum Position {
-    Ligne,
-    Colonne
 }
 
 export class Grille {

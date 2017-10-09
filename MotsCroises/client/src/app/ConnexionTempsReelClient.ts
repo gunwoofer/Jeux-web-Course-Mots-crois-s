@@ -16,7 +16,7 @@ export class ConnexionTempsReelClient {
             this.connexionSocket = socket.connect(URL_SOCKETIO_SERVER);
 
             this.connexionSocket.on('connect', function(data) {
-                self.connexionSocket.emit(requetes.REQUETE_SERVER_ENVOYER, PREMIER_MESSAGE_DU_CLIENT);
+                self.connexionSocket.emit('envoyer', 'test');
                 self.connexionSocket.emit(requetes.REQUETE_SERVER_QUITTER);
             });
 

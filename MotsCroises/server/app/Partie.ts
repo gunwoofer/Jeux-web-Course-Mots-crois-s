@@ -1,7 +1,7 @@
 import { Joueur } from '../../commun/Joueur';
 import { Compteur } from './Compteur';
 import { Grille } from './Grille';
-import { Case } from './Case';
+import { Case } from '../../commun/Case';
 import { Guid } from '../../commun/Guid';
 import { NOMBRE_GRILLES_PARTIE_DYNAMIQUE } from './GestionnaireDePartieService';
 import { EtatPartie } from '../../commun/EtatPartie';

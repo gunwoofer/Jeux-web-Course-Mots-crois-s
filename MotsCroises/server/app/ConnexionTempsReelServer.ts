@@ -4,7 +4,6 @@ import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Grille } from './Grille';
 export const PORT_SOCKET_IO = 3001;
 import { SpecificationPartie } from '../../commun/SpecificationPartie';
-import * as socket from 'socket.io';
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
 
 export class ConnexionTempsReelServer {
@@ -15,16 +14,16 @@ export class ConnexionTempsReelServer {
     private generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
 
     constructor(app: express.Application) {
+        console.log('création instance');
         this.server = require('http').createServer(app);
         this.io = require('socket.io')(this.server);
     }
 
     public ecouterPourConnexionClients(): void {
         const self: ConnexionTempsReelServer = this;
-        this.io.on('connection', (client: SocketIO.Socket) => this.miseEnPlaceRequetesClient(client, self));
-        this.server.listen(PORT_SOCKET_IO, () => {
-            console.log("Listening to " + PORT_SOCKET_IO);
-        });
+        this.io.on('connection', (client: SocketIO.Socket) => self.miseEnPlaceRequetesClient(client, self));
+        this.server.listen(PORT_SOCKET_IO);
+        console.log('ecoute : ' + PORT_SOCKET_IO);
     }
 
     private miseEnPlaceRequetesClient(client: SocketIO.Socket, self: ConnexionTempsReelServer): void {
@@ -35,7 +34,8 @@ export class ConnexionTempsReelServer {
         client.on(requetes.REQUETE_SERVER_QUITTER, () => self.Quitter(client, self));
 
         // Requêtes mode classique.
-        client.on('partie/creer/solo', (specificationPartie: SpecificationPartie) => self.creerPartieSolo(client, self, specificationPartie));
+        client.on(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
+            (specificationPartie: SpecificationPartie) => self.creerPartieSolo(client, self, specificationPartie));
 
         // Requêtes mode dynamique.
 

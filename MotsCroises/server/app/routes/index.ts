@@ -7,8 +7,8 @@ import { Niveau } from '../../../commun/Niveau';
 import { GestionnaireDePartieService } from '../GestionnaireDePartieService';
 import { TypePartie } from '../../../commun/TypePartie';
 import { Joueur } from '../../../commun/Joueur';
-import { EmplacementMot } from '../EmplacementMot';
-import { Case } from '../Case';
+import { EmplacementMot } from '../../../commun/EmplacementMot';
+import { Case } from '../../../commun/Case';
 
 module Route {
 

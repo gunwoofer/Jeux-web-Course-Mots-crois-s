@@ -1,4 +1,4 @@
-import { Position } from './Grille';
+import { Position } from './Position';
 
 export enum EtatCase {
     vide,

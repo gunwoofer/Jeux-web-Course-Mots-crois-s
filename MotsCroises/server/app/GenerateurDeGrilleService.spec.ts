@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Grille } from './Grille';
-import { Case, EtatCase } from './Case';
+import { Case, EtatCase } from '../../commun/Case';
 import { Niveau } from '../../commun/Niveau';
 
 describe('GenerateurDeGrilleService', () => {
