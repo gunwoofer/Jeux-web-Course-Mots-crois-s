@@ -30,6 +30,11 @@ export class GenerateurPisteService {
         this.camera.position.y = 0;
         this.camera.position.x = 0;
         this.camera.position.z = 350;
+        /*
+        const lumiere = new THREE.DirectionalLight( 0xffffff );
+        lumiere.position.set(0, 1, 1).normalize();
+        this.scene.add(lumiere);
+        */
     }
 
     public commencerRendu(): void {
@@ -49,7 +54,7 @@ export class GenerateurPisteService {
         this.camera.aspect = this.getAspectRatio();
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-        }
+    }
 
     public getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
@@ -87,7 +92,7 @@ export class GenerateurPisteService {
         const angle = Math.atan( (pointFin.y - pointDebut.y) / (pointFin.x - pointDebut.x));
         
 
-        const materiel = new THREE.MeshBasicMaterial( { color: 'blue' } );
+        const materiel = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('./textures/clouds.jpg') } );
 
         const plan = new THREE.Mesh(geometrie, materiel);
         plan.rotateZ(angle);
@@ -105,5 +110,13 @@ export class GenerateurPisteService {
             Math.pow(pointFin.x - pointDebut.x, 2) + Math.pow(pointFin.y - pointDebut.y, 2) + Math.pow(pointFin.z - pointDebut.z, 2)
         );
         return longueur;
+    }
+    
+    public cameraAvantArriere(event) {
+        if (event.wheelDeltaY < 0) {
+            this.camera.position.z += 5;
+        } else {
+                this.camera.position.z -= 5;
+        }
     }
 }
