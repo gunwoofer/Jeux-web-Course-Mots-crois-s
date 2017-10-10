@@ -4,6 +4,7 @@ import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Grille } from './Grille';
 export const PORT_SOCKET_IO = 3001;
 import { SpecificationPartie } from '../../commun/SpecificationPartie';
+import { SpecificationGrille } from '../../commun/SpecificationGrille';
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
 
 export class ConnexionTempsReelServer {
@@ -43,23 +44,33 @@ export class ConnexionTempsReelServer {
     }
 
     public Quitter(client: SocketIO.Socket, self: ConnexionTempsReelServer): void {
+        console.log(requetes.REQUETE_SERVER_QUITTER);
+
         client.emit(requetes.REQUETE_CLIENT_MESSAGE, 'Client a quitte');
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_QUITTER, 'client_deconnecte');
         self.io.close();
     }
 
     public Envoyer(messageClient: string, client: SocketIO.Socket) {
-        console.log(messageClient);
+        console.log(requetes.REQUETE_SERVER_ENVOYER);
+
         client.emit(requetes.REQUETE_CLIENT_MESSAGE, 'Bonjour du serveur.');
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_CONNEXION, 'Client a été ajouté.');
     }
 
     public creerPartieSolo(client: SocketIO.Socket, self: ConnexionTempsReelServer, specificationPartie: SpecificationPartie): void {
+        console.log(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO);
+
         const grille: Grille = self.generateurDeGrilleService.genererGrille(specificationPartie.niveau);
         const guidPartie = self.gestionnaireDePartieService.creerPartie(specificationPartie.joueur,
             specificationPartie.typePartie, grille, grille.obtenirNiveau());
 
         specificationPartie.guidPartie = guidPartie;
+        specificationPartie.specificationGrilleEnCours = new SpecificationGrille(
+            grille.obtenirManipulateurCases(), grille.obtenirEmplacementsMot());
+
+        client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartie);
+
     }
 
 }

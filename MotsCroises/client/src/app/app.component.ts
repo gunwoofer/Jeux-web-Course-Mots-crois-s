@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { ConnexionTempsReelClient } from './ConnexionTempsReelClient';
 import * as requetes from '../../../commun/constantes/RequetesTempsReel';
 import { SpecificationPartie } from '../../../commun/SpecificationPartie';
+import { SpecificationGrille } from '../../../commun/SpecificationGrille';
 import { TypePartie } from '../../../commun/TypePartie';
 import { Joueur } from '../../../commun/Joueur';
 import { Niveau } from '../../../commun/Niveau';
@@ -31,6 +32,8 @@ export class AppComponent implements OnInit {
   public estConnecte = false;
 
   public emplacementsMot = '';
+  public specificationPartie: SpecificationPartie;
+  public grilleVenantDeSpecificationPartie = '';
 
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
@@ -41,18 +44,15 @@ export class AppComponent implements OnInit {
 
     // Communication temps réel avec le serveur.
     const connexionTempsReelClient: ConnexionTempsReelClient = new ConnexionTempsReelClient();
-    connexionTempsReelClient.demarerConnexionMock();
-    /*
-    connexionTempsReelClient.demarerConnexion();
     const joueur: Joueur = new Joueur();
-    const specificationPartie: SpecificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique)
+    this.specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique);
     connexionTempsReelClient.envoyerRecevoirRequete(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
-      specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.rappelCreerPartieSolo);
-      */
+      this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.rappelCreerPartieSolo, this);
   }
 
-  public rappelCreerPartieSolo(specificationPartie: SpecificationPartie) {
-      console.log('GUIDPARTIE : ' + specificationPartie.guidPartie);
+  public rappelCreerPartieSolo(specificationPartie: SpecificationPartie, self: AppComponent) {
+      self.specificationPartie = specificationPartie;
+      self.afficherGrilleVenantDeSpecificationPartie(specificationPartie.specificationGrilleEnCours);
   }
 
   public afficherGrillePersistenteFacile(grille: any): void {
@@ -67,13 +67,16 @@ export class AppComponent implements OnInit {
     this.grillePersistenteDifficile = this.obtenirTableauMotsCroises(grille);
   }
 
+  public afficherGrilleVenantDeSpecificationPartie(grille: SpecificationGrille): void {
+    this.grilleVenantDeSpecificationPartie = this.obtenirTableauMotsCroises(grille);
+  }
+
   public afficherGrille(grille: any): void {
     this.grille = this.obtenirTableauMotsCroises(grille);
     for (const emplacementMot of grille.emplacementMots) {
       this.emplacementsMot += 'Debut : {' + emplacementMot.caseDebut.numeroLigne + ',' + emplacementMot.caseDebut.numeroColonne + '}';
       this.emplacementsMot += ' | Fin : {' + emplacementMot.caseFin.numeroLigne + ',' + emplacementMot.caseFin.numeroColonne + '}';
-      this.emplacementsMot += ' | Grandeur : ' + emplacementMot.grandeur;
-      this.emplacementsMot += ' | Cases : ' + emplacementMot.cases.length + '<br />';
+      this.emplacementsMot += ' | Grandeur : ' + emplacementMot.grandeur + '<br />';
 
     }
   }

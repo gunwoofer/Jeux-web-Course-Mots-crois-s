@@ -130,6 +130,10 @@ export class Grille {
         }
     }
 
+    public obtenirManipulateurCases(): Cases {
+        return this.cases;
+    }
+
     public copieGrille(): Grille {
         let newGrille: Grille = new Grille(this.niveau);
         newGrille.etat = this.etat;

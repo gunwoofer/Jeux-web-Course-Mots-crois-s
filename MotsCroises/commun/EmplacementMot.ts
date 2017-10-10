@@ -14,6 +14,7 @@ export class EmplacementMot {
     private indexFixe: number;
     private etatEmplacementMot: EtatEmplacementMot;
     public motsImpossible: string[] = new Array();
+    private guidIndice: string;
 
     public static creerInstanceAvecJSON(): EmplacementMot {
         return new EmplacementMot(new Case(1,1,EtatCase.vide), new Case(1,3,EtatCase.vide));
@@ -41,6 +42,9 @@ export class EmplacementMot {
                 this.indexFixe = caseDebut.obtenirNumeroColonne();
             }
         }
+    }
+    public obtenirGuidIndice(): string {
+        return this.guidIndice;
     }
 
     public modifierCaseDebutFin(caseDebut: Case, caseFin: Case): void {

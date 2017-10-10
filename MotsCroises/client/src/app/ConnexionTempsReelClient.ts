@@ -15,12 +15,12 @@ export class ConnexionTempsReelClient {
         if (!this.estConnecte) {
             this.connexionSocket = socket.connect(URL_SOCKETIO_SERVER);
 
-            this.connexionSocket.on('connect', function(data) {
+            this.connexionSocket.on('connect', function (data) {
                 self.connexionSocket.emit('envoyer', 'test');
                 self.connexionSocket.emit(requetes.REQUETE_SERVER_QUITTER);
             });
 
-            this.connexionSocket.on(requetes.REQUETE_CLIENT_MESSAGE, function(data) {
+            this.connexionSocket.on(requetes.REQUETE_CLIENT_MESSAGE, function (data) {
                 alert(data);
                 if (data === 'Client a quitte') {
                     self.connexionSocket.close();
@@ -31,14 +31,15 @@ export class ConnexionTempsReelClient {
         }
     }
 
-    public envoyerRecevoirRequete(nomRequeteAEnvoyer: string, valeurEnvoye: Object, nomRequeteAEcouter: string, callback: any) {
+    public envoyerRecevoirRequete(nomRequeteAEnvoyer: string, valeurEnvoye: Object,
+        nomRequeteAEcouter: string, callback: any, self: Object) {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
-            this.connexionSocket.on(nomRequeteAEcouter, callback);
+            this.connexionSocket.on(nomRequeteAEcouter, (resultat: Object) => callback(resultat, self));
             this.connexionSocket.emit(nomRequeteAEnvoyer, valeurEnvoye);
         });
     }
 
-    public recevoirRequete(nomRequete: string, callback: any): void{
+    public recevoirRequete(nomRequete: string, callback: any): void {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
             this.connexionSocket.on(nomRequete, callback);
         });
@@ -72,12 +73,12 @@ export class ConnexionTempsReelClient {
             if (!this.estConnecte) {
                 this.connexionSocket = socket.connect(URL_SOCKETIO_SERVER);
 
-                this.connexionSocket.on('connect', function(data) {
+                this.connexionSocket.on('connect', function (data) {
                     self.connexionSocket.emit(requetes.REQUETE_SERVER_ENVOYER, PREMIER_MESSAGE_DU_CLIENT);
                     resolve(true);
                 });
 
-                this.connexionSocket.on(requetes.REQUETE_CLIENT_RAPPEL_CONNEXION, function(data) {
+                this.connexionSocket.on(requetes.REQUETE_CLIENT_RAPPEL_CONNEXION, function (data) {
                     console.log(data);
                     resolve(true);
                 });

@@ -9,4 +9,13 @@ export class SpecificationGrille {
         this.cases = cases;
         this.emplacementMots = emplacementMots;
     }
+
+    public obtenirEmplacementMot(guidIndice: string): EmplacementMot {
+        for(let emplacementCourant of this.emplacementMots) {
+            if(emplacementCourant.obtenirGuidIndice() === guidIndice)
+                return emplacementCourant;
+        }
+
+        return undefined;
+    }
 } 
