@@ -19,8 +19,9 @@ export class GenerateurPisteService {
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0xFFFFFF);
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
-        this.camera.position.y = 150;
-        this.camera.position.z = 500;
+        this.camera.position.y = 0;
+        this.camera.position.x = 0;
+        this.camera.position.z = 350;
     }
 
     public commencerRendu(): void {
@@ -55,7 +56,10 @@ export class GenerateurPisteService {
         }
         const material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
         const cube = new THREE.Mesh( geometry, material );
-        cube.position.y = 150;
+        cube.position.y = 0;
+        cube.position.x = 0;
+        cube.position.z = 0;
         this.scene.add( cube );
+        this.camera.lookAt(cube.position);
     }
 }

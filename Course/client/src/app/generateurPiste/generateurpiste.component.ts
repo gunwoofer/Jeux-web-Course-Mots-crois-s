@@ -5,7 +5,8 @@ import { Component, OnInit, ViewChild, HostListener, ElementRef, AfterViewInit }
 
 @Component({
     selector: 'app-generateurpiste-component',
-    templateUrl: './generateurpiste.component.html'
+    templateUrl: './generateurpiste.component.html',
+    styleUrls: ['./generateurpiste.component.css']
 })
 
 export class GenerateurPisteComponent implements AfterViewInit {
