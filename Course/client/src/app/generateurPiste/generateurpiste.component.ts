@@ -28,4 +28,9 @@ export class GenerateurPisteComponent implements AfterViewInit {
     this.generateurPisteService.initialisation(this.container);
     }
 
+    public cameraZ(event): boolean {
+        this.generateurPisteService.cameraAvantArriere(event);
+        return false;
+    }
+
 }
