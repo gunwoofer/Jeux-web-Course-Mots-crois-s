@@ -11,7 +11,7 @@ export class GenerateurPisteService {
     public initialisation(container: HTMLDivElement) {
         this.container = container;
         this.creerScene();
-        this.ajoutCube();
+        this.ajoutPlan();
         this.commencerRendu();
     }
 
@@ -61,5 +61,24 @@ export class GenerateurPisteService {
         cube.position.z = 0;
         this.scene.add( cube );
         this.camera.lookAt(cube.position);
+    }
+
+    public ajoutPlan(): void {
+        const pointDebut = new THREE.Vector3(0, 0, 0);
+        const pointFin = new THREE.Vector3(20, 14, 0);
+
+        const largeur = 50;
+        const longeur = Math.sqrt(
+            Math.pow(pointFin.x - pointDebut.x, 2) + Math.pow(pointFin.y - pointDebut.y, 2) + Math.pow(pointFin.z - pointDebut.z, 2)
+        );
+        const geometrie = new THREE.PlaneGeometry(largeur, longeur);
+
+        const materiel = new THREE.MeshBasicMaterial( { color: 'blue' } );
+
+        const plan = new THREE.Mesh(geometrie, materiel);
+
+        this.scene.add(plan);
+
+        this.camera.lookAt(plan.position);
     }
 }
