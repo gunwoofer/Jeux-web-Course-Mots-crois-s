@@ -31,10 +31,10 @@ export class ConnexionTempsReelClient {
         }
     }
 
-    public envoyerRecevoirRequete(nomRequeteAEnvoyer: string, valeurEnvoye: Object,
+    public envoyerRecevoirRequete<T>(nomRequeteAEnvoyer: string, valeurEnvoye: T,
         nomRequeteAEcouter: string, callback: any, self: Object) {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
-            this.connexionSocket.on(nomRequeteAEcouter, (resultat: Object) => callback(resultat, self));
+            this.connexionSocket.on(nomRequeteAEcouter, (resultat: T) => callback(resultat, self));
             this.connexionSocket.emit(nomRequeteAEnvoyer, valeurEnvoye);
         });
     }

@@ -12,9 +12,24 @@ export class SpecificationPartie {
     public guidPartie: string;
     public specificationGrilleEnCours: SpecificationGrille;
 
+    public static rehydrater(source: SpecificationPartie): SpecificationPartie {
+        let sourceVraie = source as SpecificationPartie;
+        let joueur: Joueur = new Joueur();
+        
+        Object.assign(joueur, sourceVraie.joueur);
+        sourceVraie.joueur = joueur;
+        sourceVraie.specificationGrilleEnCours = SpecificationGrille.rehydrater(sourceVraie.specificationGrilleEnCours);
+        let cibleVraie = new SpecificationPartie(sourceVraie.niveau, joueur, sourceVraie.typePartie);
+        Object.assign(cibleVraie, sourceVraie);
+
+        return cibleVraie;
+    }
+    
     constructor(niveau: Niveau, joueur: Joueur, typePartie: TypePartie) {
         this.niveau = niveau;
         this.joueur = joueur;
         this.typePartie = typePartie;
     }
+
+
 }

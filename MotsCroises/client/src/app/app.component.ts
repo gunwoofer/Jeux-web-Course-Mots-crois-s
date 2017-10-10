@@ -9,6 +9,7 @@ import { SpecificationGrille } from '../../../commun/SpecificationGrille';
 import { TypePartie } from '../../../commun/TypePartie';
 import { Joueur } from '../../../commun/Joueur';
 import { Niveau } from '../../../commun/Niveau';
+import { RequisPourMotAVerifier } from '../../../commun/RequisPourMotAVerifier';
 
 @Component({
   selector: 'app-root',
@@ -35,6 +36,8 @@ export class AppComponent implements OnInit {
   public specificationPartie: SpecificationPartie;
   public grilleVenantDeSpecificationPartie = '';
 
+  public connexionTempsReelClient: ConnexionTempsReelClient;
+
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
     this.basicService.obtenirGrille().then(grille => this.afficherGrille(grille));
@@ -42,17 +45,33 @@ export class AppComponent implements OnInit {
     this.basicService.obtenirGrillePersistenteMoyen().then(grille => this.afficherGrillePersistenteMoyen(grille));
     this.basicService.obtenirGrillePersistenteDifficile().then(grille => this.afficherGrillePersistenteDifficile(grille));
 
-    // Communication temps réel avec le serveur.
-    const connexionTempsReelClient: ConnexionTempsReelClient = new ConnexionTempsReelClient();
+    // REQUETE CREER NOUVELLE PARTIE
+    this.connexionTempsReelClient = new ConnexionTempsReelClient();
     const joueur: Joueur = new Joueur();
     this.specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique);
-    connexionTempsReelClient.envoyerRecevoirRequete(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
+    this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.rappelCreerPartieSolo, this);
   }
 
   public rappelCreerPartieSolo(specificationPartie: SpecificationPartie, self: AppComponent) {
-      self.specificationPartie = specificationPartie;
-      self.afficherGrilleVenantDeSpecificationPartie(specificationPartie.specificationGrilleEnCours);
+    self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+
+    self.afficherGrilleVenantDeSpecificationPartie(specificationPartie.specificationGrilleEnCours);
+
+    // REQUETE VERIFIER MOT
+    const requisPourMotAVerifierMauvais: RequisPourMotAVerifier = new RequisPourMotAVerifier(
+      self.specificationPartie.specificationGrilleEnCours.emplacementMots[0],
+      'XYZ', self.specificationPartie.joueur.obtenirGuid(), self.specificationPartie.guidPartie);
+    self.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVER_VERIFIER_MOT,
+      requisPourMotAVerifierMauvais, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, self.rappelVerifierMot, this);
+  }
+
+  public rappelVerifierMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: AppComponent) {
+    if (requisPourMotAVerifier.estLeMot) {
+      alert('Bravo, vous avez le bon mot.');
+    } else {
+      alert('Malheureusement, ce n\'est pas le bon mot.');
+    }
   }
 
   public afficherGrillePersistenteFacile(grille: any): void {

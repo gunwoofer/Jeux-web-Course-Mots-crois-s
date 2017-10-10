@@ -7,6 +7,7 @@ import { SpecificationPartie } from '../../../commun/SpecificationPartie';
 import { Niveau } from '../../../commun/Niveau';
 import { Joueur } from '../../../commun/Joueur';
 import { TypePartie } from '../../../commun/TypePartie';
+import { RequisPourMotAVerifier } from '../../../commun/RequisPourMotAVerifier';
 
 
 describe('ConnexionTempsReel', () => {
@@ -54,6 +55,37 @@ describe('ConnexionTempsReel', () => {
             expect(specificationPartieCree.specificationGrilleEnCours.cases).toBeDefined();
             expect(specificationPartieCree.specificationGrilleEnCours.emplacementMots).toBeDefined();
             done();
+          });
+      })
+      .catch((erreur) => {
+        fail(erreur);
+        done();
+      });
+  });
+
+  it('Il est possible de vérifier un mot en temps réél.', (done) => {
+    const connexionTempsReelClient: ConnexionTempsReelClient = new ConnexionTempsReelClient();
+    const joueur: Joueur = new Joueur();
+    const specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique);
+
+    connexionTempsReelClient.demarerConnexion()
+      .then((resultat: boolean) => {
+        connexionTempsReelClient.envoyerRequete(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO, specificationPartie);
+        connexionTempsReelClient.recevoirRequete(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO,
+          (specificationPartieCree: SpecificationPartie) => {
+
+            specificationPartieCree = SpecificationPartie.rehydrater(specificationPartieCree);
+
+            const requisPourMotAVerifierMauvais: RequisPourMotAVerifier = new RequisPourMotAVerifier(
+              specificationPartieCree.specificationGrilleEnCours.emplacementMots[0],
+              'XYZ', specificationPartieCree.joueur.obtenirGuid(), specificationPartieCree.guidPartie);
+            connexionTempsReelClient.envoyerRequete(requetes.REQUETE_SERVER_VERIFIER_MOT, requisPourMotAVerifierMauvais);
+            connexionTempsReelClient.recevoirRequete(requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT,
+              (requisPourMotAVerifier: RequisPourMotAVerifier) => {
+                expect(requisPourMotAVerifier.estLeMot).toBeFalsy();
+                done();
+
+              });
           });
       })
       .catch((erreur) => {
