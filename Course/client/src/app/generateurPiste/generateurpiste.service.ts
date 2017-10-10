@@ -1,18 +1,26 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
+
+export const NOMBRE_SEGMENT_MOCK = 5;
+
 @Injectable()
 export class GenerateurPisteService {
     private container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
     public scene: THREE.Scene;
+    private pointsPiste: THREE.Vector3[][];
 
     public initialisation(container: HTMLDivElement) {
         this.container = container;
         this.creerScene();
         this.ajoutPlan();
         this.commencerRendu();
+        for(let i = 0; i < this.pointsPiste[i].length; i++) {
+            this.pointsPiste[i] = new Array();
+        }
+        
     }
 
     public creerScene(): void {
@@ -63,22 +71,39 @@ export class GenerateurPisteService {
         this.camera.lookAt(cube.position);
     }
 
+    public creerPointMock(): void {
+        this.pointsPiste[0][0] = new THREE.Vector3(0, 0, 0);
+        this.pointsPiste[0][1] = new THREE.Vector3(0, 0, 0);
+
+        //this.pointsPiste
+    }
     public ajoutPlan(): void {
         const pointDebut = new THREE.Vector3(0, 0, 0);
-        const pointFin = new THREE.Vector3(20, 14, 0);
+        const pointFin = new THREE.Vector3(20, 30, 0);
 
         const largeur = 50;
-        const longeur = Math.sqrt(
-            Math.pow(pointFin.x - pointDebut.x, 2) + Math.pow(pointFin.y - pointDebut.y, 2) + Math.pow(pointFin.z - pointDebut.z, 2)
-        );
-        const geometrie = new THREE.PlaneGeometry(largeur, longeur);
+        const longueur = this.obtenirLongueur(pointDebut, pointFin);
+        const geometrie = new THREE.PlaneGeometry(largeur, longueur);
+        const angle = Math.atan( (pointFin.y - pointDebut.y) / (pointFin.x - pointDebut.x));
+        
 
         const materiel = new THREE.MeshBasicMaterial( { color: 'blue' } );
 
         const plan = new THREE.Mesh(geometrie, materiel);
-
+        plan.rotateZ(angle);
+        
+        plan.position.x = (pointDebut.x + pointFin.x) / 2;
+        plan.position.y = (pointDebut.y + pointFin.y) / 2;
+        console.log("la position du plan est : " + plan.position.x + " " + plan.position.y + " " + plan.position.z);
         this.scene.add(plan);
 
         this.camera.lookAt(plan.position);
+    }
+
+    private obtenirLongueur(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
+        let longueur: number = Math.sqrt(
+            Math.pow(pointFin.x - pointDebut.x, 2) + Math.pow(pointFin.y - pointDebut.y, 2) + Math.pow(pointFin.z - pointDebut.z, 2)
+        );
+        return longueur;
     }
 }
