@@ -16,6 +16,7 @@ export class RenderService {
   public renderer: THREE.WebGLRenderer;
   public scene: THREE.Scene;
   public points = [];
+  public position;
   public id;
   public dessinTermine = false;
   public pointsLine;
@@ -29,12 +30,16 @@ export class RenderService {
   private contraintesCircuitService = new ContraintesCircuitService();
   public piste: Piste;
 
-  public initialize(container: HTMLDivElement, point?: any[]): void {
+  public initialize(container: HTMLDivElement): void {
     this.container = container;
     this.scene = this.creerScene();
     this.creerPlan();
     this.initialisationLigne();
+    if (this.position) {
+      this.chargerPiste(this.position);
+    }
     this.startRenderingLoop();
+    this.position = null;
   }
 
   public creerScene(): THREE.Scene {

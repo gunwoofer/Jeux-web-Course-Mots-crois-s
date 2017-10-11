@@ -1,6 +1,6 @@
 import { Piste } from './../piste/piste.model';
 import { PisteService } from '../piste/piste.service';
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild, OnInit } from '@angular/core';
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
@@ -14,7 +14,7 @@ import { MessageErreurService } from '../messageErreurs/messageerreur.service';
   styleUrls: ['./createurPiste.component.css']
 })
 
-export class CreateurPisteComponent implements AfterViewInit {
+export class CreateurPisteComponent implements OnInit {
 
   constructor(private renderService: RenderService,
     private facadeSourisService: FacadeSourisService,
@@ -38,8 +38,11 @@ export class CreateurPisteComponent implements AfterViewInit {
     this.renderService.onResize();
   }
 
-  public ngAfterViewInit(): void {
+  public ngOnInit(): void {
     this.renderService.initialize(this.container);
+    this.pisteService.pisteAEditer.subscribe(
+      (piste: Piste) => this.renderService.position = piste.listepositions
+    );
   }
 
   private oncontextmenu(): boolean {

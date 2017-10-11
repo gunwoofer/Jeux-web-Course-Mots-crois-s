@@ -6,8 +6,4 @@
 <br>
 <div #container (contextmenu)="oncontextmenu()" (click)="onMouseClick($event)" (mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"></div>
 <br>
-<button type="button" class="btn btn-primary-outline pull-right">
-        <i class="fa fa-list" aria-hidden="true"></i>
-        <a href="http://localhost:4200/listePiste">Liste piste</a>
-      </button>
 <app-pistevalidator-component *ngIf="condition()" [points]="listePoints()"></app-pistevalidator-component>

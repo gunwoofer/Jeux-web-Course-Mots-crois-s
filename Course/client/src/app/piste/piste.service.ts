@@ -50,7 +50,6 @@ export class PisteService {
 
     public modifierPiste(piste: Piste) {
         this.pisteAEditer.emit(piste);
-        console.log('envoyer');
     }
 
     public commencerPartie(piste: Piste) {
