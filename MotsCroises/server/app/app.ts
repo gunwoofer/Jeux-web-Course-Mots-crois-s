@@ -13,7 +13,7 @@ import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
 import * as indexRoute from './routes/index';
-
+import { ConnexionTempsReelServer } from './ConnexionTempsReelServer';
 
 
 export class Application {
@@ -102,8 +102,15 @@ export class Application {
         router.use('/mot/creer/difficile', index.GenererMotAleatoireDifficile.bind(index.GenererMotAleatoireDifficile));
 
         // partie        
-        router.use('/partie/test/verifier/mot', index.verifierMauvaisMot.bind(index.verifierMauvaisMot));
+        router.use('/partie/test/verifier/mot', index.verifierMauvaisMot.bind(index.verifierMauvaisMot));   
         
+
+
+        // Socket IO   
+        const connexionTempsReelServer: ConnexionTempsReelServer = new ConnexionTempsReelServer(this.app);
+        console.log('partir écoute ...');
+        connexionTempsReelServer.ecouterPourConnexionClients();
+
         // use router middleware
         this.app.use(router);
 

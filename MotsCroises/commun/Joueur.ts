@@ -1,6 +1,4 @@
-import { Partie } from './Partie';
 import { Guid } from './Guid';
-import { EmplacementMot } from './EmplacementMot';
 
 enum Couleur {
     Rouge,
@@ -11,20 +9,18 @@ enum Couleur {
 export class Joueur {
     private id: string = Guid.generateGUID();
     private pointage = 0;
-    private emplacementMotsTrouves: EmplacementMot[] = new Array();
     private couleur: Couleur;
 
     constructor(couleur: Couleur = Couleur.Bleu) {
-
+        this.couleur = couleur;
     }
 
     public obtenirGuid(): string {
         return this.id;
     }
 
-    public aTrouveMot(emplacementMot: EmplacementMot) {
+    public aTrouveMot() {
         this.pointage++;
-        this.emplacementMotsTrouves.push(emplacementMot);
     }
 
     public obtenirPointage(): number {

@@ -1,21 +1,12 @@
-import { Joueur } from './Joueur';
+import { Joueur } from '../../commun/Joueur';
 import { Compteur } from './Compteur';
 import { Grille } from './Grille';
-import { Case } from './Case';
-import { Guid } from './Guid';
+import { Case } from '../../commun/Case';
+import { Guid } from '../../commun/Guid';
 import { NOMBRE_GRILLES_PARTIE_DYNAMIQUE } from './GestionnaireDePartieService';
+import { EtatPartie } from '../../commun/EtatPartie';
+import { TypePartie } from '../../commun/TypePartie';
 export const LIMITE_JOUEURS = 2;
-
-export enum EtatPartie {
-    En_Preparation,
-    En_Cours,
-    Termine
-}
-
-export enum TypePartie {
-    classique,
-    dynamique
-}
 
 export class Partie {
     private joueurs: Joueur[] = new Array();
@@ -38,7 +29,7 @@ export class Partie {
 
        if(this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
             joueur = this.obtenirJoueur(guidJoueur);
-            joueur.aTrouveMot(this.grille.obtenirEmplacementMot(caseDebut, caseFin));
+            joueur.aTrouveMot();
 
             return true;
        }

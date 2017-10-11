@@ -1,13 +1,13 @@
 import { assert } from 'chai';
-import { Joueur } from './Joueur';
-import { Case } from './Case';
-import { EmplacementMot } from './EmplacementMot';
+import { Joueur } from '../../commun/Joueur';
+import { Case } from '../../commun/Case';
+import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Grille } from './Grille';
-import { TypePartie, Partie } from './Partie';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
-import { Niveau } from './Grille';
+import { Niveau } from '../../commun/Niveau';
+import { TypePartie } from '../../commun/TypePartie';
 
 export const maxDelaiRetourRequeteMS = 10000;
 
@@ -160,13 +160,13 @@ describe('GestionnaireDePartieService', () => {
         guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
         const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
 
-        // Le « -1 » est pour qu'il ne manque qu'un mot à trouver.
         let casesEmplacementMot: Case[];
         let emplacementMot: EmplacementMot;
         let caseDebut: Case;
         let caseFin: Case;
         let longueurMot: number;
         let motAVerifier: string = '';
+        // Le « -1 » est pour qu'il ne manque qu'un mot à trouver.
         for (let i = 0; i < (emplacementsMot.length - 1); i++) {
             motAVerifier = '';
             emplacementMot = emplacementsMot[i];

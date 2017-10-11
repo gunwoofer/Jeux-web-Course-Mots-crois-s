@@ -1,9 +1,9 @@
-import { Partie, TypePartie, LIMITE_JOUEURS } from './Partie';
-import { Grille, Niveau } from './Grille';
-import { Guid } from './Guid';
-import { Case } from './Case';
-
-import { Joueur } from './Joueur';
+import { Partie } from './Partie';
+import { Grille } from './Grille';
+import { Case } from '../../commun/Case';
+import { Niveau } from '../../commun/Niveau';
+import { TypePartie } from '../../commun/TypePartie';
+import { Joueur } from '../../commun/Joueur';
 
 export const NOMBRE_GRILLES_PARTIE_DYNAMIQUE = 5;
 export const AUCUNE_PARTIE_CORREPSONDANT_GUID = 'Aucune partie correspondant au GUID n\'a été trouvé';

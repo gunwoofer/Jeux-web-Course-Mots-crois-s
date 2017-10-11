@@ -1,5 +1,6 @@
-import { Guid } from './Guid';
-import { Grille, Niveau } from './Grille';
+import { Guid } from '../../commun/Guid';
+import { Niveau } from '../../commun/Niveau';
+import { Grille } from './Grille';
 import * as express from 'express';
 import { Observateur } from './Observateur';
 import { BDImplementation } from './BDImplementation';

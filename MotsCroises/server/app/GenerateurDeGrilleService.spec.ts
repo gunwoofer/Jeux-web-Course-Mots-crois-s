@@ -1,7 +1,8 @@
 import { assert } from 'chai';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import { Grille, Niveau } from './Grille';
-import { Case, EtatCase } from './Case';
+import { Grille } from './Grille';
+import { Case, EtatCase } from '../../commun/Case';
+import { Niveau } from '../../commun/Niveau';
 
 describe('GenerateurDeGrilleService', () => {
     it('Une grille est carre et fait dix cases de cote.', () => {
