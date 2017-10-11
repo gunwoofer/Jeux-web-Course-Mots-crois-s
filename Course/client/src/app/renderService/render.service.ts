@@ -6,6 +6,8 @@ import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
 
+import { Piste } from '../piste/piste.model';
+
 @Injectable()
 export class RenderService {
   private container: HTMLDivElement;
@@ -14,6 +16,8 @@ export class RenderService {
   public renderer: THREE.WebGLRenderer;
   public scene: THREE.Scene;
   public points = [];
+  public position;
+  public id;
   public dessinTermine = false;
   public pointsLine;
   private courbe;
@@ -24,21 +28,27 @@ export class RenderService {
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
   private contraintesCircuitService = new ContraintesCircuitService();
+  public piste: Piste;
 
   public initialize(container: HTMLDivElement): void {
     this.container = container;
-    this.creerScene();
+    this.scene = this.creerScene();
     this.creerPlan();
     this.initialisationLigne();
+    if (this.position) {
+      this.chargerPiste(this.position);
+    }
     this.startRenderingLoop();
+    this.position = null;
   }
 
-  public creerScene(): void {
-    this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xFFFFFF);
+  public creerScene(): THREE.Scene {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xFFFFFF);
     this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 10000);
     this.camera.position.z = 100;
     this.camera.position.x = 100;
+    return scene;
   }
 
   public creerPlan(): void {
@@ -102,6 +112,7 @@ export class RenderService {
     let objet, point;
     if (!this.dessinTermine) {
       objet = this.facadeCoordonneesService.obtenirIntersection(event, this.scene, this.camera, this.renderer);
+      console.log(objet.point);
       point = this.facadePointService.creerPoint(objet.point, 'black');
       if (this.points.length === 0) {
         point.material.status = 'premier';
@@ -164,8 +175,48 @@ export class RenderService {
   }
 
   public reinitialiserScene(): void {
+    console.log('Reinitialisation');
     this.viderScene();
     this.facadePointService.viderListeDesPoints(this.points);
     this.dessinTermine = false;
+
+  }
+
+  public chargerPiste(position: any) {
+    console.log(position.length);
+    for (let i = 0; i < position.length; i++) {
+      this.dessinerPointDejaConnu(position[i]);
+    }
+  }
+
+  public obtenirPositions(): any[] {
+    const vecteur: any[] = [];
+    for (const point of this.points) {
+      vecteur.push(new THREE.Vector3(point.position.x, point.position.y, point.position.z));
+    }
+    return vecteur;
+  }
+
+  public dessinerPointDejaConnu(position: THREE.Vector3) {
+    let point;
+    if (!this.dessinTermine) {
+      console.log(position);
+      point = this.facadePointService.creerPoint(position, 'black');
+      if (this.points.length === 0) {
+        point.material.status = 'premier';
+      } else {
+        try {
+          this.dessinerDernierPoint(point);
+        } catch (e) {
+          alert(e.message);
+          return;
+        }
+      }
+      this.ajouterPoint(point);
+      this.actualiserDonnees();
+      this.render();
+    } else {
+      return 0;
+    }
   }
 }

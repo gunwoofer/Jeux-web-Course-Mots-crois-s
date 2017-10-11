@@ -15,11 +15,13 @@
     "postinstall": "rimraf false"
   },
   "dependencies": {
+    "@types/mongoose": "^4.7.23",
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.0",
     "cors": "~2.8.1",
     "debug": "~2.2.0",
     "express": "4.15.4",
+    "mongoose": "^4.12.1",
     "morgan": "1.7.0",
     "nodemon": "^1.11.0",
     "pug": "^2.0.0-alpha6",

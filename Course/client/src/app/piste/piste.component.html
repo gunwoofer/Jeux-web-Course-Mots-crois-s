@@ -15,12 +15,16 @@
         </div>
         <footer class="panel-footer">
             <div>
-                <a class="config" class="btn btn-warning" (click)="onEdit()">
+                <a class="config" class="btn btn-success" (click)="commencerPartie()">
+                    <i class="fa fa-flag-checkered" aria-hidden="true"></i>Choisir une Course
+                </a>
+                <a [routerLink]="['/createurPiste']" class="config" class="btn btn-warning" (click)="onEdit()">
                     <i class="fa fa-cog" aria-hidden="true"></i>Modifier
                 </a>
                 <a class="config" class="btn btn-danger" (click)="onDelete()">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>Supprimer
                 </a>
+
             </div>
         </footer>
     </div>
