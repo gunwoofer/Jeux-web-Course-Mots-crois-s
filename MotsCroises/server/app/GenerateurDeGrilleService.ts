@@ -301,7 +301,8 @@ export class GenerateurDeGrilleService {
 
 
     private genererGrilleVideMock(niveau: Niveau): Grille {
-        let grilleMock: Grille = new Grille(niveau, EtatCase.vide) //Grille vide
+        let grilleMock: Grille = new Grille(niveau) //Grille vide
+        grilleMock.affichageConsole();
         
         return grilleMock;
     }
@@ -331,7 +332,7 @@ export class GenerateurDeGrilleService {
         let indice5V = new Indice(['a book regarded as authoritative in its field', 'the sacred writings of the Christian religions']);
         let mot5V = new MotComplet("BIBLE", indice5V);
 
-        for (let i = 0; i < grilleRemplieMock.emplacementMots.length; i++) {   //Parcourt horizontal puis vertical de bas en haut et de gauche a droite
+        for (let i = 0; i < 5; i++) {   //Parcourt horizontal puis vertical de bas en haut et de gauche a droite
             if (i === 0) {
                 grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);   
             }
