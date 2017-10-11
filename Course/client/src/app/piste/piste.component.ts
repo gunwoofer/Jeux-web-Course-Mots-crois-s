@@ -1,3 +1,4 @@
+import { RenderService } from './../renderService/render.service';
 import { Piste } from './piste.model';
 import { Component, Input } from '@angular/core';
 import { PisteService } from './piste.service';
@@ -9,7 +10,7 @@ import { PisteService } from './piste.service';
 })
 
 export class PisteComponent {
-  constructor(private pisteService: PisteService) { }
+  constructor(private pisteService: PisteService, private renderService: RenderService) { }
 
   @Input() private piste: Piste;
   private display = false;
@@ -19,8 +20,10 @@ export class PisteComponent {
     this.pisteService.modifierPiste(this.piste);
   }
 
-  private Delete() {
-    this.pisteService.supprimerListePiste(this.piste);
+  private onDelete() {
+    this.pisteService.supprimerListePiste(this.piste)
+      .then(message => console.log(message))
+      .catch(erreur => console.error(erreur));
   }
 
   private onClick() {
@@ -29,5 +32,9 @@ export class PisteComponent {
 
   private montrerLesScores() {
     this.score = !this.score;
+  }
+
+  private commencerPartie() {
+    this.pisteService.commencerPartie(this.piste);
   }
 }
