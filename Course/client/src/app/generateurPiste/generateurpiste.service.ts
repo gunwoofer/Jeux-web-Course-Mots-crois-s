@@ -17,10 +17,9 @@ export class GenerateurPisteService {
         this.creerScene();
         this.ajoutPlan();
         this.commencerRendu();
-        for(let i = 0; i < this.pointsPiste[i].length; i++) {
+        for (let i = 0; i < this.pointsPiste[i].length; i++) {
             this.pointsPiste[i] = new Array();
         }
-        
     }
 
     public creerScene(): void {
@@ -80,7 +79,7 @@ export class GenerateurPisteService {
         this.pointsPiste[0][0] = new THREE.Vector3(0, 0, 0);
         this.pointsPiste[0][1] = new THREE.Vector3(0, 0, 0);
 
-        //this.pointsPiste
+        // this.pointsPiste
     }
     public ajoutPlan(): void {
         const pointDebut = new THREE.Vector3(0, 0, 0);
@@ -90,28 +89,27 @@ export class GenerateurPisteService {
         const longueur = this.obtenirLongueur(pointDebut, pointFin);
         const geometrie = new THREE.PlaneGeometry(largeur, longueur);
         const angle = Math.atan( (pointFin.y - pointDebut.y) / (pointFin.x - pointDebut.x));
-        
 
         const materiel = new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('./textures/clouds.jpg') } );
 
         const plan = new THREE.Mesh(geometrie, materiel);
         plan.rotateZ(angle);
-        
+
         plan.position.x = (pointDebut.x + pointFin.x) / 2;
         plan.position.y = (pointDebut.y + pointFin.y) / 2;
-        console.log("la position du plan est : " + plan.position.x + " " + plan.position.y + " " + plan.position.z);
+        console.log('la position du plan est : ' + plan.position.x + ' ' + plan.position.y + ' ' + plan.position.z);
         this.scene.add(plan);
 
         this.camera.lookAt(plan.position);
     }
 
     private obtenirLongueur(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
-        let longueur: number = Math.sqrt(
+        const longueur: number = Math.sqrt(
             Math.pow(pointFin.x - pointDebut.x, 2) + Math.pow(pointFin.y - pointDebut.y, 2) + Math.pow(pointFin.z - pointDebut.z, 2)
         );
         return longueur;
     }
-    
+
     public cameraAvantArriere(event) {
         if (event.wheelDeltaY < 0) {
             this.camera.position.z += 5;
