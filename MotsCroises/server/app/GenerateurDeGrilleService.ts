@@ -46,7 +46,7 @@ export class GenerateurDeGrilleService {
 
     public genererGrilleMock(niveau: Niveau): Grille {
         this.motCroiseGenere = this.genererGrilleVideMock(niveau);
-        this.motCroiseGenere = this.genererGrilleMock(niveau);
+        this.motCroiseGenere = this.remplirGrilleMock(niveau);
 
         return this.motCroiseGenere;
     }
@@ -302,14 +302,26 @@ export class GenerateurDeGrilleService {
 
     private genererGrilleVideMock(niveau: Niveau): Grille {
         let grilleMock: Grille = new Grille(niveau) //Grille vide
-        grilleMock.affichageConsole();
-        
+
+        //Emplacements horizontaux
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(2, 6), grilleMock.obtenirCase(2, 9)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(3, 0), grilleMock.obtenirCase(3, 3)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(5, 0), grilleMock.obtenirCase(5, 8)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(8, 3), grilleMock.obtenirCase(8, 9)));
+
+        //Emplacements verticaux
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(1, 1), grilleMock.obtenirCase(9, 1)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(0, 3), grilleMock.obtenirCase(6, 3)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(3, 5), grilleMock.obtenirCase(6, 5)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(5, 7), grilleMock.obtenirCase(8, 7)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(1, 8), grilleMock.obtenirCase(5, 8)));
+
         return grilleMock;
     }
 
     private remplirGrilleMock(niveau: Niveau): Grille {
         let grilleRemplieMock: Grille = this.motCroiseGenere;
-
+        
         //Mots horizontaux:
         let indice1H = new Indice(['a firm controlling influence', 'worker who moves the camera around while a film or television show is being made']);
         let mot1H = new MotComplet("GRIP", indice1H);
@@ -322,47 +334,55 @@ export class GenerateurDeGrilleService {
 
         //Mots verticaux:
         let indice1V = new Indice(['a written assurance that some product or service will be provided or will meet certain specifications', 'a pledge that something will happen or that something is true']);
-        let mot1V = new MotComplet("GUARANTEE", indice1H);
+        let mot1V = new MotComplet("GUARANTEE", indice1V);
         let indice2V = new Indice(['cheap showy jewelry or ornament on clothing', 'jewelry worn around the wrist for decoration']);
         let mot2V = new MotComplet("BANGLES", indice2V);
         let indice3V = new Indice(['a sacred place of pilgrimage', 'belonging to or derived from or associated with a divine power']);
         let mot3V = new MotComplet("HOLY", indice3V);
         let indice4V = new Indice(['uncastrated adult male sheep', 'a tool for driving or forcing something by impact']);
-        let mot4V = new MotComplet("RAM", indice4V);
+        let mot4V = new MotComplet("TRAM", indice4V);
         let indice5V = new Indice(['a book regarded as authoritative in its field', 'the sacred writings of the Christian religions']);
         let mot5V = new MotComplet("BIBLE", indice5V);
 
-        for (let i = 0; i < 5; i++) {   //Parcourt horizontal puis vertical de bas en haut et de gauche a droite
+        for (let i = 0; i < grilleRemplieMock.emplacementMots.length; i++) {   //Parcourt horizontal puis vertical de bas en haut et de gauche a droite
             if (i === 0) {
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
                 grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);   
             }
             if (i === 1) {
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);  
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
+                grilleRemplieMock.ajouterMotEmplacement(mot2H, grilleRemplieMock.emplacementMots[i]);  
             }
             if (i === 2) {
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);  
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
+                grilleRemplieMock.ajouterMotEmplacement(mot3H, grilleRemplieMock.emplacementMots[i]);  
             }
             if (i === 3) {
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);  
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
+                grilleRemplieMock.ajouterMotEmplacement(mot4H, grilleRemplieMock.emplacementMots[i]);  
             }
             if (i === 4) {
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);  
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
+                grilleRemplieMock.ajouterMotEmplacement(mot1V, grilleRemplieMock.emplacementMots[i]);  
             }
             if (i === 5) {
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);  
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
+                grilleRemplieMock.ajouterMotEmplacement(mot2V, grilleRemplieMock.emplacementMots[i]);  
             }
             if (i === 6) {
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);  
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
+                grilleRemplieMock.ajouterMotEmplacement(mot3V, grilleRemplieMock.emplacementMots[i]);  
             }
             if (i === 7) {
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);  
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
+                grilleRemplieMock.ajouterMotEmplacement(mot4V, grilleRemplieMock.emplacementMots[i]);  
             }
             if (i === 8) {
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);  
+                console.log('Emplacement ' + i + ' : x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseDebut().obtenirNumeroColonne() + ' x = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroLigne() + ' y = ' + grilleRemplieMock.emplacementMots[i].obtenirCaseFin().obtenirNumeroColonne());
+                grilleRemplieMock.ajouterMotEmplacement(mot5V, grilleRemplieMock.emplacementMots[i]);  
             }
         }
 
-        grilleRemplieMock.affichageConsole();
         return grilleRemplieMock;
     }
 
