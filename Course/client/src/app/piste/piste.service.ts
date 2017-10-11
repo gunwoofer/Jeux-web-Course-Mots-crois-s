@@ -50,21 +50,10 @@ export class PisteService {
 
     public modifierPiste(piste: Piste) {
         this.pisteAEditer.emit(piste);
+        console.log('envoyer');
     }
 
     public commencerPartie(piste: Piste) {
-        /*return this.http.delete('http://localhost:3000/listePiste/' + piste.id)
-        .toPromise()
-        .then(response => {
-            const pist = response.json().obj;
-            const pisteRetourne = new Piste(pist.nom, pist.typeCourse, pist.description, pist.listepositions, pist._id);
-            pisteRetourne.coteAppreciation = pist.coteAppreciation;
-            pisteRetourne.nombreFoisJouee = pist.nombreFoisJouee;
-            pisteRetourne.meilleursTemps = pist.meilleursTemps;
-
-            return pisteRetourne;
-        })
-        .catch((erreur: Response) => Observable.throw(erreur.json()));*/
-        console.log('oui');
+        console.log(piste);
     }
 }

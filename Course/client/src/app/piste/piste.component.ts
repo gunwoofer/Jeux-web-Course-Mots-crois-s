@@ -17,7 +17,7 @@ export class PisteComponent {
   private score = false;
 
   private onEdit() {
-    this.renderService.chargerPiste(this.piste.listepositions);
+    this.pisteService.modifierPiste(this.piste);
   }
 
   private onDelete() {

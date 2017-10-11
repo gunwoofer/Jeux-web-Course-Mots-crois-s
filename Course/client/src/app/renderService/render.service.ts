@@ -177,11 +177,10 @@ export class RenderService {
 
   }
 
-  public chargerPiste(points: any) {
-    console.log(points.length);
-    for (let i = 0; i < points.length; i++) {
-      const point = this.facadePointService.creerPoint(points[i], 'black');
-      this.scene.add(point);
+  public chargerPiste(position: any) {
+    console.log(position.length);
+    for (let i = 0; i < position.length; i++) {
+      this.dessinerPointDejaConnu(position[i]);
     }
   }
 
