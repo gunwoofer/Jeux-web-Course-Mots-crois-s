@@ -1,4 +1,5 @@
-import { CourseComponent } from './course.component';
+import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
+import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -10,16 +11,18 @@ import { PisteValidationComponent } from './pisteValidator/pisteValidation.compo
 import { PisteComponent } from './piste/piste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
 import { TableauScoreComponent } from './tableauScore/tableauScore.component';
+import { CourseComponent } from './course/course.component';
 
 
 import { RenderService } from './renderService/render.service';
-import { BasicService } from './basic.service';
 import { PisteService } from './piste/piste.service';
 import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
 import { FacadeSourisService } from './facadeSouris/facadesouris.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
+import { TableauScoreService } from './tableauScore/tableauScoreService.service';
+
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
@@ -34,7 +37,8 @@ import { AppRoutingModule } from './app.routing';
     PisteComponent,
     ListePisteComponent,
     CourseComponent,
-    TableauScoreComponent
+    TableauScoreComponent,
+    GenerateurPisteComponent
   ],
   imports: [
     BrowserModule,
@@ -44,13 +48,14 @@ import { AppRoutingModule } from './app.routing';
   ],
   providers: [
     RenderService,
-    BasicService,
+    TableauScoreService,
     PisteService,
     FacadeCoordonneesService,
     FacadeSourisService,
     FacadePointService,
     FacadeLigneService,
     MessageErreurService,
+    GenerateurPisteService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
