@@ -18,7 +18,7 @@ export enum EtatGrille {
 
 export class Grille {
     private mots: MotComplet[] = new Array();
-    private emplacementMots: EmplacementMot[] = new Array();
+    public emplacementMots: EmplacementMot[] = new Array();
 
     private cases: Cases = new Cases();
 
