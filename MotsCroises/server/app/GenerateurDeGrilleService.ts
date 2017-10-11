@@ -383,7 +383,22 @@ export class GenerateurDeGrilleService {
             }
         }
 
+        grilleRemplieMock = this.ajouterIntersectionsMock(grilleRemplieMock);
         return grilleRemplieMock;
+    }
+
+    private ajouterIntersectionsMock(grille: Grille): Grille {
+        grille.obtenirCase(2, 8).intersection = true;
+        grille.obtenirCase(3, 1).intersection = true;
+        grille.obtenirCase(3, 3).intersection = true;
+        grille.obtenirCase(5, 1).intersection = true;
+        grille.obtenirCase(5, 3).intersection = true;
+        grille.obtenirCase(5, 5).intersection = true;
+        grille.obtenirCase(5, 7).intersection = true;
+        grille.obtenirCase(5, 8).intersection = true;
+        grille.obtenirCase(8, 7).intersection = true;
+
+        return grille;
     }
 
 
