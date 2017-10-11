@@ -16,6 +16,7 @@ export class RenderService {
   public renderer: THREE.WebGLRenderer;
   public scene: THREE.Scene;
   public points = [];
+  public id;
   public dessinTermine = false;
   public pointsLine;
   private courbe;
@@ -28,20 +29,21 @@ export class RenderService {
   private contraintesCircuitService = new ContraintesCircuitService();
   public piste: Piste;
 
-  public initialize(container: HTMLDivElement): void {
+  public initialize(container: HTMLDivElement, point?: any[]): void {
     this.container = container;
-    this.creerScene();
+    this.scene = this.creerScene();
     this.creerPlan();
     this.initialisationLigne();
     this.startRenderingLoop();
   }
 
-  public creerScene(): void {
-    this.scene = new THREE.Scene();
-    this.scene.background = new THREE.Color(0xFFFFFF);
+  public creerScene(): THREE.Scene {
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xFFFFFF);
     this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 10000);
     this.camera.position.z = 100;
     this.camera.position.x = 100;
+    return scene;
   }
 
   public creerPlan(): void {
@@ -172,15 +174,15 @@ export class RenderService {
     this.viderScene();
     this.facadePointService.viderListeDesPoints(this.points);
     this.dessinTermine = false;
+
   }
 
-  public chargerPiste(position: any[]) {
-    console.log(position);
-    this.reinitialiserScene();
-     console.log(position.length);
-     for (let i = 0; i < position.length; i++) {
-       this.dessinerPointDejaConnu(position[i].position);
-     }
+  public chargerPiste(points: any) {
+    console.log(points.length);
+    for (let i = 0; i < points.length; i++) {
+      const point = this.facadePointService.creerPoint(points[i], 'black');
+      this.scene.add(point);
+    }
   }
 
   public obtenirPositions(): any[] {

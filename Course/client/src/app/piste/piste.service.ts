@@ -1,6 +1,6 @@
 import { Http, Headers, Response } from '@angular/http';
 import { Piste } from './piste.model';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { RenderService } from '../renderService/render.service';
@@ -11,6 +11,7 @@ import 'rxjs/Rx';
 
 export class PisteService {
     private pistes: Piste[] = [];
+    public pisteAEditer = new EventEmitter<Piste>();
 
     constructor(private renderService: RenderService, private http: Http) { }
 
@@ -21,7 +22,7 @@ export class PisteService {
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
-    public retournerListePiste() {
+    public retournerListePiste(): Promise<any> {
         return this.http.get('http://localhost:3000/listePiste')
             .toPromise()
             .then(response => {
@@ -39,7 +40,7 @@ export class PisteService {
             });
     }
 
-    public supprimerListePiste(piste: Piste) {
+    public supprimerListePiste(piste: Piste): Promise<Object> {
         this.pistes.splice(this.pistes.indexOf(piste), 1);
         return this.http.delete('http://localhost:3000/listePiste/' + piste.id)
             .toPromise()
@@ -48,8 +49,21 @@ export class PisteService {
     }
 
     public modifierPiste(piste: Piste) {
-        this.renderService.chargerPiste(piste.listepositions);
-
+        this.pisteAEditer.emit(piste);
     }
 
+    public commencerPartie(piste: Piste) {
+        return this.http.delete('http://localhost:3000/listePiste/' + piste.id)
+        .toPromise()
+        .then(response => {
+            const pist = response.json().obj;
+            const pisteRetourne = new Piste(pist.nom, pist.typeCourse, pist.description, pist.listepositions, pist._id);
+            pisteRetourne.coteAppreciation = pist.coteAppreciation;
+            pisteRetourne.nombreFoisJouee = pist.nombreFoisJouee;
+            pisteRetourne.meilleursTemps = pist.meilleursTemps;
+
+            return pisteRetourne;
+        })
+        .catch((erreur: Response) => Observable.throw(erreur.json()));
+    }
 }

@@ -2,7 +2,10 @@
     <strong>Warning! </strong><br>{{message}}</h4>
 <h4 class="alert alert-success" *ngIf="condition()">
     <strong>Success! </strong><br>Votre dessin est terminé mais vous pouvez le modifier encore.</h4>
-<button (click)="importerPiste()">Importer la piste precedente</button>
+<button type="button" class="btn btn-primary-outline pull-right">
+        <i class="fa fa-list" aria-hidden="true"></i>
+        <a href="http://localhost:4200/listePiste">Liste piste</a>
+      </button>
 <br>
 <br>
 <div #container (contextmenu)="oncontextmenu()" (click)="onMouseClick($event)" (mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"></div>

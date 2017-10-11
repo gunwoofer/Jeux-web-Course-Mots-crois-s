@@ -1,6 +1,6 @@
 import { Piste } from './../piste/piste.model';
 import { PisteService } from '../piste/piste.service';
-import { AfterViewInit, Component, ElementRef, ViewChild, HostListener, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild } from '@angular/core';
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
@@ -85,3 +85,5 @@ export class CreateurPisteComponent implements AfterViewInit {
     }
   }
 }
+
+
