@@ -20,6 +20,7 @@ export class GenerateurPisteComponent implements AfterViewInit {
     private containerRef: ElementRef;
 
     @HostListener('window:resize', ['$event'])
+
     public onResize() {
         this.generateurPisteService.onResize();
     }
@@ -33,4 +34,7 @@ export class GenerateurPisteComponent implements AfterViewInit {
         return false;
     }
 
+    public deplacement(event) {
+        this.generateurPisteService.deplacementVoiture(event);
+    }
 }
