@@ -53,7 +53,7 @@ export class PisteService {
     }
 
     public commencerPartie(piste: Piste) {
-        return this.http.delete('http://localhost:3000/listePiste/' + piste.id)
+        /*return this.http.delete('http://localhost:3000/listePiste/' + piste.id)
         .toPromise()
         .then(response => {
             const pist = response.json().obj;
@@ -64,6 +64,7 @@ export class PisteService {
 
             return pisteRetourne;
         })
-        .catch((erreur: Response) => Observable.throw(erreur.json()));
+        .catch((erreur: Response) => Observable.throw(erreur.json()));*/
+        console.log('oui');
     }
 }
