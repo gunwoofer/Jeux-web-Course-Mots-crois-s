@@ -1,3 +1,5 @@
+import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
+import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -35,7 +37,8 @@ import { AppRoutingModule } from './app.routing';
     PisteComponent,
     ListePisteComponent,
     CourseComponent,
-    TableauScoreComponent
+    TableauScoreComponent,
+    GenerateurPisteComponent
   ],
   imports: [
     BrowserModule,
@@ -52,6 +55,7 @@ import { AppRoutingModule } from './app.routing';
     FacadePointService,
     FacadeLigneService,
     MessageErreurService,
+    GenerateurPisteService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

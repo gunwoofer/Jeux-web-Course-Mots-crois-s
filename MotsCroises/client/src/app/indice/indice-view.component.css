@@ -1,0 +1,19 @@
+.group-name {
+  font: Arial;
+  font-size: 20px;
+  margin:10px;
+  text-decoration: underline;
+}
+
+span.selected {
+  color: #00FFFF;
+}
+
+.indice {
+  display: inline-block;
+  text-decoration: none;
+}
+
+.indiceTrouve{
+  text-decoration: line-through;
+}

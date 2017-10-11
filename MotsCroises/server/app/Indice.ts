@@ -13,6 +13,12 @@ export class Indice {
 
     }
 
+    public copieIndice(): Indice {
+        let newIndice = new Indice(this.definitions);
+        newIndice.difficulteDefinition = this.difficulteDefinition;
+        return newIndice;
+    }
+
     public obtenirDifficulteDefinition(): DifficulteDefinition {
         return this.difficulteDefinition;
     }

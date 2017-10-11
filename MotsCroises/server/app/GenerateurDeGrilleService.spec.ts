@@ -1,7 +1,8 @@
 import { assert } from 'chai';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import { Grille, Niveau } from './Grille';
-import { Case, EtatCase } from './Case';
+import { Grille } from './Grille';
+import { Case, EtatCase } from '../../commun/Case';
+import { Niveau } from '../../commun/Niveau';
 
 describe('GenerateurDeGrilleService', () => {
     it('Une grille est carre et fait dix cases de cote.', () => {
@@ -27,6 +28,28 @@ describe('GenerateurDeGrilleService', () => {
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
         assert(!grille.contientMotDuplique());
+    });
+
+    it('Une grille ne contient pas d\'emplacements de mot qui se chevauchent sur la même colonne ou sur la même ligne.', () => {
+        const generateurDeGrilleService = new GenerateurDeGrilleService();
+        const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
+        let compteur = 0;
+
+        for (let emplacementAEvaluer of grille.obtenirEmplacementsMot()) {
+            compteur = 0;
+            for (let emplacementCourant of grille.obtenirEmplacementsMot()) {
+                if ((emplacementAEvaluer.obtenirCaseDebut() === emplacementCourant.obtenirCaseDebut()) &&
+                    (emplacementAEvaluer.obtenirCaseFin() === emplacementCourant.obtenirCaseFin())) {
+                    compteur++;
+                    if (compteur > 1) {
+                        assert(false);
+                    }
+                }
+            }
+        }
+
+        assert(true);
+
     });
 
     it('Les accents, tremas et cedilles sont ignores.', () => {
