@@ -13,6 +13,7 @@ export class GenerateurPisteService {
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
     private voiture: THREE.Mesh;
+    private touche: number;
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
@@ -122,22 +123,57 @@ export class GenerateurPisteService {
     }
 
     public deplacementVoiture(event) {
-        console.log(event.keyCode);
+        // console.log(event.keyCode);
         if (event.keyCode === 122 || event.keyCode === 119) {
             console.log('Avancer');
             this.voiture.translateY(1);
+            this.touche = 122;
         }
         if (event.keyCode === 115) {
             console.log('Reculer');
             this.voiture.translateY(-1);
+            this.touche = 115;
         }
         if (event.keyCode === 113 || event.keyCode === 97) {
             console.log('Gauche');
+            // this.voiture.rotateZ(0.1);
             this.voiture.translateX(-1);
+            if (this.touche === 122) {
+                this.voiture.translateY(1);
+            }
+            if (this.touche === 115) {
+                this.voiture.translateY(-1);
+            }
         }
         if (event.keyCode === 100) {
             console.log('Droite');
+            // this.voiture.rotateZ(-0.1);
             this.voiture.translateX(1);
+            if (this.touche === 122) {
+                this.voiture.translateY(1);
+            }
+            if (this.touche === 115) {
+                this.voiture.translateY(-1);
+            }
         }
+    }
+
+    public toucheRelachee(event) {
+        console.log(event.keyCode);
+        // 90 Z
+        // 83 S
+        // 68 D
+        // 81 Q
+        // 65 A
+        // 87 W
+        if (event.keyCode === 90) {
+            console.log('Touche AVANT relachée');
+            this.touche = 0;
+        }
+        if (event.keyCode === 83) {
+            console.log('Touche ARRIERE relachée');
+            this.touche = 0;
+        }
+
     }
 }

@@ -29,6 +29,11 @@ export class GenerateurPisteComponent implements AfterViewInit {
         this.generateurPisteService.deplacementVoiture(event);
     }
 
+    @HostListener('document:keyup', ['$event'])
+    public toucheLachee(event: KeyboardEvent) {
+        this.generateurPisteService.toucheRelachee(event);
+    }
+
     public ngAfterViewInit(): void {
     this.generateurPisteService.initialisation(this.container);
     }
