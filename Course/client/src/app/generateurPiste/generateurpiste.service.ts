@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
-
 export const LARGEUR_PISTE = 50;
 export const NOMBRE_SEGMENTS = 1;
 
@@ -13,6 +12,7 @@ export class GenerateurPisteService {
     public scene: THREE.Scene;
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
+    private voiture: THREE.Mesh;
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
@@ -23,22 +23,18 @@ export class GenerateurPisteService {
         this.container = container;
         this.creerScene();
         this.creerPointMock();
-        this.ajoutPlan();
+        this.creerVoiture();
+        this.scene.add(this.voiture);
         this.commencerRendu();
     }
 
     public creerScene(): void {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0xFFFFFF);
+        this.scene.background = new THREE.Color(0x00FF00);
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
         this.camera.position.y = 0;
         this.camera.position.x = 0;
         this.camera.position.z = 350;
-        /*
-        const lumiere = new THREE.DirectionalLight( 0xffffff );
-        lumiere.position.set(0, 1, 1).normalize();
-        this.scene.add(lumiere);
-        */
     }
 
     public commencerRendu(): void {
@@ -64,20 +60,14 @@ export class GenerateurPisteService {
         return this.container.clientWidth / this.container.clientHeight;
     }
 
-    public ajoutCube(): void {
-        const geometry = new THREE.BoxGeometry( 200, 200, 200);
-        for (let i = 0; i < geometry.faces.length; i += 2 ) {
-            const hex = Math.random() * 0xffffff;
-            geometry.faces[ i ].color.setHex( hex );
-            geometry.faces[ i + 1 ].color.setHex( hex );
-        }
-        const material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
+    public creerVoiture(): void {
+        const geometry = new THREE.BoxGeometry( 10, 10, 10);
+        const material = new THREE.MeshBasicMaterial( { color: 'white', overdraw: 0.5 } );
         const cube = new THREE.Mesh( geometry, material );
-        cube.position.y = 0;
+        cube.position.y = 10;
         cube.position.x = 0;
         cube.position.z = 0;
-        this.scene.add( cube );
-        this.camera.lookAt(cube.position);
+        this.voiture = cube;
     }
 
     public creerPointMock(): void {
@@ -86,6 +76,7 @@ export class GenerateurPisteService {
         this.pointsPiste[0][1] = new THREE.Vector3(0, 100, 0);
 
     }
+
     public ajoutPlan(): void {
         const largeur = LARGEUR_PISTE;
         const materiel = new THREE.MeshBasicMaterial( { color : 'black' } );
@@ -131,7 +122,22 @@ export class GenerateurPisteService {
     }
 
     public deplacementVoiture(event) {
-        // console.log(event);
-        console.log('hi');
+        console.log(event.keyCode);
+        if (event.keyCode === 122 || event.keyCode === 119) {
+            console.log('Avancer');
+            this.voiture.translateY(1);
+        }
+        if (event.keyCode === 115) {
+            console.log('Reculer');
+            this.voiture.translateY(-1);
+        }
+        if (event.keyCode === 113 || event.keyCode === 97) {
+            console.log('Gauche');
+            this.voiture.translateX(-1);
+        }
+        if (event.keyCode === 100) {
+            console.log('Droite');
+            this.voiture.translateX(1);
+        }
     }
 }

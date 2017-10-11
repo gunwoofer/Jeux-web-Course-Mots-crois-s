@@ -20,9 +20,13 @@ export class GenerateurPisteComponent implements AfterViewInit {
     private containerRef: ElementRef;
 
     @HostListener('window:resize', ['$event'])
-
     public onResize() {
         this.generateurPisteService.onResize();
+    }
+
+    @HostListener('document:keypress', ['$event'])
+    public deplacement(event: KeyboardEvent) {
+        this.generateurPisteService.deplacementVoiture(event);
     }
 
     public ngAfterViewInit(): void {
@@ -32,9 +36,5 @@ export class GenerateurPisteComponent implements AfterViewInit {
     public cameraZ(event): boolean {
         this.generateurPisteService.cameraAvantArriere(event);
         return false;
-    }
-
-    public deplacement(event) {
-        this.generateurPisteService.deplacementVoiture(event);
     }
 }
