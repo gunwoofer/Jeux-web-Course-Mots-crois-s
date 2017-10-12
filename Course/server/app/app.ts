@@ -66,7 +66,7 @@ export class Application {
 
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/Bdpiste', { useMongoClient: true });
-    mongoose.connection.on("error", error => {
+    mongoose.connection.on('error', error => {
       console.error(error);
     });
 
