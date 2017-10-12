@@ -1,19 +1,18 @@
-import { Http, Headers, Response } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import 'rxjs/Rx';
 
 import { RenderService } from '../renderService/render.service';
-
-import 'rxjs/Rx';
 
 @Injectable()
 
 export class PisteService {
-    private pistes: Piste[] = [];
-    public pisteAEditer = new EventEmitter<Piste>();
 
     constructor(private renderService: RenderService, private http: Http) { }
+    private pistes: Piste[] = [];
+    public pisteAEditer = new EventEmitter<Piste>();
 
     public ajouterPiste(piste: Piste): Observable<Response> {
         this.pistes.push(piste);
@@ -22,7 +21,7 @@ export class PisteService {
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
-    public retournerListePiste(): Promise<any> {
+    public retournerListePiste(): Promise<Piste[]> {
         return this.http.get('http://localhost:3000/listePiste')
             .toPromise()
             .then(response => {
@@ -52,13 +51,13 @@ export class PisteService {
         this.pisteAEditer.emit(piste);
     }
 
-    public commencerPartie(piste: Piste): void {
-        console.log(piste);
-    }
-
     public mettreAjourPiste(piste: Piste): Observable<JSON> {
         return this.http.patch('http://localhost:3000/createurPiste' + piste.id, piste)
             .map((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));
+    }
+
+    public commencerPartie(piste: Piste): void {
+        console.log(piste);
     }
 }

@@ -1,10 +1,10 @@
 import { Http } from '@angular/http';
-import { RenderService } from '../renderService/render.service';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
+import { RenderService } from '../renderService/render.service';
 
 @Component({
     selector: 'app-pistevalidator-component',
@@ -15,11 +15,9 @@ import { PisteService } from './../piste/piste.service';
 export class PisteValidationComponent {
     constructor(private pisteService: PisteService, private renderService: RenderService) { }
 
-    @Input() private points: THREE.Points[];
     @Input() private pisteAmodifier: Piste;
     private display: boolean;
     private buttonText = 'Sauvegarder circuit';
-    // private butrtonText = 'Modifier circuit';
 
     private onSubmit(form: NgForm): void {
         const listepositions: any[] = [];

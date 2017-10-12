@@ -4,7 +4,6 @@ import * as THREE from 'three';
 @Injectable()
 export class FacadeCoordonneesService {
 
-    constructor () {}
     public mouse: THREE.Vector2;
 
     public obtenirIntersection(event, scene: THREE.Scene, camera: THREE.Camera,

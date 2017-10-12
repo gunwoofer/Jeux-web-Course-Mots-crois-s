@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { NgForm } from '@angular/forms';
 
 export class Piste {
@@ -18,13 +17,13 @@ export class Piste {
         }
     }
 
-    public modifierAttribut(form: NgForm, listePosition: any[]) {
+    public modifierAttribut(form: NgForm, listePosition: any[]): void {
         this.typeCourse = form.value.typeCourse;
         this.description = form.value.description;
         this.listepositions = listePosition;
     }
 
-    public modifieAttribut(coteAppreciation: number, nombreFoisJouee: number, meilleursTemps: number[]) {
+    public modifieAttribut(coteAppreciation: number, nombreFoisJouee: number, meilleursTemps: number[]): void {
         this.coteAppreciation = coteAppreciation;
         this.nombreFoisJouee = nombreFoisJouee;
         this.meilleursTemps = meilleursTemps;

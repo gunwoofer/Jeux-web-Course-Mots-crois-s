@@ -1,10 +1,10 @@
-import { Piste } from './../piste/piste.model';
-import { PisteService } from '../piste/piste.service';
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
+import { PisteService } from '../piste/piste.service';
+import { Piste } from './../piste/piste.model';
 
 @Component({
   moduleId: module.id,
@@ -17,11 +17,10 @@ export class CreateurPisteComponent implements OnInit {
 
   constructor(private renderService: RenderService,
     private facadeSourisService: FacadeSourisService,
-    private pisteService: PisteService) {
+    private pisteService: PisteService,
+    private messageErreurService: MessageErreurService) {
   }
 
-  private messageErreurService = new MessageErreurService();
-  private points: THREE.Points[];
   private affiche: boolean;
   private pisteAmodifier: Piste;
   private message;
@@ -67,10 +66,6 @@ export class CreateurPisteComponent implements OnInit {
   public onMouseUp(event): boolean {
     this.facadeSourisService.onMouseUp(event);
     return false;
-  }
-
-  private listePoints(): THREE.Points[] {
-    return this.points = this.renderService.points;
   }
 
   private condition(): boolean {

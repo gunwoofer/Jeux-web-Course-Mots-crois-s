@@ -1,6 +1,6 @@
 <div class="col-md-8 col-md-offset-2">
     <div class="panel panel-default">
-        <div class="panel-heading" (click)="onClick()">
+        <div class="panel-heading" (click)="surClick()">
             <strong>{{ piste.nom }}</strong>
         </div>
         <div class="panel-body" *ngIf="display">
@@ -18,10 +18,10 @@
                 <a class="config" class="btn btn-success" (click)="commencerPartie()">
                     <i class="fa fa-flag-checkered" aria-hidden="true"></i>Choisir une Course
                 </a>
-                <a [routerLink]="['/createurPiste']" class="config" class="btn btn-warning" (click)="onEdit()">
+                <a [routerLink]="['/createurPiste']" class="config" class="btn btn-warning" (click)="editer()">
                     <i class="fa fa-cog" aria-hidden="true"></i>Modifier
                 </a>
-                <a class="config" class="btn btn-danger" (click)="onDelete()">
+                <a class="config" class="btn btn-danger" (click)="supprimer()">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>Supprimer
                 </a>
 
