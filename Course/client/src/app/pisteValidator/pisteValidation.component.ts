@@ -10,11 +10,9 @@ import { PisteService } from './../piste/piste.service';
     selector: 'app-pistevalidator-component',
     templateUrl: './pisteValidation.component.html',
     styleUrls: ['./pisteValidation.component.css']
-    // providers
 })
 
 export class PisteValidationComponent {
-
     constructor(private pisteService: PisteService, private renderService: RenderService) { }
 
     @Input() private points: THREE.Points[];
@@ -26,13 +24,18 @@ export class PisteValidationComponent {
         Object.assign(listepositions, this.renderService.obtenirPositions());
         if (this.pisteAmodifier.nom === form.value.nomPiste) {
             this.pisteAmodifier.modifierAttribut(form, listepositions);
-        } else {
-            const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepositions);
-            alert('La piste ' + piste.nom + ' a été créée.');
-            this.pisteService.ajouterPiste(piste).subscribe(
+            this.pisteService.mettreAjourPiste(this.pisteAmodifier)
+                .subscribe(
                 donnee => console.log(donnee),
                 erreur => console.error(erreur)
-            );
+                );
+        } else {
+            const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepositions);
+            this.pisteService.ajouterPiste(piste)
+                .subscribe(
+                donnee => console.log(donnee),
+                erreur => console.error(erreur)
+                );
         }
         this.renderService.reinitialiserScene();
         form.resetForm();

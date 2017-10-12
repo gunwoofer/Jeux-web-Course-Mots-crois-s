@@ -58,10 +58,9 @@ export class PisteService {
     public commencerPartie(piste: Piste) {
         console.log(piste);
     }
-    
-    public mettreAjour(piste: Piste) {
-        this.pistes.push(piste);
-        return this.http.post('http://localhost:3000/createurPiste', piste)
+
+    public mettreAjourPiste(piste: Piste) {
+        return this.http.patch('http://localhost:3000/createurPiste ' + piste.id, piste)
             .map((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }

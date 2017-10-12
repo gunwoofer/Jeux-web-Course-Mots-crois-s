@@ -8,7 +8,6 @@ module Route {
 
         public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
             const piste = new Piste(req.body);
-            console.log(piste);
             piste.save((err, resultat) => {
                 if (err) {
                     return res.status(500).json({
@@ -61,6 +60,12 @@ module Route {
                 });
 
             });
+        }
+        public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            const piste = new Piste(req.body);
+            console.log(piste);
+            const message = "YAY MODIFICATION";
+            res.send(JSON.stringify(message));
         }
     }
 }
