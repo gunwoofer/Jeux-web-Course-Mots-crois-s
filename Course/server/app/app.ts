@@ -84,7 +84,7 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
-    router.patch('/createurPiste:id',index.modifierPiste.bind(index.modifierPiste));
+    router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
     router.delete('/listePiste:id', index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
     // createur de piste

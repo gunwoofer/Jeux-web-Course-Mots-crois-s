@@ -62,10 +62,30 @@ module Route {
             });
         }
         public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            const piste = new Piste(req.body);
-            console.log(piste);
-            const message = "YAY MODIFICATION";
-            res.send(JSON.stringify(message));
+            Piste.findById(req.params.id, (err, piste) => {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'Une erreur est survenue',
+                        error: err
+                    });
+                }
+                piste.typeCourse = req.body.typeCourse;
+                piste.description = req.body.description;
+                piste.listepositions = req.body.listepositions;
+                piste.save((error: any, resultat: any) => {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'une erreur est survenue lors de la modification',
+                            error: err
+                        });
+                    }
+                    res.status(200).json({
+                        message: 'La piste est modifie',
+                        obj: resultat
+                    });
+                });
+
+            });
         }
     }
 }

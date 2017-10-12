@@ -5,5 +5,5 @@ export interface Piste {
     nombreFoisJouee?: number;
     coteAppreciation?: number;
     meilleursTemps?: number[];
-    listePoints?: any[];
+    listepositions?: any[];
 }

@@ -60,7 +60,7 @@ export class PisteService {
     }
 
     public mettreAjourPiste(piste: Piste) {
-        return this.http.patch('http://localhost:3000/createurPiste ' + piste.id, piste)
+        return this.http.patch('http://localhost:3000/createurPiste' + piste.id, piste)
             .map((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
