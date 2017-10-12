@@ -1,3 +1,5 @@
+import { Guid } from '../../commun/Guid';
+
 export enum DifficulteDefinition {
     PremiereDefinition,
     DefinitionAlternative
@@ -7,6 +9,7 @@ export class Indice {
 
     private difficulteDefinition: DifficulteDefinition;
     public definitions: string[] = new Array();
+    public id: string = Guid.generateGUID();
 
     constructor(definitions: string[]) {
         this.definitions = definitions;
