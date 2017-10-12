@@ -24,8 +24,8 @@ export class GenerateurPisteService {
         this.container = container;
         this.creerScene();
         this.creerPointMock();
-        this.creerVoiture();
-        // this.ajoutVoiture();
+        // this.creerVoiture();
+        this.ajoutVoiture();
         this.scene.add(this.voiture);
         this.commencerRendu();
     }
@@ -64,13 +64,16 @@ export class GenerateurPisteService {
 
     public creerVoiture(): void {
         const geometry = new THREE.BoxGeometry( 10, 10, 10);
-        const texture = THREE.ImageUtils.loadTexture('../../assets/textures/clouds.jpg');
+        const loader = new THREE.TextureLoader();
+        const texture = loader.load('../../assets/textures/clouds.jpg');
+
         const material = new THREE.MeshBasicMaterial( { color: 'white', overdraw: 0.5, map: texture } );
         const cube = new THREE.Mesh( geometry, material );
         cube.position.y = 10;
         cube.position.x = 0;
         cube.position.z = 0;
         this.voiture = cube;
+
     }
 
     public creerPointMock(): void {
@@ -180,35 +183,10 @@ export class GenerateurPisteService {
     }
 
     public ajoutVoiture() {
-        let loader = new THREE.JSONLoader();
-
-        // load a resource
-        loader.load(
-
-            // resource URL
-            '../../assets/modeles/model.json',
-
-            // Function when resource is loaded
-            function ( geometry, materials ) {
-
-                let material = materials[ 0 ];
-                let object = new THREE.Mesh( geometry, material );
-
-                object.position.y = 10;
-                object.position.x = 0;
-                object.position.z = 0;
-
-                this.scene.add( object );
-
-            }
-        );
-
-        /*
-        // scene loader
-        let objectLoader = new THREE.ObjectLoader();
-        objectLoader.load('../../assets/modeles/model.json', function ( obj ) {
-             this.scene.add( obj );
-        } );
-        */
+        const loader = new THREE.ObjectLoader();
+        loader.load('../../assets/modeles/audi/audioptimised02.json', ( obj ) => {
+            this.scene.add( obj );
+            this.camera.lookAt(obj.position);
+        });
     }
 }
