@@ -40,9 +40,11 @@ export class PisteService {
             });
     }
 
-    public supprimerListePiste(piste: Piste): Promise<Object> {
+    public supprimerListePiste(piste: Piste) {
+        const pist = piste.id;
+        console.log(pist);
         this.pistes.splice(this.pistes.indexOf(piste), 1);
-        return this.http.delete('http://localhost:3000/listePiste/' + piste.id)
+        return this.http.delete('http://localhost:3000/listePiste' + pist)
             .toPromise()
             .then(response => response.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));

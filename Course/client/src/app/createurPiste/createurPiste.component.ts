@@ -22,6 +22,7 @@ export class CreateurPisteComponent implements OnInit {
 
   private messageErreurService = new MessageErreurService();
   private points: THREE.Points[];
+  private position;
   private affiche: boolean;
   private message;
 
@@ -40,7 +41,11 @@ export class CreateurPisteComponent implements OnInit {
   public ngOnInit(): void {
     this.renderService.initialize(this.container);
     this.pisteService.pisteAEditer.subscribe(
-      (piste: Piste) => this.renderService.position = piste.listepositions
+      (piste: Piste) => {
+        this.position = piste.listepositions;
+        this.renderService.position = this.position;
+        this.position = null;
+      }
     );
   }
 

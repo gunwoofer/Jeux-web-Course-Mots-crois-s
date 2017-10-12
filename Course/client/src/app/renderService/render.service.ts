@@ -36,10 +36,10 @@ export class RenderService {
     this.creerPlan();
     this.initialisationLigne();
     if (this.position) {
+      console.log('oui');
       this.chargerPiste(this.position);
     }
     this.startRenderingLoop();
-    this.position = null;
   }
 
   public creerScene(): THREE.Scene {

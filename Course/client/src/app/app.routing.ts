@@ -7,7 +7,7 @@ import { ListePisteComponent } from './listePiste/listePiste.component';
 
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/listePiste', pathMatch: 'full' },
+    { path: '', redirectTo: '/createurPiste', pathMatch: 'full' },
     { path: 'listePiste', component: ListePisteComponent },
     { path: 'createurPiste', component: CreateurPisteComponent },
     { path: 'generationpiste', component: GenerateurPisteComponent }

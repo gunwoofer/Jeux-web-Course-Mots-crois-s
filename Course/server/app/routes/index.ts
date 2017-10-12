@@ -47,7 +47,7 @@ module Route {
                         error: err
                     });
                 }
-                Piste.remove((err: any, resultat: any) => {
+                piste.remove((error: any, resultat: any) => {
                     if (err) {
                         return res.status(500).json({
                             title: 'une erreur est survenue lors de la sauvegarde',
