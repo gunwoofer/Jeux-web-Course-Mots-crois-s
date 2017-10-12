@@ -25,6 +25,7 @@ export class GenerateurPisteService {
         this.creerScene();
         this.creerPointMock();
         this.creerVoiture();
+        // this.ajoutVoiture();
         this.scene.add(this.voiture);
         this.commencerRendu();
     }
@@ -175,5 +176,40 @@ export class GenerateurPisteService {
             this.touche = 0;
         }
 
+    }
+
+    public ajoutVoiture() {
+        /*
+        let loader = new THREE.JSONLoader();
+
+        // load a resource
+        loader.load(
+
+            // resource URL
+            './modeles/model.json',
+
+            // Function when resource is loaded
+            function ( geometry, materials ) {
+
+                let material = materials[ 0 ];
+                let object = new THREE.Mesh( geometry, material );
+
+                object.position.y = 10;
+                object.position.x = 0;
+                object.position.z = 0;
+
+                this.scene.add( object );
+
+            }
+        );
+        */
+
+        /*
+        // scene loader
+        let objectLoader = new THREE.ObjectLoader();
+        objectLoader.load('./modeles/model.json', function ( obj ) {
+             this.scene.add( obj );
+        } );
+        */
     }
 }
