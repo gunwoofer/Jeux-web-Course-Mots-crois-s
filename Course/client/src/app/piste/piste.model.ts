@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { NgForm } from '@angular/forms';
 
 export class Piste {
 
@@ -15,6 +16,12 @@ export class Piste {
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = i * 2 + 4;
         }
+    }
+
+    public modifierAttribut(form: NgForm, listePosition: any[]) {
+        this.typeCourse = form.value.typeCourse;
+        this.description = form.value.description;
+        this.listepositions = listePosition;
     }
 
 }

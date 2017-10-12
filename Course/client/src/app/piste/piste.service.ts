@@ -52,9 +52,17 @@ export class PisteService {
 
     public modifierPiste(piste: Piste) {
         this.pisteAEditer.emit(piste);
+        console.log(piste);
     }
 
     public commencerPartie(piste: Piste) {
         console.log(piste);
+    }
+    
+    public mettreAjour(piste: Piste) {
+        this.pistes.push(piste);
+        return this.http.post('http://localhost:3000/createurPiste', piste)
+            .map((reponse: Response) => reponse.json())
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 }

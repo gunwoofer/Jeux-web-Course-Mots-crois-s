@@ -18,21 +18,23 @@ export class PisteValidationComponent {
     constructor(private pisteService: PisteService, private renderService: RenderService) { }
 
     @Input() private points: THREE.Points[];
-    @Input() private lignes: THREE.Line[];
-
+    @Input() private pisteAmodifier: Piste;
     private display: boolean;
 
     private onSubmit(form: NgForm): void {
         const listepositions: any[] = [];
         Object.assign(listepositions, this.renderService.obtenirPositions());
-        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepositions);
-        alert('La piste ' + piste.nom + ' a été créée.');
-        this.pisteService.ajouterPiste(piste).subscribe(
-            donnee => console.log(donnee),
-            erreur => console.error(erreur)
-        );
+        if (this.pisteAmodifier.nom === form.value.nomPiste) {
+            this.pisteAmodifier.modifierAttribut(form, listepositions);
+        } else {
+            const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepositions);
+            alert('La piste ' + piste.nom + ' a été créée.');
+            this.pisteService.ajouterPiste(piste).subscribe(
+                donnee => console.log(donnee),
+                erreur => console.error(erreur)
+            );
+        }
         this.renderService.reinitialiserScene();
-        console.log(this.renderService.scene.children.length);
         form.resetForm();
     }
 

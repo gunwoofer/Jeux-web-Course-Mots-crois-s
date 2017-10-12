@@ -22,8 +22,8 @@ export class CreateurPisteComponent implements OnInit {
 
   private messageErreurService = new MessageErreurService();
   private points: THREE.Points[];
-  private position;
   private affiche: boolean;
+  private pisteAmodifier: Piste;
   private message;
 
   public get container(): HTMLDivElement {
@@ -42,9 +42,7 @@ export class CreateurPisteComponent implements OnInit {
     this.renderService.initialize(this.container);
     this.pisteService.pisteAEditer.subscribe(
       (piste: Piste) => {
-        this.position = piste.listepositions;
-        this.renderService.position = this.position;
-        this.position = null;
+        this.renderService.pisteAmodifie = piste;
       }
     );
   }
@@ -76,6 +74,7 @@ export class CreateurPisteComponent implements OnInit {
   }
 
   private condition(): boolean {
+    this.pisteAmodifier = this.renderService.pisteAmodifie;
     return this.affiche = this.renderService.retourneEtatDessin();
   }
 
