@@ -24,4 +24,11 @@ export class Piste {
         this.listepositions = listePosition;
     }
 
+    public modifieAttribut(coteAppreciation: number, nombreFoisJouee: number, meilleursTemps: number[]) {
+        this.coteAppreciation = coteAppreciation;
+        this.nombreFoisJouee = nombreFoisJouee;
+        this.meilleursTemps = meilleursTemps;
+    }
+
+
 }

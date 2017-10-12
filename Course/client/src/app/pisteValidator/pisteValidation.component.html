@@ -16,6 +16,6 @@
             <label for="description">Description</label>
             <input type="text" class="form-control" ngModel name="description" required>
         </div>
-        <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">Sauvegarder Circuit</button>
+        <button class="btn btn-success" type="submit" [class.btn-warning]="buttonText == 'Modifier circuit'" [disabled]="!f.form.valid">{{buttonText}}</button>
     </form>
 </div>

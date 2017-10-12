@@ -18,16 +18,14 @@ export class PisteValidationComponent {
     @Input() private points: THREE.Points[];
     @Input() private pisteAmodifier: Piste;
     private display: boolean;
+    private buttonText = 'Sauvegarder circuit';
+    // private butrtonText = 'Modifier circuit';
 
     private onSubmit(form: NgForm): void {
         const listepositions: any[] = [];
         Object.assign(listepositions, this.renderService.obtenirPositions());
         if (this.pisteAmodifier) {
-            if (this.pisteAmodifier.nom === form.value.nomPiste) {
-                this.modifierPiste(this.pisteAmodifier, form, listepositions);
-            } else {
-                this.creerPiste(form, listepositions);
-            }
+            this.modification(this.pisteAmodifier, form, listepositions);
         } else {
             this.creerPiste(form, listepositions);
         }
@@ -36,6 +34,14 @@ export class PisteValidationComponent {
     }
     private onClick(): void {
         this.display = !this.display;
+    }
+
+    private modification(piste: Piste, form: NgForm, listePositions: any[]): void {
+        if (piste.nom === form.value.nomPiste) {
+            this.modifierPiste(piste, form, listePositions);
+        } else {
+            this.creerPiste(form, listePositions);
+        }
     }
 
     private creerPiste(form: NgForm, listePositions: any[]): void {

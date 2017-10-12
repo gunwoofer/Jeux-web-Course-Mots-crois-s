@@ -30,9 +30,7 @@ export class PisteService {
                 const pisteTemporaire: Piste[] = [];
                 for (const piste of pistes) {
                     const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
-                    pist.coteAppreciation = piste.coteAppreciation;
-                    pist.nombreFoisJouee = piste.nombreFoisJouee;
-                    pist.meilleursTemps = piste.meilleursTemps;
+                    pist.modifieAttribut(piste.coteAppreciation, piste.nombreFoisJouee, piste.meilleursTemps);
                     pisteTemporaire.push(pist);
                 }
                 this.pistes = pisteTemporaire;
@@ -40,7 +38,7 @@ export class PisteService {
             });
     }
 
-    public supprimerListePiste(piste: Piste) {
+    public supprimerListePiste(piste: Piste): Promise<JSON> {
         const pist = piste.id;
         console.log(pist);
         this.pistes.splice(this.pistes.indexOf(piste), 1);
@@ -50,16 +48,15 @@ export class PisteService {
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
-    public modifierPiste(piste: Piste) {
+    public modifierPiste(piste: Piste): void {
         this.pisteAEditer.emit(piste);
+    }
+
+    public commencerPartie(piste: Piste): void {
         console.log(piste);
     }
 
-    public commencerPartie(piste: Piste) {
-        console.log(piste);
-    }
-
-    public mettreAjourPiste(piste: Piste) {
+    public mettreAjourPiste(piste: Piste): Observable<JSON> {
         return this.http.patch('http://localhost:3000/createurPiste' + piste.id, piste)
             .map((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));
