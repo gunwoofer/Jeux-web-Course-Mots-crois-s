@@ -15,7 +15,7 @@
         </div>
         <footer class="panel-footer">
             <div>
-                <a class="config" class="btn btn-success" (click)="commencerPartie()">
+                <a [routerLink]="['/generationpiste']" class="config" class="btn btn-success" (click)="commencerPartie()">
                     <i class="fa fa-flag-checkered" aria-hidden="true"></i>Choisir une Course
                 </a>
                 <a [routerLink]="['/createurPiste']" class="config" class="btn btn-warning" (click)="onEdit()">

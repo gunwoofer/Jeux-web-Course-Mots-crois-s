@@ -1,9 +1,11 @@
 import { Http, Headers, Response } from '@angular/http';
 import { Piste } from './piste.model';
+import * as THREE from 'three';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 
 import { RenderService } from '../renderService/render.service';
+import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
 
 import 'rxjs/Rx';
 
@@ -12,8 +14,14 @@ import 'rxjs/Rx';
 export class PisteService {
     private pistes: Piste[] = [];
     public pisteAEditer = new EventEmitter<Piste>();
+    public pisteChoisie = new EventEmitter<Piste>();
 
-    constructor(private renderService: RenderService, private http: Http) { }
+    constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService, private http: Http) { 
+        
+        this.pisteChoisie.subscribe(
+            (piste: Piste) => generateurPisteService.ajouterPiste(piste)
+        );
+    }
 
     public ajouterPiste(piste: Piste): Observable<Response> {
         this.pistes.push(piste);
@@ -29,7 +37,16 @@ export class PisteService {
                 const pistes = response.json().obj;
                 const pisteTemporaire: Piste[] = [];
                 for (const piste of pistes) {
-                    const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
+                    let vraiVecteur: THREE.Vector3 = new THREE.Vector3(0,0,0);
+                    let vraiVecteurs: THREE.Vector3[] = new Array();
+                    for (let vecteur3 of piste.listepositions) {
+                        Object.assign(vraiVecteur, vecteur3 as THREE.Vector3);
+                        vraiVecteurs.push(vraiVecteur);
+                        vraiVecteur = new THREE.Vector3(0,0,0);
+                    }
+
+
+                    const pist = new Piste(piste.nom, piste.typeCourse, piste.description, vraiVecteurs, piste._id);
                     pist.coteAppreciation = piste.coteAppreciation;
                     pist.nombreFoisJouee = piste.nombreFoisJouee;
                     pist.meilleursTemps = piste.meilleursTemps;
@@ -53,6 +70,6 @@ export class PisteService {
     }
 
     public commencerPartie(piste: Piste) {
-        console.log(piste);
+        this.pisteChoisie.emit(piste);
     }
 }
