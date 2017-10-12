@@ -64,7 +64,8 @@ export class GenerateurPisteService {
 
     public creerVoiture(): void {
         const geometry = new THREE.BoxGeometry( 10, 10, 10);
-        const material = new THREE.MeshBasicMaterial( { color: 'white', overdraw: 0.5 } );
+        const texture = THREE.ImageUtils.loadTexture('../../assets/textures/clouds.jpg');
+        const material = new THREE.MeshBasicMaterial( { color: 'white', overdraw: 0.5, map: texture } );
         const cube = new THREE.Mesh( geometry, material );
         cube.position.y = 10;
         cube.position.x = 0;
@@ -179,14 +180,13 @@ export class GenerateurPisteService {
     }
 
     public ajoutVoiture() {
-        /*
         let loader = new THREE.JSONLoader();
 
         // load a resource
         loader.load(
 
             // resource URL
-            './modeles/model.json',
+            '../../assets/modeles/model.json',
 
             // Function when resource is loaded
             function ( geometry, materials ) {
@@ -202,12 +202,11 @@ export class GenerateurPisteService {
 
             }
         );
-        */
 
         /*
         // scene loader
         let objectLoader = new THREE.ObjectLoader();
-        objectLoader.load('./modeles/model.json', function ( obj ) {
+        objectLoader.load('../../assets/modeles/model.json', function ( obj ) {
              this.scene.add( obj );
         } );
         */
