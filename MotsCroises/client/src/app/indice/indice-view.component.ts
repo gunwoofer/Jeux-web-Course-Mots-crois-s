@@ -36,10 +36,11 @@ export class IndiceViewComponent implements OnInit {
   }
 
   private MAJIndices(emplacementMots: EmplacementMot[]){
+    console.log(emplacementMots);
     for (const i of emplacementMots){
       this.indices.push(new Indice(i.obtenirIndexFixe() + 1, i.obtenirGuidIndice(), i.obtenirGrandeur(), i.obtenirPosition(),
         i.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
-        i.obtenirCaseDebut().obtenirNumeroLigne() + 1, false));
+        i.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
     }
   }
 }
@@ -63,9 +64,9 @@ export class Indice {
   public sens: number; // False = horizontal, True = vertical
   public positionI:  number;
   public positionJ: number;
-  public motTrouve: boolean;
+  public motTrouve: string;
 
-  constructor(id: number, name: string, tailleMot: number, sens: number, positionI: number, positionJ: number, motTrouve: boolean = false) {
+  constructor(id: number, name: string, tailleMot: number, sens: number, positionI: number, positionJ: number, motTrouve: string = '') {
     this.id = id;
     this.name = name;
     this.tailleMot = tailleMot;

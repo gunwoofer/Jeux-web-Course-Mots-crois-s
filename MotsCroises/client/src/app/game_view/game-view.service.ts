@@ -13,12 +13,10 @@ export class GameViewService {
 
 
   public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie) {
-    console.log('here');
-
     this.partieGeneree = specificationPartie;
     console.log('specification partie arrivée :', specificationPartie);
-    // this.grilleGenere.next(specificationPartie);
   }
+
   public getPartie() {
     return this.partieGeneree;
   }

@@ -83,16 +83,20 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public validerMotEntre() {
-    if (this.motEcrit.length === this.indice.tailleMot && this.indice.name.toUpperCase() === this.motEcrit) {
-      this.indice.motTrouve = true;
+    if (this.motEcrit.length === this.indice.tailleMot) {
+      // } && this.indice.name.toUpperCase() === this.motEcrit) {
+      console.log("emplacement mot rempli", this.motEcrit);
+      this.indice.motTrouve = this.motEcrit;
       this.ecrireMotsTrouves();
     }
   }
 
   public ecrireMotsTrouves() {
     for (const i of INDICES) {
-      if (i.motTrouve) {
-        this.ecrireMotDansGrille(i.name, i.sens, i.positionI, i.positionJ, this.couleurMotTrouve);
+      console.log("mot trouve ? ", i.motTrouve, i.tailleMot);
+      if (i.motTrouve.length > 0) {
+        console.log('mot trouve', i);
+        this.ecrireMotDansGrille(i.motTrouve, i.sens, i.positionI, i.positionJ, this.couleurMotTrouve);
       }
     }
   }
@@ -129,9 +133,9 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.dessinerLignesGrille();
     this.ngAfterViewInit();
-    this.ecrireMotsTrouves();
     this.testEcrireMotsGrilleObtenueServeur();
     this.testCaseNoiresMotsGrilleObtenueServeur();
+    this.ecrireMotsTrouves();
   }
 
   public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
@@ -223,10 +227,9 @@ export class CanvasViewComponent implements AfterViewInit {
       for (let j = 0; j < 10; j++) {
         this.ecrireLettreDansCase(
           this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirLettre(),
-          j + 1, i + 1, this.couleurRouge);
+          j + 1, i + 1, this.couleurRouge
+        );
       }
     }
   }
-
-
 }
