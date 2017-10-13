@@ -1,3 +1,4 @@
+import { Indice } from './Indice';
 import * as express from 'express';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
@@ -63,6 +64,10 @@ export class ConnexionTempsReelServer {
         const grille: Grille = self.generateurDeGrilleService.genererGrilleMock(specificationPartie.niveau);
         const guidPartie = self.gestionnaireDePartieService.creerPartie(specificationPartie.joueur,
             specificationPartie.typePartie, grille, grille.obtenirNiveau());
+        
+        let tableauIndices: Indice[] = new Array();
+        tableauIndices = grille.recupererIndices();
+        specificationPartie.indices = tableauIndices;
 
         specificationPartie.guidPartie = guidPartie;
         specificationPartie.specificationGrilleEnCours = new SpecificationGrille(

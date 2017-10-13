@@ -1,3 +1,4 @@
+import { Indice, DifficulteDefinition } from './Indice';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
@@ -807,5 +808,13 @@ export class Grille {
             ligne = new Array();
         }
         console.log("-----------------------");
+    }
+
+    public recupererIndices(): Indice[] {
+        let tableauIndices: Indice[] = new Array();
+        for(let mot of this.mots) {
+            tableauIndices.push(mot.obtenirIndice());
+        }
+        return tableauIndices;
     }
 }
