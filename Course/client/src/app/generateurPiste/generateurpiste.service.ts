@@ -27,8 +27,8 @@ export class GenerateurPisteService {
             this.pointsPiste[i] = new Array();
         }
         this.creerScene();
-        
-        if(this.piste === undefined) {
+
+        if (this.piste === undefined) {
             this.ajoutPiste();
         } else {
             this.ajoutPisteAuPlan();
@@ -37,7 +37,7 @@ export class GenerateurPisteService {
         this.commencerRendu();
     }
 
-    public initialisationMock(container: HTMLDivElement) {        
+    public initialisationMock(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
         this.pointsPiste = new Array(NOMBRE_SEGMENTS);
         for (let i = 0; i < this.pointsPiste.length; i++) {
@@ -45,7 +45,7 @@ export class GenerateurPisteService {
         }
         this.container = container;
         this.creerScene();
-        
+
         this.ajoutPiste();
 
         this.commencerRendu();

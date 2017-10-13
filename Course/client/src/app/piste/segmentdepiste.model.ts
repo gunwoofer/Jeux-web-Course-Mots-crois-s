@@ -2,12 +2,16 @@ import * as THREE from 'three';
 
 export const COULEUR_PISTE = 'blue';
 export const LARGEUR_PISTE = 50;
+export const RADIANT_CERCLE = LARGEUR_PISTE / 2;
+export const NOMBRE_TRIANGLE_CERCLE = 3;
 
 export class SegmentDePiste {
     private pointDebut: THREE.Vector3;
     private pointFin: THREE.Vector3;
     private materiel: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial( { color : COULEUR_PISTE } );
     private geometrie: THREE.PlaneGeometry;
+    private cercleDebut: THREE.CircleGeometry;
+    private cercleFin: THREE.CircleGeometry;
     private visuelDuSegment: THREE.Mesh;
     private longueur: number;
     private largeur: number;
@@ -18,11 +22,51 @@ export class SegmentDePiste {
         this.pointFin = pointFin;
         this.longueur = this.obtenirLongueur(pointDebut, pointFin);
         this.geometrie = new THREE.PlaneGeometry(LARGEUR_PISTE, this.longueur);
+        this.cercleDebut = new THREE.CircleGeometry(RADIANT_CERCLE, NOMBRE_TRIANGLE_CERCLE );
+        this.cercleFin = new THREE.CircleGeometry(RADIANT_CERCLE, NOMBRE_TRIANGLE_CERCLE );
         this.angle = this.obtenirAngle();
         this.visuelDuSegment = new THREE.Mesh(this.geometrie, this.materiel);
         this.visuelDuSegment.rotateZ(this.angle);
-        this.visuelDuSegment.position.x = (pointDebut.x + pointFin.x) / 2;
-        this.visuelDuSegment.position.y = (pointDebut.y + pointFin.y) / 2;
+        this.visuelDuSegment.position.x = this.trouverPositionXouY(pointDebut.x, pointFin.x);
+        this.visuelDuSegment.position.y = this.trouverPositionXouY(pointDebut.y, pointFin.y);
+
+    }
+
+    public trouverPositionXouY(pointDebut: number, pointFin: number): number {
+        let difference: number;
+        let milieu: number;
+
+        if (pointFin < 0 && pointDebut < 0) {
+            difference = Math.abs(pointFin - pointDebut);
+            milieu = difference / 2;
+            if (pointFin > pointDebut) {
+                return pointDebut + milieu;
+            } else {
+                return pointFin + milieu;
+            }
+        }
+
+        if (pointFin > 0 && pointDebut > 0) {
+            difference = Math.abs(pointFin - pointDebut);
+            milieu = difference / 2;
+            if (pointFin > pointDebut) {
+                return pointDebut + milieu;
+            } else {
+                return pointFin + milieu;
+            }
+        }
+
+        if (pointFin < 0 && pointDebut > 0 ) {
+            difference = ( Math.abs(pointFin) + Math.abs(pointDebut) );
+            milieu = difference / 2;
+            return pointDebut - milieu;
+        }
+
+        if (pointDebut < 0 && pointFin > 0) {
+            difference = ( Math.abs(pointFin) + Math.abs(pointDebut) );
+            milieu = difference / 2;
+            return pointDebut + milieu;
+        }
 
     }
 
