@@ -74,30 +74,4 @@ export class AppComponent implements OnInit {
     }
   }
 
-  public afficherGrillePersistenteFacile(grille: any): void {
-    this.grillePersistenteFacile = this.obtenirTableauMotsCroises(grille);
-  }
-
-  public afficherGrillePersistenteMoyen(grille: any): void {
-    this.grillePersistenteMoyen = this.obtenirTableauMotsCroises(grille);
-  }
-
-  public afficherGrillePersistenteDifficile(grille: any): void {
-    this.grillePersistenteDifficile = this.obtenirTableauMotsCroises(grille);
-  }
-
-  public afficherGrilleVenantDeSpecificationPartie(grille: SpecificationGrille): void {
-    this.grilleVenantDeSpecificationPartie = this.obtenirTableauMotsCroises(grille);
-  }
-
-  public afficherGrille(grille: any): void {
-    this.grille = this.obtenirTableauMotsCroises(grille);
-    for (const emplacementMot of grille.emplacementMots) {
-      this.emplacementsMot += 'Debut : {' + emplacementMot.caseDebut.numeroLigne + ',' + emplacementMot.caseDebut.numeroColonne + '}';
-      this.emplacementsMot += ' | Fin : {' + emplacementMot.caseFin.numeroLigne + ',' + emplacementMot.caseFin.numeroColonne + '}';
-      this.emplacementsMot += ' | Grandeur : ' + emplacementMot.grandeur + '<br />';
-
-    }
-  }
-
 }
