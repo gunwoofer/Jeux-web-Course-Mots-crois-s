@@ -5,66 +5,13 @@
   </h1>
 </div>
 
-<h1>GRILLE OBTENUE DE COMMUNICATION TEMPS RÉEL</h1>
+<!-- <h1>GRILLE OBTENUE DE COMMUNICATION TEMPS RÉEL</h1>
 <div [innerHTML]="grilleVenantDeSpecificationPartie"></div>
-
-<div class="partieDiv">
-  <h1>Configuration d'une partie</h1>
-
-  <form action="">
-    <div class="partieForm">
-      <div>
-        <h2>Type de partie :</h2>
-        <div *ngFor="let typePartie of types;">
-          <input type="radio" name="choixType" (click)="ajouterTypePartie(typePartie)" value={typePartie}>
-          {{typePartie}}
-        </div>
-      </div>
-      <div>
-        <h2>Niveau de difficulté :</h2>
-        <div *ngFor="let niveauPartie of niveaux;">
-          <input type="radio" name="choixNiveau" (click)="ajouterNiveauPartie(niveauPartie)" value={niveauPartie}>
-          {{niveauPartie}}
-        </div>
-      </div>
-      <div>
-        <h2>Nombre de joueurs :</h2>
-        <div *ngFor="let nbJoueur of nbJoueurs;">
-          <input type="radio" name="choixJoueurs" (click)="ajouterNbJoueursPartie(nbJoueur)" value={nbJoueur}>
-          {{nbJoueur}}
-        </div>
-      </div>
-    </div>
-    <a href="/partie/{{typePartie}}/{{niveauPartie}}" >Creer partie</a>
-  </form>
-  <a [routerLink]="['/view', nbJoueursPartie]" >Afficher Partie</a>
-
 
 <h1> GRILLE GÉNÉRÉ </h1>
 <div [innerHTML]="grille"></div>
 <h2>Emplacements Mots</h2>
-<div [innerHTML]="emplacementsMot"></div>
+<div [innerHTML]="emplacementsMot"></div> -->
 
-
-
-<h1>GRILLE PERSISTENTE</h1>
-<h2>FACILE</h2>
-<div [innerHTML]="grillePersistenteFacile"></div>
-<h2>MOYEN</h2>
-<div [innerHTML]="grillePersistenteMoyen"></div>
-<h2>DIFFICILE</h2>
-<div [innerHTML]="grillePersistenteDifficile"></div>
-<h2>Here are some links to help you start: </h2>
-<ul>
-    <li>
-        <h2><a target="_blank" href="https://angular.io/tutorial">Tour of Heroes</a></h2>
-    </li>
-    <li>
-        <h2><a target="_blank" href="https://github.com/angular/angular-cli/wiki">CLI Documentation</a></h2>
-    </li>
-    <li>
-        <h2><a target="_blank" href="https://blog.angular.io//">Angular blog</a></h2>
-    </li>
-</ul>
 
 <router-outlet></router-outlet>

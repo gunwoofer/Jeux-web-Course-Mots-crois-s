@@ -31,12 +31,13 @@ export class IndiceViewComponent implements OnInit {
   }
 
   public ngOnInit(): void {
+    this.indices = [];
     this.MAJIndices(this.gameViewService.getPartie().specificationGrilleEnCours.emplacementMots);
   }
 
   private MAJIndices(emplacementMots: EmplacementMot[]){
     for (const i of emplacementMots){
-      INDICES.push(new Indice(i.obtenirIndexFixe() + 1, i.obtenirIndice(), i.obtenirGrandeur(), i.obtenirPosition(),
+      this.indices.push(new Indice(i.obtenirIndexFixe() + 1, i.obtenirGuidIndice(), i.obtenirGrandeur(), i.obtenirPosition(),
         i.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
         i.obtenirCaseDebut().obtenirNumeroLigne() + 1, false));
     }

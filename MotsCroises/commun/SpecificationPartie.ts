@@ -12,6 +12,7 @@ export class SpecificationPartie {
     public guidPartie: string;
     public specificationGrilleEnCours: SpecificationGrille;
 
+
     public static rehydrater(source: SpecificationPartie): SpecificationPartie {
         let sourceVraie = source as SpecificationPartie;
         let joueur: Joueur = new Joueur();

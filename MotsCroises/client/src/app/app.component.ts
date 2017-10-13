@@ -28,17 +28,12 @@ export class AppComponent implements OnInit {
   public grillePersistenteFacile = '';
   public grillePersistenteMoyen = '';
   public grillePersistenteDifficile = '';
-  public niveaux: string[] = ['facile', 'moyen', 'difficile'];
-  public types: string[] = ['classique', 'dynamique'];
-  public nbJoueurs: string[] = ['1 joueur', '2 joueurs'];
-  public typePartie = 'classique';
-  public niveauPartie = 'normal';
   public estConnecte = false;
   public emplacementsMot = '';
   public specificationPartie: SpecificationPartie;
   public grilleVenantDeSpecificationPartie = '';
   public connexionTempsReelClient: ConnexionTempsReelClient;
-  public nbJoueursPartie = '1 joueur';
+
 
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
@@ -73,9 +68,9 @@ export class AppComponent implements OnInit {
 
   public rappelVerifierMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: AppComponent) {
     if (requisPourMotAVerifier.estLeMot) {
-      alert('Bravo, vous avez le bon mot.');
+      // alert('Bravo, vous avez le bon mot.');
     } else {
-      alert('Malheureusement, ce n\'est pas le bon mot.');
+      // alert('Malheureusement, ce n\'est pas le bon mot.');
     }
   }
 
@@ -125,15 +120,4 @@ export class AppComponent implements OnInit {
     return grilleEnTableau;
   }
 
-  public ajouterTypePartie(typePartie: string): void {
-    this.typePartie = typePartie;
-  }
-
-  public ajouterNiveauPartie(niveauPartie: string): void {
-    this.niveauPartie = niveauPartie;
-  }
-
-  public ajouterNbJoueursPartie(nbJoueurs: string): void {
-    this.nbJoueursPartie = nbJoueurs;
-  }
 }

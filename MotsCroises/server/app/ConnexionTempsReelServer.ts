@@ -60,7 +60,7 @@ export class ConnexionTempsReelServer {
     public creerPartieSolo(client: SocketIO.Socket, self: ConnexionTempsReelServer, specificationPartie: SpecificationPartie): void {
         console.log(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO);
 
-        const grille: Grille = self.generateurDeGrilleService.genererGrille(specificationPartie.niveau);
+        const grille: Grille = self.generateurDeGrilleService.genererGrilleMock(specificationPartie.niveau);
         const guidPartie = self.gestionnaireDePartieService.creerPartie(specificationPartie.joueur,
             specificationPartie.typePartie, grille, grille.obtenirNiveau());
 
