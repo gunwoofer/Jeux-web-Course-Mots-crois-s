@@ -70,7 +70,7 @@ describe('GenerateurDeMotContrainteService', () => {
 
         const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre);
         monGenerateurDeMot.genererMotAleatoire(Niveau.facile).then((mot) => {
-            assert(mot.obtenirIndice().obtenirDefinition(DifficulteDefinition.PremiereDefinition) !== '');
+            assert(mot.obtenirIndice().obtenirDefinition(Niveau.facile) !== '');
             assert(mot.obtenirRarete() === Rarete.commun);
             done();
         })
@@ -87,7 +87,7 @@ describe('GenerateurDeMotContrainteService', () => {
 
         const monGenerateurDeMot = new GenerateurDeMotContrainteService(nombreLettre);
         monGenerateurDeMot.genererMotAleatoire(Niveau.difficile).then((mot) => {
-            assert(mot.obtenirIndice().obtenirDefinition(DifficulteDefinition.PremiereDefinition) !== '');
+            assert(mot.obtenirIndice().obtenirDefinition(Niveau.facile) !== '');
             assert(mot.obtenirRarete() === Rarete.nonCommun);
             done();
         })

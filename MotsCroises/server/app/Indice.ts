@@ -2,9 +2,14 @@ import { Grille } from './Grille';
 import { Guid } from '../../commun/Guid';
 import { Niveau } from '../../commun/Niveau';
 
+export enum DifficulteDefinition {
+    PremiereDefinition,
+    DefinitionAlternative
+}
 
 export class Indice {
 
+    public difficulte: DifficulteDefinition;
     public definitions: string[] = new Array();
     public id: string = Guid.generateGUID();
 
@@ -18,6 +23,9 @@ export class Indice {
         return newIndice;
     }
 
+    public setDifficulteDefinition(difficulte: DifficulteDefinition): void {
+        this.difficulte = difficulte;
+    }
 
     public obtenirDefinition(difficulte: Niveau): string {
         if (difficulte === Niveau.facile) {
