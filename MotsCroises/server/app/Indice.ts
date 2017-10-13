@@ -1,6 +1,5 @@
-import { Grille } from './Grille';
 import { Guid } from '../../commun/Guid';
-import { Niveau } from '../../commun/Niveau';
+import {Niveau} from "../../commun/Niveau";
 
 export enum DifficulteDefinition {
     PremiereDefinition,
@@ -8,8 +7,7 @@ export enum DifficulteDefinition {
 }
 
 export class Indice {
-
-    public difficulte: DifficulteDefinition;
+    private difficulteDefinition: DifficulteDefinition;
     public definitions: string[] = new Array();
     public id: string = Guid.generateGUID();
 
@@ -20,11 +18,17 @@ export class Indice {
 
     public copieIndice(): Indice {
         let newIndice = new Indice(this.definitions);
+        newIndice.difficulteDefinition = this.difficulteDefinition;
         return newIndice;
     }
 
-    public setDifficulteDefinition(difficulte: DifficulteDefinition): void {
-        this.difficulte = difficulte;
+
+    public obtenirDifficulteDefinition(): DifficulteDefinition {
+        return this.difficulteDefinition;
+    }
+
+    public setDifficulteDefinition(difficultedefinition: DifficulteDefinition): void {
+        this.difficulteDefinition = difficultedefinition;
     }
 
     public obtenirDefinition(difficulte: Niveau): string {

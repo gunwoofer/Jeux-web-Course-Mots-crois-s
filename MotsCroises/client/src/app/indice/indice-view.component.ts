@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IndiceViewService} from "./indice-view.service";
 import {GameViewService} from "../game_view/game-view.service";
 import {EmplacementMot} from "../../../../commun/EmplacementMot";
-import {Indice} from "./indice";
+import {IndiceMot} from "./indice";
 
 
 @Component({
@@ -12,12 +12,12 @@ import {Indice} from "./indice";
 })
 
 export class IndiceViewComponent implements OnInit {
-  public indices: Indice[];
-  public selectedIndice: Indice;
+  public indices: IndiceMot[];
+  public selectedIndice: IndiceMot;
   constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
   }
 
-  public onSelect(indice: Indice, event: Event): void {
+  public onSelect(indice: IndiceMot, event: Event): void {
     event.stopPropagation();
     if (indice.motTrouve) {
       return;

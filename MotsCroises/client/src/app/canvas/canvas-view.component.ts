@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} f
 import {IndiceViewService} from '../indice/indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import {Indice} from '../indice/indice';
+import {IndiceMot} from '../indice/indice';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class CanvasViewComponent implements AfterViewInit {
   private ligneActuelle: number;
   private colonneActuelle: number;
   private motEcrit = '';
-  private indice: Indice;
+  private indice: IndiceMot;
   private specificationPartie: SpecificationPartie;
 
   constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {

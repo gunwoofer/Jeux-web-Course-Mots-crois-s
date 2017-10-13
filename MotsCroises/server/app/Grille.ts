@@ -1,4 +1,4 @@
-import { Indice } from './Indice';
+import { Indice, DifficulteDefinition } from './Indice';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';

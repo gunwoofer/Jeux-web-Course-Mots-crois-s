@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import {Indice} from '../indice/indice';
+import {IndiceMot} from '../indice/indice';
 import {ConnexionTempsReelClient} from '../ConnexionTempsReelClient';
 import {Joueur} from '../../../../commun/Joueur';
 import {Niveau} from '../../../../commun/Niveau';
@@ -9,6 +9,7 @@ import {TypePartie} from '../../../../commun/TypePartie';
 import {ConnexionTempsReelService} from '../ConnexionTempsReel.service';
 import {RequisPourMotAVerifier} from '../../../../commun/RequisPourMotAVerifier';
 import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
+import {Indice} from "../../../../server/app/Indice";
 
 
 @Injectable()
@@ -17,7 +18,7 @@ export class GameViewService {
   public grilleGenere$ = this.grilleGenere.asObservable();
 
   private partieGeneree: SpecificationPartie;
-  public indices: Indice[];
+  public indices: IndiceMot[];
 
   constructor() {
   }
@@ -28,7 +29,7 @@ export class GameViewService {
     console.log('specification partie arrivée :', specificationPartie);
   }
 
-  public mettreAJourIndice(indices: Indice[]) {
+  public mettreAJourIndice(indices: IndiceMot[]) {
     this.indices = indices;
   }
 
@@ -37,15 +38,31 @@ export class GameViewService {
   }
 
   private MAJIndices(specificationPartie: SpecificationPartie){
-    const indices: Indice[] = new Array();
+    const indices: IndiceMot[] = new Array();
     console.log(this.partieGeneree.specificationGrilleEnCours.emplacementMots);
-    for (const i of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
-      indices.push(new Indice(i.obtenirIndexFixe() + 1, i.obtenirGuidIndice(), i.obtenirGrandeur(), i.obtenirPosition(),
-        i.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
-        i.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
+    for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
+      const indice : Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
+      console.log(indice);
+      const definition = indice.obtenirDefinition(this.partieGeneree.niveau);
+      indices.push(new IndiceMot(emplacementMot.obtenirGuidIndice(), emplacementMot.obtenirIndexFixe() + 1,
+        definition, emplacementMot.obtenirGrandeur(), emplacementMot.obtenirPosition(),
+        emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
+        emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
     }
     this.indices = indices;
   }
+
+  private trouverIndiceAvecGuid(guid: string): Indice{
+    console.log('spe part : ', this.partieGeneree);
+    for (const indiceServeur of this.partieGeneree.indices){
+      if(indiceServeur.id === guid){
+        return indiceServeur;
+      }
+    }
+    return null;
+  }
+
+
 
 
 

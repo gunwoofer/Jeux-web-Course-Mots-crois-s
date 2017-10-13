@@ -1,10 +1,10 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import {Indice} from './indice';
+import {IndiceMot} from './indice';
 
 @Injectable()
 export class IndiceViewService {
-  private indiceSelectionne = new Subject<Indice>();
+  private indiceSelectionne = new Subject<IndiceMot>();
   private motEcrit = new Subject<string>();
 
   public indiceSelectionneL = this.indiceSelectionne.asObservable();
@@ -12,7 +12,7 @@ export class IndiceViewService {
 
   constructor() {}
 
-  public afficherSelectionIndice(indice: Indice) {
+  public afficherSelectionIndice(indice: IndiceMot) {
     this.indiceSelectionne.next(indice);
   }
 
