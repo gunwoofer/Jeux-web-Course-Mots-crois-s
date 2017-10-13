@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import {IndiceMot} from '../indice/indice';
+import {IndiceMot} from '../indice/indiceMot';
 import {ConnexionTempsReelClient} from '../ConnexionTempsReelClient';
 import {Joueur} from '../../../../commun/Joueur';
 import {Niveau} from '../../../../commun/Niveau';
@@ -10,6 +10,7 @@ import {ConnexionTempsReelService} from '../ConnexionTempsReel.service';
 import {RequisPourMotAVerifier} from '../../../../commun/RequisPourMotAVerifier';
 import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 import {Indice} from "../../../../server/app/Indice";
+import {EmplacementMot} from "../../../../commun/EmplacementMot";
 
 
 @Injectable()
@@ -37,13 +38,12 @@ export class GameViewService {
     return this.partieGeneree;
   }
 
-  private MAJIndices(specificationPartie: SpecificationPartie){
+  private MAJIndices(specificationPartie: SpecificationPartie) {
     const indices: IndiceMot[] = new Array();
     console.log(this.partieGeneree.specificationGrilleEnCours.emplacementMots);
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
-      const indice : Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
-      console.log(indice);
-      const definition = indice.obtenirDefinition(this.partieGeneree.niveau);
+      const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
+      const definition = indiceServeur.definitions[0];
       indices.push(new IndiceMot(emplacementMot.obtenirGuidIndice(), emplacementMot.obtenirIndexFixe() + 1,
         definition, emplacementMot.obtenirGrandeur(), emplacementMot.obtenirPosition(),
         emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
@@ -52,7 +52,7 @@ export class GameViewService {
     this.indices = indices;
   }
 
-  private trouverIndiceAvecGuid(guid: string): Indice{
+  private trouverIndiceAvecGuid(guid: string): Indice {
     console.log('spe part : ', this.partieGeneree);
     for (const indiceServeur of this.partieGeneree.indices){
       if(indiceServeur.id === guid){
@@ -62,7 +62,20 @@ export class GameViewService {
     return null;
   }
 
+  private trouverEmplacementMotAvecGuid(guid: string): EmplacementMot {
+    console.log('spe part : ', this.partieGeneree);
+    for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
+      if(emplacementMot.obtenirGuidIndice() === guid){
+        return emplacementMot;
+      }
+    }
+    return null;
+  }
 
+  public testMotEntre(motAtester: string, indice: IndiceMot){
+    const emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
+    this.demanderVerificationMot(emplacementMot, motAtester);
+  }
 
 
 
@@ -81,27 +94,28 @@ export class GameViewService {
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
   }
 
-  public recupererPartie(specificationPartie: SpecificationPartie, self: ConnexionTempsReelService) {
+  public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService) {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     console.log('specification partie 1:', self.specificationPartie);
     // console.log(self.gameViewService);
-    this.mettreAJourGrilleGeneree(self.specificationPartie);
+    self.mettreAJourGrilleGeneree(self.specificationPartie);
   }
 
-  public demanderVerificationMot(specificationPartie: SpecificationPartie, self: ConnexionTempsReelService) {
+  public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string) {
     // REQUETE VERIFIER MOT
-    const requisPourMotAVerifierMauvais: RequisPourMotAVerifier = new RequisPourMotAVerifier(
-      self.specificationPartie.specificationGrilleEnCours.emplacementMots[0],
-      'XYZ', self.specificationPartie.joueur.obtenirGuid(), self.specificationPartie.guidPartie);
-    self.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVER_VERIFIER_MOT,
-      requisPourMotAVerifierMauvais, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, self.recupererVerificationMot, this);
+    const requisPourMotAVerifier: RequisPourMotAVerifier = new RequisPourMotAVerifier(
+      emplacementMot, motAtester, this.specificationPartie.joueur.obtenirGuid(), this.specificationPartie.guidPartie);
+    console.log('demande verif', requisPourMotAVerifier);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVER_VERIFIER_MOT,
+      requisPourMotAVerifier, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
   }
 
   public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: ConnexionTempsReelService) {
+    console.log("retour");
     if (requisPourMotAVerifier.estLeMot) {
       // alert('Bravo, vous avez le bon mot.');
     } else {
-      // alert('Malheureusement, ce n\'est pas le bon mot.');
+      alert('Malheureusement, ce n\'est pas le bon mot.');
     }
   }
 }

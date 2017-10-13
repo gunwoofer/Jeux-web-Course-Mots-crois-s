@@ -16,8 +16,18 @@ export class Indice {
 
     }
 
+    public obtenirDefinition(difficulte: Niveau): string {
+        if (difficulte === Niveau.facile) {
+            return this.definitions[0];
+        } else {
+            const nombreDefinitions: number = this.definitions.length;
+            const n: number = this.nombreAleatoireEntre1Etn(nombreDefinitions);
+            return this.definitions[n];
+        }
+    }
+
     public copieIndice(): Indice {
-        let newIndice = new Indice(this.definitions);
+        const newIndice = new Indice(this.definitions);
         newIndice.difficulteDefinition = this.difficulteDefinition;
         return newIndice;
     }
@@ -31,15 +41,6 @@ export class Indice {
         this.difficulteDefinition = difficultedefinition;
     }
 
-    public obtenirDefinition(difficulte: Niveau): string {
-        if (difficulte === Niveau.facile) {
-            return this.definitions[0];
-        } else {
-            const nombreDefinitions: number = this.definitions.length;
-            const n: number = this.nombreAleatoireEntre1Etn(nombreDefinitions);
-            return this.definitions[n];
-        }
-    }
 
     private nombreAleatoireEntre1Etn(n: number): number {
         return Math.floor((Math.random() * n) + 1);

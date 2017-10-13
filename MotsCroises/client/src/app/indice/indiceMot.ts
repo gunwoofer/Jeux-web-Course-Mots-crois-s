@@ -1,7 +1,7 @@
 export class IndiceMot {
   public indexFixe: number;
   public definition: string;
-  public GuidIndice: string;
+  public guidIndice: string;
   public tailleMot: number;
   public sens: number; // False = horizontal, True = vertical
   public positionI: number;
@@ -9,7 +9,7 @@ export class IndiceMot {
   public motTrouve: string;
 
   constructor(guidIndice: string, indexFixe: number, definition: string, tailleMot: number, sens: number, positionI: number, positionJ: number, motTrouve: string = '') {
-    this.GuidIndice = guidIndice;
+    this.guidIndice = guidIndice;
     this.indexFixe = indexFixe;
     this.definition = definition;
     this.tailleMot = tailleMot;

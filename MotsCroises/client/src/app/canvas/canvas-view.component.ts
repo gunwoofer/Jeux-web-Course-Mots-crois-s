@@ -2,7 +2,7 @@ import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} f
 import {IndiceViewService} from '../indice/indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import {IndiceMot} from '../indice/indice';
+import {IndiceMot} from '../indice/indiceMot';
 
 
 @Component({
@@ -85,17 +85,16 @@ export class CanvasViewComponent implements AfterViewInit {
   public validerMotEntre() {
     if (this.motEcrit.length === this.indice.tailleMot) {
       // } && this.indice.name.toUpperCase() === this.motEcrit) {
-      console.log("emplacement mot rempli", this.motEcrit);
-      this.indice.motTrouve = this.motEcrit;
+      console.log('emplacement mot rempli', this.motEcrit);
+      //this.indice.motTrouve = this.motEcrit;
+      this.gameViewService.testMotEntre(this.motEcrit, this.indice);
       this.ecrireMotsTrouves();
     }
   }
 
   public ecrireMotsTrouves() {
     for (const i of this.gameViewService.indices) {
-      console.log("mot trouve ? ", i.motTrouve, i.tailleMot);
       if (i.motTrouve.length > 0) {
-        console.log('mot trouve', i);
         this.ecrireMotDansGrille(i.motTrouve, i.sens, i.positionI, i.positionJ, this.couleurMotTrouve);
       }
     }
@@ -115,6 +114,7 @@ export class CanvasViewComponent implements AfterViewInit {
     this.dessinerLignesGrille();
     this.ecrireMotsTrouves();
     this.specificationPartie = this.gameViewService.getPartie();
+    this.testCaseNoiresMotsGrilleObtenueServeur();
   }
 
   public dessinerLignesGrille() {
