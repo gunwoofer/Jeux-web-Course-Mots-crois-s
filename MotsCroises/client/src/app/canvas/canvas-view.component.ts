@@ -110,7 +110,7 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas = this.canvas.getContext('2d');
     this.dessinerLignesGrille();
     this.ecrireMotsTrouves();
-    this.specificationPartie  = this.gameViewService.getPartie();
+    this.specificationPartie = this.gameViewService.getPartie();
   }
 
   public dessinerLignesGrille() {
@@ -131,6 +131,7 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ngAfterViewInit();
     this.ecrireMotsTrouves();
     this.testEcrireMotsGrilleObtenueServeur();
+    this.testCaseNoiresMotsGrilleObtenueServeur();
   }
 
   public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
@@ -153,12 +154,9 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas.fillText(lettre.toUpperCase(), this.largeurCase * (i + 1 / 2), this.hauteurCase * (j + 1 / 2));
   }
 
-  public dessinerRectangleNoir(lettre: string, i: number, j: number, couleur: string) {
-    this.ctxCanvas.font = this.policeLettres;
-    this.ctxCanvas.fillStyle = couleur;
-    this.ctxCanvas.textAlign = 'center';
-    this.ctxCanvas.textBaseline = 'middle';
-    this.ctxCanvas.fillRect(lettre.toUpperCase(), this.largeurCase * i, this.hauteurCase * (j + 1 / 2));
+  public dessinerRectangleNoir(i: number, j: number) {
+    this.ctxCanvas.fillStyle = this.couleurNoire;
+    this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.largeurCase);
   }
 
   public afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string) {
@@ -211,20 +209,17 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public testCaseNoiresMotsGrilleObtenueServeur() {
-    for (let i = 0 ; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        if (this..specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirEtat()==2){
-
+        if (this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirEtat() === 2) {
+          this.dessinerRectangleNoir(j + 1, i + 1);
         }
-        this.ecrireLettreDansCase(
-          this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirLettre(),
-          j + 1, i + 1, this.couleurRouge);
       }
     }
   }
 
   public testEcrireMotsGrilleObtenueServeur() {
-    for (let i = 0 ; i < 10; i++) {
+    for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         this.ecrireLettreDansCase(
           this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirLettre(),
