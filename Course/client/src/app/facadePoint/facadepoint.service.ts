@@ -1,8 +1,9 @@
-import { Injectable, Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
 @Injectable()
 export class FacadePointService {
+
   private listeErreurCouleur = {
     normal: 'green',
     angle45: 'red',

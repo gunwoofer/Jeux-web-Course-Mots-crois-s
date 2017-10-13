@@ -1,7 +1,8 @@
-import { RenderService } from './../renderService/render.service';
 import { Piste } from './piste.model';
 import { Component, Input } from '@angular/core';
+
 import { PisteService } from './piste.service';
+import { RenderService } from './../renderService/render.service';
 
 @Component({
   selector: 'app-piste-component',
@@ -16,25 +17,25 @@ export class PisteComponent {
   private display = false;
   private score = false;
 
-  private onEdit() {
+  private editer(): void {
     this.pisteService.modifierPiste(this.piste);
   }
 
-  private onDelete() {
+  private supprimer(): void {
     this.pisteService.supprimerListePiste(this.piste)
       .then(message => console.log(message))
       .catch(erreur => console.error(erreur));
   }
 
-  private onClick() {
+  private surClick(): void {
     this.display = !this.display;
   }
 
-  private montrerLesScores() {
+  private montrerLesScores(): void {
     this.score = !this.score;
   }
 
-  private commencerPartie() {
+  private commencerPartie(): void {
     this.pisteService.commencerPartie(this.piste);
   }
 }

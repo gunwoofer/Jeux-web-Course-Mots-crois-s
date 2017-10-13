@@ -1,5 +1,6 @@
 import * as THREE from 'three';
 import { SegmentDePiste } from './segmentdepiste.model';
+import { NgForm } from '@angular/forms';
 
 export class Piste {
     public segmentsDePiste: SegmentDePiste[] = new Array();
@@ -32,11 +33,24 @@ export class Piste {
     }
 
     public obtenirVisuelPiste(): THREE.Mesh[] {
-        let visuelSegments: THREE.Mesh[] = new Array();
+        const visuelSegments: THREE.Mesh[] = new Array();
 
         for (const segmentDePisteCourant of this.segmentsDePiste) {
             visuelSegments.push(segmentDePisteCourant.obtenirVisuelSegment());
         }
         return visuelSegments;
     }
+    public modifierAttribut(form: NgForm, listePosition: any[]): void {
+        this.typeCourse = form.value.typeCourse;
+        this.description = form.value.description;
+        this.listepositions = listePosition;
+    }
+
+    public modifieAttribut(coteAppreciation: number, nombreFoisJouee: number, meilleursTemps: number[]): void {
+        this.coteAppreciation = coteAppreciation;
+        this.nombreFoisJouee = nombreFoisJouee;
+        this.meilleursTemps = meilleursTemps;
+    }
+
+
 }

@@ -66,7 +66,7 @@ export class Application {
 
     mongoose.Promise = global.Promise;
     mongoose.connect('mongodb://localhost/Bdpiste', { useMongoClient: true });
-    mongoose.connection.on("error", error => {
+    mongoose.connection.on('error', error => {
       console.error(error);
     });
 
@@ -84,7 +84,8 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
-    router.delete('/listePiste/:id', index.supprimerPiste.bind(index.supprimerPiste));
+    router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
+    router.delete('/listePiste:id', index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
     // createur de piste
     router.post('/createurPiste', index.ajouterPiste.bind(index.ajouterPiste));
