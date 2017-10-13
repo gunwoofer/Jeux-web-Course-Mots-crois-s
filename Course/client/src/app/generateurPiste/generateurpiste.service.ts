@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+import { Voiture } from './../voiture/voiture.service';
 
 export const LARGEUR_PISTE = 50;
 export const NOMBRE_SEGMENTS = 1;
@@ -13,6 +14,8 @@ export class GenerateurPisteService {
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
     private voiture: THREE.Mesh;
+    private automobile: Voiture;
+    private objetVoiture: THREE.Mesh;
     private touche: number;
 
     public initialisation(container: HTMLDivElement) {
@@ -21,12 +24,15 @@ export class GenerateurPisteService {
         for (let i = 0; i < this.pointsPiste.length; i++) {
             this.pointsPiste[i] = new Array();
         }
+        this.automobile = new Voiture(this.objetVoiture);
         this.container = container;
         this.creerScene();
         this.creerPointMock();
-        // this.creerVoiture();
-        this.ajoutVoiture();
-        this.scene.add(this.voiture);
+         //this.creerVoiture();
+        //this.ajoutVoiture();
+        this.automobile.creerVoiture();
+        console.log(this.automobile.obtenirObjetVoiture3D());
+        this.scene.add(this.automobile.obtenirObjetVoiture3D());
         this.commencerRendu();
     }
 
@@ -188,5 +194,6 @@ export class GenerateurPisteService {
             this.scene.add( obj );
             this.camera.lookAt(obj.position);
         });
+
     }
 }
