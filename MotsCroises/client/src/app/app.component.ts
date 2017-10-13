@@ -36,12 +36,6 @@ export class AppComponent implements OnInit {
 
 
   public ngOnInit(): void {
-    this.basicService.ajouterGrillesDeDepart();
-    this.basicService.obtenirGrille().then(grille => this.afficherGrille(grille));
-    this.basicService.obtenirGrillePersistenteFacile().then(grille => this.afficherGrillePersistenteFacile(grille));
-    this.basicService.obtenirGrillePersistenteMoyen().then(grille => this.afficherGrillePersistenteMoyen(grille));
-    this.basicService.obtenirGrillePersistenteDifficile().then(grille => this.afficherGrillePersistenteDifficile(grille));
-
     // REQUETE CREER NOUVELLE PARTIE
     this.connexionTempsReelClient = new ConnexionTempsReelClient();
     const joueur: Joueur = new Joueur();
@@ -53,7 +47,6 @@ export class AppComponent implements OnInit {
   public rappelCreerPartieSolo(specificationPartie: SpecificationPartie, self: AppComponent) {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
 
-    self.afficherGrilleVenantDeSpecificationPartie(specificationPartie.specificationGrilleEnCours);
     console.log('specification partie 1:', self.specificationPartie );
     console.log(self.gameViewService);
     self.gameViewService.mettreAJourGrilleGeneree(self.specificationPartie);

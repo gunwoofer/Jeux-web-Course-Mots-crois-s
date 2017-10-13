@@ -1,41 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import {Indice} from '../indice/indice';
-import {ConnexionTempsReelClient} from '../ConnexionTempsReelClient';
-import {Joueur} from '../../../../commun/Joueur';
-import {Niveau} from '../../../../commun/Niveau';
-import {TypePartie} from '../../../../commun/TypePartie';
-import {ConnexionTempsReelService} from '../ConnexionTempsReel.service';
-import {RequisPourMotAVerifier} from '../../../../commun/RequisPourMotAVerifier';
-import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
+import {ConnexionTempsReelClient} from './ConnexionTempsReelClient';
+import {Joueur} from '../../../commun/Joueur';
+import {Niveau} from '../../../commun/Niveau';
+import {TypePartie} from '../../../commun/TypePartie';
+import {SpecificationPartie} from '../../../commun/SpecificationPartie';
+import {RequisPourMotAVerifier} from '../../../commun/RequisPourMotAVerifier';
+import * as requetes from '../../../commun/constantes/RequetesTempsReel';
 
 
 @Injectable()
-export class GameViewService {
-  private grilleGenere = new Subject<SpecificationPartie>();
-  public grilleGenere$ = this.grilleGenere.asObservable();
 
-  private partieGeneree: SpecificationPartie;
-  public indices: Indice[];
-
-  constructor() {
-  }
-
-  public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie) {
-    this.partieGeneree = specificationPartie;
-    console.log('specification partie arrivée :', specificationPartie);
-  }
-
-  public mettreAJourIndice(indices: Indice[]) {
-    this.indices = indices;
-  }
-
-  public getPartie() {
-    return this.partieGeneree;
-  }
-
-
+export class ConnexionTempsReelService {
   public connexionTempsReelClient: ConnexionTempsReelClient;
   public specificationPartie: SpecificationPartie;
   public joueur: Joueur = new Joueur();
@@ -51,11 +26,11 @@ export class GameViewService {
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
   }
 
-  public recupererPartie(specificationPartie: SpecificationPartie, self: ConnexionTempsReelService) {
+  public recupererPartie(specificationPartie: SpecificationPartie, self: ConnexionTempsReelService){
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-    console.log('specification partie 1:', self.specificationPartie);
+    console.log('specification partie 1:', self.specificationPartie );
     // console.log(self.gameViewService);
-    this.mettreAJourGrilleGeneree(self.specificationPartie);
+    // self.gameViewService.mettreAJourGrilleGeneree(self.specificationPartie);
   }
 
   public demanderVerificationMot(specificationPartie: SpecificationPartie, self: ConnexionTempsReelService) {
