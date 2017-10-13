@@ -66,7 +66,7 @@ export class ConnexionTempsReelServer {
 
         specificationPartie.guidPartie = guidPartie;
         specificationPartie.specificationGrilleEnCours = new SpecificationGrille(
-            grille.obtenirManipulateurCases(), grille.obtenirEmplacementsMot());
+            grille.obtenirManipulateurCasesSansLettres(), grille.obtenirEmplacementsMot());
 
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartie);
 
