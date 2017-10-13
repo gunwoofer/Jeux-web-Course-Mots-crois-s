@@ -134,6 +134,21 @@ export class Grille {
         return this.cases;
     }
 
+    public obtenirManipulateurCasesSansLettres(): Cases {
+        return this.supprimerLettresCases().cases;
+    }
+
+    public supprimerLettresCases(): Grille {
+        for(let ligneCourante of this.cases.obtenirCases()) {
+            for(let caseCourante of ligneCourante) {
+                if(caseCourante.obtenirLettre() != '') {
+                    this.obtenirCase(caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne()).remplirCase('');
+                }
+            }
+        }
+        return this;
+    }
+
     public copieGrille(): Grille {
         let newGrille: Grille = new Grille(this.niveau);
         newGrille.etat = this.etat;
