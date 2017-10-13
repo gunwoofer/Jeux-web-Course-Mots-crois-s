@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {IndiceViewService} from "./indice-view.service";
 import {GameViewService} from "../game_view/game-view.service";
 import {EmplacementMot} from "../../../../commun/EmplacementMot";
+import {Indice} from "./indice";
 
 
 @Component({
@@ -11,7 +12,7 @@ import {EmplacementMot} from "../../../../commun/EmplacementMot";
 })
 
 export class IndiceViewComponent implements OnInit {
-  public indices: Indice[]= INDICES;
+  public indices: Indice[];
   public selectedIndice: Indice;
   constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
   }
@@ -42,38 +43,9 @@ export class IndiceViewComponent implements OnInit {
         i.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
         i.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
     }
+    this.gameViewService.mettreAJourIndice(this.indices);
   }
 }
 
-// MOCK
-export const INDICES: Indice[] = [
-  //{ id: 11, name: 'voiture', tailleMot: 7, sens: 0, positionI: 3, positionJ: 5, motTrouve: false},
-  //{ id: 12, name: 'Biboum', tailleMot: 5, sens: 1, positionI: 4, positionJ: 6, motTrouve: false },
-  //{ id: 13, name: 'Karam', tailleMot: 5, sens: 0, positionI: 2, positionJ: 8, motTrouve: true },
-  //{ id: 14, name: 'BoumBoum', tailleMot: 8, sens: 1, positionI: 2, positionJ: 1, motTrouve: false }
-];
 
-export const INDICESVERTICAL: Indice[] = [
-
-];
-
-export class Indice {
-  public id: number;
-  public name: string;
-  public tailleMot: number;
-  public sens: number; // False = horizontal, True = vertical
-  public positionI:  number;
-  public positionJ: number;
-  public motTrouve: string;
-
-  constructor(id: number, name: string, tailleMot: number, sens: number, positionI: number, positionJ: number, motTrouve: string = '') {
-    this.id = id;
-    this.name = name;
-    this.tailleMot = tailleMot;
-    this.sens = sens;
-    this.positionI = positionI;
-    this.positionJ = positionJ;
-    this.motTrouve = motTrouve;
-  }
-}
 

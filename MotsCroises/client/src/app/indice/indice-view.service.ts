@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import {Indice} from './indice-view.component';
+import {Indice} from './indice';
 
 @Injectable()
 export class IndiceViewService {

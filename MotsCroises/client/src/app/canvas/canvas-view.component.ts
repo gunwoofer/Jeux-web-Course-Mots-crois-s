@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {IndiceViewService} from '../indice/indice-view.service';
-import {Indice, INDICES} from '../indice/indice-view.component';
 import {GameViewService} from '../game_view/game-view.service';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
+import {Indice} from "../indice/indice";
 
 
 @Component({
@@ -92,7 +92,7 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ecrireMotsTrouves() {
-    for (const i of INDICES) {
+    for (const i of this.gameViewService.indices) {
       console.log("mot trouve ? ", i.motTrouve, i.tailleMot);
       if (i.motTrouve.length > 0) {
         console.log('mot trouve', i);
