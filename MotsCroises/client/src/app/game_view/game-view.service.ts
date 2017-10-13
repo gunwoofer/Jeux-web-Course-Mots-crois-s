@@ -24,6 +24,7 @@ export class GameViewService {
 
   public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie) {
     this.partieGeneree = specificationPartie;
+    this.MAJIndices(this.partieGeneree);
     console.log('specification partie arrivée :', specificationPartie);
   }
 
@@ -34,6 +35,18 @@ export class GameViewService {
   public getPartie() {
     return this.partieGeneree;
   }
+
+  private MAJIndices(specificationPartie: SpecificationPartie){
+    const indices: Indice[] = new Array();
+    console.log(this.partieGeneree.specificationGrilleEnCours.emplacementMots);
+    for (const i of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
+      indices.push(new Indice(i.obtenirIndexFixe() + 1, i.obtenirGuidIndice(), i.obtenirGrandeur(), i.obtenirPosition(),
+        i.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
+        i.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
+    }
+    this.indices = indices;
+  }
+
 
 
   public connexionTempsReelClient: ConnexionTempsReelClient;

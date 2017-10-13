@@ -33,18 +33,9 @@ export class IndiceViewComponent implements OnInit {
 
   public ngOnInit(): void {
     this.indices = [];
-    this.MAJIndices(this.gameViewService.getPartie().specificationGrilleEnCours.emplacementMots);
+    this.indices = this.gameViewService.indices;
   }
 
-  private MAJIndices(emplacementMots: EmplacementMot[]){
-    console.log(emplacementMots);
-    for (const i of emplacementMots){
-      this.indices.push(new Indice(i.obtenirIndexFixe() + 1, i.obtenirGuidIndice(), i.obtenirGrandeur(), i.obtenirPosition(),
-        i.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
-        i.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
-    }
-    this.gameViewService.mettreAJourIndice(this.indices);
-  }
 }
 
 
