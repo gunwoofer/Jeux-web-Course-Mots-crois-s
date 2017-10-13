@@ -1,27 +1,34 @@
 import * as express from 'express';
-import { Piste, PisteModel } from '../pisteModel';
+import { Piste } from '../pisteModel';
+import { Message } from '../../../commun/communication/message';
 
 module Route {
 
     export class Index {
 
-        public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
+        public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
             const piste = new Piste(req.body);
-            piste.save((err: any, objetPiste: PisteModel) => {
+            piste.save((err, resultat) => {
                 if (err) {
-                    this.fonctionErreur(res, 'une erreur est survenue lors de la sauvegarde', err, 500);
+                    return res.status(500).json({
+                        title: 'une erreur est survenue lors de la sauvegarde',
+                        error: err
+                    });
                 }
                 res.status(201).json({
                     message: 'La piste est sauvegardée',
-                    obj: objetPiste
+                    obj: resultat
                 });
             });
         }
 
-        public retournerPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            Piste.find((err: any, pistes: PisteModel[]) => {
+        public retournerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            Piste.find((err, pistes) => {
                 if (err) {
-                    this.fonctionErreur(res, 'Une erreur est survenue', err, 500);
+                    return res.status(500).json({
+                        title: 'Une erreur est survenue',
+                        error: err
+                    });
                 }
                 res.status(200).json({
                     message: 'Nous avons pu recuperer la liste de piste',
@@ -30,51 +37,57 @@ module Route {
             });
         }
 
-        public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            Piste.findById(req.params.id, (err: any, piste: PisteModel) => {
+        public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            console.log(req.params.id);
+            Piste.findById(req.params.id, (err, piste) => {
                 if (err) {
-                    this.fonctionErreur(res, 'Une erreur est survenue', err, 500);
+                    return res.status(500).json({
+                        title: 'Une erreur est survenue',
+                        error: err
+                    });
                 }
                 piste.remove((error: any, resultat: any) => {
                     if (err) {
-                        this.fonctionErreur(res, 'Une erreur est survenue lors de la sauvegarde', err, 500);
+                        return res.status(500).json({
+                            title: 'une erreur est survenue lors de la sauvegarde',
+                            error: err
+                        });
                     }
                     res.status(201).json({
                         message: 'La piste est supprimée',
                         obj: resultat
                     });
                 });
+
             });
         }
-
-        public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            Piste.findById(req.params.id, (err: any, piste: PisteModel) => {
+        public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            Piste.findById(req.params.id, (err, piste) => {
                 if (err) {
-                    this.fonctionErreur(res, 'Une erreur est survenue', err, 500);
+                    return res.status(500).json({
+                        title: 'Une erreur est survenue',
+                        error: err
+                    });
                 }
                 piste.typeCourse = req.body.typeCourse;
                 piste.description = req.body.description;
                 piste.listepositions = req.body.listepositions;
-                piste.save((error: any, resultat: PisteModel) => {
+                piste.save((error: any, resultat: any) => {
                     if (err) {
-                        this.fonctionErreur(res, 'une erreur est survenue lors de la modification', err, 500);
+                        return res.status(500).json({
+                            title: 'une erreur est survenue lors de la modification',
+                            error: err
+                        });
                     }
                     res.status(200).json({
                         message: 'La piste est modifie',
                         obj: resultat
                     });
                 });
-            });
-        }
 
-        public fonctionErreur(res: express.Response, message: string, err: any, statue: number): express.Response {
-            return res.status(statue).json({
-                titre: message,
-                error: err
             });
         }
     }
-
 }
 
 export = Route;
