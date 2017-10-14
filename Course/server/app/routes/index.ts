@@ -1,6 +1,5 @@
 import * as express from 'express';
 import { Piste } from '../pisteModel';
-import { Message } from '../../../commun/communication/message';
 
 module Route {
 
