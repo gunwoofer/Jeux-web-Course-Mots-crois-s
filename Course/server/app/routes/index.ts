@@ -37,7 +37,6 @@ module Route {
         }
 
         public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            console.log(req.params.id);
             Piste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({

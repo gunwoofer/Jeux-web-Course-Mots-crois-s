@@ -39,6 +39,16 @@ describe('Test unitaire base de données', () => {
                 fin();
             });
     });
+
+    it('Trouver une piste dans la base de donnée à partir de son Id', (fin) => {
+        const expect = chai.expect;
+        Piste.findById({ _id: piste._id })
+            .then((result) => {
+                expect(result.nom === 'pisteUnitTest');
+                expect(result._id === piste._id);
+                fin();
+            });
+    });
 });
 
 
