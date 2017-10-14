@@ -14,16 +14,13 @@ const piste = new Piste({
 });
 
 describe('Test unitaire base de données', () => {
-    it('connection a la base de donne', () => {
+    beforeEach((fin) => {
         const bd = new BdImplementation();
-        const expect = chai.expect;
-
-        const valeurRetour = bd.connect();
-        expect(valeurRetour === true);
-        expect(valeurRetour === true);
+        bd.connect();
+        fin();
     });
 
-    it('Ajoute une piste à la base de donnée', (fin) => {
+    it('Ajouter une piste à la base de donnée', (fin) => {
         const expect = chai.expect;
 
         piste.save().then(() => {
@@ -32,6 +29,15 @@ describe('Test unitaire base de données', () => {
             fin();
         });
 
+    });
+
+    it('Trouver une piste dans la base de donnée', (fin) => {
+        const expect = chai.expect;
+        Piste.findOne({ nom: 'pisteUnitTest' })
+            .then((result) => {
+                expect(result.nom === 'pisteUnitTest');
+                fin();
+            });
     });
 });
 
