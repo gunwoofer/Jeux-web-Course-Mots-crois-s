@@ -107,7 +107,7 @@ export class GenerateurPisteService {
             plan.position.y = (pointDebut.y + pointFin.y) / 2;
             this.scene.add(plan);
         }
-        this.camera.lookAt(this.origine);
+        this.vueDuDessus(this.automobile.obtenirPositionVoiture());
     }
 
     private obtenirLongueur(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
@@ -138,9 +138,13 @@ export class GenerateurPisteService {
         // console.log(event.keyCode);
         /*
         Gauche = 97
+        Gauche touche relachee = 65
         Droite = 100
+        Droite touche relachee = 68
         Avancer = 119
+        Avancer touche relachee = 87
         Reculer = 115
+        Reculer touche relachee = 83
         */
         if (event.keyCode === 119) {
             console.log('Avancer');
@@ -274,5 +278,9 @@ export class GenerateurPisteService {
             this.camera.lookAt(obj.position);
         });
 
+    }
+
+    private vueDuDessus(centreVoiture: THREE.Vector3){
+        this.camera.lookAt(this.automobile.obtenirPositionVoiture());
     }
 }

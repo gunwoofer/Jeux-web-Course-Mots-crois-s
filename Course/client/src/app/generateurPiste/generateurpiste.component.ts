@@ -34,6 +34,8 @@ export class GenerateurPisteComponent implements AfterViewInit {
         this.generateurPisteService.toucheRelachee(event);
     }
 
+
+
     public ngAfterViewInit(): void {
     this.generateurPisteService.initialisation(this.container);
     }

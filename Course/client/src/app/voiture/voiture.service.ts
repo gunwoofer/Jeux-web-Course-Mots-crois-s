@@ -4,6 +4,7 @@ import * as THREE from 'three';
 @Injectable()
 export class Voiture {
         public voiture: THREE.Mesh;
+        public positionVoiture: THREE.Vector3;
 
         constructor (objetVoiture: THREE.Mesh) { }
 
@@ -23,6 +24,12 @@ export class Voiture {
 
         public obtenirObjetVoiture3D(): THREE.Mesh{
             return this.voiture;
+        }
+
+        public obtenirPositionVoiture():THREE.Vector3{
+            
+            this.positionVoiture = new THREE.Vector3(this.voiture.position.x, this.voiture.position.y, this.voiture.position.z);
+            return this.positionVoiture;
         }
 
 }
