@@ -1,15 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { BasicService } from './basic.service';
-import { Router } from '@angular/router';
-import { ConnexionTempsReelClient } from './ConnexionTempsReelClient';
+import {BasicService} from './basic.service';
+import {Router} from '@angular/router';
+import {ConnexionTempsReelClient} from './ConnexionTempsReelClient';
 import * as requetes from '../../../commun/constantes/RequetesTempsReel';
-import { SpecificationPartie } from '../../../commun/SpecificationPartie';
-import { SpecificationGrille } from '../../../commun/SpecificationGrille';
-import { TypePartie } from '../../../commun/TypePartie';
-import { Joueur } from '../../../commun/Joueur';
-import { Niveau } from '../../../commun/Niveau';
-import { RequisPourMotAVerifier } from '../../../commun/RequisPourMotAVerifier';
+import {SpecificationPartie} from '../../../commun/SpecificationPartie';
+import {SpecificationGrille} from '../../../commun/SpecificationGrille';
+import {TypePartie} from '../../../commun/TypePartie';
+import {Joueur} from '../../../commun/Joueur';
+import {Niveau} from '../../../commun/Niveau';
+import {RequisPourMotAVerifier} from '../../../commun/RequisPourMotAVerifier';
+import {GameViewService} from "./game_view/game-view.service";
 
 @Component({
   selector: 'app-root',
@@ -18,9 +19,10 @@ import { RequisPourMotAVerifier } from '../../../commun/RequisPourMotAVerifier';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private basicService: BasicService) { }
+  constructor(private basicService: BasicService, private gameViewService: GameViewService) {
+  }
 
-  public title = 'LOG2990';
+  public title = 'LOG2990 - Groupe 10 - Mots Croisés';
   public message: string;
   public grille = '';
   public grillePersistenteFacile = '';
@@ -28,15 +30,15 @@ export class AppComponent implements OnInit {
   public grillePersistenteDifficile = '';
   public niveaux: string[] = ['facile', 'moyen', 'difficile'];
   public types: string[] = ['classique', 'dynamique'];
+  public nbJoueurs: string[] = ['1 joueur', '2 joueurs'];
   public typePartie = 'classique';
   public niveauPartie = 'normal';
   public estConnecte = false;
-
   public emplacementsMot = '';
   public specificationPartie: SpecificationPartie;
   public grilleVenantDeSpecificationPartie = '';
-
   public connexionTempsReelClient: ConnexionTempsReelClient;
+  public nbJoueursPartie = '1 joueur';
 
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
@@ -57,6 +59,9 @@ export class AppComponent implements OnInit {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
 
     self.afficherGrilleVenantDeSpecificationPartie(specificationPartie.specificationGrilleEnCours);
+    console.log('specification partie 1:', self.specificationPartie );
+    console.log(self.gameViewService);
+    self.gameViewService.mettreAJourGrilleGeneree(self.specificationPartie);
 
     // REQUETE VERIFIER MOT
     const requisPourMotAVerifierMauvais: RequisPourMotAVerifier = new RequisPourMotAVerifier(
@@ -126,5 +131,9 @@ export class AppComponent implements OnInit {
 
   public ajouterNiveauPartie(niveauPartie: string): void {
     this.niveauPartie = niveauPartie;
+  }
+
+  public ajouterNbJoueursPartie(nbJoueurs: string): void {
+    this.nbJoueursPartie = nbJoueurs;
   }
 }

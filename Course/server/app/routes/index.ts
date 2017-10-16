@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { Piste } from '../pisteModel';
-import { Message } from '../../../commun/communication/message';
+
 
 module Route {
 
@@ -38,7 +38,6 @@ module Route {
         }
 
         public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            console.log(req.params.id);
             Piste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({

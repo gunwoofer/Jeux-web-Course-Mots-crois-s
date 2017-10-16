@@ -12,6 +12,7 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import mongoose = require('mongoose');
+import { BdImplementation } from './bdImplementation';
 
 import * as indexRoute from './routes/index';
 
@@ -47,7 +48,7 @@ export class Application {
 
     // configure routes
     this.routes();
-  }
+    }
 
   /**
    * The config function.
@@ -64,11 +65,8 @@ export class Application {
     this.app.use(express.static(path.join(__dirname, '../client')));
     this.app.use(cors());
 
-    mongoose.Promise = global.Promise;
-    mongoose.connect('mongodb://localhost/Bdpiste', { useMongoClient: true });
-    mongoose.connection.on('error', error => {
-      console.error(error);
-    });
+    const bd: BdImplementation = new BdImplementation();
+    bd.connect();
 
   }
 
