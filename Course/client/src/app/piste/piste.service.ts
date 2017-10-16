@@ -23,11 +23,11 @@ export class PisteService {
     }
 
 
-    public ajouterPiste(piste: Piste): Observable<Response> {
+    public ajouterPiste(piste: Piste): Promise<Response> {
         this.pistes.push(piste);
         return this.http.post('http://localhost:3000/createurPiste', piste)
-            .map((reponse: Response) => reponse.json())
-            .catch((erreur: Response) => Observable.throw(erreur.json()));
+            .toPromise()
+            .then((reponse: Response) => reponse.json());
     }
 
     public retournerListePiste(): Promise<Piste[]> {

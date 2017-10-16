@@ -45,9 +45,8 @@ export class PisteValidationComponent {
     private creerPiste(form: NgForm, listePositions: any[]): void {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listePositions);
         this.pisteService.ajouterPiste(piste)
-            .subscribe(
-            donnee => console.log(donnee),
-            erreur => console.error(erreur)
+            .then(
+            donnee => console.log(donnee)
             );
     }
 
