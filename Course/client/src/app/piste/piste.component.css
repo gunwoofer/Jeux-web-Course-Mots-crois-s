@@ -17,3 +17,20 @@ i {
 p {
     font-family: fantasy
 }
+
+#image {
+    float: right;
+}
+
+img {
+    height: 100px;
+    width: 100px;
+}
+
+#info {
+    float: left;
+}
+
+#score {
+    float: left;
+}

@@ -4,15 +4,23 @@
             <strong>{{ piste.nom }}</strong>
         </div>
         <div class="panel-body" *ngIf="display">
-            <p>Type Course: {{ piste.typeCourse }}</p>
-            <p>Description: {{ piste.description }}</p>
-            <p>Cote appréciation: {{ piste.coteAppreciation }}/5</p>
-            <p>Nombre de fois jouée: {{ piste.nombreFoisJouee }} </p>
-            <button type="button" (click)="montrerLesScores()">Meilleurs scores</button>
+            <div id="info">
+                <p>Type Course: {{ piste.typeCourse }}</p>
+                <p>Description: {{ piste.description }}</p>
+                <p>Cote appréciation: {{ piste.coteAppreciation }}/5</p>
+                <p>Nombre de fois jouée: {{ piste.nombreFoisJouee }} </p>
+                <button type="button" (click)="montrerLesScores()">Meilleurs scores</button>
+            </div>
+            <div id="image">
+                <img src="{{ piste.vignette }}" alt="">
+            </div>
+            <div *ngIf="score" id="score">
+                <app-tableauscore-component [temps]="piste.meilleursTemps"></app-tableauscore-component>
+            </div>
+
         </div>
-        <div *ngIf="score">
-            <app-tableauscore-component [temps]="piste.meilleursTemps"></app-tableauscore-component>
-        </div>
+
+
         <footer class="panel-footer">
             <div>
                 <a class="config" class="btn btn-success" (click)="commencerPartie()">

@@ -5,6 +5,7 @@ export class Piste {
     public nombreFoisJouee: number;
     public coteAppreciation: number;
     public meilleursTemps: number[] = [];
+    public vignette: string;
     constructor(public nom: string,
         public typeCourse: string,
         public description: string,
@@ -15,6 +16,7 @@ export class Piste {
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = i * 2 + 4;
         }
+        this.vignette = 'http://royale.zerezo.com/zerace/tracks/formula.png';
     }
 
     public modifierAttribut(form: NgForm, listePosition: any[]): void {
