@@ -18,7 +18,9 @@ export class EmplacementMot {
     public motsImpossible: string[] = new Array();
     private GuidIndice: string = '';
 
-
+    public obtenirIndice(): string {
+        return "";
+    }
     public static creerInstanceAvecJSON(): EmplacementMot {
         return new EmplacementMot(new Case(1,1,EtatCase.vide), new Case(1,3,EtatCase.vide));
     }
