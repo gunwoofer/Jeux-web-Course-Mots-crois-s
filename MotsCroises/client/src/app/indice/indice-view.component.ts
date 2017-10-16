@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {IndiceViewService} from "./indice-view.service";
+import {GameViewService} from "../game_view/game-view.service";
+import {EmplacementMot} from "../../../../commun/EmplacementMot";
 
 
 @Component({
@@ -8,11 +10,11 @@ import {IndiceViewService} from "./indice-view.service";
   styleUrls: ['./indice-view.component.css'],
 })
 
-export class IndiceViewComponent  {
+export class IndiceViewComponent implements OnInit {
   public indices: Indice[]= INDICES;
-  public indicesVerticale: Indice[] = INDICES;
   public selectedIndice: Indice;
-  constructor(private indiceViewService: IndiceViewService) {}
+  constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
+  }
 
   public onSelect(indice: Indice, event: Event): void {
     event.stopPropagation();
@@ -27,14 +29,26 @@ export class IndiceViewComponent  {
     this.selectedIndice = null;
     this.indiceViewService.afficherSelectionIndice(null);
   }
+
+  public ngOnInit(): void {
+    this.MAJIndices(this.gameViewService.getPartie().specificationGrilleEnCours.emplacementMots);
+  }
+
+  private MAJIndices(emplacementMots: EmplacementMot[]){
+    for (const i of emplacementMots){
+      INDICES.push(new Indice(i.obtenirIndexFixe() + 1, i.obtenirIndice(), i.obtenirGrandeur(), i.obtenirPosition(),
+        i.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
+        i.obtenirCaseDebut().obtenirNumeroLigne() + 1, false));
+    }
+  }
 }
 
 // MOCK
 export const INDICES: Indice[] = [
-  { id: 11, name: 'voiture', tailleMot: 7, sens: 0, positionI: 3, positionJ: 5, motTrouve: false},
-  { id: 12, name: 'Biboum', tailleMot: 5, sens: 1, positionI: 4, positionJ: 6, motTrouve: false },
-  { id: 13, name: 'Karam', tailleMot: 5, sens: 0, positionI: 2, positionJ: 8, motTrouve: true },
-  { id: 14, name: 'BoumBoum', tailleMot: 8, sens: 1, positionI: 2, positionJ: 1, motTrouve: false }
+  //{ id: 11, name: 'voiture', tailleMot: 7, sens: 0, positionI: 3, positionJ: 5, motTrouve: false},
+  //{ id: 12, name: 'Biboum', tailleMot: 5, sens: 1, positionI: 4, positionJ: 6, motTrouve: false },
+  //{ id: 13, name: 'Karam', tailleMot: 5, sens: 0, positionI: 2, positionJ: 8, motTrouve: true },
+  //{ id: 14, name: 'BoumBoum', tailleMot: 8, sens: 1, positionI: 2, positionJ: 1, motTrouve: false }
 ];
 
 export const INDICESVERTICAL: Indice[] = [

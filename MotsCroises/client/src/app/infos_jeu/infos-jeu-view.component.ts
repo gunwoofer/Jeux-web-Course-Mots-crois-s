@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {IndiceViewService} from "../indice/indice-view.service";
+import {AfterViewInit, Component, Input} from '@angular/core';
+import {IndiceViewService} from '../indice/indice-view.service';
 
 
 @Component({
@@ -9,13 +9,18 @@ import {IndiceViewService} from "../indice/indice-view.service";
 })
 
 export class InfosJeuViewComponent  {
-  public motEnCours1: string;
+
+  @Input() public nbJoueurs: string;
+  public motEnCoursJ1: string;
+  public motEnCoursJ2: string;
+  public motTrouveJ1: number;
+  public motTrouveJ2: number;
+
 
   constructor(private indiceViewService: IndiceViewService) {
     this.indiceViewService.motEcrit$.subscribe(nouveauMot => {
-      this.motEnCours1 = nouveauMot;
+      this.motEnCoursJ1 = nouveauMot;
     });
   }
-
 
 }

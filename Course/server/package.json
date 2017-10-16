@@ -15,6 +15,7 @@
     "postinstall": "rimraf false"
   },
   "dependencies": {
+    "@types/mongoose": "^4.7.23",
     "body-parser": "~1.16.0",
     "cookie-parser": "~1.4.0",
     "cors": "~2.8.1",

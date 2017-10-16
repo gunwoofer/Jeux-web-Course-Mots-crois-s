@@ -18,7 +18,7 @@ export enum EtatGrille {
 
 export class Grille {
     private mots: MotComplet[] = new Array();
-    private emplacementMots: EmplacementMot[] = new Array();
+    public emplacementMots: EmplacementMot[] = new Array();
 
     private cases: Cases = new Cases();
 
@@ -775,7 +775,7 @@ export class Grille {
         let buffer: string = '';
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-
+                
                 ligne.push(this.cases.obtenirCase(i, j).obtenirLettre());
             }
             for (let k = 0; k < ligne.length; k++) {
@@ -786,6 +786,7 @@ export class Grille {
                     buffer += ' * ';
                 }
             }
+            
             console.log(buffer);
             buffer = "";
             ligne = new Array();
