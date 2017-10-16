@@ -1,9 +1,10 @@
 import * as THREE from 'three';
 
 export const COULEUR_PISTE = 'blue';
-export const LARGEUR_PISTE = 50;
+export const LARGEUR_PISTE = 5;
 export const RADIANT_CERCLE = LARGEUR_PISTE / 2;
 export const NOMBRE_TRIANGLE_CERCLE = 3;
+export const PI_SUR_4 = Math.PI / 4;
 
 export class SegmentDePiste {
     private pointDebut: THREE.Vector3;
@@ -27,10 +28,11 @@ export class SegmentDePiste {
         this.angle = this.obtenirAngle();
         this.visuelDuSegment = new THREE.Mesh(this.geometrie, this.materiel);
         this.visuelDuSegment.rotateZ(this.angle);
-        this.visuelDuSegment.position.x = this.trouverPositionXouY(pointDebut.x, pointFin.x);
-        this.visuelDuSegment.position.y = this.trouverPositionXouY(pointDebut.y, pointFin.y);
+        this.visuelDuSegment.position.x = (pointFin.x - pointDebut.x)/2;
+        this.visuelDuSegment.position.y = (pointFin.y - pointDebut.y)/2;
 
     }
+
 
     public trouverPositionXouY(pointDebut: number, pointFin: number): number {
         let difference: number;
@@ -93,7 +95,11 @@ export class SegmentDePiste {
     }
 
     private calculerAngle(): void {
-        this.angle = Math.atan((this.pointFin.y - this.pointDebut.y) / (this.pointFin.x - this.pointDebut.x));
+        this.angle = Math.atan((this.pointFin.x - this.pointDebut.x) / (this.pointFin.y - this.pointDebut.y));
+
+        if (Math.abs(this.angle) < PI_SUR_4) {
+            this.angle = Math.atan((this.pointFin.y - this.pointDebut.y) / (this.pointFin.x - this.pointDebut.x));
+        }
     }
 
     

@@ -27,12 +27,8 @@ export class GenerateurPisteService {
             this.pointsPiste[i] = new Array();
         }
         this.creerScene();
-
-        if (this.piste === undefined) {
-            this.ajoutPiste();
-        } else {
-            this.ajoutPisteAuPlan();
-        }
+        
+        this.ajoutPisteAuPlan();
 
         this.commencerRendu();
     }
@@ -55,17 +51,16 @@ export class GenerateurPisteService {
 
         const vecteurs: THREE.Vector3[] = [
             new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(0, 100, 0),
-            new THREE.Vector3(0, 100, 0),
-            new THREE.Vector3(-100, 150, 0),
-            new THREE.Vector3(-100, 150, 0),
-            new THREE.Vector3(-150, 200, 0),
-            new THREE.Vector3(0, 140, 0),
-            new THREE.Vector3(-40, 140, 0)
+            new THREE.Vector3(50, 50, 0),
+            new THREE.Vector3(150, 150, 0),
+            new THREE.Vector3(250, 250, 0),
+            new THREE.Vector3(350, 350, 0),
+            new THREE.Vector3(450, 450, 0)
         ];
         NOMBRE_SEGMENTS = vecteurs.length / 2;
 
         this.piste = new Piste("bob", "bob", "bob", vecteurs);
+        this.ajoutPisteAuPlan();
     }
 
     public ajouterPiste(piste: Piste): void {
@@ -144,6 +139,7 @@ export class GenerateurPisteService {
         for (const visuelSegmentPiste of visuelSegments) {
             this.scene.add(visuelSegmentPiste);
         }
+
         this.camera.lookAt(this.origine);
     }
 

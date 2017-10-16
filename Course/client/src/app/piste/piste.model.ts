@@ -23,7 +23,7 @@ export class Piste {
 
         if (listepositions !== undefined) {
             for (let i = 1; i < listepositions.length; i++) {
-                this.segmentsDePiste.push(new SegmentDePiste(listepositions[i - 1], listepositions[i]));
+                this.ajouterSegmentDePiste(new SegmentDePiste(listepositions[i - 1], listepositions[i]));
             }
         }
     }
