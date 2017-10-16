@@ -135,6 +135,7 @@ export class GenerateurPisteService {
     }
 
     public ajoutPisteAuPlan(): void {
+        
         const visuelSegments: THREE.Mesh[] = this.piste.obtenirVisuelPiste();
         for (const visuelSegmentPiste of visuelSegments) {
             this.scene.add(visuelSegmentPiste);

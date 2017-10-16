@@ -3,7 +3,7 @@ import { SegmentDePiste } from './segmentdepiste.model';
 import { NgForm } from '@angular/forms';
 
 export class Piste {
-    //public segmentsDePiste: SegmentDePiste[] = new Array();
+    public segmentsDePiste: SegmentDePiste[] = new Array();
 
     public nombreFoisJouee: number;
     public coteAppreciation: number;
@@ -12,7 +12,7 @@ export class Piste {
     constructor(public nom: string,
         public typeCourse: string,
         public description: string,
-        public listepositions?: any[],
+        public listepositions: THREE.Vector3[],
         public id?: number) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = 0;
@@ -20,24 +20,24 @@ export class Piste {
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = i * 2 + 4;
         }
-
-        /*if (listepositions !== undefined) {
-            for (let i = 1; i < listepositions.length; i++) {
-                this.ajouterSegmentDePiste(new SegmentDePiste(listepositions[i - 1], listepositions[i]));
-            }
-        }*/
     }
 
     public ajouterSegmentDePiste(segmentDePiste: SegmentDePiste): void {
-        //this.segmentsDePiste.push(segmentDePiste);
+        this.segmentsDePiste.push(segmentDePiste);
+    }
+
+    public miseAjourSegmentsdePiste(): void {
+        for (let i = 1; i < this.listepositions.length; i++) {
+            this.ajouterSegmentDePiste(new SegmentDePiste(this.listepositions[i - 1], this.listepositions[i]));
+        }
     }
 
     public obtenirVisuelPiste(): THREE.Mesh[] {
         const visuelSegments: THREE.Mesh[] = new Array();
 
-        /*for (const segmentDePisteCourant of this.segmentsDePiste) {
+        for (const segmentDePisteCourant of this.segmentsDePiste) {
             visuelSegments.push(segmentDePisteCourant.obtenirVisuelSegment());
-        }*/
+        }
         return visuelSegments;
     }
     public modifierAttribut(form: NgForm, listePosition: any[]): void {

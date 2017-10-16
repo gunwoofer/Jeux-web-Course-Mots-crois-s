@@ -187,8 +187,8 @@ export class RenderService {
     }
   }
 
-  public obtenirPositions(): any[] {
-    const vecteur: any[] = [];
+  public obtenirPositions(): THREE.Vector3[] {
+    const vecteur: THREE.Vector3[] = [];
     for (const point of this.points) {
       vecteur.push(new THREE.Vector3(point.position.x, point.position.y, point.position.z));
     }

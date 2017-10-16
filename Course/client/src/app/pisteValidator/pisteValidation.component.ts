@@ -20,7 +20,7 @@ export class PisteValidationComponent {
     private buttonText = 'Sauvegarder circuit';
 
     private onSubmit(form: NgForm): void {
-        const listepositions: any[] = [];
+        const listepositions: THREE.Vector3[] = [];
         Object.assign(listepositions, this.renderService.obtenirPositions());
         if (this.pisteAmodifier) {
             this.modification(this.pisteAmodifier, form, listepositions);
@@ -34,7 +34,7 @@ export class PisteValidationComponent {
         this.display = !this.display;
     }
 
-    private modification(piste: Piste, form: NgForm, listePositions: any[]): void {
+    private modification(piste: Piste, form: NgForm, listePositions: THREE.Vector3[]): void {
         if (piste.nom === form.value.nomPiste) {
             this.modifierPiste(piste, form, listePositions);
         } else {
@@ -42,15 +42,16 @@ export class PisteValidationComponent {
         }
     }
 
-    private creerPiste(form: NgForm, listePositions: any[]): void {
+    private creerPiste(form: NgForm, listePositions: THREE.Vector3[]): void {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listePositions);
+        console.log(piste);
         this.pisteService.ajouterPiste(piste)
             .then(
             donnee => console.log(donnee)
             );
     }
 
-    private modifierPiste(piste: Piste, form: NgForm, listePositions: any[]): void {
+    private modifierPiste(piste: Piste, form: NgForm, listePositions: THREE.Vector3[]): void {
         piste.modifierAttribut(form, listePositions);
         this.pisteService.mettreAjourPiste(piste)
             .subscribe(
