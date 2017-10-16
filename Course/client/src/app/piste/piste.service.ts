@@ -15,8 +15,8 @@ export class PisteService {
     public pisteAEditer = new EventEmitter<Piste>();
     public pisteChoisie = new EventEmitter<Piste>();
 
-    constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService, private http: Http) { 
-        
+    constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService, private http: Http) {
+
         this.pisteChoisie.subscribe(
             (piste: Piste) => generateurPisteService.ajouterPiste(piste)
         );
@@ -37,13 +37,13 @@ export class PisteService {
                 const pistes = response.json().obj;
                 const pisteTemporaire: Piste[] = [];
                 for (const piste of pistes) {
-                    let vraiVecteur: THREE.Vector3 = new THREE.Vector3(0,0,0);
+                    let vraiVecteur: THREE.Vector3 = new THREE.Vector3(0, 0, 0);
                     let vraiVecteurs: THREE.Vector3[] = new Array();
-                    
+
                     for (let vecteur3 of piste.listepositions) {
                         Object.assign(vraiVecteur, vecteur3 as THREE.Vector3);
                         vraiVecteurs.push(vraiVecteur);
-                        vraiVecteur = new THREE.Vector3(0,0,0);
+                        vraiVecteur = new THREE.Vector3(0, 0, 0);
                     }
 
 
@@ -79,7 +79,7 @@ export class PisteService {
         console.log(piste);
     }
 
-    
+
     public mettreAjourPiste(piste: Piste): Observable<JSON> {
         return this.http.patch('http://localhost:3000/createurPiste' + piste.id, piste)
             .map((reponse: Response) => reponse.json())
