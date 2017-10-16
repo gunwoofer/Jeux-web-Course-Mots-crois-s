@@ -1,8 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 
 import { BasicService } from './basic.service';
-import {Router} from '@angular/router';
-
+import { Router } from '@angular/router';
+import { ConnexionTempsReelClient } from './ConnexionTempsReelClient';
+import * as requetes from '../../../commun/constantes/RequetesTempsReel';
+import { SpecificationPartie } from '../../../commun/SpecificationPartie';
+import { SpecificationGrille } from '../../../commun/SpecificationGrille';
+import { TypePartie } from '../../../commun/TypePartie';
+import { Joueur } from '../../../commun/Joueur';
+import { Niveau } from '../../../commun/Niveau';
+import { RequisPourMotAVerifier } from '../../../commun/RequisPourMotAVerifier';
 
 @Component({
   selector: 'app-root',
@@ -23,6 +30,13 @@ export class AppComponent implements OnInit {
   public types: string[] = ['classique', 'dynamique'];
   public typePartie = 'classique';
   public niveauPartie = 'normal';
+  public estConnecte = false;
+
+  public emplacementsMot = '';
+  public specificationPartie: SpecificationPartie;
+  public grilleVenantDeSpecificationPartie = '';
+
+  public connexionTempsReelClient: ConnexionTempsReelClient;
 
   public ngOnInit(): void {
     this.basicService.ajouterGrillesDeDepart();
@@ -30,6 +44,34 @@ export class AppComponent implements OnInit {
     this.basicService.obtenirGrillePersistenteFacile().then(grille => this.afficherGrillePersistenteFacile(grille));
     this.basicService.obtenirGrillePersistenteMoyen().then(grille => this.afficherGrillePersistenteMoyen(grille));
     this.basicService.obtenirGrillePersistenteDifficile().then(grille => this.afficherGrillePersistenteDifficile(grille));
+
+    // REQUETE CREER NOUVELLE PARTIE
+    this.connexionTempsReelClient = new ConnexionTempsReelClient();
+    const joueur: Joueur = new Joueur();
+    this.specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
+      this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.rappelCreerPartieSolo, this);
+  }
+
+  public rappelCreerPartieSolo(specificationPartie: SpecificationPartie, self: AppComponent) {
+    self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+
+    self.afficherGrilleVenantDeSpecificationPartie(specificationPartie.specificationGrilleEnCours);
+
+    // REQUETE VERIFIER MOT
+    const requisPourMotAVerifierMauvais: RequisPourMotAVerifier = new RequisPourMotAVerifier(
+      self.specificationPartie.specificationGrilleEnCours.emplacementMots[0],
+      'XYZ', self.specificationPartie.joueur.obtenirGuid(), self.specificationPartie.guidPartie);
+    self.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVER_VERIFIER_MOT,
+      requisPourMotAVerifierMauvais, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, self.rappelVerifierMot, this);
+  }
+
+  public rappelVerifierMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: AppComponent) {
+    if (requisPourMotAVerifier.estLeMot) {
+      alert('Bravo, vous avez le bon mot.');
+    } else {
+      alert('Malheureusement, ce n\'est pas le bon mot.');
+    }
   }
 
   public afficherGrillePersistenteFacile(grille: any): void {
@@ -44,18 +86,28 @@ export class AppComponent implements OnInit {
     this.grillePersistenteDifficile = this.obtenirTableauMotsCroises(grille);
   }
 
+  public afficherGrilleVenantDeSpecificationPartie(grille: SpecificationGrille): void {
+    this.grilleVenantDeSpecificationPartie = this.obtenirTableauMotsCroises(grille);
+  }
+
   public afficherGrille(grille: any): void {
     this.grille = this.obtenirTableauMotsCroises(grille);
+    for (const emplacementMot of grille.emplacementMots) {
+      this.emplacementsMot += 'Debut : {' + emplacementMot.caseDebut.numeroLigne + ',' + emplacementMot.caseDebut.numeroColonne + '}';
+      this.emplacementsMot += ' | Fin : {' + emplacementMot.caseFin.numeroLigne + ',' + emplacementMot.caseFin.numeroColonne + '}';
+      this.emplacementsMot += ' | Grandeur : ' + emplacementMot.grandeur + '<br />';
+
+    }
   }
 
   public obtenirTableauMotsCroises(grille: any): string {
     let grilleEnTableau = '';
     grilleEnTableau = '<table border=1>';
-    for (const casesLigne of grille.cases) {
+    for (const casesLigne of grille.cases.cases) {
       grilleEnTableau += '<tr>';
       for (const caseCourante of casesLigne) {
         grilleEnTableau += '<td>';
-        if (caseCourante.lettre !== undefined) {
+        if (caseCourante.lettre !== '') {
           grilleEnTableau += caseCourante.lettre;
         } else {
           grilleEnTableau += '*';

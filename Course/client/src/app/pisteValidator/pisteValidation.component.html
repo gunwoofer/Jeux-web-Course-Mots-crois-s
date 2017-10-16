@@ -1,0 +1,21 @@
+<div class="col-md-8 col-md-offset-2">
+    <button [style.display]="display ? 'none' : 'active'" class="btn btn-primary" (click)="onClick()">Enregistrer Piste</button>
+    <form *ngIf="display" ngNativeValidate (ngSubmit)="onSubmit(f)" #f="ngForm">
+        <div class="form-group">
+            <label for="nomPiste">Nom de la piste</label>
+            <input type="text" class="form-control" ngModel name="nomPiste" [ngModel]="pisteAmodifier?.nom" required>
+        </div>
+        <div class="form-group">
+            <label for="TypeCourse">Type de course</label>
+            <select class="form-control" id="TypeCourse" ngModel name="typeCourse" required>
+              <option>Amateur</option>
+              <option>Professionnel</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="description">Description</label>
+            <input type="text" class="form-control" ngModel name="description" required>
+        </div>
+        <button class="btn btn-success" type="submit" [class.btn-warning]="buttonText == 'Modifier circuit'" [disabled]="!f.form.valid">{{buttonText}}</button>
+    </form>
+</div>

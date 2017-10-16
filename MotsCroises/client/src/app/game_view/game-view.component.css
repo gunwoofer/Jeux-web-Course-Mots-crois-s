@@ -1,0 +1,39 @@
+.info_jeu {
+  font-size: large;
+  width: auto;
+  text-align: center;
+  align-content: center;
+  border: 3px solid black;
+  margin: 10px;
+  vertical-align: middle;
+
+}
+
+.game_container{
+  display: flex;
+  margin: 10px;
+  height: auto;
+  justify-content: space-between;
+
+}
+
+.grille{
+  width: 68%;
+  border: 3px solid black;
+  height: auto;
+}
+
+.table_indices{
+  width: 30%;
+  border: 3px solid black;
+  padding: 10px;
+  box-sizing: border-box;
+
+}
+
+div h1{
+  color: blue;
+  text-align: center;
+}
+
+

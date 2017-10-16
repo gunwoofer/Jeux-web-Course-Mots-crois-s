@@ -11,6 +11,8 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
+import mongoose = require('mongoose');
+import { BdImplementation } from './bdImplementation';
 
 import * as indexRoute from './routes/index';
 
@@ -46,7 +48,7 @@ export class Application {
 
     // configure routes
     this.routes();
-  }
+    }
 
   /**
    * The config function.
@@ -62,6 +64,10 @@ export class Application {
     this.app.use(cookieParser());
     this.app.use(express.static(path.join(__dirname, '../client')));
     this.app.use(cors());
+
+    const bd: BdImplementation = new BdImplementation();
+    bd.connect();
+
   }
 
   /**
@@ -76,39 +82,42 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
+    router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
+    router.delete('/listePiste:id', index.supprimerPiste.bind(index.supprimerPiste));
+    router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
+    // createur de piste
+    router.post('/createurPiste', index.ajouterPiste.bind(index.ajouterPiste));
 
-    // home page
-    router.get('/basic', index.index.bind(index.index));
 
     // use router middleware
     this.app.use(router);
 
     // Gestion des erreurs
     this.app.use((req: express.Request, res: express.Response, next: express.NextFunction) => {
-        const err = new Error('Not Found');
-        next(err);
+      const err = new Error('Not Found');
+      next(err);
     });
 
     // development error handler
     // will print stacktrace
     if (this.app.get('env') === 'development') {
-        this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-            res.status(err.status || 500);
-            res.send({
-                message: err.message,
-                error: err
-            });
+      this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+        res.status(err.status || 500);
+        res.send({
+          message: err.message,
+          error: err
         });
+      });
     }
 
     // production error handler
     // no stacktraces leaked to user (in production env only)
     this.app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
-        res.status(err.status || 500);
-        res.send({
-            message: err.message,
-            error: {}
-        });
+      res.status(err.status || 500);
+      res.send({
+        message: err.message,
+        error: {}
+      });
     });
   }
 }

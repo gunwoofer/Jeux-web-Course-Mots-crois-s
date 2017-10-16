@@ -1,5 +1,6 @@
 import { assert } from 'chai';
-import { Niveau, Grille } from './Grille';
+import { Grille } from './Grille';
+import { Niveau } from '../../commun/Niveau';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
 

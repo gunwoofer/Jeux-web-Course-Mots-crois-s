@@ -15,7 +15,7 @@ export class BasicService {
   private urlGrillePersistenteMoyen = 'http://localhost:3000/grilles/persistence/grille/moyen/async';
   private urlGrillePersistenteDifficile = 'http://localhost:3000/grilles/persistence/grille/difficile/async';
   private urlGrille = 'http://localhost:3000/GenerationDeGrilleService';
-  private urlCreationGrilles = 'http://localhost:3000/grilles/persistence/grille/ajouter/5';
+  private urlCreationGrilles = 'http://localhost:3000/grilles/persistence/grille/ajouter/15';
 
 
   public basicGet(): Promise<Message> {
