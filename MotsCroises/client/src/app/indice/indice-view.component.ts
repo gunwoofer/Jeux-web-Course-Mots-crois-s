@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {IndiceViewService} from './indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
-import {EmplacementMot} from '../../../../commun/EmplacementMot';
 import {IndiceMot} from './indiceMot';
 
 

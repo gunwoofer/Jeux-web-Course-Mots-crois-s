@@ -1,12 +1,8 @@
 import {Component, OnInit} from '@angular/core';
 import {BasicService} from './basic.service';
-import {Router} from '@angular/router';
 import {ConnexionTempsReelClient} from './ConnexionTempsReelClient';
-import * as requetes from '../../../commun/constantes/RequetesTempsReel';
 import {SpecificationPartie} from '../../../commun/SpecificationPartie';
-import {SpecificationGrille} from '../../../commun/SpecificationGrille';
 import {TypePartie} from '../../../commun/TypePartie';
-import {Joueur} from '../../../commun/Joueur';
 import {Niveau} from '../../../commun/Niveau';
 import {RequisPourMotAVerifier} from '../../../commun/RequisPourMotAVerifier';
 import {GameViewService} from './game_view/game-view.service';
@@ -18,7 +14,7 @@ import {GameViewService} from './game_view/game-view.service';
 })
 export class AppComponent implements OnInit {
 
-  constructor(private basicService: BasicService, private gameViewService: GameViewService) {
+  constructor(basicService: BasicService, private gameViewService: GameViewService) {
   }
 
   public title = 'LOG2990 - Groupe 10 - Mots Croisés';

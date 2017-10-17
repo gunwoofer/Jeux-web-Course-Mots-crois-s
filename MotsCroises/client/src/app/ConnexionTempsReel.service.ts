@@ -19,7 +19,7 @@ export class ConnexionTempsReelService {
     this.connexionTempsReelClient = new ConnexionTempsReelClient();
   }
 
-  public demanderPartie(niveau: Niveau, typePartie: TypePartie): void{
+  public demanderPartie(niveau: Niveau, typePartie: TypePartie): void {
     this.specificationPartie = new SpecificationPartie(Niveau.facile, this.joueur, TypePartie.classique);
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);

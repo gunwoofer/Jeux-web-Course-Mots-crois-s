@@ -1,13 +1,13 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivatedRoute, ParamMap} from "@angular/router";
+import {ActivatedRoute, ParamMap} from '@angular/router';
 
 
 import 'rxjs/add/operator/switchMap';
-import {GameViewService} from "./game-view.service";
+import {GameViewService} from './game-view.service';
 
 
 @Component({
-  selector: 'game-view',
+  selector: 'app-game-view',
   templateUrl: './game-view.component.html',
   styleUrls: ['./game-view.component.css']
 })

@@ -53,8 +53,8 @@ export class GameViewService {
   }
 
   private trouverIndiceAvecGuid(guid: string): Indice {
-    for (const indiceServeur of this.partieGeneree.indices){
-      if (indiceServeur.id === guid){
+    for (const indiceServeur of this.partieGeneree.indices) {
+      if (indiceServeur.id === guid) {
         return indiceServeur;
       }
     }
@@ -63,7 +63,7 @@ export class GameViewService {
 
   private trouverEmplacementMotAvecGuid(guid: string): EmplacementMot {
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
-      if (emplacementMot.obtenirGuidIndice() === guid){
+      if (emplacementMot.obtenirGuidIndice() === guid) {
         return emplacementMot;
       }
     }

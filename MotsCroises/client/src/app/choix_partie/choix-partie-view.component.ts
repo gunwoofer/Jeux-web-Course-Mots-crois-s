@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input} from '@angular/core';
+import {Component} from '@angular/core';
 import {IndiceViewService} from '../indice/indice-view.service';
 
 
@@ -16,7 +16,7 @@ export class ChoixPartieViewComponent  {
   public types: string[] = ['classique', 'dynamique'];
   public nbJoueurs: string[] = ['1 joueur', '2 joueurs'];
 
-  constructor(private indiceViewService: IndiceViewService) {
+  constructor(indiceViewService: IndiceViewService) {
 
   }
 
