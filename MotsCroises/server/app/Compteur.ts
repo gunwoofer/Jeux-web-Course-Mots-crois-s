@@ -30,10 +30,10 @@ export class Compteur {
         this.estFini = false;
     }
 
-    public wait(timeMs: number): void{
+    public wait(timeMs: number): void {
         const start = new Date().getTime();
         let end = start;
-        while(end < start + timeMs) {
+        while (end < start + timeMs) {
           end = new Date().getTime();
        }
      }

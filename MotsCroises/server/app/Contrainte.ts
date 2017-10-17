@@ -1,11 +1,9 @@
-
-
 export class Contrainte {
-    private lettreContrainte : string;
+    private lettreContrainte: string;
     private positionContrainte: number;
 
-    constructor(lettre_: string, pos: number) {
-        this.lettreContrainte = lettre_;
+    constructor(lettre: string, pos: number) {
+        this.lettreContrainte = lettre;
         this.positionContrainte = pos;
 
     }
