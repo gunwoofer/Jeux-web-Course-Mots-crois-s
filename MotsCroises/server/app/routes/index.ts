@@ -155,7 +155,7 @@ module Route {
                     const longueurMot: number = emplacementMot.obtenirGrandeur();
                     let motAVerifier: string;
 
-                    for(let i = 0; i < longueurMot; i++) {
+                    for (let i = 0; i < longueurMot; i++) {
                         motAVerifier += 'a';
                     }
 

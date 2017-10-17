@@ -210,7 +210,7 @@ export class PersistenceGrillesService {
         return new Promise((resolve: any, reject: any) => {
             self.asyncConnectiondbMotsCroises(self)
                 .then(db => self.asyncProcedureRappelInsererplusieursGrilles(self, db, grilles))
-                .then(result => { resolve(result) })
+                .then(result => { resolve(result); })
                 .catch(error => { reject(error); });
         });
     }

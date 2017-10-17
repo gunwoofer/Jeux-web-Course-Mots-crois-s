@@ -58,7 +58,7 @@ export class Grille {
             // Permet de surpasser l'encapsulation de l'objet (incomplet) MotComplet.
             const motCompletIncomplet: any = motCompletCourant;
 
-            vraiMotComplet = new MotComplet(motCompletCourant.lettres, motCompletIncomplet.indice)
+            vraiMotComplet = new MotComplet(motCompletCourant.lettres, motCompletIncomplet.indice);
             Object.assign(vraiMotComplet, motCompletCourant);
             vraiMotsComplet.push(vraiMotComplet);
         }
@@ -140,9 +140,9 @@ export class Grille {
     }
 
     public supprimerLettresCases(): Grille {
-        for (let ligneCourante of this.cases.obtenirCases()) {
-            for (let caseCourante of ligneCourante) {
-                if (caseCourante.obtenirLettre() != '') {
+        for (const ligneCourante of this.cases.obtenirCases()) {
+            for (const caseCourante of ligneCourante) {
+                if (caseCourante.obtenirLettre() !== '') {
                     this.obtenirCase(caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne()).remplirCase('');
                 }
             }
@@ -325,7 +325,7 @@ export class Grille {
         const numeroColonneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroColonne();
         const numeroColonneFin: number = emplacement.obtenirCaseFin().obtenirNumeroColonne();
         const casesEmplacementMot: Case[] = this.obtenirCasesSelonCaseDebut(emplacement.obtenirCaseDebut(),
-            emplacement.obtenirPosition(), emplacement.obtenirGrandeur())
+            emplacement.obtenirPosition(), emplacement.obtenirGrandeur());
 
         for (const caseCourante of casesEmplacementMot) {
             const ligne: number = caseCourante.obtenirNumeroLigne();
@@ -687,7 +687,7 @@ export class Grille {
         let maxPointsContrainte: number = -1;
         let casesEmplacementMot: Case[];
         for (const emplacementCourant of emplacementsNonComplet) {
-            let pointsContrainte: number = 0;
+            let pointsContrainte = 0;
             casesEmplacementMot = this.obtenirCasesSelonCaseDebut(emplacementCourant.obtenirCaseDebut(),
                 emplacementCourant.obtenirPosition(), emplacementCourant.obtenirGrandeur());
             for (let j = 0; j < emplacementCourant.obtenirGrandeur(); j++) {
@@ -715,8 +715,8 @@ export class Grille {
                 this.emplacementMots[indice].obtenirPosition(), this.emplacementMots[indice].obtenirGrandeur());
             for (let i = 0; i < this.emplacementMots[indice].obtenirGrandeur(); i++) {
                 // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
-                let ligne = casesEmplacementMot[i].obtenirNumeroLigne();
-                let colonne = casesEmplacementMot[i].obtenirNumeroColonne();
+                const ligne = casesEmplacementMot[i].obtenirNumeroLigne();
+                const colonne = casesEmplacementMot[i].obtenirNumeroColonne();
                 if (this.obtenirCase(ligne, colonne).etat === EtatCase.vide) {
                     estComplet = false;
                 }
@@ -733,7 +733,7 @@ export class Grille {
         let indiceEmplacementPlusDeContrainte: number;
         let maxPointsContrainte = -1;
         let casesEmplacementMot: Case[];
-        for (let indice of indiceEmplacementsNonComplet) {
+        for (const indice of indiceEmplacementsNonComplet) {
             let pointsContrainte = 0;
             casesEmplacementMot = this.obtenirCasesSelonCaseDebut(this.emplacementMots[indice].obtenirCaseDebut(),
                 this.emplacementMots[indice].obtenirPosition(), this.emplacementMots[indice].obtenirGrandeur());
@@ -762,7 +762,7 @@ export class Grille {
             const colonne = casesEmplacementMot[i].obtenirNumeroColonne();
             chaine += this.obtenirCase(ligne, colonne).obtenirLettre();
         }
-        let mot = this.trouverMotAPartirString(chaine);
+        const mot = this.trouverMotAPartirString(chaine);
         return mot;
 
     }
@@ -788,7 +788,7 @@ export class Grille {
     public affichageConsole(): void {
         console.log('-----------------------');
         let ligne: string[] = new Array();
-        let buffer: string = '';
+        let buffer = '';
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
 
@@ -797,8 +797,7 @@ export class Grille {
             for (let k = 0; k < ligne.length; k++) {
                 if (ligne[k] !== undefined) {
                     buffer += ' ' + ligne[k] + ' ';
-                }
-                else {
+                } else {
                     buffer += ' * ';
                 }
             }
@@ -812,7 +811,7 @@ export class Grille {
 
     public recupererIndices(): Indice[] {
         const tableauIndices: Indice[] = new Array();
-        for (let mot of this.mots) {
+        for (const mot of this.mots) {
             tableauIndices.push(mot.obtenirIndice());
         }
         return tableauIndices;

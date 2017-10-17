@@ -34,7 +34,7 @@ export class Partie {
 
     private obtenirJoueur(guidJoueur: string): Joueur {
         for (const joueur of this.joueurs) {
-            if(joueur.obtenirGuid() === guidJoueur) {
+            if (joueur.obtenirGuid() === guidJoueur) {
                 return joueur;
             }
         }
@@ -59,7 +59,7 @@ export class Partie {
             totalPointage += joueur.obtenirPointage();
         }
 
-        if(totalPointage >= this.grille.obtenirEmplacementsMot().length) {
+        if (totalPointage >= this.grille.obtenirEmplacementsMot().length) {
             return true;
         }
 
