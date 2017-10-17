@@ -19,10 +19,7 @@ export class GameViewComponent implements OnInit {
     private route: ActivatedRoute,
     private gameViewService: GameViewService
   ) {
-    console.log(this.gameViewService.getPartie());
-    this.gameViewService.grilleGenere$.subscribe(specificationGrille => {
-      console.log(specificationGrille);
-    });
+    this.gameViewService.grilleGenere$.subscribe(specificationGrille => {});
   }
 
   public ngOnInit(): void {

@@ -79,7 +79,6 @@ export class ConnexionTempsReelClient {
                 });
 
                 this.connexionSocket.on(requetes.REQUETE_CLIENT_RAPPEL_CONNEXION, function (data) {
-                    console.log(data);
                     resolve(true);
                 });
 

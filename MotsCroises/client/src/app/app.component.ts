@@ -37,26 +37,14 @@ export class AppComponent implements OnInit {
 
   public rappelCreerPartieSolo(specificationPartie: SpecificationPartie, self: AppComponent) {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-
-    console.log('specification partie 1:', self.specificationPartie );
-    console.log(self.gameViewService);
     self.gameViewService.mettreAJourGrilleGeneree(self.specificationPartie);
-
-    /*code test
-    // REQUETE VERIFIER MOT
-    const requisPourMotAVerifierMauvais: RequisPourMotAVerifier = new RequisPourMotAVerifier(
-      self.specificationPartie.specificationGrilleEnCours.emplacementMots[0],
-      'XYZ', self.specificationPartie.joueur.obtenirGuid(), self.specificationPartie.guidPartie);
-    self.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVER_VERIFIER_MOT,
-      requisPourMotAVerifierMauvais, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, self.rappelVerifierMot, this);
-    */
   }
 
   public rappelVerifierMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: AppComponent) {
     if (requisPourMotAVerifier.estLeMot) {
-      // alert('Bravo, vous avez le bon mot.');
+      alert('Bravo, vous avez le bon mot.');
     } else {
-      // alert('Malheureusement, ce n\'est pas le bon mot.');
+      alert('Malheureusement, ce n\'est pas le bon mot.');
     }
   }
 

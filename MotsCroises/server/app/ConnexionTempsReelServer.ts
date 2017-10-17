@@ -68,7 +68,6 @@ export class ConnexionTempsReelServer {
     }
 
     public verifierMot(client: SocketIO.Socket, self: ConnexionTempsReelServer, requisPourMotAVerifier: RequisPourMotAVerifier): void {
-        console.log(requetes.REQUETE_SERVER_VERIFIER_MOT);
         requisPourMotAVerifier = RequisPourMotAVerifier.rehydrater(requisPourMotAVerifier);
         const estLeMot = self.gestionnaireDePartieService.estLeMot(requisPourMotAVerifier.emplacementMot.obtenirCaseDebut(),
             requisPourMotAVerifier.emplacementMot.obtenirCaseFin(), requisPourMotAVerifier.motAVerifier,

@@ -76,7 +76,6 @@ describe('GenerateurDeMotContrainteService', () => {
         .catch((erreur) => {
             assert(false);
             done();
-            console.log(erreur);
         });
 
     }).timeout(maxDelaiRetourRequeteMS);
@@ -93,7 +92,6 @@ describe('GenerateurDeMotContrainteService', () => {
         .catch((erreur) => {
             assert(false);
             done();
-            console.log(erreur);
         });
 
     }).timeout(maxDelaiRetourRequeteMS);

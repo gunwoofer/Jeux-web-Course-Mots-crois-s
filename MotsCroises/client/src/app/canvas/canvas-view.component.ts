@@ -50,10 +50,7 @@ export class CanvasViewComponent implements AfterViewInit {
 
   @HostListener('document:keyup', ['$event'])
   public onKeyUp(ev: KeyboardEvent) {
-    // do something meaningful with it
-    console.log(`The user just pressed ${ev.keyCode}!`);
     this.actionToucheAppuyee(ev);
-    console.log(this.motEcrit);
   }
 
   public actionToucheAppuyee(event: KeyboardEvent) {
@@ -84,9 +81,6 @@ export class CanvasViewComponent implements AfterViewInit {
 
   public validerMotEntre() {
     if (this.motEcrit.length === this.indice.tailleMot) {
-      // } && this.indice.name.toUpperCase() === this.motEcrit) {
-      console.log('emplacement mot rempli', this.motEcrit);
-      //this.indice.motTrouve = this.motEcrit;
       this.gameViewService.testMotEntre(this.motEcrit, this.indice);
       this.ecrireMotsTrouves();
     }

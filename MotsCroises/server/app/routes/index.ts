@@ -162,7 +162,7 @@ module Route {
                     res.send(!gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
                 })
                 .catch((erreur) => {
-                    console.log(erreur);
+                    console.error(erreur);
                 });
 
         }

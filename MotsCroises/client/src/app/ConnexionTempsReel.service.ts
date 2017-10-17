@@ -28,9 +28,6 @@ export class ConnexionTempsReelService {
 
   public recupererPartie(specificationPartie: SpecificationPartie, self: ConnexionTempsReelService){
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-    console.log('specification partie 1:', self.specificationPartie );
-    // console.log(self.gameViewService);
-    // self.gameViewService.mettreAJourGrilleGeneree(self.specificationPartie);
   }
 
   public demanderVerificationMot(specificationPartie: SpecificationPartie, self: ConnexionTempsReelService) {

@@ -27,7 +27,6 @@ export class GameViewService {
   public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie) {
     this.partieGeneree = specificationPartie;
     this.MAJIndices(this.partieGeneree);
-    console.log('specification partie arrivée :', specificationPartie);
   }
 
   public mettreAJourIndice(indices: IndiceMot[]) {
@@ -40,7 +39,7 @@ export class GameViewService {
 
   private MAJIndices(specificationPartie: SpecificationPartie) {
     const indices: IndiceMot[] = new Array();
-    console.log(this.partieGeneree.specificationGrilleEnCours.emplacementMots);
+    
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
       const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
       const definition = indiceServeur.definitions[0];
@@ -53,7 +52,6 @@ export class GameViewService {
   }
 
   private trouverIndiceAvecGuid(guid: string): Indice {
-    console.log('spe part : ', this.partieGeneree);
     for (const indiceServeur of this.partieGeneree.indices){
       if(indiceServeur.id === guid){
         return indiceServeur;
@@ -63,7 +61,6 @@ export class GameViewService {
   }
 
   private trouverEmplacementMotAvecGuid(guid: string): EmplacementMot {
-    console.log('spe part : ', this.partieGeneree);
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
       if(emplacementMot.obtenirGuidIndice() === guid){
         return emplacementMot;
@@ -96,8 +93,6 @@ export class GameViewService {
 
   public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService) {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-    console.log('specification partie 1:', self.specificationPartie);
-    // console.log(self.gameViewService);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
   }
 
@@ -105,15 +100,13 @@ export class GameViewService {
     // REQUETE VERIFIER MOT
     const requisPourMotAVerifier: RequisPourMotAVerifier = new RequisPourMotAVerifier(
       emplacementMot, motAtester, this.specificationPartie.joueur.obtenirGuid(), this.specificationPartie.guidPartie);
-    console.log('demande verif', requisPourMotAVerifier);
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVER_VERIFIER_MOT,
       requisPourMotAVerifier, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
   }
 
   public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: ConnexionTempsReelService) {
-    console.log("retour");
     if (requisPourMotAVerifier.estLeMot) {
-      // alert('Bravo, vous avez le bon mot.');
+      alert('Bravo, vous avez le bon mot.');
     } else {
       alert('Malheureusement, ce n\'est pas le bon mot.');
     }

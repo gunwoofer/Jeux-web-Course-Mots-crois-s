@@ -108,7 +108,6 @@ export class Application {
 
         // Socket IO
         const connexionTempsReelServer: ConnexionTempsReelServer = new ConnexionTempsReelServer(this.app);
-        console.log('partir écoute ...');
         connexionTempsReelServer.ecouterPourConnexionClients();
 
         // use router middleware
