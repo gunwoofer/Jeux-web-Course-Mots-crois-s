@@ -70,7 +70,7 @@ export class GenerateurDeGrilleService {
         const nombreMotsParLigne: number[] = this.obtenirNombreMots();
         const nombreMotsParColonne: number[] = this.obtenirNombreMots();
 
-        // Pour chaque mot de lignes & colonnes, on créer un nombre équivaut à la longueur du mot. 
+        // Pour chaque mot de lignes & colonnes, on créer un nombre équivaut à la longueur du mot.
         const grandeurMotsParLigne: number[][] = this.obtenirGrandeurMots(nombreMotsParLigne);
         const grandeurMotsParColonne: number[][] = this.obtenirGrandeurMots(nombreMotsParColonne);
 
@@ -297,7 +297,7 @@ export class GenerateurDeGrilleService {
 
 
     private genererGrilleVideMock(niveau: Niveau): Grille {
-        const grilleMock: Grille = new Grille(niveau)
+        const grilleMock: Grille = new Grille(niveau);
 
         // Emplacements horizontaux
         grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(2, 6), grilleMock.obtenirCase(2, 9)));
@@ -319,31 +319,32 @@ export class GenerateurDeGrilleService {
         let grilleRemplieMock: Grille = this.motCroiseGenere;
 
         // Mots horizontaux:
-        let indice1H = new Indice(['a firm controlling influence',
+        const indice1H = new Indice(['a firm controlling influence',
             'worker who moves the camera around while a film or television show is being made']);
-        let mot1H = new MotComplet('GRIP', indice1H);
-        let indice2H = new Indice(['tool consisting of a combination of implements arranged to work together',
+        const mot1H = new MotComplet('GRIP', indice1H);
+        const indice2H = new Indice(['tool consisting of a combination of implements arranged to work together',
             'an organized group of workmen']);
-        let mot2H = new MotComplet('GANG', indice2H);
-        let indice3H = new Indice(['man-made equipment that orbits around the earth or the moon',
+        const mot2H = new MotComplet('GANG', indice2H);
+        const indice3H = new Indice(['man-made equipment that orbits around the earth or the moon',
             'any celestial body orbiting around a planet or star']);
-        let mot3H = new MotComplet('SATELLITE', indice3H);
-        let indice4H = new Indice(['the point on a curve where the tangent changes from negative on the left to positive on the right',
+        const mot3H = new MotComplet('SATELLITE', indice3H);
+        const indice4H = new Indice(['the point on a curve where the tangent changes from negative on the left to positive on the right',
             'the smallest possible quantity']);
-        let mot4H = new MotComplet('MINIMUM', indice4H);
+        const mot4H = new MotComplet('MINIMUM', indice4H);
 
         // Mots verticaux:
-        let indice1V = new Indice(['a written assurance that some product or service will be provided or will meet certain specifications',
-            'a pledge that something will happen or that something is true']);
-        let mot1V = new MotComplet('GUARANTEE', indice1V);
-        let indice2V = new Indice(['cheap showy jewelry or ornament on clothing', 'jewelry worn around the wrist for decoration']);
-        let mot2V = new MotComplet('BANGLES', indice2V);
-        let indice3V = new Indice(['a sacred place of pilgrimage', 'belonging to or derived from or associated with a divine power']);
-        let mot3V = new MotComplet('HOLY', indice3V);
-        let indice4V = new Indice(['uncastrated adult male sheep', 'a tool for driving or forcing something by impact']);
-        let mot4V = new MotComplet('TRAM', indice4V);
-        let indice5V = new Indice(['a book regarded as authoritative in its field', 'the sacred writings of the Christian religions']);
-        let mot5V = new MotComplet('BIBLE', indice5V);
+        const indice1V = new Indice(
+            ['a written assurance that some product or service will be provided or will meet certain specifications',
+                'a pledge that something will happen or that something is true']);
+        const mot1V = new MotComplet('GUARANTEE', indice1V);
+        const indice2V = new Indice(['cheap showy jewelry or ornament on clothing', 'jewelry worn around the wrist for decoration']);
+        const mot2V = new MotComplet('BANGLES', indice2V);
+        const indice3V = new Indice(['a sacred place of pilgrimage', 'belonging to or derived from or associated with a divine power']);
+        const mot3V = new MotComplet('HOLY', indice3V);
+        const indice4V = new Indice(['uncastrated adult male sheep', 'a tool for driving or forcing something by impact']);
+        const mot4V = new MotComplet('TRAM', indice4V);
+        const indice5V = new Indice(['a book regarded as authoritative in its field', 'the sacred writings of the Christian religions']);
+        const mot5V = new MotComplet('BIBLE', indice5V);
 
         for (let i = 0; i < grilleRemplieMock.emplacementMots.length; i++) {
             // Parcourt horizontal puis vertical de bas en haut et de gauche a droite

@@ -12,7 +12,7 @@ export class GestionnaireDePartieService {
     private parties: Partie[] = new Array();
 
     public creerPartie(joueur: Joueur, typePartie: TypePartie, grilleDepart: Grille, niveau: Niveau, joueur2?: Joueur ): string {
-        let joueurs: Joueur[] = [joueur];
+        const joueurs: Joueur[] = [joueur];
 
         if(joueur2 !== undefined) {
             joueurs.push(joueur2);
@@ -35,7 +35,7 @@ export class GestionnaireDePartieService {
     }
 
     public obtenirPartieEnCours(guidPartie: string): Partie {
-        for (let partie of this.parties) {
+        for (const partie of this.parties) {
             if (partie.obtenirPartieGuid() === guidPartie) {
                 return partie;
             }

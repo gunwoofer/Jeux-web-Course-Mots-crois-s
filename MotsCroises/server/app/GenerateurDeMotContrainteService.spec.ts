@@ -2,7 +2,6 @@ import { assert } from 'chai';
 import { GenerateurDeMotContrainteService, aucunMotObtenuDeDataMuse } from './GenerateurDeMotContrainteService';
 import { Niveau } from '../../commun/Niveau';
 import { Rarete } from './MotComplet';
-import { DifficulteDefinition } from './Indice';
 import { Contrainte } from './Contrainte';
 
 export const maxDelaiRetourRequeteMS = 10000;
@@ -58,7 +57,7 @@ describe('GenerateurDeMotContrainteService', () => {
             done();
         })
         .catch((erreur) => {
-            if(erreur === aucunMotObtenuDeDataMuse) {
+            if (erreur === aucunMotObtenuDeDataMuse) {
                 assert(true);
                 done();
             }
