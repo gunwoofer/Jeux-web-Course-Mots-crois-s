@@ -1,18 +1,13 @@
 import { Joueur } from '../../commun/Joueur';
-import { Compteur } from './Compteur';
 import { Grille } from './Grille';
 import { Case } from '../../commun/Case';
 import { Guid } from '../../commun/Guid';
-import { NOMBRE_GRILLES_PARTIE_DYNAMIQUE } from './GestionnaireDePartieService';
-import { EtatPartie } from '../../commun/EtatPartie';
 import { TypePartie } from '../../commun/TypePartie';
 export const LIMITE_JOUEURS = 2;
 
 export class Partie {
     private joueurs: Joueur[] = new Array();
     private grille: Grille;
-    private compteur: Compteur;
-    private etat: EtatPartie = EtatPartie.En_Preparation;
     private type: TypePartie = TypePartie.classique;
     private guid: string = Guid.generateGUID();
 
@@ -27,7 +22,7 @@ export class Partie {
     public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidJoueur: string): boolean {
         let joueur: Joueur;
 
-       if(this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
+       if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
             joueur = this.obtenirJoueur(guidJoueur);
             joueur.aTrouveMot();
 
@@ -38,7 +33,7 @@ export class Partie {
     }
 
     private obtenirJoueur(guidJoueur: string): Joueur {
-        for(let joueur of this.joueurs) {
+        for (const joueur of this.joueurs) {
             if(joueur.obtenirGuid() === guidJoueur) {
                 return joueur;
             }
@@ -60,7 +55,7 @@ export class Partie {
     public partieEstTermine(): boolean {
         let totalPointage = 0;
 
-        for(let joueur of this.joueurs) {
+        for (const joueur of this.joueurs) {
             totalPointage += joueur.obtenirPointage();
         }
 

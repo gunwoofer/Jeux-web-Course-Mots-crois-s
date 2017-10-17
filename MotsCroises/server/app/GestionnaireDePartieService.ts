@@ -14,7 +14,7 @@ export class GestionnaireDePartieService {
     public creerPartie(joueur: Joueur, typePartie: TypePartie, grilleDepart: Grille, niveau: Niveau, joueur2?: Joueur ): string {
         const joueurs: Joueur[] = [joueur];
 
-        if(joueur2 !== undefined) {
+        if (joueur2 !== undefined) {
             joueurs.push(joueur2);
         }
 
@@ -27,7 +27,7 @@ export class GestionnaireDePartieService {
     public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidPartie: string, guidJoueur: string): boolean {
         const partieAVerifier: Partie = this.obtenirPartieEnCours(guidPartie);
 
-        if(partieAVerifier.estLeMot(caseDebut, caseFin, motAVerifier, guidJoueur)) {
+        if (partieAVerifier.estLeMot(caseDebut, caseFin, motAVerifier, guidJoueur)) {
             return true;
         }
 
@@ -45,7 +45,7 @@ export class GestionnaireDePartieService {
     }
 
     public voirSiPartieTermine(guidPartie: string): boolean {
-        if(this.obtenirPartieEnCours(guidPartie).partieEstTermine()) {
+        if (this.obtenirPartieEnCours(guidPartie).partieEstTermine()) {
             return true;
         }
         return false;

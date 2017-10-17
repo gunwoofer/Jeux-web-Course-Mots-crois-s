@@ -64,7 +64,7 @@ module Route {
             const grilles: Grille[] = generateur.obtenirGrillesBase(generateur);
 
             persistenceGrilles.asyncInsererPlusieursGrilles(grilles)
-                .then(resultat => { res.send(resultat) })
+                .then(resultat => { res.send(resultat); })
                 .catch(erreur => { throw new Error(erreur); });
 
         }
@@ -83,7 +83,7 @@ module Route {
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
 
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
-                .then(grille => { res.send(grille) })
+                .then(grille => { res.send(grille); })
                 .catch(erreur => { throw new Error(erreur); });
 
         }
@@ -94,7 +94,7 @@ module Route {
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
 
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.moyen)
-                .then(grille => { res.send(grille) })
+                .then(grille => { res.send(grille); })
                 .catch(erreur => { throw new Error(erreur); });
 
         }
@@ -105,7 +105,7 @@ module Route {
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateur);
 
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.difficile)
-                .then(grille => { res.send(grille) })
+                .then(grille => { res.send(grille); })
                 .catch(erreur => { throw new Error(erreur); });
 
         }
@@ -140,13 +140,13 @@ module Route {
 
             const joueur: Joueur = new Joueur();
             const typePartie: TypePartie = TypePartie.dynamique;
-            const generateurDeGrilleService:GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
             const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
             let guidPartie = '';
 
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
-                .then((grilleDepart: Grille)=>{
+                .then((grilleDepart: Grille) => {
                     guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
                     const emplacementsMot: EmplacementMot[] = grilleDepart.emplacementsHorizontaux();
                     const emplacementMot: EmplacementMot = emplacementsMot[0];

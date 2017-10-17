@@ -16,7 +16,7 @@ export class MotComplet {
     }
 
     public copieMot(): MotComplet {
-        let newMot = new MotComplet(this.lettres, this.indice.copieIndice());
+        const newMot = new MotComplet(this.lettres, this.indice.copieIndice());
         return newMot;
     }
 
@@ -57,7 +57,7 @@ export class MotComplet {
         return this.lettres;
     }
 
-    public estEgale(mot: string) {
+    public estEgale(mot: string): boolean {
         if (this.obtenirLettres() === mot) {
             return true;
         }

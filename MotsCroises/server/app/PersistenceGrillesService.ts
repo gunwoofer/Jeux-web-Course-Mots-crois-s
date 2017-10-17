@@ -117,7 +117,7 @@ export class PersistenceGrillesService {
         return new Promise((resolve: any, reject: any) => {
             self.asyncConnectiondbMotsCroises(self)
                 .then(db => self.asyncProcedureRappelObtenirGrille(self, db, niveau))
-                .then(result => { resolve(result) })
+                .then(result => { resolve(result); })
                 .catch(error => { reject(error); });
         });
     }
@@ -280,4 +280,3 @@ export class PersistenceGrillesService {
         return false;
     }
 }
-
