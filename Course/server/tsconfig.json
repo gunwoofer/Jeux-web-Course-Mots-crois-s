@@ -1,16 +1,16 @@
 {
-    "compilerOptions": {
-        "target": "es6",
-        "module": "commonjs",
-        "moduleResolution": "node",
-        "sourceRoot": "./app",
-        "sourceMap": true,
-        "outDir": "./out",
-        "rootDir": "./",
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "noImplicitAny": true,
-        "noImplicitThis": true,
-        "suppressImplicitAnyIndexErrors": true
+  "compilerOptions": {
+      "target": "es6",
+      "module": "commonjs",
+      "moduleResolution": "node",
+      "sourceRoot": "./app",
+      "sourceMap": true,
+      "outDir": "./out",	  
+      "rootDir": "./",
+      "emitDecoratorMetadata": true,
+      "experimentalDecorators": true,
+      "noImplicitAny": true,
+	    "noImplicitThis": true,
+      "suppressImplicitAnyIndexErrors": true
     }
 }

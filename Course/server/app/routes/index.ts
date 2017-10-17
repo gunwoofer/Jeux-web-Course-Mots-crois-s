@@ -6,6 +6,10 @@ module Route {
 
     export class Index {
 
+        public index() {
+            console.log('OUIIII');
+        }
+
         public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
             const piste = new Piste(req.body);
             piste.save((err, resultat) => {
