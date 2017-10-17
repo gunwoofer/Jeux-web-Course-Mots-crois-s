@@ -1,3 +1,4 @@
+import { SpecificationGrille } from './../../commun/SpecificationGrille';
 import { Indice } from './Indice';
 import * as express from 'express';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
@@ -52,19 +53,20 @@ export class ConnexionTempsReelServer {
     }
 
     public creerPartieSolo(client: SocketIO.Socket, self: ConnexionTempsReelServer, specificationPartie: SpecificationPartie): void {
-        const grille: Grille = self.generateurDeGrilleService.genererGrilleMock(specificationPartie.niveau);
-        const guidPartie = self.gestionnaireDePartieService.creerPartie(specificationPartie.joueur,
-            specificationPartie.typePartie, grille, grille.obtenirNiveau());
+        const specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+        const grille: Grille = self.generateurDeGrilleService.genererGrilleMock(specificationPartieRecu.niveau);
+        const guidPartie = self.gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
+            specificationPartieRecu.typePartie, grille, grille.obtenirNiveau());
 
         let tableauIndices: Indice[] = new Array();
         tableauIndices = grille.recupererIndices();
-        specificationPartie.indices = tableauIndices;
+        specificationPartieRecu.indices = tableauIndices;
 
-        specificationPartie.guidPartie = guidPartie;
-        specificationPartie.specificationGrilleEnCours = new SpecificationGrille(
+        specificationPartieRecu.guidPartie = guidPartie;
+        specificationPartieRecu.specificationGrilleEnCours = new SpecificationGrille(
             grille.obtenirManipulateurCasesSansLettres(), grille.obtenirEmplacementsMot());
 
-        client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartie);
+        client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieRecu);
     }
 
     public verifierMot(client: SocketIO.Socket, self: ConnexionTempsReelServer, requisPourMotAVerifier: RequisPourMotAVerifier): void {

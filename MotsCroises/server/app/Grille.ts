@@ -136,18 +136,19 @@ export class Grille {
     }
 
     public obtenirManipulateurCasesSansLettres(): Cases {
-        return this.supprimerLettresCases().cases;
-    }
 
-    public supprimerLettresCases(): Grille {
-        for (const ligneCourante of this.cases.obtenirCases()) {
+        const stringigfyGrille = JSON.stringify(this);
+        const grilleCopier: Grille = Grille.creerInstanceAvecJSON(stringigfyGrille);
+
+        for (const ligneCourante of grilleCopier.cases.obtenirCases()) {
             for (const caseCourante of ligneCourante) {
                 if (caseCourante.obtenirLettre() !== '') {
-                    this.obtenirCase(caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne()).remplirCase('');
+                    caseCourante.remplirCase('');
                 }
             }
         }
-        return this;
+
+        return grilleCopier.cases;
     }
 
     public copieGrille(): Grille {
@@ -466,7 +467,14 @@ export class Grille {
     }
 
     private estLeBonEmplacementMot(emplacementMot: EmplacementMot, caseDebut: Case, caseFin: Case): boolean {
-        return (emplacementMot.obtenirCaseDebut() === caseDebut) && (emplacementMot.obtenirCaseFin() === caseFin);
+        if ((emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
+        && (emplacementMot.obtenirCaseFin().obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())) {
+            if ((emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())
+            && (emplacementMot.obtenirCaseFin().obtenirNumeroColonne() === caseFin.obtenirNumeroColonne())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public contientDejaLeMot(mot: MotComplet): boolean {

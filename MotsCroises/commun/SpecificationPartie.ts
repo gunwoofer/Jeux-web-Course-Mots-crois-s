@@ -23,7 +23,9 @@ export class SpecificationPartie {
         
         Object.assign(joueur, sourceVraie.joueur);
         sourceVraie.joueur = joueur;
-        sourceVraie.specificationGrilleEnCours = SpecificationGrille.rehydrater(sourceVraie.specificationGrilleEnCours);
+        if (sourceVraie.specificationGrilleEnCours !== undefined) {
+            sourceVraie.specificationGrilleEnCours = SpecificationGrille.rehydrater(sourceVraie.specificationGrilleEnCours);
+        }
         let cibleVraie = new SpecificationPartie(sourceVraie.niveau, joueur, sourceVraie.typePartie);
         Object.assign(cibleVraie, sourceVraie);
 

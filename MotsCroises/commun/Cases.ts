@@ -14,6 +14,10 @@ export class Cases {
     public ajouterCase(caseAAjouter: Case, numeroLigne: number, numeroColonne: number): void {
         this.cases[numeroLigne][numeroColonne] = caseAAjouter;
     }
+    
+    public changerCases(cases: Case[][]): void {
+        this.cases = cases;
+    }
 
     public obtenirCase(numeroLigne: number, numeroColonne: number): Case {
         for(let ligneCase of this.cases) {
