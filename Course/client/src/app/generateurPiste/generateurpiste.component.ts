@@ -1,5 +1,6 @@
 import { GenerateurPisteService } from './generateurpiste.service';
-
+import { PisteService } from '../piste/piste.service';
+import { Piste } from '../piste/piste.model';
 
 import { Component, OnInit, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
 
@@ -10,7 +11,13 @@ import { Component, OnInit, ViewChild, HostListener, ElementRef, AfterViewInit }
 })
 
 export class GenerateurPisteComponent implements AfterViewInit {
-    constructor(private generateurPisteService: GenerateurPisteService) {}
+    constructor(private generateurPisteService: GenerateurPisteService, private pisteService: PisteService) {
+        
+    }
+
+    public ngAfterViewInit() {
+        this.generateurPisteService.initialisation(this.container);
+    }
 
     public get container(): HTMLDivElement {
         return this.containerRef.nativeElement;
@@ -32,12 +39,6 @@ export class GenerateurPisteComponent implements AfterViewInit {
     @HostListener('document:keyup', ['$event'])
     public toucheLachee(event: KeyboardEvent) {
         this.generateurPisteService.toucheRelachee(event);
-    }
-
-
-
-    public ngAfterViewInit(): void {
-    this.generateurPisteService.initialisation(this.container);
     }
 
     public cameraZ(event): boolean {

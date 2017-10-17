@@ -1,7 +1,8 @@
+import { Component, OnInit } from '@angular/core';
+
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
-import { TableauScoreComponent } from '../tableauScore/tableauScore.component';
-import { Component, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'app-listepiste-component',
@@ -13,18 +14,11 @@ export class ListePisteComponent implements OnInit {
   constructor(private pisteService: PisteService) { }
 
   public listePistes: Piste[] = [];
-  public pisteSelectionne: Piste;
-  public piste: Piste[];
-  public value;
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.pisteService.retournerListePiste().then((pistes: Piste[]) => this.listePistes = pistes);
   }
 
-  public onSelect(piste) {
-    this.pisteSelectionne = piste;
-    console.log(this.pisteSelectionne);
-  }
 
 
 }

@@ -1,5 +1,7 @@
 import { Case, EtatCase } from './Case';
 import { Position } from './Position';
+import { Guid } from './Guid';
+import { Indice } from '../server/app/Indice';
 
 export enum EtatEmplacementMot {
     Masque,
@@ -14,8 +16,11 @@ export class EmplacementMot {
     private indexFixe: number;
     private etatEmplacementMot: EtatEmplacementMot;
     public motsImpossible: string[] = new Array();
-    private guidIndice: string;
+    private GuidIndice: string = '';
 
+    public obtenirIndice(): string {
+        return "";
+    }
     public static creerInstanceAvecJSON(): EmplacementMot {
         return new EmplacementMot(new Case(1,1,EtatCase.vide), new Case(1,3,EtatCase.vide));
     }
@@ -43,9 +48,7 @@ export class EmplacementMot {
             }
         }
     }
-    public obtenirGuidIndice(): string {
-        return this.guidIndice;
-    }
+    
 
     public modifierCaseDebutFin(caseDebut: Case, caseFin: Case): void {
         this.caseDebut = caseDebut;
@@ -115,5 +118,12 @@ export class EmplacementMot {
 
     public obtenirGrandeur(): number {
         return this.grandeur;
+    }
+
+    public attribuerGuidIndice(guid: string): void {
+        this.GuidIndice = guid;
+    }
+    public obtenirGuidIndice(): string {
+        return this.GuidIndice;
     }
 }

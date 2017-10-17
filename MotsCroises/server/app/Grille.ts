@@ -1,3 +1,4 @@
+import { Indice, DifficulteDefinition } from './Indice';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
@@ -18,7 +19,7 @@ export enum EtatGrille {
 
 export class Grille {
     private mots: MotComplet[] = new Array();
-    private emplacementMots: EmplacementMot[] = new Array();
+    public emplacementMots: EmplacementMot[] = new Array();
 
     private cases: Cases = new Cases();
 
@@ -132,6 +133,21 @@ export class Grille {
 
     public obtenirManipulateurCases(): Cases {
         return this.cases;
+    }
+
+    public obtenirManipulateurCasesSansLettres(): Cases {
+        return this.supprimerLettresCases().cases;
+    }
+
+    public supprimerLettresCases(): Grille {
+        for(let ligneCourante of this.cases.obtenirCases()) {
+            for(let caseCourante of ligneCourante) {
+                if(caseCourante.obtenirLettre() != '') {
+                    this.obtenirCase(caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne()).remplirCase('');
+                }
+            }
+        }
+        return this;
     }
 
     public copieGrille(): Grille {
@@ -775,7 +791,7 @@ export class Grille {
         let buffer: string = '';
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-
+                
                 ligne.push(this.cases.obtenirCase(i, j).obtenirLettre());
             }
             for (let k = 0; k < ligne.length; k++) {
@@ -786,10 +802,19 @@ export class Grille {
                     buffer += ' * ';
                 }
             }
+            
             console.log(buffer);
             buffer = "";
             ligne = new Array();
         }
         console.log("-----------------------");
+    }
+
+    public recupererIndices(): Indice[] {
+        let tableauIndices: Indice[] = new Array();
+        for(let mot of this.mots) {
+            tableauIndices.push(mot.obtenirIndice());
+        }
+        return tableauIndices;
     }
 }

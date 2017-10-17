@@ -1,3 +1,5 @@
+import { Indice } from './../server/app/Indice';
+
 import { Niveau } from './Niveau';
 import { Joueur } from './Joueur';
 import { TypePartie } from './TypePartie';
@@ -11,6 +13,9 @@ export class SpecificationPartie {
     public etatPartie: EtatPartie = EtatPartie.En_Preparation;
     public guidPartie: string;
     public specificationGrilleEnCours: SpecificationGrille;
+    public indices: Indice[];
+    
+
 
     public static rehydrater(source: SpecificationPartie): SpecificationPartie {
         let sourceVraie = source as SpecificationPartie;
@@ -29,6 +34,7 @@ export class SpecificationPartie {
         this.niveau = niveau;
         this.joueur = joueur;
         this.typePartie = typePartie;
+        this.indices = new Array();
     }
 
 

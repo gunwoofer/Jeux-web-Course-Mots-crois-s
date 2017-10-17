@@ -1,10 +1,10 @@
-import { Piste } from './../piste/piste.model';
-import { PisteService } from '../piste/piste.service';
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
+import { PisteService } from '../piste/piste.service';
+import { Piste } from './../piste/piste.model';
 
 @Component({
   moduleId: module.id,
@@ -17,12 +17,12 @@ export class CreateurPisteComponent implements OnInit {
 
   constructor(private renderService: RenderService,
     private facadeSourisService: FacadeSourisService,
-    private pisteService: PisteService) {
+    private pisteService: PisteService,
+    private messageErreurService: MessageErreurService) {
   }
 
-  private messageErreurService = new MessageErreurService();
-  private points: THREE.Points[];
   private affiche: boolean;
+  private pisteAmodifier: Piste;
   private message;
 
   public get container(): HTMLDivElement {
@@ -40,7 +40,9 @@ export class CreateurPisteComponent implements OnInit {
   public ngOnInit(): void {
     this.renderService.initialize(this.container);
     this.pisteService.pisteAEditer.subscribe(
-      (piste: Piste) => this.renderService.position = piste.listepositions
+      (piste: Piste) => {
+        this.renderService.pisteAmodifie = piste;
+      }
     );
   }
 
@@ -66,11 +68,8 @@ export class CreateurPisteComponent implements OnInit {
     return false;
   }
 
-  private listePoints(): THREE.Points[] {
-    return this.points = this.renderService.points;
-  }
-
   private condition(): boolean {
+    this.pisteAmodifier = this.renderService.pisteAmodifie;
     return this.affiche = this.renderService.retourneEtatDessin();
   }
 

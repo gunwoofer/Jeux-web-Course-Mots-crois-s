@@ -1,3 +1,4 @@
+
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
@@ -15,12 +16,12 @@ export class RenderService {
   private plane: THREE.Mesh;
   public renderer: THREE.WebGLRenderer;
   public scene: THREE.Scene;
-  public points = [];
-  public position;
-  public id;
-  public dessinTermine = false;
+  public pisteAmodifie: Piste;
   public pointsLine;
   private courbe;
+  public id;
+  public points = [];
+  public dessinTermine = false;
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
   public nbSegmentsTropProche = 0;
@@ -28,18 +29,16 @@ export class RenderService {
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
   private contraintesCircuitService = new ContraintesCircuitService();
-  public piste: Piste;
 
   public initialize(container: HTMLDivElement): void {
     this.container = container;
     this.scene = this.creerScene();
     this.creerPlan();
     this.initialisationLigne();
-    if (this.position) {
-      this.chargerPiste(this.position);
+    if (this.pisteAmodifie) {
+      this.chargerPiste(this.pisteAmodifie.listepositions);
     }
     this.startRenderingLoop();
-    this.position = null;
   }
 
   public creerScene(): THREE.Scene {
@@ -112,7 +111,6 @@ export class RenderService {
     let objet, point;
     if (!this.dessinTermine) {
       objet = this.facadeCoordonneesService.obtenirIntersection(event, this.scene, this.camera, this.renderer);
-      console.log(objet.point);
       point = this.facadePointService.creerPoint(objet.point, 'black');
       if (this.points.length === 0) {
         point.material.status = 'premier';
@@ -189,8 +187,8 @@ export class RenderService {
     }
   }
 
-  public obtenirPositions(): any[] {
-    const vecteur: any[] = [];
+  public obtenirPositions(): THREE.Vector3[] {
+    const vecteur: THREE.Vector3[] = [];
     for (const point of this.points) {
       vecteur.push(new THREE.Vector3(point.position.x, point.position.y, point.position.z));
     }
@@ -200,7 +198,6 @@ export class RenderService {
   public dessinerPointDejaConnu(position: THREE.Vector3) {
     let point;
     if (!this.dessinTermine) {
-      console.log(position);
       point = this.facadePointService.creerPoint(position, 'black');
       if (this.points.length === 0) {
         point.material.status = 'premier';

@@ -1,6 +1,6 @@
 import * as express from 'express';
 import { Piste } from '../pisteModel';
-import { Message } from '../../../commun/communication/message';
+
 
 module Route {
 
@@ -8,7 +8,6 @@ module Route {
 
         public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
             const piste = new Piste(req.body);
-            console.log(piste);
             piste.save((err, resultat) => {
                 if (err) {
                     return res.status(500).json({
@@ -39,7 +38,6 @@ module Route {
         }
 
         public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            console.log(req.params.id);
             Piste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({
@@ -47,7 +45,7 @@ module Route {
                         error: err
                     });
                 }
-                Piste.remove((err: any, resultat: any) => {
+                piste.remove((error: any, resultat: any) => {
                     if (err) {
                         return res.status(500).json({
                             title: 'une erreur est survenue lors de la sauvegarde',
@@ -56,6 +54,32 @@ module Route {
                     }
                     res.status(201).json({
                         message: 'La piste est supprimée',
+                        obj: resultat
+                    });
+                });
+
+            });
+        }
+        public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            Piste.findById(req.params.id, (err, piste) => {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'Une erreur est survenue',
+                        error: err
+                    });
+                }
+                piste.typeCourse = req.body.typeCourse;
+                piste.description = req.body.description;
+                piste.listepositions = req.body.listepositions;
+                piste.save((error: any, resultat: any) => {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'une erreur est survenue lors de la modification',
+                            error: err
+                        });
+                    }
+                    res.status(200).json({
+                        message: 'La piste est modifie',
                         obj: resultat
                     });
                 });

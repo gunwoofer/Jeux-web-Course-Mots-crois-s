@@ -19,6 +19,7 @@ export class Segment {
         this.longueur = this.obtenirLongueur(pointDebut, pointFin);
         this.geometrie = new THREE.PlaneGeometry(LARGEUR_PISTE, this.longueur);
         this.visuelDuSegment = new THREE.Mesh(this.geometrie, this.materiel);
+        this.angle = this.obtenirAngle();
         this.visuelDuSegment.rotateZ(this.angle);
         this.visuelDuSegment.position.x = (pointDebut.x + pointFin.x) / 2;
         this.visuelDuSegment.position.y = (pointDebut.y + pointFin.y) / 2;
@@ -44,6 +45,6 @@ export class Segment {
     }
 
     private calculerAngle(): void {
-        this.angle = Math.atan((this.pointFin.y - this.pointDebut.y) / (this.pointFin.x - this.pointDebut.x));
+        this.angle = Math.atan((this.pointFin.x - this.pointDebut.x) / (this.pointFin.y - this.pointDebut.y));
     }
 }

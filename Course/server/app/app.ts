@@ -12,6 +12,7 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 import mongoose = require('mongoose');
+import { BdImplementation } from './bdImplementation';
 
 import * as indexRoute from './routes/index';
 
@@ -47,7 +48,7 @@ export class Application {
 
     // configure routes
     this.routes();
-  }
+    }
 
   /**
    * The config function.
@@ -64,11 +65,8 @@ export class Application {
     this.app.use(express.static(path.join(__dirname, '../client')));
     this.app.use(cors());
 
-    mongoose.Promise = global.Promise;
-    mongoose.connect('mongodb://localhost/Bdpiste', { useMongoClient: true });
-    mongoose.connection.on("error", error => {
-      console.error(error);
-    });
+    const bd: BdImplementation = new BdImplementation();
+    bd.connect();
 
   }
 
@@ -84,7 +82,8 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
-    router.delete('/listePiste/:id', index.supprimerPiste.bind(index.supprimerPiste));
+    router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
+    router.delete('/listePiste:id', index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
     // createur de piste
     router.post('/createurPiste', index.ajouterPiste.bind(index.ajouterPiste));
