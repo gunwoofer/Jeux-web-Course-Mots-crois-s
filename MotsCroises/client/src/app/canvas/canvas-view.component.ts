@@ -1,8 +1,8 @@
 import {AfterViewInit, Component, ElementRef, HostListener, OnInit, ViewChild} from '@angular/core';
 import {IndiceViewService} from '../indice/indice-view.service';
-import {Indice, INDICES} from '../indice/indice-view.component';
 import {GameViewService} from '../game_view/game-view.service';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
+import {IndiceMot} from '../indice/indiceMot';
 
 
 @Component({
@@ -27,7 +27,7 @@ export class CanvasViewComponent implements AfterViewInit {
   private ligneActuelle: number;
   private colonneActuelle: number;
   private motEcrit = '';
-  private indice: Indice;
+  private indice: IndiceMot;
   private specificationPartie: SpecificationPartie;
 
   constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
@@ -83,16 +83,19 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public validerMotEntre() {
-    if (this.motEcrit.length === this.indice.tailleMot && this.indice.name.toUpperCase() === this.motEcrit) {
-      this.indice.motTrouve = true;
+    if (this.motEcrit.length === this.indice.tailleMot) {
+      // } && this.indice.name.toUpperCase() === this.motEcrit) {
+      console.log('emplacement mot rempli', this.motEcrit);
+      //this.indice.motTrouve = this.motEcrit;
+      this.gameViewService.testMotEntre(this.motEcrit, this.indice);
       this.ecrireMotsTrouves();
     }
   }
 
   public ecrireMotsTrouves() {
-    for (const i of INDICES) {
-      if (i.motTrouve) {
-        this.ecrireMotDansGrille(i.name, i.sens, i.positionI, i.positionJ, this.couleurMotTrouve);
+    for (const i of this.gameViewService.indices) {
+      if (i.motTrouve.length > 0) {
+        this.ecrireMotDansGrille(i.motTrouve, i.sens, i.positionI, i.positionJ, this.couleurMotTrouve);
       }
     }
   }
@@ -110,7 +113,8 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas = this.canvas.getContext('2d');
     this.dessinerLignesGrille();
     this.ecrireMotsTrouves();
-    this.specificationPartie  = this.gameViewService.getPartie();
+    this.specificationPartie = this.gameViewService.getPartie();
+    this.testCaseNoiresMotsGrilleObtenueServeur();
   }
 
   public dessinerLignesGrille() {
@@ -129,8 +133,9 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.dessinerLignesGrille();
     this.ngAfterViewInit();
-    this.ecrireMotsTrouves();
     this.testEcrireMotsGrilleObtenueServeur();
+    this.testCaseNoiresMotsGrilleObtenueServeur();
+    this.ecrireMotsTrouves();
   }
 
   public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
@@ -151,6 +156,11 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ctxCanvas.textAlign = 'center';
     this.ctxCanvas.textBaseline = 'middle';
     this.ctxCanvas.fillText(lettre.toUpperCase(), this.largeurCase * (i + 1 / 2), this.hauteurCase * (j + 1 / 2));
+  }
+
+  public dessinerRectangleNoir(i: number, j: number) {
+    this.ctxCanvas.fillStyle = this.couleurNoire;
+    this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.largeurCase);
   }
 
   public afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string) {
@@ -202,14 +212,24 @@ export class CanvasViewComponent implements AfterViewInit {
     }
   }
 
-  public testEcrireMotsGrilleObtenueServeur() {
-    for (let i = 0 ; i < 10; i++) {
-      console.log(i, "  ", this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i));
+  public testCaseNoiresMotsGrilleObtenueServeur() {
+    for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
-        this.ecrireLettreDansCase(this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirLettre(), j + 1, i + 1, this.couleurRouge);
+        if (this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirEtat() === 2) {
+          this.dessinerRectangleNoir(j + 1, i + 1);
+        }
       }
     }
   }
 
-
+  public testEcrireMotsGrilleObtenueServeur() {
+    for (let i = 0; i < 10; i++) {
+      for (let j = 0; j < 10; j++) {
+        this.ecrireLettreDansCase(
+          this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirLettre(),
+          j + 1, i + 1, this.couleurRouge
+        );
+      }
+    }
+  }
 }

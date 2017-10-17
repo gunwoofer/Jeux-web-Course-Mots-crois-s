@@ -1,6 +1,7 @@
 import { EmplacementMot } from './EmplacementMot';
 import { Cases } from './Cases';
 import { Case } from './Case';
+import {Indice} from "../server/app/Indice";
 
 export class SpecificationGrille {
     public cases: Cases;

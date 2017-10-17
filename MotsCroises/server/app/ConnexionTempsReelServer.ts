@@ -1,3 +1,4 @@
+import { Indice } from './Indice';
 import * as express from 'express';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
@@ -60,13 +61,17 @@ export class ConnexionTempsReelServer {
     public creerPartieSolo(client: SocketIO.Socket, self: ConnexionTempsReelServer, specificationPartie: SpecificationPartie): void {
         console.log(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO);
 
-        const grille: Grille = self.generateurDeGrilleService.genererGrille(specificationPartie.niveau);
+        const grille: Grille = self.generateurDeGrilleService.genererGrilleMock(specificationPartie.niveau);
         const guidPartie = self.gestionnaireDePartieService.creerPartie(specificationPartie.joueur,
             specificationPartie.typePartie, grille, grille.obtenirNiveau());
+        
+        let tableauIndices: Indice[] = new Array();
+        tableauIndices = grille.recupererIndices();
+        specificationPartie.indices = tableauIndices;
 
         specificationPartie.guidPartie = guidPartie;
         specificationPartie.specificationGrilleEnCours = new SpecificationGrille(
-            grille.obtenirManipulateurCases(), grille.obtenirEmplacementsMot());
+            grille.obtenirManipulateurCasesSansLettres(), grille.obtenirEmplacementsMot());
 
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartie);
 

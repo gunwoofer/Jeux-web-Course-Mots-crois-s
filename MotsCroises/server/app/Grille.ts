@@ -1,3 +1,4 @@
+import { Indice, DifficulteDefinition } from './Indice';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
@@ -132,6 +133,21 @@ export class Grille {
 
     public obtenirManipulateurCases(): Cases {
         return this.cases;
+    }
+
+    public obtenirManipulateurCasesSansLettres(): Cases {
+        return this.supprimerLettresCases().cases;
+    }
+
+    public supprimerLettresCases(): Grille {
+        for(let ligneCourante of this.cases.obtenirCases()) {
+            for(let caseCourante of ligneCourante) {
+                if(caseCourante.obtenirLettre() != '') {
+                    this.obtenirCase(caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne()).remplirCase('');
+                }
+            }
+        }
+        return this;
     }
 
     public copieGrille(): Grille {
@@ -792,5 +808,13 @@ export class Grille {
             ligne = new Array();
         }
         console.log("-----------------------");
+    }
+
+    public recupererIndices(): Indice[] {
+        let tableauIndices: Indice[] = new Array();
+        for(let mot of this.mots) {
+            tableauIndices.push(mot.obtenirIndice());
+        }
+        return tableauIndices;
     }
 }

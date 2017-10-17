@@ -13,7 +13,7 @@ import {GameViewService} from "./game-view.service";
 })
 
 export class GameViewComponent implements OnInit {
-  private nbJoueurs: string;
+  public nbJoueurs: string;
 
   constructor(
     private route: ActivatedRoute,

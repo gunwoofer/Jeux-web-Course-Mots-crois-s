@@ -3,14 +3,14 @@
   <div class='group-name'>
     Vertical :
     <div *ngFor="let indice of indices" >
-      <span *ngIf="indice.sens" [class.selected]="indice === selectedIndice" [class.indiceTrouve]="indice.motTrouve" class="indice" (click)="onSelect(indice,$event)">{{indice.id}} {{indice.name}}</span>
+      <span *ngIf="indice.sens" [class.selected]="indice === selectedIndice" [class.indiceTrouve]="indice.motTrouve" class="indice" (click)="onSelect(indice,$event)">{{indice.indexFixe}} {{indice.definition}}</span>
     </div>
   </div>
 
   <div class='group-name'>
     Horizontal :
     <div *ngFor="let indice of indices">
-      <span *ngIf="!indice.sens" [class.selected]="indice === selectedIndice" [class.indiceTrouve]="indice.motTrouve" class="indice" (click)="onSelect(indice,$event)">{{indice.id}} {{indice.name}}</span>
+      <span *ngIf="!indice.sens" [class.selected]="indice === selectedIndice" [class.indiceTrouve]="indice.motTrouve" class="indice" (click)="onSelect(indice,$event)">{{indice.indexFixe}} {{indice.definition}}</span>
     </div>
   </div>
 </div>

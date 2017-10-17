@@ -14,6 +14,7 @@ import {IndiceViewComponent} from './indice/indice-view.component';
 import {InfosJeuViewComponent} from './infos_jeu/infos-jeu-view.component';
 import {IndiceViewService} from './indice/indice-view.service';
 import {GameViewService} from "./game_view/game-view.service";
+import {ChoixPartieViewComponent} from "./choix_partie/choix-partie-view.component";
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import {GameViewService} from "./game_view/game-view.service";
     GameViewComponent,
     CanvasViewComponent,
     IndiceViewComponent,
-    InfosJeuViewComponent
+    InfosJeuViewComponent,
+    ChoixPartieViewComponent
   ],
   imports: [
     BrowserModule,

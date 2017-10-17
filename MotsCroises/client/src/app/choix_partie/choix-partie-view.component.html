@@ -1,0 +1,32 @@
+
+<div class="partieDiv">
+  <h1>Configuration d'une partie</h1>
+
+  <form action="">
+    <div class="partieForm">
+      <div>
+        <h2>Type de partie :</h2>
+        <div *ngFor="let typePartie of types;">
+          <input type="radio" name="choixType" (click)="ajouterTypePartie(typePartie)" value={typePartie}>
+          {{typePartie}}
+        </div>
+      </div>
+      <div>
+        <h2>Niveau de difficulté :</h2>
+        <div *ngFor="let niveauPartie of niveaux;">
+          <input type="radio" name="choixNiveau" (click)="ajouterNiveauPartie(niveauPartie)" value={niveauPartie}>
+          {{niveauPartie}}
+        </div>
+      </div>
+      <div>
+        <h2>Nombre de joueurs :</h2>
+        <div *ngFor="let nbJoueur of nbJoueurs;">
+          <input type="radio" name="choixJoueurs" (click)="ajouterNbJoueursPartie(nbJoueur)" value={nbJoueur}>
+          {{nbJoueur}}
+        </div>
+      </div>
+    </div>
+    <a href="/partie/{{typePartie}}/{{niveauPartie}}" >Creer partie</a>
+  </form>
+  <a [routerLink]="['/view', nbJoueursPartie]" >Afficher Partie</a>
+
