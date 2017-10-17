@@ -13,9 +13,9 @@ describe('RenderService', () => {
     expect(service).toBeTruthy();
   }));
 
-  describe("GenerateurDeGrilleService :: Tests", function(){
+  describe('GenerateurDeGrilleService :: Tests', function(){
 
-      it("Génère un mot croisé vide.", function(){
+      it('Génère un mot croisé vide.', function(){
           expect(true).toBe(true);
       });
 

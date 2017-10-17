@@ -1,8 +1,8 @@
 import {Component, OnInit} from '@angular/core';
-import {IndiceViewService} from "./indice-view.service";
-import {GameViewService} from "../game_view/game-view.service";
-import {EmplacementMot} from "../../../../commun/EmplacementMot";
-import {IndiceMot} from "./indiceMot";
+import {IndiceViewService} from './indice-view.service';
+import {GameViewService} from '../game_view/game-view.service';
+import {EmplacementMot} from '../../../../commun/EmplacementMot';
+import {IndiceMot} from './indiceMot';
 
 
 @Component({
@@ -10,7 +10,6 @@ import {IndiceMot} from "./indiceMot";
   templateUrl: './indice-view.component.html',
   styleUrls: ['./indice-view.component.css'],
 })
-
 export class IndiceViewComponent implements OnInit {
   public indices: IndiceMot[];
   public selectedIndice: IndiceMot;

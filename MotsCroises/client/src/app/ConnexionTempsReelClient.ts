@@ -91,7 +91,6 @@ export class ConnexionTempsReelClient {
 
     public seDeconnecter(): Promise<boolean> {
         return new Promise((resolve: any, reject: any) => {
-            const self: ConnexionTempsReelClient = this;
 
             if (this.estConnecte) {
                 this.connexionSocket.emit(requetes.REQUETE_SERVER_QUITTER);

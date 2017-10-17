@@ -8,7 +8,8 @@ export class IndiceMot {
   public positionJ: number;
   public motTrouve: string;
 
-  constructor(guidIndice: string, indexFixe: number, definition: string, tailleMot: number, sens: number, positionI: number, positionJ: number, motTrouve: string = '') {
+  constructor(guidIndice: string, indexFixe: number, definition: string, tailleMot: number, sens: number,
+    positionI: number, positionJ: number, motTrouve: string = '') {
     this.guidIndice = guidIndice;
     this.indexFixe = indexFixe;
     this.definition = definition;
