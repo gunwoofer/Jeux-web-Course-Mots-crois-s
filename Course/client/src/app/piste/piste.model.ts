@@ -4,7 +4,7 @@ import { NgForm } from '@angular/forms';
 
 export class Piste {
     public segmentsDePiste: SegmentDePiste[] = new Array();
-
+    public vignette: string;
     public nombreFoisJouee: number;
     public coteAppreciation: number;
     public meilleursTemps: number[] = [];
