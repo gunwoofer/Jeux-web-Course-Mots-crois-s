@@ -1,9 +1,12 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+import { Piste } from '../piste/piste.model';
+import { SegmentDePiste } from '../piste/segmentdepiste.model';
+
 
 
 export const LARGEUR_PISTE = 50;
-export const NOMBRE_SEGMENTS = 4;
+export let NOMBRE_SEGMENTS = 2;
 
 @Injectable()
 export class GenerateurPisteService {
@@ -14,24 +17,65 @@ export class GenerateurPisteService {
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
 
+    private piste: Piste;
+
     public initialisation(container: HTMLDivElement) {
-        this.origine = new THREE.Vector3(0,0,0);
+        this.origine = new THREE.Vector3(0, 0, 0);
+        this.pointsPiste = new Array(NOMBRE_SEGMENTS);
+        this.container = container;
+        for (let i = 0; i < this.pointsPiste.length; i++) {
+            this.pointsPiste[i] = new Array();
+        }
+        this.creerScene();
+        
+        this.ajoutPisteAuPlan();
+
+        this.commencerRendu();
+    }
+
+    public initialisationMock(container: HTMLDivElement) {
+        this.origine = new THREE.Vector3(0, 0, 0);
         this.pointsPiste = new Array(NOMBRE_SEGMENTS);
         for (let i = 0; i < this.pointsPiste.length; i++) {
             this.pointsPiste[i] = new Array();
         }
         this.container = container;
         this.creerScene();
+
+        this.ajoutPiste();
+
+        this.commencerRendu();
+    }
+
+    public ajouterSegmentPisteMock() {        
+
+        const vecteurs: THREE.Vector3[] = [
+            new THREE.Vector3(0, 0, 0),
+            new THREE.Vector3(50, 50, 0),
+            new THREE.Vector3(150, 150, 0),
+            new THREE.Vector3(250, 250, 0),
+            new THREE.Vector3(350, 350, 0),
+            new THREE.Vector3(450, 450, 0)
+        ];
+        NOMBRE_SEGMENTS = vecteurs.length / 2;
+
+        this.piste = new Piste("bob", "bob", "bob", vecteurs);
+        this.ajoutPisteAuPlan();
+    }
+
+    public ajouterPiste(piste: Piste): void {
+        this.piste = piste;
+    }
+
+    public ajoutPiste() {
+
         this.creerPointMock();
         this.ajoutPlan();
-        this.commencerRendu();
-        
-        
     }
 
     public creerScene(): void {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0xFFFFFF);
+        this.scene.background = new THREE.Color(0x000000);
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
         this.camera.position.y = 0;
         this.camera.position.x = 0;
@@ -41,7 +85,7 @@ export class GenerateurPisteService {
         lumiere.position.set(0, 1, 1).normalize();
         this.scene.add(lumiere);
         */
-    }
+    };
 
     public commencerRendu(): void {
         this.renderer = new THREE.WebGLRenderer();
@@ -49,7 +93,7 @@ export class GenerateurPisteService {
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.container.appendChild(this.renderer.domElement);
         this.render();
-    }
+    };
 
     public render(): void {
         requestAnimationFrame(() => this.render());
@@ -60,7 +104,7 @@ export class GenerateurPisteService {
         this.camera.aspect = this.getAspectRatio();
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    }
+    };
 
     public getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
@@ -75,36 +119,39 @@ export class GenerateurPisteService {
         }
         const material = new THREE.MeshBasicMaterial( { vertexColors: THREE.FaceColors, overdraw: 0.5 } );
         const cube = new THREE.Mesh( geometry, material );
-        cube.position.y = 0;
-        cube.position.x = 0;
-        cube.position.z = 0;
         this.scene.add( cube );
-        this.camera.lookAt(cube.position);
     }
 
     public creerPointMock(): void {
 
-        this.pointsPiste[0][0] = new THREE.Vector3(0, 0, 0);
-        this.pointsPiste[0][1] = new THREE.Vector3(0, 100, 0);
+        this.pointsPiste[0][0] = new THREE.Vector3(-33.00335554176749, 54.69665863425028, 0);
+        this.pointsPiste[0][1] = new THREE.Vector3(16.57779032916467, 59.02517118804042, 0);
 
-        this.pointsPiste[1][0] = new THREE.Vector3(0, 100, 0);
-        this.pointsPiste[1][1] = new THREE.Vector3(-100, 150, 0);
+        this.pointsPiste[1][0] = new THREE.Vector3(16.57779032916467, 59.02517118804042, 0);
+        this.pointsPiste[1][1] = new THREE.Vector3(140.5306550064982, 39.350114125359624, 0);
 
-        this.pointsPiste[2][0] = new THREE.Vector3(-100, 150, 0);
-        this.pointsPiste[2][1] = new THREE.Vector3(-150, 200, 0);
 
-        this.pointsPiste[3][0] = new THREE.Vector3(0, 140, 0);
-        this.pointsPiste[3][1] = new THREE.Vector3(-40, 140, 0);
 
     }
-    public ajoutPlan(): void {
+
+    public ajoutPisteAuPlan(): void {
         
+        const visuelSegments: THREE.Mesh[] = this.piste.obtenirVisuelPiste();
+        for (const visuelSegmentPiste of visuelSegments) {
+            this.scene.add(visuelSegmentPiste);
+        }
+
+        this.camera.lookAt(this.origine);
+    }
+
+    public ajoutPlan(): void {
+
         const largeur = LARGEUR_PISTE;
         const materiel = new THREE.MeshBasicMaterial( { color : 'blue' } );
-        
+
         for (let duoPoint of this.pointsPiste) {
-            let pointDebut: THREE.Vector3 = duoPoint[0];
-            let pointFin: THREE.Vector3 = duoPoint[1];
+            const pointDebut: THREE.Vector3 = duoPoint[0];
+            const pointFin: THREE.Vector3 = duoPoint[1];
 
             const longueur = this.obtenirLongueur(pointDebut, pointFin);
             const geometrie = new THREE.PlaneGeometry(largeur, longueur);
@@ -115,9 +162,9 @@ export class GenerateurPisteService {
             plan.position.y = (pointDebut.y + pointFin.y) / 2;
             this.scene.add(plan);
         }
-        
+
         this.camera.lookAt(this.origine);
-        
+
     }
 
     private obtenirLongueur(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
@@ -129,7 +176,7 @@ export class GenerateurPisteService {
 
     private obtenirAngle(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
         const angle: number = Math.atan((pointFin.y - pointDebut.y) / (pointFin.x - pointDebut.x));
-        return angle; 
+        return angle;
     }
 
     public cameraAvantArriere(event) {

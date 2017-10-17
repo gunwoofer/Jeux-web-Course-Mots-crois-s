@@ -8,5 +8,5 @@ export const pisteSchema: Schema = new Schema({
   nombreFoisJouee: { type: Number, required: true },
   coteAppreciation: { type: Number, required: true },
   meilleursTemps: { type: [], required: true },
-  listepositions: { type: [], required: true },
+  listepositions: { type: [], required: true }
 });
