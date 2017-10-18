@@ -1,17 +1,13 @@
 import * as express from 'express';
-import { Piste } from '../pisteModel';
+import { modelDePiste } from '../pisteModel';
 
 
 module Route {
 
     export class Index {
 
-        public index() {
-            console.log('OUIIII');
-        }
-
         public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            const piste = new Piste(req.body);
+            const piste = new modelDePiste(req.body);
             piste.save((err, resultat) => {
                 if (err) {
                     return res.status(500).json({
@@ -27,7 +23,7 @@ module Route {
         }
 
         public retournerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            Piste.find((err, pistes) => {
+            modelDePiste.find((err, pistes) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'Une erreur est survenue',
@@ -42,7 +38,7 @@ module Route {
         }
 
         public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            Piste.findById(req.params.id, (err, piste) => {
+            modelDePiste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'Une erreur est survenue',
@@ -65,7 +61,7 @@ module Route {
             });
         }
         public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
-            Piste.findById(req.params.id, (err, piste) => {
+            modelDePiste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'Une erreur est survenue',

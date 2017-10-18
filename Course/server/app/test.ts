@@ -1,8 +1,8 @@
 import { BdImplementation } from './bdImplementation';
 import * as chai from 'chai';
-import { Piste } from './pisteModel';
+import { modelDePiste } from './pisteModel';
 
-const piste = new Piste({
+const piste = new modelDePiste({
     nom: 'pisteUnitTest',
     typeCourse: 'professionnel',
     description: 'pisteVOIr',
@@ -17,7 +17,7 @@ const piste = new Piste({
     { z: 0, y: 24.003569616469644, x: 101.77079099777208 }],
 });
 
-const pisteModifie = new Piste({
+const pisteModifie = new modelDePiste({
     nom: 'pisteModifie',
     typeCourse: 'amateur',
     description: 'pisteVOIr',
@@ -45,7 +45,7 @@ describe('Test unitaire base de données', () => {
 
     it('Trouver une piste dans la base de donnée', (fin) => {
         const expect = chai.expect;
-        Piste.findOne({ nom: 'pisteUnitTest' })
+        modelDePiste.findOne({ nom: 'pisteUnitTest' })
             .then((result) => {
                 expect(result.nom === 'pisteUnitTest');
                 fin();
@@ -54,7 +54,7 @@ describe('Test unitaire base de données', () => {
 
     it('Trouver une piste dans la base de donnée à partir de son Id', (fin) => {
         const expect = chai.expect;
-        Piste.findById({ _id: piste._id })
+        modelDePiste.findById({ _id: piste._id })
             .then((result) => {
                 expect(result.nom === 'pisteUnitTest');
                 expect(result._id === piste._id);
@@ -63,7 +63,7 @@ describe('Test unitaire base de données', () => {
     });
 
     it('Trouver une piste dans la base de donnée à partir de son Id et la modifier', (fin) => {
-        Piste.findById({ _id: piste._id })
+        modelDePiste.findById({ _id: piste._id })
             .then((result) => {
                 chai.expect(result.nom === 'pisteUnitTest');
                 chai.expect(result._id === piste._id);
@@ -83,7 +83,7 @@ describe('Test unitaire base de données', () => {
 
     it('Trouver une piste dans la base de donnée à partir et la supprimer', (fin) => {
         const expect = chai.expect;
-        Piste.findById({ _id: piste._id })
+        modelDePiste.findById({ _id: piste._id })
             .then((result) => {
                 expect(result.nom === 'pisteUnitTest');
                 expect(result._id === piste._id);
@@ -113,14 +113,12 @@ describe('Test unitaire ajout dans la base de données', () => {
 
 describe('Test unitaire qui verifie le retour dune liste de piste', () => {
 
-    // ca depend de piste qu'on a ajouté 
+    // ca depend de piste qu'on a ajouté
     it('retour la taille de la liste de piste quon a dans la base de donne', (fin) => {
-        Piste.find().then((resultat) => {
+        modelDePiste.find().then((resultat) => {
             chai.expect(resultat.length).equal(2);
             fin();
         });
     });
 });
-
-
 

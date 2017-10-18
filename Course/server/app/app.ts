@@ -11,7 +11,6 @@ import * as logger from 'morgan';
 import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
-import mongoose = require('mongoose');
 import { BdImplementation } from './bdImplementation';
 
 import * as indexRoute from './routes/index';
