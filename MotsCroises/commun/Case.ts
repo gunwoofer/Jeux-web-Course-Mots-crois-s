@@ -31,8 +31,10 @@ export class Case {
         newCase.intersection = this.intersection;
         newCase.pointsDeContraintes = this.pointsDeContraintes;
         newCase.pointsDeContraintesProvenance = new Array();
-        for(let i = 0; i < this.pointsDeContraintesProvenance.length; i++) {
-            newCase.pointsDeContraintesProvenance[i] = this.pointsDeContraintesProvenance[i];
+        if(this.pointsDeContraintesProvenance !== undefined) {
+            for(let i = 0; i < this.pointsDeContraintesProvenance.length; i++) {
+                newCase.pointsDeContraintesProvenance[i] = this.pointsDeContraintesProvenance[i];
+            }
         }
         return newCase;
     }

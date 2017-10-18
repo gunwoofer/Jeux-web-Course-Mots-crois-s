@@ -23,7 +23,6 @@ export class GenerateurDeMotContrainteService {
     public genererMotAleatoire(niveau: Niveau): Promise<MotComplet> {
         return new Promise((resolve: any, reject: any) => {
             const contrainte = this.preparerContrainte();
-            console.log("Contrainte pour l emplacement actuel : " + contrainte);
 
             this.obtenirMotAleatoireDeDataMuse(contrainte, niveau)
                 .then((resultat: MotComplet) => { resolve(resultat); })
@@ -48,7 +47,8 @@ export class GenerateurDeMotContrainteService {
         return contrainte;
     }
 
-    private creerMotAleatoireAPartirDe(motsDataMuse: MotDataMuse[], difficulteDefinition: DifficulteDefinition, rarete: Rarete): MotComplet {
+    private creerMotAleatoireAPartirDe(motsDataMuse: MotDataMuse[], difficulteDefinition: DifficulteDefinition,
+        rarete: Rarete): MotComplet {
         let mot: MotComplet;
         const nombrealeat = this.nombreAleatoireEntreXEtY(0, motsDataMuse.length - 1);
         const monIndice: Indice = new Indice(motsDataMuse[nombrealeat].defs);
@@ -78,10 +78,11 @@ export class GenerateurDeMotContrainteService {
 
 
                 for (const motDataMuseCourant of motsDataMuse) {
-                    
-                    if ((motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined) && (motDataMuseCourant.defs.length !== 1)) {
+                    if ((motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined)
+                        && (motDataMuseCourant.defs.length !== 1)) {
                         tableauNonCommun.push(motDataMuseCourant);
-                    } else if ((!motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined) && (motDataMuseCourant.defs.length !== 1)) {
+                    } else if ((!motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined)
+                        && (motDataMuseCourant.defs.length !== 1)) {
                         tableauCommun.push(motDataMuseCourant);
                     }
                 }

@@ -6,4 +6,4 @@
 <br>
 <div #container (contextmenu)="oncontextmenu()" (click)="onMouseClick($event)" (mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"></div>
 <br>
-<app-pistevalidator-component *ngIf="condition()" [points]="listePoints()"></app-pistevalidator-component>
+<app-pistevalidator-component *ngIf="condition()" [pisteAmodifier]="pisteAmodifier"></app-pistevalidator-component>

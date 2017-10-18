@@ -27,6 +27,12 @@ export class ConnexionTempsReelClient {
         });
     }
 
+  public ecouterRequete<T>(nomRequete: string, callback: any): void {
+    this.preparerRequete().then((peutPoursuivre: boolean) => {
+      this.connexionSocket.on(nomRequete, (resultat: T) => callback(resultat, self));
+    });
+  }
+
     public envoyerRequete(nomRequete: string, valeurEnvoye: Object) {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
             this.connexionSocket.emit(nomRequete, valeurEnvoye);
@@ -61,7 +67,6 @@ export class ConnexionTempsReelClient {
                 });
 
                 this.connexionSocket.on(requetes.REQUETE_CLIENT_RAPPEL_CONNEXION, function (data) {
-                    console.log(data);
                     resolve(true);
                 });
 
@@ -74,7 +79,6 @@ export class ConnexionTempsReelClient {
 
     public seDeconnecter(): Promise<boolean> {
         return new Promise((resolve: any, reject: any) => {
-            const self: ConnexionTempsReelClient = this;
 
             if (this.estConnecte) {
                 this.connexionSocket.emit(requetes.REQUETE_SERVER_QUITTER);

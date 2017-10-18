@@ -5,6 +5,4 @@ import { Piste as PisteInterface } from './pisteInterface';
 
 export interface PisteModel extends PisteInterface, Document {}
 
-export interface PisteModelStatic extends Model<PisteModel> {}
-
-export const Piste = mongoose.model<PisteModel, PisteModelStatic>('Piste', pisteSchema);
+export const modelDePiste = mongoose.model<PisteModel, Model<PisteModel>>('Piste', pisteSchema);

@@ -1,42 +1,61 @@
-import { Http } from '@angular/http';
-import { RenderService } from '../renderService/render.service';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
+import { RenderService } from '../renderService/render.service';
 
 @Component({
     selector: 'app-pistevalidator-component',
     templateUrl: './pisteValidation.component.html',
     styleUrls: ['./pisteValidation.component.css']
-    // providers
 })
 
 export class PisteValidationComponent {
-
     constructor(private pisteService: PisteService, private renderService: RenderService) { }
 
-    @Input() private points: THREE.Points[];
-    @Input() private lignes: THREE.Line[];
+    @Input() public pisteAmodifier: Piste;
+    public display: boolean;
+    public buttonText = 'Sauvegarder circuit';
 
-    private display: boolean;
-
-    private onSubmit(form: NgForm): void {
-        const listepositions: any[] = [];
+    public onSubmit(form: NgForm): void {
+        const listepositions: THREE.Vector3[] = [];
         Object.assign(listepositions, this.renderService.obtenirPositions());
-        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listepositions);
-        alert('La piste ' + piste.nom + ' a été créée.');
-        this.pisteService.ajouterPiste(piste).subscribe(
-            donnee => console.log(donnee),
-            erreur => console.error(erreur)
-        );
+        if (this.pisteAmodifier) {
+            this.modification(this.pisteAmodifier, form, listepositions);
+        } else {
+            this.creerPiste(form, listepositions);
+        }
         this.renderService.reinitialiserScene();
-        console.log(this.renderService.scene.children.length);
         form.resetForm();
     }
-
-    private onClick(): void {
+    public onClick(): void {
         this.display = !this.display;
+    }
+
+    private modification(piste: Piste, form: NgForm, listePositions: THREE.Vector3[]): void {
+        if (piste.nom === form.value.nomPiste) {
+            this.modifierPiste(piste, form, listePositions);
+        } else {
+            this.creerPiste(form, listePositions);
+        }
+    }
+
+    private creerPiste(form: NgForm, listePositions: THREE.Vector3[]): void {
+        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listePositions);
+        console.log(piste);
+        this.pisteService.ajouterPiste(piste)
+            .then(
+            donnee => console.log(donnee)
+            );
+    }
+
+    private modifierPiste(piste: Piste, form: NgForm, listePositions: THREE.Vector3[]): void {
+        piste.modifierAttribut(form, listePositions);
+        this.pisteService.mettreAjourPiste(piste)
+            .subscribe(
+            donnee => console.log(donnee),
+            erreur => console.error(erreur)
+            );
     }
 }

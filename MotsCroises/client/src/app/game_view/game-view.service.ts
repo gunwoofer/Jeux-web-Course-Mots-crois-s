@@ -9,38 +9,40 @@ import {TypePartie} from '../../../../commun/TypePartie';
 import {ConnexionTempsReelService} from '../ConnexionTempsReel.service';
 import {RequisPourMotAVerifier} from '../../../../commun/RequisPourMotAVerifier';
 import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
-import {Indice} from "../../../../server/app/Indice";
-import {EmplacementMot} from "../../../../commun/EmplacementMot";
+import {Indice} from '../../../../server/app/Indice';
+import {EmplacementMot} from '../../../../commun/EmplacementMot';
 
 
 @Injectable()
 export class GameViewService {
-  private grilleGenere = new Subject<SpecificationPartie>();
-  public grilleGenere$ = this.grilleGenere.asObservable();
+  private motTrouveJ1 = new Subject<string>();
+  public motTrouveJ1$ = this.motTrouveJ1.asObservable();
 
   private partieGeneree: SpecificationPartie;
   public indices: IndiceMot[];
 
-  constructor() {
-  }
+  public connexionTempsReelClient: ConnexionTempsReelClient;
+  public specificationPartie: SpecificationPartie;
+  public joueur: Joueur = new Joueur();
+  private indiceTeste: IndiceMot;
+  private motEntre: string;
 
-  public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie) {
+  public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie): void {
     this.partieGeneree = specificationPartie;
     this.MAJIndices(this.partieGeneree);
-    console.log('specification partie arrivée :', specificationPartie);
   }
 
-  public mettreAJourIndice(indices: IndiceMot[]) {
+  public mettreAJourIndice(indices: IndiceMot[]): void {
     this.indices = indices;
   }
 
-  public getPartie() {
+  public getPartie(): SpecificationPartie {
     return this.partieGeneree;
   }
 
-  private MAJIndices(specificationPartie: SpecificationPartie) {
+  private MAJIndices(specificationPartie: SpecificationPartie): void {
     const indices: IndiceMot[] = new Array();
-    console.log(this.partieGeneree.specificationGrilleEnCours.emplacementMots);
+
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
       const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
       const definition = indiceServeur.definitions[0];
@@ -53,9 +55,8 @@ export class GameViewService {
   }
 
   private trouverIndiceAvecGuid(guid: string): Indice {
-    console.log('spe part : ', this.partieGeneree);
-    for (const indiceServeur of this.partieGeneree.indices){
-      if(indiceServeur.id === guid){
+    for (const indiceServeur of this.partieGeneree.indices) {
+      if (indiceServeur.id === guid) {
         return indiceServeur;
       }
     }
@@ -63,59 +64,57 @@ export class GameViewService {
   }
 
   private trouverEmplacementMotAvecGuid(guid: string): EmplacementMot {
-    console.log('spe part : ', this.partieGeneree);
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
-      if(emplacementMot.obtenirGuidIndice() === guid){
+      if (emplacementMot.obtenirGuidIndice() === guid) {
         return emplacementMot;
       }
     }
     return null;
   }
 
-  public testMotEntre(motAtester: string, indice: IndiceMot){
+  public testMotEntre(motAtester: string, indice: IndiceMot): void {
+    this.indiceTeste = indice;
+    this.motEntre = motAtester;
     const emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
     this.demanderVerificationMot(emplacementMot, motAtester);
   }
 
-
-
-  public connexionTempsReelClient: ConnexionTempsReelClient;
-  public specificationPartie: SpecificationPartie;
-  public joueur: Joueur = new Joueur();
-
-
-  public initialiserConnexion() {
+  public initialiserConnexion(): void {
     this.connexionTempsReelClient = new ConnexionTempsReelClient();
   }
 
-  public demanderPartie(niveau: Niveau, typePartie: TypePartie) {
+  public demanderPartie(niveau: Niveau, typePartie: TypePartie): void {
     this.specificationPartie = new SpecificationPartie(Niveau.facile, this.joueur, TypePartie.classique);
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
+    this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee);
   }
 
-  public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService) {
+  public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-    console.log('specification partie 1:', self.specificationPartie);
-    // console.log(self.gameViewService);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
   }
 
-  public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string) {
-    // REQUETE VERIFIER MOT
+  public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
     const requisPourMotAVerifier: RequisPourMotAVerifier = new RequisPourMotAVerifier(
       emplacementMot, motAtester, this.specificationPartie.joueur.obtenirGuid(), this.specificationPartie.guidPartie);
-    console.log('demande verif', requisPourMotAVerifier);
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVER_VERIFIER_MOT,
       requisPourMotAVerifier, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
   }
 
-  public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: ConnexionTempsReelService) {
-    console.log("retour");
+  public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: GameViewService): void {
     if (requisPourMotAVerifier.estLeMot) {
+      self.indiceTeste.motTrouve = self.motEntre;
+      self.motTrouveJ1.next();
       alert('Bravo, vous avez le bon mot.');
     } else {
       alert('Malheureusement, ce n\'est pas le bon mot.');
+    }
+  }
+
+  public messagePartieTerminee(partieTerminee: boolean) {
+    if (partieTerminee) {
+      alert('tous les mots ont été trouvés, partie terminée');
     }
   }
 }

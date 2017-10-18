@@ -1,5 +1,5 @@
-import { RenderService } from './../renderService/render.service';
 import { Component } from '@angular/core';
+import { RenderService } from './../renderService/render.service';
 
 
 @Component({

@@ -29,7 +29,6 @@ describe('GestionnaireDePartieService', () => {
                 done();
             })
             .catch((erreur) => {
-                console.log(erreur);
                 assert(false);
                 done();
             });
@@ -52,7 +51,6 @@ describe('GestionnaireDePartieService', () => {
                 done();
             })
             .catch((erreur) => {
-                console.log(erreur);
                 assert(false);
                 done();
             });
@@ -84,7 +82,6 @@ describe('GestionnaireDePartieService', () => {
                 done();
             })
             .catch((erreur) => {
-                console.log(erreur);
                 assert(false);
                 done();
             });
@@ -94,22 +91,20 @@ describe('GestionnaireDePartieService', () => {
         const joueur: Joueur = new Joueur();
         const typePartie: TypePartie = TypePartie.dynamique;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-        const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        let grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
+        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
 
         guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
         const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
         const emplacementMot: EmplacementMot = emplacementsMot[0];
         const caseDebut: Case = emplacementMot.obtenirCaseDebut();
         const caseFin: Case = emplacementMot.obtenirCaseFin();
-        const longueurMot: number = emplacementMot.obtenirGrandeur();
-        let motAVerifier: string = '';
-        let casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+        let motAVerifier = '';
+        const casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
             emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
 
-        for (let caseCourante of casesEmplacementMot) {
+        for (const caseCourante of casesEmplacementMot) {
             motAVerifier += caseCourante.obtenirLettre();
         }
 
@@ -122,22 +117,20 @@ describe('GestionnaireDePartieService', () => {
         const joueur: Joueur = new Joueur();
         const typePartie: TypePartie = TypePartie.dynamique;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-        const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        let grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
+        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
 
         guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
         const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
         const emplacementMot: EmplacementMot = emplacementsMot[0];
         const caseDebut: Case = emplacementMot.obtenirCaseDebut();
         const caseFin: Case = emplacementMot.obtenirCaseFin();
-        const longueurMot: number = emplacementMot.obtenirGrandeur();
-        let motAVerifier: string = '';
-        let casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+        let motAVerifier = '';
+        const casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
             emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
 
-        for (let caseCourante of casesEmplacementMot) {
+        for (const caseCourante of casesEmplacementMot) {
             motAVerifier += caseCourante.obtenirLettre();
         }
         gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid());
@@ -152,10 +145,9 @@ describe('GestionnaireDePartieService', () => {
         const joueur: Joueur = new Joueur();
         const typePartie: TypePartie = TypePartie.dynamique;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-        const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        let grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
+        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
 
         guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
         const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
@@ -165,7 +157,8 @@ describe('GestionnaireDePartieService', () => {
         let caseDebut: Case;
         let caseFin: Case;
         let longueurMot: number;
-        let motAVerifier: string = '';
+        let motAVerifier = '';
+
         // Le « -1 » est pour qu'il ne manque qu'un mot à trouver.
         for (let i = 0; i < (emplacementsMot.length - 1); i++) {
             motAVerifier = '';
@@ -195,10 +188,9 @@ describe('GestionnaireDePartieService', () => {
         const joueur: Joueur = new Joueur();
         const typePartie: TypePartie = TypePartie.dynamique;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-        const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        let grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
+        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
 
         guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
         const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
@@ -209,7 +201,8 @@ describe('GestionnaireDePartieService', () => {
         let caseDebut: Case;
         let caseFin: Case;
         let longueurMot: number;
-        let motAVerifier: string = '';
+        let motAVerifier = '';
+
         for (let i = 0; i < (emplacementsMot.length); i++) {
             motAVerifier = '';
             emplacementMot = emplacementsMot[i];

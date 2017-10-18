@@ -1,7 +1,5 @@
 import { Case, EtatCase } from './Case';
 import { Position } from './Position';
-import { Guid } from './Guid';
-import { Indice } from '../server/app/Indice';
 
 export enum EtatEmplacementMot {
     Masque,
@@ -16,25 +14,25 @@ export class EmplacementMot {
     private indexFixe: number;
     private etatEmplacementMot: EtatEmplacementMot;
     public motsImpossible: string[] = new Array();
-    private GuidIndice: string = '';
+    private GuidIndice = '';
 
-
+    
     public static creerInstanceAvecJSON(): EmplacementMot {
         return new EmplacementMot(new Case(1,1,EtatCase.vide), new Case(1,3,EtatCase.vide));
     }
 
 
     constructor(caseDebut: Case, caseFin: Case) {
-        if(caseDebut !== undefined) {
+        if (caseDebut !== undefined) {
             this.caseDebut = caseDebut;
         }
-        if(caseFin !== undefined) {
+        if (caseFin !== undefined) {
             this.caseFin = caseFin;
         }
         this.etatEmplacementMot = EtatEmplacementMot.Masque;
         this.motsImpossible = new Array();
 
-        if(caseDebut !== undefined && caseFin !== undefined) {
+        if (caseDebut !== undefined && caseFin !== undefined) {
             if (caseDebut.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne()) {
                 this.grandeur = caseFin.obtenirNumeroColonne() - caseDebut.obtenirNumeroColonne() + 1;
                 this.position = Position.Ligne;
@@ -46,7 +44,10 @@ export class EmplacementMot {
             }
         }
     }
-    
+
+    public obtenirIndice(): string {
+        return '';
+    }    
 
     public modifierCaseDebutFin(caseDebut: Case, caseFin: Case): void {
         this.caseDebut = caseDebut;

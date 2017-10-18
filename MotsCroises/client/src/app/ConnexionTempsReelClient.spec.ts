@@ -1,6 +1,3 @@
-import { TestBed, inject } from '@angular/core/testing';
-import { AppModule } from './app.module';
-import { BasicService } from './basic.service';
 import { ConnexionTempsReelClient } from './ConnexionTempsReelClient';
 import * as requetes from '../../../commun/constantes/RequetesTempsReel';
 import { SpecificationPartie } from '../../../commun/SpecificationPartie';

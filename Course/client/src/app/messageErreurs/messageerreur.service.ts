@@ -1,6 +1,7 @@
-import { Injectable, Component } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 @Injectable()
+
 export class MessageErreurService {
     public afficherMessageErreurs(nbAnglesPlusPetit45: number, nbSegmentsTropProche: number, nbSegmentsCroises: number): string {
         let message = '';

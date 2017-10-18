@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
-
 import * as THREE from 'three';
-
 import { RenderService } from '../renderService/render.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';

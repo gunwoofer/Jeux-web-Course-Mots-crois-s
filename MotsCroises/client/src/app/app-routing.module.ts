@@ -1,9 +1,8 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import {AppComponent} from './app.component';
-import {CubeComponent} from './cube/cube.component';
-import {GameViewComponent} from './game_view/game-view.component';
-import {ChoixPartieViewComponent} from "./choix_partie/choix-partie-view.component";
+import {GameViewComponent} from './game_view/app.game-view.component';
+import {ChoixPartieViewComponent} from './choix_partie/app.choix-partie-view.component';
 
 
 const routes: Routes = [

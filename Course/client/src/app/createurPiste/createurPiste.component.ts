@@ -1,10 +1,10 @@
-import { Piste } from './../piste/piste.model';
-import { PisteService } from '../piste/piste.service';
-import { AfterViewInit, Component, ElementRef, HostListener, OnDestroy, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
+import { PisteService } from '../piste/piste.service';
+import { Piste } from './../piste/piste.model';
 
 @Component({
   moduleId: module.id,
@@ -17,13 +17,13 @@ export class CreateurPisteComponent implements OnInit {
 
   constructor(private renderService: RenderService,
     private facadeSourisService: FacadeSourisService,
-    private pisteService: PisteService) {
+    private pisteService: PisteService,
+    private messageErreurService: MessageErreurService) {
   }
 
-  private messageErreurService = new MessageErreurService();
-  private points: THREE.Points[];
   private affiche: boolean;
-  private message;
+  public pisteAmodifier: Piste;
+  public message;
 
   public get container(): HTMLDivElement {
     return this.containerRef.nativeElement;
@@ -40,11 +40,13 @@ export class CreateurPisteComponent implements OnInit {
   public ngOnInit(): void {
     this.renderService.initialize(this.container);
     this.pisteService.pisteAEditer.subscribe(
-      (piste: Piste) => this.renderService.position = piste.listepositions
+      (piste: Piste) => {
+        this.renderService.pisteAmodifie = piste;
+      }
     );
   }
 
-  private oncontextmenu(): boolean {
+  public oncontextmenu(): boolean {
     this.facadeSourisService.rightClick();
     return false;
   }
@@ -66,15 +68,12 @@ export class CreateurPisteComponent implements OnInit {
     return false;
   }
 
-  private listePoints(): THREE.Points[] {
-    return this.points = this.renderService.points;
-  }
-
-  private condition(): boolean {
+  public condition(): boolean {
+    this.pisteAmodifier = this.renderService.pisteAmodifie;
     return this.affiche = this.renderService.retourneEtatDessin();
   }
 
-  private erreursCircuit(): boolean {
+  public erreursCircuit(): boolean {
     if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
       this.renderService.nbSegmentsTropProche,
       this.renderService.nbSegmentsCroises)) {

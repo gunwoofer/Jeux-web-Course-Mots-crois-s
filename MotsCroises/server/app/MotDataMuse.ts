@@ -13,7 +13,7 @@ export class MotDataMuse {
     public static convertirJsonEnMotsDataMuse(motsDataMuse: MotDataMuse[]): MotDataMuse[] {
         const motsDataMuseConvertit: MotDataMuse[] = new Array();
 
-        for(const motDataMuseCourant of motsDataMuse) {
+        for (const motDataMuseCourant of motsDataMuse) {
             motsDataMuseConvertit.push(MotDataMuse.convertirJsonEnMotDataMuse(motDataMuseCourant));
         }
 
@@ -30,7 +30,7 @@ export class MotDataMuse {
     public estUnMotNonCommun(): boolean {
         const frequenceDuMot: number = Number(this.tags[0].split(':')[1]);
 
-        if(frequenceDuMot <= maximumFrequencePourMotCommun) {
+        if (frequenceDuMot <= maximumFrequencePourMotCommun) {
             return true;
         }
 

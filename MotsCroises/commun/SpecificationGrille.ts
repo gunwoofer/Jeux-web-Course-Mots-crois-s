@@ -1,7 +1,6 @@
 import { EmplacementMot } from './EmplacementMot';
 import { Cases } from './Cases';
 import { Case } from './Case';
-import {Indice} from "../server/app/Indice";
 
 export class SpecificationGrille {
     public cases: Cases;
@@ -78,9 +77,10 @@ export class SpecificationGrille {
     }
 
     public obtenirEmplacementMot(guidIndice: string): EmplacementMot {
-        for(let emplacementCourant of this.emplacementMots) {
-            if(emplacementCourant.obtenirGuidIndice() === guidIndice)
+        for (let emplacementCourant of this.emplacementMots) {
+            if (emplacementCourant.obtenirGuidIndice() === guidIndice) {
                 return emplacementCourant;
+            }
         }
 
         return undefined;
