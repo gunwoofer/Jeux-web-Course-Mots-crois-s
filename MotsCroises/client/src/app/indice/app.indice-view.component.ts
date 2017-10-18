@@ -5,7 +5,7 @@ import {IndiceMot} from './indiceMot';
 
 
 @Component({
-  selector: 'indice-view-component',
+  selector: 'app-indice-view-component',
   templateUrl: './indice-view.component.html',
   styleUrls: ['./indice-view.component.css'],
 })

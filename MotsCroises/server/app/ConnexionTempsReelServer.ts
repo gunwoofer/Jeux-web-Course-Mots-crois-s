@@ -6,7 +6,6 @@ import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Grille } from './Grille';
 export const PORT_SOCKET_IO = 3001;
 import { SpecificationPartie } from '../../commun/SpecificationPartie';
-import { SpecificationGrille } from '../../commun/SpecificationGrille';
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
 import { RequisPourMotAVerifier } from '../../commun/RequisPourMotAVerifier';
 

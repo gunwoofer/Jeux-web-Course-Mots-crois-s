@@ -3,7 +3,7 @@ import {IndiceViewService} from '../indice/indice-view.service';
 
 
 @Component({
-  selector: 'choix-partie-view-component',
+  selector: 'app-choix-partie-view-component',
   templateUrl: './choix-partie-view.component.html',
   styleUrls: ['./choix-partie-view.component.css']
 })

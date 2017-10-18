@@ -3,7 +3,7 @@ import {IndiceViewService} from '../indice/indice-view.service';
 
 
 @Component({
-  selector: 'infos-jeu-view-component',
+  selector: 'app-infos-jeu-view-component',
   templateUrl: './infos-jeu-view.component.html',
   styleUrls: ['./infos-jeu-view.component.css']
 })

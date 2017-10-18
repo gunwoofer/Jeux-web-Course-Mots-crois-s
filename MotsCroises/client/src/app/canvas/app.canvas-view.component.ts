@@ -6,7 +6,7 @@ import {IndiceMot} from '../indice/indiceMot';
 
 
 @Component({
-  selector: 'canvas-view-component',
+  selector: 'app-canvas-view-component',
   templateUrl: './canvas-view.component.html',
   styleUrls: ['./canvas-view.component.css'],
 })
