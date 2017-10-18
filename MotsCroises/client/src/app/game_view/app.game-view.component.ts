@@ -1,9 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, ParamMap} from '@angular/router';
 
 
 import 'rxjs/add/operator/switchMap';
 import {GameViewService} from './game-view.service';
+import {CanvasViewComponent} from '../canvas/app.canvas-view.component';
+import {InfosJeuViewComponent} from '../infos_jeu/app.infos-jeu-view.component';
 
 
 @Component({
@@ -15,11 +17,20 @@ import {GameViewService} from './game-view.service';
 export class GameViewComponent implements OnInit {
   public nbJoueurs: string;
 
-  constructor(
-    private route: ActivatedRoute,
-    private gameViewService: GameViewService
-  ) {
-    this.gameViewService.grilleGenere$.subscribe(specificationGrille => {});
+  @ViewChild(CanvasViewComponent)
+  private canvasViewComponent: CanvasViewComponent;
+
+  @ViewChild(InfosJeuViewComponent)
+  private infosJeuViewComponent: InfosJeuViewComponent;
+
+  constructor(private route: ActivatedRoute,
+              private gameViewService: GameViewService) {
+    this.gameViewService.motTrouveJ1$.subscribe(() => {
+      this.actualiserGrille();
+    });
+    this.gameViewService.partieTeminee$.subscribe(() => {
+      this.infosJeuViewComponent.stopperTimer();
+    });
   }
 
   public ngOnInit(): void {
@@ -28,5 +39,8 @@ export class GameViewComponent implements OnInit {
       .subscribe();
   }
 
+  public actualiserGrille() {
+    this.canvasViewComponent.rafraichirCanvas();
+  }
 
 }

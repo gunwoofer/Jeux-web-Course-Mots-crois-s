@@ -1,17 +1,16 @@
 <div class='container'>
   <div class='player_info'>
-    Joueur 1 data
+    <div class='titre'>Joueur 1</div>
     <div>{{motTrouveJ1}} mots trouvés</div>
     <div>{{motEnCoursJ1}}</div>
   </div>
 
   <div>
     <div class='titre'>Infos de jeu</div>
-    <div>Temps</div>
-    <div>Autre ?</div>
+    <div>{{dureeJeu}}</div>
   </div>
   <div class='player_info' [hidden]="nbJoueurs === '1 joueur' ">
-    Joueur 2 data
+    <div class='titre'>Joueur 2</div>
     <div>{{motTrouveJ2}} mots trouvés</div>
     <div>{{motEnCoursJ2}}</div>
 

@@ -82,9 +82,9 @@ export class ConnexionTempsReelServer {
 
         if (estLeMot) {
             const partieTermine = self.gestionnaireDePartieService.voirSiPartieTermine(requisPourMotAVerifier.guidPartie);
-
             if (partieTermine) {
                 client.emit(requetes.REQUETE_CLIENT_PARTIE_TERMINE, partieTermine);
+                console.log('partie terminee');
             }
         }
     }

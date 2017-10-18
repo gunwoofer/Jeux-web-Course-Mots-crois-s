@@ -20,11 +20,45 @@
       <file leaf-file-name="game-view.service.ts" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/game_view/game-view.service.ts">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="148">
+              <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+=======
             <state relative-caret-position="606">
               <caret line="105" column="3" lean-forward="false" selection-start-line="105" selection-start-column="3" selection-end-line="105" selection-end-column="3" />
+>>>>>>> master
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name="indice-view.component.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/indice-view.component.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="480">
+              <caret line="36" column="3" lean-forward="true" selection-start-line="36" selection-start-column="3" selection-end-line="36" selection-end-column="3" />
+=======
+      <file leaf-file-name="indice-view.service.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/indice-view.service.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="225">
+              <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+>>>>>>> master
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+<<<<<<< HEAD
+      <file leaf-file-name="indiceMot.ts" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/indiceMot.ts">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="45">
+              <caret line="3" column="10" lean-forward="false" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -35,10 +69,7 @@
             <state relative-caret-position="225">
               <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
+=======
       <file leaf-file-name="app.indice-view.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/app.indice-view.component.ts">
           <provider selected="true" editor-type-id="text-editor">
@@ -47,6 +78,7 @@
               <folding>
                 <element signature="e#0#48#0" expanded="true" />
               </folding>
+>>>>>>> master
             </state>
           </provider>
         </entry>
@@ -55,6 +87,11 @@
         <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReelClient.spec.ts">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="426">
+<<<<<<< HEAD
+              <caret line="84" column="14" lean-forward="false" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
+              <folding>
+                <element signature="e#0#56#0" expanded="true" />
+=======
               <caret line="81" column="14" lean-forward="false" selection-start-line="81" selection-start-column="14" selection-end-line="81" selection-end-column="14" />
               <folding>
                 <marker date="1508296931000" expanded="true" signature="7:455" ph="..." />
@@ -75,6 +112,7 @@
                 <marker date="1508296931000" expanded="true" signature="3134:3935" ph="{...}" />
                 <marker date="1508296931000" expanded="true" signature="3810:3921" ph="{...}" />
                 <marker date="1508296931000" expanded="true" signature="3972:4019" ph="{...}" />
+>>>>>>> master
               </folding>
             </state>
           </provider>
@@ -99,6 +137,30 @@
               <caret line="2" column="73" lean-forward="false" selection-start-line="2" selection-start-column="73" selection-end-line="2" selection-end-column="73" />
               <folding>
                 <element signature="e#1#44#0" expanded="true" />
+<<<<<<< HEAD
+                <marker date="1508296665000" expanded="true" signature="963:975" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="963:983" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1053:1198" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1120:1190" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1469:1913" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1529:1905" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1566:1843" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1657:1723" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1764:1827" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1849:1895" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="1963:2747" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="2023:2739" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="2117:2677" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="2263:2424" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="2526:2619" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="2683:2729" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="2794:3434" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="2854:3426" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="2948:3364" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="3120:3348" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="3267:3330" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="3370:3416" ph="{...}" />
+=======
                 <marker date="1508296931000" expanded="true" signature="357:3979" ph="{...}" />
                 <marker date="1508296931000" expanded="true" signature="1602:1614" ph="{...}" />
                 <marker date="1508296931000" expanded="true" signature="1602:1622" ph="{...}" />
@@ -122,6 +184,7 @@
                 <marker date="1508296931000" expanded="true" signature="3742:3804" ph="{...}" />
                 <marker date="1508296931000" expanded="true" signature="3810:3873" ph="{...}" />
                 <marker date="1508296931000" expanded="true" signature="3913:3959" ph="{...}" />
+>>>>>>> master
               </folding>
             </state>
           </provider>
@@ -130,10 +193,17 @@
       <file leaf-file-name="app.component.ts" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/app.component.ts">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+            <state relative-caret-position="299">
+              <caret line="34" column="36" lean-forward="false" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
+              <folding>
+                <marker date="1508296665000" expanded="true" signature="877:2594" ph="{...}" />
+=======
             <state relative-caret-position="389">
               <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
               <folding>
                 <marker date="1508296931000" expanded="true" signature="1690:1692" ph="{...}" />
+>>>>>>> master
               </folding>
             </state>
           </provider>
@@ -146,9 +216,15 @@
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
+<<<<<<< HEAD
+                <marker date="1508296665000" expanded="true" signature="535:538" ph="[...]" />
+                <marker date="1508296665000" expanded="true" signature="551:627" ph="{...}" />
+                <marker date="1508296665000" expanded="true" signature="659:661" ph="{...}" />
+=======
                 <marker date="1508296931000" expanded="true" signature="490:493" ph="[...]" />
                 <marker date="1508296931000" expanded="true" signature="506:582" ph="{...}" />
                 <marker date="1508296931000" expanded="true" signature="614:616" ph="{...}" />
+>>>>>>> master
               </folding>
             </state>
           </provider>
@@ -168,7 +244,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>initialize</find>
       <find>containerRef</find>
       <find>HTMLDivElement</find>
       <find>canvas</find>
@@ -198,6 +273,7 @@
       <find>verifierM</find>
       <find>sans</find>
       <find>validerMotEntre</find>
+      <find>connect</find>
     </findStrings>
     <replaceStrings>
       <replace>objet</replace>
@@ -258,7 +334,6 @@
         <option value="$PROJECT_DIR$/MotsCroises/commun/SpecificationPartie.ts" />
         <option value="$PROJECT_DIR$/MotsCroises/commun/SpecificationGrille.ts" />
         <option value="$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsRelle.service.ts" />
-        <option value="$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReelClient.ts" />
         <option value="$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReel.service.ts" />
         <option value="$PROJECT_DIR$/MotsCroises/client/src/app/indice/indice-view.component.ts" />
         <option value="$PROJECT_DIR$/MotsCroises/client/src/app/indice/indice-view.component.html" />
@@ -270,6 +345,7 @@
         <option value="$PROJECT_DIR$/MotsCroises/client/src/app/canvas/canvas-view.component.ts" />
         <option value="$PROJECT_DIR$/MotsCroises/server/app/ConnexionTempsReelServer.ts" />
         <option value="$PROJECT_DIR$/MotsCroises/client/src/app/game_view/game-view.service.ts" />
+        <option value="$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReelClient.ts" />
       </list>
     </option>
   </component>
@@ -389,6 +465,15 @@
               <item name="src" type="462c0819:PsiDirectoryNode" />
               <item name="app" type="462c0819:PsiDirectoryNode" />
               <item name="canvas" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="log2990-10" type="b2602c69:ProjectViewProjectNode" />
+              <item name="log2990-10" type="462c0819:PsiDirectoryNode" />
+              <item name="MotsCroises" type="462c0819:PsiDirectoryNode" />
+              <item name="client" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="app" type="462c0819:PsiDirectoryNode" />
+              <item name="cube" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="log2990-10" type="b2602c69:ProjectViewProjectNode" />
@@ -554,11 +639,16 @@
       <workItem from="1506698268538" duration="4959000" />
       <workItem from="1506717369970" duration="14560000" />
       <workItem from="1507296916529" duration="22496000" />
+      <workItem from="1508214696520" duration="4572000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< HEAD
+    <option name="totallyTimeSpent" value="156074000" />
+=======
     <option name="totallyTimeSpent" value="150923000" />
+>>>>>>> master
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -571,7 +661,10 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1680" height="1050" extended-state="0" />
+<<<<<<< HEAD
+=======
     <editor active="true" />
+>>>>>>> master
     <layout>
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.49753347" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21338156" sideWeight="0.8344114" order="0" side_tool="false" content_ui="combo" />
@@ -580,7 +673,11 @@
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.49753347" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.48625794" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24954791" sideWeight="0.4954722" order="1" side_tool="false" content_ui="tabs" />
+<<<<<<< HEAD
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20880246" sideWeight="0.45806906" order="7" side_tool="false" content_ui="tabs" />
+=======
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20880246" sideWeight="0.45806906" order="7" side_tool="false" content_ui="tabs" />
+>>>>>>> master
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21338156" sideWeight="0.16558862" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -591,15 +688,15 @@
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.48625794" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.49753347" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3337364" sideWeight="0.45806906" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.20880246" sideWeight="0.45806906" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="TypeScript" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.49753347" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="combo" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.24947146" sideWeight="0.49576783" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21338156" sideWeight="0.84217334" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.49753347" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24947146" sideWeight="0.50423217" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.21338156" sideWeight="0.15782665" order="2" side_tool="true" content_ui="tabs" />
     </layout>
     <layout-to-restore>
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32889965" sideWeight="0.49753347" order="6" side_tool="false" content_ui="tabs" />
@@ -629,6 +726,9 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
+<<<<<<< HEAD
+      <option name="time" value="19" />
+=======
       <breakpoints>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/MotsCroises/server/out/CasePleine.js</url>
@@ -636,10 +736,13 @@
         </line-breakpoint>
       </breakpoints>
       <option name="time" value="15" />
+>>>>>>> master
     </breakpoint-manager>
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
+<<<<<<< HEAD
+=======
     <entry file="file://$PROJECT_DIR$/MotsCroises/server/out/KarmaEtChaiTestFonctionne.spec.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="120">
@@ -668,6 +771,7 @@
         </state>
       </provider>
     </entry>
+>>>>>>> master
     <entry file="file://$PROJECT_DIR$/MotsCroises/server/.gitignore">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="360">
@@ -723,6 +827,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
         </state>
       </provider>
       <provider editor-type-id="sourcemapFileViewerProvider">
@@ -767,19 +872,131 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
+>>>>>>> master
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/game_view/game-view.component.html">
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/infos_jeu/infos-jeu-view.component.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        <state relative-caret-position="285">
+          <caret line="20" column="27" lean-forward="false" selection-start-line="20" selection-start-column="27" selection-end-line="20" selection-end-column="27" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/commun/SpecificationGrille.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/commun/Niveau.ts">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/indice-view.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="5" column="164" lean-forward="false" selection-start-line="5" selection-start-column="132" selection-end-line="5" selection-end-column="164" />
+=======
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/dist/inline.bundle.js.map" />
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/dist/main.bundle.js.map" />
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/dist/styles.bundle.js.map" />
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/dist/vendor.bundle.js.map" />
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/dist/favicon.ico" />
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/dist/index.html" />
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="116">
+          <caret line="11" column="4" lean-forward="true" selection-start-line="11" selection-start-column="4" selection-end-line="11" selection-end-column="4" />
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/commun/SpecificationPartie.ts">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="30">
+          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
+=======
+        <state relative-caret-position="-1594">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/out/GenerateurDeMotContrainteService.js">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="-469">
+          <caret line="32" column="29" lean-forward="true" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
+=======
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/GenerateurDeMotContrainteService.ts">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="60">
+          <caret line="4" column="44" lean-forward="false" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="44" />
+=======
+        <state relative-caret-position="257">
+          <caret line="28" column="39" lean-forward="true" selection-start-line="28" selection-start-column="39" selection-end-line="28" selection-end-column="39" />
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/Indice.ts">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="405">
+          <caret line="27" column="0" lean-forward="true" selection-start-line="27" selection-start-column="0" selection-end-line="27" selection-end-column="0" />
+=======
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/commun/RequisPourMotAVerifier.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="30">
+          <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/GenerateurDeGrilleService.ts">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="4770">
+          <caret line="326" column="53" lean-forward="true" selection-start-line="326" selection-start-column="53" selection-end-line="326" selection-end-column="53" />
+          <folding>
+            <element signature="e#1#60#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/GestionnaireDePartieService.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="360">
+          <caret line="29" column="31" lean-forward="false" selection-start-line="29" selection-start-column="31" selection-end-line="29" selection-end-column="31" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/Partie.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="330">
+          <caret line="29" column="28" lean-forward="true" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/Grille.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6480">
+          <caret line="439" column="40" lean-forward="false" selection-start-line="439" selection-start-column="31" selection-end-line="439" selection-end-column="40" />
+=======
         <state relative-caret-position="120">
           <caret line="8" column="0" lean-forward="true" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
         </state>
@@ -791,18 +1008,36 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="12" lean-forward="false" selection-start-line="0" selection-start-column="12" selection-end-line="0" selection-end-column="12" />
+>>>>>>> master
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/commun/constantes/RequetesTempsReel.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/choix_partie/choix-partie-view.component.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReelClient.spec.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/game_view/game-view.component.ts">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="195">
+          <caret line="18" column="14" lean-forward="false" selection-start-line="18" selection-start-column="13" selection-end-line="18" selection-end-column="14" />
+          <folding />
+=======
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/canvas/canvas-view.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="341">
+          <caret line="89" column="35" lean-forward="false" selection-start-line="89" selection-start-column="35" selection-end-line="89" selection-end-column="35" />
+          <folding>
+            <element signature="e#0#100#0" expanded="true" />
+=======
         <state relative-caret-position="426">
           <caret line="81" column="14" lean-forward="false" selection-start-line="81" selection-start-column="14" selection-end-line="81" selection-end-column="14" />
           <folding>
@@ -824,44 +1059,105 @@
             <marker date="1508296931000" expanded="true" signature="3134:3935" ph="{...}" />
             <marker date="1508296931000" expanded="true" signature="3810:3921" ph="{...}" />
             <marker date="1508296931000" expanded="true" signature="3972:4019" ph="{...}" />
+>>>>>>> master
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/indice-view.component.html">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/commun/constantes/RequetesTempsReel.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="5" column="164" lean-forward="false" selection-start-line="5" selection-start-column="132" selection-end-line="5" selection-end-column="164" />
+        <state relative-caret-position="135">
+          <caret line="9" column="0" lean-forward="false" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/out/CasePleine.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/commun/SpecificationPartie.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/commun/SpecificationGrille.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="30">
-          <caret line="8" column="13" lean-forward="false" selection-start-line="8" selection-start-column="13" selection-end-line="8" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/server/out/GenerateurDeMotContrainteService.js">
-      <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="517">
+          <caret line="74" column="4" lean-forward="false" selection-start-line="74" selection-start-column="4" selection-end-line="74" selection-end-column="4" />
+=======
         <state relative-caret-position="-469">
           <caret line="32" column="29" lean-forward="true" selection-start-line="32" selection-start-column="29" selection-end-line="32" selection-end-column="29" />
+>>>>>>> master
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/GenerateurDeMotContrainteService.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/ConnexionTempsReelServer.ts">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="531">
+          <caret line="72" column="68" lean-forward="false" selection-start-line="72" selection-start-column="68" selection-end-line="72" selection-end-column="68" />
+          <folding />
+=======
         <state relative-caret-position="60">
           <caret line="4" column="44" lean-forward="false" selection-start-line="4" selection-start-column="44" selection-end-line="4" selection-end-column="44" />
+>>>>>>> master
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/game_view/game-view.component.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+<<<<<<< HEAD
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/choix_partie/choix-partie-view.component.html">
       <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="30" column="25" lean-forward="false" selection-start-line="30" selection-start-column="25" selection-end-line="30" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/app-routing.module.ts">
+      <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+            <marker date="1508296665000" expanded="true" signature="535:538" ph="[...]" />
+            <marker date="1508296665000" expanded="true" signature="551:627" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="659:661" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/app.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="299">
+          <caret line="34" column="36" lean-forward="false" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
+          <folding>
+            <marker date="1508296665000" expanded="true" signature="877:2594" ph="{...}" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/cube/render.service.spec.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#56#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/choix_partie/choix-partie-view.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+=======
         </state>
       </provider>
     </entry>
@@ -885,19 +1181,30 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="30">
           <caret line="3" column="13" lean-forward="false" selection-start-line="3" selection-start-column="13" selection-end-line="3" selection-end-column="13" />
+>>>>>>> master
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/GenerateurDeGrilleService.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReelClient.spec.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="322">
-          <caret line="326" column="53" lean-forward="true" selection-start-line="326" selection-start-column="53" selection-end-line="326" selection-end-column="53" />
+        <state relative-caret-position="426">
+          <caret line="84" column="14" lean-forward="false" selection-start-line="84" selection-start-column="14" selection-end-line="84" selection-end-column="14" />
           <folding>
+<<<<<<< HEAD
+            <element signature="e#0#56#0" expanded="true" />
+=======
             <element signature="e#0#59#0" expanded="false" />
+>>>>>>> master
           </folding>
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReel.service.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="554">
+          <caret line="40" column="48" lean-forward="false" selection-start-line="40" selection-start-column="48" selection-end-line="40" selection-end-column="48" />
+=======
     <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/GestionnaireDePartieService.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="301">
@@ -909,34 +1216,76 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="296">
           <caret line="29" column="28" lean-forward="true" selection-start-line="29" selection-start-column="28" selection-end-line="29" selection-end-column="28" />
+>>>>>>> master
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/Grille.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/node_modules/@types/socket.io-client/index.d.ts">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="8772">
+          <caret line="619" column="44" lean-forward="false" selection-start-line="619" selection-start-column="44" selection-end-line="619" selection-end-column="44" />
+          <folding />
+=======
         <state relative-caret-position="331">
           <caret line="439" column="40" lean-forward="false" selection-start-line="439" selection-start-column="31" selection-end-line="439" selection-end-column="40" />
+>>>>>>> master
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/app.component.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReelClient.ts">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="-771">
+          <caret line="2" column="73" lean-forward="false" selection-start-line="2" selection-start-column="73" selection-end-line="2" selection-end-column="73" />
+          <folding>
+            <element signature="e#1#44#0" expanded="true" />
+            <marker date="1508296665000" expanded="true" signature="963:975" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="963:983" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1053:1198" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1120:1190" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1469:1913" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1529:1905" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1566:1843" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1657:1723" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1764:1827" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1849:1895" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="1963:2747" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="2023:2739" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="2117:2677" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="2263:2424" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="2526:2619" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="2683:2729" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="2794:3434" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="2854:3426" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="2948:3364" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="3120:3348" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="3267:3330" ph="{...}" />
+            <marker date="1508296665000" expanded="true" signature="3370:3416" ph="{...}" />
+=======
         <state relative-caret-position="389">
           <caret line="29" column="36" lean-forward="false" selection-start-line="29" selection-start-column="36" selection-end-line="29" selection-end-column="36" />
           <folding>
             <marker date="1508296931000" expanded="true" signature="1690:1692" ph="{...}" />
+>>>>>>> master
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/MotsCroises/server/app/ConnexionTempsReelServer.ts">
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/indice-view.service.ts">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="990">
-          <caret line="73" column="43" lean-forward="true" selection-start-line="73" selection-start-column="43" selection-end-line="73" selection-end-column="54" />
+        <state relative-caret-position="225">
+          <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/indiceMot.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="45">
+          <caret line="3" column="10" lean-forward="false" selection-start-line="3" selection-start-column="10" selection-end-line="3" selection-end-column="10" />
+=======
     <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/ConnexionTempsReel.service.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="495">
@@ -982,10 +1331,18 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="225">
           <caret line="17" column="0" lean-forward="false" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+>>>>>>> master
           <folding />
         </state>
       </provider>
     </entry>
+<<<<<<< HEAD
+    <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/indice-view.component.ts">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="480">
+          <caret line="36" column="3" lean-forward="true" selection-start-line="36" selection-start-column="3" selection-end-line="36" selection-end-column="3" />
+          <folding />
+=======
     <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/indice/app.indice-view.component.ts">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -993,13 +1350,19 @@
           <folding>
             <element signature="e#0#48#0" expanded="true" />
           </folding>
+>>>>>>> master
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/MotsCroises/client/src/app/game_view/game-view.service.ts">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
+        <state relative-caret-position="148">
+          <caret line="22" column="0" lean-forward="true" selection-start-line="22" selection-start-column="0" selection-end-line="22" selection-end-column="0" />
+=======
         <state relative-caret-position="606">
           <caret line="105" column="3" lean-forward="false" selection-start-line="105" selection-start-column="3" selection-end-line="105" selection-end-column="3" />
+>>>>>>> master
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

@@ -6,7 +6,6 @@ import {ConnexionTempsReelClient} from '../ConnexionTempsReelClient';
 import {Joueur} from '../../../../commun/Joueur';
 import {Niveau} from '../../../../commun/Niveau';
 import {TypePartie} from '../../../../commun/TypePartie';
-import {ConnexionTempsReelService} from '../ConnexionTempsReel.service';
 import {RequisPourMotAVerifier} from '../../../../commun/RequisPourMotAVerifier';
 import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 import {Indice} from '../../../../server/app/Indice';
@@ -15,8 +14,11 @@ import {EmplacementMot} from '../../../../commun/EmplacementMot';
 
 @Injectable()
 export class GameViewService {
-  private grilleGenere = new Subject<SpecificationPartie>();
-  public grilleGenere$ = this.grilleGenere.asObservable();
+  private motTrouveJ1 = new Subject<string>();
+  public motTrouveJ1$ = this.motTrouveJ1.asObservable();
+
+  private partieTeminee = new Subject<string>();
+  public partieTeminee$ = this.partieTeminee.asObservable();
 
   private partieGeneree: SpecificationPartie;
   public indices: IndiceMot[];
@@ -24,6 +26,8 @@ export class GameViewService {
   public connexionTempsReelClient: ConnexionTempsReelClient;
   public specificationPartie: SpecificationPartie;
   public joueur: Joueur = new Joueur();
+  private indiceTeste: IndiceMot;
+  private motEntre: string;
 
   public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie): void {
     this.partieGeneree = specificationPartie;
@@ -71,6 +75,8 @@ export class GameViewService {
   }
 
   public testMotEntre(motAtester: string, indice: IndiceMot): void {
+    this.indiceTeste = indice;
+    this.motEntre = motAtester;
     const emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
     this.demanderVerificationMot(emplacementMot, motAtester);
   }
@@ -83,6 +89,7 @@ export class GameViewService {
     this.specificationPartie = new SpecificationPartie(Niveau.facile, this.joueur, TypePartie.classique);
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
+    this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
   }
 
   public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
@@ -97,11 +104,20 @@ export class GameViewService {
       requisPourMotAVerifier, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
   }
 
-  public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: ConnexionTempsReelService): void {
+  public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: GameViewService): void {
     if (requisPourMotAVerifier.estLeMot) {
+      self.indiceTeste.motTrouve = self.motEntre;
+      self.motTrouveJ1.next();
       alert('Bravo, vous avez le bon mot.');
     } else {
       alert('Malheureusement, ce n\'est pas le bon mot.');
+    }
+  }
+
+  public messagePartieTerminee(partieTermineeBoolean: boolean, self: GameViewService) {
+    if (partieTermineeBoolean) {
+      self.partieTeminee.next();
+      alert('tous les mots ont été trouvés, partie terminée');
     }
   }
 }
