@@ -113,7 +113,7 @@ export class GameViewService {
   public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: ConnexionTempsReelService) {
     console.log("retour");
     if (requisPourMotAVerifier.estLeMot) {
-      // alert('Bravo, vous avez le bon mot.');
+      alert('Bravo, vous avez le bon mot.');
     } else {
       alert('Malheureusement, ce n\'est pas le bon mot.');
     }

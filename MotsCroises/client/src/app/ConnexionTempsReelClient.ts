@@ -10,32 +10,14 @@ export class ConnexionTempsReelClient {
     private estConnecte = false;
     private connexionSocket: SocketIOClient.Socket;
 
-    public demarerConnexionMock(): void {
-        const self: ConnexionTempsReelClient = this;
-        if (!this.estConnecte) {
-            this.connexionSocket = socket.connect(URL_SOCKETIO_SERVER);
-
-            this.connexionSocket.on('connect', function (data) {
-                self.connexionSocket.emit('envoyer', 'test');
-                self.connexionSocket.emit(requetes.REQUETE_SERVER_QUITTER);
-            });
-
-            this.connexionSocket.on(requetes.REQUETE_CLIENT_MESSAGE, function (data) {
-                alert(data);
-                if (data === 'Client a quitte') {
-                    self.connexionSocket.close();
-                    self.estConnecte = false;
-                }
-            });
-            this.estConnecte = true;
-        }
-    }
-
     public envoyerRecevoirRequete<T>(nomRequeteAEnvoyer: string, valeurEnvoye: T,
         nomRequeteAEcouter: string, callback: any, self: Object) {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
+          if ( !this.connexionSocket.hasListeners(nomRequeteAEcouter)) {
             this.connexionSocket.on(nomRequeteAEcouter, (resultat: T) => callback(resultat, self));
+          }
             this.connexionSocket.emit(nomRequeteAEnvoyer, valeurEnvoye);
+            console.log(this.connexionSocket);
         });
     }
 
