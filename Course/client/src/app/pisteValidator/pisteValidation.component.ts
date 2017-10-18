@@ -43,7 +43,6 @@ export class PisteValidationComponent {
 
     private creerPiste(form: NgForm, listePositions: THREE.Vector3[]): void {
         const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listePositions);
-        console.log(piste);
         this.pisteService.ajouterPiste(piste)
             .then(
             donnee => console.log(donnee)
