@@ -35,7 +35,6 @@ export class GenerateurPisteService {
         this.creerScene();
 
         this.automobile.creerVoiture();
-        console.log(this.automobile.obtenirObjetVoiture3D());
         this.scene.add(this.automobile.obtenirObjetVoiture3D());
 
         this.ajoutPisteAuPlan();
@@ -206,104 +205,64 @@ export class GenerateurPisteService {
         Reculer touche relachee = 83
         */
         if (event.keyCode === 119) {
-            console.log('Avancer');
             this.automobile.obtenirObjetVoiture3D().translateY(1);
             this.touchePrecedente = this.touche;
             this.touche = 119;
-            console.log('event.keyCode = :' + event.keyCode);
-            console.log('touche : ' + this.touche);
             if (this.touchePrecedente === 97) {
-                console.log('Avancer -> ensuite (Gauche)');
                 this.automobile.obtenirObjetVoiture3D().translateX(-1);
                 this.touche = 97;
                 event.keyCode = 97;
-                console.log('touche : ' + this.touche);
-                console.log('event.keyCode = :' + event.keyCode);
-
             }
             if (this.touchePrecedente === 100) {
-                console.log('Avancer -> ensuite (Droite)?');
                 this.automobile.obtenirObjetVoiture3D().translateX(1);
                 this.touche = 100;
-                console.log('touche : ' + this.touche);
-                console.log('event.keyCode = :' + event.keyCode);
             }
         }
         if (event.keyCode === 115) {
-            console.log('Reculer');
             this.automobile.obtenirObjetVoiture3D().translateY(-1);
             this.touchePrecedente = this.touche;
             this.touche = 115;
-            console.log('touche : ' + this.touche);
-            console.log('event.keyCode = :' + event.keyCode);
            if (this.touchePrecedente === 97) {
-                console.log('Reculer -> ensuite (Gauche)');
                 this.automobile.obtenirObjetVoiture3D().translateX(-1);
                 this.touche = 97;
-                console.log('touche : ' + this.touche);
-                console.log('event.keyCode = :' + event.keyCode);
             }
             if (this.touchePrecedente === 100) {
-                console.log('Reculer -> ensuite (Droite)');
                 this.automobile.obtenirObjetVoiture3D().translateX(1);
                 this.touche = 100;
-                console.log('touche : ' + this.touche);
-                console.log('event.keyCode = :' + event.keyCode);
             }
         }
         if (event.keyCode === 97) {
-            console.log('Gauche');
             this.touchePrecedente = this.touche;
             this.touche = 97 ;
-            console.log('event.keyCode = :' + event.keyCode);
-            console.log('touche : ' + this.touche);
             this.automobile.obtenirObjetVoiture3D().translateX(-1);
 
             if (this.touchePrecedente === 119) {
-                console.log('Gauche -> ensuite Avancer');
                 this.automobile.obtenirObjetVoiture3D().translateY(1);
                 this.touche = 119;
-                console.log('touche : ' + this.touche);
-                console.log('event.keyCode = :' + event.keyCode);
             }
             if (this.touchePrecedente === 115) {
-                console.log('Gauche -> ensuite Reculer?');
                 this.automobile.obtenirObjetVoiture3D().translateY(-1);
                 this.touche = 115;
-                console.log('touche : ' + this.touche);
-                console.log('event.keyCode = :' + event.keyCode);
             }
         }
         if (event.keyCode === 100 ) {
-            console.log('Droite');
             this.touchePrecedente = this.touche;
             this.touche = 100;
-            // this.voiture.rotateZ(-0.1);
             this.automobile.obtenirObjetVoiture3D().translateX(1);
-          //  this.touche = 100;
-            console.log('touche : ' + this.touche);
-            console.log('event.keyCode = :' + event.keyCode);
             if (this.touchePrecedente === 119) {
-                console.log('Droite -> ensuite avancer');
                 this.automobile.obtenirObjetVoiture3D().translateY(1);
                 this.touche = 119;
-                console.log('touche : ' + this.touche);
-               console.log('event.keyCode = :' + event.keyCode);
 
             }
             if (this.touchePrecedente === 115) {
-                 console.log('Droite -> ensuite reculer');
                 this.automobile.obtenirObjetVoiture3D().translateY(-1);
                 this.touche = 115;
-                console.log('touche : ' + this.touche);
-                console.log('event.keyCode = :' + event.keyCode);
             }
         }
 
     }
 
     public toucheRelachee(event): void {
-        console.log(event.keyCode);
         // 90 Z
         // 83 S
         // 68 D
@@ -311,19 +270,15 @@ export class GenerateurPisteService {
         // 65 A
         // 87 W
        if (event.keyCode === 87) {
-            console.log('Touche AVANT relachée');
             this.touche = 0;
         }
         if (event.keyCode === 83) {
-            console.log('Touche ARRIERE relachée');
             this.touche = 0;
         }
         if (event.keyCode === 65) {
-            console.log('Touche GAUCHE relachée');
             this.touche = 0;
         }
         if (event.keyCode === 68) {
-            console.log('Touche DROITE relachée');
             this.touche = 0;
         }
 

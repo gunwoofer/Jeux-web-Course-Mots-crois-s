@@ -48,7 +48,6 @@ export class PisteService {
 
     public supprimerListePiste(piste: Piste): Promise<JSON> {
         const pist = piste.id;
-        console.log(pist);
         this.pistes.splice(this.pistes.indexOf(piste), 1);
         return this.http.delete('http://localhost:3000/listePiste' + pist)
             .toPromise()
@@ -62,7 +61,6 @@ export class PisteService {
 
     public commencerPartie(piste: Piste) {
         this.pisteChoisie.emit(piste);
-        console.log(piste);
     }
 
 

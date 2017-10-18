@@ -170,7 +170,6 @@ export class RenderService {
   }
 
   public reinitialiserScene(): void {
-    console.log('Reinitialisation');
     this.viderScene();
     this.facadePointService.viderListeDesPoints(this.points);
     this.dessinTermine = false;
@@ -178,7 +177,6 @@ export class RenderService {
   }
 
   public chargerPiste(position: any) {
-    console.log(position.length);
     for (let i = 0; i < position.length; i++) {
       this.dessinerPointDejaConnu(position[i]);
     }

@@ -78,9 +78,7 @@ export class SegmentDePiste {
     }
 
     public obtenirVisuelSegment(): THREE.Mesh {
-        console.log('POINT DEBUT :');
         this.afficherPointConsole(this.pointDebut);
-        console.log('POINT FIN :');
         this.afficherPointConsole(this.pointFin);
         return this.visuelDuSegment;
     }
