@@ -4,8 +4,8 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 
 import 'rxjs/add/operator/switchMap';
 import {GameViewService} from './game-view.service';
-import {CanvasViewComponent} from "../canvas/app.canvas-view.component";
-import {InfosJeuViewComponent} from "../infos_jeu/app.infos-jeu-view.component";
+import {CanvasViewComponent} from '../canvas/app.canvas-view.component';
+import {InfosJeuViewComponent} from '../infos_jeu/app.infos-jeu-view.component';
 
 
 @Component({

@@ -1,4 +1,4 @@
-import {AfterViewInit, Component, Input, OnInit} from '@angular/core';
+import {AfterViewInit, Component, Input} from '@angular/core';
 import {IndiceViewService} from '../indice/indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
 
@@ -15,11 +15,11 @@ export class InfosJeuViewComponent implements AfterViewInit {
   @Input() public nbJoueurs: string;
   public motEnCoursJ1: string;
   public motEnCoursJ2: string;
-  public motTrouveJ1: number = 0;
-  public motTrouveJ2: number = 0;
+  public motTrouveJ1 = 0;
+  public motTrouveJ2 = 0;
   private tempsDebut: number;
   private tempsActuel: number;
-  public dureeJeu: number = 0;
+  public dureeJeu = 0;
   private intervalFunction: any;
 
 
@@ -41,10 +41,10 @@ export class InfosJeuViewComponent implements AfterViewInit {
 
   private MAJTemps() {
     this.tempsActuel = Date.now();
-    this.dureeJeu = Math.round((this.tempsActuel - this.tempsDebut)/1000);
+    this.dureeJeu = Math.round((this.tempsActuel - this.tempsDebut) / 1000);
   }
 
-  public stopperTimer(){
+  public stopperTimer() {
     clearInterval(this.intervalFunction);
   }
 

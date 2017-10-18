@@ -6,7 +6,6 @@ import {ConnexionTempsReelClient} from '../ConnexionTempsReelClient';
 import {Joueur} from '../../../../commun/Joueur';
 import {Niveau} from '../../../../commun/Niveau';
 import {TypePartie} from '../../../../commun/TypePartie';
-import {ConnexionTempsReelService} from '../ConnexionTempsReel.service';
 import {RequisPourMotAVerifier} from '../../../../commun/RequisPourMotAVerifier';
 import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 import {Indice} from '../../../../server/app/Indice';
