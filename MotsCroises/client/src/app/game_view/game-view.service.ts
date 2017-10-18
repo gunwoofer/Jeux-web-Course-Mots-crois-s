@@ -18,6 +18,9 @@ export class GameViewService {
   private motTrouveJ1 = new Subject<string>();
   public motTrouveJ1$ = this.motTrouveJ1.asObservable();
 
+  private partieTeminee = new Subject<string>();
+  public partieTeminee$ = this.partieTeminee.asObservable();
+
   private partieGeneree: SpecificationPartie;
   public indices: IndiceMot[];
 
@@ -87,7 +90,7 @@ export class GameViewService {
     this.specificationPartie = new SpecificationPartie(Niveau.facile, this.joueur, TypePartie.classique);
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
-    this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee);
+    this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
   }
 
   public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
@@ -112,8 +115,9 @@ export class GameViewService {
     }
   }
 
-  public messagePartieTerminee(partieTerminee: boolean) {
-    if (partieTerminee) {
+  public messagePartieTerminee(partieTermineeBoolean: boolean, self: GameViewService) {
+    if (partieTermineeBoolean) {
+      self.partieTeminee.next();
       alert('tous les mots ont été trouvés, partie terminée');
     }
   }

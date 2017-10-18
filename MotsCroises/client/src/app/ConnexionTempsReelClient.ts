@@ -27,7 +27,7 @@ export class ConnexionTempsReelClient {
         });
     }
 
-  public ecouterRequete<T>(nomRequete: string, callback: any): void {
+  public ecouterRequete<T>(nomRequete: string, callback: any, self: Object): void {
     this.preparerRequete().then((peutPoursuivre: boolean) => {
       this.connexionSocket.on(nomRequete, (resultat: T) => callback(resultat, self));
     });

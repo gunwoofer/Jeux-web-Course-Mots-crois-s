@@ -44,5 +44,9 @@ export class InfosJeuViewComponent implements AfterViewInit {
     this.dureeJeu = Math.round((this.tempsActuel - this.tempsDebut)/1000);
   }
 
+  public stopperTimer(){
+    clearInterval(this.intervalFunction);
+  }
+
 
 }

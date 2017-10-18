@@ -5,6 +5,7 @@ import {ActivatedRoute, ParamMap} from '@angular/router';
 import 'rxjs/add/operator/switchMap';
 import {GameViewService} from './game-view.service';
 import {CanvasViewComponent} from "../canvas/app.canvas-view.component";
+import {InfosJeuViewComponent} from "../infos_jeu/app.infos-jeu-view.component";
 
 
 @Component({
@@ -19,10 +20,16 @@ export class GameViewComponent implements OnInit {
   @ViewChild(CanvasViewComponent)
   private canvasViewComponent: CanvasViewComponent;
 
+  @ViewChild(InfosJeuViewComponent)
+  private infosJeuViewComponent: InfosJeuViewComponent;
+
   constructor(private route: ActivatedRoute,
               private gameViewService: GameViewService) {
     this.gameViewService.motTrouveJ1$.subscribe(() => {
       this.actualiserGrille();
+    });
+    this.gameViewService.partieTeminee$.subscribe(() => {
+      this.infosJeuViewComponent.stopperTimer();
     });
   }
 
