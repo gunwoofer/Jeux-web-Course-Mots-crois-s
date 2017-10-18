@@ -8,7 +8,8 @@ import { TableauScoreService } from './tableauScoreService.service';
 })
 
 export class TableauScoreComponent {
-    constructor (tableauScoreService: TableauScoreService) {}
 
-    @Input() private temps: number[];
+    @Input() public temps: number[];
+
+    constructor (tableauScoreService: TableauScoreService) {}
 }

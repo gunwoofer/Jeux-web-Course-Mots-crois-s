@@ -13,7 +13,7 @@ export class GenerateurPisteComponent implements AfterViewInit {
     @ViewChild('container')
     private containerRef: ElementRef;
 
-    constructor(private generateurPisteService: GenerateurPisteService, private pisteService: PisteService) {
+    constructor(private generateurPisteService: GenerateurPisteService, pisteService: PisteService) {
 
     }
 

@@ -1,4 +1,3 @@
-import { Http } from '@angular/http';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 

@@ -10,7 +10,6 @@ export class Segment {
     private geometrie: THREE.PlaneGeometry;
     private visuelDuSegment: THREE.Mesh;
     private longueur: number;
-    private largeur: number;
     private angle: number;
 
     constructor(pointDebut: THREE.Vector3, pointFin: THREE.Vector3) {

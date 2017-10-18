@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
