@@ -1,5 +1,4 @@
 import * as THREE from 'three';
-
 export const COULEUR_PISTE = 'blue';
 export const LARGEUR_PISTE = 5;
 export const RADIANT_CERCLE = LARGEUR_PISTE / 2;
@@ -15,7 +14,6 @@ export class SegmentDePiste {
     private cercleFin: THREE.CircleGeometry;
     private visuelDuSegment: THREE.Mesh;
     private longueur: number;
-    private largeur: number;
     private angle: number;
 
     constructor(pointDebut: THREE.Vector3, pointFin: THREE.Vector3) {
@@ -28,8 +26,8 @@ export class SegmentDePiste {
         this.angle = this.obtenirAngle();
         this.visuelDuSegment = new THREE.Mesh(this.geometrie, this.materiel);
         this.visuelDuSegment.rotateZ(this.angle);
-        this.visuelDuSegment.position.x = (pointFin.x - pointDebut.x)/2;
-        this.visuelDuSegment.position.y = (pointFin.y - pointDebut.y)/2;
+        this.visuelDuSegment.position.x = (pointFin.x - pointDebut.x) / 2;
+        this.visuelDuSegment.position.y = (pointFin.y - pointDebut.y) / 2;
 
     }
 
@@ -80,9 +78,9 @@ export class SegmentDePiste {
     }
 
     public obtenirVisuelSegment(): THREE.Mesh {
-        console.log("POINT DEBUT :");
+        console.log('POINT DEBUT :');
         this.afficherPointConsole(this.pointDebut);
-        console.log("POINT FIN :");
+        console.log('POINT FIN :');
         this.afficherPointConsole(this.pointFin);
         return this.visuelDuSegment;
     }
@@ -101,8 +99,6 @@ export class SegmentDePiste {
             this.angle = Math.atan((this.pointFin.y - this.pointDebut.y) / (this.pointFin.x - this.pointDebut.x));
         }
     }
-
-    
 
     private afficherPointConsole(point: THREE.Vector3): void {
         console.log('Coordonnees du point : x = ' + point.x + ' y = ' + point.y + ' z = ' + point.z );

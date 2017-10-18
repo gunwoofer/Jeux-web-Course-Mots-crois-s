@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { Voiture } from './../voiture/voiture.service';
 
 import { Piste } from '../piste/piste.model';
-import { SegmentDePiste } from '../piste/segmentdepiste.model';
 export const LARGEUR_PISTE = 50;
 export let NOMBRE_SEGMENTS = 1;
 
@@ -34,11 +33,11 @@ export class GenerateurPisteService {
         this.automobile = new Voiture(this.objetVoiture);
         this.container = container;
         this.creerScene();
-        
+
         this.automobile.creerVoiture();
         console.log(this.automobile.obtenirObjetVoiture3D());
         this.scene.add(this.automobile.obtenirObjetVoiture3D());
-        
+
         this.ajoutPisteAuPlan();
 
         this.commencerRendu();
@@ -57,7 +56,7 @@ export class GenerateurPisteService {
         this.commencerRendu();
     }
 
-    public ajouterSegmentPisteMock() {        
+    public ajouterSegmentPisteMock(): void {
 
         const vecteurs: THREE.Vector3[] = [
             new THREE.Vector3(0, 0, 0),
@@ -69,7 +68,7 @@ export class GenerateurPisteService {
         ];
         NOMBRE_SEGMENTS = vecteurs.length / 2;
 
-        this.piste = new Piste("bob", "bob", "bob", vecteurs);
+        this.piste = new Piste('bob', 'bob', 'bob', vecteurs);
         this.ajoutPisteAuPlan();
     }
 
@@ -77,13 +76,10 @@ export class GenerateurPisteService {
         this.piste = piste;
     }
 
-    public ajoutPiste() {
+    public ajoutPiste(): void {
 
         this.creerPointMock();
-         //this.creerVoiture();
-        //this.ajoutVoiture();
         this.automobile.creerVoiture();
-        console.log(this.automobile.obtenirObjetVoiture3D());
         this.scene.add(this.automobile.obtenirObjetVoiture3D());
         this.commencerRendu();
         this.ajoutPlan();
@@ -104,7 +100,7 @@ export class GenerateurPisteService {
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.container.appendChild(this.renderer.domElement);
         this.render();
-    };
+    }
 
     public render(): void {
         requestAnimationFrame(() => this.render());
@@ -115,7 +111,7 @@ export class GenerateurPisteService {
         this.camera.aspect = this.getAspectRatio();
         this.camera.updateProjectionMatrix();
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    };
+    }
 
     public getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
@@ -148,7 +144,7 @@ export class GenerateurPisteService {
     }
 
     public ajoutPisteAuPlan(): void {
-        
+
         const visuelSegments: THREE.Mesh[] = this.piste.obtenirVisuelPiste();
         for (const visuelSegmentPiste of visuelSegments) {
             this.scene.add(visuelSegmentPiste);
@@ -162,7 +158,7 @@ export class GenerateurPisteService {
         const largeur = LARGEUR_PISTE;
         const materiel = new THREE.MeshBasicMaterial( { color : 'blue' } );
 
-        for (let duoPoint of this.pointsPiste) {
+        for (const duoPoint of this.pointsPiste) {
             const pointDebut: THREE.Vector3 = duoPoint[0];
             const pointFin: THREE.Vector3 = duoPoint[1];
 
@@ -190,7 +186,7 @@ export class GenerateurPisteService {
         return angle;
     }
 
-    public cameraAvantArriere(event) {
+    public cameraAvantArriere(event): void {
         if (event.wheelDeltaY < 0) {
             this.camera.position.z += 5;
         } else {
@@ -198,12 +194,7 @@ export class GenerateurPisteService {
         }
     }
 
-    private afficherPointConsole(point: THREE.Vector3): void {
-        console.log('Coordonnees du point : x = ' + point.x + ' y = ' + point.y + ' z = ' + point.z );
-    }
-
-    public deplacementVoiture(event) {
-        // console.log(event.keyCode);
+    public deplacementVoiture(event): void {
         /*
         Gauche = 97
         Gauche touche relachee = 65
@@ -219,69 +210,68 @@ export class GenerateurPisteService {
             this.automobile.obtenirObjetVoiture3D().translateY(1);
             this.touchePrecedente = this.touche;
             this.touche = 119;
-            console.log("event.keyCode = :" + event.keyCode);
-            console.log("touche : " + this.touche);
-            if(this.touchePrecedente === 97){
-                console.log('Avancer -> ensuite (Gauche)')
-                this.automobile.obtenirObjetVoiture3D().translateX(-1); 
+            console.log('event.keyCode = :' + event.keyCode);
+            console.log('touche : ' + this.touche);
+            if (this.touchePrecedente === 97) {
+                console.log('Avancer -> ensuite (Gauche)');
+                this.automobile.obtenirObjetVoiture3D().translateX(-1);
                 this.touche = 97;
                 event.keyCode = 97;
-                console.log("touche : " + this.touche);
-                console.log("event.keyCode = :" + event.keyCode);
-                
+                console.log('touche : ' + this.touche);
+                console.log('event.keyCode = :' + event.keyCode);
+
             }
             if (this.touchePrecedente === 100) {
-                console.log('Avancer -> ensuite (Droite)?')
+                console.log('Avancer -> ensuite (Droite)?');
                 this.automobile.obtenirObjetVoiture3D().translateX(1);
                 this.touche = 100;
-                console.log("touche : " + this.touche);
-                console.log("event.keyCode = :" + event.keyCode);
+                console.log('touche : ' + this.touche);
+                console.log('event.keyCode = :' + event.keyCode);
             }
         }
         if (event.keyCode === 115) {
             console.log('Reculer');
             this.automobile.obtenirObjetVoiture3D().translateY(-1);
             this.touchePrecedente = this.touche;
-            this.touche=115;
-            console.log("touche : " + this.touche);
-            console.log("event.keyCode = :" + event.keyCode);
-           if(this.touchePrecedente === 97){
-                console.log('Reculer -> ensuite (Gauche)')
+            this.touche = 115;
+            console.log('touche : ' + this.touche);
+            console.log('event.keyCode = :' + event.keyCode);
+           if (this.touchePrecedente === 97) {
+                console.log('Reculer -> ensuite (Gauche)');
                 this.automobile.obtenirObjetVoiture3D().translateX(-1);
-                this.touche = 97; 
-                console.log("touche : " + this.touche);
-                console.log("event.keyCode = :" + event.keyCode);
+                this.touche = 97;
+                console.log('touche : ' + this.touche);
+                console.log('event.keyCode = :' + event.keyCode);
             }
-            if(this.touchePrecedente === 100){
-                console.log('Reculer -> ensuite (Droite)')
-                this.automobile.obtenirObjetVoiture3D().translateX(1); 
+            if (this.touchePrecedente === 100) {
+                console.log('Reculer -> ensuite (Droite)');
+                this.automobile.obtenirObjetVoiture3D().translateX(1);
                 this.touche = 100;
-                console.log("touche : " + this.touche);
-                console.log("event.keyCode = :" + event.keyCode);
+                console.log('touche : ' + this.touche);
+                console.log('event.keyCode = :' + event.keyCode);
             }
         }
         if (event.keyCode === 97) {
             console.log('Gauche');
             this.touchePrecedente = this.touche;
             this.touche = 97 ;
-            console.log("event.keyCode = :" + event.keyCode);
-            console.log("touche : " + this.touche);
+            console.log('event.keyCode = :' + event.keyCode);
+            console.log('touche : ' + this.touche);
             this.automobile.obtenirObjetVoiture3D().translateX(-1);
 
-            //this.touche=113;
             if (this.touchePrecedente === 119) {
-                console.log('Gauche -> ensuite Avancer')
+                console.log('Gauche -> ensuite Avancer');
                 this.automobile.obtenirObjetVoiture3D().translateY(1);
                 this.touche = 119;
-                console.log("touche : " + this.touche);
-                console.log("event.keyCode = :" + event.keyCode);
+                console.log('touche : ' + this.touche);
+                console.log('event.keyCode = :' + event.keyCode);
             }
             if (this.touchePrecedente === 115) {
-                console.log('Gauche -> ensuite Reculer?')
+                console.log('Gauche -> ensuite Reculer?');
                 this.automobile.obtenirObjetVoiture3D().translateY(-1);
                 this.touche = 115;
-                console.log("touche : " + this.touche);
-                console.log("event.keyCode = :" + event.keyCode);
+                console.log('touche : ' + this.touche);
+                console.log('event.keyCode = :' + event.keyCode);
             }
         }
         if (event.keyCode === 100 ) {
@@ -291,28 +281,28 @@ export class GenerateurPisteService {
             // this.voiture.rotateZ(-0.1);
             this.automobile.obtenirObjetVoiture3D().translateX(1);
           //  this.touche = 100;
-            console.log("touche : " + this.touche);
-            console.log("event.keyCode = :" + event.keyCode);
+            console.log('touche : ' + this.touche);
+            console.log('event.keyCode = :' + event.keyCode);
             if (this.touchePrecedente === 119) {
                 console.log('Droite -> ensuite avancer');
                 this.automobile.obtenirObjetVoiture3D().translateY(1);
                 this.touche = 119;
-                console.log("touche : " + this.touche);
-               console.log("event.keyCode = :" + event.keyCode);
-               
+                console.log('touche : ' + this.touche);
+               console.log('event.keyCode = :' + event.keyCode);
+
             }
             if (this.touchePrecedente === 115) {
-                 console.log('Droite -> ensuite reculer')
+                 console.log('Droite -> ensuite reculer');
                 this.automobile.obtenirObjetVoiture3D().translateY(-1);
                 this.touche = 115;
-                console.log("touche : " + this.touche);
-                console.log("event.keyCode = :" + event.keyCode);
+                console.log('touche : ' + this.touche);
+                console.log('event.keyCode = :' + event.keyCode);
             }
         }
-    
+
     }
 
-    public toucheRelachee(event) {
+    public toucheRelachee(event): void {
         console.log(event.keyCode);
         // 90 Z
         // 83 S
@@ -328,18 +318,18 @@ export class GenerateurPisteService {
             console.log('Touche ARRIERE relachée');
             this.touche = 0;
         }
-        if (event.keyCode === 65){
+        if (event.keyCode === 65) {
             console.log('Touche GAUCHE relachée');
-            this.touche = 0;    
+            this.touche = 0;
         }
-        if (event.keyCode === 68){
+        if (event.keyCode === 68) {
             console.log('Touche DROITE relachée');
-            this.touche = 0;    
+            this.touche = 0;
         }
 
     }
 
-    public ajoutVoiture() {
+    public ajoutVoiture(): void {
         const loader = new THREE.ObjectLoader();
         loader.load('../../assets/modeles/audi/audioptimised02.json', ( obj ) => {
             this.scene.add( obj );
@@ -348,7 +338,7 @@ export class GenerateurPisteService {
 
     }
 
-    private vueDuDessus(centreVoiture: THREE.Vector3){
+    private vueDuDessus(centreVoiture: THREE.Vector3): void {
         this.camera.lookAt(this.automobile.obtenirPositionVoiture());
     }
 }

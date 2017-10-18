@@ -1,12 +1,10 @@
 
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-
 import { FacadeLigneService } from './../facadeLigne/facadeligne.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
-
 import { Piste } from '../piste/piste.model';
 
 @Injectable()
@@ -18,7 +16,6 @@ export class RenderService {
   public scene: THREE.Scene;
   public pisteAmodifie: Piste;
   public pointsLine;
-  private courbe;
   public id;
   public points = [];
   public dessinTermine = false;

@@ -15,11 +15,11 @@ import { RenderService } from '../renderService/render.service';
 export class PisteValidationComponent {
     constructor(private pisteService: PisteService, private renderService: RenderService) { }
 
-    @Input() private pisteAmodifier: Piste;
-    private display: boolean;
-    private buttonText = 'Sauvegarder circuit';
+    @Input() public pisteAmodifier: Piste;
+    public display: boolean;
+    public buttonText = 'Sauvegarder circuit';
 
-    private onSubmit(form: NgForm): void {
+    public onSubmit(form: NgForm): void {
         const listepositions: THREE.Vector3[] = [];
         Object.assign(listepositions, this.renderService.obtenirPositions());
         if (this.pisteAmodifier) {
@@ -30,7 +30,7 @@ export class PisteValidationComponent {
         this.renderService.reinitialiserScene();
         form.resetForm();
     }
-    private onClick(): void {
+    public onClick(): void {
         this.display = !this.display;
     }
 

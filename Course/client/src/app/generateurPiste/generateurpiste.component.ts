@@ -1,8 +1,6 @@
 import { GenerateurPisteService } from './generateurpiste.service';
+import { Component, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
-import { Piste } from '../piste/piste.model';
-
-import { Component, OnInit, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
 
 @Component({
     selector: 'app-generateurpiste-component',
@@ -11,8 +9,12 @@ import { Component, OnInit, ViewChild, HostListener, ElementRef, AfterViewInit }
 })
 
 export class GenerateurPisteComponent implements AfterViewInit {
+
+    @ViewChild('container')
+    private containerRef: ElementRef;
+
     constructor(private generateurPisteService: GenerateurPisteService, private pisteService: PisteService) {
-        
+
     }
 
     public ngAfterViewInit() {
@@ -22,9 +24,6 @@ export class GenerateurPisteComponent implements AfterViewInit {
     public get container(): HTMLDivElement {
         return this.containerRef.nativeElement;
     }
-
-    @ViewChild('container')
-    private containerRef: ElementRef;
 
     @HostListener('window:resize', ['$event'])
     public onResize() {

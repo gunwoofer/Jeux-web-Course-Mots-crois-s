@@ -1,6 +1,5 @@
 import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
-import * as THREE from 'three';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
@@ -15,7 +14,7 @@ export class PisteService {
     public pisteAEditer = new EventEmitter<Piste>();
     public pisteChoisie = new EventEmitter<Piste>();
 
-    constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService, private http: Http) {
+    constructor(renderService: RenderService, generateurPisteService: GenerateurPisteService, private http: Http) {
 
         this.pisteChoisie.subscribe(
             (piste: Piste) => generateurPisteService.ajouterPiste(piste)

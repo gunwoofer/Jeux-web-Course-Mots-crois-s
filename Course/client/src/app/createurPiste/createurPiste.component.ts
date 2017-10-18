@@ -22,8 +22,8 @@ export class CreateurPisteComponent implements OnInit {
   }
 
   private affiche: boolean;
-  private pisteAmodifier: Piste;
-  private message;
+  public pisteAmodifier: Piste;
+  public message;
 
   public get container(): HTMLDivElement {
     return this.containerRef.nativeElement;
@@ -46,7 +46,7 @@ export class CreateurPisteComponent implements OnInit {
     );
   }
 
-  private oncontextmenu(): boolean {
+  public oncontextmenu(): boolean {
     this.facadeSourisService.rightClick();
     return false;
   }
@@ -68,12 +68,12 @@ export class CreateurPisteComponent implements OnInit {
     return false;
   }
 
-  private condition(): boolean {
+  public condition(): boolean {
     this.pisteAmodifier = this.renderService.pisteAmodifie;
     return this.affiche = this.renderService.retourneEtatDessin();
   }
 
-  private erreursCircuit(): boolean {
+  public erreursCircuit(): boolean {
     if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
       this.renderService.nbSegmentsTropProche,
       this.renderService.nbSegmentsCroises)) {
