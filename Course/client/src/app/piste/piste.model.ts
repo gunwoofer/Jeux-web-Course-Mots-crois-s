@@ -7,6 +7,7 @@ export class Piste {
     public nombreFoisJouee: number;
     public coteAppreciation: number;
     public meilleursTemps: number[] = [];
+    public vignette: string;
 
     constructor(public nom: string,
         public typeCourse: string,
@@ -15,10 +16,10 @@ export class Piste {
         public id?: number) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = 0;
-
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = i * 2 + 4;
         }
+        this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
     }
 
     public ajouterSegmentDePiste(segmentDePiste: SegmentDePiste): void {
@@ -45,10 +46,11 @@ export class Piste {
         this.listepositions = listePosition;
     }
 
-    public modifieAttribut(coteAppreciation: number, nombreFoisJouee: number, meilleursTemps: number[]): void {
+    public modifieAttribut(coteAppreciation: number, nombreFoisJouee: number, meilleursTemps: number[], vignette: string): void {
         this.coteAppreciation = coteAppreciation;
         this.nombreFoisJouee = nombreFoisJouee;
         this.meilleursTemps = meilleursTemps;
+        this.vignette = vignette;
     }
 
 
