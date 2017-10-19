@@ -65,7 +65,7 @@ export class Application {
     this.app.use(cors());
 
     const bd: BdImplementation = new BdImplementation();
-    bd.connect();
+    bd.connect('mongodb://localhost/Bdpiste');
 
   }
 

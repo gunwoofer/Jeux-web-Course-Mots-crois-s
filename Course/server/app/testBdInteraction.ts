@@ -36,7 +36,7 @@ describe('Test unitaire base de données', () => {
     beforeEach((fin) => {
         const expect = chai.expect;
         const bd = new BdImplementation();
-        bd.connect();
+        bd.connect('mongodb://localhost/BdpisteTest');
         piste.save().then(() => {
             expect(piste.isNew === false);
             fin();
@@ -98,7 +98,7 @@ describe('Test unitaire base de données', () => {
 describe('Test unitaire ajout dans la base de données', () => {
     beforeEach((fin) => {
         const bd = new BdImplementation();
-        bd.connect();
+        bd.connect('mongodb://localhost/BdpisteTest');
         fin();
     });
 
@@ -112,11 +112,9 @@ describe('Test unitaire ajout dans la base de données', () => {
 
 
 describe('Test unitaire qui verifie le retour dune liste de piste', () => {
-
-    // ca depend de piste qu'on a ajouté
     it('retour la taille de la liste de piste quon a dans la base de donne', (fin) => {
         modelDePiste.find().then((resultat) => {
-            chai.expect(resultat.length).equal(2);
+            chai.expect(resultat.length).equal(0);
             fin();
         });
     });
