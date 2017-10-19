@@ -52,9 +52,8 @@ export class PisteValidationComponent {
     private modifierPiste(piste: Piste, form: NgForm, listePositions: THREE.Vector3[]): void {
         piste.modifierAttribut(form, listePositions);
         this.pisteService.mettreAjourPiste(piste)
-            .subscribe(
-            donnee => console.log(donnee),
-            erreur => console.error(erreur)
+            .then(
+            donnee => console.log(donnee)
             );
     }
 }

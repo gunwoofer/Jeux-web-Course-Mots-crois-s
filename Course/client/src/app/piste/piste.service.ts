@@ -1,10 +1,10 @@
+import { toPromise } from 'rxjs/operator/toPromise';
 import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
-import { RenderService } from '../renderService/render.service';
 import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
 
 @Injectable()
@@ -14,7 +14,7 @@ export class PisteService {
     public pisteAEditer = new EventEmitter<Piste>();
     public pisteChoisie = new EventEmitter<Piste>();
 
-    constructor(renderService: RenderService, generateurPisteService: GenerateurPisteService, private http: Http) {
+    constructor(generateurPisteService: GenerateurPisteService, private http: Http) {
 
         this.pisteChoisie.subscribe(
             (piste: Piste) => generateurPisteService.ajouterPiste(piste)
@@ -26,7 +26,8 @@ export class PisteService {
         this.pistes.push(piste);
         return this.http.post('http://localhost:3000/createurPiste', piste)
             .toPromise()
-            .then((reponse: Response) => reponse.json());
+            .then((reponse: Response) => reponse.json())
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
     public retournerListePiste(): Promise<Piste[]> {
@@ -37,7 +38,7 @@ export class PisteService {
                 const pisteTemporaire: Piste[] = [];
                 for (const piste of pistes) {
                     const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
-                    pist.miseAjourSegmentsdePiste();
+                    // pist.miseAjourSegmentsdePiste();
                     pist.modifieAttribut(piste.coteAppreciation, piste.nombreFoisJouee, piste.meilleursTemps);
                     pisteTemporaire.push(pist);
                 }
@@ -64,9 +65,10 @@ export class PisteService {
     }
 
 
-    public mettreAjourPiste(piste: Piste): Observable<JSON> {
+    public mettreAjourPiste(piste: Piste): Promise<JSON> {
         return this.http.patch('http://localhost:3000/createurPiste' + piste.id, piste)
-            .map((reponse: Response) => reponse.json())
+            .toPromise()
+            .then((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 }
