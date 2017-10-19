@@ -145,6 +145,7 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string) {
+    this.effacerLettreDansCase(i,j);
     this.ctxCanvas.font = this.policeLettres;
     this.ctxCanvas.fillStyle = couleur;
     this.ctxCanvas.textAlign = 'center';

@@ -95,18 +95,24 @@ export class GameViewService {
     this.connexionTempsReelClient = new ConnexionTempsReelClient();
   }
 
-  public demanderPartie(niveau: Niveau, typePartie: TypePartie): void {
+  public demanderPartie(niveau: Niveau, typePartie: TypePartie, nbJoueursPartie: number): void {
+    this.nbJoueursPartie = nbJoueursPartie;
+    this.niveauPartie = niveau;
+    this.typePartie = typePartie;
     this.specificationPartie = new SpecificationPartie(Niveau.facile, this.joueur, TypePartie.classique);
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
   }
 
+  public recommencerPartie() {
+    this.demanderPartie(this.niveauPartie, this.typePartie, this.nbJoueursPartie);
+  }
+
   public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
-    //self.partieCreee.next();
-    self.afficherPartie(TypePartie.classique, Niveau.facile, "2 joueurs");
+    self.afficherPartie(self.typePartie, self.niveauPartie, self.nbJoueursPartie);
   }
 
   public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {

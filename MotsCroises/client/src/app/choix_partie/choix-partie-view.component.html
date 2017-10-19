@@ -8,21 +8,21 @@
         <h2>Type de partie :</h2>
         <div *ngFor="let typePartie of types;">
           <input type="radio" name="choixType" (click)="ajouterTypePartie(typePartie)" value={typePartie}>
-          {{typePartie}}
+          {{typePartieValue[typePartie]}}
         </div>
       </div>
       <div>
         <h2>Niveau de difficulté :</h2>
         <div *ngFor="let niveauPartie of niveaux;">
           <input type="radio" name="choixNiveau" (click)="ajouterNiveauPartie(niveauPartie)" value={niveauPartie}>
-          {{niveauPartie}}
+          {{niveauValue[niveauPartie]}}
         </div>
       </div>
       <div>
         <h2>Nombre de joueurs :</h2>
         <div *ngFor="let nbJoueur of nbJoueurs;">
           <input type="radio" name="choixJoueurs" (click)="ajouterNbJoueursPartie(nbJoueur)" value={nbJoueur}>
-          {{nbJoueur}}
+          {{nbJoueursValue[nbJoueur]}}
         </div>
       </div>
     </div>

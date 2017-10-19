@@ -20,7 +20,7 @@ export class FinPartieComponent {
   }
 
   private recommencerPartie(): void {
-    this.gameViewService.demanderPartie(Niveau.facile, TypePartie.classique);
+    this.gameViewService.recommencerPartie();
   }
 
 }

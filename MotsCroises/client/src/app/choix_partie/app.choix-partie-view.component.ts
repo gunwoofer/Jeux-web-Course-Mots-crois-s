@@ -12,33 +12,35 @@ import {TypePartie} from "../../../../commun/TypePartie";
 })
 
 export class ChoixPartieViewComponent {
-  public typePartie = 'classique';
-  public niveauPartie = 'normal';
-  public nbJoueursPartie = '1 joueur';
-  public niveaux: string[] = ['facile', 'moyen', 'difficile'];
-  public types: string[] = ['classique', 'dynamique'];
-  public nbJoueurs: string[] = ['1 joueur', '2 joueurs'];
+  public typePartie: TypePartie = TypePartie.classique;
+  public niveauPartie: Niveau = Niveau.facile;
+  public nbJoueursPartie = 0;
+  public niveaux: Niveau[] = [Niveau.facile, Niveau.moyen, Niveau.difficile];
+  public types: TypePartie[] = [TypePartie.classique, TypePartie.dynamique];
+  public nbJoueurs: number[] = [0, 1];
+  public niveauValue: string[] = ['facile', 'moyen', 'difficile'];
+  public typePartieValue: string[] = ['classique', 'dynamique'];
+  public nbJoueursValue: string[] = ['1 joueur', '2 joueurs'];
 
   constructor(private gameViewService: GameViewService) {
 
   }
 
-  public ajouterTypePartie(typePartie: string): void {
+  public ajouterTypePartie(typePartie: TypePartie): void {
     this.typePartie = typePartie;
   }
 
-  public ajouterNiveauPartie(niveauPartie: string): void {
+  public ajouterNiveauPartie(niveauPartie: Niveau): void {
     this.niveauPartie = niveauPartie;
   }
 
-  public ajouterNbJoueursPartie(nbJoueurs: string): void {
+  public ajouterNbJoueursPartie(nbJoueurs: number): void {
     this.nbJoueursPartie = nbJoueurs;
   }
 
   public demanderCreationPartie() {
-    this.gameViewService.demanderPartie(Niveau.facile, TypePartie.classique);
+    this.gameViewService.demanderPartie(Niveau.facile, TypePartie.classique, this.nbJoueursPartie);
   }
-
 
 
 }
