@@ -6,7 +6,7 @@ describe('Test unitaire base de données', () => {
         const bd = new BdImplementation();
         const expect = chai.expect;
 
-        const valeurRetour = bd.connect();
+        const valeurRetour = bd.connect('mongodb://localhost/Bdpiste');
         expect(valeurRetour === true);
         expect(valeurRetour === true);
     });

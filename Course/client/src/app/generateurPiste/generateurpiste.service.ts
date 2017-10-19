@@ -152,36 +152,24 @@ export class GenerateurPisteService {
         this.camera.lookAt(this.origine);
         */
         for (let i = 0; i < this.piste.listepositions.length - 1; i++) {
+            let A = 1;
+            let B = 1;
             const geometrie = new THREE.PlaneGeometry(1, 1);
             if (this.piste.listepositions[i].x < this.piste.listepositions[i + 1].x) {
                 if (this.piste.listepositions[i].y < this.piste.listepositions[i + 1].y) {
-                    console.log('Depart en dessous de arrivee');
-                    geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x - LARGEUR_PISTE, this.piste.listepositions[i].y + LARGEUR_PISTE, 0);
-                    geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x - LARGEUR_PISTE, this.piste.listepositions[i + 1].y + LARGEUR_PISTE, 0);
-                    geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x + LARGEUR_PISTE, this.piste.listepositions[i].y - LARGEUR_PISTE, 0);
-                    geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x + LARGEUR_PISTE, this.piste.listepositions[i + 1].y - LARGEUR_PISTE, 0);
-                } else {
-                    console.log('Depart au dessus de arrivee');
-                    geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x + LARGEUR_PISTE, this.piste.listepositions[i].y + LARGEUR_PISTE, 0);
-                    geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x + LARGEUR_PISTE, this.piste.listepositions[i + 1].y + LARGEUR_PISTE, 0);
-                    geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x - LARGEUR_PISTE, this.piste.listepositions[i].y - LARGEUR_PISTE, 0);
-                    geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x - LARGEUR_PISTE, this.piste.listepositions[i + 1].y - LARGEUR_PISTE, 0);
+                    A = -1;
                 }
             } else {
                 if (this.piste.listepositions[i].y < this.piste.listepositions[i + 1].y) {
-                    console.log('Depart en dessous de arrivee');
-                    geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x - LARGEUR_PISTE, this.piste.listepositions[i].y - LARGEUR_PISTE, 0);
-                    geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x - LARGEUR_PISTE, this.piste.listepositions[i + 1].y - LARGEUR_PISTE, 0);
-                    geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x + LARGEUR_PISTE, this.piste.listepositions[i].y + LARGEUR_PISTE, 0);
-                    geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x + LARGEUR_PISTE, this.piste.listepositions[i + 1].y + LARGEUR_PISTE, 0);
+                    A = -1; B = -1;
                 } else {
-                    console.log('Depart au dessus de arrivee');
-                    geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x + LARGEUR_PISTE, this.piste.listepositions[i].y - LARGEUR_PISTE, 0);
-                    geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x + LARGEUR_PISTE, this.piste.listepositions[i + 1].y - LARGEUR_PISTE, 0);
-                    geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x - LARGEUR_PISTE, this.piste.listepositions[i].y + LARGEUR_PISTE, 0);
-                    geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x - LARGEUR_PISTE, this.piste.listepositions[i + 1].y + LARGEUR_PISTE, 0);
+                    B = -1;
                 }
             }
+            geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x + A * LARGEUR_PISTE, this.piste.listepositions[i].y + B * LARGEUR_PISTE, 0);
+            geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x + A * LARGEUR_PISTE, this.piste.listepositions[i + 1].y + B * LARGEUR_PISTE, 0);
+            geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x - A * LARGEUR_PISTE, this.piste.listepositions[i].y - B * LARGEUR_PISTE, 0);
+            geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x - A * LARGEUR_PISTE, this.piste.listepositions[i + 1].y - B * LARGEUR_PISTE, 0);
             const materiel = new THREE.MeshBasicMaterial( { color: 'blue'} );
             const plan = new THREE.Mesh(geometrie, materiel);
             this.scene.add(plan);

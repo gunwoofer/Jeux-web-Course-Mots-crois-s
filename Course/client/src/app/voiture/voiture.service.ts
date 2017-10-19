@@ -9,7 +9,7 @@ export class Voiture {
     constructor(objetVoiture: THREE.Mesh) { }
 
     public creerVoiture(): void {
-        const geometry = new THREE.BoxGeometry(10, 10, 10);
+        const geometry = new THREE.BoxGeometry(2, 2, 2);
         const loader = new THREE.TextureLoader();
         const texture = loader.load('../../assets/textures/clouds.jpg');
 
