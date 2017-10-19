@@ -87,7 +87,7 @@ export class GenerateurPisteService {
 
     public creerScene(): void {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x00FF00);
+        this.scene.background = new THREE.Color(0x000000);
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
         this.camera.position.y = 0;
         this.camera.position.x = 0;
@@ -166,11 +166,13 @@ export class GenerateurPisteService {
                     B = -1;
                 }
             }
+            const loader = new THREE.TextureLoader();
+            const texture = loader.load('../../assets/textures/paving-stone.jpg');
             geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x + A * LARGEUR_PISTE, this.piste.listepositions[i].y + B * LARGEUR_PISTE, 0);
             geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x + A * LARGEUR_PISTE, this.piste.listepositions[i + 1].y + B * LARGEUR_PISTE, 0);
             geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x - A * LARGEUR_PISTE, this.piste.listepositions[i].y - B * LARGEUR_PISTE, 0);
             geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x - A * LARGEUR_PISTE, this.piste.listepositions[i + 1].y - B * LARGEUR_PISTE, 0);
-            const materiel = new THREE.MeshBasicMaterial( { color: 'blue'} );
+            const materiel = new THREE.MeshBasicMaterial( { map: texture} );
             const plan = new THREE.Mesh(geometrie, materiel);
             this.scene.add(plan);
         }
