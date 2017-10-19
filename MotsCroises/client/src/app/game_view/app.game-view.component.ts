@@ -6,8 +6,6 @@ import 'rxjs/add/operator/switchMap';
 import {GameViewService} from './game-view.service';
 import {CanvasViewComponent} from '../canvas/app.canvas-view.component';
 import {InfosJeuViewComponent} from '../infos_jeu/app.infos-jeu-view.component';
-import {TypePartie} from "../../../../commun/TypePartie";
-import {Niveau} from "../../../../commun/Niveau";
 
 
 @Component({

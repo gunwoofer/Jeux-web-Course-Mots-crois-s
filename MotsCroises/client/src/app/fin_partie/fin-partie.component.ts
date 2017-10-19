@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
 import {Router} from '@angular/router';
-import {Niveau} from '../../../../commun/Niveau';
-import {TypePartie} from '../../../../commun/TypePartie';
 import {GameViewService} from '../game_view/game-view.service';
 @Component({
     selector: 'app-finpartie-component',
@@ -15,11 +13,11 @@ export class FinPartieComponent {
   constructor(private router: Router, private gameViewService: GameViewService) {
   }
 
-  private retourMenuPrincipal(): void {
+  public retourMenuPrincipal(): void {
     this.router.navigate(['']);
   }
 
-  private recommencerPartie(): void {
+  public recommencerPartie(): void {
     this.gameViewService.recommencerPartie();
   }
 

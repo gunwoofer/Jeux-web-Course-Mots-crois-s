@@ -133,7 +133,7 @@ export class CanvasViewComponent implements AfterViewInit {
     this.ecrireMotDansGrille(this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur);
   }
 
-  public  ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
+  public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
     if (sens === 0) {
       for (let u = 0; u < mot.length; u++) {
         this.ecrireLettreDansCase(mot.charAt(u), i + u, j, couleur);
@@ -146,7 +146,7 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string) {
-    this.effacerLettreDansCase(i,j);
+    this.effacerLettreDansCase(i, j);
     this.ctxCanvas.font = this.policeLettres;
     this.ctxCanvas.fillStyle = couleur;
     this.ctxCanvas.textAlign = 'center';

@@ -10,7 +10,7 @@ import {RequisPourMotAVerifier} from '../../../../commun/RequisPourMotAVerifier'
 import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 import {Indice} from '../../../../server/app/Indice';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 
 @Injectable()

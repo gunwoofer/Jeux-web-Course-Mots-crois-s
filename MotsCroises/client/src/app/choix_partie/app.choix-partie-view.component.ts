@@ -1,8 +1,7 @@
 import {Component} from '@angular/core';
-import {IndiceViewService} from '../indice/indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
-import {Niveau} from "../../../../commun/Niveau";
-import {TypePartie} from "../../../../commun/TypePartie";
+import {Niveau} from '../../../../commun/Niveau';
+import {TypePartie} from '../../../../commun/TypePartie';
 
 
 @Component({
