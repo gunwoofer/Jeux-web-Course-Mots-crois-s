@@ -1,9 +1,10 @@
+import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/voiture.service';
 
 import { Piste } from '../piste/piste.model';
-export const LARGEUR_PISTE = 50;
+export const LARGEUR_PISTE = 5;
 export let NOMBRE_SEGMENTS = 1;
 
 
@@ -143,13 +144,48 @@ export class GenerateurPisteService {
     }
 
     public ajoutPisteAuPlan(): void {
-
+        /*
         const visuelSegments: THREE.Mesh[] = this.piste.obtenirVisuelPiste();
         for (const visuelSegmentPiste of visuelSegments) {
             this.scene.add(visuelSegmentPiste);
         }
-
         this.camera.lookAt(this.origine);
+        */
+        for (let i = 0; i < this.piste.listepositions.length - 1; i++) {
+            const geometrie = new THREE.PlaneGeometry(1, 1);
+            if (this.piste.listepositions[i].x < this.piste.listepositions[i + 1].x) {
+                if (this.piste.listepositions[i].y < this.piste.listepositions[i + 1].y) {
+                    console.log('Depart en dessous de arrivee');
+                    geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x - LARGEUR_PISTE, this.piste.listepositions[i].y + LARGEUR_PISTE, 0);
+                    geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x - LARGEUR_PISTE, this.piste.listepositions[i + 1].y + LARGEUR_PISTE, 0);
+                    geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x + LARGEUR_PISTE, this.piste.listepositions[i].y - LARGEUR_PISTE, 0);
+                    geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x + LARGEUR_PISTE, this.piste.listepositions[i + 1].y - LARGEUR_PISTE, 0);
+                } else {
+                    console.log('Depart au dessus de arrivee');
+                    geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x + LARGEUR_PISTE, this.piste.listepositions[i].y + LARGEUR_PISTE, 0);
+                    geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x + LARGEUR_PISTE, this.piste.listepositions[i + 1].y + LARGEUR_PISTE, 0);
+                    geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x - LARGEUR_PISTE, this.piste.listepositions[i].y - LARGEUR_PISTE, 0);
+                    geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x - LARGEUR_PISTE, this.piste.listepositions[i + 1].y - LARGEUR_PISTE, 0);
+                }
+            } else {
+                if (this.piste.listepositions[i].y < this.piste.listepositions[i + 1].y) {
+                    console.log('Depart en dessous de arrivee');
+                    geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x - LARGEUR_PISTE, this.piste.listepositions[i].y - LARGEUR_PISTE, 0);
+                    geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x - LARGEUR_PISTE, this.piste.listepositions[i + 1].y - LARGEUR_PISTE, 0);
+                    geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x + LARGEUR_PISTE, this.piste.listepositions[i].y + LARGEUR_PISTE, 0);
+                    geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x + LARGEUR_PISTE, this.piste.listepositions[i + 1].y + LARGEUR_PISTE, 0);
+                } else {
+                    console.log('Depart au dessus de arrivee');
+                    geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x + LARGEUR_PISTE, this.piste.listepositions[i].y - LARGEUR_PISTE, 0);
+                    geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x + LARGEUR_PISTE, this.piste.listepositions[i + 1].y - LARGEUR_PISTE, 0);
+                    geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x - LARGEUR_PISTE, this.piste.listepositions[i].y + LARGEUR_PISTE, 0);
+                    geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x - LARGEUR_PISTE, this.piste.listepositions[i + 1].y + LARGEUR_PISTE, 0);
+                }
+            }
+            const materiel = new THREE.MeshBasicMaterial( { color: 'blue'} );
+            const plan = new THREE.Mesh(geometrie, materiel);
+            this.scene.add(plan);
+        }
     }
 
     public ajoutPlan(): void {
