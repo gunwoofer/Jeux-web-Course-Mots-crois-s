@@ -21,13 +21,10 @@ export class AppComponent implements OnInit {
   public message: string;
   public grille = '';
   public specificationPartie: SpecificationPartie;
-  public connexionTempsReelClient: ConnexionTempsReelClient;
-
 
   public ngOnInit(): void {
     // REQUETE CREER NOUVELLE PARTIE
     this.gameViewService.initialiserConnexion();
-    this.gameViewService.demanderPartie(Niveau.facile, TypePartie.classique);
   }
 
   public rappelCreerPartieSolo(specificationPartie: SpecificationPartie, self: AppComponent): void {

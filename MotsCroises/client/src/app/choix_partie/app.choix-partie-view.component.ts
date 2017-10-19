@@ -1,5 +1,8 @@
 import {Component} from '@angular/core';
 import {IndiceViewService} from '../indice/indice-view.service';
+import {GameViewService} from '../game_view/game-view.service';
+import {Niveau} from "../../../../commun/Niveau";
+import {TypePartie} from "../../../../commun/TypePartie";
 
 
 @Component({
@@ -8,7 +11,7 @@ import {IndiceViewService} from '../indice/indice-view.service';
   styleUrls: ['./choix-partie-view.component.css']
 })
 
-export class ChoixPartieViewComponent  {
+export class ChoixPartieViewComponent {
   public typePartie = 'classique';
   public niveauPartie = 'normal';
   public nbJoueursPartie = '1 joueur';
@@ -16,10 +19,9 @@ export class ChoixPartieViewComponent  {
   public types: string[] = ['classique', 'dynamique'];
   public nbJoueurs: string[] = ['1 joueur', '2 joueurs'];
 
-  constructor(indiceViewService: IndiceViewService) {
+  constructor(private gameViewService: GameViewService) {
 
   }
-
 
   public ajouterTypePartie(typePartie: string): void {
     this.typePartie = typePartie;
@@ -32,5 +34,11 @@ export class ChoixPartieViewComponent  {
   public ajouterNbJoueursPartie(nbJoueurs: string): void {
     this.nbJoueursPartie = nbJoueurs;
   }
+
+  public demanderCreationPartie() {
+    this.gameViewService.demanderPartie(Niveau.facile, TypePartie.classique);
+  }
+
+
 
 }
