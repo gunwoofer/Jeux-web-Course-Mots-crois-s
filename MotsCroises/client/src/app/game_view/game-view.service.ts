@@ -10,12 +10,16 @@ import {RequisPourMotAVerifier} from '../../../../commun/RequisPourMotAVerifier'
 import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 import {Indice} from '../../../../server/app/Indice';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
+import {Router} from "@angular/router";
 
 
 @Injectable()
 export class GameViewService {
   private motTrouveJ1 = new Subject<string>();
   public motTrouveJ1$ = this.motTrouveJ1.asObservable();
+
+  private partieCreee = new Subject<string>();
+  public partieCreee$ = this.partieCreee.asObservable();
 
   private partieTeminee = new Subject<string>();
   public partieTeminee$ = this.partieTeminee.asObservable();
@@ -28,6 +32,12 @@ export class GameViewService {
   public joueur: Joueur = new Joueur();
   private indiceTeste: IndiceMot;
   private motEntre: string;
+  private niveauPartie: Niveau;
+  private typePartie: TypePartie;
+  private nbJoueursPartie: number;
+
+  constructor(private router: Router) {}
+
 
   public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie): void {
     this.partieGeneree = specificationPartie;
@@ -95,6 +105,8 @@ export class GameViewService {
   public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
+    //self.partieCreee.next();
+    self.afficherPartie(TypePartie.classique, Niveau.facile, "2 joueurs");
   }
 
   public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
@@ -119,5 +131,9 @@ export class GameViewService {
       self.partieTeminee.next();
       alert('tous les mots ont été trouvés, partie terminée');
     }
+  }
+
+  public afficherPartie(typePartie: TypePartie, niveauPartie: Niveau, nbJoueursPartie) {
+    this.router.navigate(['/partie/' + typePartie + '/' + niveauPartie + '/' + nbJoueursPartie]);
   }
 }
