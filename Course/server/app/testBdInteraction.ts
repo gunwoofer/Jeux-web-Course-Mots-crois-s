@@ -3,6 +3,7 @@ import * as chai from 'chai';
 import { modelDePiste } from './pisteModel';
 
 const piste = new modelDePiste({
+    vignette : 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg',
     nom: 'pisteUnitTest',
     typeCourse: 'professionnel',
     description: 'pisteVOIr',
