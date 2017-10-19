@@ -1,3 +1,5 @@
+import { HttpModule } from '@angular/http';
+import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
 import { FormsModule } from '@angular/forms';
 import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing';
 
@@ -9,6 +11,7 @@ import { FacadeLigneService } from '../facadeLigne/facadeligne.service';
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { RenderService } from './render.service';
+import { PisteService } from '../piste/piste.service';
 
 describe('RenderService', () => {
 
@@ -24,11 +27,11 @@ describe('RenderService', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [RenderService, FacadeSourisService],
-      declarations: [ CreateurPisteComponent, PisteValidationComponent ],
-      imports: [FormsModule]
+      providers: [RenderService, FacadeSourisService, PisteService, GenerateurPisteService, MessageErreurService],
+      declarations: [CreateurPisteComponent, PisteValidationComponent],
+      imports: [FormsModule, HttpModule]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(inject([RenderService, FacadeSourisService], (service: RenderService, souris: FacadeSourisService) => {
@@ -39,7 +42,7 @@ describe('RenderService', () => {
     fixture.detectChanges();
   }));
 
- it('renderService devrait être créé', () => {
+  it('renderService devrait être créé', () => {
     expect(renderService).toBeTruthy();
   });
 
@@ -469,3 +472,4 @@ describe('RenderService', () => {
     expect(renderService.retourneEtatDessin()).toBeFalsy();
   });
 });
+
