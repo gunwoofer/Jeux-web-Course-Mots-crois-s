@@ -10,16 +10,16 @@ import {GameViewService} from '../game_view/game-view.service';
 })
 
 export class InfosJeuViewComponent implements AfterViewInit {
-
-
-  @Input() public nbJoueurs: string;
+  @Input()
+  public nbJoueurs: string;
   public motEnCoursJ1: string;
   public motEnCoursJ2: string;
   public motTrouveJ1 = 0;
   public motTrouveJ2 = 0;
-  private tempsDebut: number;
   private tempsActuel: number;
-  public dureeJeu = 0;
+  public tempsRestant = 30;
+  private dureeGrille = 30000;
+  public tempsFin: number;
   private intervalFunction: any;
 
 
@@ -29,19 +29,27 @@ export class InfosJeuViewComponent implements AfterViewInit {
     });
     this.gameViewService.motTrouveJ1$.subscribe(nouveauMot => {
       this.motTrouveJ1 = this.motTrouveJ1 + 1;
+      this.recommencerTimer();
     });
   }
 
   public ngAfterViewInit(): void {
-    this.tempsDebut = Date.now();
+    this.recommencerTimer();
     this.intervalFunction = setInterval(() => {
       this.MAJTemps();
     }, 1000);
   }
 
+  private recommencerTimer() {
+    this.tempsFin = Date.now() + this.dureeGrille;
+  }
+
   private MAJTemps() {
     this.tempsActuel = Date.now();
-    this.dureeJeu = Math.round((this.tempsActuel - this.tempsDebut) / 1000);
+    this.tempsRestant = Math.round((this.tempsFin - this.tempsActuel) / 1000);
+    if (this.tempsRestant < 0) {
+      this.gameViewService.partieTermineeFauteDeTemps(true);
+    }
   }
 
   public stopperTimer() {

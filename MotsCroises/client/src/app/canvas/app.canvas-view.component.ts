@@ -61,8 +61,8 @@ export class CanvasViewComponent implements AfterViewInit {
         return;
       }
       this.reculerCaseActive(this.indice.sens);
-      this.effacerLettreDansCaseActive();
       this.motEcrit = this.motEcrit.substring(0, this.motEcrit.length - 1);
+      this.effacerLettreDansCaseActive();
     } else {
       if (!this.testCaseDisponible(this.ligneActuelle, this.colonneActuelle)) {
         alert('taille maximale du mot atteinte');
@@ -130,9 +130,10 @@ export class CanvasViewComponent implements AfterViewInit {
     this.testEcrireMotsGrilleObtenueServeur();
     this.testCaseNoiresMotsGrilleObtenueServeur();
     this.ecrireMotsTrouves();
+    this.ecrireMotDansGrille(this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur);
   }
 
-  public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
+  public  ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
     if (sens === 0) {
       for (let u = 0; u < mot.length; u++) {
         this.ecrireLettreDansCase(mot.charAt(u), i + u, j, couleur);
@@ -197,6 +198,7 @@ export class CanvasViewComponent implements AfterViewInit {
 
   public effacerLettreDansCaseActive() {
     this.effacerLettreDansCase(this.ligneActuelle, this.colonneActuelle);
+    this.rafraichirCanvas();
   }
 
   public testCaseDisponible(i: number, j: number) {

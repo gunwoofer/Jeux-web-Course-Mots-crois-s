@@ -139,6 +139,13 @@ export class GameViewService {
     }
   }
 
+  public partieTermineeFauteDeTemps(partieTermineeBoolean: boolean) {
+    if (partieTermineeBoolean) {
+      this.partieTeminee.next();
+      alert('Le temps imparti est écoulé, fin de la partie');
+    }
+  }
+
   public afficherPartie(typePartie: TypePartie, niveauPartie: Niveau, nbJoueursPartie) {
     this.router.navigate(['/partie/' + typePartie + '/' + niveauPartie + '/' + nbJoueursPartie]);
   }
