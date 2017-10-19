@@ -1,4 +1,3 @@
-import { toPromise } from 'rxjs/operator/toPromise';
 import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
 import { Injectable, EventEmitter } from '@angular/core';
