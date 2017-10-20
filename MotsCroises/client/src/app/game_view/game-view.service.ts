@@ -17,16 +17,10 @@ import {Router} from '@angular/router';
 export class GameViewService {
   private motTrouveJ1 = new Subject<string>();
   public motTrouveJ1$ = this.motTrouveJ1.asObservable();
-
-  private partieCreee = new Subject<string>();
-  public partieCreee$ = this.partieCreee.asObservable();
-
   private partieTeminee = new Subject<string>();
   public partieTeminee$ = this.partieTeminee.asObservable();
-
   private partieGeneree: SpecificationPartie;
   public indices: IndiceMot[];
-
   public connexionTempsReelClient: ConnexionTempsReelClient;
   public specificationPartie: SpecificationPartie;
   public joueur: Joueur = new Joueur();
