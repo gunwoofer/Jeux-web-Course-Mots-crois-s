@@ -67,6 +67,5 @@ function onError(error: NodeJS.ErrnoException): void {
  * Se produit lorsque le serveur se met à écouter sur le port.
  */
 function onListening(): void {
-  const addr = server.address();
-  const bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
+  console.log('serveur pret.');
 }
