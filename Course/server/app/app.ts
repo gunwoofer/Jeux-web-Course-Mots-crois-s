@@ -65,7 +65,7 @@ export class Application {
     this.app.use(cors());
 
     const bd: BdImplementation = new BdImplementation();
-    bd.connect('mongodb://localhost/Bdpiste');
+    bd.connect('mongodb://LOG2990-10:rK54nG58@parapluie.info.polymtl.ca:27017/LOG2990-10-db');
 
   }
 
