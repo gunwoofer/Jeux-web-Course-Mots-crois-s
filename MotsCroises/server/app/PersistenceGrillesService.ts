@@ -1,3 +1,4 @@
+import { FabriqueDeGrille } from './FabriqueDeGrille';
 import { Guid } from '../../commun/Guid';
 import { Niveau } from '../../commun/Niveau';
 import { Grille } from './Grille';
@@ -155,7 +156,7 @@ export class PersistenceGrillesService {
 
                     self.notifierReponseRecuEntiteePersistente();
                     self.asyncVerifierSierrConnection(err, db, reject);
-                    resolve(Grille.creerInstanceAvecJSON(result[0].grille.replace('\\', '')));
+                    resolve(FabriqueDeGrille.creerInstanceAvecJSON(result[0].grille.replace('\\', '')));
                     self.notifier();
 
                     self.supprimerGrille(self, db, result[0].id);
