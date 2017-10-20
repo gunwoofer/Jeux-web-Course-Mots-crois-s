@@ -15,63 +15,63 @@ export class Deplacement {
             voiture.translateY(vitesse);
             this.toucheAppuyer[1] = this.toucheAppuyer[1];
             this.toucheAppuyer[0] = Avancer;
-            if(this.toucheAppuyer[1] === Gauche){
+            if (this.toucheAppuyer[1] === Gauche) {
                 voiture.rotateZ(0.01)
-                this.toucheAppuyer[1]=this.toucheAppuyer[0];
+                this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = Gauche;
                 event.keyCode = Gauche;
-                
+
             }
-            if (this.toucheAppuyer[1]=== Droite) {
+            if (this.toucheAppuyer[1] === Droite) {
                 voiture.rotateZ(-0.01);
-                this.toucheAppuyer[1]=this.toucheAppuyer[0];
-                this.toucheAppuyer[0]= Droite;
+                this.toucheAppuyer[1] = this.toucheAppuyer[0];
+                this.toucheAppuyer[0] = Droite;
             }
         }
         if (event.keyCode === Reculer) {
             voiture.translateY(-vitesse);
-            this.toucheAppuyer[1]= this.toucheAppuyer[0];
+            this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = Reculer;
-           if(this.toucheAppuyer[1] === Gauche){
+            if (this.toucheAppuyer[1] === Gauche) {
                 voiture.rotateZ(-0.05);
-                this.toucheAppuyer[1]=this.toucheAppuyer[0];
-                this.toucheAppuyer[0]= Gauche; 
+                this.toucheAppuyer[1] = this.toucheAppuyer[0];
+                this.toucheAppuyer[0] = Gauche;
             }
-            if(this.toucheAppuyer[1] === Droite){
-                voiture.rotateZ(0.05); 
-                this.toucheAppuyer[1]=this.toucheAppuyer[0];
-                this.toucheAppuyer[0]= Droite;
+            if (this.toucheAppuyer[1] === Droite) {
+                voiture.rotateZ(0.05);
+                this.toucheAppuyer[1] = this.toucheAppuyer[0];
+                this.toucheAppuyer[0] = Droite;
             }
         }
         if (event.keyCode === Gauche) {
-            this.toucheAppuyer[1]= this.toucheAppuyer[0];
-            this.toucheAppuyer[0]= Gauche ;
+            this.toucheAppuyer[1] = this.toucheAppuyer[0];
+            this.toucheAppuyer[0] = Gauche;
             voiture.rotateZ(0.05);
             if (this.toucheAppuyer[1] === Avancer) {
-                voiture.translateY(1); 
-                this.toucheAppuyer[1]=this.toucheAppuyer[0];
+                voiture.translateY(1);
+                this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = Avancer;
             }
-            if (this.toucheAppuyer[1]=== Reculer) {
+            if (this.toucheAppuyer[1] === Reculer) {
                 voiture.translateY(-1);
-                this.toucheAppuyer[1]=this.toucheAppuyer[0];
-                this.toucheAppuyer[0]= Reculer;
+                this.toucheAppuyer[1] = this.toucheAppuyer[0];
+                this.toucheAppuyer[0] = Reculer;
             }
         }
-        if (event.keyCode === Droite ) {
-            this.toucheAppuyer[1]= this.toucheAppuyer[0];
+        if (event.keyCode === Droite) {
+            this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = Droite;
             voiture.rotateZ(-0.05);
-            if (this.toucheAppuyer[1]===Avancer) {
+            if (this.toucheAppuyer[1] === Avancer) {
                 voiture.translateY(1);
-                this.toucheAppuyer[1]=this.toucheAppuyer[0];
-                this.toucheAppuyer[0]= Avancer;
-               
+                this.toucheAppuyer[1] = this.toucheAppuyer[0];
+                this.toucheAppuyer[0] = Avancer;
+
             }
-            if (this.toucheAppuyer[1]=== Reculer) {
+            if (this.toucheAppuyer[1] === Reculer) {
                 voiture.translateY(-1);
-                this.toucheAppuyer[1]=this.toucheAppuyer[0];
-                this.toucheAppuyer[0]= Reculer;
+                this.toucheAppuyer[1] = this.toucheAppuyer[0];
+                this.toucheAppuyer[0] = Reculer;
             }
         }
 

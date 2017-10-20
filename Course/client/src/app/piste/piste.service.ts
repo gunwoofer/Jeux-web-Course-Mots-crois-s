@@ -37,7 +37,6 @@ export class PisteService {
                 const pisteTemporaire: Piste[] = [];
                 for (const piste of pistes) {
                     const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
-                    // pist.miseAjourSegmentsdePiste();
                     pist.modifieAttribut(piste.coteAppreciation, piste.nombreFoisJouee, piste.meilleursTemps, piste.vignette);
                     pisteTemporaire.push(pist);
                 }

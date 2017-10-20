@@ -1,9 +1,7 @@
 import * as THREE from 'three';
-import { SegmentDePiste } from './segmentdepiste.model';
 import { NgForm } from '@angular/forms';
 
 export class Piste {
-    public segmentsDePiste: SegmentDePiste[] = new Array();
     public nombreFoisJouee: number;
     public coteAppreciation: number;
     public meilleursTemps: string[] = [];
@@ -21,25 +19,7 @@ export class Piste {
         }
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
     }
-
-    public ajouterSegmentDePiste(segmentDePiste: SegmentDePiste): void {
-        this.segmentsDePiste.push(segmentDePiste);
-    }
-
-    public miseAjourSegmentsdePiste(): void {
-        for (let i = 1; i < this.listepositions.length; i++) {
-            this.ajouterSegmentDePiste(new SegmentDePiste(this.listepositions[i - 1], this.listepositions[i]));
-        }
-    }
-
-    public obtenirVisuelPiste(): THREE.Mesh[] {
-        const visuelSegments: THREE.Mesh[] = new Array();
-
-        for (const segmentDePisteCourant of this.segmentsDePiste) {
-            visuelSegments.push(segmentDePisteCourant.obtenirVisuelSegment());
-        }
-        return visuelSegments;
-    }
+    
     public modifierAttribut(form: NgForm, listePosition: any[]): void {
         this.typeCourse = form.value.typeCourse;
         this.description = form.value.description;
