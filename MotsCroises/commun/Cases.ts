@@ -121,7 +121,7 @@ export class Cases {
     }
 
     private peutAccueillirLettre(caseAVerifier: Case): boolean {
-        if (caseAVerifier !== null) {
+        if (caseAVerifier !== null && (caseAVerifier !== undefined)) {
             if (caseAVerifier.etat === EtatCase.vide) {
                 return true;
             }
