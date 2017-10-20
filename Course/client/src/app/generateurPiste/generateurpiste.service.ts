@@ -69,6 +69,8 @@ export class GenerateurPisteService {
     public render(): void {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
+        this.camera.position.y = this.voiture.position.y;
+        this.camera.position.x = this.voiture.position.x;
     }
 
     public onResize(): void {
