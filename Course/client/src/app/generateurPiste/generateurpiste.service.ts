@@ -16,7 +16,6 @@ export class GenerateurPisteService {
     public scene: THREE.Scene;
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
-    private voiture: THREE.Mesh;
     private automobile: Voiture;
     private objetVoiture: THREE.Mesh;
     private touche: number;
@@ -82,21 +81,9 @@ export class GenerateurPisteService {
     public ajoutPisteAuPlan(): void {
         const segmentsPisteVisuel: THREE.Mesh[] = Segment.chargerSegmentsDePiste(this.piste);
 
-        for(let i = 0 ; i < segmentsPisteVisuel.length; i++) {
+        for (let i = 0 ; i < segmentsPisteVisuel.length; i++) {
             this.scene.add(segmentsPisteVisuel[i]);
         }
-    }
-
-    private obtenirLongueur(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
-        const longueur: number = Math.sqrt(
-            Math.pow(pointFin.x - pointDebut.x, 2) + Math.pow(pointFin.y - pointDebut.y, 2) + Math.pow(pointFin.z - pointDebut.z, 2)
-        );
-        return longueur;
-    }
-
-    private obtenirAngle(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
-        const angle: number = Math.atan((pointFin.y - pointDebut.y) / (pointFin.x - pointDebut.x));
-        return angle;
     }
 
     public cameraAvantArriere(event): void {
@@ -205,9 +192,5 @@ export class GenerateurPisteService {
             this.camera.lookAt(obj.position);
         });
 
-    }
-
-    private vueDuDessus(centreVoiture: THREE.Vector3): void {
-        this.camera.lookAt(this.automobile.obtenirPositionVoiture());
     }
 }
