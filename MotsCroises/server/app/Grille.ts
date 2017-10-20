@@ -151,27 +151,6 @@ export class Grille {
         return grilleCopier.cases;
     }
 
-    public copieGrille(): Grille {
-        const newGrille: Grille = new Grille(this.niveau);
-        newGrille.etat = this.etat;
-        newGrille.nombreMotsSurColonne = this.nombreMotsSurColonne;
-        newGrille.nombreMotsSurLigne = this.nombreMotsSurLigne;
-
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                newGrille.cases.ajouterCase(this.cases.obtenirCase(i, j).copieCase(), i, j);
-            }
-        }
-        for (let i = 0; i < this.emplacementMots.length; i++) {
-            newGrille.emplacementMots[i] = this.emplacementMots[i].copieEmplacement();
-        }
-        for (let i = 0; i < this.mots.length; i++) {
-            newGrille.mots[i] = this.mots[i].copieMot();
-        }
-        return newGrille;
-    }
-
-
     public obtenirNiveau(): Niveau {
         return this.niveau;
     }
@@ -599,72 +578,6 @@ export class Grille {
         return emplacementsHorizontaux;
     }
 
-    public emplacementsVerticaux(): EmplacementMot[] {
-        const emplacementsVerticaux: EmplacementMot[] = new Array();
-        for (let i = 0; i < this.emplacementMots.length; i++) {
-            if (this.emplacementMots[i].estVertical()) {
-                emplacementsVerticaux.push(this.emplacementMots[i]);
-            }
-        }
-        return emplacementsVerticaux;
-    }
-
-    public genererEmplacementsAlterne(): EmplacementMot[] {
-        const tableauEmplacementsHorizontaux: EmplacementMot[] = this.emplacementsHorizontaux();
-        const tableauEmplacementsVerticaux: EmplacementMot[] = this.emplacementsVerticaux();
-        const newEmplacements: EmplacementMot[] = new Array();
-        let j = 0;
-        let max = 0;
-        let min = 0;
-
-        max = Math.max(tableauEmplacementsVerticaux.length, tableauEmplacementsHorizontaux.length);
-        min = Math.min(tableauEmplacementsVerticaux.length, tableauEmplacementsHorizontaux.length);
-
-        for (let i = 0; i < this.emplacementMots.length; i++) {
-            if (j < min) {
-                newEmplacements[i] = tableauEmplacementsHorizontaux[j];
-                i++;
-                newEmplacements[i] = tableauEmplacementsVerticaux[j];
-                j++;
-            }
-            if (tableauEmplacementsHorizontaux.length === max && j >= min) {
-                newEmplacements[i] = tableauEmplacementsHorizontaux[j];
-                j++;
-            }
-            if (tableauEmplacementsVerticaux.length === max && j >= min) {
-                newEmplacements[i] = tableauEmplacementsVerticaux[j];
-                j++;
-            }
-        }
-
-        return newEmplacements;
-    }
-
-
-
-    public genererEmplacementsNonComplet(): EmplacementMot[] {
-        const emplacementsNonComplets: EmplacementMot[] = new Array();
-        let casesEmplacementMot: Case[] = new Array();
-        for (const emplacementCourant of this.emplacementMots) {
-            let estComplet = true;
-            casesEmplacementMot = this.obtenirCasesSelonCaseDebut(emplacementCourant.obtenirCaseDebut(),
-                emplacementCourant.obtenirPosition(), emplacementCourant.obtenirGrandeur());
-
-            for (let i = 0; i < casesEmplacementMot.length; i++) {
-                // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
-                const ligne = casesEmplacementMot[i].obtenirNumeroLigne();
-                const colonne = casesEmplacementMot[i].obtenirNumeroColonne();
-                if (this.obtenirCase(ligne, colonne).etat === EtatCase.vide) {
-                    estComplet = false;
-                }
-            }
-            if (!estComplet) {
-                emplacementsNonComplets.push(emplacementCourant);
-            }
-        }
-        return emplacementsNonComplets;
-    }
-
     public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
         const cases: Case[] = new Array();
         let positionLigne: number;
@@ -689,92 +602,6 @@ export class Grille {
         return cases;
     }
 
-    public genererEmplacementPlusDeContraintes(): EmplacementMot {
-        const emplacementsNonComplet = this.genererEmplacementsNonComplet();
-        let emplacementsPlusDeContrainte: EmplacementMot;
-        let maxPointsContrainte: number = -1;
-        let casesEmplacementMot: Case[];
-        for (const emplacementCourant of emplacementsNonComplet) {
-            let pointsContrainte = 0;
-            casesEmplacementMot = this.obtenirCasesSelonCaseDebut(emplacementCourant.obtenirCaseDebut(),
-                emplacementCourant.obtenirPosition(), emplacementCourant.obtenirGrandeur());
-            for (let j = 0; j < emplacementCourant.obtenirGrandeur(); j++) {
-                // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
-                const ligne = casesEmplacementMot[j].obtenirNumeroLigne();
-                const colonne = casesEmplacementMot[j].obtenirNumeroColonne();
-                if (this.obtenirCase(ligne, colonne).etat === EtatCase.pleine) {
-                    pointsContrainte += 1;
-                }
-            }
-            if (pointsContrainte > maxPointsContrainte) {
-                emplacementsPlusDeContrainte = emplacementCourant.copieEmplacement();
-                maxPointsContrainte = pointsContrainte;
-            }
-        }
-        return emplacementsPlusDeContrainte;
-    }
-
-    public genererEmplacementsNonCompletIndice(): number[] {
-        const indiceEmplacementsNonComplets: number[] = new Array();
-        let casesEmplacementMot: Case[];
-        for (let indice = 0; indice < this.emplacementMots.length; indice++) {
-            let estComplet = true;
-            casesEmplacementMot = this.obtenirCasesSelonCaseDebut(this.emplacementMots[indice].obtenirCaseDebut(),
-                this.emplacementMots[indice].obtenirPosition(), this.emplacementMots[indice].obtenirGrandeur());
-            for (let i = 0; i < this.emplacementMots[indice].obtenirGrandeur(); i++) {
-                // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
-                const ligne = casesEmplacementMot[i].obtenirNumeroLigne();
-                const colonne = casesEmplacementMot[i].obtenirNumeroColonne();
-                if (this.obtenirCase(ligne, colonne).etat === EtatCase.vide) {
-                    estComplet = false;
-                }
-            }
-            if (!estComplet) {
-                indiceEmplacementsNonComplets.push(indice);
-            }
-        }
-        return indiceEmplacementsNonComplets;
-    }
-
-    public genererEmplacementPlusDeContraintesIndice(): number {
-        const indiceEmplacementsNonComplet = this.genererEmplacementsNonCompletIndice();
-        let indiceEmplacementPlusDeContrainte: number;
-        let maxPointsContrainte = -1;
-        let casesEmplacementMot: Case[];
-        for (const indice of indiceEmplacementsNonComplet) {
-            let pointsContrainte = 0;
-            casesEmplacementMot = this.obtenirCasesSelonCaseDebut(this.emplacementMots[indice].obtenirCaseDebut(),
-                this.emplacementMots[indice].obtenirPosition(), this.emplacementMots[indice].obtenirGrandeur());
-            for (let j = 0; j < this.emplacementMots[indice].obtenirGrandeur(); j++) {
-                // On perd la liaison entre l emplacement et la case alors on utilise les coord de l emplacement et on se refere a la grille
-                const ligne = casesEmplacementMot[j].obtenirNumeroLigne();
-                const colonne = casesEmplacementMot[j].obtenirNumeroColonne();
-                if (this.obtenirCase(ligne, colonne).etat === EtatCase.pleine) {
-                    pointsContrainte += 1;
-                }
-            }
-            if (pointsContrainte > maxPointsContrainte) {
-                indiceEmplacementPlusDeContrainte = indice;
-                maxPointsContrainte = pointsContrainte;
-            }
-        }
-        return indiceEmplacementPlusDeContrainte;
-    }
-
-    public trouverMotEmplacement(emplacement: EmplacementMot): MotComplet {
-        let chaine = '';
-        const casesEmplacementMot: Case[] = this.obtenirCasesSelonCaseDebut(emplacement.obtenirCaseDebut(),
-            emplacement.obtenirPosition(), emplacement.obtenirGrandeur());
-        for (let i = 0; i < emplacement.obtenirGrandeur(); i++) {
-            const ligne = casesEmplacementMot[i].obtenirNumeroLigne();
-            const colonne = casesEmplacementMot[i].obtenirNumeroColonne();
-            chaine += this.obtenirCase(ligne, colonne).obtenirLettre();
-        }
-        const mot = this.trouverMotAPartirString(chaine);
-        return mot;
-
-    }
-
     public trouverMotAPartirString(lettres: string): MotComplet {
         for (let i = 0; i < this.mots.length; i++) {
             if (lettres === this.mots[i].lettres) {
@@ -782,39 +609,6 @@ export class Grille {
             }
         }
         throw new Error('Le mot de cet emplacement est erroné');
-    }
-
-    public trouverIndiceEmplacement(emplacement: EmplacementMot): number {
-        for (let indice = 0; indice < this.emplacementMots.length; indice++) {
-            if (this.estEgale(this.emplacementMots[indice], emplacement)) {
-                return indice;
-            }
-        }
-        return -1;
-    }
-
-    public affichageConsole(): void {
-        console.log('-----------------------');
-        let ligne: string[] = new Array();
-        let buffer = '';
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-
-                ligne.push(this.cases.obtenirCase(i, j).obtenirLettre());
-            }
-            for (let k = 0; k < ligne.length; k++) {
-                if (ligne[k] !== undefined) {
-                    buffer += ' ' + ligne[k] + ' ';
-                } else {
-                    buffer += ' * ';
-                }
-            }
-
-            console.log(buffer);
-            buffer = '';
-            ligne = new Array();
-        }
-        console.log('-----------------------');
     }
 
     public recupererIndices(): Indice[] {
