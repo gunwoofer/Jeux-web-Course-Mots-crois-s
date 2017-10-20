@@ -1,4 +1,5 @@
 import { Case, EtatCase } from './Case';
+import { Position } from './Position';
 
 export const DIMENSION_LIGNE_COLONNE = 10;
 
@@ -47,4 +48,50 @@ export class Cases {
         this.cases[numeroLigne][numeroColonne].remplirCase(lettre);
     }
 
+    
+
+    public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
+        const cases: Case[] = new Array();
+        let positionLigne: number;
+        let positionColonne: number;
+
+        for (let i = 0; i < grandeur; i++) {
+            switch (direction) {
+                case Position.Ligne:
+                    positionLigne = caseDebut.obtenirNumeroLigne();
+                    positionColonne = caseDebut.obtenirNumeroColonne() + i;
+                    break;
+
+                case Position.Colonne:
+                    positionLigne = caseDebut.obtenirNumeroLigne() + i;
+                    positionColonne = caseDebut.obtenirNumeroColonne();
+                    break;
+            }
+
+            cases.push(this.obtenirCase(positionLigne, positionColonne));
+        }
+
+        return cases;
+    }
+
+    
+    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
+        switch (position) {
+            case Position.Ligne:
+                return this.obtenirCase(indexFixe, index);
+
+            case Position.Colonne:
+                return this.obtenirCase(index, indexFixe);
+        }
+    }
+    
+    public obtenirMotDesCases(cases: Case[]): string {
+        let motDansLesCases = '';
+
+        for (const caseCourante of cases) {
+            motDansLesCases += caseCourante.obtenirLettre();
+        }
+
+        return motDansLesCases;
+    }
 }

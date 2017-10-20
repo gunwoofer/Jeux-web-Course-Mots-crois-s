@@ -6,6 +6,7 @@ import { grandeurMotMinimum } from './GenerateurDeGrilleService';
 import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
 import { Position } from '../../commun/Position';
+import { MotsComplet } from './MotsComplet';
 
 
 export const DIMENSION_LIGNE_COLONNE = 10;
@@ -19,6 +20,7 @@ export enum EtatGrille {
 
 export class Grille {
     private mots: MotComplet[] = new Array();
+    public motsComplet: MotsComplet = new MotsComplet();
     public emplacementMots: EmplacementMot[] = new Array();
 
     private cases: Cases = new Cases();
@@ -182,16 +184,6 @@ export class Grille {
         return this.cases.obtenirCase(numeroLigne, numeroColonne);
     }
 
-    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
-        switch (position) {
-            case Position.Ligne:
-                return this.cases.obtenirCase(indexFixe, index);
-
-            case Position.Colonne:
-                return this.cases.obtenirCase(index, indexFixe);
-        }
-    }
-
     public obtenirMot(): MotComplet[] {
         return this.mots;
     }
@@ -298,6 +290,7 @@ export class Grille {
 
     public ajouterMotEmplacement(mot: MotComplet, emplacement: EmplacementMot): void {
         this.mots.push(mot);
+        this.motsComplet.ajouterMot(mot);
 
         let positionDansLeMot = 0;
         const numeroLigneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
@@ -326,6 +319,7 @@ export class Grille {
         numeroColonneDepart: number, numeroLigneFin: number, numeroColonneFin: number): void {
 
         this.mots.push(mot);
+        this.motsComplet.ajouterMot(mot);
         let positionDansLeMot = 0;
 
         if (numeroLigneDepart === numeroLigneFin) {
@@ -355,6 +349,9 @@ export class Grille {
 
             this.nombreMotsSurColonne[numeroColonneDepart]++;
         }
+    }
+    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
+        return this.cases.obtenirCaseSelonPosition(position, indexFixe, index);
     }
 
     public obtenirNombreMotsSurLigne(ligne: number): number {
@@ -412,10 +409,10 @@ export class Grille {
 
         let casesEmplacementMot: Case[] = new Array();
         for (const emplacementMot of this.emplacementMots) {
-            casesEmplacementMot = this.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+            casesEmplacementMot = this.cases.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
                 emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
             if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin) &&
-                this.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
+                this.cases.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
                 emplacementMot.estTrouve();
                 return true;
             }
@@ -424,16 +421,10 @@ export class Grille {
         return false;
     }
 
-
-    public obtenirMotDesCases(cases: Case[]): string {
-        let motDansLesCases = '';
-
-        for (const caseCourante of cases) {
-            motDansLesCases += caseCourante.obtenirLettre();
-        }
-
-        return motDansLesCases;
+    public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
+        return this.cases.obtenirCasesSelonCaseDebut(caseDebut, direction, grandeur);
     }
+
 
     public obtenirEmplacementMot(caseDebut: Case, caseFin: Case): EmplacementMot {
         for (const emplacementMot of this.emplacementMots) {
@@ -453,34 +444,6 @@ export class Grille {
                 return true;
             }
         }
-        return false;
-    }
-
-    public contientDejaLeMot(mot: MotComplet): boolean {
-        for (const motCourant of this.mots) {
-            if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
-                return true;
-            }
-        }
-        return false;
-
-
-    }
-
-    public contientMotDuplique(): boolean {
-        for (const motAChercher of this.mots) {
-            let compteur = 0;
-            const lettresAChercher: string = motAChercher.obtenirLettres();
-            for (const motCourant of this.mots) {
-                if (lettresAChercher === motCourant.obtenirLettres()) {
-                    compteur++;
-                }
-                if (compteur > 1) {
-                    return true;
-                }
-            }
-        }
-
         return false;
     }
 
@@ -576,46 +539,5 @@ export class Grille {
             }
         }
         return emplacementsHorizontaux;
-    }
-
-    public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
-        const cases: Case[] = new Array();
-        let positionLigne: number;
-        let positionColonne: number;
-
-        for (let i = 0; i < grandeur; i++) {
-            switch (direction) {
-                case Position.Ligne:
-                    positionLigne = caseDebut.obtenirNumeroLigne();
-                    positionColonne = caseDebut.obtenirNumeroColonne() + i;
-                    break;
-
-                case Position.Colonne:
-                    positionLigne = caseDebut.obtenirNumeroLigne() + i;
-                    positionColonne = caseDebut.obtenirNumeroColonne();
-                    break;
-            }
-
-            cases.push(this.cases.obtenirCase(positionLigne, positionColonne));
-        }
-
-        return cases;
-    }
-
-    public trouverMotAPartirString(lettres: string): MotComplet {
-        for (let i = 0; i < this.mots.length; i++) {
-            if (lettres === this.mots[i].lettres) {
-                return this.mots[i];
-            }
-        }
-        throw new Error('Le mot de cet emplacement est erroné');
-    }
-
-    public recupererIndices(): Indice[] {
-        const tableauIndices: Indice[] = new Array();
-        for (const mot of this.mots) {
-            tableauIndices.push(mot.obtenirIndice());
-        }
-        return tableauIndices;
     }
 }
