@@ -172,7 +172,8 @@ export class GenerateurDeGrilleService {
                 meilleurPosition[2] = positionCourante;
 
                 // trouver la meilleur position.
-                meilleurPositionIndex = grille.motsComplet.trouverMeilleurPositionIndexDebut(grandeurMot, positionCourante, position, grille.cases);
+                meilleurPositionIndex = grille.motsComplet.trouverMeilleurPositionIndexDebut(
+                    grandeurMot, positionCourante, position, grille.cases);
 
                 // assignation des positions.
                 meilleurPosition[1] = meilleurPositionIndex;
@@ -187,7 +188,8 @@ export class GenerateurDeGrilleService {
                 meilleurPosition[3] = positionCourante;
 
                 // trouver la meilleur position.
-                meilleurPositionIndex = grille.motsComplet.trouverMeilleurPositionIndexDebut(grandeurMot, positionCourante, position, grille.cases);
+                meilleurPositionIndex = grille.motsComplet.trouverMeilleurPositionIndexDebut(
+                    grandeurMot, positionCourante, position, grille.cases);
 
                 // assignation des positions.
                 meilleurPosition[0] = meilleurPositionIndex;
