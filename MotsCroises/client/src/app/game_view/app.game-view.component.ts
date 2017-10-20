@@ -44,7 +44,7 @@ export class GameViewComponent implements OnInit {
   }
 
   public actualiserGrille() {
-    this.canvasViewComponent.rafraichirCanvas();
+    this.canvasViewComponent.motTrouveActualiser();
   }
 
   private allerAPartieTerminee(): void {
