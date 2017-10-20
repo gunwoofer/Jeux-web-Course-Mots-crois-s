@@ -27,7 +27,7 @@ describe('GenerateurDeGrilleService', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
-        assert(!grille.contientMotDuplique());
+        assert(!grille.motsComplet.contientMotDuplique());
     });
 
     it('Une grille ne contient pas d\'emplacements de mot qui se chevauchent sur la même colonne ou sur la même ligne.', () => {

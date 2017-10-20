@@ -282,7 +282,7 @@ export class GenerateurDeGrilleService {
                         motIdiot.obtenirIndice().setDifficulteDefinition(DifficulteDefinition.DefinitionAlternative);
                     }
 
-                    if (toujoursMemeLettre || !grillePlein.contientDejaLeMot(motIdiot)) {
+                    if (toujoursMemeLettre || !grillePlein.motsComplet.contientDejaLeMot(motIdiot)) {
                         grillePlein.ajouterMot(motIdiot, emplacementMotCourant.obtenirCaseDebut().obtenirNumeroLigne(),
                             emplacementMotCourant.obtenirCaseDebut().obtenirNumeroColonne(),
                             emplacementMotCourant.obtenirCaseFin().obtenirNumeroLigne(),

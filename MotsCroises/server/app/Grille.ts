@@ -1,4 +1,4 @@
-import { Indice } from './Indice';
+import { FabriqueDeGrille } from './FabriqueDeGrille';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
@@ -6,7 +6,7 @@ import { grandeurMotMinimum } from './GenerateurDeGrilleService';
 import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
 import { Position } from '../../commun/Position';
-
+import { MotsComplet } from './MotsComplet';
 
 export const DIMENSION_LIGNE_COLONNE = 10;
 export const contientDejaLeMot = 'Deja le mot';
@@ -18,103 +18,17 @@ export enum EtatGrille {
 }
 
 export class Grille {
-    private mots: MotComplet[] = new Array();
+    public mots: MotComplet[] = new Array();
+    public motsComplet: MotsComplet = new MotsComplet();
     public emplacementMots: EmplacementMot[] = new Array();
 
-    private cases: Cases = new Cases();
+    public cases: Cases = new Cases();
 
     private etat: EtatGrille;
     private niveau: Niveau;
 
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
     private nombreMotsSurColonne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
-
-
-    public static creerInstanceAvecJSON(jsonGrille: string): Grille {
-        const jsonEnGrille = (JSON.parse(jsonGrille) as Grille);
-
-        const vraieGrille: Grille = new Grille(Niveau.facile);
-
-        Object.assign(vraieGrille, jsonEnGrille);
-
-        const vraiEmplacementsMot: EmplacementMot[] = this.creerInstanceAvecJSONEmplacementMots(jsonEnGrille);
-        const vraiCases: Cases = this.creerInstanceAvecJSONCases(jsonEnGrille);
-        const vraiMotsComplet: MotComplet[] = this.creerInstanceAvecJSONMotComplet(jsonEnGrille);
-
-        vraieGrille.cases = vraiCases;
-        vraieGrille.modifierEmplacementsMot(vraiEmplacementsMot);
-        vraieGrille.mots = vraiMotsComplet;
-
-
-        return vraieGrille;
-    }
-
-
-    private static creerInstanceAvecJSONMotComplet(jsonEnGrille: Grille): MotComplet[] {
-        const vraiMotsComplet: MotComplet[] = new Array();
-        let vraiMotComplet: MotComplet;
-
-        for (const motCompletCourant of jsonEnGrille.mots) {
-            // Permet de surpasser l'encapsulation de l'objet (incomplet) MotComplet.
-            const motCompletIncomplet: any = motCompletCourant;
-
-            vraiMotComplet = new MotComplet(motCompletCourant.lettres, motCompletIncomplet.indice);
-            Object.assign(vraiMotComplet, motCompletCourant);
-            vraiMotsComplet.push(vraiMotComplet);
-        }
-
-        return vraiMotsComplet;
-    }
-
-    private static creerInstanceAvecJSONEmplacementMots(jsonEnGrille: Grille): EmplacementMot[] {
-        const vraiEmplacementsMot: EmplacementMot[] = new Array();
-        let vraieEmplacementMot: EmplacementMot;
-        let vraieCaseDebut: Case;
-        let vraieCaseFin: Case;
-        let emplacementMotCourant: any;
-        for (let i = 0; i < jsonEnGrille.emplacementMots.length; i++) {
-            emplacementMotCourant = jsonEnGrille.emplacementMots[i];
-            vraieCaseDebut = new Case(emplacementMotCourant.caseDebut.numeroLigne,
-                emplacementMotCourant.caseDebut.numeroColonne, emplacementMotCourant.caseDebut.etat);
-            vraieCaseFin = new Case(emplacementMotCourant.caseFin.numeroLigne,
-                emplacementMotCourant.caseFin.numeroColonne, emplacementMotCourant.caseFin.etat);
-
-            // Permet de surpasser l'encapsulation de l'objet (incomplet) EmplacementMot.
-            const emplacementMotIncomplet: any = jsonEnGrille.emplacementMots[i];
-
-            Object.assign(vraieCaseDebut, emplacementMotIncomplet.caseDebut as Case);
-            Object.assign(vraieCaseFin, emplacementMotIncomplet.caseFin as Case);
-
-            vraieEmplacementMot = new EmplacementMot(vraieCaseDebut, vraieCaseFin);
-
-            Object.assign(vraieEmplacementMot, emplacementMotCourant as EmplacementMot);
-
-            vraieEmplacementMot.modifierCaseDebutFin(vraieCaseDebut, vraieCaseFin);
-
-
-            vraiEmplacementsMot.push(vraieEmplacementMot);
-        }
-
-        return vraiEmplacementsMot;
-    }
-
-    private static creerInstanceAvecJSONCases(jsonEnGrille: any): Cases {
-        const cases: Cases = new Cases();
-        let vraieCase: Case;
-
-        for (let i = 0; i < jsonEnGrille.cases.cases.length; i++) {
-            for (let j = 0; j < jsonEnGrille.cases.cases[i].length; j++) {
-                vraieCase = new Case(jsonEnGrille.cases.cases[i][j].numeroLigne,
-                    jsonEnGrille.cases.cases[i][j].numeroColonne, jsonEnGrille.cases.cases[i][j].etat);
-                Object.assign(vraieCase, jsonEnGrille.cases.cases[i][j] as Case);
-
-                cases.ajouterCase(vraieCase, vraieCase.obtenirNumeroLigne(), vraieCase.obtenirNumeroColonne());
-
-            }
-        }
-
-        return cases;
-    }
 
     public constructor(niveau: Niveau, etatCaseInitial: EtatCase = EtatCase.noir) {
         this.niveau = niveau;
@@ -138,7 +52,7 @@ export class Grille {
     public obtenirManipulateurCasesSansLettres(): Cases {
 
         const stringigfyGrille = JSON.stringify(this);
-        const grilleCopier: Grille = Grille.creerInstanceAvecJSON(stringigfyGrille);
+        const grilleCopier: Grille = FabriqueDeGrille.creerInstanceAvecJSON(stringigfyGrille);
 
         for (const ligneCourante of grilleCopier.cases.obtenirCases()) {
             for (const caseCourante of ligneCourante) {
@@ -180,16 +94,6 @@ export class Grille {
         }
 
         return this.cases.obtenirCase(numeroLigne, numeroColonne);
-    }
-
-    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
-        switch (position) {
-            case Position.Ligne:
-                return this.cases.obtenirCase(indexFixe, index);
-
-            case Position.Colonne:
-                return this.cases.obtenirCase(index, indexFixe);
-        }
     }
 
     public obtenirMot(): MotComplet[] {
@@ -298,6 +202,7 @@ export class Grille {
 
     public ajouterMotEmplacement(mot: MotComplet, emplacement: EmplacementMot): void {
         this.mots.push(mot);
+        this.motsComplet.ajouterMot(mot);
 
         let positionDansLeMot = 0;
         const numeroLigneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
@@ -326,6 +231,7 @@ export class Grille {
         numeroColonneDepart: number, numeroLigneFin: number, numeroColonneFin: number): void {
 
         this.mots.push(mot);
+        this.motsComplet.ajouterMot(mot);
         let positionDansLeMot = 0;
 
         if (numeroLigneDepart === numeroLigneFin) {
@@ -355,6 +261,9 @@ export class Grille {
 
             this.nombreMotsSurColonne[numeroColonneDepart]++;
         }
+    }
+    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
+        return this.cases.obtenirCaseSelonPosition(position, indexFixe, index);
     }
 
     public obtenirNombreMotsSurLigne(ligne: number): number {
@@ -412,10 +321,10 @@ export class Grille {
 
         let casesEmplacementMot: Case[] = new Array();
         for (const emplacementMot of this.emplacementMots) {
-            casesEmplacementMot = this.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+            casesEmplacementMot = this.cases.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
                 emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
             if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin) &&
-                this.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
+                this.cases.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
                 emplacementMot.estTrouve();
                 return true;
             }
@@ -424,16 +333,10 @@ export class Grille {
         return false;
     }
 
-
-    public obtenirMotDesCases(cases: Case[]): string {
-        let motDansLesCases = '';
-
-        for (const caseCourante of cases) {
-            motDansLesCases += caseCourante.obtenirLettre();
-        }
-
-        return motDansLesCases;
+    public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
+        return this.cases.obtenirCasesSelonCaseDebut(caseDebut, direction, grandeur);
     }
+
 
     public obtenirEmplacementMot(caseDebut: Case, caseFin: Case): EmplacementMot {
         for (const emplacementMot of this.emplacementMots) {
@@ -453,34 +356,6 @@ export class Grille {
                 return true;
             }
         }
-        return false;
-    }
-
-    public contientDejaLeMot(mot: MotComplet): boolean {
-        for (const motCourant of this.mots) {
-            if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
-                return true;
-            }
-        }
-        return false;
-
-
-    }
-
-    public contientMotDuplique(): boolean {
-        for (const motAChercher of this.mots) {
-            let compteur = 0;
-            const lettresAChercher: string = motAChercher.obtenirLettres();
-            for (const motCourant of this.mots) {
-                if (lettresAChercher === motCourant.obtenirLettres()) {
-                    compteur++;
-                }
-                if (compteur > 1) {
-                    return true;
-                }
-            }
-        }
-
         return false;
     }
 
@@ -576,46 +451,5 @@ export class Grille {
             }
         }
         return emplacementsHorizontaux;
-    }
-
-    public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
-        const cases: Case[] = new Array();
-        let positionLigne: number;
-        let positionColonne: number;
-
-        for (let i = 0; i < grandeur; i++) {
-            switch (direction) {
-                case Position.Ligne:
-                    positionLigne = caseDebut.obtenirNumeroLigne();
-                    positionColonne = caseDebut.obtenirNumeroColonne() + i;
-                    break;
-
-                case Position.Colonne:
-                    positionLigne = caseDebut.obtenirNumeroLigne() + i;
-                    positionColonne = caseDebut.obtenirNumeroColonne();
-                    break;
-            }
-
-            cases.push(this.cases.obtenirCase(positionLigne, positionColonne));
-        }
-
-        return cases;
-    }
-
-    public trouverMotAPartirString(lettres: string): MotComplet {
-        for (let i = 0; i < this.mots.length; i++) {
-            if (lettres === this.mots[i].lettres) {
-                return this.mots[i];
-            }
-        }
-        throw new Error('Le mot de cet emplacement est erroné');
-    }
-
-    public recupererIndices(): Indice[] {
-        const tableauIndices: Indice[] = new Array();
-        for (const mot of this.mots) {
-            tableauIndices.push(mot.obtenirIndice());
-        }
-        return tableauIndices;
     }
 }

@@ -58,7 +58,7 @@ export class ConnexionTempsReelServer {
             specificationPartieRecu.typePartie, grille, grille.obtenirNiveau());
 
         let tableauIndices: Indice[] = new Array();
-        tableauIndices = grille.recupererIndices();
+        tableauIndices = grille.motsComplet.recupererIndices();
         specificationPartieRecu.indices = tableauIndices;
 
         specificationPartieRecu.guidPartie = guidPartie;
