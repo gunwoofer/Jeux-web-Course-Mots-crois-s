@@ -120,7 +120,6 @@ export class GameViewService {
     if (requisPourMotAVerifier.estLeMot) {
       self.indiceTeste.motTrouve = self.motEntre;
       self.motTrouveJ1.next();
-      alert('Bravo, vous avez le bon mot.');
     } else {
       alert('Malheureusement, ce n\'est pas le bon mot.');
     }

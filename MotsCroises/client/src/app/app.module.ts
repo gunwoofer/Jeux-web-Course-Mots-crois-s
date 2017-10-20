@@ -16,6 +16,7 @@ import {IndiceViewService} from './indice/indice-view.service';
 import {GameViewService} from './game_view/game-view.service';
 import {ChoixPartieViewComponent} from './choix_partie/app.choix-partie-view.component';
 import {FinPartieComponent} from './fin_partie/fin-partie.component';
+import {FormsModule} from '@angular/forms';
 
 
 @NgModule({
@@ -32,7 +33,8 @@ import {FinPartieComponent} from './fin_partie/fin-partie.component';
   imports: [
     BrowserModule,
     HttpModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FormsModule
   ],
   providers: [
     RenderService,

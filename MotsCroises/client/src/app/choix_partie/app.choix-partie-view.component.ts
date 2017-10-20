@@ -38,7 +38,7 @@ export class ChoixPartieViewComponent {
   }
 
   public demanderCreationPartie() {
-    this.gameViewService.demanderPartie(Niveau.facile, TypePartie.classique, this.nbJoueursPartie);
+    this.gameViewService.demanderPartie(this.niveauPartie, this.typePartie, this.nbJoueursPartie);
   }
 
 
