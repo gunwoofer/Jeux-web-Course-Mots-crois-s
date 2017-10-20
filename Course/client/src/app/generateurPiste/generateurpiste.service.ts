@@ -144,37 +144,10 @@ export class GenerateurPisteService {
     }
 
     public ajoutPisteAuPlan(): void {
-        /*
-        const visuelSegments: THREE.Mesh[] = this.piste.obtenirVisuelPiste();
-        for (const visuelSegmentPiste of visuelSegments) {
-            this.scene.add(visuelSegmentPiste);
-        }
-        this.camera.lookAt(this.origine);
-        */
-        for (let i = 0; i < this.piste.listepositions.length - 1; i++) {
-            let A = 1;
-            let B = 1;
-            const geometrie = new THREE.PlaneGeometry(1, 1);
-            if (this.piste.listepositions[i].x < this.piste.listepositions[i + 1].x) {
-                if (this.piste.listepositions[i].y < this.piste.listepositions[i + 1].y) {
-                    A = -1;
-                }
-            } else {
-                if (this.piste.listepositions[i].y < this.piste.listepositions[i + 1].y) {
-                    A = -1; B = -1;
-                } else {
-                    B = -1;
-                }
-            }
-            const loader = new THREE.TextureLoader();
-            const texture = loader.load('../../assets/textures/paving-stone.jpg');
-            geometrie.vertices[0] = new THREE.Vector3(this.piste.listepositions[i].x + A * LARGEUR_PISTE, this.piste.listepositions[i].y + B * LARGEUR_PISTE, 0);
-            geometrie.vertices[1] = new THREE.Vector3(this.piste.listepositions[i + 1].x + A * LARGEUR_PISTE, this.piste.listepositions[i + 1].y + B * LARGEUR_PISTE, 0);
-            geometrie.vertices[2] = new THREE.Vector3(this.piste.listepositions[i].x - A * LARGEUR_PISTE, this.piste.listepositions[i].y - B * LARGEUR_PISTE, 0);
-            geometrie.vertices[3] = new THREE.Vector3(this.piste.listepositions[i + 1].x - A * LARGEUR_PISTE, this.piste.listepositions[i + 1].y - B * LARGEUR_PISTE, 0);
-            const materiel = new THREE.MeshBasicMaterial( { map: texture} );
-            const plan = new THREE.Mesh(geometrie, materiel);
-            this.scene.add(plan);
+        const segmentsPisteVisuel: THREE.Mesh[] = Segment.chargerSegmentsDePiste(this.piste);
+
+        for(let i = 0 ; i < segmentsPisteVisuel.length; i++) {
+            this.scene.add(segmentsPisteVisuel[i]);
         }
     }
 

@@ -1,49 +1,42 @@
 import * as THREE from 'three';
-
-export const COULEUR_PISTE = 'blue';
-export const LARGEUR_PISTE = 50;
+import { Piste } from './piste.model';
+export const LARGEUR_PISTE = 5;
 
 export class Segment {
-    private pointDebut: THREE.Vector3;
-    private pointFin: THREE.Vector3;
-    private materiel: THREE.MeshBasicMaterial = new THREE.MeshBasicMaterial( { color : COULEUR_PISTE } );
-    private geometrie: THREE.PlaneGeometry;
-    private visuelDuSegment: THREE.Mesh;
-    private longueur: number;
-    private angle: number;
+    public static chargerSegmentsDePiste(piste: Piste): THREE.Mesh[] {
+        const segmentsPisteVisuel: THREE.Mesh[] = new Array();
 
-    constructor(pointDebut: THREE.Vector3, pointFin: THREE.Vector3) {
-        this.pointDebut = pointDebut;
-        this.pointFin = pointFin;
-        this.longueur = this.obtenirLongueur(pointDebut, pointFin);
-        this.geometrie = new THREE.PlaneGeometry(LARGEUR_PISTE, this.longueur);
-        this.visuelDuSegment = new THREE.Mesh(this.geometrie, this.materiel);
-        this.angle = this.obtenirAngle();
-        this.visuelDuSegment.rotateZ(this.angle);
-        this.visuelDuSegment.position.x = (pointDebut.x + pointFin.x) / 2;
-        this.visuelDuSegment.position.y = (pointDebut.y + pointFin.y) / 2;
+        for (let i = 0; i < piste.listepositions.length - 1; i++) {
+            let A = 1;
+            let B = 1;
+            const geometrie = new THREE.PlaneGeometry(1, 1);
+            if (piste.listepositions[i].x < piste.listepositions[i + 1].x) {
+                if (piste.listepositions[i].y < piste.listepositions[i + 1].y) {
+                    A = -1;
+                }
+            } else {
+                if (piste.listepositions[i].y < piste.listepositions[i + 1].y) {
+                    A = -1; B = -1;
+                } else {
+                    B = -1;
+                }
+            }
+            const loader = new THREE.TextureLoader();
+            const texture = loader.load('../../assets/textures/paving-stone.jpg');
+            geometrie.vertices[0] = new THREE.Vector3(
+                piste.listepositions[i].x + A * LARGEUR_PISTE, piste.listepositions[i].y + B * LARGEUR_PISTE, 0);
+            geometrie.vertices[1] = new THREE.Vector3(
+                piste.listepositions[i + 1].x + A * LARGEUR_PISTE, piste.listepositions[i + 1].y + B * LARGEUR_PISTE, 0);
+            geometrie.vertices[2] = new THREE.Vector3(
+                piste.listepositions[i].x - A * LARGEUR_PISTE, piste.listepositions[i].y - B * LARGEUR_PISTE, 0);
+            geometrie.vertices[3] = new THREE.Vector3(
+                piste.listepositions[i + 1].x - A * LARGEUR_PISTE, piste.listepositions[i + 1].y - B * LARGEUR_PISTE, 0);
 
-    }
-
-    private obtenirLongueur(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
-        const longueur: number = Math.sqrt(
-            Math.pow(pointFin.x - pointDebut.x, 2) + Math.pow(pointFin.y - pointDebut.y, 2) + Math.pow(pointFin.z - pointDebut.z, 2)
-        );
-        return longueur;
-    }
-
-    public obtenirVisuelSegment(): THREE.Mesh {
-        return this.visuelDuSegment;
-    }
-
-    public obtenirAngle(): number {
-        if (this.angle === undefined) {
-            this.calculerAngle();
+            const materiel = new THREE.MeshBasicMaterial( { map: texture} );
+            segmentsPisteVisuel.push(new THREE.Mesh(geometrie, materiel));
         }
-        return this.angle;
-    }
 
-    private calculerAngle(): void {
-        this.angle = Math.atan((this.pointFin.x - this.pointDebut.x) / (this.pointFin.y - this.pointDebut.y));
+
+        return segmentsPisteVisuel;
     }
 }
