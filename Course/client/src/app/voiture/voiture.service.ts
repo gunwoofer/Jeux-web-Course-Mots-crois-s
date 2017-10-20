@@ -1,3 +1,4 @@
+import { Deplacement } from './../generateurPiste/deplacement';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
@@ -5,10 +6,12 @@ import * as THREE from 'three';
 export class Voiture {
     public voiture: THREE.Mesh;
     public positionVoiture: THREE.Vector3;
+    private deplacement = new Deplacement();
+    public vitesse: number = 0;
 
     constructor(objetVoiture: THREE.Mesh) { }
 
-    public creerVoiture(): void {
+    public creerVoiture(): THREE.Mesh {
         const geometry = new THREE.BoxGeometry(2, 2, 2);
         const loader = new THREE.TextureLoader();
         const texture = loader.load('../../assets/textures/clouds.jpg');
@@ -19,6 +22,7 @@ export class Voiture {
         cube.position.x = 0;
         cube.position.z = 0;
         this.voiture = cube;
+        return this.voiture;
     }
 
     public obtenirObjetVoiture3D(): THREE.Mesh {

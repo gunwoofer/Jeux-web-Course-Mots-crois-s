@@ -1,3 +1,4 @@
+import { Deplacement } from './deplacement';
 import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
@@ -16,10 +17,12 @@ export class GenerateurPisteService {
     public scene: THREE.Scene;
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
-    private automobile: Voiture;
+    private voitureService: Voiture;
     private objetVoiture: THREE.Mesh;
+    private voiture: THREE.Mesh;
     private touche: number;
     private touchePrecedente: number;
+    private deplacement = new Deplacement();
 
     private piste: Piste;
 
@@ -30,12 +33,12 @@ export class GenerateurPisteService {
         for (let i = 0; i < this.pointsPiste.length; i++) {
             this.pointsPiste[i] = new Array();
         }
-        this.automobile = new Voiture(this.objetVoiture);
+        this.voitureService = new Voiture(this.objetVoiture);
         this.container = container;
+        this.voiture = this.voitureService.creerVoiture();
         this.creerScene();
 
-        this.automobile.creerVoiture();
-        this.scene.add(this.automobile.obtenirObjetVoiture3D());
+        this.scene.add(this.voitureService.obtenirObjetVoiture3D());
 
         this.ajoutPisteAuPlan();
 
@@ -50,9 +53,9 @@ export class GenerateurPisteService {
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x000000);
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
-        this.camera.position.y = 0;
-        this.camera.position.x = 0;
-        this.camera.position.z = 350;
+        this.camera.position.y = this.voiture.position.y;
+        this.camera.position.x = this.voiture.position.x;
+        this.camera.position.z = 150;
     }
 
     public commencerRendu(): void {
@@ -95,94 +98,13 @@ export class GenerateurPisteService {
     }
 
     public deplacementVoiture(event): void {
-        /*
-        Gauche = 97
-        Gauche touche relachee = 65
-        Droite = 100
-        Droite touche relachee = 68
-        Avancer = 119
-        Avancer touche relachee = 87
-        Reculer = 115
-        Reculer touche relachee = 83
-        */
-        if (event.keyCode === 119) {
-            this.automobile.obtenirObjetVoiture3D().translateY(1);
-            this.touchePrecedente = this.touche;
-            this.touche = 119;
-            if (this.touchePrecedente === 97) {
-                this.automobile.obtenirObjetVoiture3D().translateX(-1);
-                this.touche = 97;
-                event.keyCode = 97;
-            }
-            if (this.touchePrecedente === 100) {
-                this.automobile.obtenirObjetVoiture3D().translateX(1);
-                this.touche = 100;
-            }
-        }
-        if (event.keyCode === 115) {
-            this.automobile.obtenirObjetVoiture3D().translateY(-1);
-            this.touchePrecedente = this.touche;
-            this.touche = 115;
-           if (this.touchePrecedente === 97) {
-                this.automobile.obtenirObjetVoiture3D().translateX(-1);
-                this.touche = 97;
-            }
-            if (this.touchePrecedente === 100) {
-                this.automobile.obtenirObjetVoiture3D().translateX(1);
-                this.touche = 100;
-            }
-        }
-        if (event.keyCode === 97) {
-            this.touchePrecedente = this.touche;
-            this.touche = 97 ;
-            this.automobile.obtenirObjetVoiture3D().translateX(-1);
-
-            if (this.touchePrecedente === 119) {
-                this.automobile.obtenirObjetVoiture3D().translateY(1);
-                this.touche = 119;
-            }
-            if (this.touchePrecedente === 115) {
-                this.automobile.obtenirObjetVoiture3D().translateY(-1);
-                this.touche = 115;
-            }
-        }
-        if (event.keyCode === 100 ) {
-            this.touchePrecedente = this.touche;
-            this.touche = 100;
-            this.automobile.obtenirObjetVoiture3D().translateX(1);
-            if (this.touchePrecedente === 119) {
-                this.automobile.obtenirObjetVoiture3D().translateY(1);
-                this.touche = 119;
-
-            }
-            if (this.touchePrecedente === 115) {
-                this.automobile.obtenirObjetVoiture3D().translateY(-1);
-                this.touche = 115;
-            }
-        }
-
+        this.voitureService.vitesse += 0.05;
+        this.deplacement.deplacementVoiture(event, this.voiture, this.touche, this.touchePrecedente, this.voitureService.vitesse);
     }
 
     public toucheRelachee(event): void {
-        // 90 Z
-        // 83 S
-        // 68 D
-        // 81 Q
-        // 65 A
-        // 87 W
-       if (event.keyCode === 87) {
-            this.touche = 0;
-        }
-        if (event.keyCode === 83) {
-            this.touche = 0;
-        }
-        if (event.keyCode === 65) {
-            this.touche = 0;
-        }
-        if (event.keyCode === 68) {
-            this.touche = 0;
-        }
-
+        this.voitureService.vitesse = 0;
+        this.deplacement.toucheRelachee(event, this.touche);
     }
 
     public ajoutVoiture(): void {
