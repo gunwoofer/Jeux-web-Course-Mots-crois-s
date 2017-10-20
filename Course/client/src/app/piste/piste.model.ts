@@ -19,7 +19,7 @@ export class Piste {
         }
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
     }
-    
+
     public modifierAttribut(form: NgForm, listePosition: any[]): void {
         this.typeCourse = form.value.typeCourse;
         this.description = form.value.description;
