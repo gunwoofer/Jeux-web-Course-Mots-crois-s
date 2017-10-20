@@ -1,4 +1,3 @@
-import { Deplacement } from './../generateurPiste/deplacement';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
@@ -6,8 +5,7 @@ import * as THREE from 'three';
 export class Voiture {
     public voiture: THREE.Mesh;
     public positionVoiture: THREE.Vector3;
-    private deplacement = new Deplacement();
-    public vitesse: number = 0;
+    public vitesse = 0;
 
     constructor(objetVoiture: THREE.Mesh) { }
 
