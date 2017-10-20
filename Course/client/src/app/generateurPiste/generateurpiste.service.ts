@@ -43,46 +43,8 @@ export class GenerateurPisteService {
         this.commencerRendu();
     }
 
-    public initialisationMock(container: HTMLDivElement) {
-        this.origine = new THREE.Vector3(0, 0, 0);
-        this.pointsPiste = new Array(NOMBRE_SEGMENTS);
-        for (let i = 0; i < this.pointsPiste.length; i++) {
-            this.pointsPiste[i] = new Array();
-        }
-        this.creerScene();
-
-        this.ajoutPiste();
-
-        this.commencerRendu();
-    }
-
-    public ajouterSegmentPisteMock(): void {
-
-        const vecteurs: THREE.Vector3[] = [
-            new THREE.Vector3(0, 0, 0),
-            new THREE.Vector3(50, 50, 0),
-            new THREE.Vector3(150, 150, 0),
-            new THREE.Vector3(250, 250, 0),
-            new THREE.Vector3(350, 350, 0),
-            new THREE.Vector3(450, 450, 0)
-        ];
-        NOMBRE_SEGMENTS = vecteurs.length / 2;
-
-        this.piste = new Piste('bob', 'bob', 'bob', vecteurs);
-        this.ajoutPisteAuPlan();
-    }
-
     public ajouterPiste(piste: Piste): void {
         this.piste = piste;
-    }
-
-    public ajoutPiste(): void {
-
-        this.creerPointMock();
-        this.automobile.creerVoiture();
-        this.scene.add(this.automobile.obtenirObjetVoiture3D());
-        this.commencerRendu();
-        this.ajoutPlan();
     }
 
     public creerScene(): void {
@@ -117,59 +79,12 @@ export class GenerateurPisteService {
         return this.container.clientWidth / this.container.clientHeight;
     }
 
-    public creerVoiture(): void {
-        const geometry = new THREE.BoxGeometry( 10, 10, 10);
-        const loader = new THREE.TextureLoader();
-        const texture = loader.load('../../assets/textures/clouds.jpg');
-
-        const material = new THREE.MeshBasicMaterial( { color: 'white', overdraw: 0.5, map: texture } );
-        const cube = new THREE.Mesh( geometry, material );
-        cube.position.y = 10;
-        cube.position.x = 0;
-        cube.position.z = 0;
-        this.voiture = cube;
-
-    }
-
-    public creerPointMock(): void {
-
-        this.pointsPiste[0][0] = new THREE.Vector3(-33.00335554176749, 54.69665863425028, 0);
-        this.pointsPiste[0][1] = new THREE.Vector3(16.57779032916467, 59.02517118804042, 0);
-
-        this.pointsPiste[1][0] = new THREE.Vector3(16.57779032916467, 59.02517118804042, 0);
-        this.pointsPiste[1][1] = new THREE.Vector3(140.5306550064982, 39.350114125359624, 0);
-
-
-
-    }
-
     public ajoutPisteAuPlan(): void {
         const segmentsPisteVisuel: THREE.Mesh[] = Segment.chargerSegmentsDePiste(this.piste);
 
         for(let i = 0 ; i < segmentsPisteVisuel.length; i++) {
             this.scene.add(segmentsPisteVisuel[i]);
         }
-    }
-
-    public ajoutPlan(): void {
-
-        const largeur = LARGEUR_PISTE;
-        const materiel = new THREE.MeshBasicMaterial( { color : 'blue' } );
-
-        for (const duoPoint of this.pointsPiste) {
-            const pointDebut: THREE.Vector3 = duoPoint[0];
-            const pointFin: THREE.Vector3 = duoPoint[1];
-
-            const longueur = this.obtenirLongueur(pointDebut, pointFin);
-            const geometrie = new THREE.PlaneGeometry(largeur, longueur);
-            const angle = this.obtenirAngle(pointDebut, pointFin);
-            const plan = new THREE.Mesh(geometrie, materiel);
-            plan.rotateZ(angle);
-            plan.position.x = (pointDebut.x + pointFin.x) / 2;
-            plan.position.y = (pointDebut.y + pointFin.y) / 2;
-            this.scene.add(plan);
-        }
-        this.vueDuDessus(this.automobile.obtenirPositionVoiture());
     }
 
     private obtenirLongueur(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
