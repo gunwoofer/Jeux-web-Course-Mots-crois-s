@@ -94,4 +94,39 @@ export class Cases {
 
         return motDansLesCases;
     }
+    
+
+    public calculerPointsContraintesDeLaCase(caseCourante: Case, numeroLigneCourant: number, numeroColonneCourant: number): Case {
+        // Cas une case en bas contient une lettre.
+        if (this.peutAccueillirLettre(this.obtenirCase(numeroLigneCourant + 1, numeroColonneCourant))) {
+            caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
+        }
+
+        // Cas une case à droite contient une lettre.
+        if (this.peutAccueillirLettre(this.obtenirCase(numeroLigneCourant, numeroColonneCourant + 1))) {
+            caseCourante.ajouterUnPointDeContrainte(Position.Ligne);
+        }
+
+        // Cas une case en haut contient une lettre.
+        if (this.peutAccueillirLettre(this.obtenirCase(numeroLigneCourant - 1, numeroColonneCourant))) {
+            caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
+        }
+
+        // Cas une case à gauche contient une lettre.
+        if (this.peutAccueillirLettre(this.obtenirCase(numeroLigneCourant, numeroColonneCourant - 1))) {
+            caseCourante.ajouterUnPointDeContrainte(Position.Ligne);
+        }
+
+        return caseCourante;
+    }
+
+    private peutAccueillirLettre(caseAVerifier: Case): boolean {
+        if (caseAVerifier !== null) {
+            if (caseAVerifier.etat === EtatCase.vide) {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }
