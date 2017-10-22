@@ -37,7 +37,7 @@ describe('Test unitaire base de données', () => {
     beforeEach((fin) => {
         const expect = chai.expect;
         const bd = new BdImplementation();
-        bd.connect('mongodb://LOG2990-10:rK54nG58@parapluie.info.polymtl.ca:27017/LOG2990-10-db');
+        bd.connect('mongodb://localhost/BdpisteTest');
         piste.save().then(() => {
             expect(piste.isNew === false);
             fin();
@@ -99,7 +99,7 @@ describe('Test unitaire base de données', () => {
 describe('Test unitaire ajout dans la base de données', () => {
     beforeEach((fin) => {
         const bd = new BdImplementation();
-        bd.connect('mongodb://LOG2990-10:rK54nG58@parapluie.info.polymtl.ca:27017/LOG2990-10-db');
+        bd.connect('mongodb://localhost/BdpisteTest');
         fin();
     });
 
