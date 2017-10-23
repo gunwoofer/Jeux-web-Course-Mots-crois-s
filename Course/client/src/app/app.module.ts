@@ -1,5 +1,3 @@
-import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
-import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,6 +10,8 @@ import { PisteComponent } from './piste/piste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
 import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 import { CourseComponent } from './course/course.component';
+import { AuthentificationComponent } from './utilisateur/authentification.component';
+import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 
 
 import { RenderService } from './renderService/render.service';
@@ -21,6 +21,7 @@ import { FacadeSourisService } from './facadeSouris/facadesouris.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
+import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
 
 
 import { APP_BASE_HREF } from '@angular/common';
@@ -37,7 +38,8 @@ import { AppRoutingModule } from './app.routing';
     ListePisteComponent,
     CourseComponent,
     TableauScoreComponent,
-    GenerateurPisteComponent
+    GenerateurPisteComponent,
+    AuthentificationComponent
   ],
   imports: [
     BrowserModule,

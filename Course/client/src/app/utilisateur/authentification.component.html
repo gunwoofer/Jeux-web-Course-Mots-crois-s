@@ -1,0 +1,31 @@
+<div class="container">
+    <h2>Selectionnez votre profil:</h2>
+    <div class="radio">
+        <label><input (click)="clickerAdmin()" type="radio" name="optradio">Administrateur</label>
+    </div>
+    <div class="radio">
+        <label><input (click)="clickerJoueur()" type="radio" name="optradio">Joueur</label>
+    </div>
+    <div *ngIf="administrateurChoisie">
+        <form ngNativeValidate (ngSubmit)="seConnecter(form)" #form="ngForm">
+            <div class="form-group">
+                <label for="email">Email</label>
+                <input type="text" class="form-control" ngModel name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="motDePasse">Mot de passe</label>
+                <input type="password" class="form-control" ngModel name="motDePasse" required>
+            </div>
+            <button class="btn btn-success" type="submit" [disabled]="!form.form.valid">Se connecter</button>
+        </form>
+    </div>
+    <div *ngIf="joueurChoisie">
+        <form ngNativeValidate (ngSubmit)="valider(f)" #f="ngForm">
+            <div class="form-group">
+                <label for="nomJoueur">Entre votre nom de joueur</label>
+                <input type="text" class="form-control" ngModel name="nomJoueur" required>
+            </div>
+            <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">Valider</button>
+        </form>
+    </div>
+</div>
