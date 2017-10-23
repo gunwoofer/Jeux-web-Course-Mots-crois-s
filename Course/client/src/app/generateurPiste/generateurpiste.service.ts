@@ -40,6 +40,8 @@ export class GenerateurPisteService {
 
         this.scene.add(this.voitureService.obtenirObjetVoiture3D());
 
+        this.scene.add(this.creerSkybox());
+
         this.ajoutPisteAuPlan();
 
         this.commencerRendu();
@@ -51,7 +53,6 @@ export class GenerateurPisteService {
 
     public creerScene(): void {
         this.scene = new THREE.Scene();
-        this.scene.background = new THREE.Color(0x000000);
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
         this.camera.position.y = this.voiture.position.y;
         this.camera.position.x = this.voiture.position.x;
@@ -115,6 +116,33 @@ export class GenerateurPisteService {
             this.scene.add( obj );
             this.camera.lookAt(obj.position);
         });
+    }
 
+    public creerSkybox(): THREE.Mesh {
+        // Source : http://www.custommapmakers.org/skyboxes.php
+        // const emplacementImage = '../../assets/textures/darkskies/darkskies_';
+        const emplacementImage = '../../assets/textures/city/pr_';
+        // const orientations = ['droite', 'gauche', 'devant', 'derriere', 'plafond', 'sol'];
+        const orientations = ['ft', 'lf', 'up', 'dn', 'bk', 'rt'];
+        const typeImage = '.jpg';
+        const geometrie = new THREE.CubeGeometry( 500, 500, 500 );
+        const materiels = [];
+        for (let i = 0; i < 6; i++) {
+            const loader = new THREE.TextureLoader();
+            console.log('loading file...');
+            console.log(emplacementImage + orientations[i] + typeImage);
+            const texture = loader.load(emplacementImage + orientations[i] + typeImage);
+            materiels.push(
+                new THREE.MeshBasicMaterial({
+                    map: texture,
+                    side: THREE.BackSide
+                })
+            );
+        }
+        const materiel = new THREE.MeshFaceMaterial(materiels);
+        const skybox = new THREE.Mesh(geometrie, materiel);
+        skybox.position.set(0, 0, 0);
+        skybox.rotateX(1.5708);
+        return skybox;
     }
 }
