@@ -24,6 +24,7 @@ export class Musique {
 
     public arreterMusique(): void {
         this.musique.pause();
+        this.enEcoute = false;
     }
 
     public lancerMusiqueThematique(): void {
