@@ -1,3 +1,4 @@
+import { InscriptionComponent } from './accueil/admin/inscription.component';
 import { JoueurComponent } from './accueil/joueur/joueur.component';
 import { AdminComponent } from './accueil/admin/admin.component';
 import { AccueilComponent } from './accueil/accueil.component';
@@ -11,6 +12,7 @@ import { ListePisteComponent } from './listePiste/listePiste.component';
 
 const APP_ROUTES: Routes = [
     { path: '', redirectTo: '/accueil', pathMatch: 'full' },
+    { path: 'inscription', component: InscriptionComponent },
     { path: 'admin', component: AdminComponent },
     { path: 'joueur', component: JoueurComponent },
     { path: 'accueil', component: AccueilComponent },

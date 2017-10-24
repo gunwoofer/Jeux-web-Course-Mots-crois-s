@@ -1,4 +1,3 @@
-import { UtilisateurService } from './accueil/utilisateur.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -15,6 +14,8 @@ import { AccueilComponent } from './accueil/accueil.component';
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { JoueurComponent } from './accueil/joueur/joueur.component';
 import { AdminComponent } from './accueil/admin/admin.component';
+import { InscriptionComponent } from './accueil/admin/inscription.component';
+
 
 
 import { RenderService } from './renderService/render.service';
@@ -25,6 +26,7 @@ import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
 import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
+import { UtilisateurService } from './accueil/utilisateur.service';
 
 
 import { APP_BASE_HREF } from '@angular/common';
@@ -44,7 +46,8 @@ import { AppRoutingModule } from './app.routing';
     GenerateurPisteComponent,
     AccueilComponent,
     AdminComponent,
-    JoueurComponent
+    JoueurComponent,
+    InscriptionComponent
   ],
   imports: [
     BrowserModule,

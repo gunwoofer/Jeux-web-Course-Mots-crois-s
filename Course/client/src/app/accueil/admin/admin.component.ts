@@ -1,5 +1,4 @@
 import { UtilisateurService } from '../utilisateur.service';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Component, EventEmitter } from '@angular/core';
@@ -11,14 +10,18 @@ import { Component, EventEmitter } from '@angular/core';
 })
 export class AdminComponent {
 
-  constructor(private router: Router, private location: Location, private utilisateurService: UtilisateurService) {}
+  constructor(private router: Router, private utilisateurService: UtilisateurService) {}
 
   public revenirEnArrier(): void {
-    this.location.back();
+    this.router.navigateByUrl('/accueil');
   }
 
   public soummetre(f: NgForm): void {
     this.utilisateurService.isAdmin = true;
     this.router.navigateByUrl('/listePiste');
+  }
+
+  public sinscrire(): void {
+    this.router.navigateByUrl('/inscription');
   }
 }

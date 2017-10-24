@@ -1,5 +1,4 @@
 import { UtilisateurService } from '../utilisateur.service';
-import { Location } from '@angular/common';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Component } from '@angular/core';
@@ -10,10 +9,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./joueur.component.css']
 })
 export class JoueurComponent {
-  constructor(private router: Router, private location: Location, private utilisateurService: UtilisateurService) {}
+  constructor(private router: Router, private utilisateurService: UtilisateurService) {}
 
     public revenirEnArriere(): void {
-      this.location.back();
+      this.router.navigateByUrl('/accueil');
     }
 
     public soummetre(f: NgForm): void {
