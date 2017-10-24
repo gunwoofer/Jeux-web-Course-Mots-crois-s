@@ -1,3 +1,4 @@
+import { MusiquesService } from './musique/musiques.service';
 import { MusiqueThematiqueService } from './musique/musiqueThematique.service';
 import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
@@ -56,6 +57,7 @@ import { AppRoutingModule } from './app.routing';
     MessageErreurService,
     GenerateurPisteService,
     MusiqueThematiqueService,
+    MusiquesService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
