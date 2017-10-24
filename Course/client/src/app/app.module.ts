@@ -1,3 +1,4 @@
+import { MusiqueThematiqueService } from './musique/musiqueThematique.service';
 import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { FormsModule } from '@angular/forms';
@@ -54,6 +55,7 @@ import { AppRoutingModule } from './app.routing';
     FacadeLigneService,
     MessageErreurService,
     GenerateurPisteService,
+    MusiqueThematiqueService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

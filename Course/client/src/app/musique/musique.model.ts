@@ -4,8 +4,11 @@ const FORMAT_MP3 = '.mp3';
 export class Musique {
     private musique: HTMLAudioElement;
     private duree: number;
+    private enEcoute: boolean;
 
-    constructor() {}
+    constructor() {
+        this.enEcoute = false;
+    }
 
     private chargerMusique(nom: string): HTMLAudioElement {
         const musique = new Audio(EMPLACEMENT_MUSIQUE + nom + FORMAT_MP3);
@@ -13,9 +16,14 @@ export class Musique {
     }
 
     private lancerMusique(): void {
-        if (this.musique.currentTime === 0) {
+        if (this.musique.currentTime === 0 && !this.enEcoute) {
             this.musique.play();
+            this.enEcoute = true;
         }
+    }
+
+    public arreterMusique(): void {
+        this.musique.pause();
     }
 
     public lancerMusiqueThematique(): void {
