@@ -17,9 +17,9 @@ export class ListePisteComponent implements OnInit {
 
   public ngOnInit(): void {
     this.pisteService.retournerListePiste().then((pistes: Piste[]) => this.listePistes = pistes);
+    const musique = new Audio('../../assets/musiques/Get The New World.mp3');
+    musique.play();
   }
-
-
 
 }
 
