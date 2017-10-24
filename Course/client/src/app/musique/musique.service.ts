@@ -7,8 +7,4 @@ export class MusiqueService {
     constructor () {
         this.musique = new Musique;
     }
-
-    public arreterMusique() {
-        this.musique.arreterMusique();
-    }
 }

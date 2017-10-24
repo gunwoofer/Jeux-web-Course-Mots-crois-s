@@ -19,7 +19,7 @@ export class ListePisteComponent implements OnInit {
 
   public ngOnInit(): void {
     this.pisteService.retournerListePiste().then((pistes: Piste[]) => this.listePistes = pistes);
-    this.musiqueService.arreterMusique();
+    this.musiqueService.musique.arreterMusique();
     this.musiqueService.musique.lancerMusiqueThematique();
   }
 }

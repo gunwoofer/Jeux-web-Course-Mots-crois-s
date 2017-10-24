@@ -47,7 +47,7 @@ export class CreateurPisteComponent implements OnInit {
         this.renderService.pisteAmodifie = piste;
       }
     );
-    this.musiqueService.arreterMusique();
+    this.musiqueService.musique.arreterMusique();
     this.musiqueService.musique.lancerMusiqueEditeur();
   }
 
