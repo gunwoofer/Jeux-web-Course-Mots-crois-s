@@ -1,4 +1,4 @@
-import { MusiquesService } from './../musique/musiques.service';
+import { MusiqueService } from './../musique/musique.service';
 import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
 
 import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
@@ -20,7 +20,7 @@ export class CreateurPisteComponent implements OnInit {
     private facadeSourisService: FacadeSourisService,
     private pisteService: PisteService,
     private messageErreurService: MessageErreurService,
-    private musiquesService: MusiquesService
+    private musiqueService: MusiqueService
     ) {
   }
 
@@ -47,7 +47,8 @@ export class CreateurPisteComponent implements OnInit {
         this.renderService.pisteAmodifie = piste;
       }
     );
-    this.musiquesService.arreterMusiques();
+    this.musiqueService.arreterMusique();
+    this.musiqueService.musique.lancerMusiqueEditeur();
   }
 
   public oncontextmenu(): boolean {

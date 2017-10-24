@@ -16,21 +16,30 @@ export class Musique {
     }
 
     private lancerMusique(): void {
-        if (this.musique.currentTime === 0 && !this.enEcoute) {
+        if (!this.enEcoute) {
             this.musique.play();
             this.enEcoute = true;
         }
     }
 
     public arreterMusique(): void {
-        this.musique.pause();
-        this.enEcoute = false;
+        if (this.enEcoute) {
+            this.musique.pause();
+            this.enEcoute = false;
+        }
     }
 
     public lancerMusiqueThematique(): void {
         this.musique = this.chargerMusique('Get The New World');
         this.musique.loop = true;
         this.duree = 92;
+        this.lancerMusique();
+    }
+
+    public lancerMusiqueEditeur(): void {
+        this.musique = this.chargerMusique('Sims - Building Mode 3');
+        this.musique.loop = true;
+        this.duree = 340;
         this.lancerMusique();
     }
 }
