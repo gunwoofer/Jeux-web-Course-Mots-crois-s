@@ -1,25 +1,11 @@
-.radio {
-    text-align: center;
-}
-
 label {
-    padding-left: 40px;
     font-weight: bold;
+    padding-left: 45px;
 }
 
 .form {
     width: 400px;
     height: 300px;
-    background: #edeff1;
-    margin-left: 450px;
-    margin-top: 150px;
-    padding-top: 20px;
-    border-radius: 10px;
-}
-
-.form2 {
-    width: 400px;
-    height: 200px;
     background: #edeff1;
     margin-left: 450px;
     margin-top: 150px;
@@ -55,6 +41,7 @@ button[type="submit"] {
 }
 
 a {
+    float: left;
     text-align: center;
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
     color: black;
@@ -66,4 +53,12 @@ a {
 
 a:hover {
     color: red;
+}
+
+#lien1 {
+    margin-left: 20px;
+}
+
+#lien2 {
+    margin-left: 90px;
 }

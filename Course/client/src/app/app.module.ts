@@ -1,3 +1,4 @@
+import { UtilisateurService } from './accueil/utilisateur.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -10,8 +11,10 @@ import { PisteComponent } from './piste/piste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
 import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 import { CourseComponent } from './course/course.component';
-import { AuthentificationComponent } from './utilisateur/authentification.component';
+import { AccueilComponent } from './accueil/accueil.component';
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
+import { JoueurComponent } from './accueil/joueur/joueur.component';
+import { AdminComponent } from './accueil/admin/admin.component';
 
 
 import { RenderService } from './renderService/render.service';
@@ -39,7 +42,9 @@ import { AppRoutingModule } from './app.routing';
     CourseComponent,
     TableauScoreComponent,
     GenerateurPisteComponent,
-    AuthentificationComponent
+    AccueilComponent,
+    AdminComponent,
+    JoueurComponent
   ],
   imports: [
     BrowserModule,
@@ -56,6 +61,7 @@ import { AppRoutingModule } from './app.routing';
     FacadeLigneService,
     MessageErreurService,
     GenerateurPisteService,
+    UtilisateurService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

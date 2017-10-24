@@ -1,4 +1,6 @@
-import { AuthentificationComponent } from './utilisateur/authentification.component';
+import { JoueurComponent } from './accueil/joueur/joueur.component';
+import { AdminComponent } from './accueil/admin/admin.component';
+import { AccueilComponent } from './accueil/accueil.component';
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -8,8 +10,10 @@ import { ListePisteComponent } from './listePiste/listePiste.component';
 
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/authentification', pathMatch: 'full' },
-    { path: 'authentification', component: AuthentificationComponent },
+    { path: '', redirectTo: '/accueil', pathMatch: 'full' },
+    { path: 'admin', component: AdminComponent },
+    { path: 'joueur', component: JoueurComponent },
+    { path: 'accueil', component: AccueilComponent },
     { path: 'listePiste', component: ListePisteComponent },
     { path: 'createurPiste', component: CreateurPisteComponent },
     { path: 'generationpiste', component: GenerateurPisteComponent }
