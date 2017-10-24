@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Musique } from './../musique/musique.model';
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
 
@@ -11,15 +12,16 @@ import { PisteService } from './../piste/piste.service';
 })
 
 export class ListePisteComponent implements OnInit {
-  constructor(private pisteService: PisteService) { }
-
   public listePistes: Piste[] = [];
+  private musique: Musique;
+
+  constructor(private pisteService: PisteService) {
+    this.musique = new Musique();
+  }
 
   public ngOnInit(): void {
     this.pisteService.retournerListePiste().then((pistes: Piste[]) => this.listePistes = pistes);
-    const musique = new Audio('../../assets/musiques/Get The New World.mp3');
-    musique.play();
+    this.musique.lancerMusiqueThematique();
   }
-
 }
 
