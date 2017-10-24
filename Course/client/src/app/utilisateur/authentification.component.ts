@@ -21,11 +21,7 @@ export class AuthentificationComponent {
     this.joueurChoisie = true;
   }
 
-  public seConnecter(form: NgForm): void {
-    console.log(form.value);
-  }
-
-  public valider(form: NgForm): void {
+  public soummetre(form: NgForm): void {
     console.log(form.value);
   }
 }
