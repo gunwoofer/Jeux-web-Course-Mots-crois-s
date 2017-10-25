@@ -84,6 +84,7 @@ export class Application {
     const index: indexRoute.Index = new indexRoute.Index();
     const administrateur: administrateurRoute.Index = new administrateurRoute.Index();
     router.post('/inscription', administrateur.ajouterAdmin.bind(administrateur.ajouterAdmin));
+    router.get('/admin', administrateur.retournerNombreAdmin.bind(administrateur.retournerNombreAdmin));
     router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
     router.delete('/listePiste:id', index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));

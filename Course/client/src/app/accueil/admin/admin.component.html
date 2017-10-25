@@ -9,7 +9,7 @@
             <input type="password" class="form-control" ngModel name="motDePasse" placeholder="Entrer votre mot de passe" required>
         </div>
         <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">Se connecter</button>
-        <a (click)="sinscrire()" id="lien1">nouveau administrateur?</a>
-        <a id="lien2">mot de passe oublié?</a>
+        <a *ngIf="nbAdmin=='0'" (click)="sinscrire()" id="lien1">nouveau administrateur?</a>
+        <a [style.marginLeft]="nbAdmin == '1' ? '137px' : '90px'" id="lien2">mot de passe oublié?</a>
     </form>
 </div>

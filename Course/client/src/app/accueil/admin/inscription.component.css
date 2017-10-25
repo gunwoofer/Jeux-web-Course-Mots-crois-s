@@ -13,6 +13,19 @@ label {
     border-radius: 10px;
 }
 
+.button {
+    width: 400px;
+    margin-left: 450px;
+    margin-top: 100px;
+    padding-top: 20px;
+    border-radius: 10px;
+}
+
+i {
+    margin: auto;
+    float: right;
+}
+
 input[type="text"],
 input[type="password"] {
     display: block;

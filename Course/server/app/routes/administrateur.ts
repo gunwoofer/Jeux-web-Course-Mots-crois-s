@@ -20,6 +20,20 @@ module Administrateur {
                 });
             });
         };
+
+        public retournerNombreAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
+            modelAdmin.find((err, resultats) => {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'une erreur est survenue',
+                        error: err,
+                    });
+                }
+                return res.status(200).json({
+                    objet: resultats.length,
+                });
+            });
+        };
     };
 }
 

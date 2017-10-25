@@ -1,4 +1,4 @@
-<div class="form">
+<div class="form" *ngIf="!afficherSucces">
     <form ngNativeValidate (ngSubmit)="soummetre(f)" #f="ngForm">
         <div class="form-group">
             <label for="userName">Nom d'utilisateur</label>
@@ -22,4 +22,8 @@
         </div>
         <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">S'enregister</button>
     </form>
+</div>
+
+<div *ngIf="afficherSucces" class="button">
+    <h4 class="alert alert-success"><strong>Success! </strong>Vous êtes inscrits.<i (click)="changeRoutage()" class="fa fa-times-circle" aria-hidden="true"></i></h4>
 </div>

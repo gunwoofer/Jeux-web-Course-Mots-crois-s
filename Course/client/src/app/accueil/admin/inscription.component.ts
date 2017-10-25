@@ -13,12 +13,19 @@ export class InscriptionComponent {
 
   constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
+  public afficherSucces: boolean;
+
   public soummetre(form: NgForm): void {
-    const admin = new Administrateur(form.value.userName, form.value.nom, form.value.prenom, form.value.email, form.value.motDePasse);
-    this.utilisateurService.ajouterAdministrateur(admin)
-      .then(
-        donnee => console.log(donnee)
-      );
+    const admin = new Administrateur(form.value.email, form.value.motDePasse, form.value.userName, form.value.nom, form.value.prenom);
+    this.utilisateurService.sInscrire(admin)
+      .then(donne => {
+        if (donne) {
+          this.afficherSucces = true;
+        }
+      });
+  }
+
+  public changeRoutage(): void {
     this.router.navigateByUrl('/admin');
   }
 
