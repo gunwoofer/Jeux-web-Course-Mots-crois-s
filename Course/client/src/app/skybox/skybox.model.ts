@@ -41,7 +41,8 @@ export class Skybox {
         const materiel = new THREE.MeshFaceMaterial(materiels);
         const skybox = new THREE.Mesh(geometrie, materiel);
         skybox.position.set(0, 0, 0);
-        skybox.rotateX(1.5708);
+        // Rotate pour avoir le sol de la skybox au bon endroit par rapport à la piste
+        // skybox.rotateX(1.5708);
         return skybox;
     }
 }
