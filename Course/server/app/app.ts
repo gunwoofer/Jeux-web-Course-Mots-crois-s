@@ -14,6 +14,7 @@ import * as cors from 'cors';
 import { BdImplementation } from './bdImplementation';
 
 import * as indexRoute from './routes/index';
+import * as administrateurRoute from './routes/administrateur';
 
 export class Application {
 
@@ -47,7 +48,7 @@ export class Application {
 
     // configure routes
     this.routes();
-    }
+  }
 
   /**
    * The config function.
@@ -65,7 +66,7 @@ export class Application {
     this.app.use(cors());
 
     const bd: BdImplementation = new BdImplementation();
-    bd.connect('mongodb://LOG2990-10:rK54nG58@parapluie.info.polymtl.ca:27017/LOG2990-10-db');
+    bd.connect('mongodb://localhost/Bdpiste');
 
   }
 
@@ -81,6 +82,8 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
+    const administrateur: administrateurRoute.Index = new administrateurRoute.Index();
+    router.post('/inscription', administrateur.ajouterAdmin.bind(administrateur.ajouterAdmin));
     router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
     router.delete('/listePiste:id', index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
