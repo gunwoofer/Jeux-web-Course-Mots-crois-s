@@ -34,6 +34,25 @@ module Administrateur {
                 });
             });
         };
+
+        public retournerMotDepasse(req: express.Request, res: express.Response, next: express.NextFunction) {
+            modelAdmin.findOne({ email: req.params.email }, (err, resultat) => {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'une erreur est survenue',
+                        error: err,
+                    });
+                }
+                if (!resultat) {
+                    return res.status(500).json({
+                        message: 'il nexiste pas',
+                    });
+                }
+                return res.status(200).json({
+                    motDePasse: resultat.motDePasse,
+                });
+            });
+        };
     };
 }
 

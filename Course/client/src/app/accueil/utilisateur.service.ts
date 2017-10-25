@@ -27,6 +27,13 @@ export class UtilisateurService {
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
+    public recupererMotDepasse(email: string): Promise<any> {
+        return this.http.get('http://localhost:3000/motDePasseOublie' + email)
+            .toPromise()
+            .then((reponse: Response) => reponse.json())
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
+    }
+
     public seConnecter(admin: Administrateur) { }
 
 }

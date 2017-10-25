@@ -10,6 +10,6 @@
         </div>
         <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">Se connecter</button>
         <a *ngIf="nbAdmin=='0'" (click)="sinscrire()" id="lien1">nouveau administrateur?</a>
-        <a [style.marginLeft]="nbAdmin == '1' ? '137px' : '90px'" id="lien2">mot de passe oublié?</a>
+        <a [style.marginLeft]="nbAdmin == '1' ? '137px' : '90px'" id="lien2" (click)="motDepasseOublie()">mot de passe oublié?</a>
     </form>
 </div>
