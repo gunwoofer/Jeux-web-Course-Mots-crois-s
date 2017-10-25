@@ -14,6 +14,7 @@ import * as cors from 'cors';
 import { BdImplementation } from './bdImplementation';
 
 import * as indexRoute from './routes/index';
+import * as configuration from './Configuration';
 
 export class Application {
 
@@ -65,7 +66,7 @@ export class Application {
     this.app.use(cors());
 
     const bd: BdImplementation = new BdImplementation();
-    bd.connect('mongodb://localhost/Bdpiste');
+    bd.connect(configuration.baseDeDonneesUrl);
 
   }
 

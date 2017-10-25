@@ -1,6 +1,7 @@
 import { BdImplementation } from './bdImplementation';
 import * as chai from 'chai';
 import { modelDePiste } from './pisteModel';
+import * as configuration from './Configuration';
 
 const piste = new modelDePiste({
     vignette : 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg',
@@ -37,7 +38,7 @@ describe('Test unitaire base de données', () => {
     beforeEach((fin) => {
         const expect = chai.expect;
         const bd = new BdImplementation();
-        bd.connect('mongodb://localhost/BdpisteTest');
+        bd.connect(configuration.baseDeDonneesUrl);
         piste.save().then(() => {
             expect(piste.isNew === false);
             fin();
@@ -99,7 +100,7 @@ describe('Test unitaire base de données', () => {
 describe('Test unitaire ajout dans la base de données', () => {
     beforeEach((fin) => {
         const bd = new BdImplementation();
-        bd.connect('mongodb://localhost/BdpisteTest');
+        bd.connect(configuration.baseDeDonneesUrl);
         fin();
     });
 
