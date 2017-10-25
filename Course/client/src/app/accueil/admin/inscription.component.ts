@@ -15,7 +15,10 @@ export class InscriptionComponent {
 
   public soummetre(form: NgForm): void {
     const admin = new Administrateur(form.value.userName, form.value.nom, form.value.prenom, form.value.email, form.value.motDePasse);
-    console.log(admin);
+    this.utilisateurService.ajouterAdministrateur(admin)
+      .then(
+        donnee => console.log(donnee)
+      );
     this.router.navigateByUrl('/admin');
   }
 
