@@ -1,3 +1,4 @@
+import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -18,6 +19,7 @@ const APP_ROUTES: Routes = [
     { path: 'admin', component: ConnexionComponent },
     { path: 'joueur', component: JoueurComponent },
     { path: 'accueil', component: AccueilComponent },
+    { path: 'ModifierPass', component: ModificationMotDePasseComponent },
     { path: 'listePiste', component: ListePisteComponent },
     { path: 'createurPiste', component: CreateurPisteComponent },
     { path: 'generationpiste', component: GenerateurPisteComponent }

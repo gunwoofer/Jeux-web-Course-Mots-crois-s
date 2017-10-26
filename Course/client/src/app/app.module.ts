@@ -1,3 +1,4 @@
+
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -16,7 +17,7 @@ import { JoueurComponent } from './accueil/joueur/joueur.component';
 import { InscriptionComponent } from './accueil/admin/inscription/inscription.component';
 import { ConnexionComponent } from './accueil/admin/connexion/connexion.component';
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
-
+import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 
 
 import { RenderService } from './renderService/render.service';
@@ -49,7 +50,8 @@ import { AppRoutingModule } from './app.routing';
     JoueurComponent,
     ConnexionComponent,
     InscriptionComponent,
-    MotDepasseOublieComponent
+    MotDepasseOublieComponent,
+    ModificationMotDePasseComponent
   ],
   imports: [
     BrowserModule,

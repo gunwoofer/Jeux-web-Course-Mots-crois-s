@@ -1,3 +1,4 @@
+import { ModificationForm } from './admin/modificationMotDepasse/modificationModel';
 import { Http, Response } from '@angular/http';
 import { Administrateur } from './admin/admin.model';
 import { EventEmitter, Injectable } from '@angular/core';
@@ -27,8 +28,15 @@ export class UtilisateurService {
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
-    public recupererMotDepasse(email: string): Promise<any> {
+    public recupererMotDePasse(email: string): Promise<any> {
         return this.http.get('http://localhost:3000/motDePasseOublie' + email)
+            .toPromise()
+            .then((reponse: Response) => reponse.json())
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
+    }
+
+    public modifierMotDePasse(form: ModificationForm): Promise<any> {
+        return this.http.patch('http://localhost:3000/ModifierPass', form)
             .toPromise()
             .then((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));

@@ -55,21 +55,50 @@ module Administrateur {
         };
 
         public seConnecter(req: express.Request, res: express.Response, next: express.NextFunction) {
-            modelAdmin.findOne({ email: req.body.email }, (err, resultat) => {
+            modelAdmin.findOne({ email: req.body.email }, (err, admin) => {
                 if (err) {
                     return res.status(500).json({
                         message: 'une erreur est survenue',
                         error: err,
                     });
                 }
-                if (!resultat || (resultat.motDePasse !== req.body.motDePasse)) {
+                if (!admin || (admin.motDePasse !== req.body.motDePasse)) {
                     return res.status(500).json({
                         message: 'il nexiste pas un administrateur avec ces informations',
                     });
                 }
                 res.status(200).json({
                     message: 'connexion est approuve',
-                    nomUtilisateur: resultat.nomUtilisateur
+                    nomUtilisateur: admin.nomUtilisateur
+                });
+            });
+        };
+
+        public modifierMotDePasse(req: express.Request, res: express.Response, next: express.NextFunction) {
+            modelAdmin.findOne({ email: req.body.email }, (err, admin) => {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'une erreur est survenue',
+                        error: err,
+                    });
+                }
+                if (!admin || (admin.motDePasse !== req.body.ancienMotDpass)) {
+                    return res.status(500).json({
+                        message: 'il nexiste pas un administrateur avec ces informations',
+                    });
+                }
+                admin.motDePasse = req.body.nouveauMotDpass;
+                admin.save((error, resultat) => {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'une erreur est survenue lors de la modification',
+                            error: err
+                        });
+                    }
+                    res.status(200).json({
+                        message: 'Le mot de passe a été modifié',
+                        obj: resultat
+                    });
                 });
             });
         };

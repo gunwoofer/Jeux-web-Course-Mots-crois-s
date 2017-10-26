@@ -85,10 +85,12 @@ export class Application {
     const administrateur: administrateurRoute.Index = new administrateurRoute.Index();
 
     // admin
+    router.patch('/ModifierPass', administrateur.modifierMotDePasse.bind(administrateur.modifierMotDePasse));
     router.post('/inscription', administrateur.ajouterAdmin.bind(administrateur.ajouterAdmin));
     router.post('/admin', administrateur.seConnecter.bind(administrateur.seConnecter));
     router.get('/admin', administrateur.retournerNombreAdmin.bind(administrateur.retournerNombreAdmin));
     router.get('/motDePasseOublie:email', administrateur.retournerMotDepasse.bind(administrateur.retournerMotDepasse));
+    
 
     // pistes
     router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
