@@ -1,3 +1,4 @@
+import { Administrateur } from './../admin.model';
 import { UtilisateurService } from './../../utilisateur.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
@@ -18,9 +19,14 @@ export class ConnexionComponent implements OnInit {
     this.router.navigateByUrl('/accueil');
   }
 
-  public soummetre(f: NgForm): void {
-    this.utilisateurService.isAdmin = true;
-    this.router.navigateByUrl('/listePiste');
+  public soummetre(form: NgForm): void {
+    const admin = new Administrateur(form.value.email, form.value.motDePasse);
+    this.utilisateurService.seConnecter(admin)
+      .then(donne => {
+        console.log(donne);
+        this.utilisateurService.isAdmin = true;
+        this.router.navigateByUrl('/listePiste');
+      });
   }
 
   public sinscrire(): void {

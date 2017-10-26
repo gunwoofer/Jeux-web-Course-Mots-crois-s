@@ -86,9 +86,9 @@ export class Application {
 
     // admin
     router.post('/inscription', administrateur.ajouterAdmin.bind(administrateur.ajouterAdmin));
+    router.post('/admin', administrateur.seConnecter.bind(administrateur.seConnecter));
     router.get('/admin', administrateur.retournerNombreAdmin.bind(administrateur.retournerNombreAdmin));
     router.get('/motDePasseOublie:email', administrateur.retournerMotDepasse.bind(administrateur.retournerMotDepasse));
-    
 
     // pistes
     router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));

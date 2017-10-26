@@ -14,7 +14,7 @@ module Administrateur {
                         error: err,
                     });
                 }
-                return res.status(200).json({
+                res.status(200).json({
                     message: 'administrateur sest enregistre',
                     objet: resultat,
                 });
@@ -29,7 +29,7 @@ module Administrateur {
                         error: err,
                     });
                 }
-                return res.status(200).json({
+                res.status(200).json({
                     objet: resultats.length,
                 });
             });
@@ -48,8 +48,28 @@ module Administrateur {
                         message: 'il nexiste pas',
                     });
                 }
-                return res.status(200).json({
+                res.status(200).json({
                     motDePasse: resultat.motDePasse,
+                });
+            });
+        };
+
+        public seConnecter(req: express.Request, res: express.Response, next: express.NextFunction) {
+            modelAdmin.findOne({ email: req.body.email }, (err, resultat) => {
+                if (err) {
+                    return res.status(500).json({
+                        message: 'une erreur est survenue',
+                        error: err,
+                    });
+                }
+                if (!resultat || (resultat.motDePasse !== req.body.motDePasse)) {
+                    return res.status(500).json({
+                        message: 'il nexiste pas un administrateur avec ces informations',
+                    });
+                }
+                res.status(200).json({
+                    message: 'connexion est approuve',
+                    nomUtilisateur: resultat.nomUtilisateur
                 });
             });
         };

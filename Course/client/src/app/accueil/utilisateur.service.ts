@@ -34,6 +34,11 @@ export class UtilisateurService {
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
-    public seConnecter(admin: Administrateur) { }
+    public seConnecter(admin: Administrateur) {
+        return this.http.post('http://localhost:3000/admin', admin)
+            .toPromise()
+            .then((reponse: Response) => reponse.json())
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
+    }
 
 }
