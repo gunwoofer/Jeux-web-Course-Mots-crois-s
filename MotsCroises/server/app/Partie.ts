@@ -3,6 +3,7 @@ import { Grille } from './Grille';
 import { Case } from '../../commun/Case';
 import { Guid } from '../../commun/Guid';
 import { TypePartie } from '../../commun/TypePartie';
+import { EmplacementMot } from '../../commun/EmplacementMot';
 export const LIMITE_JOUEURS = 2;
 
 export class Partie {
@@ -64,5 +65,33 @@ export class Partie {
         }
 
         return false;
+    }
+
+    public obtenirEmplacementMotSelectionnerJoueur(guidJoueur: string): EmplacementMot {
+        return this.obtenirJoueur(guidJoueur).obtenirEmplacementMotSelectionner();
+    }
+
+    public changerSelectionMot(guidJoueur: string, emplacementMotSelectionner: EmplacementMot) {
+        // Comme l'emplacement mot vient d'ailleurs, on doit le référencer dans notre grille en mémoire.
+        const emplacementMotDansGrille: EmplacementMot = this.grille.ObtenirEmplacementMotSelonEmplacementMot(emplacementMotSelectionner);
+        const joueur: Joueur = this.obtenirJoueur(guidJoueur);
+
+        this.nePlusSelectionnerMot(joueur);
+        this.selectionnerMot(joueur, emplacementMotDansGrille);
+    }
+
+    private selectionnerMot(joueur: Joueur, emplacementMotSelectionner: EmplacementMot) {
+        joueur.selectionnerEmplacementMot(emplacementMotSelectionner);
+        emplacementMotSelectionner.selectionnerEmplacementMot();
+    }
+
+    private nePlusSelectionnerMot(joueur: Joueur) {
+        const emplacementANePlusSelectionner: EmplacementMot = joueur.obtenirEmplacementMotSelectionner();
+        
+        if (emplacementANePlusSelectionner !== undefined ) {
+            emplacementANePlusSelectionner.nePlusSelectionnerEmplacementMot();
+        }
+
+        joueur.nePlusSelectionnerEmplacementMot();
     }
 }

@@ -15,6 +15,7 @@ export class EmplacementMot {
     private etatEmplacementMot: EtatEmplacementMot;
     public motsImpossible: string[] = new Array();
     private GuidIndice = '';
+    private joueurQuiASelectionnerEmplacementMot = 0;
 
     
     public static creerInstanceAvecJSON(): EmplacementMot {
@@ -42,6 +43,28 @@ export class EmplacementMot {
                 this.position = Position.Colonne;
                 this.indexFixe = caseDebut.obtenirNumeroColonne();
             }
+        }
+    }
+    
+    public estSelectionner(): boolean {
+        if (this.joueurQuiASelectionnerEmplacementMot > 0) {
+            return true;
+        }
+
+        return false;
+    }
+    
+    public estSelectionnerNombreDeJoueurs(): number {
+        return this.joueurQuiASelectionnerEmplacementMot;
+    }
+
+    public selectionnerEmplacementMot(): void {
+        this.joueurQuiASelectionnerEmplacementMot++;
+    }
+
+    public nePlusSelectionnerEmplacementMot(): void {
+        if (this.joueurQuiASelectionnerEmplacementMot > 0) {
+            this.joueurQuiASelectionnerEmplacementMot--;
         }
     }
 
@@ -122,7 +145,19 @@ export class EmplacementMot {
     public attribuerGuidIndice(guid: string): void {
         this.GuidIndice = guid;
     }
+
     public obtenirGuidIndice(): string {
         return this.GuidIndice;
     }
+
+    public estPareilQue(emplacementMot: EmplacementMot): boolean {
+        if (this.obtenirCaseDebut().obtenirNumeroColonne() === emplacementMot.obtenirCaseDebut().obtenirNumeroColonne()) {
+            if (this.obtenirCaseDebut().obtenirNumeroLigne() === emplacementMot.obtenirCaseDebut().obtenirNumeroLigne()) {
+                return true;
+            }
+        }
+        
+        return false;
+    } 
+
 }

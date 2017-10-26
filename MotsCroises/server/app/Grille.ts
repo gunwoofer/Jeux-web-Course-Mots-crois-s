@@ -315,6 +315,14 @@ export class Grille {
         return undefined;
     }
 
+    public ObtenirEmplacementMotSelonEmplacementMot(emplacementMot: EmplacementMot) {
+        for(const emplacement of this.emplacementMots) {
+            if (emplacement.estPareilQue(emplacementMot)) {
+                return emplacement;
+            }
+        }
+    }
+
     private estLeBonEmplacementMot(emplacementMot: EmplacementMot, caseDebut: Case, caseFin: Case): boolean {
         if ((emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
         && (emplacementMot.obtenirCaseFin().obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())) {
