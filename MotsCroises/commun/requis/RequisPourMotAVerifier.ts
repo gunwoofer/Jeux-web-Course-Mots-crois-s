@@ -1,5 +1,5 @@
-import { EmplacementMot } from './EmplacementMot';
-import { Case } from './Case';
+import { EmplacementMot } from '../EmplacementMot';
+import { Case } from '../Case';
 
 export class RequisPourMotAVerifier {
     public emplacementMot: EmplacementMot;

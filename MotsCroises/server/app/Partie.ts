@@ -4,13 +4,18 @@ import { Case } from '../../commun/Case';
 import { Guid } from '../../commun/Guid';
 import { TypePartie } from '../../commun/TypePartie';
 import { EmplacementMot } from '../../commun/EmplacementMot';
+
 export const LIMITE_JOUEURS = 2;
+export const TEMPS_PARTIE_MINUTES = 5;
+export const TEMPS_PARTIE_MILISECONDS = 60 * TEMPS_PARTIE_MINUTES * Math.pow(10, -3);
 
 export class Partie {
     private joueurs: Joueur[] = new Array();
     private grille: Grille;
     private type: TypePartie = TypePartie.classique;
     private guid: string = Guid.generateGUID();
+    private debutDePartie: number;
+    private tempsAlloue: number;
 
     constructor(grille: Grille, joueurs: Joueur[], type: TypePartie) {
         this.grille = grille;
@@ -18,6 +23,27 @@ export class Partie {
         this.joueurs = joueurs;
 
         this.type = type;
+    }
+
+    public demarrerPartie(tempsAlloue: number = TEMPS_PARTIE_MILISECONDS) {
+        this.tempsAlloue = tempsAlloue;
+        this.debutDePartie = Date.now();
+    }
+
+    public obtenirTempsRestantMilisecondes(): number {
+        return ((Date.now() - this.debutDePartie) < 0) ? undefined : (Date.now() - this.debutDePartie);
+    }
+
+    public partieEstTermineAvecCompteur(): boolean {
+        if (this.partieEstTermine()) {
+            return true;
+        }
+
+        if ((Date.now() - this.debutDePartie) >= this.tempsAlloue) {
+            return true;
+        }
+
+        return false;
     }
 
     public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidJoueur: string): boolean {
@@ -51,6 +77,18 @@ export class Partie {
         if (this.joueurs.length <= LIMITE_JOUEURS) {
             this.joueurs.push(joueur);
         }
+    }
+
+    public obtenirAdversaire(guidJoueur: string): Joueur[] {
+        const adversaires: Joueur[] = new Array();
+
+        for (const joueurCourant of this.joueurs) {
+            if (joueurCourant.obtenirGuid() !== guidJoueur) {
+                adversaires.push(joueurCourant);
+            }
+        }
+
+        return adversaires;
     }
 
     public partieEstTermine(): boolean {
@@ -87,7 +125,7 @@ export class Partie {
 
     private nePlusSelectionnerMot(joueur: Joueur) {
         const emplacementANePlusSelectionner: EmplacementMot = joueur.obtenirEmplacementMotSelectionner();
-        
+
         if (emplacementANePlusSelectionner !== undefined ) {
             emplacementANePlusSelectionner.nePlusSelectionnerEmplacementMot();
         }

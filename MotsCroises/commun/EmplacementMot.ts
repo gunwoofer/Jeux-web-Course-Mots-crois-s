@@ -18,6 +18,8 @@ export class EmplacementMot {
     private joueurQuiASelectionnerEmplacementMot = 0;
 
     
+
+    
     public static creerInstanceAvecJSON(): EmplacementMot {
         return new EmplacementMot(new Case(1,1,EtatCase.vide), new Case(1,3,EtatCase.vide));
     }

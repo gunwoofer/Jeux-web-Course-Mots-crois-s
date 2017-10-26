@@ -7,7 +7,9 @@ import { Grille } from './Grille';
 export const PORT_SOCKET_IO = 3001;
 import { SpecificationPartie } from '../../commun/SpecificationPartie';
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
-import { RequisPourMotAVerifier } from '../../commun/RequisPourMotAVerifier';
+import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
+import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelectionnerMot';
+import { Partie } from './Partie';
 
 export class ConnexionTempsReelServer {
 
@@ -15,6 +17,8 @@ export class ConnexionTempsReelServer {
     private io: any;
     private gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
     private generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+
+    private clientSocket: SocketIO.Socket[] = new Array();
 
     constructor(app: express.Application) {
         this.server = require('http').createServer(app);
@@ -29,6 +33,8 @@ export class ConnexionTempsReelServer {
 
     private miseEnPlaceRequetesClient(client: SocketIO.Socket, self: ConnexionTempsReelServer): void {
 
+        this.clientSocket.push(client);
+
         // Requêtes générales
         client.on(requetes.REQUETE_SERVER_ENVOYER, (messageClient: string) => self.Envoyer(messageClient, client));
         client.on(requetes.REQUETE_SERVER_QUITTER, () => self.Quitter(client, self));
@@ -38,6 +44,9 @@ export class ConnexionTempsReelServer {
             (specificationPartie: SpecificationPartie) => self.creerPartieSolo(client, self, specificationPartie));
         client.on(requetes.REQUETE_SERVER_VERIFIER_MOT,
             (requisPourMotAVerifier: RequisPourMotAVerifier) => self.verifierMot(client, self, requisPourMotAVerifier));
+        client.on(requetes.REQUETE_SERVER_CHANGER_EMPLACEMENT_MOT_SELECTIONNER,
+            (requisPourSelectionnerMot: RequisPourSelectionnerMot) =>
+            self.changerEmplacementMotSelectionner(client, self, requisPourSelectionnerMot));
     }
 
     public Quitter(client: SocketIO.Socket, self: ConnexionTempsReelServer): void {
@@ -87,5 +96,25 @@ export class ConnexionTempsReelServer {
                 console.log('partie terminee');
             }
         }
+    }
+
+    public changerEmplacementMotSelectionner(client: SocketIO.Socket, self: ConnexionTempsReelServer,
+        requisPourSelectionnerMot: RequisPourSelectionnerMot): void {
+        requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
+
+        const partieEnCours: Partie = this.gestionnaireDePartieService.obtenirPartieEnCours(requisPourSelectionnerMot.guidPartie);
+
+        partieEnCours.changerSelectionMot(requisPourSelectionnerMot.guidJoueur, requisPourSelectionnerMot.emplacementMot);
+        client.emit(requetes.REQUETE_CLIENT_RAPPEL_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
+
+        for (const socketCourante of this.clientSocket) {
+            if (this.estUnAdversaire(client, socketCourante)) {
+                client.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
+            }
+        }
+    }
+
+    public estUnAdversaire(clientEmetteur: SocketIO.Socket, clientCourant: SocketIO.Socket): boolean {
+        return (clientEmetteur.id === clientCourant.id) ? false : true;
     }
 }
