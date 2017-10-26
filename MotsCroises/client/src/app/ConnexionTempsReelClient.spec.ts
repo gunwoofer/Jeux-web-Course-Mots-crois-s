@@ -4,7 +4,7 @@ import { SpecificationPartie } from '../../../commun/SpecificationPartie';
 import { Niveau } from '../../../commun/Niveau';
 import { Joueur } from '../../../commun/Joueur';
 import { TypePartie } from '../../../commun/TypePartie';
-import { RequisPourMotAVerifier } from '../../../commun/RequisPourMotAVerifier';
+import { RequisPourMotAVerifier } from '../../../commun/requis/RequisPourMotAVerifier';
 
 
 describe('ConnexionTempsReel', () => {

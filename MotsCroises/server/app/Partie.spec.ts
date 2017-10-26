@@ -121,8 +121,4 @@ describe('Partie', () => {
         }, tempsAlloueMilisecondes - 500, partieEnCours);
 
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
-
-
-
-
 });

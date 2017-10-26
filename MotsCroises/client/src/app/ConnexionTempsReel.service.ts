@@ -4,7 +4,7 @@ import {Joueur} from '../../../commun/Joueur';
 import {Niveau} from '../../../commun/Niveau';
 import {TypePartie} from '../../../commun/TypePartie';
 import {SpecificationPartie} from '../../../commun/SpecificationPartie';
-import {RequisPourMotAVerifier} from '../../../commun/RequisPourMotAVerifier';
+import {RequisPourMotAVerifier} from '../../../commun/requis/RequisPourMotAVerifier';
 import * as requetes from '../../../commun/constantes/RequetesTempsReel';
 
 
