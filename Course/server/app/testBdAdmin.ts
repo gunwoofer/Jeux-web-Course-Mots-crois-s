@@ -10,11 +10,18 @@ const admin = new modelAdmin({
     motDePasse: 'Hello',
 });
 
+const ancienMotPasse = 'Hello';
+const email = 'john.Doe@gmail.com';
+const nouveauMotPasse = 'ALLLOOO';
+
+
+
 describe('Test unitaire base de données pour la collection administrateur (on ajoute un admin)', () => {
     beforeEach((fin) => {
         const bd = new BdImplementation();
         bd.connect('mongodb://localhost/BdadminTest');
         fin();
+
     });
 
     it('Ajouter une piste à la base de donnée', (fin) => {
@@ -26,7 +33,7 @@ describe('Test unitaire base de données pour la collection administrateur (on a
 
     it('trouver le mot de passe dun admin dans la base de donnée', (fin) => {
         const expect = chai.expect;
-        modelAdmin.findOne({ email: 'john.Doe@gmail.com' })
+        modelAdmin.findOne({ email: email })
             .then((result) => {
                 expect(result.nom).equal(admin.nom);
                 expect(result.motDePasse).equal(admin.motDePasse);
@@ -36,11 +43,26 @@ describe('Test unitaire base de données pour la collection administrateur (on a
 
     it('se connecter à partir de lemail et voir si le mot de passe est correct, on retourne le nom dadmin', (fin) => {
         const expect = chai.expect;
-        modelAdmin.findOne({ email: 'john.Doe@gmail.com' })
+        modelAdmin.findOne({ email: email })
             .then((result) => {
-                expect(result.email === admin.email);
-                expect(result.motDePasse === admin.motDePasse);
+                expect(result.email).equal(admin.email);
+                expect(result.motDePasse).equal(admin.motDePasse);
                 fin();
+            });
+    });
+
+    it('modification du mot de passe', (fin) => {
+        modelAdmin.findOne({ email: email })
+            .then((result) => {
+                chai.expect(result.email).equal(admin.email);
+                chai.expect(result.motDePasse).equal(ancienMotPasse);
+                result.motDePasse = nouveauMotPasse;
+                result.save().then(() => {
+                    chai.expect(result.email).equal(result.email);
+                    chai.expect(result.motDePasse).not.equal(ancienMotPasse);
+                    chai.expect(result.motDePasse).equal(nouveauMotPasse);
+                    fin();
+                });
             });
     });
 
