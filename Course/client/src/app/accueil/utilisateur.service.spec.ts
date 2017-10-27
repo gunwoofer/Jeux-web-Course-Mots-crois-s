@@ -1,4 +1,4 @@
-import { mockAdmin } from './mockAdmin';
+import { mockAdmin, mockListAdmin } from './mockAdmin';
 import { UtilisateurService } from './utilisateur.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';
@@ -33,7 +33,7 @@ describe('utilisateurService', () => {
         const admin = mockAdmin;
         const message = 'administrateur sest enregistre';
         const reponse = new ResponseOptions({
-            body:  JSON.stringify(message)
+            body: JSON.stringify(message)
         });
         const response = new Response(reponse);
         backend.connections.subscribe(
@@ -41,6 +41,21 @@ describe('utilisateurService', () => {
         );
         return service.sInscrire(admin).then(data => {
             expect(data).toEqual('administrateur sest enregistre');
+        });
+    }));
+
+    it('retourne nombre dadmin', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
+        const nombreAdmin = mockListAdmin.length;
+        const reponse = new ResponseOptions({
+            body: JSON.stringify(mockListAdmin.length)
+        });
+        const baseResponse = new Response(reponse);
+        backend.connections.subscribe(
+            (connection: MockConnection) => connection.mockRespond(baseResponse)
+        );
+        return service.nombreAdmin().then(data => {
+            expect(data).toEqual(nombreAdmin);
+            expect(data).toEqual(1);
         });
     }));
 
