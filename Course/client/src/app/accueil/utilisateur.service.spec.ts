@@ -29,7 +29,7 @@ describe('utilisateurService', () => {
         expect(service).toBeTruthy();
     }));
 
-    it('admin doit sinscrire', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
+    it('admin sinscrit ', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
         const admin = mockAdmin;
         const message = 'administrateur sest enregistre';
         const reponse = new ResponseOptions({
@@ -60,7 +60,6 @@ describe('utilisateurService', () => {
     }));
 
     it('retourne mot De passe', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
-        const admin = mockAdmin;
         const reponse = new ResponseOptions({
             body: JSON.stringify(mockAdmin.motDePasse)
         });
@@ -73,8 +72,7 @@ describe('utilisateurService', () => {
         });
     }));
 
-    it('admin doit sinscrire', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
-        const admin = mockAdmin;
+    it('admin modifie son mot de passe', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
         const message = 'Le mot de passe a été modifié';
         const reponse = new ResponseOptions({
             body: JSON.stringify(message)
@@ -85,6 +83,21 @@ describe('utilisateurService', () => {
         );
         return service.modifierMotDePasse(mockForm).then(data => {
             expect(data).toEqual('Le mot de passe a été modifié');
+            expect(data).toEqual(message);
+        });
+    }));
+
+    it('admin se connecte', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
+        const message = 'connexion est approuve';
+        const reponse = new ResponseOptions({
+            body: JSON.stringify(message)
+        });
+        const response = new Response(reponse);
+        backend.connections.subscribe(
+            (connection: MockConnection) => connection.mockRespond(response)
+        );
+        return service.modifierMotDePasse(mockForm).then(data => {
+            expect(data).toEqual('connexion est approuve');
             expect(data).toEqual(message);
         });
     }));
