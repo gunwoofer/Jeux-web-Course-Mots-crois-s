@@ -15,8 +15,7 @@ module Administrateur {
                     });
                 }
                 res.status(200).json({
-                    message: 'administrateur sest enregistre',
-                    objet: resultat,
+                    message: 'administrateur sest enregistre'
                 });
             });
         };
