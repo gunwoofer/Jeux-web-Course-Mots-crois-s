@@ -30,6 +30,10 @@ export class Partie {
         this.debutDePartie = Date.now();
     }
 
+    public estMultijoueur(): boolean {
+        return (this.joueurs.length > 1) ? true : false;
+    }
+
     public obtenirTempsRestantMilisecondes(): number {
         return ((Date.now() - this.debutDePartie) < 0) ? undefined : (Date.now() - this.debutDePartie);
     }

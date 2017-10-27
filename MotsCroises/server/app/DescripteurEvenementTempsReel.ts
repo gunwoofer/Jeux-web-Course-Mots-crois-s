@@ -41,7 +41,7 @@ export class DescripteurEvenementTempsReel {
     }
 
     public verifierMot(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService, 
-        requisPourMotAVerifier: RequisPourMotAVerifier): void {
+        requisPourMotAVerifier: RequisPourMotAVerifier, clients: SocketIO.Socket[]): void {
         requisPourMotAVerifier = RequisPourMotAVerifier.rehydrater(requisPourMotAVerifier);
         const estLeMot = gestionnaireDePartieService.estLeMot(requisPourMotAVerifier.emplacementMot.obtenirCaseDebut(),
             requisPourMotAVerifier.emplacementMot.obtenirCaseFin(), requisPourMotAVerifier.motAVerifier,
@@ -56,8 +56,7 @@ export class DescripteurEvenementTempsReel {
         if (estLeMot) {
             const partieTermine = gestionnaireDePartieService.voirSiPartieTermine(requisPourMotAVerifier.guidPartie);
             if (partieTermine) {
-                client.emit(requetes.REQUETE_CLIENT_PARTIE_TERMINE, partieTermine);
-                console.log('partie terminee');
+                this.verifierEtAvertirSiPartieTermine(gestionnaireDePartieService, requisPourMotAVerifier.guidPartie, clients);
             }
         }
     }
@@ -79,11 +78,26 @@ export class DescripteurEvenementTempsReel {
     }
 
     public obtenirTempsRestant(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-                                requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant): void {
+                                requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant, clients: SocketIO.Socket[]): void {
         requisPourObtenirTempsRestant.tempsRestant = gestionnaireDePartieService
             .obtenirPartieEnCours(requisPourObtenirTempsRestant.guidPartie).obtenirTempsRestantMilisecondes();
 
         client.emit(requetes.REQUETE_CLIENT_OBTENIR_TEMPS_RESTANT_RAPPEL, requisPourObtenirTempsRestant);
+
+        if(requisPourObtenirTempsRestant.tempsRestant === undefined) {
+            this.verifierEtAvertirSiPartieTermine(gestionnaireDePartieService, requisPourObtenirTempsRestant.guidPartie, clients);
+        }
+    }
+
+    private verifierEtAvertirSiPartieTermine(gestionnaireDePartieService: GestionnaireDePartieService, 
+                guidPartie: string, clients: SocketIO.Socket[]) {
+        const partieTermine = gestionnaireDePartieService.voirSiPartieTermine(guidPartie);
+        if (partieTermine) {
+            for(const clientCourant of clients) {
+                clientCourant.emit(requetes.REQUETE_CLIENT_PARTIE_TERMINE, partieTermine);
+            }
+            console.log('partie terminee');
+        }
     }
 
     private estUnAdversaire(clientEmetteur: SocketIO.Socket, clientCourant: SocketIO.Socket): boolean {

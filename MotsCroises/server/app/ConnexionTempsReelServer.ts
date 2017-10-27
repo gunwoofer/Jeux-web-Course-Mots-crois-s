@@ -19,7 +19,7 @@ export class ConnexionTempsReelServer {
     private generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
     private descripteurEvenementTempsReel: DescripteurEvenementTempsReel = new DescripteurEvenementTempsReel();
 
-    private clientSocket: SocketIO.Socket[] = new Array();
+    private clientSockets: SocketIO.Socket[] = new Array();
 
     constructor(app: express.Application) {
         this.server = require('http').createServer(app);
@@ -34,7 +34,7 @@ export class ConnexionTempsReelServer {
 
     private miseEnPlaceRequetesClient(client: SocketIO.Socket, self: ConnexionTempsReelServer): void {
 
-        this.clientSocket.push(client);
+        this.clientSockets.push(client);
 
         // Requêtes générales
         client.on(requetes.REQUETE_SERVER_ENVOYER, (messageClient: string) =>
@@ -48,12 +48,13 @@ export class ConnexionTempsReelServer {
                 self.generateurDeGrilleService, specificationPartie));
         client.on(requetes.REQUETE_SERVER_VERIFIER_MOT,
             (requisPourMotAVerifier: RequisPourMotAVerifier) => 
-            self.descripteurEvenementTempsReel.verifierMot(client, self.gestionnaireDePartieService, requisPourMotAVerifier));
+            self.descripteurEvenementTempsReel.verifierMot(client, self.gestionnaireDePartieService, 
+                requisPourMotAVerifier, self.clientSockets));
         client.on(requetes.REQUETE_SERVER_CHANGER_EMPLACEMENT_MOT_SELECTIONNER,
             (requisPourSelectionnerMot: RequisPourSelectionnerMot) =>
             self.descripteurEvenementTempsReel.changerEmplacementMotSelectionner(client, self.gestionnaireDePartieService, 
-                self.clientSocket, requisPourSelectionnerMot));
+                self.clientSockets, requisPourSelectionnerMot));
         client.on(requetes.REQUETE_SERVER_OBTENIR_TEMPS_RESTANT, (requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant) =>
-            self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.io, requisPourObtenirTempsRestant));
+            self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.io, requisPourObtenirTempsRestant, self.clientSockets));
     }
 }
