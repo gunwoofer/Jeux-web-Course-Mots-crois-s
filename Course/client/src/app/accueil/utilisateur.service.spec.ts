@@ -1,4 +1,4 @@
-import { mockAdmin, mockListAdmin } from './mockAdmin';
+import { mockAdmin, mockListAdmin, mockForm } from './mockAdmin';
 import { UtilisateurService } from './utilisateur.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';
@@ -70,6 +70,22 @@ describe('utilisateurService', () => {
         );
         return service.recupererMotDePasse(mockAdmin.email).then(data => {
             expect(data).toEqual(mockListAdmin[0].motDePasse);
+        });
+    }));
+
+    it('admin doit sinscrire', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
+        const admin = mockAdmin;
+        const message = 'Le mot de passe a été modifié';
+        const reponse = new ResponseOptions({
+            body: JSON.stringify(message)
+        });
+        const response = new Response(reponse);
+        backend.connections.subscribe(
+            (connection: MockConnection) => connection.mockRespond(response)
+        );
+        return service.modifierMotDePasse(mockForm).then(data => {
+            expect(data).toEqual('Le mot de passe a été modifié');
+            expect(data).toEqual(message);
         });
     }));
 
