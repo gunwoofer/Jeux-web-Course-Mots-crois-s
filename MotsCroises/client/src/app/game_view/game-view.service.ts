@@ -11,6 +11,7 @@ import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 import {Indice} from '../../../../server/app/Indice';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
 import {Router} from '@angular/router';
+import { RequisDemandeListePartieEnCours } from '../../../../commun/requis/RequisDemandeListePartieEnCours';
 
 
 @Injectable()
@@ -97,6 +98,16 @@ export class GameViewService {
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
+  }
+
+  public demanderListePartieEnCours(): void {
+    // Demander liste de partie.
+  }
+
+  public rappelDemanderListePartieEnCours(requisDemandeListePartieEnCours: RequisDemandeListePartieEnCours, self: GameViewService) {
+    //for(const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
+      //console.log(vuePartieCourante.nomJoueurHote + ' | ' + vuePartieCourante.guidPartie);
+    //}
   }
 
   public recommencerPartie() {

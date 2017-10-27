@@ -1,6 +1,8 @@
 import { Guid } from './Guid';
 import { EmplacementMot } from './EmplacementMot';
 
+export const NOM_JOUEUR_HOTE_DEFAULT = 'joueurHote';
+
 enum Couleur {
     Rouge,
     Vert,
@@ -14,9 +16,11 @@ export class Joueur {
     private emplacementMotSelectionner: EmplacementMot;
     private emplacementsMotTrouve: EmplacementMot[] = [];
     private motsDeTrouve: string[] = [];
+    private nomJoueur: string;
 
-    constructor(couleur: Couleur = Couleur.Bleu) {
+    constructor(couleur: Couleur = Couleur.Bleu, nomJoueur: string = NOM_JOUEUR_HOTE_DEFAULT) {
         this.couleur = couleur;
+        this.nomJoueur = nomJoueur;
     }
 
     public obtenirGuid(): string {
