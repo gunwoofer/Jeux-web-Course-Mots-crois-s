@@ -51,7 +51,7 @@ export class UtilisateurService {
     }
 
     private gererErreur(erreur: any): Promise<any> {
-        console.error('Une erreur est arrivé', erreur); // for demo purposes only
+        console.error('Une erreur est arrivé', erreur);
         return Promise.reject(erreur.message || erreur);
       }
 

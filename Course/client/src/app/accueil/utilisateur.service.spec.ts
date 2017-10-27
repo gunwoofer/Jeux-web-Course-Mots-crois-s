@@ -44,7 +44,7 @@ describe('utilisateurService', () => {
         });
     }));
 
-    it('retourne nombre dadmin', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
+    it('retourne nombre d admin', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
         const nombreAdmin = mockListAdmin.length;
         const reponse = new ResponseOptions({
             body: JSON.stringify(mockListAdmin.length)
@@ -56,6 +56,20 @@ describe('utilisateurService', () => {
         return service.nombreAdmin().then(data => {
             expect(data).toEqual(nombreAdmin);
             expect(data).toEqual(1);
+        });
+    }));
+
+    it('retourne mot De passe', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
+        const admin = mockAdmin;
+        const reponse = new ResponseOptions({
+            body: JSON.stringify(mockAdmin.motDePasse)
+        });
+        const baseResponse = new Response(reponse);
+        backend.connections.subscribe(
+            (connection: MockConnection) => connection.mockRespond(baseResponse)
+        );
+        return service.recupererMotDePasse(mockAdmin.email).then(data => {
+            expect(data).toEqual(mockListAdmin[0].motDePasse);
         });
     }));
 
