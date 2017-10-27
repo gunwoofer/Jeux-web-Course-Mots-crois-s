@@ -9,6 +9,7 @@ import { Indice } from './Indice';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
+import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -84,9 +85,19 @@ export class DescripteurEvenementTempsReel {
 
         client.emit(requetes.REQUETE_CLIENT_OBTENIR_TEMPS_RESTANT_RAPPEL, requisPourObtenirTempsRestant);
 
-        if(requisPourObtenirTempsRestant.tempsRestant === undefined) {
+        if (requisPourObtenirTempsRestant.tempsRestant === undefined) {
             this.verifierEtAvertirSiPartieTermine(gestionnaireDePartieService, requisPourObtenirTempsRestant.guidPartie, clients);
         }
+    }
+
+    public obtenirMotsTrouve(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
+        requisPourMotsTrouve: RequisPourMotsTrouve, clients: SocketIO.Socket[]): void {
+        const partie: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourMotsTrouve.guidPartie);
+
+        requisPourMotsTrouve.motsTrouveSelonJoueur = partie.obtenirMotsTrouve();
+
+        client.emit(requetes.REQUETE_CLIENT_OBTENIR_MOTS_TROUVE_RAPPEL, requisPourMotsTrouve);
+
     }
 
     private verifierEtAvertirSiPartieTermine(gestionnaireDePartieService: GestionnaireDePartieService, 

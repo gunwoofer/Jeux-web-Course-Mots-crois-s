@@ -52,10 +52,12 @@ export class Partie {
 
     public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidJoueur: string): boolean {
         let joueur: Joueur;
+        const emplacementMotAChercher: EmplacementMot = this.grille.obtenirEmplacementMot(caseDebut, caseFin);
 
        if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
             joueur = this.obtenirJoueur(guidJoueur);
-            joueur.aTrouveMot();
+            
+            joueur.aTrouveMot(emplacementMotAChercher, motAVerifier);
 
             return true;
        }
@@ -75,6 +77,16 @@ export class Partie {
 
     public obtenirPartieGuid(): string {
         return this.guid;
+    }
+
+    public obtenirMotsTrouve(): Object {
+        const motsTrouveSelonJoueur: Object = new Object();
+
+        for (const joueurCourant of this.joueurs) {
+            motsTrouveSelonJoueur[joueurCourant.obtenirGuid()] = joueurCourant.obtenirMotTrouve();
+        }
+
+        return motsTrouveSelonJoueur;
     }
 
     public ajouterJoueur(joueur: Joueur): void {

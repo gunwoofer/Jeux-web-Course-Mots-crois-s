@@ -100,14 +100,14 @@ describe('GestionnaireDePartieService', () => {
         const emplacementMot: EmplacementMot = emplacementsMot[0];
         const caseDebut: Case = emplacementMot.obtenirCaseDebut();
         const caseFin: Case = emplacementMot.obtenirCaseFin();
-        let motAVerifier = '';
+        let motAVerifier: string = '';
         const casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
             emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
 
         for (const caseCourante of casesEmplacementMot) {
             motAVerifier += caseCourante.obtenirLettre();
         }
-
+        console.log("MOT A VERIFIER : " + joueur.obtenirMotTrouve());
         assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
         done();
 

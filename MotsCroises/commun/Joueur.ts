@@ -12,6 +12,8 @@ export class Joueur {
     private pointage = 0;
     private couleur: Couleur;
     private emplacementMotSelectionner: EmplacementMot;
+    private emplacementsMotTrouve: EmplacementMot[] = [];
+    private motsDeTrouve: string[] = [];
 
     constructor(couleur: Couleur = Couleur.Bleu) {
         this.couleur = couleur;
@@ -21,10 +23,16 @@ export class Joueur {
         return this.id;
     }
 
-    public aTrouveMot() {
+    public aTrouveMot(emplacementMotTrouve: EmplacementMot, motTrouve: string): void {
+        this.emplacementsMotTrouve.push(emplacementMotTrouve);
+        this.motsDeTrouve.push(motTrouve);
         this.pointage++;
     }
 
+    public obtenirMotTrouve(): string[] {
+        return this.motsDeTrouve;
+    }
+    
     public obtenirPointage(): number {
         return this.pointage;
     }

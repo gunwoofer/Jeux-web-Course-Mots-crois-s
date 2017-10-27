@@ -5,6 +5,7 @@ import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifi
 import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelectionnerMot';
 import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
 import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
+import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
 
 import * as express from 'express';
 
@@ -24,7 +25,7 @@ export class ConnexionTempsReelServer {
     constructor(app: express.Application) {
         this.server = require('http').createServer(app);
         this.io = require('socket.io')(this.server);
-    } 
+    }
 
     public ecouterPourConnexionClients(): void {
         const self: ConnexionTempsReelServer = this;
@@ -44,11 +45,11 @@ export class ConnexionTempsReelServer {
         // Requêtes mode classique.
         client.on(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO,
             (specificationPartie: SpecificationPartie) => 
-            self.descripteurEvenementTempsReel.creerPartieSolo(client, self.gestionnaireDePartieService, 
+            self.descripteurEvenementTempsReel.creerPartieSolo(client, self.gestionnaireDePartieService,
                 self.generateurDeGrilleService, specificationPartie));
         client.on(requetes.REQUETE_SERVER_VERIFIER_MOT,
             (requisPourMotAVerifier: RequisPourMotAVerifier) => 
-            self.descripteurEvenementTempsReel.verifierMot(client, self.gestionnaireDePartieService, 
+            self.descripteurEvenementTempsReel.verifierMot(client, self.gestionnaireDePartieService,
                 requisPourMotAVerifier, self.clientSockets));
         client.on(requetes.REQUETE_SERVER_CHANGER_EMPLACEMENT_MOT_SELECTIONNER,
             (requisPourSelectionnerMot: RequisPourSelectionnerMot) =>
@@ -56,5 +57,7 @@ export class ConnexionTempsReelServer {
                 self.clientSockets, requisPourSelectionnerMot));
         client.on(requetes.REQUETE_SERVER_OBTENIR_TEMPS_RESTANT, (requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant) =>
             self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.io, requisPourObtenirTempsRestant, self.clientSockets));
+        client.on(requetes.REQUETE_SERVER_OBTENIR_MOTS_TROUVES, (requisPourMotsTrouve: RequisPourMotsTrouve) =>
+            self.descripteurEvenementTempsReel.obtenirMotsTrouve(client, self.io, requisPourMotsTrouve, self.clientSockets));
     }
 }
