@@ -14,7 +14,7 @@ import * as cors from 'cors';
 import { BdImplementation } from './bdImplementation';
 
 import * as indexRoute from './routes/index';
-import * as configuration from './Configuration';
+import * as administrateurRoute from './routes/administrateur';
 
 export class Application {
 
@@ -48,7 +48,7 @@ export class Application {
 
     // configure routes
     this.routes();
-    }
+  }
 
   /**
    * The config function.
@@ -66,7 +66,7 @@ export class Application {
     this.app.use(cors());
 
     const bd: BdImplementation = new BdImplementation();
-    bd.connect(configuration.baseDeDonneesUrl);
+    bd.connect('mongodb://localhost/Bdpiste');
 
   }
 
@@ -82,6 +82,16 @@ export class Application {
 
     // create routes
     const index: indexRoute.Index = new indexRoute.Index();
+    const administrateur: administrateurRoute.Index = new administrateurRoute.Index();
+
+    // admin
+    router.patch('/ModifierPass', administrateur.modifierMotDePasse.bind(administrateur.modifierMotDePasse));
+    router.post('/inscription', administrateur.ajouterAdmin.bind(administrateur.ajouterAdmin));
+    router.post('/admin', administrateur.seConnecter.bind(administrateur.seConnecter));
+    router.get('/admin', administrateur.retournerNombreAdmin.bind(administrateur.retournerNombreAdmin));
+    router.get('/motDePasseOublie:email', administrateur.retournerMotDepasse.bind(administrateur.retournerMotDepasse));
+
+    // pistes
     router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
     router.delete('/listePiste:id', index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));

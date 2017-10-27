@@ -1,0 +1,60 @@
+label {
+    font-weight: bold;
+    padding-left: 45px;
+}
+
+.form {
+    width: 400px;
+    height: 300px;
+    background: #edeff1;
+    margin-left: 450px;
+    margin-top: 150px;
+    padding-top: 20px;
+    border-radius: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    display: block;
+    width: 309px;
+    height: 35px;
+    margin: 15px auto;
+    background: #fff;
+    border: 0px;
+    padding: 5px;
+    font-size: 16px;
+    border: 2px solid #fff;
+    border-radius: 5px;
+}
+
+button[type="submit"] {
+    display: block;
+    background: green;
+    width: 130px;
+    padding: 12px;
+    cursor: pointer;
+    color: #fff;
+    border: 0px;
+    margin: auto;
+    border-radius: 5px;
+    font-size: 17px;
+}
+
+a {
+    float: left;
+    text-align: center;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    color: black;
+    display: block;
+    margin: 15px auto;
+    text-decoration: none;
+    font-size: 12px;
+}
+
+a:hover {
+    color: red;
+}
+
+#lien1 {
+    margin-left: 20px;
+}

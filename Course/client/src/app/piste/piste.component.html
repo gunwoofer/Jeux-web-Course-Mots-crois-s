@@ -26,10 +26,10 @@
                 <a [routerLink]="['/generationpiste']" class="config" class="btn btn-success" (click)="commencerPartie()">
                     <i class="fa fa-flag-checkered" aria-hidden="true"></i>Choisir une Course
                 </a>
-                <a [routerLink]="['/createurPiste']" class="config" class="btn btn-warning" (click)="editer()">
+                <a *ngIf="admin" [routerLink]="['/createurPiste']" class="config" class="btn btn-warning" (click)="editer()">
                     <i class="fa fa-cog" aria-hidden="true"></i>Modifier
                 </a>
-                <a class="config" class="btn btn-danger" (click)="supprimer()">
+                <a *ngIf="admin" class="config" class="btn btn-danger" (click)="supprimer()">
                     <i class="fa fa-trash-o" aria-hidden="true"></i>Supprimer
                 </a>
 

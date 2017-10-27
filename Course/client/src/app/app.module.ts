@@ -1,5 +1,4 @@
-import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
-import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
+
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -12,6 +11,13 @@ import { PisteComponent } from './piste/piste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
 import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 import { CourseComponent } from './course/course.component';
+import { AccueilComponent } from './accueil/accueil.component';
+import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
+import { JoueurComponent } from './accueil/joueur/joueur.component';
+import { InscriptionComponent } from './accueil/admin/inscription/inscription.component';
+import { ConnexionComponent } from './accueil/admin/connexion/connexion.component';
+import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
+import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 
 
 import { RenderService } from './renderService/render.service';
@@ -21,6 +27,8 @@ import { FacadeSourisService } from './facadeSouris/facadesouris.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
+import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
+import { UtilisateurService } from './accueil/utilisateur.service';
 
 
 import { APP_BASE_HREF } from '@angular/common';
@@ -37,7 +45,13 @@ import { AppRoutingModule } from './app.routing';
     ListePisteComponent,
     CourseComponent,
     TableauScoreComponent,
-    GenerateurPisteComponent
+    GenerateurPisteComponent,
+    AccueilComponent,
+    JoueurComponent,
+    ConnexionComponent,
+    InscriptionComponent,
+    MotDepasseOublieComponent,
+    ModificationMotDePasseComponent
   ],
   imports: [
     BrowserModule,
@@ -54,6 +68,7 @@ import { AppRoutingModule } from './app.routing';
     FacadeLigneService,
     MessageErreurService,
     GenerateurPisteService,
+    UtilisateurService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
