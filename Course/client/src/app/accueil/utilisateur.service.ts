@@ -1,10 +1,7 @@
-import { Message } from './../../../../commun/communication/message';
 import { ModificationForm } from './admin/modificationMotDepasse/modificationModel';
 import { Http, Response } from '@angular/http';
 import { Administrateur } from './admin/admin.model';
-import { EventEmitter, Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
-import 'rxjs/Rx';
+import { Injectable } from '@angular/core';
 
 @Injectable()
 
@@ -43,7 +40,7 @@ export class UtilisateurService {
             .catch(this.gererErreur);
     }
 
-    public seConnecter(admin: Administrateur) {
+    public seConnecter(admin: Administrateur): Promise<any> {
         return this.http.post('http://localhost:3000/admin', admin)
             .toPromise()
             .then((reponse: Response) => reponse.json())
@@ -53,6 +50,6 @@ export class UtilisateurService {
     private gererErreur(erreur: any): Promise<any> {
         console.error('Une erreur est arrivé', erreur);
         return Promise.reject(erreur.message || erreur);
-      }
+    }
 
 }

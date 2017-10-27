@@ -1,13 +1,13 @@
-import { modelAdmin } from './../adminModel';
+import { AdminModel, modelAdmin } from './../adminModel';
 import * as express from 'express';
 
 
 module Administrateur {
 
     export class Index {
-        public ajouterAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public ajouterAdmin(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const administrateur = new modelAdmin(req.body);
-            administrateur.save((err, resultat) => {
+            administrateur.save((err: any, admin: AdminModel) => {
                 if (err) {
                     return res.status(500).json({
                         message: 'une erreur est survenue lors de la sauvegarde',
@@ -20,8 +20,8 @@ module Administrateur {
             });
         };
 
-        public retournerNombreAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
-            modelAdmin.find((err, resultats) => {
+        public retournerNombreAdmin(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            modelAdmin.find((err: any, admins: AdminModel[]) => {
                 if (err) {
                     return res.status(500).json({
                         message: 'une erreur est survenue',
@@ -29,32 +29,32 @@ module Administrateur {
                     });
                 }
                 res.status(200).json({
-                    objet: resultats.length,
+                    objet: admins.length,
                 });
             });
         };
 
-        public retournerMotDepasse(req: express.Request, res: express.Response, next: express.NextFunction) {
-            modelAdmin.findOne({ email: req.params.email }, (err, resultat) => {
+        public retournerMotDepasse(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            modelAdmin.findOne({ email: req.params.email }, (err: any, admin: AdminModel) => {
                 if (err) {
                     return res.status(500).json({
                         message: 'une erreur est survenue',
                         error: err,
                     });
                 }
-                if (!resultat) {
+                if (!admin) {
                     return res.status(500).json({
                         message: 'il nexiste pas',
                     });
                 }
                 res.status(200).json({
-                    motDePasse: resultat.motDePasse,
+                    motDePasse: admin.motDePasse,
                 });
             });
         };
 
-        public seConnecter(req: express.Request, res: express.Response, next: express.NextFunction) {
-            modelAdmin.findOne({ email: req.body.email }, (err, admin) => {
+        public seConnecter(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            modelAdmin.findOne({ email: req.body.email }, (err: any, admin: AdminModel) => {
                 if (err) {
                     return res.status(500).json({
                         message: 'une erreur est survenue',
@@ -73,8 +73,8 @@ module Administrateur {
             });
         };
 
-        public modifierMotDePasse(req: express.Request, res: express.Response, next: express.NextFunction) {
-            modelAdmin.findOne({ email: req.body.email }, (err, admin) => {
+        public modifierMotDePasse(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            modelAdmin.findOne({ email: req.body.email }, (err: any, admin: AdminModel) => {
                 if (err) {
                     return res.status(500).json({
                         message: 'une erreur est survenue',

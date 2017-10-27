@@ -2,7 +2,7 @@ import { Administrateur } from './../admin.model';
 import { UtilisateurService } from './../../utilisateur.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
-import { Component, EventEmitter, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-connexion',
@@ -37,7 +37,7 @@ export class ConnexionComponent implements OnInit {
     this.router.navigateByUrl('/motDePasseOublie');
   }
 
-  public ngOnInit() {
+  public ngOnInit(): void {
     this.utilisateurService.nombreAdmin().then(donne => {
       this.nbAdmin = donne.objet;
     });

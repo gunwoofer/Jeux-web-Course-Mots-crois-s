@@ -1,7 +1,7 @@
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { CreateurPisteComponent } from './createurPiste/createurPiste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
-import { Routes, RouterModule } from '@angular/router';
+import { Routes } from '@angular/router';
 
 export const ADMIN_ROUTES: Routes = [
     { path: '', redirectTo: 'listePiste', pathMatch: 'full' },
