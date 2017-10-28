@@ -2,7 +2,6 @@ import { UtilisateurService } from './../accueil/utilisateur.service';
 import { MusiqueService } from './../musique/musique.service';
 import { Component, OnInit } from '@angular/core';
 
-import { Musique } from './../musique/musique.model';
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
 
