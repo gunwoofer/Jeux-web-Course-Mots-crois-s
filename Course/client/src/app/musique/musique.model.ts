@@ -9,7 +9,6 @@ const DUREE_STINGER = 12;
 
 export class Musique {
     private musique: HTMLAudioElement;
-    private duree: number;
     private enEcoute: boolean;
 
     constructor() {
