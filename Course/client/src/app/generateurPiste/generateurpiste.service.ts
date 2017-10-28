@@ -42,7 +42,6 @@ export class GenerateurPisteService {
 
         this.scene.add(this.voitureService.obtenirObjetVoiture3D());
 
-        // this.scene.add(this.creerSkybox());
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
 
