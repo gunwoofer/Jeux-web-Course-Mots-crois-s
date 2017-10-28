@@ -1,0 +1,20 @@
+
+<div class="partieDiv">
+
+  <h1>Liste parties disponibles :</h1>
+
+  <div class="nomJoueurDiv">
+    <label>Nom du joueur : </label>
+    <input [(ngModel)]="nomJoueur" placeholder="Name" />
+  </div>
+
+  <div *ngFor="let partie of listeVuePartie">
+    <div (click)="setPartieSelectionne(partie)" [class.selected]="partie === partieSelectionne">
+      {{partie.guidPartie}} + ' ' + {{partie.nomJoueurHote}} +' '
+    </div>
+  </div>
+
+  <button ng-model="button" [disabled]="nomJoueurValable()">Rejoindre Partie</button>
+
+</div>
+

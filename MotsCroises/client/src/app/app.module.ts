@@ -17,6 +17,7 @@ import {GameViewService} from './game_view/game-view.service';
 import {ChoixPartieViewComponent} from './choix_partie/app.choix-partie-view.component';
 import {FinPartieComponent} from './fin_partie/fin-partie.component';
 import {FormsModule} from '@angular/forms';
+import {TrouverPartieComponent} from './trouver_partie/app.trouver-partie.component';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import {FormsModule} from '@angular/forms';
     IndiceViewComponent,
     InfosJeuViewComponent,
     ChoixPartieViewComponent,
-    FinPartieComponent
+    FinPartieComponent,
+    TrouverPartieComponent
   ],
   imports: [
     BrowserModule,
