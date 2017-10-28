@@ -47,7 +47,7 @@ export class GenerateurPisteService {
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
 
-        this.ajoutVoiture();
+        this.chargerVoiture();
 
         this.ajoutPisteAuPlan();
 
@@ -109,7 +109,8 @@ export class GenerateurPisteService {
 
     public deplacementVoiture(event): void {
         this.voitureService.vitesse += 0.05;
-        this.deplacement.deplacementVoiture(event, this.voiture, this.touche, this.touchePrecedente, this.voitureService.vitesse);
+        this.deplacement.deplacementVoiture(event, this.lambo, this.touche, this.touchePrecedente, this.voitureService.vitesse);
+
     }
 
     public toucheRelachee(event): void {
@@ -117,18 +118,14 @@ export class GenerateurPisteService {
         this.deplacement.toucheRelachee(event, this.touche);
     }
 
-    public ajoutVoiture(): void {
+    public chargerVoiture(): void {
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, ( obj ) => {
             obj.rotateX(1.5708);
             obj.name = 'Voiture';
             this.scene.add( obj );
             this.camera.lookAt(obj.position);
-            this.obtenirVoiture();
+            this.lambo = obj;
         });
-    }
-
-    public obtenirVoiture() {
-        this.lambo = this.scene.getChildByName('Voiture');
     }
 }

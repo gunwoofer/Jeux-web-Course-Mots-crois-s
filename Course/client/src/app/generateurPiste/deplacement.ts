@@ -9,7 +9,7 @@ export class Deplacement {
 
     private toucheAppuyer: number[] = new Array(3);
 
-    public deplacementVoiture(event, voiture: THREE.Mesh, touche: number, touchePrecedente: number, vitesse: number): void {
+    public deplacementVoiture(event, voiture: THREE.Object3D, touche: number, touchePrecedente: number, vitesse: number): void {
         if (event.keyCode === avancer) {
             voiture.translateY(vitesse);
             this.toucheAppuyer[1] = this.toucheAppuyer[1];
