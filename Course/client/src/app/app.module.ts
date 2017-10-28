@@ -1,4 +1,3 @@
-
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -29,6 +28,7 @@ import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
 import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
 import { UtilisateurService } from './accueil/utilisateur.service';
+import { MusiqueService } from './musique/musique.service';
 
 
 import { APP_BASE_HREF } from '@angular/common';
@@ -68,6 +68,7 @@ import { AppRoutingModule } from './app.routing';
     FacadeLigneService,
     MessageErreurService,
     GenerateurPisteService,
+    MusiqueService,
     UtilisateurService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
