@@ -8,6 +8,7 @@ import { Voiture } from './../voiture/voiture.service';
 import { Piste } from '../piste/piste.model';
 export const LARGEUR_PISTE = 5;
 export let NOMBRE_SEGMENTS = 1;
+const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 
 
 @Injectable()
@@ -25,6 +26,7 @@ export class GenerateurPisteService {
     private touchePrecedente: number;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
+    private lambo: THREE.Object3D;
 
     private piste: Piste;
 
@@ -44,6 +46,8 @@ export class GenerateurPisteService {
 
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
+
+        this.ajoutVoiture();
 
         this.ajoutPisteAuPlan();
 
@@ -115,9 +119,16 @@ export class GenerateurPisteService {
 
     public ajoutVoiture(): void {
         const loader = new THREE.ObjectLoader();
-        loader.load('../../assets/modeles/audi/audioptimised02.json', ( obj ) => {
+        loader.load(EMPLACEMENT_VOITURE, ( obj ) => {
+            obj.rotateX(1.5708);
+            obj.name = 'Voiture';
             this.scene.add( obj );
             this.camera.lookAt(obj.position);
+            this.obtenirVoiture();
         });
+    }
+
+    public obtenirVoiture() {
+        this.lambo = this.scene.getChildByName('Voiture');
     }
 }
