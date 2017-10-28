@@ -21,12 +21,11 @@ export class GenerateurPisteService {
     private origine: THREE.Vector3;
     private voitureService: Voiture;
     private objetVoiture: THREE.Mesh;
-    private voiture: THREE.Mesh;
     private touche: number;
     private touchePrecedente: number;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
-    private lambo: THREE.Object3D;
+    private voiture: THREE.Object3D;
 
     private piste: Piste;
 
@@ -37,12 +36,9 @@ export class GenerateurPisteService {
         for (let i = 0; i < this.pointsPiste.length; i++) {
             this.pointsPiste[i] = new Array();
         }
-        this.voitureService = new Voiture(this.objetVoiture);
+        this.voitureService = new Voiture();
         this.container = container;
-        this.voiture = this.voitureService.creerVoiture();
         this.creerScene();
-
-        this.scene.add(this.voitureService.obtenirObjetVoiture3D());
 
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
@@ -75,9 +71,9 @@ export class GenerateurPisteService {
     public render(): void {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
-        if (this.lambo !== undefined) {
-            this.camera.position.y = this.lambo.position.y;
-            this.camera.position.x = this.lambo.position.x;
+        if (this.voiture !== undefined) {
+            this.camera.position.y = this.voiture.position.y;
+            this.camera.position.x = this.voiture.position.x;
         }
     }
 
@@ -109,7 +105,7 @@ export class GenerateurPisteService {
 
     public deplacementVoiture(event): void {
         this.voitureService.vitesse += 0.05;
-        this.deplacement.deplacementVoiture(event, this.lambo, this.touche, this.touchePrecedente, this.voitureService.vitesse);
+        this.deplacement.deplacementVoiture(event, this.voiture, this.touche, this.touchePrecedente, this.voitureService.vitesse);
 
     }
 
@@ -125,9 +121,9 @@ export class GenerateurPisteService {
             obj.name = 'Voiture';
             this.scene.add( obj );
             this.camera.lookAt(obj.position);
-            this.lambo = obj;
-            this.camera.position.y = this.lambo.position.y;
-            this.camera.position.x = this.lambo.position.x;
+            this.voiture = obj;
+            this.camera.position.y = this.voiture.position.y;
+            this.camera.position.x = this.voiture.position.x;
         });
     }
 }
