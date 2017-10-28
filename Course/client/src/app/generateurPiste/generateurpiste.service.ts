@@ -20,7 +20,6 @@ export class GenerateurPisteService {
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
     private voitureService: Voiture;
-    private objetVoiture: THREE.Mesh;
     private touche: number;
     private touchePrecedente: number;
     private deplacement = new Deplacement();
