@@ -1,7 +1,7 @@
 const EMPLACEMENT_MUSIQUE = '../../assets/musiques/';
 const FORMAT_MP3 = '.mp3';
-const DUREE_THEMATIQUE = 92;
-const DUREE_EDITEUR = 340;
+const NOM_THEMATIQUE = 'Get The New World';
+const NOM_EDITEUR = 'Sims - Building Mode 3';
 
 export class Musique {
     private musique: HTMLAudioElement;
@@ -14,6 +14,7 @@ export class Musique {
 
     private chargerMusique(nom: string): HTMLAudioElement {
         const musique = new Audio(EMPLACEMENT_MUSIQUE + nom + FORMAT_MP3);
+        musique.loop = true;
         return musique;
     }
 
@@ -32,16 +33,12 @@ export class Musique {
     }
 
     public lancerMusiqueThematique(): void {
-        this.musique = this.chargerMusique('Get The New World');
-        this.musique.loop = true;
-        this.duree = DUREE_THEMATIQUE;
+        this.musique = this.chargerMusique(NOM_THEMATIQUE);
         this.lancerMusique();
     }
 
     public lancerMusiqueEditeur(): void {
-        this.musique = this.chargerMusique('Sims - Building Mode 3');
-        this.musique.loop = true;
-        this.duree = DUREE_EDITEUR;
+        this.musique = this.chargerMusique(NOM_EDITEUR);
         this.lancerMusique();
     }
 }
