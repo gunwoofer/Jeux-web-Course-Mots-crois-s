@@ -61,8 +61,6 @@ export class GenerateurPisteService {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
-        this.camera.position.y = this.voiture.position.y;
-        this.camera.position.x = this.voiture.position.x;
         this.camera.position.z = 150;
     }
 
@@ -77,8 +75,10 @@ export class GenerateurPisteService {
     public render(): void {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
-        this.camera.position.y = this.voiture.position.y;
-        this.camera.position.x = this.voiture.position.x;
+        if (this.lambo !== undefined) {
+            this.camera.position.y = this.lambo.position.y;
+            this.camera.position.x = this.lambo.position.x;
+        }
     }
 
     public onResize(): void {
@@ -126,6 +126,8 @@ export class GenerateurPisteService {
             this.scene.add( obj );
             this.camera.lookAt(obj.position);
             this.lambo = obj;
+            this.camera.position.y = this.lambo.position.y;
+            this.camera.position.x = this.lambo.position.x;
         });
     }
 }
