@@ -71,9 +71,34 @@ export class GenerateurPisteService {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
         if (this.voiture !== undefined) {
-            this.camera.position.y = this.voiture.position.y;
-            this.camera.position.x = this.voiture.position.x;
+            this.vueTroisiemePersonne();
         }
+    }
+
+    public vueDessus(): void {
+        this.camera.position.y = this.voiture.position.y;
+        this.camera.position.x = this.voiture.position.x;
+        this.camera.lookAt(this.voiture.position);
+    }
+
+
+    public vueTroisiemePersonne(): void {
+
+        this.camera.position.y = this.voiture.position.y - 20;
+        this.camera.position.x = this.voiture.position.x;
+        this.camera.position.z = this.voiture.position.z + 15;
+
+        const relativeCameraOffset = new THREE.Vector3(0, -20, 15);
+
+        const cameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
+
+        this.camera.position.x = cameraOffset.x;
+        this.camera.position.y = cameraOffset.y;
+        this.camera.updateMatrix();
+        this.camera.updateProjectionMatrix();
+        // Eviter que la camera ne roule sur elle meme
+        this.camera.up = new THREE.Vector3(0, 0, 1);
+        this.camera.lookAt(this.voiture.position);
     }
 
     public onResize(): void {
@@ -117,12 +142,10 @@ export class GenerateurPisteService {
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, ( obj ) => {
             obj.rotateX(1.5708);
+            obj.rotateY(Math.PI / 2);
             obj.name = 'Voiture';
             this.scene.add( obj );
-            this.camera.lookAt(obj.position);
             this.voiture = obj;
-            this.camera.position.y = this.voiture.position.y;
-            this.camera.position.x = this.voiture.position.x;
         });
     }
 }
