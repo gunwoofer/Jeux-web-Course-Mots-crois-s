@@ -11,7 +11,7 @@ export class Deplacement {
 
     public deplacementVoiture(event, voiture: THREE.Object3D, touche: number, touchePrecedente: number, vitesse: number): void {
         if (event.keyCode === avancer) {
-            voiture.translateY(vitesse);
+            voiture.translateX(vitesse);
             this.toucheAppuyer[1] = this.toucheAppuyer[1];
             this.toucheAppuyer[0] = avancer;
             if (this.toucheAppuyer[1] === gauche) {
@@ -27,7 +27,7 @@ export class Deplacement {
             }
         }
         if (event.keyCode === reculer) {
-            voiture.translateY(-vitesse);
+            voiture.translateX(-vitesse);
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = reculer;
            if (this.toucheAppuyer[1] === gauche) {
@@ -44,14 +44,14 @@ export class Deplacement {
         if (event.keyCode === gauche) {
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = gauche ;
-            voiture.rotateZ(0.05);
+            voiture.rotateY(0.05);
             if (this.toucheAppuyer[1] === avancer) {
-                voiture.translateY(1);
+                voiture.translateX(1);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = avancer;
             }
             if (this.toucheAppuyer[1] === reculer) {
-                voiture.translateY(-1);
+                voiture.translateX(-1);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = reculer;
             }
@@ -59,14 +59,14 @@ export class Deplacement {
         if (event.keyCode === droite ) {
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = droite;
-            voiture.rotateZ(-0.05);
+            voiture.rotateY(-0.05);
             if (this.toucheAppuyer[1] === avancer) {
-                voiture.translateY(1);
+                voiture.translateX(1);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = avancer;
             }
             if (this.toucheAppuyer[1] === reculer) {
-                voiture.translateY(-1);
+                voiture.translateX(-1);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = reculer;
             }

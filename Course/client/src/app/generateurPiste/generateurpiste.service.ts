@@ -56,7 +56,7 @@ export class GenerateurPisteService {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
-        this.camera.position.z = 150;
+        this.camera.position.z = 50;
     }
 
     public commencerRendu(): void {
