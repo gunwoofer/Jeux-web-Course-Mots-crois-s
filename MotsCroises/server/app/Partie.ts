@@ -4,6 +4,7 @@ import { Case } from '../../commun/Case';
 import { Guid } from '../../commun/Guid';
 import { TypePartie } from '../../commun/TypePartie';
 import { EmplacementMot } from '../../commun/EmplacementMot';
+import { Niveau } from '../../commun/Niveau';
 
 export const LIMITE_JOUEURS = 2;
 export const TEMPS_PARTIE_MINUTES = 5;
@@ -23,6 +24,14 @@ export class Partie {
         this.joueurs = joueurs;
 
         this.type = type;
+    }
+
+    public estDebute(): boolean {
+        if (this.debutDePartie === undefined ) {
+            return false;
+        }
+
+        return true;
     }
 
     public demarrerPartie(tempsAlloue: number = TEMPS_PARTIE_MILISECONDS) {
@@ -56,7 +65,7 @@ export class Partie {
 
        if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
             joueur = this.obtenirJoueur(guidJoueur);
-            
+
             joueur.aTrouveMot(emplacementMotAChercher, motAVerifier);
 
             return true;
@@ -73,6 +82,14 @@ export class Partie {
         }
 
         return undefined;
+    }
+
+    public obtenirNiveauGrille(): Niveau{
+        return this.grille.obtenirNiveau();
+    }
+
+    public obtenirJoueurHote(): Joueur {
+        return this.joueurs[0];
     }
 
     public obtenirPartieGuid(): string {

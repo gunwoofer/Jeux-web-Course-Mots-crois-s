@@ -45,7 +45,7 @@ describe('ConnexionTempsReel', () => {
 
     connexionTempsReelClient.demarerConnexion()
       .then((resultat: boolean) => {
-        connexionTempsReelClient.envoyerRequete(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO, specificationPartie);
+        connexionTempsReelClient.envoyerRequete(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO, specificationPartie);
         connexionTempsReelClient.recevoirRequete(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO,
           (specificationPartieCree: SpecificationPartie) => {
             expect(specificationPartieCree.guidPartie).toBeDefined();
@@ -67,7 +67,7 @@ describe('ConnexionTempsReel', () => {
 
     connexionTempsReelClient.demarerConnexion()
       .then((resultat: boolean) => {
-        connexionTempsReelClient.envoyerRequete(requetes.REQUETE_SERVER_CREER_PARTIE_SOLO, specificationPartie);
+        connexionTempsReelClient.envoyerRequete(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO, specificationPartie);
         connexionTempsReelClient.recevoirRequete(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO,
           (specificationPartieCree: SpecificationPartie) => {
 
@@ -76,7 +76,7 @@ describe('ConnexionTempsReel', () => {
             const requisPourMotAVerifierMauvais: RequisPourMotAVerifier = new RequisPourMotAVerifier(
               specificationPartieCree.specificationGrilleEnCours.emplacementMots[0],
               'XYZ', specificationPartieCree.joueur.obtenirGuid(), specificationPartieCree.guidPartie);
-            connexionTempsReelClient.envoyerRequete(requetes.REQUETE_SERVER_VERIFIER_MOT, requisPourMotAVerifierMauvais);
+            connexionTempsReelClient.envoyerRequete(requetes.REQUETE_SERVEUR_VERIFIER_MOT, requisPourMotAVerifierMauvais);
             connexionTempsReelClient.recevoirRequete(requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT,
               (requisPourMotAVerifier: RequisPourMotAVerifier) => {
                 expect(requisPourMotAVerifier.estLeMot).toBeFalsy();

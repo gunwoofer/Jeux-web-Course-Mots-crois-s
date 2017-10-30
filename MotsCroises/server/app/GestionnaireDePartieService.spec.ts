@@ -107,7 +107,7 @@ describe('GestionnaireDePartieService', () => {
         for (const caseCourante of casesEmplacementMot) {
             motAVerifier += caseCourante.obtenirLettre();
         }
-        console.log("MOT A VERIFIER : " + joueur.obtenirMotTrouve());
+        
         assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
         done();
 
@@ -226,5 +226,23 @@ describe('GestionnaireDePartieService', () => {
         done();
 
     }).timeout(maxDelaiRetourRequeteMS);
+
+    it('Il est possible d\'obtenir les parties en cours', () => {
+        const joueur: Joueur = new Joueur();
+        const typePartie: TypePartie = TypePartie.dynamique;
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
+        let guidPartie = '';
+        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
+
+        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+
+        gestionniareDePartieService.obtenirPartieEnCours(guidPartie).demarrerPartie();
+
+        assert(gestionniareDePartieService.obtenirPartiesEnAttente().length === 2);
+    });
+
 
 });

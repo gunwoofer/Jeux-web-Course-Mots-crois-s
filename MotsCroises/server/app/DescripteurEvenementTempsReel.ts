@@ -10,6 +10,8 @@ import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
 import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
+import { RequisDemandeListePartieEnCours } from '../../commun/requis/RequisDemandeListePartieEnCours';
+import { VuePartieEnCours } from '../../commun/VuePartieEnCours';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -97,7 +99,23 @@ export class DescripteurEvenementTempsReel {
         requisPourMotsTrouve.motsTrouveSelonJoueur = partie.obtenirMotsTrouve();
 
         client.emit(requetes.REQUETE_CLIENT_OBTENIR_MOTS_TROUVE_RAPPEL, requisPourMotsTrouve);
+    }
 
+    public obtenirDemandeListePartiesEnCours(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
+        requisDemandeListePartieEnCours: RequisDemandeListePartieEnCours): void {
+
+        const parties: Partie[] = gestionnaireDePartieService.obtenirPartiesEnAttente();
+        let vuePartieCourante: VuePartieEnCours;
+
+        for (const partieCourante of parties) {
+                vuePartieCourante = new VuePartieEnCours();
+                vuePartieCourante.guidPartie = partieCourante.obtenirPartieGuid();
+                vuePartieCourante.niveau = partieCourante.obtenirNiveauGrille();
+                vuePartieCourante.nomJoueurHote = partieCourante.obtenirJoueurHote().obtenirNomJoueur();
+                requisDemandeListePartieEnCours.listePartie.push(vuePartieCourante);
+        }
+
+        client.emit(requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, requisDemandeListePartieEnCours);
     }
 
     private verifierEtAvertirSiPartieTermine(gestionnaireDePartieService: GestionnaireDePartieService, 

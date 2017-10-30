@@ -62,7 +62,7 @@ export class ConnexionTempsReelClient {
                 this.connexionSocket = socket.connect(URL_SOCKETIO_SERVER);
 
                 this.connexionSocket.on('connect', function (data) {
-                    self.connexionSocket.emit(requetes.REQUETE_SERVER_ENVOYER, PREMIER_MESSAGE_DU_CLIENT);
+                    self.connexionSocket.emit(requetes.REQUETE_SERVEUR_ENVOYER, PREMIER_MESSAGE_DU_CLIENT);
                     resolve(true);
                 });
 
@@ -81,7 +81,7 @@ export class ConnexionTempsReelClient {
         return new Promise((resolve: any, reject: any) => {
 
             if (this.estConnecte) {
-                this.connexionSocket.emit(requetes.REQUETE_SERVER_QUITTER);
+                this.connexionSocket.emit(requetes.REQUETE_SERVEUR_QUITTER);
 
                 this.connexionSocket.on(requetes.REQUETE_CLIENT_RAPPEL_QUITTER, (message) => {
                     if (message === MESSAGE_CONFIRMATION_DECONNEXION_SERVER) {

@@ -23,6 +23,10 @@ export class Joueur {
         this.nomJoueur = nomJoueur;
     }
 
+    public obtenirNomJoueur(): string {
+        return this.nomJoueur;
+    }
+
     public obtenirGuid(): string {
         return this.id;
     }

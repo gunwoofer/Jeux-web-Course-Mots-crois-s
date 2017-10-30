@@ -24,6 +24,19 @@ export class GestionnaireDePartieService {
         return partie.obtenirPartieGuid();
     }
 
+    public obtenirPartiesEnAttente(): Partie[] {
+        const partiesEnCours: Partie[] = [];
+
+
+        for (const partieCourante of this.parties) {
+            if (!partieCourante.estDebute()) {
+                partiesEnCours.push(partieCourante);
+            }
+        }
+
+        return partiesEnCours;
+    }
+
     public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidPartie: string, guidJoueur: string): boolean {
         const partieAVerifier: Partie = this.obtenirPartieEnCours(guidPartie);
 
