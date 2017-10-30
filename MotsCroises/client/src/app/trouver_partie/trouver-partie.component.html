@@ -9,8 +9,11 @@
   </div>
 
   <div *ngFor="let partie of listeVuePartie">
-    <div (click)="setPartieSelectionne(partie)" [class.selected]="partie === partieSelectionne">
-      {{partie.guidPartie}} + ' ' + {{partie.nomJoueurHote}} +' '
+    <div class="choixPartieDiv" (click)="setPartieSelectionne(partie)" [class.selected]="partie === partieSelectionne">
+      <div> {{partie.guidPartie}}</div>
+      <div> {{partie.nomJoueurHote}} </div>
+
+      <div> {{retournerNiveau(partie)}} </div>
     </div>
   </div>
 

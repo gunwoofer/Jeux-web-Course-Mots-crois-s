@@ -1,6 +1,8 @@
 import {Component} from '@angular/core';
 import {GameViewService} from '../game_view/game-view.service';
 import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
+import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
+import {Niveau} from '../../../../commun/Niveau';
 
 
 @Component({
@@ -37,7 +39,7 @@ export class TrouverPartieComponent {
     {
       'guidPartie': '6a2e2967-0239-48bb-aef6-147bb38d44a1',
       'nomJoueurHote': 'Lilia Dean',
-      'niveau': 1
+      'niveau': 0
     },
     {
       'guidPartie': '65f2fe25-7bbc-440b-8605-6ac32aa86318',
@@ -52,6 +54,10 @@ export class TrouverPartieComponent {
 
   public nomJoueurValable() {
     return (this.nomJoueur.length === 0);
+  }
+
+  public retournerNiveau(partie) {
+    return EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, partie.niveau);
   }
 
 }
