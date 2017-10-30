@@ -22,7 +22,7 @@ export class TrouverPartieComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.gameViewService.demanderListePartieEnCours();
+    this.gameViewService.demanderListePartieEnAttente();
   }
 
 

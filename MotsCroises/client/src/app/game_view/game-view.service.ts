@@ -103,7 +103,7 @@ export class GameViewService {
   public demanderListePartieEnAttente(): void {
     // Demander liste de partie.
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
-      this.specificationPartie, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, this.rappelDemanderListePartieEnCours, this);
+      this.specificationPartie, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, this.rappelDemanderListePartieEnAttente, this);
   }
 
   public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnCours, self: GameViewService) {
