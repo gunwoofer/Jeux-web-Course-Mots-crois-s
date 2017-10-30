@@ -1,5 +1,5 @@
 import { VuePartieEnCours } from '../VuePartieEnCours';
 
-export class RequisDemandeListePartieEnCours {
+export class RequisDemandeListePartieEnAttente {
     public listePartie: VuePartieEnCours[] = [];
 }
