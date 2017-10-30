@@ -102,12 +102,14 @@ export class GameViewService {
 
   public demanderListePartieEnCours(): void {
     // Demander liste de partie.
+    this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
+      this.specificationPartie, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, this.rappelDemanderListePartieEnCours, this);
   }
 
   public rappelDemanderListePartieEnCours(requisDemandeListePartieEnCours: RequisDemandeListePartieEnCours, self: GameViewService) {
-    //for(const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
-      //console.log(vuePartieCourante.nomJoueurHote + ' | ' + vuePartieCourante.guidPartie);
-    //}
+    for(const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
+      console.log(vuePartieCourante.nomJoueurHote + ' | ' + vuePartieCourante.guidPartie);
+    }
   }
 
   public recommencerPartie() {
