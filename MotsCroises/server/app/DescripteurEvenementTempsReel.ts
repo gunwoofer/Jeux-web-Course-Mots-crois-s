@@ -12,6 +12,8 @@ import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObt
 import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
 import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
 import { VuePartieEnCours } from '../../commun/VuePartieEnCours';
+import { RequisPourJoindrePartieMultijoueur } from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
+import { EtatPartie } from '../../commun/EtatPartie';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -47,6 +49,35 @@ export class DescripteurEvenementTempsReel {
             generateurDeGrilleService, specificationPartieRecu);
 
         client.emit(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, specificationPartieRecu);
+    }
+
+    public joindrePartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
+        generateurDeGrilleService: GenerateurDeGrilleService, 
+        requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur, clients: SocketIO.Socket[]): void {
+
+            const partieEnAttente: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourJoindrePartieMultijoueur.guidPartie);
+            const grille: Grille = partieEnAttente.obtenirGrilleComplete();
+            partieEnAttente.ajouterJoueur(requisPourJoindrePartieMultijoueur.joueurAAjouter);
+
+            requisPourJoindrePartieMultijoueur.specificationPartie = this.preparerEtDemarrerPartieEnAttente(partieEnAttente, grille);
+
+            for(const clientCourant of clients) {
+                clientCourant.emit(requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, requisPourJoindrePartieMultijoueur);
+            }
+    }
+
+    public preparerEtDemarrerPartieEnAttente(partieEnAttente: Partie, grille: Grille): SpecificationPartie {
+        const specificationPartie: SpecificationPartie = new SpecificationPartie(partieEnAttente.obtenirNiveauGrille(),
+            partieEnAttente.obtenirJoueurHote(), partieEnAttente.obtenirTypePartie());
+
+        specificationPartie.etatPartie = EtatPartie.En_Cours;
+        specificationPartie.indices = partieEnAttente.obtenirIndicesGrille();
+        specificationPartie.specificationGrilleEnCours = new SpecificationGrille(
+            grille.obtenirManipulateurCasesSansLettres(), grille.obtenirEmplacementsMot());
+
+        partieEnAttente.demarrerPartie();
+
+        return specificationPartie;
     }
 
 

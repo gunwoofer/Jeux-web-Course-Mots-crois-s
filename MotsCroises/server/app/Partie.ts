@@ -5,6 +5,7 @@ import { Guid } from '../../commun/Guid';
 import { TypePartie } from '../../commun/TypePartie';
 import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Niveau } from '../../commun/Niveau';
+import { Indice } from './Indice';
 
 export const LIMITE_JOUEURS = 2;
 export const TEMPS_PARTIE_MINUTES = 5;
@@ -45,6 +46,18 @@ export class Partie {
 
     public obtenirTempsRestantMilisecondes(): number {
         return ((Date.now() - this.debutDePartie) < 0) ? undefined : (Date.now() - this.debutDePartie);
+    }
+
+    public obtenirIndicesGrille(): Indice[] {
+        return this.grille.motsComplet.recupererIndices();
+    }
+
+    public obtenirTypePartie(): TypePartie {
+        return this.type;
+    }
+
+    public obtenirGrilleComplete(): Grille {
+        return this.grille;
     }
 
     public partieEstTermineAvecCompteur(): boolean {
