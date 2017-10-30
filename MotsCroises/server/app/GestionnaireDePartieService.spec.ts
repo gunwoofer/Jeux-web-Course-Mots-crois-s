@@ -8,6 +8,8 @@ import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
 import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
+import { SpecificationPartie } from '../../commun/SpecificationPartie';
+import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
 
 export const maxDelaiRetourRequeteMS = 10000;
 
@@ -34,6 +36,20 @@ describe('GestionnaireDePartieService', () => {
             });
 
     }).timeout(maxDelaiRetourRequeteMS);
+
+    it('Il est possible de créer une partie classique multijoueur est qu\'elle soit en attente.', () => {
+        const joueur: Joueur = new Joueur();
+        const typePartie: TypePartie = TypePartie.classique;
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
+        const specificationPartie: SpecificationPartie = new SpecificationPartie(Niveau.facile, joueur, typePartie);
+        const descripteurEvenementTempsReel: DescripteurEvenementTempsReel = new DescripteurEvenementTempsReel();
+        descripteurEvenementTempsReel.preparerNouvellePartie(gestionniareDePartieService, generateurDeGrilleService, specificationPartie);
+
+        assert(gestionniareDePartieService.obtenirPartieEnCours(specificationPartie.guidPartie)
+            .obtenirPartieGuid() === specificationPartie.guidPartie);
+        assert(!gestionniareDePartieService.obtenirPartieEnCours(specificationPartie.guidPartie).estDebute());
+    });
 
     it('Il est possible de créer une partie dynamique pour un joueur.', (done) => {
         const joueur: Joueur = new Joueur();

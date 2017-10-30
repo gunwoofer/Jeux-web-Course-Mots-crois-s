@@ -27,7 +27,32 @@ export class DescripteurEvenementTempsReel {
 
     public creerPartieSolo(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
          generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
-        const specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+        let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+
+        specificationPartieRecu = this.preparerNouvellePartie(gestionnaireDePartieService,
+            generateurDeGrilleService, specificationPartieRecu);
+
+        // La partie solo peut être démarrer dès sa création.
+        gestionnaireDePartieService.obtenirPartieEnCours(specificationPartieRecu.guidPartie).demarrerPartie();
+
+        client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieRecu);
+    }
+
+    public creerPartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
+        generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
+
+        let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+
+        specificationPartieRecu = this.preparerNouvellePartie(gestionnaireDePartieService,
+            generateurDeGrilleService, specificationPartieRecu);
+
+        client.emit(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, specificationPartieRecu);
+    }
+
+
+    public preparerNouvellePartie(gestionnaireDePartieService: GestionnaireDePartieService,
+        generateurDeGrilleService: GenerateurDeGrilleService, specificationPartieRecu: SpecificationPartie): SpecificationPartie {
+
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(specificationPartieRecu.niveau);
         const guidPartie = gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
             specificationPartieRecu.typePartie, grille, grille.obtenirNiveau());
@@ -40,7 +65,7 @@ export class DescripteurEvenementTempsReel {
         specificationPartieRecu.specificationGrilleEnCours = new SpecificationGrille(
             grille.obtenirManipulateurCasesSansLettres(), grille.obtenirEmplacementsMot());
 
-        client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieRecu);
+        return specificationPartieRecu;
     }
 
     public verifierMot(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService, 
