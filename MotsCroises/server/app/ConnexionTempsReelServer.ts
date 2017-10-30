@@ -6,7 +6,7 @@ import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelecti
 import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
 import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
 import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
-import { RequisDemandeListePartieEnCours } from '../../commun/requis/RequisDemandeListePartieEnCours';
+import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
 
 import * as express from 'express';
 
@@ -61,8 +61,8 @@ export class ConnexionTempsReelServer {
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_MOTS_TROUVES, (requisPourMotsTrouve: RequisPourMotsTrouve) =>
             self.descripteurEvenementTempsReel.obtenirMotsTrouve(client, self.io, requisPourMotsTrouve, self.clientSockets));
         client.on(requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
-            (requisDemandeListePartieEnCours: RequisDemandeListePartieEnCours) => self.descripteurEvenementTempsReel
+            (requisDemandeListePartieEnAttente: RequisDemandeListePartieEnAttente) => self.descripteurEvenementTempsReel
             .obtenirDemandeListePartiesEnCours(client, self.gestionnaireDePartieService,
-                requisDemandeListePartieEnCours));
+                requisDemandeListePartieEnAttente));
     }
 }

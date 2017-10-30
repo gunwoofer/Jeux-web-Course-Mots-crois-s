@@ -10,7 +10,7 @@ import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
 import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
-import { RequisDemandeListePartieEnCours } from '../../commun/requis/RequisDemandeListePartieEnCours';
+import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
 import { VuePartieEnCours } from '../../commun/VuePartieEnCours';
 
 export class DescripteurEvenementTempsReel {
@@ -102,7 +102,7 @@ export class DescripteurEvenementTempsReel {
     }
 
     public obtenirDemandeListePartiesEnCours(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-        requisDemandeListePartieEnCours: RequisDemandeListePartieEnCours): void {
+        requisDemandeListePartieEnAttente: RequisDemandeListePartieEnAttente): void {
 
         const parties: Partie[] = gestionnaireDePartieService.obtenirPartiesEnAttente();
         let vuePartieCourante: VuePartieEnCours;
@@ -112,10 +112,10 @@ export class DescripteurEvenementTempsReel {
                 vuePartieCourante.guidPartie = partieCourante.obtenirPartieGuid();
                 vuePartieCourante.niveau = partieCourante.obtenirNiveauGrille();
                 vuePartieCourante.nomJoueurHote = partieCourante.obtenirJoueurHote().obtenirNomJoueur();
-                requisDemandeListePartieEnCours.listePartie.push(vuePartieCourante);
+                requisDemandeListePartieEnAttente.listePartie.push(vuePartieCourante);
         }
 
-        client.emit(requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, requisDemandeListePartieEnCours);
+        client.emit(requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, requisDemandeListePartieEnAttente);
     }
 
     private verifierEtAvertirSiPartieTermine(gestionnaireDePartieService: GestionnaireDePartieService, 
