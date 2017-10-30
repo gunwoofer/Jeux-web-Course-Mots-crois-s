@@ -21,7 +21,7 @@ export class TrouverPartieComponent implements OnInit {
   constructor(private gameViewService: GameViewService) {
   }
 
-  ngOnInit(): void {
+  public ngOnInit(): void {
     this.gameViewService.demanderListePartieEnAttente();
   }
 

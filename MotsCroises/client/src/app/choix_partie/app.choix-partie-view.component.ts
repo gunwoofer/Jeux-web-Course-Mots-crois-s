@@ -2,7 +2,7 @@ import {Component} from '@angular/core';
 import {GameViewService} from '../game_view/game-view.service';
 import {Niveau} from '../../../../commun/Niveau';
 import {TypePartie} from '../../../../commun/TypePartie';
-import {Router} from "@angular/router";
+import {Router} from '@angular/router';
 
 
 @Component({
@@ -21,6 +21,7 @@ export class ChoixPartieViewComponent {
   public niveauValue: string[] = ['facile', 'moyen', 'difficile'];
   public typePartieValue: string[] = ['classique', 'dynamique'];
   public nbJoueursValue: string[] = ['1 joueur', '2 joueurs'];
+  public playerName = '';
 
   constructor(private router: Router, private gameViewService: GameViewService) {
 
@@ -39,12 +40,11 @@ export class ChoixPartieViewComponent {
   }
 
   public demanderCreationPartie() {
-    this.gameViewService.demanderPartie(this.niveauPartie, this.typePartie, this.nbJoueursPartie);
+      this.gameViewService.demanderPartie(this.niveauPartie, this.typePartie, this.nbJoueursPartie);
   }
 
   public joindrePartieEnAttente() {
     this.router.navigate(['trouverPartie']);
   }
-
 
 }

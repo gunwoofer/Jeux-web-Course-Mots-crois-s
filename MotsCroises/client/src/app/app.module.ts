@@ -18,6 +18,7 @@ import {ChoixPartieViewComponent} from './choix_partie/app.choix-partie-view.com
 import {FinPartieComponent} from './fin_partie/fin-partie.component';
 import {FormsModule} from '@angular/forms';
 import {TrouverPartieComponent} from './trouver_partie/app.trouver-partie.component';
+import {AttentePartieComponent} from './attente_partie/app.attente-partie.component';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import {TrouverPartieComponent} from './trouver_partie/app.trouver-partie.compon
     InfosJeuViewComponent,
     ChoixPartieViewComponent,
     FinPartieComponent,
-    TrouverPartieComponent
+    TrouverPartieComponent,
+    AttentePartieComponent
   ],
   imports: [
     BrowserModule,

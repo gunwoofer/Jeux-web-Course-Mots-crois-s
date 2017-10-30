@@ -23,6 +23,10 @@ export class Joueur {
         this.nomJoueur = nomJoueur;
     }
 
+    public changerNomJoueur(nouveauNom: string){
+        this.nomJoueur = nouveauNom;
+    }
+
     public obtenirNomJoueur(): string {
         return this.nomJoueur;
     }

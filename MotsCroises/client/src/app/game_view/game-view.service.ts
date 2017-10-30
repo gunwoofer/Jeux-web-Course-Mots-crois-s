@@ -11,7 +11,7 @@ import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 import {Indice} from '../../../../server/app/Indice';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
 import {Router} from '@angular/router';
-import { RequisDemandeListePartieEnCours } from '../../../../commun/requis/RequisDemandeListePartieEnCours';
+import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/RequisDemandeListePartieEnAttente';
 
 
 @Injectable()
@@ -24,14 +24,17 @@ export class GameViewService {
   public indices: IndiceMot[];
   public connexionTempsReelClient: ConnexionTempsReelClient;
   public specificationPartie: SpecificationPartie;
+  public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente;
   public joueur: Joueur = new Joueur();
   private indiceTeste: IndiceMot;
   private motEntre: string;
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
+  joueur1 = new Joueur();
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) {
+  }
 
 
   public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie): void {
@@ -50,12 +53,12 @@ export class GameViewService {
   private MAJIndices(specificationPartie: SpecificationPartie): void {
     const indices: IndiceMot[] = new Array();
 
-    for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
+    for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
       const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
       const definition = indiceServeur.definitions[0];
       indices.push(new IndiceMot(emplacementMot.obtenirGuidIndice(), emplacementMot.obtenirIndexFixe() + 1,
         definition, emplacementMot.obtenirGrandeur(), emplacementMot.obtenirPosition(),
-        emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() + 1 ,
+        emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() + 1,
         emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
     }
     this.indices = indices;
@@ -71,7 +74,7 @@ export class GameViewService {
   }
 
   private trouverEmplacementMotAvecGuid(guid: string): EmplacementMot {
-    for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots){
+    for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
       if (emplacementMot.obtenirGuidIndice() === guid) {
         return emplacementMot;
       }
@@ -94,7 +97,15 @@ export class GameViewService {
     this.nbJoueursPartie = nbJoueursPartie;
     this.niveauPartie = niveau;
     this.typePartie = typePartie;
-    this.specificationPartie = new SpecificationPartie(Niveau.facile, this.joueur, TypePartie.classique);
+    this.specificationPartie = new SpecificationPartie(niveau, this.joueur, typePartie);
+    if(this.nbJoueursPartie === 0 ){
+      this.demanderPartieServer();
+    }else {
+      this.demanderNomJoueur();
+    }
+  }
+
+  public demanderPartieServer(){
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
@@ -102,18 +113,20 @@ export class GameViewService {
 
   public demanderListePartieEnAttente(): void {
     // Demander liste de partie.
-    this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
-      this.specificationPartie, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, this.rappelDemanderListePartieEnAttente, this);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisDemandeListePartieEnAttente>(
+      requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
+      this.requisDemandeListePartieEnCours, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL,
+      this.rappelDemanderListePartieEnAttente, this);
   }
 
-  public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnCours, self: GameViewService) {
-    for(const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
+  public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: GameViewService) {
+    for (const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
       console.log(vuePartieCourante.nomJoueurHote + ' | ' + vuePartieCourante.guidPartie);
     }
   }
 
   public recommencerPartie() {
-    this.demanderPartie(this.niveauPartie, this.typePartie, this.nbJoueursPartie);
+    this.demanderPartieServer();
   }
 
   public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
@@ -152,7 +165,23 @@ export class GameViewService {
     }
   }
 
-  public afficherPartie(typePartie: TypePartie, niveauPartie: Niveau, nbJoueursPartie) {
-    this.router.navigate(['/partie/' + typePartie + '/' + niveauPartie + '/' + nbJoueursPartie]);
+  private afficherPartie(typePartie: TypePartie, niveauPartie: Niveau, nbJoueursPartie) {
+    if (this.nbJoueursPartie === 1) {
+      this.demanderNomJoueur();
+    } else {
+      this.router.navigate(['/partie/' + typePartie + '/' + niveauPartie + '/' + nbJoueursPartie]);
+    }
+  }
+
+  private demanderNomJoueur() {
+    const playerName = prompt('Please enter your name:', '');
+    if (playerName !== null && playerName !== '') {
+      this.joueur.changerNomJoueur(playerName);
+      this.router.navigate(['/attentePartie']);
+    }
+  }
+
+  public attentePartieDeuxJoueurs() {
+
   }
 }
