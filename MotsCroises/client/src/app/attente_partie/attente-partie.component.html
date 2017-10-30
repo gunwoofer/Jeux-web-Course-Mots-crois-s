@@ -1,0 +1,18 @@
+<h1 class="centered">Attente adversaire :</h1>
+<div class="attentePartieDiv">
+
+  <div class="col3">
+    {{nomJoueur}}
+  </div>
+  <div class="col3">
+    Niveau Partie : {{niveauPartie}} <br/>
+    Difficulté partie : {{difficultePartie}} <br/>
+  </div>
+  <div class="col3">
+    En recherche de l'adversaire...
+  </div>
+
+</div>
+<div class="centered">
+  <button ng-model="button" [disabled]="deuxJoueursPresents()">Demarrer Partie</button>
+</div>

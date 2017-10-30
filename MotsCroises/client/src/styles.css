@@ -1,1 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
+
+.centered {
+  margin: 10px auto;
+  text-align: center;
+}
+
+.col3 {
+  width: 33%;
+}

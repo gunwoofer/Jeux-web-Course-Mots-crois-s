@@ -8,6 +8,8 @@ import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
 import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
+import { SpecificationPartie } from '../../commun/SpecificationPartie';
+import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
 
 export const maxDelaiRetourRequeteMS = 10000;
 
@@ -34,6 +36,20 @@ describe('GestionnaireDePartieService', () => {
             });
 
     }).timeout(maxDelaiRetourRequeteMS);
+
+    it('Il est possible de créer une partie classique multijoueur est qu\'elle soit en attente.', () => {
+        const joueur: Joueur = new Joueur();
+        const typePartie: TypePartie = TypePartie.classique;
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
+        const specificationPartie: SpecificationPartie = new SpecificationPartie(Niveau.facile, joueur, typePartie);
+        const descripteurEvenementTempsReel: DescripteurEvenementTempsReel = new DescripteurEvenementTempsReel();
+        descripteurEvenementTempsReel.preparerNouvellePartie(gestionniareDePartieService, generateurDeGrilleService, specificationPartie);
+
+        assert(gestionniareDePartieService.obtenirPartieEnCours(specificationPartie.guidPartie)
+            .obtenirPartieGuid() === specificationPartie.guidPartie);
+        assert(!gestionniareDePartieService.obtenirPartieEnCours(specificationPartie.guidPartie).estDebute());
+    });
 
     it('Il est possible de créer une partie dynamique pour un joueur.', (done) => {
         const joueur: Joueur = new Joueur();
@@ -100,14 +116,14 @@ describe('GestionnaireDePartieService', () => {
         const emplacementMot: EmplacementMot = emplacementsMot[0];
         const caseDebut: Case = emplacementMot.obtenirCaseDebut();
         const caseFin: Case = emplacementMot.obtenirCaseFin();
-        let motAVerifier = '';
+        let motAVerifier: string = '';
         const casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
             emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
 
         for (const caseCourante of casesEmplacementMot) {
             motAVerifier += caseCourante.obtenirLettre();
         }
-
+        
         assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
         done();
 
@@ -226,5 +242,23 @@ describe('GestionnaireDePartieService', () => {
         done();
 
     }).timeout(maxDelaiRetourRequeteMS);
+
+    it('Il est possible d\'obtenir les parties en cours', () => {
+        const joueur: Joueur = new Joueur();
+        const typePartie: TypePartie = TypePartie.dynamique;
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
+        let guidPartie = '';
+        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
+
+        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+
+        gestionniareDePartieService.obtenirPartieEnCours(guidPartie).demarrerPartie();
+
+        assert(gestionniareDePartieService.obtenirPartiesEnAttente().length === 2);
+    });
+
 
 });
