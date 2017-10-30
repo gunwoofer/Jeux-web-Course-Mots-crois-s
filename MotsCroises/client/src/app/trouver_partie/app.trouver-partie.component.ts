@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {GameViewService} from '../game_view/game-view.service';
 import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
@@ -11,7 +11,8 @@ import {Niveau} from '../../../../commun/Niveau';
   styleUrls: ['./trouver-partie.component.css']
 })
 
-export class TrouverPartieComponent {
+export class TrouverPartieComponent implements OnInit {
+
   public nomJoueur = '';
   public test = true;
   public partieSelectionne: VuePartieEnCours;
@@ -19,6 +20,11 @@ export class TrouverPartieComponent {
 
   constructor(private gameViewService: GameViewService) {
   }
+
+  ngOnInit(): void {
+    this.gameViewService.demanderListePartieEnAttente();
+  }
+
 
   public listeVuePartie: VuePartieEnCours[] = [
     {
