@@ -3,41 +3,59 @@ import { HemisphereLight, DirectionalLight, ImageUtils, Scene } from 'three';
 
 
 @Injectable()
-export class GenerateurPisteService {
+export class LumiereService {
 
+    private couleurCiel = 0xfd720f;
+    private couleurTerre = 0xffffff;
+    private intensité = 0.6;
+    private hex = 0xffffff;
+    private intensitée = 1;
+    private hemiCoulour = { h: 0.6, s: 0.75, l: 0.5 };
+    private hemiCoulourTerre = { h: 0.095, s: 0.5, l: 0.5 };
+    private directionCoulour = { h: 0.1, s: 1, l: 0.95 };
+    private lumierHemiPosition = { x: 0, y: 500, z: 0 };
+    private lumierDirePosition = { x: -1, y: 0.75, z: 1 };
+    private scalaire = 30;
+    private toucheD = 100;
+    private toucheA = 97;
     private lumiereHemisphere: HemisphereLight;
     private lumiereDirectionnelle: DirectionalLight;
 
-    public lumierHemisphere(): HemisphereLight {
+    private creeLumiereHemisphere(): HemisphereLight {
 
-        this.lumiereHemisphere = new HemisphereLight(0xfd720f, 0xffffff, 0.6);
-        this.lumiereHemisphere.color.setHSL(0.6, 0.75, 0.5);
-        this.lumiereHemisphere.groundColor.setHSL(0.095, 0.5, 0.5);
-        this.lumiereHemisphere.position.set(0, 500, 0);
+        this.lumiereHemisphere = new HemisphereLight(this.couleurCiel, this.couleurTerre, this.intensité);
+        this.lumiereHemisphere.color.setHSL(this.hemiCoulour.h, this.hemiCoulour.s, this.hemiCoulour.l);
+        this.lumiereHemisphere.groundColor.setHSL(this.hemiCoulourTerre.h, this.hemiCoulourTerre.s, this.hemiCoulourTerre.l);
+        this.lumiereHemisphere.position.set(this.lumierHemiPosition.x, this.lumierHemiPosition.y, this.lumierHemiPosition.z);
         return this.lumiereHemisphere;
     }
 
-    public lumierDirectionnel(): DirectionalLight {
+    private creeLumierDirectionnel(): DirectionalLight {
 
-        this.lumiereDirectionnelle = new DirectionalLight(0xffffff, 1);
-        this.lumiereDirectionnelle.color.setHSL(0.1, 1, 0.95);
-        this.lumiereDirectionnelle.position.set(-1, 0.75, 1);
-        this.lumiereDirectionnelle.position.multiplyScalar(30);
+        this.lumiereDirectionnelle = new DirectionalLight(this.hex, this.intensitée);
+        this.lumiereDirectionnelle.color.setHSL(this.directionCoulour.h, this.directionCoulour.s, this.directionCoulour.l);
+        this.lumiereDirectionnelle.position.set(this.lumierDirePosition.x, this.lumierDirePosition.y, this.lumierDirePosition.z);
+        this.lumiereDirectionnelle.position.multiplyScalar(this.scalaire);
         this.lumiereDirectionnelle.castShadow = true;
         return this.lumiereDirectionnelle;
     }
 
-    public modeJourNuit(event, scene: Scene, lumierDirectionale: DirectionalLight): void {
-        if (event.keyCode === 100) {
+    public ajouterLumierScene(scene: Scene): void {
+        scene.add(this.lumiereDirectionnelle);
+        scene.add(this.lumiereHemisphere);
+    }
+
+    public modeJourNuit(event, scene: Scene): void {
+        if (event.keyCode === this.toucheD) {
             // d
             scene.background = ImageUtils.loadTexture('../../assets/textures/téléchargement.jpeg');
-            lumierDirectionale.visible = true;
+            this.lumiereDirectionnelle.visible = true;
         }
 
-        if (event.keyCode === 97) {
+        if (event.keyCode === this.toucheA) {
             // a
             scene.background = ImageUtils.loadTexture('../../assets/textures/missions_bg_image.jpg');
-            lumierDirectionale.visible = false;
+            this.lumiereDirectionnelle.visible = false;
         }
     }
 }
