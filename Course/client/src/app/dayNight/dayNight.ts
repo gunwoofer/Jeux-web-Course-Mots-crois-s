@@ -26,4 +26,18 @@ export class GenerateurPisteService {
         this.lumiereDirectionnelle.castShadow = true;
         return this.lumiereDirectionnelle;
     }
+
+    public modeJourNuit(event, scene: Scene, lumierDirectionale: DirectionalLight): void {
+        if (event.keyCode === 100) {
+            // d
+            scene.background = ImageUtils.loadTexture('../../assets/textures/téléchargement.jpeg');
+            lumierDirectionale.visible = true;
+        }
+
+        if (event.keyCode === 97) {
+            // a
+            scene.background = ImageUtils.loadTexture('../../assets/textures/missions_bg_image.jpg');
+            lumierDirectionale.visible = false;
+        }
+    }
 }
