@@ -7,6 +7,7 @@
   <div class="col3">
     Niveau Partie : {{niveauPartie}} <br/>
     Difficulté partie : {{difficultePartie}} <br/>
+    Difficulté partie : {{specificationPartie.guidPartie}} <br/>
   </div>
   <div class="col3">
     En recherche de l'adversaire...
@@ -14,5 +15,5 @@
 
 </div>
 <div class="centered">
-  <button ng-model="button" [disabled]="deuxJoueursPresents()">Demarrer Partie</button>
+  <button ng-model="button" [disabled]="deuxJoueursPresents()" (click)="demarrerPartie2joueurs()">Demarrer Partie</button>
 </div>

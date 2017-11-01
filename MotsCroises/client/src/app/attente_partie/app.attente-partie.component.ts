@@ -14,7 +14,7 @@ import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
 
 export class AttentePartieComponent implements OnInit {
   public nomJoueur = '';
-  public nomJoueur2 = '';
+  public nomJoueur2 = 'a';
   public partieSelectionne: VuePartieEnCours;
   public specificationPartie: SpecificationPartie;
   public niveauPartie: string;
@@ -22,22 +22,27 @@ export class AttentePartieComponent implements OnInit {
 
   constructor(private gameViewService: GameViewService) {
     this.nomJoueur = this.gameViewService.joueur.obtenirNomJoueur();
-    this.specificationPartie = this.gameViewService.specificationPartie;
-    this.niveauPartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.gameViewService.specificationPartie.niveau);
-    this.difficultePartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.gameViewService.specificationPartie.typePartie);
+    this.recupererDonnesPartie();
+    this.gameViewService.joueurAdverseTrouve$.subscribe(() => {
+
+    });
   }
 
   public ngOnInit(): void {
     this.gameViewService.demanderListePartieEnAttente();
   }
 
-
-  public retournerNiveau(partie) {
-    return EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, partie.niveau);
+  private recupererDonnesPartie(): void {
+    this.specificationPartie = this.gameViewService.specificationPartie;
+    this.niveauPartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.gameViewService.specificationPartie.niveau);
+    this.difficultePartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.gameViewService.specificationPartie.typePartie);
   }
 
-  public deuxJoueursPresents(){
+  public deuxJoueursPresents() {
     return (this.nomJoueur2.length === 0);
+  }
+
+  public demarrerPartie2joueurs() {
   }
 
 }

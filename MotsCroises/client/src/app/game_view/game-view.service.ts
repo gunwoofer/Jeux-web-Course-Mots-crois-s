@@ -20,6 +20,8 @@ export class GameViewService {
   public motTrouveJ1$ = this.motTrouveJ1.asObservable();
   private partieTeminee = new Subject<string>();
   public partieTeminee$ = this.partieTeminee.asObservable();
+  private joueurAdverseTrouve = new Subject<string>();
+  public joueurAdverseTrouve$ = this.joueurAdverseTrouve.asObservable();
   private partieGeneree: SpecificationPartie;
   public indices: IndiceMot[];
   public connexionTempsReelClient: ConnexionTempsReelClient;
@@ -31,7 +33,6 @@ export class GameViewService {
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
-  joueur1 = new Joueur();
 
   constructor(private router: Router) {
   }
@@ -98,14 +99,14 @@ export class GameViewService {
     this.niveauPartie = niveau;
     this.typePartie = typePartie;
     this.specificationPartie = new SpecificationPartie(niveau, this.joueur, typePartie);
-    if(this.nbJoueursPartie === 0 ){
+    if (this.nbJoueursPartie === 0) {
       this.demanderPartieServer();
-    }else {
+    } else {
       this.demanderNomJoueur();
     }
   }
 
-  public demanderPartieServer(){
+  public demanderPartieServer() {
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
@@ -120,6 +121,7 @@ export class GameViewService {
   }
 
   public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: GameViewService) {
+    console.log(requisDemandeListePartieEnCours.listePartie);
     for (const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
       console.log(vuePartieCourante.nomJoueurHote + ' | ' + vuePartieCourante.guidPartie);
     }
@@ -132,7 +134,15 @@ export class GameViewService {
   public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
-    self.afficherPartie(self.typePartie, self.niveauPartie, self.nbJoueursPartie);
+    self.partieCreee();
+  }
+
+  public partieCreee(){
+    if (this.nbJoueursPartie === 0) {
+      this.afficherPartie(this.typePartie, this.niveauPartie, this.nbJoueursPartie);
+    }else {
+      this.router.navigate(['/attentePartie']);
+    }
   }
 
   public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
@@ -177,7 +187,7 @@ export class GameViewService {
     const playerName = prompt('Please enter your name:', '');
     if (playerName !== null && playerName !== '') {
       this.joueur.changerNomJoueur(playerName);
-      this.router.navigate(['/attentePartie']);
+      this.demanderPartieServer();
     }
   }
 
