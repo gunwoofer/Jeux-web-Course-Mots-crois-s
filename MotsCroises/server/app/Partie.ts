@@ -14,7 +14,7 @@ export const TEMPS_PARTIE_MILISECONDS = 60 * TEMPS_PARTIE_MINUTES * Math.pow(10,
 export class Partie {
     private joueurs: Joueur[] = new Array();
     private grille: Grille;
-    private type: TypePartie = TypePartie.classique;
+    private type: TypePartie = TypePartie.classique_a_un;
     private guid: string = Guid.generateGUID();
     private debutDePartie: number;
     private tempsAlloue: number;
@@ -85,6 +85,10 @@ export class Partie {
        }
 
        return false;
+    }
+
+    public obtenirJoueurs(): Joueur[] {
+        return this.joueurs;
     }
 
     private obtenirJoueur(guidJoueur: string): Joueur {

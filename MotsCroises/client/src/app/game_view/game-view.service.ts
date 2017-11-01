@@ -13,6 +13,7 @@ import {EmplacementMot} from '../../../../commun/EmplacementMot';
 import {Router} from '@angular/router';
 import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/RequisDemandeListePartieEnAttente';
 import { VuePartieEnCours } from '../../../../commun/VuePartieEnCours';
+import { RequisPourJoindrePartieMultijoueur } from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
 
 
 @Injectable()
@@ -32,6 +33,7 @@ export class GameViewService {
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
+  private requisPourJoindrePartieMultijoueur;
   joueur1 = new Joueur();
 
   private listeVuePartie: VuePartieEnCours[] = new Array;
@@ -132,6 +134,24 @@ export class GameViewService {
       requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
       this.requisDemandeListePartieEnCours, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL,
       this.rappelDemanderListePartieEnAttente, this);
+  }
+
+  public rejoindrePartieMultijoueur(partieChoisie: VuePartieEnCours, joueurAJoindre: Joueur): void {
+    this.requisPourJoindrePartieMultijoueur = new RequisPourJoindrePartieMultijoueur(partieChoisie.guidPartie, joueurAJoindre);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourJoindrePartieMultijoueur>(
+      requetes.REQUETE_SERVEUR_JOINDRE_PARTIE,
+      this.requisPourJoindrePartieMultijoueur, requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL,
+      this.rappelRejoindrePartieMultijoueur, this);
+  }
+
+  public rappelRejoindrePartieMultijoueur(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur
+    , self: GameViewService): void {
+      requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
+      console.log('JOUEUR A Rejoins LA PARTIE : ' + requisPourJoindrePartieMultijoueur.guidPartie);
+
+      for(const joueurCourant of requisPourJoindrePartieMultijoueur.joueurs) {
+        console.log('NOM JOUEUR: ' + joueurCourant.obtenirNomJoueur());
+      }
   }
 
   public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: GameViewService) {

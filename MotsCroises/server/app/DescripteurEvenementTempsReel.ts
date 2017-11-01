@@ -60,7 +60,8 @@ export class DescripteurEvenementTempsReel {
             partieEnAttente.ajouterJoueur(requisPourJoindrePartieMultijoueur.joueurAAjouter);
 
             requisPourJoindrePartieMultijoueur.specificationPartie = this.preparerEtDemarrerPartieEnAttente(partieEnAttente, grille);
-
+            requisPourJoindrePartieMultijoueur.joueurs = partieEnAttente.obtenirJoueurs();
+            
             for(const clientCourant of clients) {
                 clientCourant.emit(requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, requisPourJoindrePartieMultijoueur);
             }
