@@ -12,6 +12,7 @@ import {Indice} from '../../../../server/app/Indice';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
 import {Router} from '@angular/router';
 import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/RequisDemandeListePartieEnAttente';
+import { VuePartieEnCours } from '../../../../commun/VuePartieEnCours';
 
 
 @Injectable()
@@ -32,6 +33,8 @@ export class GameViewService {
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
   joueur1 = new Joueur();
+
+  private listeVuePartie: VuePartieEnCours[] = new Array;
 
   constructor(private router: Router) {
   }
@@ -121,7 +124,9 @@ export class GameViewService {
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
   }
 
-  public demanderListePartieEnAttente(): void {
+  public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
+    this.listeVuePartie = listeVuePartie;
+
     // Demander liste de partie.
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisDemandeListePartieEnAttente>(
       requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
@@ -133,6 +138,7 @@ export class GameViewService {
     console.log('RETOUR Rappel DEMANDER : ' + requisDemandeListePartieEnCours.listePartie.length);
     for (const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
       console.log(vuePartieCourante.nomJoueurHote + ' | ' + vuePartieCourante.guidPartie);
+      self.listeVuePartie.push(vuePartieCourante);
     }
   }
 
