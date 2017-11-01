@@ -12,11 +12,11 @@ import {Router} from '@angular/router';
 })
 
 export class ChoixPartieViewComponent {
-  public typePartie: TypePartie = TypePartie.classique;
+  public typePartie: TypePartie = TypePartie.classique_a_un;
   public niveauPartie: Niveau = Niveau.facile;
   public nbJoueursPartie = 0;
   public niveaux: Niveau[] = [Niveau.facile, Niveau.moyen, Niveau.difficile];
-  public types: TypePartie[] = [TypePartie.classique, TypePartie.dynamique];
+  public types: TypePartie[] = [TypePartie.classique_a_un, TypePartie.dynamique_a_un];
   public nbJoueurs: number[] = [0, 1];
   public niveauValue: string[] = ['facile', 'moyen', 'difficile'];
   public typePartieValue: string[] = ['classique', 'dynamique'];
