@@ -11,6 +11,7 @@ import { PisteService } from './piste.service';
 
 export class PisteComponent {
     @Input() public piste: Piste;
+    @Input() public admin: boolean;
     public display = false;
     public score = false;
 

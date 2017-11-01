@@ -17,7 +17,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Il est possible de créer une partie classique pour un joueur.', (done) => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.classique;
+        const typePartie: TypePartie = TypePartie.classique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
@@ -39,7 +39,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Il est possible de créer une partie classique multijoueur est qu\'elle soit en attente.', () => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.classique;
+        const typePartie: TypePartie = TypePartie.classique_a_deux;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         const specificationPartie: SpecificationPartie = new SpecificationPartie(Niveau.facile, joueur, typePartie);
@@ -53,7 +53,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Il est possible de créer une partie dynamique pour un joueur.', (done) => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.dynamique;
+        const typePartie: TypePartie = TypePartie.dynamique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
@@ -74,7 +74,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Il est possible de vérifier un mauvais mot dans la grille.', (done) => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.dynamique;
+        const typePartie: TypePartie = TypePartie.dynamique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
@@ -105,7 +105,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Il est possible de vérifier un bon mot dans la grille.', (done) => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.dynamique;
+        const typePartie: TypePartie = TypePartie.dynamique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
@@ -131,7 +131,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Un mot ne peut pas être trouvé deux fois.', (done) => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.dynamique;
+        const typePartie: TypePartie = TypePartie.dynamique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
@@ -159,7 +159,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Une partie solo en cours n\'est pas terminé avant que le pointage n\'égale pas le nombre de mots à trouver.', (done) => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.dynamique;
+        const typePartie: TypePartie = TypePartie.dynamique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
@@ -202,7 +202,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Une partie solo en cours se termine lorsque tous les mots sont trouvés.', (done) => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.dynamique;
+        const typePartie: TypePartie = TypePartie.dynamique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
@@ -245,7 +245,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Il est possible d\'obtenir les parties en cours', () => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.dynamique;
+        const typePartie: TypePartie = TypePartie.dynamique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';

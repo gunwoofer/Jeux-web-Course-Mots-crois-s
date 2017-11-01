@@ -40,7 +40,6 @@ describe('pisteService', () => {
         );
         return service.retournerListePiste().then(data => {
             expect(data).toEqual(mockPistes);
-            expect(data.length).toEqual(3);
         });
     }));
 

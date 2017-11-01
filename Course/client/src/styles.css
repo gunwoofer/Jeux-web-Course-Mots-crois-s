@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+
+body {
+    margin: 0px;
+    padding: 0px;
+    background-image: url("http://www.dream-wallpaper.com/free-wallpaper/game-wallpaper/car-game-wallpaper/1920x1200/free-wallpaper-32.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+}

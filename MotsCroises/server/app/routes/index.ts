@@ -139,7 +139,7 @@ module Route {
         public verifierMauvaisMot(req: express.Request, res: express.Response, next: express.NextFunction): void {
 
             const joueur: Joueur = new Joueur();
-            const typePartie: TypePartie = TypePartie.dynamique;
+            const typePartie: TypePartie = TypePartie.classique_a_un;
             const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
             const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();

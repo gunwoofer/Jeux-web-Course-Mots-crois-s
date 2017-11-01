@@ -1,5 +1,6 @@
+import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './generateurpiste.service';
-import { Component, ViewChild, HostListener, ElementRef, AfterViewInit } from '@angular/core';
+import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
 
 @Component({
@@ -8,13 +9,18 @@ import { PisteService } from '../piste/piste.service';
     styleUrls: ['./generateurpiste.component.css']
 })
 
-export class GenerateurPisteComponent implements AfterViewInit {
+export class GenerateurPisteComponent implements AfterViewInit, OnInit {
 
     @ViewChild('container')
     private containerRef: ElementRef;
 
-    constructor(private generateurPisteService: GenerateurPisteService, pisteService: PisteService) {
+    constructor(private generateurPisteService: GenerateurPisteService,
+        pisteService: PisteService,
+        private musiqueService: MusiqueService
+    ) {}
 
+    public ngOnInit() {
+        this.musiqueService.musique.arreterMusique();
     }
 
     public ngAfterViewInit() {

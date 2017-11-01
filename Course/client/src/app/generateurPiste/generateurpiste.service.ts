@@ -1,3 +1,4 @@
+import { Skybox } from './../skybox/skybox.model';
 import { Deplacement } from './deplacement';
 import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
@@ -23,6 +24,7 @@ export class GenerateurPisteService {
     private touche: number;
     private touchePrecedente: number;
     private deplacement = new Deplacement();
+    private skybox = new Skybox();
 
     private piste: Piste;
 
@@ -40,7 +42,8 @@ export class GenerateurPisteService {
 
         this.scene.add(this.voitureService.obtenirObjetVoiture3D());
 
-        this.scene.add(this.creerSkybox());
+        this.scene.add(this.camera);
+        this.camera.add(this.skybox.creerSkybox());
 
         this.ajoutPisteAuPlan();
 
@@ -116,33 +119,5 @@ export class GenerateurPisteService {
             this.scene.add( obj );
             this.camera.lookAt(obj.position);
         });
-    }
-
-    public creerSkybox(): THREE.Mesh {
-        // Source : http://www.custommapmakers.org/skyboxes.php
-        // const emplacementImage = '../../assets/textures/darkskies/darkskies_';
-        const emplacementImage = '../../assets/textures/city/pr_';
-        // const orientations = ['droite', 'gauche', 'devant', 'derriere', 'plafond', 'sol'];
-        const orientations = ['ft', 'lf', 'up', 'dn', 'bk', 'rt'];
-        const typeImage = '.jpg';
-        const geometrie = new THREE.CubeGeometry( 500, 500, 500 );
-        const materiels = [];
-        for (let i = 0; i < 6; i++) {
-            const loader = new THREE.TextureLoader();
-            console.log('loading file...');
-            console.log(emplacementImage + orientations[i] + typeImage);
-            const texture = loader.load(emplacementImage + orientations[i] + typeImage);
-            materiels.push(
-                new THREE.MeshBasicMaterial({
-                    map: texture,
-                    side: THREE.BackSide
-                })
-            );
-        }
-        const materiel = new THREE.MeshFaceMaterial(materiels);
-        const skybox = new THREE.Mesh(geometrie, materiel);
-        skybox.position.set(0, 0, 0);
-        skybox.rotateX(1.5708);
-        return skybox;
     }
 }

@@ -1,0 +1,17 @@
+<div class="form">
+    <form ngNativeValidate (ngSubmit)="soummetre(f)" #f="ngForm">
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="text" class="form-control" ngModel name="email" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Ancien mot de passe</label>
+            <input type="password" class="form-control" ngModel name="motDePasse" required>
+        </div>
+        <div class="form-group">
+            <label for="email">Nouveau mot de passe</label>
+            <input type="password" class="form-control" ngModel name="NmotDePasse" required>
+        </div>
+        <button class="btn btn-danger" type="submit" [disabled]="!f.form.valid">Enregistrer</button>
+    </form>
+</div>

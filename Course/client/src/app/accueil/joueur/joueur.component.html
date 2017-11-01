@@ -1,0 +1,10 @@
+<div class="form">
+    <form ngNativeValidate (ngSubmit)="soummetre(f)" #f="ngForm">
+        <div class="form-group">
+            <label for="nomJoueur">Nom de joueur</label>
+            <input type="text" class="form-control" ngModel name="nomJoueur" placeholder="Entrer votre nom de joueur" required>
+        </div>
+        <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">Valider</button>
+        <button class="btn btn-danger" type="button" (click)="revenirEnArriere()">Accueil</button>
+    </form>
+</div>
