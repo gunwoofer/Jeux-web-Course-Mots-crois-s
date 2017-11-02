@@ -1,3 +1,4 @@
+import { FiltreCouleurComponent } from './filtreCouleur/filtreCouleur.component';
 import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
@@ -13,7 +14,8 @@ import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motD
 
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/accueil', pathMatch: 'full' },
+    { path: '', redirectTo: '/filtre', pathMatch: 'full' },
+    { path: 'filtre', component: FiltreCouleurComponent },
     { path: 'inscription', component: InscriptionComponent },
     { path: 'motDePasseOublie', component: MotDepasseOublieComponent },
     { path: 'admin', component: ConnexionComponent },

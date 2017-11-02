@@ -1,3 +1,5 @@
+import { FiltreCouleurComponent } from './filtreCouleur/filtreCouleur.component';
+import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -51,7 +53,8 @@ import { AppRoutingModule } from './app.routing';
     ConnexionComponent,
     InscriptionComponent,
     MotDepasseOublieComponent,
-    ModificationMotDePasseComponent
+    ModificationMotDePasseComponent,
+    FiltreCouleurComponent
   ],
   imports: [
     BrowserModule,
@@ -70,6 +73,7 @@ import { AppRoutingModule } from './app.routing';
     GenerateurPisteService,
     MusiqueService,
     UtilisateurService,
+    FiltreCouleurService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
