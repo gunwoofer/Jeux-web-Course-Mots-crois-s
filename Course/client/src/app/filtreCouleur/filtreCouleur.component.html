@@ -3,9 +3,16 @@
 <div #container></div>
 <br>
 <form ngNativeValidate (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <label for="nomPiste">Nom de probleme</label>
-    <input type="text" class="form-control" ngModel name="probleme" required>
-    <button #color type="submit">han</button>
+    <label for="TypeCourse">nom de probleme</label>
+    <select class="form-control" id="TypeCourse" ngModel name="probleme" required>
+      <option>Protanomaly</option>
+      <option>Protanopia</option>
+      <option>Deuteranopia</option>
+      <option>Deuteranomaly</option>
+      <option>Tritanopia</option>
+      <option>Tritanomaly</option>
+      <option>Achromatopsia</option>
+    </select>
+    <button class="btn btn-success" #color type="submit" [disabled]="disableFiltrage">Appliquer filtre</button>
 </form>
-
-<button (click)="onClick($event)" type="submit">HANNN</button>
+<button class="btn btn-danger" (click)="enleverFiltre()">Enlever filtre</button>

@@ -10,13 +10,12 @@ import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit }
 export class FiltreCouleurComponent implements AfterViewInit {
 
     @ViewChild('container') private containerRef: ElementRef;
-    @ViewChild('color') private button: ElementRef;
+    private disableFiltrage: boolean;
 
     constructor(private filtreCouleurService: FiltreCouleurService) { }
 
     public ngAfterViewInit() {
         this.filtreCouleurService.initialisation(this.container);
-        this.button.nativeElement.style.color = 'red';
     }
 
     public get container(): HTMLDivElement {
@@ -30,5 +29,11 @@ export class FiltreCouleurComponent implements AfterViewInit {
 
     public onSubmit(f: NgForm): void {
         this.filtreCouleurService.appliquerFiltreScene(f.value.probleme);
+        this.disableFiltrage = true;
+    }
+
+    public enleverFiltre(): void {
+        this.filtreCouleurService.enleverFiltre();
+        this.disableFiltrage = false;
     }
 }

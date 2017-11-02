@@ -10,24 +10,35 @@ export class FiltreCouleurService {
     public renderer: THREE.WebGLRenderer;
     public scene: THREE.Scene;
     private matrice = filtreCouleur;
+    private objectColor: any[] = [];
+    private objectWithMaterial: any[] = [];
 
     public initialisation(container: HTMLDivElement) {
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
+        const axesHelper = new THREE.AxisHelper(5);
+        this.scene.add(axesHelper);
 
         const geometry = new THREE.BoxGeometry(1, 1, 1);
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const material2 = new THREE.MeshBasicMaterial({ color: 'red' });
+        const material3 = new THREE.MeshBasicMaterial({ color: 'blue' });
         const cube = new THREE.Mesh(geometry, material);
+        const cube2 = new THREE.Mesh(geometry, material2);
+        cube2.position.set(10, 0, 0);
+        const cube3 = new THREE.Mesh(geometry, material3);
+        cube3.position.set(-10, 0, 0);
         this.scene.add(cube);
-
+        this.scene.add(cube2);
+        this.scene.add(cube3);
         this.commencerRendu();
     }
 
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(30, this.getAspectRatio(), 1, 5000);
-        this.camera.position.z = 5;
+        this.camera.position.z = 40;
     }
 
     public commencerRendu(): void {
@@ -53,16 +64,26 @@ export class FiltreCouleurService {
         return this.container.clientWidth / this.container.clientHeight;
     }
 
+    public objetAvecMateriel(): void {
+        let objet: any;
+        for (let i = 0; i < this.scene.children.length; i++) {
+            objet = this.scene.children[i];
+            if (objet.material) {
+                this.objectWithMaterial.push(objet);
+            }
+        }
+    }
+
     public appliquerFiltreScene(probleme: string): void {
-        // let objet: any;
-        // const filtre = this.recuperFiltre(probleme);
-        // if (!filtre) { console.log('ce filtre nexiste pas'); return; }
-        // for (let i = 0; i < this.scene.children.length; i++) {
-        //     objet = this.scene.children[i];
-        //     if (objet.material) {
-        //         this.appliquerFiltreObjetScene(objet.material.color, filtre);
-        //     }
-        // }
+        let couleurNormale = {};
+        const filtre = this.recuperFiltre(probleme);
+        this.objetAvecMateriel();
+        for (let i = 0; i < this.objectWithMaterial.length; i++) {
+            Object.assign(couleurNormale, this.objectWithMaterial[i].material.color);
+            this.objectColor.push(couleurNormale);
+            this.appliquerFiltreObjetScene(this.objectWithMaterial[i].material.color, filtre);
+            couleurNormale = {};
+        }
     }
 
     public appliquerFiltreObjetScene(color: any, filtre: any[]): void {
@@ -73,15 +94,18 @@ export class FiltreCouleurService {
 
     public recuperFiltre(probleme: string): number[] {
         for (const filtre in this.matrice) {
-            if (this.matrice.hasOwnProperty(filtre)) {
-                if (filtre === probleme) {
-                    return this.matrice[filtre];
-                }
+            if (this.matrice.hasOwnProperty(filtre) && filtre === probleme) {
+                return this.matrice[filtre];
             }
         }
     }
 
-    public appliquerFiltreDom(probleme: string): void {
+    public enleverFiltre(): void {
+        for (let i = 0; i < this.objectWithMaterial.length; i++) {
+            this.objectWithMaterial[i].material.color = this.objectColor[i];
+        }
+        this.objectWithMaterial = [];
+        this.objectColor = [];
     }
 
 }
