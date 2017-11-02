@@ -10,7 +10,7 @@ import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit }
 export class FiltreCouleurComponent implements AfterViewInit {
 
     @ViewChild('container') private containerRef: ElementRef;
-    private disableFiltrage: boolean;
+    private disableFiltrage = false;
 
     constructor(private filtreCouleurService: FiltreCouleurService) { }
 

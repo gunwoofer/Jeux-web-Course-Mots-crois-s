@@ -64,7 +64,7 @@ export class FiltreCouleurService {
         return this.container.clientWidth / this.container.clientHeight;
     }
 
-    public objetAvecMateriel(): void {
+    public recupererObjetAvecMateriel(): void {
         let objet: any;
         for (let i = 0; i < this.scene.children.length; i++) {
             objet = this.scene.children[i];
@@ -77,7 +77,7 @@ export class FiltreCouleurService {
     public appliquerFiltreScene(probleme: string): void {
         let couleurNormale = {};
         const filtre = this.recuperFiltre(probleme);
-        this.objetAvecMateriel();
+        this.recupererObjetAvecMateriel();
         for (let i = 0; i < this.objectWithMaterial.length; i++) {
             Object.assign(couleurNormale, this.objectWithMaterial[i].material.color);
             this.objectColor.push(couleurNormale);
@@ -86,7 +86,7 @@ export class FiltreCouleurService {
         }
     }
 
-    public appliquerFiltreObjetScene(color: any, filtre: any[]): void {
+    public appliquerFiltreObjetScene(color: any, filtre: number[]): void {
         color.r = ((color.r * filtre[0]) + (color.g * filtre[1]) + (color.b * filtre[2]) + filtre[4]);
         color.g = ((color.r * filtre[5]) + (color.g * filtre[6]) + (color.b * filtre[7]) + filtre[9]);
         color.b = ((color.r * filtre[10]) + (color.g * filtre[11]) + (color.b * filtre[12]) + filtre[14]);

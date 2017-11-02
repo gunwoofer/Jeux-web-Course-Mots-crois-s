@@ -2,8 +2,8 @@
 <br>
 <div #container></div>
 <br>
-<form ngNativeValidate (ngSubmit)="onSubmit(f)" #f="ngForm">
-    <label for="TypeCourse">nom de probleme</label>
+<form *ngIf="!disableFiltrage" ngNativeValidate (ngSubmit)="onSubmit(f)" #f="ngForm">
+    <label for="TypeCourse">Filtre</label>
     <select class="form-control" id="TypeCourse" ngModel name="probleme" required>
       <option>Protanomaly</option>
       <option>Protanopia</option>
@@ -13,6 +13,6 @@
       <option>Tritanomaly</option>
       <option>Achromatopsia</option>
     </select>
-    <button class="btn btn-success" #color type="submit" [disabled]="disableFiltrage">Appliquer filtre</button>
+    <button class="btn btn-success" #color type="submit">Appliquer filtre</button>
 </form>
-<button class="btn btn-danger" (click)="enleverFiltre()">Enlever filtre</button>
+<button class="btn btn-danger" (click)="enleverFiltre()" [disabled]="!disableFiltrage">Enlever filtre</button>
