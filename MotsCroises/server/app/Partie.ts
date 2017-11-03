@@ -4,6 +4,7 @@ import { Case } from '../../commun/Case';
 import { Guid } from '../../commun/Guid';
 import { TypePartie } from '../../commun/TypePartie';
 import { EmplacementMot } from '../../commun/EmplacementMot';
+import { Niveau } from '../../commun/Niveau';
 
 export const LIMITE_JOUEURS = 2;
 export const TEMPS_PARTIE_MINUTES = 5;
@@ -25,9 +26,21 @@ export class Partie {
         this.type = type;
     }
 
+    public estDebute(): boolean {
+        if (this.debutDePartie === undefined ) {
+            return false;
+        }
+
+        return true;
+    }
+
     public demarrerPartie(tempsAlloue: number = TEMPS_PARTIE_MILISECONDS) {
         this.tempsAlloue = tempsAlloue;
         this.debutDePartie = Date.now();
+    }
+
+    public estMultijoueur(): boolean {
+        return (this.joueurs.length > 1) ? true : false;
     }
 
     public obtenirTempsRestantMilisecondes(): number {
@@ -48,10 +61,12 @@ export class Partie {
 
     public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidJoueur: string): boolean {
         let joueur: Joueur;
+        const emplacementMotAChercher: EmplacementMot = this.grille.obtenirEmplacementMot(caseDebut, caseFin);
 
        if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
             joueur = this.obtenirJoueur(guidJoueur);
-            joueur.aTrouveMot();
+
+            joueur.aTrouveMot(emplacementMotAChercher, motAVerifier);
 
             return true;
        }
@@ -69,8 +84,26 @@ export class Partie {
         return undefined;
     }
 
+    public obtenirNiveauGrille(): Niveau{
+        return this.grille.obtenirNiveau();
+    }
+
+    public obtenirJoueurHote(): Joueur {
+        return this.joueurs[0];
+    }
+
     public obtenirPartieGuid(): string {
         return this.guid;
+    }
+
+    public obtenirMotsTrouve(): Object {
+        const motsTrouveSelonJoueur: Object = new Object();
+
+        for (const joueurCourant of this.joueurs) {
+            motsTrouveSelonJoueur[joueurCourant.obtenirGuid()] = joueurCourant.obtenirMotTrouve();
+        }
+
+        return motsTrouveSelonJoueur;
     }
 
     public ajouterJoueur(joueur: Joueur): void {

@@ -14,8 +14,6 @@ export class SpecificationPartie {
     public guidPartie: string;
     public specificationGrilleEnCours: SpecificationGrille;
     public indices: Indice[];
-    
-
 
     public static rehydrater(source: SpecificationPartie): SpecificationPartie {
         let sourceVraie = source as SpecificationPartie;
@@ -38,6 +36,4 @@ export class SpecificationPartie {
         this.typePartie = typePartie;
         this.indices = new Array();
     }
-
-
 }

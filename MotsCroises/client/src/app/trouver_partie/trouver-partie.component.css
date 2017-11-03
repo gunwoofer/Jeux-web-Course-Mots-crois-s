@@ -1,0 +1,18 @@
+.partieDiv {
+  margin: 0 auto;
+  width: 100%;
+  text-align: center;
+}
+
+.nomJoueurDiv{
+  margin: 10px 10px;
+}
+
+.selected {
+  background-color: #8b6edc !important;
+  color: white;
+}
+
+.choixPartieDiv {
+  border: 1px solid black;
+}

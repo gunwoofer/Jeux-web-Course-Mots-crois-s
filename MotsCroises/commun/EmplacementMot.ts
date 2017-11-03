@@ -16,9 +16,6 @@ export class EmplacementMot {
     public motsImpossible: string[] = new Array();
     private GuidIndice = '';
     private joueurQuiASelectionnerEmplacementMot = 0;
-
-    
-
     
     public static creerInstanceAvecJSON(): EmplacementMot {
         return new EmplacementMot(new Case(1,1,EtatCase.vide), new Case(1,3,EtatCase.vide));

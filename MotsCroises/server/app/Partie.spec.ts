@@ -7,6 +7,7 @@ import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
 import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Partie } from './Partie';
+import { Case } from '../../commun/Case';
 
 const DELAI_MAXIMUM_MILISECONDES = 5 * Math.pow(10, 3);
 
@@ -122,7 +123,50 @@ describe('Partie', () => {
 
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
+    it('Il est possible d\'obtenir une liste des mots trouvés par chaque joueur.', () => {
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
+        const joueur1: Joueur = new Joueur();
+        const joueur2: Joueur = new Joueur();
+        const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
 
+        const emplacementMotTrouveJoueur1: EmplacementMot = grille.emplacementMots[0];
+        const emplacementMotTrouveJoueur2: EmplacementMot = grille.emplacementMots[1];
 
+        let motAVerifierJoueur1 = '';
+        let motAVerifierJoueur2 = '';
+        let casesEmplacementMot: Case[];
+
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique, grille, Niveau.facile, joueur2);
+        const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
+        partieEnCours.demarrerPartie();
+
+        // Trouve mot emplacement 1, joueur 1
+        casesEmplacementMot = grille.obtenirCasesSelonCaseDebut(emplacementMotTrouveJoueur1.obtenirCaseDebut(),
+        emplacementMotTrouveJoueur1.obtenirPosition(), emplacementMotTrouveJoueur1.obtenirGrandeur());
+
+        for (const caseCourante of casesEmplacementMot) {
+            motAVerifierJoueur1 += caseCourante.obtenirLettre();
+        }
+
+        partieEnCours.estLeMot(emplacementMotTrouveJoueur1.obtenirCaseDebut(), emplacementMotTrouveJoueur1.obtenirCaseFin(), 
+            motAVerifierJoueur1, joueur1.obtenirGuid());
+
+        // Trouve mot emplacement 2, joueur 2
+        casesEmplacementMot = grille.obtenirCasesSelonCaseDebut(emplacementMotTrouveJoueur2.obtenirCaseDebut(),
+        emplacementMotTrouveJoueur2.obtenirPosition(), emplacementMotTrouveJoueur2.obtenirGrandeur());
+
+        for (const caseCourante of casesEmplacementMot) {
+            motAVerifierJoueur2 += caseCourante.obtenirLettre();
+        }
+
+        partieEnCours.estLeMot(emplacementMotTrouveJoueur2.obtenirCaseDebut(), emplacementMotTrouveJoueur2.obtenirCaseFin(),
+            motAVerifierJoueur2, joueur2.obtenirGuid());
+
+        const listeMotsTrouve: Object = partieEnCours.obtenirMotsTrouve();
+        assert(listeMotsTrouve[joueur1.obtenirGuid()][0] === motAVerifierJoueur1);
+        assert(listeMotsTrouve[joueur2.obtenirGuid()][0] === motAVerifierJoueur2);
+
+    });
 });

@@ -24,6 +24,19 @@ export class GestionnaireDePartieService {
         return partie.obtenirPartieGuid();
     }
 
+    public obtenirPartiesEnAttente(): Partie[] {
+        const partiesEnCours: Partie[] = [];
+
+
+        for (const partieCourante of this.parties) {
+            if (!partieCourante.estDebute()) {
+                partiesEnCours.push(partieCourante);
+            }
+        }
+
+        return partiesEnCours;
+    }
+
     public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidPartie: string, guidJoueur: string): boolean {
         const partieAVerifier: Partie = this.obtenirPartieEnCours(guidPartie);
 
@@ -45,7 +58,13 @@ export class GestionnaireDePartieService {
     }
 
     public voirSiPartieTermine(guidPartie: string): boolean {
-        if (this.obtenirPartieEnCours(guidPartie).partieEstTermine()) {
+        const partieEnCours: Partie = this.obtenirPartieEnCours(guidPartie);
+
+        if (partieEnCours.estMultijoueur() && partieEnCours.partieEstTermineAvecCompteur()) {
+            return true;
+        }
+
+        if (partieEnCours.partieEstTermine()) {
             return true;
         }
         return false;
