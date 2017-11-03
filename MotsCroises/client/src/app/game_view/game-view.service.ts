@@ -12,8 +12,9 @@ import {Indice} from '../../../../server/app/Indice';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
 import {Router} from '@angular/router';
 import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/RequisDemandeListePartieEnAttente';
-import { VuePartieEnCours } from '../../../../commun/VuePartieEnCours';
-import { RequisPourJoindrePartieMultijoueur } from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
+import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
+import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
+import {Couleur} from '../../../../commun/Couleur';
 
 
 @Injectable()
@@ -30,13 +31,13 @@ export class GameViewService {
   public specificationPartie: SpecificationPartie;
   public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
   public joueur: Joueur = new Joueur();
+  public joueur2: Joueur = new Joueur(Couleur.Vert, '');
   private indiceTeste: IndiceMot;
   private motEntre: string;
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
-  private requisPourJoindrePartieMultijoueur;
-  joueur1 = new Joueur();
+  private requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur;
 
   private listeVuePartie: VuePartieEnCours[] = new Array;
 
@@ -113,16 +114,17 @@ export class GameViewService {
   }
 
   public demanderPartieServer(typePartie: TypePartie = TypePartie.classique_a_un) {
-    switch(typePartie) {
+    switch (typePartie) {
       case TypePartie.classique_a_un :
         this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
           this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
-      break;
+        break;
 
       case TypePartie.classique_a_deux :
         this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR,
           this.specificationPartie, requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, this.recupererPartieMultijoueur, this);
-      break;
+        this.ecouterRetourRejoindrePartieMultijoueur();
+        break;
     }
 
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
@@ -146,14 +148,29 @@ export class GameViewService {
       this.rappelRejoindrePartieMultijoueur, this);
   }
 
+  public ecouterRetourRejoindrePartieMultijoueur<RequisDemandeListePartieEnAttente>(): void {
+    this.connexionTempsReelClient.ecouterRequete(
+      requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, this.rappelRejoindrePartieMultijoueur, this
+    );
+  }
+
   public rappelRejoindrePartieMultijoueur(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur
     , self: GameViewService): void {
-      requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
-      console.log('JOUEUR A Rejoins LA PARTIE : ' + requisPourJoindrePartieMultijoueur.guidPartie);
+    requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
+    /*console.log('JOUEUR A Rejoins LA PARTIE : ' + requisPourJoindrePartieMultijoueur.guidPartie);
+    console.log(requisPourJoindrePartieMultijoueur.joueurs);
+    console.log(requisPourJoindrePartieMultijoueur.joueurAAjouter);
+    self.joueur2 = this.requisPourJoindrePartieMultijoueur.joueurAAjouter;*/
 
-      for(const joueurCourant of requisPourJoindrePartieMultijoueur.joueurs) {
-        console.log('NOM JOUEUR: ' + joueurCourant.obtenirNomJoueur());
+    for (const joueurCourant of requisPourJoindrePartieMultijoueur.joueurs) {
+      if (joueurCourant.obtenirGuid() !== self.joueur.obtenirGuid()) {
+        self.joueur2 = joueurCourant;
       }
+      console.log('NOM JOUEUR: ' + joueurCourant.obtenirNomJoueur());
+    }
+
+    self.demarrerPartieMultijoueur(requisPourJoindrePartieMultijoueur.specificationPartie, self);
+    // self.recupererPartie(this.requisPourJoindrePartieMultijoueur.specificationPartie, self);
   }
 
   public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: GameViewService) {
@@ -174,19 +191,29 @@ export class GameViewService {
     self.partieCreee();
   }
 
-  public partieCreee(){
+  public partieCreee() {
     if (this.nbJoueursPartie === 0) {
       this.afficherPartie(this.typePartie, this.niveauPartie, this.nbJoueursPartie);
-    }else {
+    } else {
       this.router.navigate(['/attentePartie']);
     }
   }
 
   public recupererPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
-    console.log(specificationPartie.guidPartie + " | " + "PARTIE CRÉÉ MULTI");
+    self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+    console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
+  }
+
+  public demarrerPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
+    self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+    self.mettreAJourGrilleGeneree(self.specificationPartie);
+    self.nbJoueursPartie = 1;
+    this.router.navigate(['/partie/' + self.specificationPartie.typePartie + '/' + self.specificationPartie.niveau + '/' + self.nbJoueursPartie]);
+    console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
   }
 
   public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
+    console.log('demande Verif mot');
     const requisPourMotAVerifier: RequisPourMotAVerifier = new RequisPourMotAVerifier(
       emplacementMot, motAtester, this.specificationPartie.joueur.obtenirGuid(), this.specificationPartie.guidPartie);
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVEUR_VERIFIER_MOT,
@@ -194,6 +221,8 @@ export class GameViewService {
   }
 
   public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: GameViewService): void {
+    console.log(requisPourMotAVerifier);
+    console.log('retour ?');
     if (requisPourMotAVerifier.estLeMot) {
       self.indiceTeste.motTrouve = self.motEntre;
       self.motTrouveJ1.next();

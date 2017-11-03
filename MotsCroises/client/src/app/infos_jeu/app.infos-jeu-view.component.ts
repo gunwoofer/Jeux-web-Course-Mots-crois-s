@@ -1,6 +1,7 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
 import {IndiceViewService} from '../indice/indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
+import {Joueur} from "../../../../commun/Joueur";
 
 
 @Component({
@@ -18,9 +19,11 @@ export class InfosJeuViewComponent implements AfterViewInit {
   public motTrouveJ2 = 0;
   private tempsActuel: number;
   public tempsRestant = 30;
-  private dureeGrille = 30000;
+  private dureeGrille = 3000000;
   public tempsFin: number;
   private intervalFunction: any;
+  public joueur: Joueur;
+  public joueur2: Joueur;
 
 
   constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
@@ -31,6 +34,8 @@ export class InfosJeuViewComponent implements AfterViewInit {
       this.motTrouveJ1 = this.motTrouveJ1 + 1;
       this.recommencerTimer();
     });
+    this.joueur = this.gameViewService.joueur;
+    this.joueur2 = this.gameViewService.joueur2;
   }
 
   public ngAfterViewInit(): void {

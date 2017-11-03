@@ -76,6 +76,7 @@ export class DescripteurEvenementTempsReel {
         specificationPartie.specificationGrilleEnCours = new SpecificationGrille(
             grille.obtenirManipulateurCasesSansLettres(), grille.obtenirEmplacementsMot());
 
+        specificationPartie.guidPartie = partieEnAttente.obtenirPartieGuid();
         partieEnAttente.demarrerPartie();
 
         return specificationPartie;

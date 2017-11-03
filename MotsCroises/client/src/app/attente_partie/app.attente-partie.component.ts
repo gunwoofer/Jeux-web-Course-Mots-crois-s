@@ -15,7 +15,7 @@ import { TypePartie } from '../../../../commun/TypePartie';
 
 export class AttentePartieComponent implements OnInit {
   public nomJoueur = '';
-  public nomJoueur2 = 'a';
+  public nomJoueur2 = '';
   public partieSelectionne: VuePartieEnCours;
   public specificationPartie: SpecificationPartie;
   public niveauPartie: string;
@@ -40,7 +40,7 @@ export class AttentePartieComponent implements OnInit {
   }
 
   public deuxJoueursPresents() {
-    return (this.nomJoueur2.length === 0);
+    return (this.gameViewService.joueur2.obtenirNomJoueur().length === 0);
   }
 
   public demarrerPartie2joueurs() {

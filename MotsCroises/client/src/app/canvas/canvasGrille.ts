@@ -25,7 +25,6 @@ export class CanvasGrille {
   constructor(private gameViewService: GameViewService, private indiceViewService: IndiceViewService, containerRef: ElementRef) {
     this.obtenirCanvasJeu(containerRef);
     this.initialise();
-
   }
 
   public actionToucheAppuyee(event: KeyboardEvent) {

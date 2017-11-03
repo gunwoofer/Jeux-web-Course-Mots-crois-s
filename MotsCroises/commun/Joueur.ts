@@ -1,13 +1,10 @@
 import { Guid } from './Guid';
 import { EmplacementMot } from './EmplacementMot';
+import {Couleur} from "./Couleur";
 
 export const NOM_JOUEUR_HOTE_DEFAULT = 'joueurHote';
 
-enum Couleur {
-    Rouge,
-    Vert,
-    Bleu
-}
+
 
 export class Joueur {
     private id: string = Guid.generateGUID();
