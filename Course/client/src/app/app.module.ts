@@ -18,6 +18,8 @@ import { InscriptionComponent } from './accueil/admin/inscription/inscription.co
 import { ConnexionComponent } from './accueil/admin/connexion/connexion.component';
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
 import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
+import { FiltreCouleurComponent } from './filtreCouleur/filtreCouleur.component';
+import { ObjetRandomComponent } from './ObjectRandom/objetRandom.component';
 
 
 import { RenderService } from './renderService/render.service';
@@ -30,6 +32,8 @@ import { MessageErreurService } from './messageErreurs/messageerreur.service';
 import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
 import { UtilisateurService } from './accueil/utilisateur.service';
 import { MusiqueService } from './musique/musique.service';
+import { ObjetRandomService } from './ObjectRandom/objetRandom.service';
+import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
 
 
 import { APP_BASE_HREF } from '@angular/common';
@@ -52,7 +56,9 @@ import { AppRoutingModule } from './app.routing';
     ConnexionComponent,
     InscriptionComponent,
     MotDepasseOublieComponent,
-    ModificationMotDePasseComponent
+    ModificationMotDePasseComponent,
+    FiltreCouleurComponent,
+    ObjetRandomComponent
   ],
   imports: [
     BrowserModule,
@@ -71,7 +77,8 @@ import { AppRoutingModule } from './app.routing';
     GenerateurPisteService,
     MusiqueService,
     UtilisateurService,
-    LumiereService,
+    FiltreCouleurService,
+    ObjetRandomService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
