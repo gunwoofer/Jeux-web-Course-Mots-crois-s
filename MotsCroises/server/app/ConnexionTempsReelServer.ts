@@ -12,6 +12,7 @@ import * as express from 'express';
 
 export const PORT_SOCKET_IO = 3001;
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
+import { RequisPourJoindrePartieMultijoueur } from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
 
 export class ConnexionTempsReelServer {
 
@@ -48,6 +49,7 @@ export class ConnexionTempsReelServer {
             (specificationPartie: SpecificationPartie) => 
             self.descripteurEvenementTempsReel.creerPartieSolo(client, self.gestionnaireDePartieService,
                 self.generateurDeGrilleService, specificationPartie));
+                
         client.on(requetes.REQUETE_SERVEUR_VERIFIER_MOT,
             (requisPourMotAVerifier: RequisPourMotAVerifier) => 
             self.descripteurEvenementTempsReel.verifierMot(client, self.gestionnaireDePartieService,
@@ -58,10 +60,13 @@ export class ConnexionTempsReelServer {
             (requisPourSelectionnerMot: RequisPourSelectionnerMot) =>
             self.descripteurEvenementTempsReel.changerEmplacementMotSelectionner(client, self.gestionnaireDePartieService, 
                 self.clientSockets, requisPourSelectionnerMot));
+
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT, (requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant) =>
         self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.io, requisPourObtenirTempsRestant, self.clientSockets));
+
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_MOTS_TROUVES, (requisPourMotsTrouve: RequisPourMotsTrouve) =>
             self.descripteurEvenementTempsReel.obtenirMotsTrouve(client, self.io, requisPourMotsTrouve, self.clientSockets));
+
         client.on(requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
             (requisDemandeListePartieEnAttente: RequisDemandeListePartieEnAttente) => self.descripteurEvenementTempsReel
             .obtenirDemandeListePartiesEnCours(client, self.gestionnaireDePartieService,
@@ -71,5 +76,10 @@ export class ConnexionTempsReelServer {
                 (specificationPartie: SpecificationPartie) =>
                 self.descripteurEvenementTempsReel.creerPartieMultijoueur(client, self.gestionnaireDePartieService,
                     self.generateurDeGrilleService, specificationPartie));
+
+        client.on(requetes.REQUETE_SERVEUR_JOINDRE_PARTIE,
+                (requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur) =>
+                self.descripteurEvenementTempsReel.joindrePartieMultijoueur(client, self.gestionnaireDePartieService,
+                    self.generateurDeGrilleService, requisPourJoindrePartieMultijoueur, self.clientSockets));
     }
 }
