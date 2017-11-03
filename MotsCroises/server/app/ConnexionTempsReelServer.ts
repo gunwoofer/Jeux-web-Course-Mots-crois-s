@@ -1,3 +1,4 @@
+import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { SpecificationPartie } from '../../commun/SpecificationPartie';
@@ -7,6 +8,7 @@ import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObt
 import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
 import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
 import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
+
 
 import * as express from 'express';
 
@@ -71,5 +73,11 @@ export class ConnexionTempsReelServer {
                 (specificationPartie: SpecificationPartie) =>
                 self.descripteurEvenementTempsReel.creerPartieMultijoueur(client, self.gestionnaireDePartieService,
                     self.generateurDeGrilleService, specificationPartie));
+
+        // Cheat mode
+        client.on(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
+            (requisPourMotComplet: RequisPourMotsComplets) =>
+            self.descripteurEvenementTempsReel.obtenirMotsComplets(client, self.gestionnaireDePartieService, requisPourMotComplet));
+
     }
 }

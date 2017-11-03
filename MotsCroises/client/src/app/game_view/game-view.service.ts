@@ -1,3 +1,4 @@
+import { RequisPourMotsComplets } from './../../../../commun/requis/RequisPourMotsComplets';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
@@ -98,14 +99,14 @@ export class GameViewService {
     this.niveauPartie = niveau;
     this.typePartie = typePartie;
     this.specificationPartie = new SpecificationPartie(niveau, this.joueur, typePartie);
-    if(this.nbJoueursPartie === 0 ){
+    if (this.nbJoueursPartie === 0 ) {
       this.demanderPartieServer();
     }else {
       this.demanderNomJoueur();
     }
   }
 
-  public demanderPartieServer(){
+  public demanderPartieServer() {
     this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
       this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
@@ -178,6 +179,19 @@ export class GameViewService {
     if (playerName !== null && playerName !== '') {
       this.joueur.changerNomJoueur(playerName);
       this.router.navigate(['/attentePartie']);
+    }
+  }
+
+
+  public demanderMotsComplets(guid: string) {
+    const requisPourMotsComplets = new RequisPourMotsComplets(guid);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotsComplets>(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
+      requisPourMotsComplets, requetes.REQUETE_CLIENT_RAPPEL_OBTENIR_MOTS_COMPLETS_CHEAT_MODE, this.recevoirMotsComplets, this);
+  }
+
+  public recevoirMotsComplets(requisPourMotsComplets: RequisPourMotsComplets, self: GameViewService) {
+    for (let i = 0; i < self.indices.length; i++) {
+      self.indices[i].definition = requisPourMotsComplets.listeMotComplet[i].lettres;
     }
   }
 
