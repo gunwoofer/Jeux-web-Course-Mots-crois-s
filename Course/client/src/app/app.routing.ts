@@ -14,7 +14,7 @@ import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motD
 
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/filtre', pathMatch: 'full' },
+    { path: '', redirectTo: '/accueil', pathMatch: 'full' },
     { path: 'filtre', component: FiltreCouleurComponent },
     { path: 'inscription', component: InscriptionComponent },
     { path: 'motDePasseOublie', component: MotDepasseOublieComponent },
