@@ -16,5 +16,8 @@ export class RequisPourMotsTrouve {
                 "animal"
             ]
         }
-    */    
+    */   
+    constructor (guidPartie: string) {
+        this.guidPartie = guidPartie;
+    } 
 }
