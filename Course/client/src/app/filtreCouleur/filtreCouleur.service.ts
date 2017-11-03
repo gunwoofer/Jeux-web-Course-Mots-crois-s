@@ -7,6 +7,10 @@ import * as THREE from 'three';
 export class FiltreCouleurService {
     private WIDTH = 10000;
     private HEIGHT = 10000;
+    private arbrePath = '../../assets/objects/arbre/tree.json';
+    private arbreTexture = '../../assets/objects/arbre/tree.jpg';
+    private arbrePath2 = '../../assets/objects/arbre2/tree.json';
+    private arbreTexture2 = '../../assets/objects/arbre2/tree.jpg';
     private container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
@@ -35,7 +39,7 @@ export class FiltreCouleurService {
         // this.scene.add(cube);
         // this.scene.add(cube2);
         // this.scene.add(cube3);
-        this.chargerArbre();
+        this.chargerArbre(this.arbrePath, this.arbreTexture);
         this.creeplane();
         this.commencerRendu();
     }
@@ -102,15 +106,15 @@ export class FiltreCouleurService {
         vecteur.y = 0;
     }
 
-    public chargerArbre(): void {
+    public chargerArbre(path: string, texture: string): void {
         const loader = new THREE.ObjectLoader();
         const groupe = new THREE.Object3D();
         let arbre: any; let lumieres: any; let instance: any;
-        const texture = new THREE.TextureLoader().load('../../assets/objects/arbre2/tree.jpg');
-        loader.load('../../assets/objects/arbre2/tree.json', (obj) => {
+        const textur = new THREE.TextureLoader().load(texture);
+        loader.load(path, (obj) => {
             arbre = obj.children[1];
             lumieres = obj.children[0];
-            arbre.material.map = texture;
+            arbre.material.map = textur;
             for (let i = 0; i < 4; i++) {
                 instance = arbre.clone();
                 this.genereRandomPosition(instance.position);
