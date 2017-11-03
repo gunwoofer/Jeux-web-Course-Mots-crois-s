@@ -111,7 +111,9 @@ export class DescripteurEvenementTempsReel {
             requisPourMotAVerifier.validerMot();
         }
 
-        client.emit(requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, requisPourMotAVerifier);
+        for(const clientCourant of clients) {
+            clientCourant.emit(requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, requisPourMotAVerifier);
+        }
 
         if (estLeMot) {
             const partieTermine = gestionnaireDePartieService.voirSiPartieTermine(requisPourMotAVerifier.guidPartie);
