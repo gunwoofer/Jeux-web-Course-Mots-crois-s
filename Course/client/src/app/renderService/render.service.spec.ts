@@ -1,3 +1,4 @@
+import { MusiqueService } from './../musique/musique.service';
 import { HttpModule } from '@angular/http';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
 import { FormsModule } from '@angular/forms';
@@ -27,7 +28,7 @@ describe('RenderService', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      providers: [RenderService, FacadeSourisService, PisteService, GenerateurPisteService, MessageErreurService],
+      providers: [RenderService, FacadeSourisService, PisteService, GenerateurPisteService, MessageErreurService, MusiqueService],
       declarations: [CreateurPisteComponent, PisteValidationComponent],
       imports: [FormsModule, HttpModule]
     })

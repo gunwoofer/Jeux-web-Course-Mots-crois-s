@@ -71,7 +71,7 @@ export class GenerateurPisteService {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
         if (this.voiture !== undefined) {
-            this.vueTroisiemePersonne();
+            this.vueDessus();
         }
     }
 
@@ -142,7 +142,7 @@ export class GenerateurPisteService {
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, ( obj ) => {
             obj.rotateX(1.5708);
-            obj.rotateY(Math.PI / 2);
+            // obj.rotateY(Math.PI / 2);
             obj.name = 'Voiture';
             this.scene.add( obj );
             this.voiture = obj;

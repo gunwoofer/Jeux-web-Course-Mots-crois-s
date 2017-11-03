@@ -15,13 +15,13 @@ export class Deplacement {
             this.toucheAppuyer[1] = this.toucheAppuyer[1];
             this.toucheAppuyer[0] = avancer;
             if (this.toucheAppuyer[1] === gauche) {
-                voiture.rotateZ(0.01);
+                voiture.rotateY(0.01);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = gauche;
                 event.keyCode = gauche;
             }
             if (this.toucheAppuyer[1] === droite) {
-                voiture.rotateZ(-0.01);
+                voiture.rotateY(-0.01);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = droite;
             }
@@ -31,12 +31,12 @@ export class Deplacement {
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = reculer;
            if (this.toucheAppuyer[1] === gauche) {
-                voiture.rotateZ(-0.05);
+                voiture.rotateY(-0.05);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = gauche;
             }
             if (this.toucheAppuyer[1] === droite) {
-                voiture.rotateZ(0.05);
+                voiture.rotateY(0.05);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = droite;
             }
