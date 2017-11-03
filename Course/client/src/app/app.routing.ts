@@ -1,5 +1,3 @@
-import { FiltreCouleurComponent } from './filtreCouleur/filtreCouleur.component';
-import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -11,11 +9,15 @@ import { JoueurComponent } from './accueil/joueur/joueur.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
+import { ObjetRandomComponent } from './ObjectRandom/objetRandom.component';
+import { FiltreCouleurComponent } from './filtreCouleur/filtreCouleur.component';
+import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/filtre', pathMatch: 'full' },
+    { path: '', redirectTo: '/accueil', pathMatch: 'full' },
     { path: 'filtre', component: FiltreCouleurComponent },
+    { path: 'objetRandom', component: ObjetRandomComponent },
     { path: 'inscription', component: InscriptionComponent },
     { path: 'motDePasseOublie', component: MotDepasseOublieComponent },
     { path: 'admin', component: ConnexionComponent },
