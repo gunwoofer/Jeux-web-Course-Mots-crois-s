@@ -79,6 +79,7 @@ import { AppRoutingModule } from './app.routing';
     UtilisateurService,
     FiltreCouleurService,
     ObjetRandomService,
+    LumiereService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
