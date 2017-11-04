@@ -1,3 +1,4 @@
+import { ConfigurationPartieComponent } from './configurationPartie/configurationPartie.component';
 import { LumiereService } from './dayNight/dayNight';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -58,7 +59,8 @@ import { AppRoutingModule } from './app.routing';
     MotDepasseOublieComponent,
     ModificationMotDePasseComponent,
     FiltreCouleurComponent,
-    ObjetRandomComponent
+    ObjetRandomComponent,
+    ConfigurationPartieComponent
   ],
   imports: [
     BrowserModule,
