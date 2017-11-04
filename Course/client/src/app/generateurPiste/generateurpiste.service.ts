@@ -26,7 +26,7 @@ export class GenerateurPisteService {
     private skybox = new Skybox();
     private voiture: THREE.Object3D;
 
-    private piste: Piste;
+    public piste: Piste;
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);

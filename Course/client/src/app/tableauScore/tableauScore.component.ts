@@ -1,3 +1,4 @@
+import { TableauScoreService } from './tableauScoreService.service';
 import { Component, Input } from '@angular/core';
 
 @Component({
@@ -8,7 +9,10 @@ import { Component, Input } from '@angular/core';
 
 export class TableauScoreComponent {
 
-    @Input() public temps: number[];
+    public temps: string[];
 
-    constructor () {}
+    constructor(private tableauScoreService: TableauScoreService) {
+        this.temps = this.tableauScoreService.meilleurTemps;
+    }
+
 }

@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Router } from '@angular/router';
+import { Component, Input } from '@angular/core';
 
 
 @Component({
@@ -8,7 +9,9 @@ import { Component } from '@angular/core';
 })
 
 export class ConfigurationPartieComponent {
-    private nombreDesTours = 0;
+    private nombreDesTours = 1;
+
+    constructor(private router: Router) {}
 
     public augmenterNombreTour(): void {
         if (this.nombreDesTours !== 3) {
@@ -17,8 +20,13 @@ export class ConfigurationPartieComponent {
     }
 
     public diminuerNombreTour(): void {
-        if (this.nombreDesTours !== 0) {
+        if (this.nombreDesTours !== 1) {
             this.nombreDesTours--;
         }
+    }
+
+    public allerAFinPartie(): void {
+        this.router.navigateByUrl('/finPartie');
+
     }
 }

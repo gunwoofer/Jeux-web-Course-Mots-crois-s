@@ -1,3 +1,4 @@
+import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { Piste } from './piste.model';
 import { Component, Input } from '@angular/core';
 
@@ -15,7 +16,7 @@ export class PisteComponent {
     public display = false;
     public score = false;
 
-  constructor(private pisteService: PisteService) { }
+  constructor(private pisteService: PisteService, private tableauScoreService: TableauScoreService) { }
 
   public editer(): void {
     this.pisteService.modifierPiste(this.piste);
@@ -29,6 +30,7 @@ export class PisteComponent {
 
   public surClick(): void {
     this.display = !this.display;
+    this.tableauScoreService.meilleurTemps = this.piste.meilleursTemps;
   }
 
   public montrerLesScores(): void {

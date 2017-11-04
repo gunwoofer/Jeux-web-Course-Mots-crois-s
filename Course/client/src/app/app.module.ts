@@ -1,3 +1,6 @@
+import { RatingComponent } from './rating/rating.component';
+import { TableauScoreService } from './tableauScore/tableauScoreService.service';
+import { FinDePartieComponent } from './finDepartie/finDePartie.component';
 import { ConfigurationPartieComponent } from './configurationPartie/configurationPartie.component';
 import { LumiereService } from './dayNight/dayNight';
 import { FormsModule } from '@angular/forms';
@@ -60,7 +63,9 @@ import { AppRoutingModule } from './app.routing';
     ModificationMotDePasseComponent,
     FiltreCouleurComponent,
     ObjetRandomComponent,
-    ConfigurationPartieComponent
+    ConfigurationPartieComponent,
+    FinDePartieComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +87,7 @@ import { AppRoutingModule } from './app.routing';
     FiltreCouleurService,
     ObjetRandomService,
     LumiereService,
+    TableauScoreService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
