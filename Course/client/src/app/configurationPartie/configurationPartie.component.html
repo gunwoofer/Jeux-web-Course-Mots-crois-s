@@ -1,0 +1,15 @@
+<div class="col-md-8 col-md-offset-2">
+    <h1>Configuration de partie</h1>
+    <label for="nombreTour">Nombre de tours</label>
+    <button class="btn"><i class="fa fa-minus" aria-hidden="true" (click)="diminuerNombreTour()"></i></button>
+    <input type="text" [(ngModel)]="nombreDesTours" disabled>
+    <button class="btn"><i class="fa fa-plus" aria-hidden="true" (click)="augmenterNombreTour()"></i></button>
+    <div class="form-group">
+        <label for="TypeCourse">Type de course</label>
+        <select class="form-control" id="TypeCourse" ngModel name="typeCourse" required>
+      <option>Amateur</option>
+      <option>Professionnel</option>
+    </select>
+    </div>
+    <button class="commencer" class="btn btn-warning">Commencer partie</button>
+</div>
