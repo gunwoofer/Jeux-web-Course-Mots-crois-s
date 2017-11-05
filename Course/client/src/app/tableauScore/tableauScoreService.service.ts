@@ -1,3 +1,4 @@
+import { Score } from './Score.model';
 import { Piste } from '../piste/piste.model';
 import { Injectable } from '@angular/core';
 
@@ -5,7 +6,7 @@ import { Injectable } from '@angular/core';
 
 export class TableauScoreService {
 
-    public meilleurTemps: string[];
+    public meilleurTemps: Score[];
 
     public echanger(chiffre: number, chiffre2: number): void {
         const temp = chiffre;
