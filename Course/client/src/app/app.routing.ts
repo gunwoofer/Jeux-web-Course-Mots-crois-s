@@ -1,3 +1,4 @@
+import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -16,7 +17,7 @@ import { FinDePartieComponent } from './finDepartie/finDePartie.component';
 
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/finPartie', pathMatch: 'full' },
+    { path: '', redirectTo: '/tableau', pathMatch: 'full' },
     { path: 'filtre', component: FiltreCouleurComponent },
     { path: 'objetRandom', component: ObjetRandomComponent },
     { path: 'inscription', component: InscriptionComponent },
@@ -28,7 +29,8 @@ const APP_ROUTES: Routes = [
     { path: 'listePiste', component: ListePisteComponent },
     { path: 'createurPiste', component: CreateurPisteComponent },
     { path: 'generationpiste', component: GenerateurPisteComponent },
-    { path: 'finPartie', component: FinDePartieComponent }
+    { path: 'finPartie', component: FinDePartieComponent },
+    { path: 'tableau', component: TableauScoreComponent}
 ];
 
 @NgModule({

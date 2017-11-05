@@ -7,32 +7,36 @@ import { Injectable } from '@angular/core';
 export class TableauScoreService {
 
     public meilleurTemps: Score[];
+    public debut = 0;
     public temps: string;
 
     public ajouterTemps(score: Score): void {
         this.meilleurTemps.push(score);
+        const fin = this.meilleurTemps.length - 1;
+        this.quickSort(this.meilleurTemps, this.debut, fin);
+        console.log(this.meilleurTemps);
     }
 
-    public echanger(chiffre: number, chiffre2: number): void {
-        const temp = chiffre;
-        chiffre = chiffre2;
-        chiffre2 = temp;
+    public echanger(chiffresTab: Score[], score: number, score2: number): void {
+        const temp = chiffresTab[score];
+        chiffresTab[score] = chiffresTab[score2];
+        chiffresTab[score2] = temp;
     }
 
-    public partition(chiffresTab: number[], debut: number, fin: number): number {
-        const pivot = chiffresTab[fin];
+    public partition(chiffresTab: Score[], debut: number, fin: number): number {
+        const pivot = chiffresTab[fin].valeur;
         let indexPartition = debut;
         for (let i = debut; i < fin; i++) {
-            if (chiffresTab[i] <= pivot) {
-                this.echanger(chiffresTab[i], chiffresTab[indexPartition]);
+            if (chiffresTab[i].valeur <= pivot) {
+                this.echanger(chiffresTab, i, indexPartition);
                 indexPartition++;
             }
         }
-        this.echanger(chiffresTab[indexPartition], chiffresTab[fin]);
+        this.echanger(chiffresTab, indexPartition, fin);
         return indexPartition;
     }
 
-    public quickSort(chiffresTab: number[], debut: number, fin: number): void {
+    public quickSort(chiffresTab: Score[], debut: number, fin: number): void {
         if (debut < fin) {
             const indexPartition = this.partition(chiffresTab, debut, fin);
             this.quickSort(chiffresTab, debut, indexPartition - 1);

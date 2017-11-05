@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Score } from './Score.model';
 import { TableauScoreService } from './tableauScoreService.service';
@@ -11,11 +12,12 @@ import { Component, Input, OnInit } from '@angular/core';
 
 export class TableauScoreComponent implements OnInit {
 
+
     public temps: Score[];
     public afficher: boolean;
     public meilleurTemps: string;
 
-    constructor(private tableauScoreService: TableauScoreService) {
+    constructor(private tableauScoreService: TableauScoreService, private router: Router) {
         this.temps = this.tableauScoreService.meilleurTemps;
     }
 
@@ -30,6 +32,7 @@ export class TableauScoreComponent implements OnInit {
         console.log(f.value.nom);
         const nouveauScore = new Score(f.value.nom, this.meilleurTemps);
         this.tableauScoreService.ajouterTemps(nouveauScore);
+        this.afficher = false;
     }
 
 }
