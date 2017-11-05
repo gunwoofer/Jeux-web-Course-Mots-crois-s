@@ -9,8 +9,18 @@ import { Component } from '@angular/core';
 
 export class RatingComponent {
 
+    public veutVoter: boolean;
+
     public rating(event): void {
         console.log(event.target.value);
+    }
+    
+    public onClick() {
+        this.veutVoter = false;
+    }
+
+    public onClick1() {
+        this.veutVoter = true;
     }
 
 }
