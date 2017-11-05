@@ -4,8 +4,8 @@ import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit }
 
 @Component({
     selector: 'app-filtrecouleur',
-    templateUrl: './filtrecouleur.component.html',
-    styleUrls: ['./filtrecouleur.component.css']
+    templateUrl: './filtreCouleur.component.html',
+    styleUrls: ['./filtreCouleur.component.css']
 })
 export class FiltreCouleurComponent implements AfterViewInit {
 
