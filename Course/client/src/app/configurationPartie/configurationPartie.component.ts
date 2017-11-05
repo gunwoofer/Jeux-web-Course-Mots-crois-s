@@ -29,6 +29,5 @@ export class ConfigurationPartieComponent {
     public allerAFinPartie(): void {
         this.router.navigateByUrl('/finPartie');
         this.tableauScoreService.temps = '3min 20s';
-
     }
 }

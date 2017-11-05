@@ -17,7 +17,7 @@ import { FinDePartieComponent } from './finDepartie/finDePartie.component';
 
 
 const APP_ROUTES: Routes = [
-    { path: '', redirectTo: '/tableau', pathMatch: 'full' },
+    { path: '', redirectTo: '/accueil', pathMatch: 'full' },
     { path: 'filtre', component: FiltreCouleurComponent },
     { path: 'objetRandom', component: ObjetRandomComponent },
     { path: 'inscription', component: InscriptionComponent },
@@ -29,8 +29,7 @@ const APP_ROUTES: Routes = [
     { path: 'listePiste', component: ListePisteComponent },
     { path: 'createurPiste', component: CreateurPisteComponent },
     { path: 'generationpiste', component: GenerateurPisteComponent },
-    { path: 'finPartie', component: FinDePartieComponent },
-    { path: 'tableau', component: TableauScoreComponent}
+    { path: 'finPartie', component: FinDePartieComponent }
 ];
 
 @NgModule({
