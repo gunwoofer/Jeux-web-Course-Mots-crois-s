@@ -1,3 +1,4 @@
+import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { Router } from '@angular/router';
 import { Component, Input } from '@angular/core';
 
@@ -11,7 +12,7 @@ import { Component, Input } from '@angular/core';
 export class ConfigurationPartieComponent {
     private nombreDesTours = 1;
 
-    constructor(private router: Router) {}
+    constructor(private router: Router, private tableauScoreService: TableauScoreService) {}
 
     public augmenterNombreTour(): void {
         if (this.nombreDesTours !== 3) {
@@ -27,6 +28,7 @@ export class ConfigurationPartieComponent {
 
     public allerAFinPartie(): void {
         this.router.navigateByUrl('/finPartie');
+        this.tableauScoreService.temps = '4min20s';
 
     }
 }

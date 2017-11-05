@@ -1,6 +1,7 @@
+import { NgForm } from '@angular/forms/src/directives';
 import { Score } from './Score.model';
 import { TableauScoreService } from './tableauScoreService.service';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-tableauscore-component',
@@ -8,12 +9,27 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./tableauScore.component.css']
 })
 
-export class TableauScoreComponent {
+export class TableauScoreComponent implements OnInit {
 
     public temps: Score[];
+    public afficher: boolean;
+    public meilleurTemps: string;
 
     constructor(private tableauScoreService: TableauScoreService) {
         this.temps = this.tableauScoreService.meilleurTemps;
+    }
+
+    public ngOnInit(): void {
+        if (this.tableauScoreService.temps) {
+            this.meilleurTemps = this.tableauScoreService.temps;
+            this.afficher = true;
+        }
+    }
+
+    public soummettre(f: NgForm): void {
+        console.log(f.value.nom);
+        const nouveauScore = new Score(f.value.nom, this.meilleurTemps);
+        this.tableauScoreService.ajouterTemps(nouveauScore);
     }
 
 }

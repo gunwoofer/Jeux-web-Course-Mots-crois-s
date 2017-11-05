@@ -7,6 +7,11 @@ import { Injectable } from '@angular/core';
 export class TableauScoreService {
 
     public meilleurTemps: Score[];
+    public temps: string;
+
+    public ajouterTemps(score: Score): void {
+        this.meilleurTemps.push(score);
+    }
 
     public echanger(chiffre: number, chiffre2: number): void {
         const temp = chiffre;

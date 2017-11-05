@@ -1,3 +1,3 @@
 export class Score {
-    constructor(public position: number, public nom: string, public valeur: string) { }
+    constructor(public nom: string, public valeur: string, public position?: number) { }
 }
