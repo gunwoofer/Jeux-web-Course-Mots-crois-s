@@ -56,7 +56,6 @@ export class GenerateurPisteService {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
-        this.camera.position.z = 50;
     }
 
     public commencerRendu(): void {
@@ -71,24 +70,31 @@ export class GenerateurPisteService {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
         if (this.voiture !== undefined) {
-            this.vueDessus();
+            if(this.voitureService.vueDessusTroisieme){
+                this.vueTroisiemePersonne();
+            }
+            else {
+                this.vueDessus();
+            }
+           
         }
     }
 
     public vueDessus(): void {
         this.camera.position.y = this.voiture.position.y;
         this.camera.position.x = this.voiture.position.x;
+        this.camera.position.z = 50;
         this.camera.lookAt(this.voiture.position);
     }
 
 
     public vueTroisiemePersonne(): void {
 
-        this.camera.position.y = this.voiture.position.y - 20;
-        this.camera.position.x = this.voiture.position.x;
+        this.camera.position.x = this.voiture.position.x - 20;
+        this.camera.position.y = this.voiture.position.y;
         this.camera.position.z = this.voiture.position.z + 15;
 
-        const relativeCameraOffset = new THREE.Vector3(0, -20, 15);
+        const relativeCameraOffset = new THREE.Vector3(-20, 0, 15);
 
         const cameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
 
@@ -129,7 +135,7 @@ export class GenerateurPisteService {
 
     public deplacementVoiture(event): void {
         this.voitureService.vitesse += 0.05;
-        this.deplacement.deplacementVoiture(event, this.voiture, this.touche, this.touchePrecedente, this.voitureService.vitesse);
+        this.deplacement.deplacementVoiture(event, this.voiture, this.touche, this.touchePrecedente, this.voitureService);
 
     }
 
