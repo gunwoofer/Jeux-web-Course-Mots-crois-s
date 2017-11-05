@@ -3,7 +3,7 @@ import { Deplacement } from './deplacement';
 import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { Voiture } from './../voiture/voiture.service';
+import { Voiture } from './../voiture/Voiture';
 
 import { Piste } from '../piste/piste.model';
 export const LARGEUR_PISTE = 5;
@@ -19,7 +19,7 @@ export class GenerateurPisteService {
     public scene: THREE.Scene;
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
-    private voitureService: Voiture;
+    private voitureDuJoueur: Voiture;
     private touche: number;
     private touchePrecedente: number;
     private deplacement = new Deplacement();
@@ -35,7 +35,6 @@ export class GenerateurPisteService {
         for (let i = 0; i < this.pointsPiste.length; i++) {
             this.pointsPiste[i] = new Array();
         }
-        this.voitureService = new Voiture();
         this.container = container;
         this.creerScene();
 
@@ -128,13 +127,13 @@ export class GenerateurPisteService {
     }
 
     public deplacementVoiture(event): void {
-        this.voitureService.vitesse += 0.05;
-        this.deplacement.deplacementVoiture(event, this.voiture, this.touche, this.touchePrecedente, this.voitureService.vitesse);
+        this.voitureDuJoueur.vitesse += 0.05;
+        this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(), this.touche, this.touchePrecedente, this.voitureDuJoueur.vitesse);
 
     }
 
     public toucheRelachee(event): void {
-        this.voitureService.vitesse = 0;
+        this.voitureDuJoueur.vitesse = 0;
         this.deplacement.toucheRelachee(event, this.touche);
     }
 
@@ -146,6 +145,7 @@ export class GenerateurPisteService {
             obj.name = 'Voiture';
             this.scene.add( obj );
             this.voiture = obj;
+            this.voitureDuJoueur = new Voiture(this.voiture);
         });
     }
 }
