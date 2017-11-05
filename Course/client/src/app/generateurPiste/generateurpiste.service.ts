@@ -90,16 +90,17 @@ export class GenerateurPisteService {
 
     public vueTroisiemePersonne(): void {
 
-        this.camera.position.x = this.voiture.position.x - 20;
-        this.camera.position.y = this.voiture.position.y;
-        this.camera.position.z = this.voiture.position.z + 15;
+        this.camera.position.x = this.voiture.position.x - 8;
+        this.camera.position.y = this.voiture.position.y + 8;
+        this.camera.position.z = this.voiture.position.z;
 
-        const relativeCameraOffset = new THREE.Vector3(-20, 0, 15);
+        const relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
 
         const cameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
 
         this.camera.position.x = cameraOffset.x;
         this.camera.position.y = cameraOffset.y;
+        this.camera.position.z = cameraOffset.z;
         this.camera.updateMatrix();
         this.camera.updateProjectionMatrix();
         // Eviter que la camera ne roule sur elle meme
