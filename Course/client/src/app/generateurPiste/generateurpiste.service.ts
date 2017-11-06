@@ -92,13 +92,14 @@ export class GenerateurPisteService {
     public vueDessus(): void {
         this.camera.position.y = this.voiture.position.y;
         this.camera.position.x = this.voiture.position.x;
-        this.camera.position.z = 50;
+        this.camera.position.z = this.voiture.position.z + 50;
+        this.camera.updateMatrix();
+        this.camera.updateProjectionMatrix();
         this.camera.lookAt(this.voiture.position);
     }
 
 
     public vueTroisiemePersonne(): void {
-
         this.camera.position.x = this.voiture.position.x - 8;
         this.camera.position.y = this.voiture.position.y + 8;
         this.camera.position.z = this.voiture.position.z;
