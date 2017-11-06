@@ -70,6 +70,7 @@ export class GenerateurPisteService {
             } else {
                 this.vueDessus();
             }
+            this.vueMiseAjour();
         }
     }
 
@@ -81,16 +82,20 @@ export class GenerateurPisteService {
             } else {
                 this.vueDessus();
             }
+            this.vueMiseAjour();
         }
+    }
+
+    public vueMiseAjour(): void {
+        this.camera.lookAt(this.voiture.position);
+        this.camera.updateMatrix();
+        this.camera.updateProjectionMatrix();
     }
 
     public vueDessus(): void {
         this.camera.position.y = this.voiture.position.y;
         this.camera.position.x = this.voiture.position.x;
         this.camera.position.z = this.voiture.position.z + 50;
-        this.camera.lookAt(this.voiture.position);
-        this.camera.updateMatrix();
-        this.camera.updateProjectionMatrix();
     }
 
     public vueTroisiemePersonne(): void {
@@ -98,9 +103,6 @@ export class GenerateurPisteService {
         relativeCameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
         this.camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
         this.camera.up = new THREE.Vector3(0, 0, 1);
-        this.camera.lookAt(this.voiture.position);
-        this.camera.updateMatrix();
-        this.camera.updateProjectionMatrix();
     }
 
     public onResize(): void {
