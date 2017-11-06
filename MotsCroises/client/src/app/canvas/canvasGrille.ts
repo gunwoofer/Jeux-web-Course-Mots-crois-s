@@ -70,7 +70,7 @@ export class CanvasGrille {
   public ecrireMotsTrouves() {
     for (const i of this.gameViewService.indices) {
       if (i.motTrouve.length > 0) {
-        this.ecrireMotDansGrille(i.motTrouve, i.sens, i.positionI, i.positionJ, this.couleurMotTrouve);
+        this.ecrireMotDansGrille(i.motTrouve, i.sens, i.positionI, i.positionJ, i.couleur);
       }
     }
   }

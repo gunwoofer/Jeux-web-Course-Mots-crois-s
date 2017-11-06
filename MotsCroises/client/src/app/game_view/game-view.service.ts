@@ -3,7 +3,7 @@ import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
 import {IndiceMot} from '../indice/indiceMot';
 import {ConnexionTempsReelClient} from '../ConnexionTempsReelClient';
-import {Joueur} from '../../../../commun/Joueur';
+import {COULEUR_BLEUE, Joueur} from '../../../../commun/Joueur';
 import {Niveau} from '../../../../commun/Niveau';
 import {TypePartie} from '../../../../commun/TypePartie';
 import {RequisPourMotAVerifier} from '../../../../commun/requis/RequisPourMotAVerifier';
@@ -20,7 +20,7 @@ import {Couleur} from '../../../../commun/Couleur';
 @Injectable()
 export class GameViewService {
   private motTrouveJ1 = new Subject<string>();
-  public motTrouveJ1$ = this.motTrouveJ1.asObservable();
+  public motTrouve$ = this.motTrouveJ1.asObservable();
   private partieTeminee = new Subject<string>();
   public partieTeminee$ = this.partieTeminee.asObservable();
   private joueurAdverseTrouve = new Subject<string>();
@@ -31,7 +31,7 @@ export class GameViewService {
   public specificationPartie: SpecificationPartie;
   public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
   public joueur: Joueur = new Joueur();
-  public joueur2: Joueur = new Joueur(Couleur.Vert, '');
+  public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
   private indiceTeste: IndiceMot;
   private motEntre: string;
   private niveauPartie: Niveau;
@@ -76,6 +76,15 @@ export class GameViewService {
     for (const indiceServeur of this.partieGeneree.indices) {
       if (indiceServeur.id === guid) {
         return indiceServeur;
+      }
+    }
+    return null;
+  }
+
+  private trouverIndiceMotAvecGuid(guid: string): IndiceMot {
+    for (const indiceMot of this.indices) {
+      if (indiceMot.guidIndice === guid) {
+        return indiceMot;
       }
     }
     return null;
@@ -208,6 +217,8 @@ export class GameViewService {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
     self.nbJoueursPartie = 1;
+    self.connexionTempsReelClient.ecouterRequete<RequisPourMotAVerifier>
+    (requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
     this.router.navigate(['/partie/' + self.specificationPartie.typePartie + '/' + self.specificationPartie.niveau + '/' + self.nbJoueursPartie]);
     console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
   }
@@ -215,18 +226,34 @@ export class GameViewService {
   public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
     console.log('demande Verif mot');
     const requisPourMotAVerifier: RequisPourMotAVerifier = new RequisPourMotAVerifier(
-      emplacementMot, motAtester, this.specificationPartie.joueur.obtenirGuid(), this.specificationPartie.guidPartie);
+      emplacementMot, motAtester, this.joueur.obtenirGuid(), this.specificationPartie.guidPartie);
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVEUR_VERIFIER_MOT,
       requisPourMotAVerifier, requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
   }
 
   public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: GameViewService): void {
     console.log(requisPourMotAVerifier);
-    console.log('retour ?');
+    console.log('GUID partie', self.specificationPartie.guidPartie);
+    if (requisPourMotAVerifier.guidPartie !== self.specificationPartie.guidPartie) {
+      return;
+    }
     if (requisPourMotAVerifier.estLeMot) {
-      self.indiceTeste.motTrouve = self.motEntre;
+      //self.indiceTeste.motTrouve = self.motEntre;
       self.motTrouveJ1.next();
-    } else {
+      console.log('joueurs guid ', requisPourMotAVerifier.guidJoueur, '  :', self.joueur.obtenirGuid())
+      const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice);
+      if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {
+        console.log("joueur 1 a trouvé");
+        self.joueur.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
+        indiceMotTrouve.modifierCouleurMot(self.joueur.obtenirCouleur());
+      } else {
+        console.log("joueur 2 a trouvé");
+        self.joueur2.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
+        indiceMotTrouve.modifierCouleurMot(COULEUR_BLEUE);
+      }
+      console.log(self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice));
+      indiceMotTrouve.motTrouve = requisPourMotAVerifier.motAVerifier;
+    } else if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {
       alert('Malheureusement, ce n\'est pas le bon mot.');
     }
   }

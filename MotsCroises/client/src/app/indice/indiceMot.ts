@@ -7,9 +7,10 @@ export class IndiceMot {
   public positionI: number;
   public positionJ: number;
   public motTrouve: string;
+  public couleur: string = '#000000';
 
   constructor(guidIndice: string, indexFixe: number, definition: string, tailleMot: number, sens: number,
-    positionI: number, positionJ: number, motTrouve: string = '') {
+              positionI: number, positionJ: number, motTrouve: string = '') {
     this.guidIndice = guidIndice;
     this.indexFixe = indexFixe;
     this.definition = definition;
@@ -18,5 +19,9 @@ export class IndiceMot {
     this.positionI = positionI;
     this.positionJ = positionJ;
     this.motTrouve = motTrouve;
+  }
+
+  public modifierCouleurMot(couleur: string) {
+    this.couleur = couleur;
   }
 }

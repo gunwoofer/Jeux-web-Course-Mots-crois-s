@@ -30,10 +30,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
     this.indiceViewService.motEcrit$.subscribe(nouveauMot => {
       this.motEnCoursJ1 = nouveauMot;
     });
-    this.gameViewService.motTrouveJ1$.subscribe(nouveauMot => {
-      this.motTrouveJ1 = this.motTrouveJ1 + 1;
-      this.recommencerTimer();
-    });
+
     this.joueur = this.gameViewService.joueur;
     this.joueur2 = this.gameViewService.joueur2;
   }

@@ -1,26 +1,28 @@
-import { Guid } from './Guid';
-import { EmplacementMot } from './EmplacementMot';
+import {Guid} from './Guid';
+import {EmplacementMot} from './EmplacementMot';
 import {Couleur} from "./Couleur";
 
 export const NOM_JOUEUR_HOTE_DEFAULT = 'joueurHote';
 
+export const COULEUR_NOIRE = "#000000";
+export const COULEUR_BLEUE = "#3333DD";
 
 
 export class Joueur {
     private id: string = Guid.generateGUID();
     private pointage = 0;
-    private couleur: Couleur;
+    private couleur: string;
     private emplacementMotSelectionner: EmplacementMot;
     private emplacementsMotTrouve: EmplacementMot[] = [];
     private motsDeTrouve: string[] = [];
     private nomJoueur: string;
 
-    constructor(couleur: Couleur = Couleur.Bleu, nomJoueur: string = NOM_JOUEUR_HOTE_DEFAULT) {
+    constructor(couleur: string = COULEUR_NOIRE, nomJoueur: string = NOM_JOUEUR_HOTE_DEFAULT) {
         this.couleur = couleur;
         this.nomJoueur = nomJoueur;
     }
 
-    public changerNomJoueur(nouveauNom: string){
+    public changerNomJoueur(nouveauNom: string) {
         this.nomJoueur = nouveauNom;
     }
 
@@ -41,12 +43,12 @@ export class Joueur {
     public obtenirMotTrouve(): string[] {
         return this.motsDeTrouve;
     }
-    
+
     public obtenirPointage(): number {
         return this.pointage;
     }
 
-    public obtenirCouleur(): Couleur {
+    public obtenirCouleur(): string {
         return this.couleur;
     }
 
@@ -60,7 +62,7 @@ export class Joueur {
         return false;
     }
 
-    public selectionnerEmplacementMot(emplacementMotSelectionner: EmplacementMot): void{
+    public selectionnerEmplacementMot(emplacementMotSelectionner: EmplacementMot): void {
         this.emplacementMotSelectionner = emplacementMotSelectionner;
     }
 

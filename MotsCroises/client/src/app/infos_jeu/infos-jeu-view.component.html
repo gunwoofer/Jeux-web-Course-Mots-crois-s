@@ -1,7 +1,7 @@
 <div class='container'>
   <div class='player_info'>
     <div class='titre'>{{joueur.nomJoueur}}</div>
-    <div>{{motTrouveJ1}} mots trouvés</div>
+    <div>{{joueur.pointage}} mots trouvés</div>
     <div>{{motEnCoursJ1}}</div>
   </div>
 
@@ -11,7 +11,7 @@
   </div>
   <div class='player_info' [hidden]="nbJoueurs === '0' ">
     <div class='titre' >{{joueur2.nomJoueur}}</div>
-    <div>{{motTrouveJ2}} mots trouvés</div>
+    <div>{{joueur2.pointage}} mots trouvés</div>
     <div>{{motEnCoursJ2}}</div>
 
   </div>

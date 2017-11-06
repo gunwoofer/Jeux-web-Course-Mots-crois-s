@@ -26,7 +26,7 @@ export class GameViewComponent implements OnInit {
   constructor(private route: ActivatedRoute,
               private gameViewService: GameViewService,
               private router: Router) {
-    this.gameViewService.motTrouveJ1$.subscribe(() => {
+    this.gameViewService.motTrouve$.subscribe(() => {
       this.actualiserGrille();
     });
     this.gameViewService.partieTeminee$.subscribe(() => {
@@ -41,6 +41,9 @@ export class GameViewComponent implements OnInit {
     this.route.paramMap
       .switchMap((params: ParamMap) => this.nbJoueurs = params.get('nbJoueurs'))
       .subscribe();
+    if (!this.gameViewService.indices) {
+      this.router.navigate(['/']);
+    }
   }
 
   public actualiserGrille() {

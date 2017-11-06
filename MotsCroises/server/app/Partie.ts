@@ -1,21 +1,21 @@
-import { Joueur } from '../../commun/Joueur';
-import { Grille } from './Grille';
-import { Case } from '../../commun/Case';
-import { Guid } from '../../commun/Guid';
-import { TypePartie } from '../../commun/TypePartie';
-import { EmplacementMot } from '../../commun/EmplacementMot';
-import { Niveau } from '../../commun/Niveau';
-import { Indice } from './Indice';
+import {Joueur} from '../../commun/Joueur';
+import {Grille} from './Grille';
+import {Case} from '../../commun/Case';
+import {Guid} from '../../commun/Guid';
+import {TypePartie} from '../../commun/TypePartie';
+import {EmplacementMot} from '../../commun/EmplacementMot';
+import {Niveau} from '../../commun/Niveau';
+import {Indice} from './Indice';
 
 export const LIMITE_JOUEURS = 2;
 export const TEMPS_PARTIE_MINUTES = 5;
-export const TEMPS_PARTIE_MILISECONDS = 60 * TEMPS_PARTIE_MINUTES * Math.pow(10, -3);
+export const TEMPS_PARTIE_MILISECONDS = 60 * TEMPS_PARTIE_MINUTES * Math.pow(10, 3);
 
 export class Partie {
     private joueurs: Joueur[] = new Array();
     private grille: Grille;
     private type: TypePartie = TypePartie.classique_a_un;
-    private guid: string = Guid.generateGUID();
+    public guid: string = Guid.generateGUID();
     private debutDePartie: number;
     private tempsAlloue: number;
 
@@ -28,7 +28,7 @@ export class Partie {
     }
 
     public estDebute(): boolean {
-        if (this.debutDePartie === undefined ) {
+        if (this.debutDePartie === undefined) {
             return false;
         }
 
@@ -52,7 +52,7 @@ export class Partie {
         return this.grille.motsComplet.recupererIndices();
     }
 
-    public obtenirTypePartie(): TypePartie {
+    public obtenirTypePartie(): TypePartie {
         return this.type;
     }
 
@@ -76,15 +76,15 @@ export class Partie {
         let joueur: Joueur;
         const emplacementMotAChercher: EmplacementMot = this.grille.obtenirEmplacementMot(caseDebut, caseFin);
 
-       if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
-            joueur = this.obtenirJoueur(guidJoueur);
+        if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
+            //joueur = this.obtenirJoueur(guidJoueur);
 
-            joueur.aTrouveMot(emplacementMotAChercher, motAVerifier);
+            //joueur.aTrouveMot(emplacementMotAChercher, motAVerifier);
 
             return true;
-       }
+        }
 
-       return false;
+        return false;
     }
 
     public obtenirJoueurs(): Joueur[] {
@@ -101,7 +101,7 @@ export class Partie {
         return undefined;
     }
 
-    public obtenirNiveauGrille(): Niveau{
+    public obtenirNiveauGrille(): Niveau {
         return this.grille.obtenirNiveau();
     }
 
@@ -145,7 +145,7 @@ export class Partie {
         let totalPointage = 0;
 
         for (const joueur of this.joueurs) {
-            totalPointage += joueur.obtenirPointage();
+            // totalPointage += joueur.obtenirPointage();
         }
 
         if (totalPointage >= this.grille.obtenirEmplacementsMot().length) {
@@ -176,7 +176,7 @@ export class Partie {
     private nePlusSelectionnerMot(joueur: Joueur) {
         const emplacementANePlusSelectionner: EmplacementMot = joueur.obtenirEmplacementMotSelectionner();
 
-        if (emplacementANePlusSelectionner !== undefined ) {
+        if (emplacementANePlusSelectionner !== undefined) {
             emplacementANePlusSelectionner.nePlusSelectionnerEmplacementMot();
         }
 
