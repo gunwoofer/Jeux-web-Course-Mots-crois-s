@@ -4,7 +4,7 @@ import { Piste } from './piste.model';
 export const LARGEUR_PISTE = 10;
 
 export class Segment {
-    public chargerSegmentsDePiste(piste: Piste): THREE.Mesh[] {
+    public static chargerSegmentsDePiste(piste: Piste): THREE.Mesh[] {
         const segmentsPisteVisuel: THREE.Mesh[] = new Array();
         const premierSegment = new THREE.PlaneGeometry(1, 1);
 
