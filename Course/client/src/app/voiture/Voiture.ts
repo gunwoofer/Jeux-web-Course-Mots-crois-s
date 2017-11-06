@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 
-export class Voiture implements sujet.Sujet{
+export class Voiture implements sujet.Sujet {
     private voiture3D: THREE.Object3D;
     public vitesse = 0;
     private x: number;
@@ -52,7 +52,7 @@ export class Voiture implements sujet.Sujet{
 
     public supprimerObservateur(observateur: observateur.Observateur): void {
         for (let i = 0; i < this.observateurs.length; i++) {
-            if (this.observateurs[i] === observateur){
+            if (this.observateurs[i] === observateur) {
                 this.observateurs.splice(i, 1);
             }
         }
