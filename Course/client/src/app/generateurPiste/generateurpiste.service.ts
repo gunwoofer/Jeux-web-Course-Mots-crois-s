@@ -135,14 +135,6 @@ export class GenerateurPisteService {
         }
     }
 
-    public cameraAvantArriere(event): void {
-        if (event.wheelDeltaY < 0) {
-            this.camera.position.z += 5;
-        } else {
-                this.camera.position.z -= 5;
-        }
-    }
-
     public deplacementVoiture(event): void {
         this.voitureService.vitesse += 0.05;
         this.deplacement.deplacementVoiture(event, this.voiture, this.touche, this.touchePrecedente, this.voitureService);
@@ -163,5 +155,14 @@ export class GenerateurPisteService {
             this.scene.add( obj );
             this.voiture = obj;
         });
+    }
+
+    public loupe(event): void {
+        if (event.key === '+' && this.camera.zoom <= 5) {
+            this.camera.zoom += .5;
+        }
+        if (event.key === '-' && this.camera.zoom > 1) {
+            this.camera.zoom -= .5;
+        }
     }
 }
