@@ -43,7 +43,11 @@ export class Partie implements Observateur {
         const voitureCourante: Voiture = <Voiture> sujet;
 
         if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
-            this.pilotes.incrementerTour(voitureCourante, Date.now() - this.tempsDepartMilisecondes);
+
+            // Vérifions si la distance parcourue est raisonnable avant d'attribuer un tour de plus au pilotre.
+            if (this.pilotes.aParcourueUneDistanceRaisonnable(voitureCourante)) {
+                this.pilotes.incrementerTour(voitureCourante, Date.now() - this.tempsDepartMilisecondes);
+            }
         }
 
     }

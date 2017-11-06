@@ -29,9 +29,19 @@ export class Pilotes {
         }
     }
 
-    public observerVoiture(observateur: Observateur) {
+    public observerVoiture(observateur: Observateur): void {
         for (const piloteCourant of this.pilotes) {
             piloteCourant.observerVoiture(observateur);
         }
+    }
+
+    public aParcourueUneDistanceRaisonnable(voitureCourant: Voiture): boolean {
+        for (const piloteCourant of this.pilotes) {
+            if (piloteCourant.estLePilote(voitureCourant)) {
+                return piloteCourant.aParcourueUneDistanceRaisonnable();
+            }
+        }
+
+        return false;
     }
 }

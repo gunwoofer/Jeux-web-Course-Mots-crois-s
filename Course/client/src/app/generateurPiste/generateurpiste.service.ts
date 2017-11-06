@@ -10,10 +10,8 @@ import { Partie } from '../partie/Partie';
 import { Pilote } from '../partie/Pilote';
 import { LigneArrivee } from '../partie/LigneArrivee';
 
-
 export const LARGEUR_PISTE = 5;
 const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
-
 
 @Injectable()
 export class GenerateurPisteService {
@@ -177,6 +175,7 @@ export class GenerateurPisteService {
             this.scene.add( obj );
             this.voitureDuJoueur = new Voiture(obj);
             this.preparerPartie();
+            this.partie.demarrerPartie();
         });
     }
 }
