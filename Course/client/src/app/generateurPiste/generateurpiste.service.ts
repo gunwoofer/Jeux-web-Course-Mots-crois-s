@@ -69,12 +69,19 @@ export class GenerateurPisteService {
     public render(): void {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
+        this.cameraMiseAJour();
+    }
+
+    public cameraMiseAJour(): void {
         if (this.voiture !== undefined) {
             if (this.voitureService.vueDessusTroisieme) {
                 this.vueTroisiemePersonne();
             } else {
                 this.vueDessus();
             }
+            this.camera.updateMatrix();
+            this.camera.updateProjectionMatrix();
+            this.camera.lookAt(this.voiture.position);
         }
     }
 
@@ -93,29 +100,14 @@ export class GenerateurPisteService {
         this.camera.position.y = this.voiture.position.y;
         this.camera.position.x = this.voiture.position.x;
         this.camera.position.z = this.voiture.position.z + 50;
-        this.camera.updateMatrix();
-        this.camera.updateProjectionMatrix();
-        this.camera.lookAt(this.voiture.position);
     }
 
 
     public vueTroisiemePersonne(): void {
-        this.camera.position.x = this.voiture.position.x - 8;
-        this.camera.position.y = this.voiture.position.y + 8;
-        this.camera.position.z = this.voiture.position.z;
-
-        const relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
-
-        const cameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
-
-        this.camera.position.x = cameraOffset.x;
-        this.camera.position.y = cameraOffset.y;
-        this.camera.position.z = cameraOffset.z;
-        this.camera.updateMatrix();
-        this.camera.updateProjectionMatrix();
-        // Eviter que la camera ne roule sur elle meme
+        let relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
+        relativeCameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
+        this.camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
         this.camera.up = new THREE.Vector3(0, 0, 1);
-        this.camera.lookAt(this.voiture.position);
     }
 
     public onResize(): void {
