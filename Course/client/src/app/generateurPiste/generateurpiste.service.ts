@@ -55,7 +55,6 @@ export class GenerateurPisteService {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
-        this.camera.position.z = 50;
     }
 
     public commencerRendu(): void {
@@ -70,29 +69,46 @@ export class GenerateurPisteService {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
         if (this.voiture !== undefined) {
-            this.vueDessus();
+            if (this.voitureDuJoueur.vueDessusTroisieme) {
+                this.vueTroisiemePersonne();
+            } else {
+                this.vueDessus();
+            }
+        }
+    }
+
+    public renderMiseAJour(): void {
+        this.renderer.render(this.scene, this.camera);
+        if (this.voiture !== undefined) {
+            if (this.voitureDuJoueur.vueDessusTroisieme) {
+                this.vueTroisiemePersonne();
+            } else {
+                this.vueDessus();
+            }
         }
     }
 
     public vueDessus(): void {
         this.camera.position.y = this.voiture.position.y;
         this.camera.position.x = this.voiture.position.x;
+        this.camera.position.z = 50;
         this.camera.lookAt(this.voiture.position);
     }
 
 
     public vueTroisiemePersonne(): void {
 
-        this.camera.position.y = this.voiture.position.y - 20;
-        this.camera.position.x = this.voiture.position.x;
-        this.camera.position.z = this.voiture.position.z + 15;
+        this.camera.position.x = this.voiture.position.x - 8;
+        this.camera.position.y = this.voiture.position.y + 8;
+        this.camera.position.z = this.voiture.position.z;
 
-        const relativeCameraOffset = new THREE.Vector3(0, -20, 15);
+        const relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
 
         const cameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
 
         this.camera.position.x = cameraOffset.x;
         this.camera.position.y = cameraOffset.y;
+        this.camera.position.z = cameraOffset.z;
         this.camera.updateMatrix();
         this.camera.updateProjectionMatrix();
         // Eviter que la camera ne roule sur elle meme
@@ -128,7 +144,9 @@ export class GenerateurPisteService {
 
     public deplacementVoiture(event): void {
         this.voitureDuJoueur.vitesse += 0.05;
-        this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(), this.touche, this.touchePrecedente, this.voitureDuJoueur.vitesse);
+        this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(),
+                this.touche, this.touchePrecedente, this.voitureDuJoueur);
+        this.renderMiseAJour();
 
     }
 
@@ -140,8 +158,7 @@ export class GenerateurPisteService {
     public chargerVoiture(): void {
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, ( obj ) => {
-            obj.rotateX(1.5708);
-            // obj.rotateY(Math.PI / 2);
+            obj.rotateX(Math.PI / 2);
             obj.name = 'Voiture';
             this.scene.add( obj );
             this.voiture = obj;

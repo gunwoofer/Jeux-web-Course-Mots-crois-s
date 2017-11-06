@@ -2,7 +2,7 @@ import { ContraintesCircuitService } from './../contraintesCircuit/contraintesCi
 import * as THREE from 'three';
 import { Piste } from './piste.model';
 
-export const LARGEUR_PISTE = 5;
+export const LARGEUR_PISTE = 10;
 export const LARGEUR_LIGNE_ARRIVER = 0.5;
 export const DISTANCE_LIGNE_ARRIVER = 5;
 
@@ -50,7 +50,7 @@ export class Segment {
 
             
             
-            const patch = new THREE.CircleBufferGeometry(6.5, 128);
+            const patch = new THREE.CircleBufferGeometry(LARGEUR_PISTE, 128);
             patch.translate(piste.listepositions[i].x, piste.listepositions[i].y,  piste.listepositions[i].z);
 
             const materiel = new THREE.MeshBasicMaterial( { map: texture} );

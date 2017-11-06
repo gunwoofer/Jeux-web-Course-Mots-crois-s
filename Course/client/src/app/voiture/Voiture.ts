@@ -13,6 +13,7 @@ export class Voiture implements sujet.Sujet{
     private largeur: number;
     private pointMilieu: THREE.Vector3;
     public observateurs: observateur.Observateur[] = [];
+    public vueDessusTroisieme = false;
 
     constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {
         this.voiture3D = voiture3D;
