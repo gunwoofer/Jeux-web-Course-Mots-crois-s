@@ -1,5 +1,7 @@
 import { Voiture } from '../voiture/Voiture';
 import { Guid } from '../../../../commun/Guid';
+import { Partie } from '../partie/Partie';
+import { Observateur } from '../../../../commun/observateur/Observateur';
 
 export const PREMIER_TOUR = 1;
 
@@ -34,11 +36,15 @@ export class Pilote {
     }
 
     public aTermine(): boolean {
-        return false;
+        if (Partie.toursAComplete > this.tourTermine) {
+            return false;
+        }
+        return true;
     }
 
     public demarrerMoteur(): void {
         // VROUM VROUM...
+        // Permet l'activation des touches.
     }
 
     public estLePilote(voiture: Voiture): boolean {
@@ -46,5 +52,9 @@ export class Pilote {
             return true;
         }
         return false;
+    }
+
+    public observerVoiture(observateur: Observateur) {
+        this.voiture.ajouterObservateur(observateur);
     }
 }

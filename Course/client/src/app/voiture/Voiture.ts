@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 
-export class Voiture implements sujet.Sujet{
+export class Voiture implements sujet.Sujet {
     private voiture3D: THREE.Object3D;
     public vitesse = 0;
     private x: number;
@@ -23,19 +23,12 @@ export class Voiture implements sujet.Sujet{
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
     }
 
-    public bougerVoiture(x?: number, y?: number, z?: number) {
+    public bougerVoiture(x?: number, y?) {
         this.x = (x !== undefined) ? x : this.x;
         this.y = (y !== undefined) ? y : this.y;
-        this.z = (z !== undefined) ? z : this.z;
-
-        this.mettreAJourPosiitonVoiture3D(x, y, z);
-    }
-
-    private mettreAJourPosiitonVoiture3D(x?: number, y?: number, z?: number) {
-        this.voiture3D.position.x = (x !== undefined) ? x : this.x;
-        this.voiture3D.position.y = (y !== undefined) ? y : this.y;
-        this.voiture3D.position.z = (z !== undefined) ? z : this.z;
         this.pointMilieu = this.voiture3D.position;
+        
+        this.notifierObservateurs();
     }
 
     public obtenirVoiture3D(): THREE.Object3D {

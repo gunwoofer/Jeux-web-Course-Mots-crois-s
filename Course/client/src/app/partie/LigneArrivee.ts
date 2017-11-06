@@ -2,7 +2,7 @@
 import * as THREE from 'three';
 import { Voiture } from '../voiture/Voiture';
 
-export class LigneArrivee{
+export class LigneArrivee {
     private vecteurDebut: THREE.Vector3;
     private vecteurFin: THREE.Vector3;
 
