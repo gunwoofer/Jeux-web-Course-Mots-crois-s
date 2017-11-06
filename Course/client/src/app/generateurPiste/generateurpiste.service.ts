@@ -157,7 +157,7 @@ export class GenerateurPisteService {
         });
     }
 
-    public loupe(event): void {
+    public zoom(event): void {
         if (event.key === '+' && this.camera.zoom <= 5) {
             this.camera.zoom += .5;
         }
