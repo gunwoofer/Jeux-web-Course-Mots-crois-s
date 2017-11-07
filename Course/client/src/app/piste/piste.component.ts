@@ -31,7 +31,6 @@ export class PisteComponent {
 
   public surClick(): void {
     this.display = !this.display;
-    this.tableauScoreService.meilleurTemps = this.piste.meilleursTemps;
   }
 
   public montrerLesScores(): void {
