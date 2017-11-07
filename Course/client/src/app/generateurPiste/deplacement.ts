@@ -11,34 +11,34 @@ export class Deplacement {
 
     private toucheAppuyer: number[] = new Array(3);
 
-    public deplacementVoiture(event, voiture: THREE.Object3D, touche: number, touchePrecedente: number, voitureService: Voiture): void {
+    public deplacementVoiture(event, voiture3D: THREE.Object3D, touche: number, touchePrecedente: number, voiture: Voiture): void {
         if (event.keyCode === avancer) {
-            voiture.translateX(voitureService.vitesse);
+            voiture3D.translateX(voiture.vitesse);
             this.toucheAppuyer[1] = this.toucheAppuyer[1];
             this.toucheAppuyer[0] = avancer;
             if (this.toucheAppuyer[1] === gauche) {
-                voiture.rotateY(0.01);
+                voiture3D.rotateY(0.01);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = gauche;
                 event.keyCode = gauche;
             }
             if (this.toucheAppuyer[1] === droite) {
-                voiture.rotateY(-0.01);
+                voiture3D.rotateY(-0.01);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = droite;
             }
         }
         if (event.keyCode === reculer) {
-            voiture.translateX(-voitureService.vitesse);
+            voiture3D.translateX(-voiture.vitesse);
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = reculer;
            if (this.toucheAppuyer[1] === gauche) {
-                voiture.rotateY(-0.05);
+                voiture3D.rotateY(-0.05);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = gauche;
             }
             if (this.toucheAppuyer[1] === droite) {
-                voiture.rotateY(0.05);
+                voiture3D.rotateY(0.05);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = droite;
             }
@@ -46,14 +46,14 @@ export class Deplacement {
         if (event.keyCode === gauche) {
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = gauche ;
-            voiture.rotateY(0.05);
+            voiture3D.rotateY(0.05);
             if (this.toucheAppuyer[1] === avancer) {
-                voiture.translateX(1);
+                voiture3D.translateX(1);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = avancer;
             }
             if (this.toucheAppuyer[1] === reculer) {
-                voiture.translateX(-1);
+                voiture3D.translateX(-1);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = reculer;
             }
@@ -61,21 +61,22 @@ export class Deplacement {
         if (event.keyCode === droite ) {
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = droite;
-            voiture.rotateY(-0.05);
+            voiture3D.rotateY(-0.05);
             if (this.toucheAppuyer[1] === avancer) {
-                voiture.translateX(1);
+                voiture3D.translateX(1);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = avancer;
             }
             if (this.toucheAppuyer[1] === reculer) {
-                voiture.translateX(-1);
+                voiture3D.translateX(-1);
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = reculer;
             }
         }
+        voiture.bougerVoiture(voiture3D.position.x, voiture3D.position.y);
 
         if (event.keyCode === changerVue) {
-            voitureService.vueDessusTroisieme = !voitureService.vueDessusTroisieme;
+            voiture.vueDessusTroisieme = !voiture.vueDessusTroisieme;
         }
 
     }

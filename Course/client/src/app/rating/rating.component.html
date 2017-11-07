@@ -1,0 +1,39 @@
+<div class="col-md-8 col-md-offset-2" *ngIf="!veutVoter">
+    <h2>Voulez vous donner votre avis sur la course que vous venez de faire?</h2>
+    <button><i class="fa fa-thumbs-up" aria-hidden="true" (click)=onClick1()></i></button>
+    <button><i class="fa fa-thumbs-down" aria-hidden="true" (click)=onClick()></i></button>
+</div>
+<div class="col-md-8 col-md-offset-2" *ngIf="veutVoter">
+    <form class="rating">
+        <label>
+      <input type="radio" name="stars" value="1" (click)="rating($event)"/>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+    </label>
+        <label>
+      <input type="radio" name="stars" value="2" (click)="rating($event)"/>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+    </label>
+        <label>
+      <input type="radio" name="stars" value="3" (click)="rating($event)"/>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>   
+    </label>
+        <label>
+      <input type="radio" name="stars" value="4" (click)="rating($event)"/>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+    </label>
+        <label>
+      <input type="radio" name="stars" value="5" (click)="rating($event)"/>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+      <span class="icon"><i class="fa fa-star" aria-hidden="true"></i></span>
+    </label>
+    </form>
+</div>

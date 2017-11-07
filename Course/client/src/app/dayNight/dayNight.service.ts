@@ -16,28 +16,27 @@ export class LumiereService {
     private lumierHemiPosition = { x: 0, y: 500, z: 0 };
     private lumierDirePosition = { x: -1, y: 0.75, z: 1 };
     private scalaire = 30;
-    private toucheD = 100;
-    private toucheA = 97;
     private lumiereHemisphere: HemisphereLight;
     private lumiereDirectionnelle: DirectionalLight;
 
-    private creeLumiereHemisphere(): HemisphereLight {
+    constructor() {
+        this.creeLumierDirectionnel();
+        this.creeLumiereHemisphere();
+    }
 
+    public creeLumiereHemisphere(): void {
         this.lumiereHemisphere = new HemisphereLight(this.couleurCiel, this.couleurTerre, this.intensité);
         this.lumiereHemisphere.color.setHSL(this.hemiCoulour.h, this.hemiCoulour.s, this.hemiCoulour.l);
         this.lumiereHemisphere.groundColor.setHSL(this.hemiCoulourTerre.h, this.hemiCoulourTerre.s, this.hemiCoulourTerre.l);
         this.lumiereHemisphere.position.set(this.lumierHemiPosition.x, this.lumierHemiPosition.y, this.lumierHemiPosition.z);
-        return this.lumiereHemisphere;
     }
 
-    private creeLumierDirectionnel(): DirectionalLight {
-
+    public creeLumierDirectionnel(): void {
         this.lumiereDirectionnelle = new DirectionalLight(this.hex, this.intensitée);
         this.lumiereDirectionnelle.color.setHSL(this.directionCoulour.h, this.directionCoulour.s, this.directionCoulour.l);
         this.lumiereDirectionnelle.position.set(this.lumierDirePosition.x, this.lumierDirePosition.y, this.lumierDirePosition.z);
         this.lumiereDirectionnelle.position.multiplyScalar(this.scalaire);
         this.lumiereDirectionnelle.castShadow = true;
-        return this.lumiereDirectionnelle;
     }
 
     public ajouterLumierScene(scene: Scene): void {
@@ -46,16 +45,8 @@ export class LumiereService {
     }
 
     public modeJourNuit(event, scene: Scene): void {
-        if (event.keyCode === this.toucheD) {
-            // d
-            scene.background = ImageUtils.loadTexture('../../assets/textures/téléchargement.jpeg');
-            this.lumiereDirectionnelle.visible = true;
-        }
-
-        if (event.keyCode === this.toucheA) {
-            // a
-            scene.background = ImageUtils.loadTexture('../../assets/textures/missions_bg_image.jpg');
-            this.lumiereDirectionnelle.visible = false;
-        }
+        this.lumiereDirectionnelle.visible = !this.lumiereDirectionnelle.visible;
+        scene.background = this.lumiereDirectionnelle.visible ? ImageUtils.loadTexture('../../assets/textures/day.jpeg') :
+            ImageUtils.loadTexture('../../assets/textures/night.jpg');
     }
 }

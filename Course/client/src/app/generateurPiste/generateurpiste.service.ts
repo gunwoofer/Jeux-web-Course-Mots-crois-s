@@ -1,24 +1,37 @@
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
+import { CameraService } from '../cameraService/cameraService.service';
+import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
+import { LumiereService } from '../dayNight/dayNight.service';
+import { ObjetService } from '../objetService/objet.service';
 import { Skybox } from './../skybox/skybox.model';
 import { Deplacement } from './deplacement';
-import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
 
 import { Piste } from '../piste/piste.model';
-export const LARGEUR_PISTE = 5;
-export let NOMBRE_SEGMENTS = 1;
-const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
+import { Partie } from '../partie/Partie';
+import { Pilote } from '../partie/Pilote';
+import { LigneArrivee } from '../partie/LigneArrivee';
+import { MusiqueService } from '../musique/musique.service';
+import { Router } from '@angular/router';
 
+export const LARGEUR_PISTE = 5;
+const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 
 @Injectable()
 export class GenerateurPisteService {
+
+    private WIDTH = 5000;
+    private HEIGHT = 5000;
+    private arbrePath = '../../assets/objects/arbre/tree.json';
+    private arbreTexture = '../../assets/objects/arbre/tree.jpg';
+    private arbrePath2 = '../../assets/objects/arbre2/tree.json';
+    private arbreTexture2 = '../../assets/objects/arbre2/tree.jpg';
     private container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
     public scene: THREE.Scene;
-    private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
     private voitureDuJoueur: Voiture;
     private touche: number;
@@ -29,23 +42,52 @@ export class GenerateurPisteService {
     private sortiePisteService: SortiePisteService;
 
     private piste: Piste;
+    private arbres = new THREE.Object3D();
+    private lumierHemisphere: THREE.HemisphereLight;
+    private lumiereDirectionnelle: THREE.DirectionalLight;
+    private plane: THREE.Mesh;
+
+    private partie: Partie;
+    private routeur: Router;
+
+    constructor(private objetService: ObjetService, private lumiereService: LumiereService,
+        private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
+        private musiqueService: MusiqueService) { }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
-        this.pointsPiste = new Array(NOMBRE_SEGMENTS);
-        this.container = container;
-        for (let i = 0; i < this.pointsPiste.length; i++) {
-            this.pointsPiste[i] = new Array();
-        }
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
+        this.creeplane();
+        this.chargerArbres();
         this.chargerVoiture();
         this.ajoutPisteAuPlan();
 
         this.sortiePisteService = new SortiePisteService(Segment.chargerSegmentsDePiste(this.piste));
+        this.lumiereService.ajouterLumierScene(this.scene);
         this.commencerRendu();
+    }
+
+    public ajouterRouter(routeur: Router): void {
+        this.routeur = routeur;
+    }
+
+    public preparerPartie(): void {
+        const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
+        const segmentGeometrie: THREE.Geometry = <THREE.Geometry>this.obtenirPremierSegmentDePiste().geometry;
+        const ligneArrivee: LigneArrivee = new LigneArrivee(segmentGeometrie.vertices[0],
+            segmentGeometrie.vertices[1]);
+
+        this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique]);
+
+        this.partie.ajouterRouteur(this.routeur);
+
+    }
+
+    private obtenirPremierSegmentDePiste(): THREE.Mesh {
+        return this.piste.obtenirSegments3D()[1];
     }
 
     public ajouterPiste(piste: Piste): void {
@@ -55,6 +97,16 @@ export class GenerateurPisteService {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
+    }
+
+    public creeplane(): void {
+        const geometry = new THREE.PlaneGeometry(this.WIDTH, this.HEIGHT, 32);
+        const material = new THREE.MeshPhongMaterial({ color: 'green' });
+        material.map = THREE.ImageUtils.loadTexture('../../assets/textures/grass.jpg');
+        this.plane = new THREE.Mesh(geometry, material);
+        this.plane.receiveShadow = true;
+        this.plane.position.z = -0.01;
+        this.scene.add(this.plane);
     }
 
     public commencerRendu(): void {
@@ -68,46 +120,17 @@ export class GenerateurPisteService {
     public render(): void {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
-        if (this.voiture !== undefined) {
-            if (this.voitureDuJoueur.vueDessusTroisieme) {
-                this.vueTroisiemePersonne();
-            } else {
-                this.vueDessus();
-            }
-            this.vueMiseAjour();
+        if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
+            this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
     }
 
     public renderMiseAJour(): void {
         this.renderer.render(this.scene, this.camera);
-        if (this.voiture !== undefined) {
+        if (this.voitureDuJoueur !== undefined) {
             this.sortiePisteService.gererSortiePiste(this.voiture);
-            if (this.voitureDuJoueur.vueDessusTroisieme) {
-                this.vueTroisiemePersonne();
-            } else {
-                this.vueDessus();
-            }
-            this.vueMiseAjour();
+            this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
-    }
-
-    public vueMiseAjour(): void {
-        this.camera.lookAt(this.voiture.position);
-        this.camera.updateMatrix();
-        this.camera.updateProjectionMatrix();
-    }
-
-    public vueDessus(): void {
-        this.camera.position.y = this.voiture.position.y;
-        this.camera.position.x = this.voiture.position.x;
-        this.camera.position.z = this.voiture.position.z + 50;
-    }
-
-    public vueTroisiemePersonne(): void {
-        let relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
-        relativeCameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
-        this.camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
-        this.camera.up = new THREE.Vector3(0, 0, 1);
     }
 
     public onResize(): void {
@@ -121,19 +144,17 @@ export class GenerateurPisteService {
     }
 
     public ajoutPisteAuPlan(): void {
-        const segmentsPisteVisuel: THREE.Mesh[] = Segment.chargerSegmentsDePiste(this.piste);
-
-        for (let i = 0 ; i < segmentsPisteVisuel.length; i++) {
-            this.scene.add(segmentsPisteVisuel[i]);
+        this.piste.chargerSegments();
+        for (let i = 0; i < this.piste.obtenirSegments3D().length; i++) {
+            this.scene.add(this.piste.obtenirSegments3D()[i]);
         }
     }
 
     public deplacementVoiture(event): void {
         this.voitureDuJoueur.vitesse += 0.05;
         this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(),
-                this.touche, this.touchePrecedente, this.voitureDuJoueur);
+            this.touche, this.touchePrecedente, this.voitureDuJoueur);
         this.renderMiseAJour();
-
     }
 
     public toucheRelachee(event): void {
@@ -143,21 +164,30 @@ export class GenerateurPisteService {
 
     public chargerVoiture(): void {
         const loader = new THREE.ObjectLoader();
-        loader.load(EMPLACEMENT_VOITURE, ( obj ) => {
+        loader.load(EMPLACEMENT_VOITURE, (obj) => {
             obj.rotateX(Math.PI / 2);
             obj.name = 'Voiture';
-            this.scene.add( obj );
-            this.voiture = obj;
-            this.voitureDuJoueur = new Voiture(this.voiture);
+            this.objetService.enleverObjet(obj);
+            obj.receiveShadow = true;
+            this.scene.add(obj);
+            this.voitureDuJoueur = new Voiture(obj);
+            this.preparerPartie();
+            this.partie.demarrerPartie();
         });
     }
 
-    public zoom(event): void {
-        if (event.key === '+' && this.camera.zoom <= 5) {
-            this.camera.zoom += .5;
-        }
-        if (event.key === '-' && this.camera.zoom > 1) {
-            this.camera.zoom -= .5;
+    public chargerArbres(): void {
+        this.arbres = this.objetService.chargerArbre(this.arbrePath, this.arbreTexture, this.WIDTH);
+        this.scene.add(this.arbres);
+    }
+
+    public gestionEvenement(event): void {
+        if (event.keyCode === 110) {
+            this.lumiereService.modeJourNuit(event, this.scene);
+        } else if (event.keyCode === 102) {
+            this.filtreCouleurService.mettreFiltre(event, this.scene);
+        } else if (event.key === '+' || event.key === '-') {
+            this.cameraService.zoom(event, this.camera);
         }
     }
 }

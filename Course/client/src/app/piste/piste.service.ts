@@ -1,3 +1,4 @@
+import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
 import { Injectable, EventEmitter } from '@angular/core';
@@ -12,8 +13,9 @@ export class PisteService {
     private pistes: Piste[] = [];
     public pisteAEditer = new EventEmitter<Piste>();
     public pisteChoisie = new EventEmitter<Piste>();
+    public tableauMeilleurTemps = new EventEmitter<Piste>();
 
-    constructor(generateurPisteService: GenerateurPisteService, private http: Http) {
+    constructor(generateurPisteService: GenerateurPisteService, private http: Http, private tableauScoreService: TableauScoreService) {
 
         this.pisteChoisie.subscribe(
             (piste: Piste) => generateurPisteService.ajouterPiste(piste)
