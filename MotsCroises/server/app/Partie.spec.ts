@@ -24,7 +24,8 @@ describe('Partie', () => {
         let emplacementMotSelectionnerParJoueur2: EmplacementMot = grille.emplacementMots[1];
 
 
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique, grille, Niveau.facile, joueur2);
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, 
+            grille, Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
 
         partieEnCours.changerSelectionMot(joueur1.obtenirGuid(), emplacementMotSelectionnerParJoueur1);
@@ -61,7 +62,7 @@ describe('Partie', () => {
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
 
 
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique, grille, Niveau.facile, joueur2);
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, grille, Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
         partieEnCours.demarrerPartie();
 
@@ -87,7 +88,8 @@ describe('Partie', () => {
         const tempsAlloueMilisecondes: number = 1 * Math.pow(10, 3);
 
 
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique, grille, Niveau.facile, joueur2);
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, 
+            grille, Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
         partieEnCours.demarrerPartie(tempsAlloueMilisecondes);
 
@@ -110,7 +112,8 @@ describe('Partie', () => {
         const tempsAlloueMilisecondes: number = 1 * Math.pow(10, 3);
 
 
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique, grille, Niveau.facile, joueur2);
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, grille, 
+            Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
         partieEnCours.demarrerPartie(tempsAlloueMilisecondes);
 
@@ -137,8 +140,8 @@ describe('Partie', () => {
         let motAVerifierJoueur1 = '';
         let motAVerifierJoueur2 = '';
         let casesEmplacementMot: Case[];
-
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique, grille, Niveau.facile, joueur2);
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, grille, 
+            Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
         partieEnCours.demarrerPartie();
 

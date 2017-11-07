@@ -4,6 +4,7 @@ import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
 import {Niveau} from '../../../../commun/Niveau';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
+import { TypePartie } from '../../../../commun/TypePartie';
 
 
 @Component({
@@ -28,7 +29,7 @@ export class AttentePartieComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.gameViewService.demanderListePartieEnAttente();
+    this.gameViewService.demanderPartieServer(TypePartie.classique_a_deux);
   }
 
 

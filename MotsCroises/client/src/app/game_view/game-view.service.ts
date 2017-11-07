@@ -13,6 +13,8 @@ import {Indice} from '../../../../server/app/Indice';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
 import {Router} from '@angular/router';
 import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/RequisDemandeListePartieEnAttente';
+import { VuePartieEnCours } from '../../../../commun/VuePartieEnCours';
+import { RequisPourJoindrePartieMultijoueur } from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
 
 
 @Injectable()
@@ -25,14 +27,17 @@ export class GameViewService {
   public indices: IndiceMot[];
   public connexionTempsReelClient: ConnexionTempsReelClient;
   public specificationPartie: SpecificationPartie;
-  public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente;
+  public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
   public joueur: Joueur = new Joueur();
   private indiceTeste: IndiceMot;
   private motEntre: string;
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
+  private requisPourJoindrePartieMultijoueur;
   joueur1 = new Joueur();
+
+  private listeVuePartie: VuePartieEnCours[] = new Array;
 
   constructor(private router: Router) {
   }
@@ -106,13 +111,26 @@ export class GameViewService {
     }
   }
 
-  public demanderPartieServer() {
-    this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
-      this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
+
+  public demanderPartieServer(typePartie: TypePartie = TypePartie.classique_a_un) {
+    switch (typePartie) {
+      case TypePartie.classique_a_un :
+        this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
+          this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
+      break;
+
+      case TypePartie.classique_a_deux :
+        this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR,
+          this.specificationPartie, requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, this.recupererPartieMultijoueur, this);
+      break;
+    }
+
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
   }
 
-  public demanderListePartieEnAttente(): void {
+  public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
+    this.listeVuePartie = listeVuePartie;
+
     // Demander liste de partie.
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisDemandeListePartieEnAttente>(
       requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
@@ -120,9 +138,29 @@ export class GameViewService {
       this.rappelDemanderListePartieEnAttente, this);
   }
 
+  public rejoindrePartieMultijoueur(partieChoisie: VuePartieEnCours, joueurAJoindre: Joueur): void {
+    this.requisPourJoindrePartieMultijoueur = new RequisPourJoindrePartieMultijoueur(partieChoisie.guidPartie, joueurAJoindre);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourJoindrePartieMultijoueur>(
+      requetes.REQUETE_SERVEUR_JOINDRE_PARTIE,
+      this.requisPourJoindrePartieMultijoueur, requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL,
+      this.rappelRejoindrePartieMultijoueur, this);
+  }
+
+  public rappelRejoindrePartieMultijoueur(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur
+    , self: GameViewService): void {
+      requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
+      console.log('JOUEUR A Rejoins LA PARTIE : ' + requisPourJoindrePartieMultijoueur.guidPartie);
+
+      for(const joueurCourant of requisPourJoindrePartieMultijoueur.joueurs) {
+        console.log('NOM JOUEUR: ' + joueurCourant.obtenirNomJoueur());
+      }
+  }
+
   public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: GameViewService) {
+    console.log('RETOUR Rappel DEMANDER : ' + requisDemandeListePartieEnCours.listePartie.length);
     for (const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
       console.log(vuePartieCourante.nomJoueurHote + ' | ' + vuePartieCourante.guidPartie);
+      self.listeVuePartie.push(vuePartieCourante);
     }
   }
 
@@ -134,6 +172,10 @@ export class GameViewService {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
     self.afficherPartie(self.typePartie, self.niveauPartie, self.nbJoueursPartie);
+  }
+
+  public recupererPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
+    console.log(specificationPartie.guidPartie + " | " + "PARTIE CRÉÉ MULTI");
   }
 
   public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
