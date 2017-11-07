@@ -18,7 +18,7 @@ export class TableauScoreComponent implements OnInit {
     public meilleurTemps: string;
 
     constructor(private tableauScoreService: TableauScoreService, private router: Router) {
-        this.temps = this.tableauScoreService.meilleurTemps;
+        this.temps = this.tableauScoreService.piste.meilleursTemps;
     }
 
     public ngOnInit(): void {

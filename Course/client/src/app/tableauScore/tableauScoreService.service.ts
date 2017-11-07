@@ -7,15 +7,13 @@ import { Injectable } from '@angular/core';
 export class TableauScoreService {
 
     public piste: Piste;
-    public meilleurTemps: Score[];
     public debut = 0;
     public temps: string;
 
     public ajouterTemps(score: Score): void {
-        this.meilleurTemps.push(score);
-        const fin = this.meilleurTemps.length - 1;
-        this.quickSort(this.meilleurTemps, this.debut, fin);
-        console.log(this.meilleurTemps);
+        this.piste.meilleursTemps.push(score);
+        const fin = this.piste.meilleursTemps.length - 1;
+        this.quickSort(this.piste.meilleursTemps, this.debut, fin);
     }
 
     public echanger(chiffresTab: Score[], score: number, score2: number): void {
