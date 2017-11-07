@@ -183,13 +183,14 @@ export class GameViewService {
   }
 
 
-  public demanderMotsComplets(guid: string) {
-    const requisPourMotsComplets = new RequisPourMotsComplets(guid);
+  public demanderMotsComplets() {
+    const requisPourMotsComplets = new RequisPourMotsComplets(this.specificationPartie.guidPartie);
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotsComplets>(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
       requisPourMotsComplets, requetes.REQUETE_CLIENT_RAPPEL_OBTENIR_MOTS_COMPLETS_CHEAT_MODE, this.recevoirMotsComplets, this);
   }
 
   public recevoirMotsComplets(requisPourMotsComplets: RequisPourMotsComplets, self: GameViewService) {
+    console.log("SALUT" , requisPourMotsComplets);
     for (let i = 0; i < self.indices.length; i++) {
       self.indices[i].definition = requisPourMotsComplets.listeMotComplet[i].lettres;
     }

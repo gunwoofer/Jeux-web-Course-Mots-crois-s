@@ -52,6 +52,10 @@ export class InfosJeuViewComponent implements AfterViewInit {
     }
   }
 
+  public activerCheatMode(): void {
+    this.gameViewService.demanderMotsComplets();
+  }
+
   public stopperTimer() {
     clearInterval(this.intervalFunction);
   }

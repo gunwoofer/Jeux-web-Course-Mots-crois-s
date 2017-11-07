@@ -158,8 +158,10 @@ export class DescripteurEvenementTempsReel {
 
     public obtenirMotsComplets(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
     requisPourMotsComplets: RequisPourMotsComplets): void {
+        console.log("JE PASSE DANS LE SERVER");
         const listeMots: MotComplet[] = gestionnaireDePartieService.obtenirPartieEnCours(requisPourMotsComplets.guidPartie)
         .obtenirGrille().mots;
+        requisPourMotsComplets = RequisPourMotsComplets.rehydrater(requisPourMotsComplets);
         requisPourMotsComplets.remplirListeMotComplets(listeMots);
 
          client.emit(requetes.REQUETE_CLIENT_RAPPEL_OBTENIR_MOTS_COMPLETS_CHEAT_MODE, requisPourMotsComplets);

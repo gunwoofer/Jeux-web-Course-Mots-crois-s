@@ -9,6 +9,17 @@ export class RequisPourMotsComplets {
         constructor (guidpartie: string) {
             this.guidPartie = guidpartie;
         }
+
+        public static rehydrater(source: any): RequisPourMotsComplets {
+            let sourceRequisPourMotsComplets = source as RequisPourMotsComplets;
+            let vraiRequisPourMotsComplets = new RequisPourMotsComplets(sourceRequisPourMotsComplets.guidPartie);
+
+            Object.assign(vraiRequisPourMotsComplets, sourceRequisPourMotsComplets);
+
+            return vraiRequisPourMotsComplets;
+        }   
+
+
         public remplirListeMotComplets(liste: MotComplet[]) {
             this.listeMotComplet = liste;
         }

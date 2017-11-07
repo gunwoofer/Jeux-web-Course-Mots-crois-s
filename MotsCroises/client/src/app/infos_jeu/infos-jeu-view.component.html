@@ -8,6 +8,7 @@
   <div>
     <div class='titre'>Infos de jeu</div>
     <div>{{tempsRestant}}</div>
+    <button (click)="activerCheatMode()">Cheat Mode</button>
   </div>
   <div class='player_info' [hidden]="nbJoueurs === '0' ">
     <div class='titre'>Joueur 2</div>
