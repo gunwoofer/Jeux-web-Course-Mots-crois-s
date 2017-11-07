@@ -12,7 +12,6 @@ import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 import { CourseComponent } from './course/course.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
-import { JoueurComponent } from './accueil/joueur/joueur.component';
 import { InscriptionComponent } from './accueil/admin/inscription/inscription.component';
 import { ConnexionComponent } from './accueil/admin/connexion/connexion.component';
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
@@ -52,7 +51,6 @@ import { AppRoutingModule } from './app.routing';
     TableauScoreComponent,
     GenerateurPisteComponent,
     AccueilComponent,
-    JoueurComponent,
     ConnexionComponent,
     InscriptionComponent,
     MotDepasseOublieComponent,
