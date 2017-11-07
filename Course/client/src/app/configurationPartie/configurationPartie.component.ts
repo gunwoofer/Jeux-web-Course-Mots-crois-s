@@ -1,3 +1,5 @@
+import { Piste } from './../piste/piste.model';
+import { PisteService } from '../piste/piste.service';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { Router } from '@angular/router';
 import { Component, Input } from '@angular/core';
@@ -10,9 +12,12 @@ import { Component, Input } from '@angular/core';
 })
 
 export class ConfigurationPartieComponent {
+
+    @Input() private piste: Piste;
     private nombreDesTours = 1;
 
-    constructor(private router: Router, private tableauScoreService: TableauScoreService) {}
+    constructor(private router: Router, private tableauScoreService: TableauScoreService,
+        private pisteService: PisteService) { }
 
     public augmenterNombreTour(): void {
         if (this.nombreDesTours !== 3) {
@@ -26,8 +31,7 @@ export class ConfigurationPartieComponent {
         }
     }
 
-    public allerAFinPartie(): void {
-        this.router.navigateByUrl('/finPartie');
-        this.tableauScoreService.temps = '3min 20s';
+    public commencerPartie(): void {
+        this.pisteService.commencerPartie(this.piste);
     }
 }

@@ -11,10 +11,11 @@ import { PisteService } from './piste.service';
 })
 
 export class PisteComponent {
-    @Input() public piste: Piste;
-    @Input() public admin: boolean;
-    public display = false;
-    public score = false;
+  @Input() public piste: Piste;
+  @Input() public admin: boolean;
+  public display = false;
+  public score = false;
+  public afficherConfiguration = false;
 
   constructor(private pisteService: PisteService, private tableauScoreService: TableauScoreService) { }
 
@@ -37,7 +38,7 @@ export class PisteComponent {
     this.score = !this.score;
   }
 
-  public commencerPartie(): void {
-    this.pisteService.commencerPartie(this.piste);
+  public configurationPartie(): void {
+    this.afficherConfiguration = !this.afficherConfiguration;
   }
 }
