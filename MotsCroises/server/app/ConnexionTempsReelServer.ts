@@ -1,15 +1,3 @@
-<<<<<<< HEAD
-import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
-import { GestionnaireDePartieService } from './GestionnaireDePartieService';
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import { SpecificationPartie } from '../../commun/SpecificationPartie';
-import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
-import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelectionnerMot';
-import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
-import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
-import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
-import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
-=======
 import {GestionnaireDePartieService} from './GestionnaireDePartieService';
 import {GenerateurDeGrilleService} from './GenerateurDeGrilleService';
 import {SpecificationPartie} from '../../commun/SpecificationPartie';
@@ -19,8 +7,7 @@ import {RequisPourObtenirTempsRestant} from '../../commun/requis/RequisPourObten
 import {DescripteurEvenementTempsReel} from './DescripteurEvenementTempsReel';
 import {RequisPourMotsTrouve} from '../../commun/requis/RequisPourMotsTrouve';
 import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDemandeListePartieEnAttente';
->>>>>>> master
-
+import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
 
 import * as express from 'express';
 
