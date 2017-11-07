@@ -21,21 +21,15 @@ export class SortiePisteService {
         this.listeSegments = piste;
     }
 
-    public gererSortiePiste(voiture: THREE.Object3D): void {
+    public gererSortiePiste(voiture: THREE.Object3D, voitureservice: Voiture): void {
         this.estSurLaPiste(voiture);
         // console.log(voiture);
 
         // this.trouverPointMilieuSegment();
         if (!this.estSurPiste) {
-            voiture.position.x = this.pointOuReapparaitre.x;
-            voiture.position.y = this.pointOuReapparaitre.y;
+            voiture.position.x = 0;
+            voiture.position.y = 0;
         }
-    }
-
-    public trouverPointMilieuSegment(): void {
-        this.pointOuReapparaitre.x = this.segmentOuReapparaitre[2] - this.segmentOuReapparaitre[0];
-        this.pointOuReapparaitre.y = this.segmentOuReapparaitre[3] - this.segmentOuReapparaitre[1];
-
     }
 
 

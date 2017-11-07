@@ -84,7 +84,7 @@ export class GenerateurPisteService {
     public renderMiseAJour(): void {
         this.renderer.render(this.scene, this.camera);
         if (this.voiture !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voiture);
+            this.sortiePisteService.gererSortiePiste(this.voiture, this.voitureService);
             if (this.voitureService.vueDessusTroisieme) {
                 this.vueTroisiemePersonne();
             } else {
