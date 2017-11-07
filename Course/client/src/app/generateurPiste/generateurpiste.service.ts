@@ -214,4 +214,10 @@ export class GenerateurPisteService {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         }
     }
+
+    public changervue(event): void {
+        if (event.key === 'c') {
+            this.voitureDuJoueur.vueDessusTroisieme = !this.voitureDuJoueur.vueDessusTroisieme;
+        }
+    }
 }
