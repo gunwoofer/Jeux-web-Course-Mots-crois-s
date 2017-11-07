@@ -1,11 +1,12 @@
 import { Voiture } from './../voiture/Voiture';
 import * as THREE from 'three';
 
-export const avancer = 'w';
-export const reculer = 's';
-export const gauche = 'a';
-export const droite = 'd';
-export const changerVue = 'c';
+const avancer = 'w';
+const reculer = 's';
+const gauche = 'a';
+const droite = 'd';
+const changerVue = 'c';
+const intervalle = 0.05;
 
 export class Deplacement {
 
@@ -29,6 +30,7 @@ export class Deplacement {
             }
         }
         if (event.keyCode === gauche) {
+            /*
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = gauche ;
             voiture3D.rotateY(0.05);
@@ -42,8 +44,10 @@ export class Deplacement {
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = reculer;
             }
+            */
         }
         if (event.keyCode === droite ) {
+            /*
             this.toucheAppuyer[1] = this.toucheAppuyer[0];
             this.toucheAppuyer[0] = droite;
             voiture3D.rotateY(-0.05);
@@ -57,6 +61,7 @@ export class Deplacement {
                 this.toucheAppuyer[1] = this.toucheAppuyer[0];
                 this.toucheAppuyer[0] = reculer;
             }
+            */
         }
         voiture.bougerVoiture(voiture3D.position.x, voiture3D.position.y);
     }
