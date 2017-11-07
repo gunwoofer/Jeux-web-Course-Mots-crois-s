@@ -17,7 +17,7 @@ export class ConnexionTempsReelClient {
             this.connexionSocket.on(nomRequeteAEcouter, (resultat: T) => callback(resultat, self));
           }
             this.connexionSocket.emit(nomRequeteAEnvoyer, valeurEnvoye);
-            console.log(this.connexionSocket);
+            console.log(this.connexionSocket, nomRequeteAEnvoyer, nomRequeteAEcouter);
         });
     }
 

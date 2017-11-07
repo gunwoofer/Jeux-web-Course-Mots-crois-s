@@ -21,12 +21,13 @@ export class IndiceViewComponent implements OnInit {
       return;
     }
     this.selectedIndice = indice;
-    this.indiceViewService.afficherSelectionIndice(indice);
+    this.gameViewService.afficherSelectionIndice(indice);
+    this.gameViewService.selectionIndice();
   }
 
   public annulerSelectionIndice() {
     this.selectedIndice = null;
-    this.indiceViewService.afficherSelectionIndice(null);
+    this.gameViewService.afficherSelectionIndice(null);
   }
 
   public ngOnInit(): void {

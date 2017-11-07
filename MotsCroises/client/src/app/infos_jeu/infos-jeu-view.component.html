@@ -1,7 +1,7 @@
 <div class='container'>
   <div class='player_info'>
-    <div class='titre'>Joueur 1</div>
-    <div>{{motTrouveJ1}} mots trouvés</div>
+    <div class='titre'>{{joueur.nomJoueur}}</div>
+    <div>{{joueur.pointage}} mots trouvés</div>
     <div>{{motEnCoursJ1}}</div>
   </div>
 
@@ -11,8 +11,8 @@
     <button (click)="activerCheatMode()">Cheat Mode</button>
   </div>
   <div class='player_info' [hidden]="nbJoueurs === '0' ">
-    <div class='titre'>Joueur 2</div>
-    <div>{{motTrouveJ2}} mots trouvés</div>
+    <div class='titre' >{{joueur2.nomJoueur}}</div>
+    <div>{{joueur2.pointage}} mots trouvés</div>
     <div>{{motEnCoursJ2}}</div>
 
   </div>
