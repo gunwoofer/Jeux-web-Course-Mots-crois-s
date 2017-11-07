@@ -24,7 +24,7 @@ export class Voiture implements sujet.Sujet {
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
     }
 
-    public bougerVoiture(x?: number, y?) {
+    public bougerVoiture(x?: number, y?): void {
         this.xPrecedent = this.x;
         this.yPrecedemt = this.y;
         this.x = (x !== undefined) ? x : this.x;

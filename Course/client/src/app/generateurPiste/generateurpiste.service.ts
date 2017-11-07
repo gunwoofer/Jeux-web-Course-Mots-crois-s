@@ -1,6 +1,7 @@
+import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../dayNight/dayNight.service';
-import { ObjetRandomService } from '../ObjectRandom/objetRandom.service';
+import { ObjetService } from '../objetService/objet.service';
 import { Skybox } from './../skybox/skybox.model';
 import { Deplacement } from './deplacement';
 import { Injectable } from '@angular/core';
@@ -12,6 +13,8 @@ import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
 import { Pilote } from '../partie/Pilote';
 import { LigneArrivee } from '../partie/LigneArrivee';
+import { MusiqueService } from '../musique/musique.service';
+import { Router } from '@angular/router';
 
 export const LARGEUR_PISTE = 5;
 const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
@@ -48,17 +51,18 @@ export class GenerateurPisteService {
     private distancePremiereVoitureENY: number;
 
     private partie: Partie;
+    private routeur: Router;
 
-    constructor(private objetRandomService: ObjetRandomService, private lumiereService: LumiereService,
-        private filtreCouleurService: FiltreCouleurService) {this.segment = new Segment(); }
-
+    constructor(private objetService: ObjetService, private lumiereService: LumiereService,
+        private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
+        private musiqueService: MusiqueService) { this.segment = new Segment(); }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
-        // this.camera.add(this.skybox.creerSkybox());
+        this.camera.add(this.skybox.creerSkybox());
         this.creeplane();
         this.chargerArbres();
         this.chargerVoiture();
@@ -67,13 +71,19 @@ export class GenerateurPisteService {
         this.commencerRendu();
     }
 
+    public ajouterRouter(routeur: Router): void {
+        this.routeur = routeur;
+    }
+
     public preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
         const segmentGeometrie: THREE.Geometry = <THREE.Geometry>this.obtenirPremierSegmentDePiste().geometry;
         const ligneArrivee: LigneArrivee = new LigneArrivee(segmentGeometrie.vertices[0],
             segmentGeometrie.vertices[1]);
 
-        this.partie = new Partie([pilote], ligneArrivee /* TOURS A COMPLETER ICI */);
+        this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique]);
+
+        this.partie.ajouterRouteur(this.routeur);
 
     }
 
@@ -112,44 +122,15 @@ export class GenerateurPisteService {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
-            if (this.voitureDuJoueur.vueDessusTroisieme) {
-                this.vueTroisiemePersonne();
-            } else {
-                this.vueDessus();
-            }
-            this.vueMiseAjour();
+            this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
     }
 
     public renderMiseAJour(): void {
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur !== undefined) {
-            if (this.voitureDuJoueur.vueDessusTroisieme) {
-                this.vueTroisiemePersonne();
-            } else {
-                this.vueDessus();
-            }
-            this.vueMiseAjour();
+            this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
-    }
-
-    public vueMiseAjour(): void {
-        this.camera.lookAt(this.voitureDuJoueur.obtenirVoiture3D().position);
-        this.camera.updateMatrix();
-        this.camera.updateProjectionMatrix();
-    }
-
-    public vueDessus(): void {
-        this.camera.position.y = this.voitureDuJoueur.obtenirVoiture3D().position.y;
-        this.camera.position.x = this.voitureDuJoueur.obtenirVoiture3D().position.x;
-        this.camera.position.z = this.voitureDuJoueur.obtenirVoiture3D().position.z + 50;
-    }
-
-    public vueTroisiemePersonne(): void {
-        let relativeCameraOffset = new THREE.Vector3(-5, 2, 0);
-        relativeCameraOffset = relativeCameraOffset.applyMatrix4(this.voitureDuJoueur.obtenirVoiture3D().matrixWorld);
-        this.camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
-        this.camera.up = new THREE.Vector3(0, 0, 1);
     }
 
     public onResize(): void {
@@ -183,7 +164,6 @@ export class GenerateurPisteService {
         this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(),
             this.touche, this.touchePrecedente, this.voitureDuJoueur);
         this.renderMiseAJour();
-
     }
 
     public toucheRelachee(event): void {
@@ -196,9 +176,8 @@ export class GenerateurPisteService {
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
             obj.rotateX(Math.PI / 2);
             obj.name = 'Voiture';
-            obj.remove(obj.getChildByName('Plane'));
-            obj.remove(obj.getChildByName('SpotLight'));
-            obj.remove(obj.getChildByName('SpotLight1'));
+            this.objetService.enleverObjet(obj);
+            obj.receiveShadow = true;
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.preparerPartie();
@@ -235,7 +214,7 @@ export class GenerateurPisteService {
     }
 
     public chargerArbres(): void {
-        this.arbres = this.objetRandomService.chargerArbre(this.arbrePath, this.arbreTexture, this.WIDTH);
+        this.arbres = this.objetService.chargerArbre(this.arbrePath, this.arbreTexture, this.WIDTH);
         this.scene.add(this.arbres);
     }
 
@@ -244,13 +223,8 @@ export class GenerateurPisteService {
             this.lumiereService.modeJourNuit(event, this.scene);
         } else if (event.keyCode === 102) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
+        } else if (event.key === '+' || event.key === '-') {
+            this.cameraService.zoom(event, this.camera);
         }
-    }
-    public changerModeNuit(event): void {
-        this.lumiereService.modeJourNuit(event, this.scene);
-    }
-
-    public filtreDaltonin(event): void {
-        this.filtreCouleurService.mettreFiltre(event, this.scene);
     }
 }
