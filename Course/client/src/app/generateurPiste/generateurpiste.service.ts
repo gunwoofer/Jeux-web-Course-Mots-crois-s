@@ -165,7 +165,6 @@ export class GenerateurPisteService {
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.preparerPartie();
-
             this.partie.demarrerPartie();
         });
     }
