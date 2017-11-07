@@ -1,3 +1,8 @@
+import { RatingComponent } from './rating/rating.component';
+import { TableauScoreService } from './tableauScore/tableauScoreService.service';
+import { FinDePartieComponent } from './finDepartie/finDePartie.component';
+import { ConfigurationPartieComponent } from './configurationPartie/configurationPartie.component';
+import { LumiereService } from './dayNight/dayNight';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -55,7 +60,11 @@ import { AppRoutingModule } from './app.routing';
     InscriptionComponent,
     MotDepasseOublieComponent,
     ModificationMotDePasseComponent,
-    ConfigurationPartieComponent
+    FiltreCouleurComponent,
+    ObjetRandomComponent,
+    ConfigurationPartieComponent,
+    FinDePartieComponent,
+    RatingComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +86,7 @@ import { AppRoutingModule } from './app.routing';
     FiltreCouleurService,
     ObjetService,
     LumiereService,
+    TableauScoreService,
     CameraService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
