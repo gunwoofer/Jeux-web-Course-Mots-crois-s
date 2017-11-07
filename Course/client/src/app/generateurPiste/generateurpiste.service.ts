@@ -4,7 +4,7 @@ import { Deplacement } from './deplacement';
 import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { Voiture } from './../voiture/voiture.service';
+import { Voiture } from './../voiture/Voiture';
 
 import { Piste } from '../piste/piste.model';
 export const LARGEUR_PISTE = 5;
@@ -20,7 +20,7 @@ export class GenerateurPisteService {
     public scene: THREE.Scene;
     private pointsPiste: THREE.Vector3[][];
     private origine: THREE.Vector3;
-    private voitureService: Voiture;
+    private voitureDuJoueur: Voiture;
     private touche: number;
     private touchePrecedente: number;
     private deplacement = new Deplacement();
@@ -37,15 +37,11 @@ export class GenerateurPisteService {
         for (let i = 0; i < this.pointsPiste.length; i++) {
             this.pointsPiste[i] = new Array();
         }
-        this.voitureService = new Voiture();
         this.container = container;
         this.creerScene();
-
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
-
         this.chargerVoiture();
-
         this.ajoutPisteAuPlan();
 
         this.sortiePisteService = new SortiePisteService(Segment.chargerSegmentsDePiste(this.piste));
@@ -73,52 +69,45 @@ export class GenerateurPisteService {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
         if (this.voiture !== undefined) {
-            if (this.voitureService.vueDessusTroisieme) {
+            if (this.voitureDuJoueur.vueDessusTroisieme) {
                 this.vueTroisiemePersonne();
             } else {
                 this.vueDessus();
             }
+            this.vueMiseAjour();
         }
     }
 
     public renderMiseAJour(): void {
         this.renderer.render(this.scene, this.camera);
         if (this.voiture !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voiture, this.voitureService);
-            if (this.voitureService.vueDessusTroisieme) {
+            this.sortiePisteService.gererSortiePiste(this.voiture);
+            if (this.voitureDuJoueur.vueDessusTroisieme) {
                 this.vueTroisiemePersonne();
             } else {
                 this.vueDessus();
             }
+            this.vueMiseAjour();
         }
+    }
+
+    public vueMiseAjour(): void {
+        this.camera.lookAt(this.voiture.position);
+        this.camera.updateMatrix();
+        this.camera.updateProjectionMatrix();
     }
 
     public vueDessus(): void {
         this.camera.position.y = this.voiture.position.y;
         this.camera.position.x = this.voiture.position.x;
-        this.camera.position.z = 50;
-        this.camera.lookAt(this.voiture.position);
+        this.camera.position.z = this.voiture.position.z + 50;
     }
 
-
     public vueTroisiemePersonne(): void {
-
-        this.camera.position.x = this.voiture.position.x - 8;
-        this.camera.position.y = this.voiture.position.y + 8;
-        this.camera.position.z = this.voiture.position.z;
-
-        const relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
-
-        const cameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
-
-        this.camera.position.x = cameraOffset.x;
-        this.camera.position.y = cameraOffset.y;
-        this.camera.position.z = cameraOffset.z;
-        this.camera.updateMatrix();
-        this.camera.updateProjectionMatrix();
-        // Eviter que la camera ne roule sur elle meme
+        let relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
+        relativeCameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
+        this.camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
         this.camera.up = new THREE.Vector3(0, 0, 1);
-        this.camera.lookAt(this.voiture.position);
     }
 
     public onResize(): void {
@@ -139,23 +128,16 @@ export class GenerateurPisteService {
         }
     }
 
-    public cameraAvantArriere(event): void {
-        if (event.wheelDeltaY < 0) {
-            this.camera.position.z += 5;
-        } else {
-                this.camera.position.z -= 5;
-        }
-    }
-
     public deplacementVoiture(event): void {
-        this.voitureService.vitesse += 0.05;
-        this.deplacement.deplacementVoiture(event, this.voiture, this.touche, this.touchePrecedente, this.voitureService);
+        this.voitureDuJoueur.vitesse += 0.05;
+        this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(),
+                this.touche, this.touchePrecedente, this.voitureDuJoueur);
         this.renderMiseAJour();
 
     }
 
     public toucheRelachee(event): void {
-        this.voitureService.vitesse = 0;
+        this.voitureDuJoueur.vitesse = 0;
         this.deplacement.toucheRelachee(event, this.touche);
     }
 
@@ -166,6 +148,16 @@ export class GenerateurPisteService {
             obj.name = 'Voiture';
             this.scene.add( obj );
             this.voiture = obj;
+            this.voitureDuJoueur = new Voiture(this.voiture);
         });
+    }
+
+    public zoom(event): void {
+        if (event.key === '+' && this.camera.zoom <= 5) {
+            this.camera.zoom += .5;
+        }
+        if (event.key === '-' && this.camera.zoom > 1) {
+            this.camera.zoom -= .5;
+        }
     }
 }

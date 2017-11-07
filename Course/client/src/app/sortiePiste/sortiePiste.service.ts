@@ -21,7 +21,7 @@ export class SortiePisteService {
         this.listeSegments = piste;
     }
 
-    public gererSortiePiste(voiture: THREE.Object3D, voitureservice: Voiture): void {
+    public gererSortiePiste(voiture: THREE.Object3D): void {
         this.estSurLaPiste(voiture);
         // console.log(voiture);
 
