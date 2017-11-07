@@ -216,11 +216,4 @@ export class GenerateurPisteService {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         }
     }
-    public changerModeNuit(event): void {
-        this.lumiereService.modeJourNuit(event, this.scene);
-    }
-
-    public filtreDaltonin(event): void {
-        this.filtreCouleurService.mettreFiltre(event, this.scene);
-    }
 }
