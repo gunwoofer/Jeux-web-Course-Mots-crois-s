@@ -50,7 +50,7 @@ export class GenerateurPisteService {
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
-        this.camera.add(this.skybox.creerSkybox());
+        // this.camera.add(this.skybox.creerSkybox());
         this.creeplane();
         this.chargerArbres();
         this.chargerVoiture();
@@ -61,11 +61,11 @@ export class GenerateurPisteService {
 
     public preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
-        const segmentGeometrie: THREE.Geometry = <THREE.Geometry> this.obtenirPremierSegmentDePiste().geometry;
+        const segmentGeometrie: THREE.Geometry = <THREE.Geometry>this.obtenirPremierSegmentDePiste().geometry;
         const ligneArrivee: LigneArrivee = new LigneArrivee(segmentGeometrie.vertices[0],
             segmentGeometrie.vertices[1]);
 
-        this.partie = new Partie( [ pilote ], ligneArrivee /* TOURS A COMPLETER ICI */ );
+        this.partie = new Partie([pilote], ligneArrivee /* TOURS A COMPLETER ICI */);
 
     }
 
@@ -88,6 +88,7 @@ export class GenerateurPisteService {
         material.map = THREE.ImageUtils.loadTexture('../../assets/textures/grass.jpg');
         this.plane = new THREE.Mesh(geometry, material);
         this.plane.receiveShadow = true;
+        this.plane.position.z = -0.01;
         this.scene.add(this.plane);
     }
 
@@ -137,7 +138,7 @@ export class GenerateurPisteService {
     }
 
     public vueTroisiemePersonne(): void {
-        let relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
+        let relativeCameraOffset = new THREE.Vector3(-5, 2, 0);
         relativeCameraOffset = relativeCameraOffset.applyMatrix4(this.voitureDuJoueur.obtenirVoiture3D().matrixWorld);
         this.camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
         this.camera.up = new THREE.Vector3(0, 0, 1);
@@ -163,7 +164,7 @@ export class GenerateurPisteService {
     public deplacementVoiture(event): void {
         this.voitureDuJoueur.vitesse += 0.05;
         this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(),
-                this.touche, this.touchePrecedente, this.voitureDuJoueur);
+            this.touche, this.touchePrecedente, this.voitureDuJoueur);
         this.renderMiseAJour();
 
     }
@@ -175,13 +176,17 @@ export class GenerateurPisteService {
 
     public chargerVoiture(): void {
         const loader = new THREE.ObjectLoader();
-        loader.load(EMPLACEMENT_VOITURE, ( obj ) => {
+        loader.load(EMPLACEMENT_VOITURE, (obj) => {
             obj.rotateX(Math.PI / 2);
             obj.name = 'Voiture';
-            this.scene.add( obj );
+            obj.remove(obj.getChildByName('Plane'));
+            obj.remove(obj.getChildByName('SpotLight'));
+            obj.remove(obj.getChildByName('SpotLight1'));
+            this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.preparerPartie();
             this.partie.demarrerPartie();
+            console.log(obj.children);
         });
     }
 
