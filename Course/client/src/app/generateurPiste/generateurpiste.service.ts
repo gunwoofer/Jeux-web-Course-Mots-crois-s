@@ -11,6 +11,8 @@ import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
 import { Pilote } from '../partie/Pilote';
 import { LigneArrivee } from '../partie/LigneArrivee';
+import { MusiqueService } from '../musique/musique.service';
+import { Router } from '@angular/router';
 
 export const LARGEUR_PISTE = 5;
 const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
@@ -41,9 +43,10 @@ export class GenerateurPisteService {
     private plane: THREE.Mesh;
 
     private partie: Partie;
+    private routeur: Router;
 
     constructor(private objetRandomService: ObjetRandomService, private lumiereService: LumiereService,
-        private filtreCouleurService: FiltreCouleurService) { }
+        private filtreCouleurService: FiltreCouleurService, private musiqueService: MusiqueService) { }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
@@ -59,13 +62,19 @@ export class GenerateurPisteService {
         this.commencerRendu();
     }
 
+    public ajouterRouter(routeur: Router): void {
+        this.routeur = routeur;
+    }
+
     public preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
         const segmentGeometrie: THREE.Geometry = <THREE.Geometry>this.obtenirPremierSegmentDePiste().geometry;
         const ligneArrivee: LigneArrivee = new LigneArrivee(segmentGeometrie.vertices[0],
             segmentGeometrie.vertices[1]);
 
-        this.partie = new Partie([pilote], ligneArrivee /* TOURS A COMPLETER ICI */);
+        this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique]);
+
+        this.partie.ajouterRouteur(this.routeur);
 
     }
 
@@ -185,6 +194,7 @@ export class GenerateurPisteService {
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.preparerPartie();
+
             this.partie.demarrerPartie();
             console.log(obj.children);
         });

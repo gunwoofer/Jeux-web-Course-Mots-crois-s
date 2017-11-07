@@ -2,6 +2,7 @@ import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './generateurpiste.service';
 import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-generateurpiste-component',
@@ -16,8 +17,11 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
 
     constructor(private generateurPisteService: GenerateurPisteService,
         pisteService: PisteService,
-        private musiqueService: MusiqueService
-    ) {}
+        private musiqueService: MusiqueService,
+        private router: Router
+    ) { 
+        generateurPisteService.ajouterRouter(router);
+    }
 
     public ngOnInit() {
         this.musiqueService.musique.arreterMusique();

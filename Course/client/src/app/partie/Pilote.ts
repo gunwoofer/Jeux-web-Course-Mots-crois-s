@@ -50,7 +50,7 @@ export class Pilote {
             for(const tempsDuTour of this.tempsMiliSecondsParTour) {
                 tempsTotal += tempsDuTour;
             }
-            
+
             this.voiture.supprimerObservateurs();
             console.log('TEMPS TOTAL : ' + tempsTotal + 'ms' );
         } else {

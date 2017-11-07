@@ -21,6 +21,16 @@ export class Pilotes {
 
     }
 
+    public aTermine(): boolean {
+        let termine = false;
+
+        for (const piloteCourant of this.pilotes) {
+            termine = (piloteCourant.aTermine()) ? true : termine;
+        }
+
+        return termine;
+    }
+
     public incrementerTour(voitureCourant: Voiture, tempsActuelMilisecondes: number): void {
         for (const piloteCourant of this.pilotes) {
             if (piloteCourant.estLePilote(voitureCourant)) {
