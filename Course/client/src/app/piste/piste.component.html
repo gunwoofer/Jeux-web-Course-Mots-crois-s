@@ -15,7 +15,7 @@
                 <img src="{{ piste.vignette }}" alt="">
             </div>
             <div *ngIf="score" id="score">
-                <app-tableauscore-component [temps]="piste.meilleursTemps"></app-tableauscore-component>
+                <app-tableauscore-component></app-tableauscore-component>
             </div>
 
         </div>
@@ -23,7 +23,7 @@
 
         <footer class="panel-footer">
             <div>
-                <a [routerLink]="['/generationpiste']" class="config" class="btn btn-success" (click)="commencerPartie()">
+                <a class="config" class="btn btn-success" (click)="configurationPartie()">
                     <i class="fa fa-flag-checkered" aria-hidden="true"></i>Choisir une Course
                 </a>
                 <a *ngIf="admin" [routerLink]="['/createurPiste']" class="config" class="btn btn-warning" (click)="editer()">
@@ -36,4 +36,7 @@
             </div>
         </footer>
     </div>
+</div>
+<div *ngIf="afficherConfiguration">
+    <app-configurationpartie [piste]="piste"></app-configurationpartie>
 </div>

@@ -11,5 +11,7 @@
       <option>Professionnel</option>
     </select>
     </div>
-    <button class="commencer" class="btn btn-warning">Commencer partie</button>
+    <a [routerLink]="['/generationpiste']" class="config" class="btn btn-success" (click)="commencerPartie()">
+        <i class="fa fa-flag-checkered" aria-hidden="true"></i>Commencer une partie
+    </a>
 </div>

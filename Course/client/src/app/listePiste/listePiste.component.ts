@@ -16,7 +16,8 @@ export class ListePisteComponent implements OnInit {
   public listePistes: Piste[] = [];
   public estUnAdmin: boolean;
 
-  constructor(private pisteService: PisteService, private musiqueService: MusiqueService, private utilisateurService: UtilisateurService) {}
+  constructor(private pisteService: PisteService, private musiqueService: MusiqueService,
+    private utilisateurService: UtilisateurService) { }
 
   public ngOnInit(): void {
     if (this.utilisateurService.isAdmin) {
