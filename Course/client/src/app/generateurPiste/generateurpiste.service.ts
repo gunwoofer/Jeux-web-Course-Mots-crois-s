@@ -160,12 +160,6 @@ export class GenerateurPisteService {
         }
     }
 
-    public deplacementVoiture(event): void {
-        // this.voitureDuJoueur.vitesse += 0.05;
-        // this.deplacement.deplacementVoiture(event, this.voitureDuJoueur);
-        // this.renderMiseAJour();
-    }
-
     public toucheRelachee(event): void {
         this.deplacement.toucheRelachee(event);
     }
