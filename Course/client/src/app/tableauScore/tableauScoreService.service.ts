@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 
 export class TableauScoreService {
 
+    public piste: Piste;
     public meilleurTemps: Score[];
     public debut = 0;
     public temps: string;

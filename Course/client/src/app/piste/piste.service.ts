@@ -1,3 +1,4 @@
+import { RatingService } from './../rating/rating.service';
 import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
@@ -15,10 +16,17 @@ export class PisteService {
     public pisteChoisie = new EventEmitter<Piste>();
     public tableauMeilleurTemps = new EventEmitter<Piste>();
 
-    constructor(generateurPisteService: GenerateurPisteService, private http: Http, private tableauScoreService: TableauScoreService) {
+    constructor(generateurPisteService: GenerateurPisteService, private http: Http,
+        private tableauScoreService: TableauScoreService, private ratingService: RatingService) {
 
         this.pisteChoisie.subscribe(
-            (piste: Piste) => generateurPisteService.ajouterPiste(piste)
+            (piste: Piste) => {
+                generateurPisteService.ajouterPiste(piste);
+                tableauScoreService.piste = piste;
+                ratingService.piste = piste;
+                console.log(tableauScoreService.piste);
+                console.log(ratingService.piste);
+            }
         );
     }
 
