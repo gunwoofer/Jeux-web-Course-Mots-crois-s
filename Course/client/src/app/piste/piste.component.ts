@@ -31,6 +31,7 @@ export class PisteComponent {
 
   public surClick(): void {
     this.display = !this.display;
+    this.tableauScoreService.meilleurTemps = this.piste.meilleursTemps;
   }
 
   public montrerLesScores(): void {
@@ -39,5 +40,6 @@ export class PisteComponent {
 
   public configurationPartie(): void {
     this.afficherConfiguration = !this.afficherConfiguration;
+    this.tableauScoreService.meilleurTemps = this.piste.meilleursTemps;
   }
 }
