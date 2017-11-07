@@ -1,3 +1,6 @@
+import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
+import { LumiereService } from '../dayNight/dayNight.service';
+import { ObjetRandomService } from '../ObjectRandom/objetRandom.service';
 import { Skybox } from './../skybox/skybox.model';
 import { Deplacement } from './deplacement';
 import { Segment } from './../piste/segment.model';
@@ -15,6 +18,13 @@ const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventa
 
 @Injectable()
 export class GenerateurPisteService {
+
+    private WIDTH = 5000;
+    private HEIGHT = 5000;
+    private arbrePath = '../../assets/objects/arbre/tree.json';
+    private arbreTexture = '../../assets/objects/arbre/tree.jpg';
+    private arbrePath2 = '../../assets/objects/arbre2/tree.json';
+    private arbreTexture2 = '../../assets/objects/arbre2/tree.jpg';
     private container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
@@ -27,8 +37,15 @@ export class GenerateurPisteService {
     private skybox = new Skybox();
     private segmentsPisteVisuel: THREE.Mesh[] = [];
     private piste: Piste;
+    private arbres = new THREE.Object3D();
+    private lumierHemisphere: THREE.HemisphereLight;
+    private lumiereDirectionnelle: THREE.DirectionalLight;
+    private plane: THREE.Mesh;
 
     private partie: Partie;
+
+    constructor(private objetRandomService: ObjetRandomService, private lumiereService: LumiereService,
+        private filtreCouleurService: FiltreCouleurService) { }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
@@ -36,8 +53,11 @@ export class GenerateurPisteService {
         this.creerScene();
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
+        this.creeplane();
+        this.chargerArbres();
         this.chargerVoiture();
         this.ajoutPisteAuPlan();
+        this.lumiereService.ajouterLumierScene(this.scene);
         this.commencerRendu();
     }
 
@@ -62,6 +82,15 @@ export class GenerateurPisteService {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
+    }
+
+    public creeplane(): void {
+        const geometry = new THREE.PlaneGeometry(this.WIDTH, this.HEIGHT, 32);
+        const material = new THREE.MeshPhongMaterial({ color: 'green' });
+        material.map = THREE.ImageUtils.loadTexture('../../assets/textures/grass.jpg');
+        this.plane = new THREE.Mesh(geometry, material);
+        this.plane.receiveShadow = true;
+        this.scene.add(this.plane);
     }
 
     public commencerRendu(): void {
@@ -166,5 +195,25 @@ export class GenerateurPisteService {
         if (event.key === '-' && this.camera.zoom > 1) {
             this.camera.zoom -= .5;
         }
+    }
+
+    public chargerArbres(): void {
+        this.arbres = this.objetRandomService.chargerArbre(this.arbrePath, this.arbreTexture, this.WIDTH);
+        this.scene.add(this.arbres);
+    }
+
+    public gestionEvenement(event): void {
+        if (event.keyCode === 110) {
+            this.lumiereService.modeJourNuit(event, this.scene);
+        } else if (event.keyCode === 102) {
+            this.filtreCouleurService.mettreFiltre(event, this.scene);
+        }
+    }
+    public changerModeNuit(event): void {
+        this.lumiereService.modeJourNuit(event, this.scene);
+    }
+
+    public filtreDaltonin(event): void {
+        this.filtreCouleurService.mettreFiltre(event, this.scene);
     }
 }
