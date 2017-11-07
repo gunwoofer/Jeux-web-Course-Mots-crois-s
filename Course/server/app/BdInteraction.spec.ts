@@ -113,12 +113,3 @@ describe('Test unitaire ajout dans la base de données', () => {
 });
 
 
-describe('Test unitaire qui verifie le retour dune liste de piste', () => {
-    it('retour la taille de la liste de piste quon a dans la base de donne', (fin) => {
-        modelDePiste.find().then((resultat) => {
-            chai.expect(resultat.length).equal(0);
-            fin();
-        });
-    });
-});
-

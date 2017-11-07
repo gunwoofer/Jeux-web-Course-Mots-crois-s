@@ -1,3 +1,27 @@
-<div *ngFor="let i of temps">
-    <h1>{{i}}</h1>
+<div class="col-md-8 col-md-offset-2">
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Position</th>
+                <th>Joueur</th>
+                <th>Temps</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let i of temps">
+                <th scope="row"></th>
+                <td>{{i.nom}}</td>
+                <td>{{i.valeur}}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div *ngIf="afficher">
+        <form ngNativeValidate (ngSubmit)="soummettre(f)" #f="ngForm">
+            <div class="form-group">
+                <label for="nomPiste">Veuillez Entrer votre nom</label>
+                <input type="text" class="form-control" ngModel name="nom" required>
+            </div>
+            <button class="btn btn-success" type="submit" [disabled]="!f.form.valid">Enregistrer</button>
+        </form>
+    </div>
 </div>

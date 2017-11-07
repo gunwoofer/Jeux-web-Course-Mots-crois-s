@@ -15,6 +15,6 @@ export class AccueilComponent {
   }
 
   public clickerJoueur(): void {
-    this.router.navigateByUrl('/joueur');
+    this.router.navigateByUrl('/listePiste');
   }
 }
