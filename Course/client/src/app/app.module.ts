@@ -56,7 +56,6 @@ import { AppRoutingModule } from './app.routing';
     InscriptionComponent,
     MotDepasseOublieComponent,
     ModificationMotDePasseComponent,
-    ObjetRandomComponent,
     ConfigurationPartieComponent
   ],
   imports: [
