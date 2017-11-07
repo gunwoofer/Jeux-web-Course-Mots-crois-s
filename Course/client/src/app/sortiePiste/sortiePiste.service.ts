@@ -2,7 +2,7 @@ import { Position } from './../../../../../MotsCroises/commun/Position';
 import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { Voiture } from './../voiture/voiture.service';
+import { Voiture } from './../voiture/Voiture';
 import { Piste } from '../piste/piste.model';
 
 
@@ -21,12 +21,13 @@ export class SortiePisteService {
         this.listeSegments = piste;
     }
 
-    public gererSortiePiste(voiture: THREE.Object3D): void {
-        this.estSurLaPiste(voiture);
+    public gererSortiePiste(voiture: Voiture): void {
+        this.estSurLaPiste(voiture.obtenirVoiture3D());
+        console.log(voiture.obtenirVoiture3D().position);
         if (!this.estSurPiste) {
             // Apparition sur une position arbitraire sans conflits d intersections
-            voiture.position.x = 28;
-            voiture.position.y = -21;
+            voiture.obtenirVoiture3D().position.x = 33;
+            voiture.obtenirVoiture3D().position.y = -17;
         }
     }
 

@@ -128,7 +128,7 @@ export class GenerateurPisteService {
     public renderMiseAJour(): void {
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur.obtenirVoiture3D());
+            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
     }
