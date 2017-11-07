@@ -19,7 +19,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
         pisteService: PisteService,
         private musiqueService: MusiqueService,
         private router: Router
-    ) { 
+    ) {
         generateurPisteService.ajouterRouter(router);
     }
 
@@ -42,7 +42,6 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
 
     @HostListener('document:keypress', ['$event'])
     public touchePressee(event: KeyboardEvent) {
-        this.generateurPisteService.zoom(event);
         this.generateurPisteService.deplacementVoiture(event);
         this.generateurPisteService.gestionEvenement(event);
     }

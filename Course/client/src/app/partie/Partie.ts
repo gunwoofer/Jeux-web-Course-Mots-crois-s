@@ -65,7 +65,6 @@ export class Partie implements Observateur, Sujet {
         }
 
     }
-
     public voirPageFinPartie(): void {
         this.routeur.navigateByUrl(FIN_PARTIE_URL);
     }

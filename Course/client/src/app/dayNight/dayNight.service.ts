@@ -45,7 +45,6 @@ export class LumiereService {
     }
 
     public modeJourNuit(event, scene: Scene): void {
-        console.log('on est en modeJourNuit');
         this.lumiereDirectionnelle.visible = !this.lumiereDirectionnelle.visible;
         scene.background = this.lumiereDirectionnelle.visible ? ImageUtils.loadTexture('../../assets/textures/day.jpeg') :
             ImageUtils.loadTexture('../../assets/textures/night.jpg');

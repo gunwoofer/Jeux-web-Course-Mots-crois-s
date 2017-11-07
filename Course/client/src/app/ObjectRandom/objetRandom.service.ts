@@ -3,7 +3,7 @@ import * as THREE from 'three';
 
 
 @Injectable()
-export class ObjetRandomService {
+export class ObjetService {
 
     public random(min, max): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -33,6 +33,13 @@ export class ObjetRandomService {
         });
         groupe.rotateX(Math.PI / 2);
         return groupe;
+    }
+
+    public enleverObjet(object: THREE.Object3D): void {
+        object.remove(object.getChildByName('Plane'));
+        object.remove(object.getChildByName('SpotLight'));
+        object.remove(object.getChildByName('SpotLight1'));
+        object.remove(object.getChildByName('HemisphereLight'));
     }
 }
 
