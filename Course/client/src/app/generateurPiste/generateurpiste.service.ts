@@ -1,7 +1,7 @@
 import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../dayNight/dayNight.service';
-import { ObjetService } from '../ObjectRandom/objetRandom.service';
+import { ObjetService } from '../objetService/objet.service';
 import { Skybox } from './../skybox/skybox.model';
 import { Deplacement } from './deplacement';
 import { Injectable } from '@angular/core';

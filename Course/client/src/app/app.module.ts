@@ -1,4 +1,3 @@
-import { CameraService } from './cameraService/cameraService.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -32,8 +31,9 @@ import { MessageErreurService } from './messageErreurs/messageerreur.service';
 import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
 import { UtilisateurService } from './accueil/utilisateur.service';
 import { MusiqueService } from './musique/musique.service';
-import { ObjetService } from './ObjectRandom/objetRandom.service';
 import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
+import { ObjetService } from './objetService/objet.service';
+import { CameraService } from './cameraService/cameraService.service';
 
 
 import { APP_BASE_HREF } from '@angular/common';
