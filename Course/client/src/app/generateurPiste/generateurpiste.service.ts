@@ -65,7 +65,7 @@ export class GenerateurPisteService {
         this.chargerVoiture();
         this.ajoutPisteAuPlan();
 
-        this.sortiePisteService = new SortiePisteService(Segment.chargerSegmentsDePiste(this.piste));
+        this.sortiePisteService = new SortiePisteService(this.piste.obtenirSegments3D());
         this.lumiereService.ajouterLumierScene(this.scene);
         this.commencerRendu();
     }
@@ -128,7 +128,7 @@ export class GenerateurPisteService {
     public renderMiseAJour(): void {
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voiture);
+            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur.obtenirVoiture3D());
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
     }

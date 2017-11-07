@@ -23,17 +23,16 @@ export class SortiePisteService {
 
     public gererSortiePiste(voiture: THREE.Object3D): void {
         this.estSurLaPiste(voiture);
-        // console.log(voiture);
-
-        // this.trouverPointMilieuSegment();
         if (!this.estSurPiste) {
-            voiture.position.x = 0;
-            voiture.position.y = 0;
+            // Apparition sur une position arbitraire sans conflits d intersections
+            voiture.position.x = 28;
+            voiture.position.y = -21;
         }
     }
 
 
     public estSurLaPiste(voiture: THREE.Object3D): boolean {
+        console.log(voiture);
         this.genererRayCaster(voiture);
         this.trouverPointsIntersection();
         if (this.estSurPiste) {
@@ -53,7 +52,6 @@ export class SortiePisteService {
         for (const segment of this.listeSegments) {
             if (this.rayCaster.intersectObject(segment).length !== 0) {
                vertice = segment.geometry;
-               console.log(vertice.vertices);
                 this.estSurPiste = true;
                 this.segmentOuReapparaitre = segment;
                 return;
