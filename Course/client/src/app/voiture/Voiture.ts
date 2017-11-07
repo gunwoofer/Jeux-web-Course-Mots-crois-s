@@ -8,34 +8,37 @@ export class Voiture implements sujet.Sujet {
     public vitesse = 0;
     private x: number;
     private y: number;
-    private z: number;
+    private xPrecedent: number;
+    private yPrecedemt: number;
     private longueur: number;
     private largeur: number;
     private pointMilieu: THREE.Vector3;
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;
+    public distanceParcouru = 0;
 
     constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {
         this.voiture3D = voiture3D;
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
-        this.z = this.voiture3D.position.z;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
     }
 
-    public bougerVoiture(x?: number, y?: number, z?: number) {
+    public bougerVoiture(x?: number, y?) {
+        this.xPrecedent = this.x;
+        this.yPrecedemt = this.y;
         this.x = (x !== undefined) ? x : this.x;
         this.y = (y !== undefined) ? y : this.y;
-        this.z = (z !== undefined) ? z : this.z;
+        this.pointMilieu = this.voiture3D.position;
 
-        this.mettreAJourPosiitonVoiture3D(x, y, z);
+        const distanceParcourueCourante: number = this.distanceEntreDeuxPoints(this.x, this.y, this.xPrecedent, this.yPrecedemt);
+
+        this.distanceParcouru += distanceParcourueCourante;
+        this.notifierObservateurs();
     }
 
-    private mettreAJourPosiitonVoiture3D(x?: number, y?: number, z?: number) {
-        this.voiture3D.position.x = (x !== undefined) ? x : this.x;
-        this.voiture3D.position.y = (y !== undefined) ? y : this.y;
-        this.voiture3D.position.z = (z !== undefined) ? z : this.z;
-        this.pointMilieu = this.voiture3D.position;
+    public distanceEntreDeuxPoints(x1: number, y1: number, x2: number, y2: number): number {
+        return Math.pow( Math.pow((x1 - x2), 2) + Math.pow( (y1 - y2), 2), 0.5);
     }
 
     public obtenirVoiture3D(): THREE.Object3D {
@@ -56,6 +59,10 @@ export class Voiture implements sujet.Sujet {
                 this.observateurs.splice(i, 1);
             }
         }
+    }
+
+    public supprimerObservateurs(): void {
+        this.observateurs = [];
     }
 
     public notifierObservateurs(): void {

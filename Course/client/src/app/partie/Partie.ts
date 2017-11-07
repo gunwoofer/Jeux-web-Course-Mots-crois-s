@@ -1,3 +1,4 @@
+import { Pilote } from './Pilote';
 import { Pilotes } from './Pilotes';
 import { LigneArrivee } from './LigneArrivee';
 import { Observateur } from '../../../../commun/observateur/Observateur';
@@ -6,14 +7,18 @@ import { Voiture } from '../voiture/Voiture';
 export const  NOMBRE_DE_TOURS_PAR_DEFAULT = 3;
 
 
-export class Partie implements Observateur{
+export class Partie implements Observateur {
+    public static toursAComplete = NOMBRE_DE_TOURS_PAR_DEFAULT;
+
     private pilotes: Pilotes;
-    private toursACompleter = NOMBRE_DE_TOURS_PAR_DEFAULT;
-    private tempsDepart: number;
+    private tempsDepartMilisecondes: number;
     private ligneArrivee: LigneArrivee;
 
-    constructor (pilotes: Pilotes, ligneArrivee: LigneArrivee) {
-        this.pilotes = pilotes;
+    constructor (pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number) {
+        this.pilotes = new Pilotes(pilotes);
+        Partie.toursAComplete = (toursAComplete !== undefined) ? toursAComplete : NOMBRE_DE_TOURS_PAR_DEFAULT;
+        this.ligneArrivee = ligneArrivee;
+        this.pilotes.observerVoiture(this);
     }
 
     public demarrerPartie(): void {
@@ -22,11 +27,11 @@ export class Partie implements Observateur{
     }
 
     public partirCompteur(): void {
-        this.tempsDepart = Date.now();
+        this.tempsDepartMilisecondes = Date.now();
     }
 
     public estDebute(): boolean {
-        if (this.tempsDepart === undefined) {
+        if (this.tempsDepartMilisecondes === undefined) {
             return false;
         }
 
@@ -35,10 +40,14 @@ export class Partie implements Observateur{
 
     public notifier(sujet: Sujet): void {
         // Le Sujet est une voiture.
-        const voitureCourant: Voiture = <Voiture> sujet;
+        const voitureCourante: Voiture = <Voiture> sujet;
 
-        if (this.ligneArrivee.aFranchitLigne(voitureCourant)) {
-            
+        if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
+
+            // Vérifions si la distance parcourue est raisonnable avant d'attribuer un tour de plus au pilotre.
+            if (this.pilotes.aParcourueUneDistanceRaisonnable(voitureCourante)) {
+                this.pilotes.incrementerTour(voitureCourante, Date.now() - this.tempsDepartMilisecondes);
+            }
         }
 
     }

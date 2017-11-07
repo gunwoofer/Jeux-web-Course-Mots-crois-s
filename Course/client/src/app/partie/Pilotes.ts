@@ -1,20 +1,47 @@
 import { Pilote } from './Pilote';
+import { Voiture } from '../voiture/Voiture';
+import { Observateur } from '../../../../commun/observateur/Observateur';
 
 export class Pilotes {
     private pilotes: Pilote[];
-    constructor() {
 
+    constructor(pilotes?: Pilote[]) {
+        this.pilotes = (pilotes !== undefined) ? pilotes : [];
     }
 
     public ajouterPilote(pilote: Pilote): void {
         this.pilotes.push(pilote);
     }
 
-    public demarrerMoteur() {
+    public demarrerMoteur(): void {
 
         for (const piloteCourant of this.pilotes) {
             piloteCourant.demarrerMoteur();
         }
 
+    }
+
+    public incrementerTour(voitureCourant: Voiture, tempsActuelMilisecondes: number): void {
+        for (const piloteCourant of this.pilotes) {
+            if (piloteCourant.estLePilote(voitureCourant)) {
+                piloteCourant.termineTour(tempsActuelMilisecondes);
+            }
+        }
+    }
+
+    public observerVoiture(observateur: Observateur): void {
+        for (const piloteCourant of this.pilotes) {
+            piloteCourant.observerVoiture(observateur);
+        }
+    }
+
+    public aParcourueUneDistanceRaisonnable(voitureCourant: Voiture): boolean {
+        for (const piloteCourant of this.pilotes) {
+            if (piloteCourant.estLePilote(voitureCourant)) {
+                return piloteCourant.aParcourueUneDistanceRaisonnable();
+            }
+        }
+
+        return false;
     }
 }
