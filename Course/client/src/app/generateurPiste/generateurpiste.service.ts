@@ -90,6 +90,7 @@ export class GenerateurPisteService {
         material.map = THREE.ImageUtils.loadTexture('../../assets/textures/grass.jpg');
         this.plane = new THREE.Mesh(geometry, material);
         this.plane.receiveShadow = true;
+        this.plane.position.z = -0.01;
         this.scene.add(this.plane);
     }
 
