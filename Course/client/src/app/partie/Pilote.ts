@@ -2,7 +2,7 @@ import { Voiture } from '../voiture/Voiture';
 import { Guid } from '../../../../commun/Guid';
 import { Partie, NOMBRE_DE_TOURS_PAR_DEFAULT } from '../partie/Partie';
 import { Observateur } from '../../../../commun/observateur/Observateur';
-
+import { Piste } from '../piste/piste.model';
 export const PREMIER_TOUR = 1;
 
 // Distance de la piste. À trouver.
@@ -23,7 +23,7 @@ export class Pilote {
     }
 
     public aParcourueUneDistanceRaisonnable(): boolean {
-        if ( this.voiture.distanceParcouru / DISTANCE_DE_LA_PISTE < this.tourCourant ) {
+        if ( this.voiture.distanceParcouru / Piste.longueurPiste < this.tourCourant ) {
             return false;
         }
 

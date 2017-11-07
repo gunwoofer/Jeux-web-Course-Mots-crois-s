@@ -3,7 +3,6 @@ import { LumiereService } from '../dayNight/dayNight.service';
 import { ObjetRandomService } from '../ObjectRandom/objetRandom.service';
 import { Skybox } from './../skybox/skybox.model';
 import { Deplacement } from './deplacement';
-import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
