@@ -50,7 +50,7 @@ export class GenerateurPisteService {
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
-        // this.camera.add(this.skybox.creerSkybox());
+        this.camera.add(this.skybox.creerSkybox());
         this.creeplane();
         this.chargerArbres();
         this.chargerVoiture();
@@ -174,19 +174,24 @@ export class GenerateurPisteService {
         this.deplacement.toucheRelachee(event, this.touche);
     }
 
+    public enleverObjet(object: THREE.Object3D): void {
+        object.remove(object.getChildByName('Plane'));
+        object.remove(object.getChildByName('SpotLight'));
+        object.remove(object.getChildByName('SpotLight1'));
+        object.remove(object.getChildByName('HemisphereLight'));
+    }
+
     public chargerVoiture(): void {
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
             obj.rotateX(Math.PI / 2);
             obj.name = 'Voiture';
-            obj.remove(obj.getChildByName('Plane'));
-            obj.remove(obj.getChildByName('SpotLight'));
-            obj.remove(obj.getChildByName('SpotLight1'));
+            this.enleverObjet(obj);
+            obj.receiveShadow = true;
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.preparerPartie();
             this.partie.demarrerPartie();
-            console.log(obj.children);
         });
     }
 
