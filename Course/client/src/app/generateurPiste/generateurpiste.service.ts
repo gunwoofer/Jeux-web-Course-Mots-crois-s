@@ -1,7 +1,7 @@
 import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../dayNight/dayNight.service';
-import { ObjetRandomService } from '../ObjectRandom/objetRandom.service';
+import { ObjetService } from '../ObjectRandom/objetRandom.service';
 import { Skybox } from './../skybox/skybox.model';
 import { Deplacement } from './deplacement';
 import { Injectable } from '@angular/core';
@@ -43,7 +43,7 @@ export class GenerateurPisteService {
 
     private partie: Partie;
 
-    constructor(private objetRandomService: ObjetRandomService, private lumiereService: LumiereService,
+    constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService) { }
 
     public initialisation(container: HTMLDivElement) {
@@ -144,19 +144,12 @@ export class GenerateurPisteService {
         this.deplacement.toucheRelachee(event, this.touche);
     }
 
-    public enleverObjet(object: THREE.Object3D): void {
-        object.remove(object.getChildByName('Plane'));
-        object.remove(object.getChildByName('SpotLight'));
-        object.remove(object.getChildByName('SpotLight1'));
-        object.remove(object.getChildByName('HemisphereLight'));
-    }
-
     public chargerVoiture(): void {
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
             obj.rotateX(Math.PI / 2);
             obj.name = 'Voiture';
-            this.enleverObjet(obj);
+            this.objetService.enleverObjet(obj);
             obj.receiveShadow = true;
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
@@ -165,17 +158,8 @@ export class GenerateurPisteService {
         });
     }
 
-    public zoom(event): void {
-        if (event.key === '+' && this.camera.zoom <= 5) {
-            this.camera.zoom += .5;
-        }
-        if (event.key === '-' && this.camera.zoom > 1) {
-            this.camera.zoom -= .5;
-        }
-    }
-
     public chargerArbres(): void {
-        this.arbres = this.objetRandomService.chargerArbre(this.arbrePath, this.arbreTexture, this.WIDTH);
+        this.arbres = this.objetService.chargerArbre(this.arbrePath, this.arbreTexture, this.WIDTH);
         this.scene.add(this.arbres);
     }
 
@@ -184,6 +168,8 @@ export class GenerateurPisteService {
             this.lumiereService.modeJourNuit(event, this.scene);
         } else if (event.keyCode === 102) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
+        } else if (event.key === '+' || event.key === '-') {
+            this.cameraService.zoom(event, this.camera);
         }
     }
 }

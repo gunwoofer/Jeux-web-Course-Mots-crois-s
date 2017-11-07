@@ -32,7 +32,7 @@ import { MessageErreurService } from './messageErreurs/messageerreur.service';
 import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
 import { UtilisateurService } from './accueil/utilisateur.service';
 import { MusiqueService } from './musique/musique.service';
-import { ObjetRandomService } from './ObjectRandom/objetRandom.service';
+import { ObjetService } from './ObjectRandom/objetRandom.service';
 import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
 
 
@@ -77,7 +77,7 @@ import { AppRoutingModule } from './app.routing';
     MusiqueService,
     UtilisateurService,
     FiltreCouleurService,
-    ObjetRandomService,
+    ObjetService,
     LumiereService,
     CameraService,
     { provide: APP_BASE_HREF, useValue: '/' }

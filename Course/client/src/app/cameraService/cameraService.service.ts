@@ -33,4 +33,13 @@ export class CameraService {
         }
         this.vueMiseAjour(camera, voiture);
     }
+
+    public zoom(event, camera: THREE.PerspectiveCamera): void {
+        if (event.key === '+' && camera.zoom <= 5) {
+            camera.zoom += .5;
+        }
+        if (event.key === '-' && camera.zoom > 1) {
+            camera.zoom -= .5;
+        }
+    }
 }
