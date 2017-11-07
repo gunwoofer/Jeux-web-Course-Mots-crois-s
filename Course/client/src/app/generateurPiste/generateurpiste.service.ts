@@ -26,8 +26,6 @@ export class GenerateurPisteService {
     private deplacement = new Deplacement();
     private skybox = new Skybox();
     private segmentsPisteVisuel: THREE.Mesh[] = [];
-
-    private voiture: THREE.Object3D;
     private piste: Piste;
 
     private partie: Partie;
@@ -100,20 +98,20 @@ export class GenerateurPisteService {
     }
 
     public vueMiseAjour(): void {
-        this.camera.lookAt(this.voiture.position);
+        this.camera.lookAt(this.voitureDuJoueur.obtenirVoiture3D().position);
         this.camera.updateMatrix();
         this.camera.updateProjectionMatrix();
     }
 
     public vueDessus(): void {
-        this.camera.position.y = this.voiture.position.y;
-        this.camera.position.x = this.voiture.position.x;
-        this.camera.position.z = this.voiture.position.z + 50;
+        this.camera.position.y = this.voitureDuJoueur.obtenirVoiture3D().position.y;
+        this.camera.position.x = this.voitureDuJoueur.obtenirVoiture3D().position.x;
+        this.camera.position.z = this.voitureDuJoueur.obtenirVoiture3D().position.z + 50;
     }
 
     public vueTroisiemePersonne(): void {
         let relativeCameraOffset = new THREE.Vector3(-8, 8, 0);
-        relativeCameraOffset = relativeCameraOffset.applyMatrix4(this.voiture.matrixWorld);
+        relativeCameraOffset = relativeCameraOffset.applyMatrix4(this.voitureDuJoueur.obtenirVoiture3D().matrixWorld);
         this.camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
         this.camera.up = new THREE.Vector3(0, 0, 1);
     }
