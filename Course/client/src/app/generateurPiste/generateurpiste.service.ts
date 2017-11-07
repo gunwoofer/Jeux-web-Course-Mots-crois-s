@@ -100,28 +100,27 @@ export class GenerateurPisteService {
         this.render();
     }
 
+    public changementDeVue(): void {
+        if (this.voitureDuJoueur.vueDessusTroisieme) {
+            this.vueTroisiemePersonne();
+        } else {
+            this.vueDessus();
+        }
+        this.vueMiseAjour();
+    }
+
     public render(): void {
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
-            if (this.voitureDuJoueur.vueDessusTroisieme) {
-                this.vueTroisiemePersonne();
-            } else {
-                this.vueDessus();
-            }
-            this.vueMiseAjour();
+            this.changementDeVue();
         }
     }
 
     public renderMiseAJour(): void {
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur !== undefined) {
-            if (this.voitureDuJoueur.vueDessusTroisieme) {
-                this.vueTroisiemePersonne();
-            } else {
-                this.vueDessus();
-            }
-            this.vueMiseAjour();
+            this.changementDeVue();
         }
     }
 
@@ -166,7 +165,6 @@ export class GenerateurPisteService {
         this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(),
             this.touche, this.touchePrecedente, this.voitureDuJoueur);
         this.renderMiseAJour();
-
     }
 
     public toucheRelachee(event): void {
