@@ -1,11 +1,13 @@
 import * as THREE from 'three';
 import { NgForm } from '@angular/forms';
+import { Segment } from './segment.model';
 
 export class Piste {
     public nombreFoisJouee: number;
     public coteAppreciation: number;
     public meilleursTemps: string[] = [];
     public vignette: string;
+    private segmentsPisteVisuel: THREE.Mesh[] = [];
 
     constructor(public nom: string,
         public typeCourse: string,
@@ -33,5 +35,11 @@ export class Piste {
         this.vignette = vignette;
     }
 
+    public chargerSegments(): void {
+        this.segmentsPisteVisuel = Segment.chargerSegmentsDePiste(this);
+    }
 
+    public obtenirSegments3D(): THREE.Mesh[] {
+        return this.segmentsPisteVisuel;
+    }
 }

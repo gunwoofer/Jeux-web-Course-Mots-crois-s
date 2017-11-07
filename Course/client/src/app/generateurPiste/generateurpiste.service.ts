@@ -25,7 +25,6 @@ export class GenerateurPisteService {
     private touchePrecedente: number;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
-    private segmentsPisteVisuel: THREE.Mesh[] = [];
     private piste: Piste;
 
     private partie: Partie;
@@ -52,7 +51,7 @@ export class GenerateurPisteService {
     }
 
     private obtenirPremierSegmentDePiste(): THREE.Mesh {
-        return this.segmentsPisteVisuel[1];
+        return this.piste.obtenirSegments3D()[1];
     }
 
     public ajouterPiste(piste: Piste): void {
@@ -127,10 +126,9 @@ export class GenerateurPisteService {
     }
 
     public ajoutPisteAuPlan(): void {
-        this.segmentsPisteVisuel = Segment.chargerSegmentsDePiste(this.piste);
-
-        for (let i = 0 ; i < this.segmentsPisteVisuel.length; i++) {
-            this.scene.add(this.segmentsPisteVisuel[i]);
+        this.piste.chargerSegments();
+        for (let i = 0 ; i < this.piste.obtenirSegments3D().length; i++) {
+            this.scene.add(this.piste.obtenirSegments3D()[i]);
         }
     }
 
