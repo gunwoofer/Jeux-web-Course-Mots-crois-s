@@ -1,3 +1,4 @@
+import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { Skybox } from './../skybox/skybox.model';
 import { Deplacement } from './deplacement';
 import { Segment } from './../piste/segment.model';
@@ -25,6 +26,7 @@ export class GenerateurPisteService {
     private deplacement = new Deplacement();
     private skybox = new Skybox();
     private voiture: THREE.Object3D;
+    private sortiePisteService: SortiePisteService;
 
     private piste: Piste;
 
@@ -46,6 +48,7 @@ export class GenerateurPisteService {
 
         this.ajoutPisteAuPlan();
 
+        this.sortiePisteService = new SortiePisteService(Segment.chargerSegmentsDePiste(this.piste));
         this.commencerRendu();
     }
 
@@ -81,6 +84,7 @@ export class GenerateurPisteService {
     public renderMiseAJour(): void {
         this.renderer.render(this.scene, this.camera);
         if (this.voiture !== undefined) {
+            this.sortiePisteService.gererSortiePiste(this.voiture);
             if (this.voitureService.vueDessusTroisieme) {
                 this.vueTroisiemePersonne();
             } else {
