@@ -1,5 +1,3 @@
-import { ConfigurationPartieComponent } from './configurationPartie/configurationPartie.component';
-import { LumiereService } from './dayNight/dayNight';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -19,11 +17,11 @@ import { InscriptionComponent } from './accueil/admin/inscription/inscription.co
 import { ConnexionComponent } from './accueil/admin/connexion/connexion.component';
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
 import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
-import { FiltreCouleurComponent } from './filtreCouleur/filtreCouleur.component';
-import { ObjetRandomComponent } from './ObjectRandom/objetRandom.component';
+import { ConfigurationPartieComponent } from './configurationPartie/configurationPartie.component';
 
 
 import { RenderService } from './renderService/render.service';
+import { LumiereService } from './dayNight/dayNight.service';
 import { PisteService } from './piste/piste.service';
 import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
 import { FacadeSourisService } from './facadeSouris/facadesouris.service';
@@ -58,8 +56,6 @@ import { AppRoutingModule } from './app.routing';
     InscriptionComponent,
     MotDepasseOublieComponent,
     ModificationMotDePasseComponent,
-    FiltreCouleurComponent,
-    ObjetRandomComponent,
     ConfigurationPartieComponent
   ],
   imports: [
