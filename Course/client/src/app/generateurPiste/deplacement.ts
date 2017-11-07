@@ -9,67 +9,116 @@ const changerVue = 'c';
 const rotation = 0.1;
 
 export class Deplacement {
-
     private touchePressee: string[] = new Array(3);
     private enAvant: boolean;
+    private aDroite: boolean;
+    private aGauche: boolean;
 
-    public deplacementVoiture(event, voiture3D: THREE.Object3D, voiture: Voiture): void {
+    /*
+    constructor() {
+        this.enAvant = false;
+        this.aGauche = false;
+        this.aDroite = false;
+    }
+    */
+
+    public deplacementVoiture(event, voiture: Voiture): void {
+        /*
         if (event.key === avancer) {
             console.log('TOUCHE AVANCER APPUYEE');
             this.enAvant = true;
-            /*
-            voiture3D.translateX(voiture.vitesse);
-            this.touchePressee[0] = avancer;
-            // this.touchePressee[1] = this.touchePressee[1];
-            if (this.touchePressee[1] === gauche) {
-                voiture3D.rotateY(0.01);
-                this.touchePressee[1] = this.touchePressee[0];
-                this.touchePressee[0] = gauche;
-                event.keyCode = gauche;
-            }
-            if (this.touchePressee[1] === droite) {
-                voiture3D.rotateY(-0.01);
-                this.touchePressee[1] = this.touchePressee[0];
-                this.touchePressee[0] = droite;
-            }
-            */
         }
-        if (event.key === 'a' && this.enAvant) {
+        if (event.key === avancer && this.enAvant) {
             console.log('tourne à gauche !');
-            /*
-            this.touchePressee[1] = this.touchePressee[0];
-            this.touchePressee[0] = gauche ;
-            voiture3D.rotateY(0.05);
-            if (this.touchePressee[1] === avancer) {
-                voiture3D.translateX(1);
-                this.touchePressee[1] = this.touchePressee[0];
-                this.touchePressee[0] = avancer;
-            }
-            */
+            this.aGauche = true;
         }
-        if (event.key === 'd' && this.enAvant) {
+        if (event.key === droite && this.enAvant) {
             console.log('tourne à droite !');
-            /*
-            this.touchePressee[1] = this.touchePressee[0];
-            this.touchePressee[0] = droite;
-            voiture3D.rotateY(-0.05);
-            if (this.touchePressee[1] === avancer) {
-                voiture3D.translateX(1);
-                this.touchePressee[1] = this.touchePressee[0];
-                this.touchePressee[0] = avancer;
-            }
-            */
+            this.aDroite = true;
         }
-        voiture.bougerVoiture(voiture3D.position.x, voiture3D.position.y);
+        */
     }
 
     public toucheRelachee(event): void {
         if (event.key === avancer) {
-            console.log('Freinage...');
-            console.log(this.enAvant);
-            console.log('TOUCHE AVANCER LACHEE');
             this.enAvant = false;
-            console.log(this.enAvant);
+        }
+        if (event.key === droite) {
+            this.aDroite = false;
+        }
+        if (event.key === gauche) {
+            this.aGauche = false;
+        }
+    }
+
+    private avancer(voiture: Voiture): void {
+        voiture.voiture3D.translateX(voiture.vitesse);
+        console.log(voiture.vitesse);
+        /*
+        this.touchePressee[0] = avancer;
+        this.touchePressee[1] = this.touchePressee[1];
+        if (this.touchePressee[1] === gauche) {
+            voiture3D.rotateY(0.01);
+            this.touchePressee[1] = this.touchePressee[0];
+            this.touchePressee[0] = gauche;
+            event.keyCode = gauche;
+        }
+        if (this.touchePressee[1] === droite) {
+            voiture3D.rotateY(-0.01);
+            this.touchePressee[1] = this.touchePressee[0];
+            this.touchePressee[0] = droite;
+        }
+        */
+    }
+
+    private tournerGauche(voiture: Voiture): void {
+        // this.touchePressee[1] = this.touchePressee[0];
+        // this.touchePressee[0] = gauche ;
+        voiture.voiture3D.rotateY(rotation);
+        /*
+        if (this.touchePressee[1] === avancer) {
+            voiture3D.translateX(1);
+            this.touchePressee[1] = this.touchePressee[0];
+            this.touchePressee[0] = avancer;
+        }
+        */
+    }
+
+    private tournerDroite(voiture: Voiture): void {
+        // this.touchePressee[1] = this.touchePressee[0];
+        // this.touchePressee[0] = droite;
+        voiture.voiture3D.rotateY(-rotation);
+        /*
+        if (this.touchePressee[1] === avancer) {
+            voiture3D.translateX(1);
+            this.touchePressee[1] = this.touchePressee[0];
+            this.touchePressee[0] = avancer;
+        }
+        */
+    }
+
+    public touchePesee(event): void {
+        if (event.key === avancer) {
+            this.enAvant = true;
+        }
+        if (event.key === gauche && this.enAvant) {
+            this.aGauche = true;
+        }
+        if (event.key === droite && this.enAvant) {
+            this.aDroite = true;
+        }
+    }
+
+    public moteurDeplacement(voiture: Voiture): void {
+        voiture.vitesse += 0.0005;
+        if (this.enAvant) {
+            this.avancer(voiture);
+        }
+        if (this.aDroite) {
+            this.tournerDroite(voiture);
+        }
+        if (this.aGauche) {
+            this.tournerGauche(voiture);
         }
     }
 }

@@ -44,6 +44,11 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
         this.generateurPisteService.gestionEvenement(event);
     }
 
+    @HostListener('document:keydown', ['$event'])
+    public touchePesee(event: KeyboardEvent) {
+        this.generateurPisteService.touchePesee(event);
+    }
+
     @HostListener('document:keyup', ['$event'])
     public toucheLachee(event: KeyboardEvent) {
         this.generateurPisteService.toucheRelachee(event);

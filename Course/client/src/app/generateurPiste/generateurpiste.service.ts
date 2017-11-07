@@ -109,6 +109,7 @@ export class GenerateurPisteService {
     }
 
     public render(): void {
+        this.deplacement.moteurDeplacement(this.voitureDuJoueur);
         requestAnimationFrame(() => this.render());
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
@@ -160,14 +161,18 @@ export class GenerateurPisteService {
     }
 
     public deplacementVoiture(event): void {
-        this.voitureDuJoueur.vitesse += 0.05;
-        this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(), this.voitureDuJoueur);
-        this.renderMiseAJour();
+        // this.voitureDuJoueur.vitesse += 0.05;
+        // this.deplacement.deplacementVoiture(event, this.voitureDuJoueur);
+        // this.renderMiseAJour();
     }
 
     public toucheRelachee(event): void {
-        this.voitureDuJoueur.vitesse = 0;
         this.deplacement.toucheRelachee(event);
+    }
+
+    public touchePesee(event): void {
+        this.deplacement.touchePesee(event);
+        this.renderMiseAJour();
     }
 
     public enleverObjet(object: THREE.Object3D): void {
