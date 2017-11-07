@@ -181,10 +181,14 @@ export class GenerateurPisteService {
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
             obj.rotateX(Math.PI / 2);
             obj.name = 'Voiture';
+            obj.remove(obj.getChildByName('Plane'));
+            obj.remove(obj.getChildByName('SpotLight'));
+            obj.remove(obj.getChildByName('SpotLight1'));
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.preparerPartie();
             this.partie.demarrerPartie();
+            console.log(obj.children);
         });
     }
 
