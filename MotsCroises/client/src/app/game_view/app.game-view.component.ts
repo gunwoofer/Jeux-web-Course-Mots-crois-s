@@ -33,17 +33,14 @@ export class GameViewComponent implements OnInit {
       this.infosJeuViewComponent.stopperTimer();
       this.allerAPartieTerminee();
     });
+
+    if (!this.testPartieExiste()) {
+      this.retourAccueil();
+    }
   }
 
   public ngOnInit(): void {
-    console.log(this.gameViewService);
-    console.log(this.route.params);
-    this.route.paramMap
-      .switchMap((params: ParamMap) => this.nbJoueurs = params.get('nbJoueurs'))
-      .subscribe();
-    if (!this.gameViewService.indices) {
-      this.router.navigate(['/']);
-    }
+    this.obtenirNombreDeJoueurs();
   }
 
   public actualiserGrille() {
@@ -52,6 +49,23 @@ export class GameViewComponent implements OnInit {
 
   private allerAPartieTerminee(): void {
     this.router.navigate(['/partieTerminee']);
+  }
+
+  private testPartieExiste(): boolean {
+    if (this.gameViewService.indices) {
+      return true;
+    }
+    return false;
+  }
+
+  private retourAccueil(): void{
+    this.router.navigate(['/']);
+  }
+
+  private obtenirNombreDeJoueurs(){
+    this.route.paramMap
+      .switchMap((params: ParamMap) => this.nbJoueurs = params.get('nbJoueurs'))
+      .subscribe();
   }
 
 }

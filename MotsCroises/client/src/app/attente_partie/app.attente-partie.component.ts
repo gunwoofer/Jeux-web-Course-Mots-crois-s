@@ -30,7 +30,7 @@ export class AttentePartieComponent implements OnInit {
   }
 
   public ngOnInit(): void {
-    this.gameViewService.demanderPartieServer(TypePartie.classique_a_deux);
+    // this.gameViewService.demanderPartieServer();
   }
 
   private recupererDonnesPartie(): void {

@@ -2,7 +2,6 @@ import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
 import {GameViewService} from '../game_view/game-view.service';
 import {IndiceMot} from '../indice/indiceMot';
 import {ElementRef} from '@angular/core';
-import {IndiceViewService} from '../indice/indice-view.service';
 
 export class CanvasGrille {
   private canvas: any;
@@ -11,18 +10,21 @@ export class CanvasGrille {
   private hauteurCase: number;
   private margeEffacement: number;
   private nbCases = 11;
-  private couleurNoire = '#000000';
+  private couleurNoire = '#AA3EF0';
   private couleurJoueur = '#2baa87';
   private couleurMotTrouve = '#3665aa';
   private policeLettres = '35px Arial';
   private ligneActuelle: number;
   private colonneActuelle: number;
   private specificationPartie: SpecificationPartie;
-  public couleurRouge = '#DD0000';
+  public couleurJ1 = '#DD0000';
+  public couleurJ2 = '#3366DD';
   public motEcrit = '';
   public indice: IndiceMot;
+  public indiceAdversaire: IndiceMot;
 
-  constructor(private gameViewService: GameViewService, private indiceViewService: IndiceViewService, containerRef: ElementRef) {
+
+  constructor(private gameViewService: GameViewService, containerRef: ElementRef) {
     this.obtenirCanvasJeu(containerRef);
     this.initialise();
   }
@@ -49,13 +51,20 @@ export class CanvasGrille {
       this.ecrireLettreDansCaseActive(cleMot.toUpperCase(), this.couleurJoueur);
       this.avancerCaseActive(this.indice.sens);
     }
-    this.indiceViewService.mettreAJourMotEntre(this.motEcrit);
+    this.gameViewService.mettreAJourMotEntre(this.motEcrit);
     this.validerMotEntre();
   }
 
   public miseAJourIndice(indice: IndiceMot) {
     this.motEcrit = '';
     this.indice = indice;
+    this.definirCaseActive(indice.positionI, indice.positionJ);
+    this.rafraichirCanvas();
+  }
+
+  public miseAJourIndiceAdversaire(indice: IndiceMot) {
+    this.motEcrit = '';
+    this.indiceAdversaire = indice;
     this.definirCaseActive(indice.positionI, indice.positionJ);
     this.rafraichirCanvas();
   }
@@ -111,8 +120,8 @@ export class CanvasGrille {
     this.ecrireMotsTrouves();
     this.dessinerCaseNoiresGrilleObtenueServeur();
     this.ecrireMotDansGrille(this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur);
-    this.afficherSelecteurMotSurGrille(this.indice.tailleMot, this.indice.sens,
-      this.indice.positionI, this.indice.positionJ, this.couleurRouge);
+
+    this.afficherSelecteurAdversaireSurGrille();
   }
 
   public motTrouveRafraichirCanvas() {
@@ -146,10 +155,10 @@ export class CanvasGrille {
     this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.largeurCase);
   }
 
-  public afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string) {
+  private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string, ligneDash: number = 10) {
     this.ctxCanvas.strokeStyle = couleur;
     this.ctxCanvas.lineWidth = '5';
-    this.ctxCanvas.setLineDash([10, 10]);
+    this.ctxCanvas.setLineDash([ligneDash, ligneDash]);
     this.ctxCanvas.beginPath();
     if (sens === 0) {
       this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
@@ -158,6 +167,36 @@ export class CanvasGrille {
       this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.hauteurCase * tailleMot);
       this.ctxCanvas.stroke();
     }
+  }
+
+  private afficherSelecteurAdversaireSurGrille() {
+    if (this.indiceAdversaire) {
+      this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+        this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2);
+    }
+  }
+
+  private afficherDoubleSelecteur() {
+    this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+      this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ1);
+    this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+      this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2, 20);
+  }
+
+  private gererAffichageSelecteurs() {
+    if (this.indice) {
+      this.afficherSelecteurMotSurGrille(this.indice.tailleMot, this.indice.sens,
+        this.indice.positionI, this.indice.positionJ, this.couleurJ1);
+    }
+    if (this.indiceAdversaire) {
+      this.afficherSelecteurAdversaireSurGrille();
+    } else {
+      return;
+    }
+    if (this.indice && this.indiceAdversaire && this.indice.guidIndice === this.indiceAdversaire.guidIndice) {
+      this.afficherDoubleSelecteur();
+    }
+
   }
 
   public ecrireLettreDansCaseActive(lettre: string, couleur: string) {
@@ -211,7 +250,7 @@ export class CanvasGrille {
       for (let j = 0; j < 10; j++) {
         this.ecrireLettreDansCase(
           this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirLettre(),
-          j + 1, i + 1, this.couleurRouge
+          j + 1, i + 1, this.couleurJ1
         );
       }
     }

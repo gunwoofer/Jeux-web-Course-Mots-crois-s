@@ -14,17 +14,23 @@ import {Router} from '@angular/router';
 import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/RequisDemandeListePartieEnAttente';
 import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
-import {Couleur} from '../../../../commun/Couleur';
+import {RequisPourSelectionnerMot} from '../../../../commun/requis/RequisPourSelectionnerMot';
 
 
 @Injectable()
 export class GameViewService {
-  private motTrouveJ1 = new Subject<string>();
-  public motTrouve$ = this.motTrouveJ1.asObservable();
+  private motTrouve = new Subject<string>();
+  public motTrouve$ = this.motTrouve.asObservable();
   private partieTeminee = new Subject<string>();
   public partieTeminee$ = this.partieTeminee.asObservable();
   private joueurAdverseTrouve = new Subject<string>();
   public joueurAdverseTrouve$ = this.joueurAdverseTrouve.asObservable();
+  private indiceSelectionne = new Subject<IndiceMot>();
+  public indiceSelectionne$ = this.indiceSelectionne.asObservable();
+  private indiceAdversaireSelectionne = new Subject<IndiceMot>();
+  public indiceAdversaireSelectionne$ = this.indiceSelectionne.asObservable();
+  private motEcrit = new Subject<string>();
+  public motEcrit$ = this.motEcrit.asObservable();
   private partieGeneree: SpecificationPartie;
   public indices: IndiceMot[];
   public connexionTempsReelClient: ConnexionTempsReelClient;
@@ -33,11 +39,14 @@ export class GameViewService {
   public joueur: Joueur = new Joueur();
   public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
   private indiceTeste: IndiceMot;
+  private indiceAdversaire: IndiceMot;
   private motEntre: string;
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
   private requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur;
+  private requisPourSelectionnerMot: RequisPourSelectionnerMot;
+  private emplacementMot: EmplacementMot;
 
   private listeVuePartie: VuePartieEnCours[] = new Array;
 
@@ -102,8 +111,8 @@ export class GameViewService {
   public testMotEntre(motAtester: string, indice: IndiceMot): void {
     this.indiceTeste = indice;
     this.motEntre = motAtester;
-    const emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
-    this.demanderVerificationMot(emplacementMot, motAtester);
+    this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
+    this.demanderVerificationMot(this.emplacementMot, motAtester);
   }
 
   public initialiserConnexion(): void {
@@ -118,20 +127,22 @@ export class GameViewService {
     if (this.nbJoueursPartie === 0) {
       this.demanderPartieServer();
     } else {
-      this.demanderNomJoueur();
+      if (this.demanderNomJoueur()) {
+        this.demanderPartieServer();
+      }
     }
   }
 
-  public demanderPartieServer(typePartie: TypePartie = TypePartie.classique_a_un) {
-    switch (typePartie) {
-      case TypePartie.classique_a_un :
+  public demanderPartieServer() {
+    switch (this.nbJoueursPartie) {
+      case 0 :
         this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
           this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
         break;
 
-      case TypePartie.classique_a_deux :
+      case 1 :
         this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR,
-          this.specificationPartie, requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, this.recupererPartieMultijoueur, this);
+          this.specificationPartie, requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, this.recupererPartie, this);
         this.ecouterRetourRejoindrePartieMultijoueur();
         break;
     }
@@ -161,6 +172,29 @@ export class GameViewService {
     this.connexionTempsReelClient.ecouterRequete(
       requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, this.rappelRejoindrePartieMultijoueur, this
     );
+  }
+
+  public changementSelectionMot(): void {
+    this.requisPourSelectionnerMot = new RequisPourSelectionnerMot(this.emplacementMot, this.joueur.obtenirGuid(), this.specificationPartie.guidPartie);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourSelectionnerMot>(
+      requetes.REQUETE_SERVEUR_CHANGER_EMPLACEMENT_MOT_SELECTIONNER,
+      this.requisPourSelectionnerMot, requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER,
+      this.rappelChangementSelectionIndiceAdversaire, this);
+  }
+
+  public ecouterChangementSelectionMotAdversaire<RequisPourSelectionnerMot>(): void {
+    this.connexionTempsReelClient.ecouterRequete(
+      requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, this.rappelRejoindrePartieMultijoueur, this
+    );
+  }
+
+  private rappelChangementSelectionIndiceAdversaire(requisPourSelectionnerMot: RequisPourSelectionnerMot, self: GameViewService) {
+    console.log('retour changement mot');
+    self.requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
+    self.indiceAdversaire = self.trouverIndiceMotAvecGuid(requisPourSelectionnerMot.emplacementMot.GuidIndice);
+    console.log('indice ' + self.indiceAdversaire.guidIndice + ' de valeur ' + self.indiceAdversaire.definition + 'trouvé');
+    self.mettreAJourSelectionAdversaire(self.indiceAdversaire);
+
   }
 
   public rappelRejoindrePartieMultijoueur(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur
@@ -197,10 +231,10 @@ export class GameViewService {
   public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
-    self.partieCreee();
+    self.partieCreeeRedirection();
   }
 
-  public partieCreee() {
+  public partieCreeeRedirection() {
     if (this.nbJoueursPartie === 0) {
       this.afficherPartie(this.typePartie, this.niveauPartie, this.nbJoueursPartie);
     } else {
@@ -208,19 +242,23 @@ export class GameViewService {
     }
   }
 
-  public recupererPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
+/*  public recupererPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
-  }
+  }*/
 
   public demarrerPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
     self.nbJoueursPartie = 1;
     self.connexionTempsReelClient.ecouterRequete<RequisPourMotAVerifier>
-    (requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
-    this.router.navigate(['/partie/' + self.specificationPartie.typePartie + '/' + self.specificationPartie.niveau + '/' + self.nbJoueursPartie]);
+    (requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, self.recupererVerificationMot, self);
+    self.router.navigate([self.obtenirRoutePartie()]);
     console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
+  }
+
+  public obtenirRoutePartie(): string {
+    return '/partie/' + this.specificationPartie.typePartie + '/' + this.specificationPartie.niveau + '/' + this.nbJoueursPartie;
   }
 
   public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
@@ -238,21 +276,22 @@ export class GameViewService {
       return;
     }
     if (requisPourMotAVerifier.estLeMot) {
-      //self.indiceTeste.motTrouve = self.motEntre;
-      self.motTrouveJ1.next();
-      console.log('joueurs guid ', requisPourMotAVerifier.guidJoueur, '  :', self.joueur.obtenirGuid())
+      // self.indiceTeste.motTrouve = self.motEntre;
+
+      console.log('joueurs guid ', requisPourMotAVerifier.guidJoueur, '  :', self.joueur.obtenirGuid());
       const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice);
       if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {
-        console.log("joueur 1 a trouvé");
+        console.log('joueur 1 a trouvé');
         self.joueur.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
         indiceMotTrouve.modifierCouleurMot(self.joueur.obtenirCouleur());
       } else {
-        console.log("joueur 2 a trouvé");
+        console.log('joueur 2 a trouvé');
         self.joueur2.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
         indiceMotTrouve.modifierCouleurMot(COULEUR_BLEUE);
       }
       console.log(self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice));
       indiceMotTrouve.motTrouve = requisPourMotAVerifier.motAVerifier;
+      self.motTrouve.next();
     } else if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {
       alert('Malheureusement, ce n\'est pas le bon mot.');
     }
@@ -280,15 +319,35 @@ export class GameViewService {
     }
   }
 
-  private demanderNomJoueur() {
+  private demanderNomJoueur(): boolean {
     const playerName = prompt('Please enter your name:', '');
     if (playerName !== null && playerName !== '') {
       this.joueur.changerNomJoueur(playerName);
-      this.demanderPartieServer();
+      return true;
     }
+    return false;
   }
 
   public attentePartieDeuxJoueurs() {
+
+  }
+
+  public afficherSelectionIndice(indice: IndiceMot) {
+    this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
+    this.changementSelectionMot();
+    this.indiceSelectionne.next(indice);
+  }
+
+  public mettreAJourMotEntre(motEntre: string) {
+    this.motEcrit.next(motEntre);
+  }
+
+  public mettreAJourSelectionAdversaire(indice: IndiceMot) {
+    this.indiceAdversaireSelectionne.next(indice);
+
+  }
+
+  public selectionIndice() {
 
   }
 }
