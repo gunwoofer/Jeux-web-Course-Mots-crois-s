@@ -6,88 +6,70 @@ const reculer = 's';
 const gauche = 'a';
 const droite = 'd';
 const changerVue = 'c';
-const intervalle = 0.05;
+const rotation = 0.1;
 
 export class Deplacement {
 
-    private toucheAppuyer: string[] = new Array(3);
+    private touchePressee: string[] = new Array(3);
+    private enAvant: boolean;
 
-    public deplacementVoiture(event, voiture3D: THREE.Object3D, touche: number, touchePrecedente: number, voiture: Voiture): void {
+    public deplacementVoiture(event, voiture3D: THREE.Object3D, voiture: Voiture): void {
         if (event.key === avancer) {
+            console.log('TOUCHE AVANCER APPUYEE');
+            this.enAvant = true;
+            /*
             voiture3D.translateX(voiture.vitesse);
-            this.toucheAppuyer[1] = this.toucheAppuyer[1];
-            this.toucheAppuyer[0] = avancer;
-            if (this.toucheAppuyer[1] === gauche) {
+            this.touchePressee[0] = avancer;
+            // this.touchePressee[1] = this.touchePressee[1];
+            if (this.touchePressee[1] === gauche) {
                 voiture3D.rotateY(0.01);
-                this.toucheAppuyer[1] = this.toucheAppuyer[0];
-                this.toucheAppuyer[0] = gauche;
+                this.touchePressee[1] = this.touchePressee[0];
+                this.touchePressee[0] = gauche;
                 event.keyCode = gauche;
             }
-            if (this.toucheAppuyer[1] === droite) {
+            if (this.touchePressee[1] === droite) {
                 voiture3D.rotateY(-0.01);
-                this.toucheAppuyer[1] = this.toucheAppuyer[0];
-                this.toucheAppuyer[0] = droite;
-            }
-        }
-        if (event.keyCode === gauche) {
-            /*
-            this.toucheAppuyer[1] = this.toucheAppuyer[0];
-            this.toucheAppuyer[0] = gauche ;
-            voiture3D.rotateY(0.05);
-            if (this.toucheAppuyer[1] === avancer) {
-                voiture3D.translateX(1);
-                this.toucheAppuyer[1] = this.toucheAppuyer[0];
-                this.toucheAppuyer[0] = avancer;
-            }
-            if (this.toucheAppuyer[1] === reculer) {
-                voiture3D.translateX(-1);
-                this.toucheAppuyer[1] = this.toucheAppuyer[0];
-                this.toucheAppuyer[0] = reculer;
+                this.touchePressee[1] = this.touchePressee[0];
+                this.touchePressee[0] = droite;
             }
             */
         }
-        if (event.keyCode === droite ) {
+        if (event.key === 'a' && this.enAvant) {
+            console.log('tourne à gauche !');
             /*
-            this.toucheAppuyer[1] = this.toucheAppuyer[0];
-            this.toucheAppuyer[0] = droite;
-            voiture3D.rotateY(-0.05);
-            if (this.toucheAppuyer[1] === avancer) {
+            this.touchePressee[1] = this.touchePressee[0];
+            this.touchePressee[0] = gauche ;
+            voiture3D.rotateY(0.05);
+            if (this.touchePressee[1] === avancer) {
                 voiture3D.translateX(1);
-                this.toucheAppuyer[1] = this.toucheAppuyer[0];
-                this.toucheAppuyer[0] = avancer;
+                this.touchePressee[1] = this.touchePressee[0];
+                this.touchePressee[0] = avancer;
             }
-            if (this.toucheAppuyer[1] === reculer) {
-                voiture3D.translateX(-1);
-                this.toucheAppuyer[1] = this.toucheAppuyer[0];
-                this.toucheAppuyer[0] = reculer;
+            */
+        }
+        if (event.key === 'd' && this.enAvant) {
+            console.log('tourne à droite !');
+            /*
+            this.touchePressee[1] = this.touchePressee[0];
+            this.touchePressee[0] = droite;
+            voiture3D.rotateY(-0.05);
+            if (this.touchePressee[1] === avancer) {
+                voiture3D.translateX(1);
+                this.touchePressee[1] = this.touchePressee[0];
+                this.touchePressee[0] = avancer;
             }
             */
         }
         voiture.bougerVoiture(voiture3D.position.x, voiture3D.position.y);
     }
 
-    public toucheRelachee(event, touche: number): void {
-        if (event.key === 'w' ||
-            event.key === 'a' ||
-            event.key === 's' ||
-            event.key === 'd') {
-            touche = 0;
+    public toucheRelachee(event): void {
+        if (event.key === avancer) {
+            console.log('Freinage...');
+            console.log(this.enAvant);
+            console.log('TOUCHE AVANCER LACHEE');
+            this.enAvant = false;
+            console.log(this.enAvant);
         }
     }
-
-        /*if (event.keyCode === reculer) {
-            voiture3D.translateX(-voiture.vitesse);
-            this.toucheAppuyer[1] = this.toucheAppuyer[0];
-            this.toucheAppuyer[0] = reculer;
-            if (this.toucheAppuyer[1] === gauche) {
-                voiture3D.rotateY(-0.05);
-                this.toucheAppuyer[1] = this.toucheAppuyer[0];
-                this.toucheAppuyer[0] = gauche;
-            }
-            if (this.toucheAppuyer[1] === droite) {
-                voiture3D.rotateY(0.05);
-                this.toucheAppuyer[1] = this.toucheAppuyer[0];
-                this.toucheAppuyer[0] = droite;
-            }
-        }*/
 }

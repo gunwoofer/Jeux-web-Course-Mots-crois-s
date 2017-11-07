@@ -31,7 +31,6 @@ export class GenerateurPisteService {
     private origine: THREE.Vector3;
     private voitureDuJoueur: Voiture;
     private touche: number;
-    private touchePrecedente: number;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
     private piste: Piste;
@@ -162,14 +161,13 @@ export class GenerateurPisteService {
 
     public deplacementVoiture(event): void {
         this.voitureDuJoueur.vitesse += 0.05;
-        this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(),
-            this.touche, this.touchePrecedente, this.voitureDuJoueur);
+        this.deplacement.deplacementVoiture(event, this.voitureDuJoueur.obtenirVoiture3D(), this.voitureDuJoueur);
         this.renderMiseAJour();
     }
 
     public toucheRelachee(event): void {
         this.voitureDuJoueur.vitesse = 0;
-        this.deplacement.toucheRelachee(event, this.touche);
+        this.deplacement.toucheRelachee(event);
     }
 
     public enleverObjet(object: THREE.Object3D): void {
