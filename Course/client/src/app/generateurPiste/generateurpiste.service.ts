@@ -158,6 +158,7 @@ export class GenerateurPisteService {
             obj.rotateX(Math.PI / 2);
             obj.name = 'Voiture';
             this.objetService.enleverObjet(obj);
+            this.objetService.gererPhares(obj);
             obj.receiveShadow = true;
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);

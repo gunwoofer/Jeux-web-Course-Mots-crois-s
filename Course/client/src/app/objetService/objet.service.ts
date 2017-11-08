@@ -33,10 +33,19 @@ export class ObjetService {
     }
 
     public enleverObjet(object: THREE.Object3D): void {
-        object.remove(object.getObjectByName('Plane'));
-        object.remove(object.getObjectByName('SpotLight'));
-        object.remove(object.getObjectByName('SpotLight1'));
-        object.remove(object.getObjectByName('HemisphereLight'));
+        const noms = ['Plane', 'SpotLight', 'SpotLight1', 'HemisphereLight', 'Null'];
+        for (let i = 0; i < noms.length; i++) {
+            object.remove(object.getObjectByName(noms[i]));
+        }
+    }
+
+    public gererPhares(objet: THREE.Object3D): void {
+        const noms = ['AreaLight', 'AreaLight1', 'BrakeLightLS1', 'BrakeLightLS2',
+        'BrakeLightLS3', 'BrakeLightLS4', 'BrakeLightRS1', 'BrakeLightRS2', 'BrakeLightRS3', 'BrakeLightRS4'];
+        for (let i = 0; i < noms.length; i++) {
+            objet.getChildByName(noms[i]).visible = false;
+        }
+        console.log(objet);
     }
 }
 
