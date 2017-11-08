@@ -7,7 +7,6 @@ import { Deplacement } from './deplacement';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import { Segment } from './../piste/segment.model';
 
 import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
@@ -43,19 +42,13 @@ export class GenerateurPisteService {
     private lumierHemisphere: THREE.HemisphereLight;
     private lumiereDirectionnelle: THREE.DirectionalLight;
     private plane: THREE.Mesh;
-    private segmentsPisteVisuel: THREE.Mesh[] = new Array() ;
-    private segmentsPisteVisuelZoneDepart: THREE.Mesh;
-    private segmentsPisteVisuelLigneDepart: THREE.Line;
-    private segment: Segment;
-    private distancePremiereVoitureEnX: number;
-    private distancePremiereVoitureENY: number;
 
     private partie: Partie;
     private routeur: Router;
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
-        private musiqueService: MusiqueService) { this.segment = new Segment(); }
+        private musiqueService: MusiqueService) { }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
@@ -144,18 +137,9 @@ export class GenerateurPisteService {
     }
 
     public ajoutPisteAuPlan(): void {
-        this.segmentsPisteVisuel = this.segment.chargerSegmentsDePiste(this.piste);
-        this.segmentsPisteVisuelZoneDepart = this.segment.ajoutZoneDepart(this.piste);
-        this.segmentsPisteVisuelLigneDepart = this.segment.ajoutLigneDepart(this.piste);
-
-        this.scene.add(this.segmentsPisteVisuelZoneDepart);
-        this.scene.add(this.segmentsPisteVisuelLigneDepart);
-        
-
-
-        for (let i = 0 ; i < this.segmentsPisteVisuel.length; i++) {
-            this.scene.add(this.segmentsPisteVisuel[i]);
-        
+        this.piste.chargerSegments();
+        for (let i = 0; i < this.piste.obtenirSegments3D().length; i++) {
+            this.scene.add(this.piste.obtenirSegments3D()[i]);
         }
     }
 
@@ -182,35 +166,7 @@ export class GenerateurPisteService {
             this.voitureDuJoueur = new Voiture(obj);
             this.preparerPartie();
             this.partie.demarrerPartie();
-            console.log(obj.children);
-            let premierSegment : THREE.Geometry = <THREE.Geometry> this.segmentsPisteVisuel[1].geometry; 
-        
         });
-    }
-
-    public calculPositionVoiture(premierSegment: Array<THREE.Vector3>): THREE.Vector3 {
-        
-        
-                
-        const centreSegmentGaucheX = ((premierSegment[1].x) + premierSegment[0].x)/2;  
-        const centreSegmentGaucheY = ((premierSegment[1].y+ premierSegment[0].y))/2;  
- 
-        const centreSegmentDroiteX = ((premierSegment[3].x) + premierSegment[2].x)/2;  
-        const centreSegmentDroiteY = ((premierSegment[3].y) + premierSegment[2].y)/2;  
-        const centreSegmentX = (centreSegmentGaucheX+centreSegmentDroiteX)/2;  
-        const centreSegmentY = (centreSegmentGaucheY+centreSegmentDroiteY)/2;  
-        
-        return new THREE.Vector3(centreSegmentX, centreSegmentY, 0);
-        
-    }
-
-    public zoom(event): void {
-        if (event.key === '+' && this.camera.zoom <= 5) {
-            this.camera.zoom += .5;
-        }
-        if (event.key === '-' && this.camera.zoom > 1) {
-            this.camera.zoom -= .5;
-        }
     }
 
     public chargerArbres(): void {

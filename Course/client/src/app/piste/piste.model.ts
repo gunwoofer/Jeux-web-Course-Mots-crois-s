@@ -45,7 +45,6 @@ export class Piste {
     }
 
     public chargerSegments(): void {
-        let Segment: Segment;
         this.segmentsPisteVisuel = Segment.chargerSegmentsDePiste(this);
     }
 
