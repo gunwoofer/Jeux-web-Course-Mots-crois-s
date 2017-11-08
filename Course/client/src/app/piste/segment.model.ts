@@ -44,7 +44,7 @@ export class Segment {
             const patch = new THREE.CircleBufferGeometry(LARGEUR_PISTE, 128);
             patch.translate(piste.listepositions[i].x, piste.listepositions[i].y,  piste.listepositions[i].z);
 
-            const materiel = new THREE.MeshBasicMaterial( { map: texture} );
+            const materiel = new THREE.MeshStandardMaterial( { map: texture} );
             segmentsPisteVisuel.push(new THREE.Mesh(patch, materiel));
             segmentsPisteVisuel.push(new THREE.Mesh(geometrie, materiel));
            // segmentsPisteVisuel.push(new THREE.Mesh(ligneDepart, materiel));
@@ -61,7 +61,7 @@ export class Segment {
 
         ligneArriver.scale(0.7, 0.7, 0);
         ligneArriver.translate(-8, 8, 0);
-        const materielDepart = new THREE.MeshBasicMaterial( { map: textureDepart} );
+        const materielDepart = new THREE.MeshStandardMaterial( { map: textureDepart} );
         segmentsPisteVisuel.push(new THREE.Mesh(ligneArriver, materielDepart));
 
         return segmentsPisteVisuel;
