@@ -70,4 +70,5 @@ export class Voiture implements sujet.Sujet {
             observateurCourant.notifier(this);
         }
     }
+
 }
