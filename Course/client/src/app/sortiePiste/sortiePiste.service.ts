@@ -28,6 +28,7 @@ export class SortiePisteService {
             // Apparition sur une position arbitraire sans conflits d intersections
             voiture.obtenirVoiture3D().position.x = 33;
             voiture.obtenirVoiture3D().position.y = -17;
+            voiture.obtenirVoiture3D().position.z = 0;
         }
     }
 
@@ -45,6 +46,8 @@ export class SortiePisteService {
 
     public genererRayCaster(voiture: THREE.Object3D): void {
         const directionVersLeBas = new THREE.Vector3(0, 0, -1);
+        // Le raycaster part au dessus de la piste
+        voiture.position.z = 0;
         this.rayCaster = new THREE.Raycaster(voiture.position, directionVersLeBas);
     }
 
