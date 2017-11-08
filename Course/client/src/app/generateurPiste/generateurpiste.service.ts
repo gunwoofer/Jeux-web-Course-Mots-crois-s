@@ -184,11 +184,7 @@ export class GenerateurPisteService {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         } else if (event.key === '+' || event.key === '-') {
             this.cameraService.zoom(event, this.camera);
-        }
-    }
-
-    public changervue(event): void {
-        if (event.key === CHANGER_VUE) {
+        } else if (event.key === CHANGER_VUE) {
             this.voitureDuJoueur.vueDessusTroisieme = !this.voitureDuJoueur.vueDessusTroisieme;
         }
     }
