@@ -6,4 +6,8 @@ import { Injectable } from '@angular/core';
 export class RatingService {
 
     public piste: Piste;
+    public rating: number;
+
+    public calculerLaMoyenneDeVotes(): void {
+    }
 }

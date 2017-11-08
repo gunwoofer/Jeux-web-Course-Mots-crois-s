@@ -7,7 +7,7 @@ export class Piste {
     public static longueurPiste = 0;
 
     public nombreFoisJouee: number;
-    public coteAppreciation: number;
+    public coteAppreciation: number[];
     public meilleursTemps: Score[] = [];
     public vignette: string;
     private segmentsPisteVisuel: THREE.Mesh[] = [];
@@ -18,12 +18,11 @@ export class Piste {
         public listepositions: THREE.Vector3[],
         public id?: number) {
         this.nombreFoisJouee = 0;
-        this.coteAppreciation = 0;
+        this.coteAppreciation = [];
 
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = new Score('anas', '4min 0' + i + 's');
         }
-
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
 
         Piste.longueurPiste = this.obtenirLongueurPiste();
@@ -35,8 +34,8 @@ export class Piste {
         this.listepositions = listePosition;
     }
 
-    public modifieAttribut(coteAppreciation: number, nombreFoisJouee: number, meilleursTemps: Score[], vignette: string): void {
-        this.coteAppreciation = coteAppreciation;
+    public modifieAttribut(coteAppreciation: number[], nombreFoisJouee: number, meilleursTemps: Score[], vignette: string): void {
+        this.coteAppreciation = coteAppreciation[];
         this.nombreFoisJouee = nombreFoisJouee;
         for (let i = 0; i < meilleursTemps.length; i++) {
             this.meilleursTemps[i] = new Score(meilleursTemps[i].nom, meilleursTemps[i].valeur);
