@@ -14,8 +14,7 @@ export class SortiePisteService {
     private listeSegments: THREE.Mesh[];
     private estSurPiste: boolean;
     private segmentOuReapparaitre: THREE.Mesh;
-    private pointOuReapparaitre: THREE.Vector3;
-
+    private deplacement = new Deplacement();
 
     constructor(piste: THREE.Mesh[]) {
         this.listeSegments = piste;
@@ -28,6 +27,7 @@ export class SortiePisteService {
             voiture.obtenirVoiture3D().position.x = this.trouverMilieuSegment(this.segmentOuReapparaitre).x;
             voiture.obtenirVoiture3D().position.y = this.trouverMilieuSegment(this.segmentOuReapparaitre).y;
             voiture.obtenirVoiture3D().position.z = 0;
+            voiture.vitesse = 0;
         }
     }
 
