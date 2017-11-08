@@ -59,7 +59,7 @@ export class GenerateurPisteService {
         this.creerScene();
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
-        this.creeplane();
+        this.creerPlan();
         this.chargerArbres();
         this.chargerVoiture();
         this.ajoutPisteAuPlan();
@@ -96,10 +96,18 @@ export class GenerateurPisteService {
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
     }
 
-    public creeplane(): void {
+    public creerPlan(): void {
         const geometry = new THREE.PlaneGeometry(this.WIDTH, this.HEIGHT, 32);
-        const material = new THREE.MeshPhongMaterial({ color: 'green' });
-        material.map = THREE.ImageUtils.loadTexture('../../assets/textures/grass.jpg');
+        const material = new THREE.MeshStandardMaterial();
+        const loader = new THREE.TextureLoader();
+        const texture = loader.load('../../assets/textures/grass.jpg', (txt) => {
+            txt.wrapS = THREE.RepeatWrapping;
+            txt.wrapT = THREE.RepeatWrapping;
+            txt.anisotropy = 4;
+            txt.repeat.set( 5000, 5000 );
+            material.map = txt;
+            material.needsUpdate = true;
+        });
         this.plane = new THREE.Mesh(geometry, material);
         this.plane.receiveShadow = true;
         this.plane.position.z = -0.01;
