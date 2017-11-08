@@ -4,8 +4,11 @@ import * as THREE from 'three';
 const avancer = 'w';
 const gauche = 'a';
 const droite = 'd';
-const rotation = 0.05;
+const rotation = 0.03;
 const acceleration = 0.001;
+const deceleration = 0.01;
+const vitesseMax = 0.7;
+const vitesseMin = 0.05;
 
 export class Deplacement {
     private enAvant: boolean;
@@ -19,20 +22,33 @@ export class Deplacement {
     }
 
     public moteurDeplacement(voiture: Voiture): void {
-        voiture.vitesse += acceleration;
         if (this.enAvant) {
             this.avancer(voiture);
+        } else {
+            this.freiner(voiture);
         }
-        if (this.aDroite) {
+        if (this.aDroite && voiture.vitesse > vitesseMin) {
             this.tournerDroite(voiture);
         }
-        if (this.aGauche) {
+        if (this.aGauche && voiture.vitesse > vitesseMin) {
             this.tournerGauche(voiture);
         }
     }
 
     private avancer(voiture: Voiture): void {
-        voiture.voiture3D.translateX(voiture.vitesse);
+        if (voiture.vitesse < vitesseMax) {
+            voiture.vitesse += acceleration;
+            voiture.voiture3D.translateX(voiture.vitesse);
+        }
+    }
+
+    private freiner(voiture: Voiture): void {
+        if (voiture.vitesse >= 0 + deceleration) {
+            voiture.vitesse -= deceleration;
+            voiture.voiture3D.translateX(voiture.vitesse);
+        } else {
+            voiture.vitesse = 0;
+        }
     }
 
     private tournerGauche(voiture: Voiture): void {
@@ -47,10 +63,10 @@ export class Deplacement {
         if (event.key === avancer) {
             this.enAvant = true;
         }
-        if (event.key === gauche && this.enAvant) {
+        if (event.key === gauche) {
             this.aGauche = true;
         }
-        if (event.key === droite && this.enAvant) {
+        if (event.key === droite) {
             this.aDroite = true;
         }
     }
