@@ -44,8 +44,12 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
 
     @HostListener('document:keypress', ['$event'])
     public touchePressee(event: KeyboardEvent) {
-        this.generateurPisteService.deplacementVoiture(event);
         this.generateurPisteService.gestionEvenement(event);
+    }
+
+    @HostListener('document:keydown', ['$event'])
+    public touchePesee(event: KeyboardEvent) {
+        this.generateurPisteService.touchePesee(event);
     }
 
     @HostListener('document:keyup', ['$event'])
