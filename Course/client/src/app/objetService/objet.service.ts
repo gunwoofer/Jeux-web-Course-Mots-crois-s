@@ -18,13 +18,11 @@ export class ObjetService {
     public chargerArbre(path: string, texture: string, chiffre: number): THREE.Object3D {
         const loader = new THREE.ObjectLoader();
         const groupe = new THREE.Object3D();
-        let arbre: any; let lumieres: any; let instance: any;
+        let arbre: any; let instance: any;
         const textur = new THREE.TextureLoader().load(texture);
         loader.load(path, (obj) => {
-            arbre = obj.children[1];
-            lumieres = obj.children[0];
+            arbre = obj.getObjectByName('Prunus_americana_01');
             arbre.material.map = textur;
-            groupe.add(lumieres);
             for (let i = 0; i < 10; i++) {
                 instance = arbre.clone();
                 this.genereRandomPosition(instance.position, chiffre);
