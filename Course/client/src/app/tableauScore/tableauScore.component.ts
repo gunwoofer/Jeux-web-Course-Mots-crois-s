@@ -22,6 +22,7 @@ export class TableauScoreComponent implements OnInit {
 
     public ngOnInit(): void {
         this.temps = this.tableauScoreService.piste.meilleursTemps;
+        this.tableauScoreService.cinqMeilleurTemps(this.temps);
         if (this.tableauScoreService.temps) {
             this.meilleurTemps = this.tableauScoreService.temps;
             this.afficher = true;

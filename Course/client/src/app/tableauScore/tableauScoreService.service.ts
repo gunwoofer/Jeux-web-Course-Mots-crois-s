@@ -44,14 +44,15 @@ export class TableauScoreService {
         }
     }
 
-    public cinqMeilleurTemps(): void {
-        this.piste.meilleursTemps.slice(1, 5);
-        this.donnerUnRang();
+    public cinqMeilleurTemps(temps: Score[]): void {
+        temps.slice(1, 5);
+        this.donnerUnRang(temps);
+        console.log('on est dans la fonction');
     }
 
-    public donnerUnRang(): void {
-        for (let i = 0; i < this.piste.meilleursTemps.length; i++) {
-            this.piste.meilleursTemps[i].position = i;
+    public donnerUnRang(temps: Score[]): void {
+        for (let i = 0; i < temps.length; i++) {
+            temps[i].position = i + 1;
         }
     }
 }
