@@ -60,7 +60,6 @@ export class GenerateurPisteService {
         this.creerScene();
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
-
         this.chargerArbres();
         this.chargerVoiture();
         this.ajoutPisteAuPlan();
