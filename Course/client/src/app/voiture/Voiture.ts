@@ -4,8 +4,8 @@ import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 
 export class Voiture implements sujet.Sujet {
-    private voiture3D: THREE.Object3D;
-    public vitesse = 0;
+    public voiture3D: THREE.Object3D;
+    public vitesse;
     private x: number;
     private y: number;
     private xPrecedent: number;
@@ -22,13 +22,14 @@ export class Voiture implements sujet.Sujet {
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
+        this.vitesse = 0;
     }
 
-    public bougerVoiture(x?: number, y?): void {
+    public bougerVoiture(): void {
         this.xPrecedent = this.x;
         this.yPrecedemt = this.y;
-        this.x = (x !== undefined) ? x : this.x;
-        this.y = (y !== undefined) ? y : this.y;
+        this.x = this.obtenirVoiture3D().position.x;
+        this.y = this.obtenirVoiture3D().position.y;
         this.pointMilieu = this.voiture3D.position;
 
         const distanceParcourueCourante: number = this.distanceEntreDeuxPoints(this.x, this.y, this.xPrecedent, this.yPrecedemt);

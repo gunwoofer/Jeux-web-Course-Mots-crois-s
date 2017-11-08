@@ -18,10 +18,11 @@ export class TrouverPartieComponent implements OnInit {
   public nomJoueur = '';
   public test = true;
   public partieSelectionne: VuePartieEnCours;
-  private joueur: Joueur = new Joueur();
+  private joueur: Joueur;
 
 
   constructor(private gameViewService: GameViewService) {
+    this.joueur = this.gameViewService.joueur;
   }
 
   public ngOnInit(): void {
@@ -41,9 +42,8 @@ export class TrouverPartieComponent implements OnInit {
   }
 
   public rejoindrePartie() {
-    console.log('PARTIER EN TRAIN DE REJOINDRE');
+    console.log('PARTIE EN TRAIN DE REJOINDRE');
     this.joueur.changerNomJoueur(this.nomJoueur);
-
     this.gameViewService.rejoindrePartieMultijoueur(this.partieSelectionne, this.joueur);
   }
 

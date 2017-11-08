@@ -25,9 +25,9 @@ export class Pilote {
     }
 
     public aParcourueUneDistanceRaisonnable(): boolean {
-        //if ( this.voiture.distanceParcouru / Piste.longueurPiste < this.tourCourant ) {
-            //return false;
-       /// }
+        if ( this.voiture.distanceParcouru / Piste.longueurPiste < this.tourCourant ) {
+            return false;
+       }
 
         return true;
     }

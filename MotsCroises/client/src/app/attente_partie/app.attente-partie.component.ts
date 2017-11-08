@@ -23,22 +23,27 @@ export class AttentePartieComponent implements OnInit {
 
   constructor(private gameViewService: GameViewService) {
     this.nomJoueur = this.gameViewService.joueur.obtenirNomJoueur();
+    this.recupererDonnesPartie();
+    this.gameViewService.joueurAdverseTrouve$.subscribe(() => {
+
+    });
+  }
+
+  public ngOnInit(): void {
+    // this.gameViewService.demanderPartieServer();
+  }
+
+  private recupererDonnesPartie(): void {
     this.specificationPartie = this.gameViewService.specificationPartie;
     this.niveauPartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.gameViewService.specificationPartie.niveau);
     this.difficultePartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.gameViewService.specificationPartie.typePartie);
   }
 
-  public ngOnInit(): void {
-    this.gameViewService.demanderPartieServer(TypePartie.classique_a_deux);
+  public deuxJoueursPresents() {
+    return (this.gameViewService.joueur2.obtenirNomJoueur().length === 0);
   }
 
-
-  public retournerNiveau(partie) {
-    return EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, partie.niveau);
-  }
-
-  public deuxJoueursPresents(){
-    return (this.nomJoueur2.length === 0);
+  public demarrerPartie2joueurs() {
   }
 
 }

@@ -1,19 +1,20 @@
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
-import { Grille } from './Grille';
-import { Partie } from './Partie';
-import { SpecificationPartie } from '../../commun/SpecificationPartie';
-import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
-import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelectionnerMot';
-import { SpecificationGrille } from './../../commun/SpecificationGrille';
-import { Indice } from './Indice';
-import { GestionnaireDePartieService } from './GestionnaireDePartieService';
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
-import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
-import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
-import { VuePartieEnCours } from '../../commun/VuePartieEnCours';
-import { RequisPourJoindrePartieMultijoueur } from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
-import { EtatPartie } from '../../commun/EtatPartie';
+import {Grille} from './Grille';
+import {Partie} from './Partie';
+import {SpecificationPartie} from '../../commun/SpecificationPartie';
+import {RequisPourMotAVerifier} from '../../commun/requis/RequisPourMotAVerifier';
+import {RequisPourSelectionnerMot} from '../../commun/requis/RequisPourSelectionnerMot';
+import {SpecificationGrille} from './../../commun/SpecificationGrille';
+import {Indice} from './Indice';
+import {GestionnaireDePartieService} from './GestionnaireDePartieService';
+import {GenerateurDeGrilleService} from './GenerateurDeGrilleService';
+import {RequisPourObtenirTempsRestant} from '../../commun/requis/RequisPourObtenirTempsRestant';
+import {RequisPourMotsTrouve} from '../../commun/requis/RequisPourMotsTrouve';
+import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDemandeListePartieEnAttente';
+import {VuePartieEnCours} from '../../commun/VuePartieEnCours';
+import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
+import {EtatPartie} from '../../commun/EtatPartie';
+import { Joueur } from '../../commun/Joueur';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -28,7 +29,7 @@ export class DescripteurEvenementTempsReel {
     }
 
     public creerPartieSolo(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-         generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
+                           generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
         let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
 
         specificationPartieRecu = this.preparerNouvellePartie(gestionnaireDePartieService,
@@ -41,7 +42,7 @@ export class DescripteurEvenementTempsReel {
     }
 
     public creerPartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-        generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
+                                  generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
 
         let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
 
@@ -52,19 +53,19 @@ export class DescripteurEvenementTempsReel {
     }
 
     public joindrePartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-        generateurDeGrilleService: GenerateurDeGrilleService, 
-        requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur, clients: SocketIO.Socket[]): void {
+                                    generateurDeGrilleService: GenerateurDeGrilleService,
+                                    requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur, clients: SocketIO.Socket[]): void {
+        requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
+        const partieEnAttente: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourJoindrePartieMultijoueur.guidPartie);
+        const grille: Grille = partieEnAttente.obtenirGrilleComplete();
+        partieEnAttente.ajouterJoueur(requisPourJoindrePartieMultijoueur.joueurAAjouter);
 
-            const partieEnAttente: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourJoindrePartieMultijoueur.guidPartie);
-            const grille: Grille = partieEnAttente.obtenirGrilleComplete();
-            partieEnAttente.ajouterJoueur(requisPourJoindrePartieMultijoueur.joueurAAjouter);
+        requisPourJoindrePartieMultijoueur.specificationPartie = this.preparerEtDemarrerPartieEnAttente(partieEnAttente, grille);
+        requisPourJoindrePartieMultijoueur.joueurs = partieEnAttente.obtenirJoueurs();
 
-            requisPourJoindrePartieMultijoueur.specificationPartie = this.preparerEtDemarrerPartieEnAttente(partieEnAttente, grille);
-            requisPourJoindrePartieMultijoueur.joueurs = partieEnAttente.obtenirJoueurs();
-            
-            for(const clientCourant of clients) {
-                clientCourant.emit(requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, requisPourJoindrePartieMultijoueur);
-            }
+        for (const clientCourant of clients) {
+            clientCourant.emit(requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, requisPourJoindrePartieMultijoueur);
+        }
     }
 
     public preparerEtDemarrerPartieEnAttente(partieEnAttente: Partie, grille: Grille): SpecificationPartie {
@@ -76,6 +77,7 @@ export class DescripteurEvenementTempsReel {
         specificationPartie.specificationGrilleEnCours = new SpecificationGrille(
             grille.obtenirManipulateurCasesSansLettres(), grille.obtenirEmplacementsMot());
 
+        specificationPartie.guidPartie = partieEnAttente.obtenirPartieGuid();
         partieEnAttente.demarrerPartie();
 
         return specificationPartie;
@@ -83,7 +85,7 @@ export class DescripteurEvenementTempsReel {
 
 
     public preparerNouvellePartie(gestionnaireDePartieService: GestionnaireDePartieService,
-        generateurDeGrilleService: GenerateurDeGrilleService, specificationPartieRecu: SpecificationPartie): SpecificationPartie {
+                                  generateurDeGrilleService: GenerateurDeGrilleService, specificationPartieRecu: SpecificationPartie): SpecificationPartie {
 
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(specificationPartieRecu.niveau);
         const guidPartie = gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
@@ -100,8 +102,8 @@ export class DescripteurEvenementTempsReel {
         return specificationPartieRecu;
     }
 
-    public verifierMot(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService, 
-        requisPourMotAVerifier: RequisPourMotAVerifier, clients: SocketIO.Socket[]): void {
+    public verifierMot(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
+                       requisPourMotAVerifier: RequisPourMotAVerifier, clients: SocketIO.Socket[]): void {
         requisPourMotAVerifier = RequisPourMotAVerifier.rehydrater(requisPourMotAVerifier);
         const estLeMot = gestionnaireDePartieService.estLeMot(requisPourMotAVerifier.emplacementMot.obtenirCaseDebut(),
             requisPourMotAVerifier.emplacementMot.obtenirCaseFin(), requisPourMotAVerifier.motAVerifier,
@@ -111,7 +113,7 @@ export class DescripteurEvenementTempsReel {
             requisPourMotAVerifier.validerMot();
         }
 
-        for(const clientCourant of clients) {
+        for (const clientCourant of clients) {
             clientCourant.emit(requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, requisPourMotAVerifier);
         }
 
@@ -123,8 +125,10 @@ export class DescripteurEvenementTempsReel {
         }
     }
 
-    public changerEmplacementMotSelectionner(client: SocketIO.Socket, gestionnairePartieService: GestionnaireDePartieService, 
-        clientSocket: SocketIO.Socket[], requisPourSelectionnerMot: RequisPourSelectionnerMot): void {
+    public changerEmplacementMotSelectionner(client: SocketIO.Socket, gestionnairePartieService: GestionnaireDePartieService,
+                                             clientSocket: SocketIO.Socket[], requisPourSelectionnerMot: RequisPourSelectionnerMot): void {
+        console.log('envoi');
+
         requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
 
         const partieEnCours: Partie = gestionnairePartieService.obtenirPartieEnCours(requisPourSelectionnerMot.guidPartie);
@@ -133,14 +137,16 @@ export class DescripteurEvenementTempsReel {
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
 
         for (const socketCourante of clientSocket) {
-            if (this.estUnAdversaire(client, socketCourante)) {
-                client.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
-            }
+            console.log(clientSocket.length);
+            console.log(socketCourante.client.conn.id);
+            // if (this.estUnAdversaire(client, socketCourante)) {
+            socketCourante.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
+            // }
         }
     }
 
     public obtenirTempsRestant(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-                                requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant, clients: SocketIO.Socket[]): void {
+                               requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant, clients: SocketIO.Socket[]): void {
         requisPourObtenirTempsRestant.tempsRestant = gestionnaireDePartieService
             .obtenirPartieEnCours(requisPourObtenirTempsRestant.guidPartie).obtenirTempsRestantMilisecondes();
 
@@ -152,7 +158,7 @@ export class DescripteurEvenementTempsReel {
     }
 
     public obtenirMotsTrouve(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-        requisPourMotsTrouve: RequisPourMotsTrouve, clients: SocketIO.Socket[]): void {
+                             requisPourMotsTrouve: RequisPourMotsTrouve, clients: SocketIO.Socket[]): void {
         const partie: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourMotsTrouve.guidPartie);
 
         requisPourMotsTrouve.motsTrouveSelonJoueur = partie.obtenirMotsTrouve();
@@ -161,27 +167,27 @@ export class DescripteurEvenementTempsReel {
     }
 
     public obtenirDemandeListePartiesEnCours(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-        requisDemandeListePartieEnAttente: RequisDemandeListePartieEnAttente): void {
+                                             requisDemandeListePartieEnAttente: RequisDemandeListePartieEnAttente): void {
 
         const parties: Partie[] = gestionnaireDePartieService.obtenirPartiesEnAttente();
         let vuePartieCourante: VuePartieEnCours;
 
         for (const partieCourante of parties) {
-                vuePartieCourante = new VuePartieEnCours();
-                vuePartieCourante.guidPartie = partieCourante.obtenirPartieGuid();
-                vuePartieCourante.niveau = partieCourante.obtenirNiveauGrille();
-                vuePartieCourante.nomJoueurHote = partieCourante.obtenirJoueurHote().obtenirNomJoueur();
-                requisDemandeListePartieEnAttente.listePartie.push(vuePartieCourante);
+            vuePartieCourante = new VuePartieEnCours();
+            vuePartieCourante.guidPartie = partieCourante.obtenirPartieGuid();
+            vuePartieCourante.niveau = partieCourante.obtenirNiveauGrille();
+            vuePartieCourante.nomJoueurHote = partieCourante.obtenirJoueurHote().obtenirNomJoueur();
+            requisDemandeListePartieEnAttente.listePartie.push(vuePartieCourante);
         }
 
         client.emit(requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, requisDemandeListePartieEnAttente);
     }
 
-    private verifierEtAvertirSiPartieTermine(gestionnaireDePartieService: GestionnaireDePartieService, 
-                guidPartie: string, clients: SocketIO.Socket[]) {
+    private verifierEtAvertirSiPartieTermine(gestionnaireDePartieService: GestionnaireDePartieService,
+                                             guidPartie: string, clients: SocketIO.Socket[]) {
         const partieTermine = gestionnaireDePartieService.voirSiPartieTermine(guidPartie);
         if (partieTermine) {
-            for(const clientCourant of clients) {
+            for (const clientCourant of clients) {
                 clientCourant.emit(requetes.REQUETE_CLIENT_PARTIE_TERMINE, partieTermine);
             }
             console.log('partie terminee');
