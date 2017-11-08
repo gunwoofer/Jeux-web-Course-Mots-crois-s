@@ -39,11 +39,10 @@ export class SurfaceHorsPiste {
     public estSurLaPiste(sommet: THREE.Vector3): boolean {
         this.genererRayCasterVersLeBas(sommet);
         for (const segment of this.piste) {
-            if (this.rayCaster.intersectObject(segment)) {
+            if (this.rayCaster.intersectObject(segment).length !== 0) {
                 return true;
             }
         }
-        console.log('Le point n est pas sur la piste !');
         return false;
     }
 

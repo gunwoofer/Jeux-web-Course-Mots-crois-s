@@ -64,7 +64,7 @@ export class GenerateurPisteService {
         this.ajoutPisteAuPlan();
         this.lumiereService.ajouterLumierScene(this.scene);
 
-        this.surfaceHorsPisteService = new SurfaceHorsPiste(150, 150, this.piste.obtenirSegments3D());
+        this.surfaceHorsPisteService = new SurfaceHorsPiste(1000, 1000, this.piste.obtenirSegments3D());
         const terrain = this.surfaceHorsPisteService.genererTerrain();
         terrain.translateZ(-1);
         this.scene.add(terrain);
