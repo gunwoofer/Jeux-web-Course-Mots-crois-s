@@ -14,13 +14,7 @@ export class CanvasViewComponent implements AfterViewInit {
   private canvasGrille: CanvasGrille;
 
   constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
-    this.indiceViewService.indiceSelectionneL.subscribe(indice => {
-      if (!indice) {
-        this.canvasGrille.initialise();
-        return;
-      }
-      this.canvasGrille.miseAJourIndice(indice);
-    });
+    this.souscrireEvenementIndices();
   }
 
   @ViewChild('canvasjeu')
@@ -32,11 +26,30 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.canvasGrille = new CanvasGrille(this.gameViewService, this.indiceViewService, this.containerRef);
+    this.canvasGrille = new CanvasGrille(this.gameViewService, this.containerRef);
   }
 
   public motTrouveActualiser(): void {
-    this.canvasGrille.motTrouveRafraichirCanvas();
+    if (this.canvasGrille) {
+      this.canvasGrille.motTrouveRafraichirCanvas();
+    }
+  }
+
+  private souscrireEvenementIndices() {
+    this.gameViewService.indiceSelectionne$.subscribe(indice => {
+      if (!indice) {
+        this.canvasGrille.initialise();
+        return;
+      }
+      this.canvasGrille.miseAJourIndice(indice);
+    });
+    this.gameViewService.indiceAdversaireSelectionne$.subscribe(indice => {
+      if (!indice) {
+        this.canvasGrille.initialise();
+        return;
+      }
+      this.canvasGrille.miseAJourIndiceAdversaire(indice);
+    });
   }
 
 }

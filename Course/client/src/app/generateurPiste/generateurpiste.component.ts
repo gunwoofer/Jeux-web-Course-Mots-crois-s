@@ -1,3 +1,4 @@
+import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './generateurpiste.service';
 import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
@@ -18,7 +19,8 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
     constructor(private generateurPisteService: GenerateurPisteService,
         pisteService: PisteService,
         private musiqueService: MusiqueService,
-        private router: Router
+        private router: Router,
+        private tableauScoreService: TableauScoreService
     ) {
         generateurPisteService.ajouterRouter(router);
     }
@@ -42,12 +44,21 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
 
     @HostListener('document:keypress', ['$event'])
     public touchePressee(event: KeyboardEvent) {
-        this.generateurPisteService.deplacementVoiture(event);
         this.generateurPisteService.gestionEvenement(event);
+    }
+
+    @HostListener('document:keydown', ['$event'])
+    public touchePesee(event: KeyboardEvent) {
+        this.generateurPisteService.touchePesee(event);
     }
 
     @HostListener('document:keyup', ['$event'])
     public toucheLachee(event: KeyboardEvent) {
         this.generateurPisteService.toucheRelachee(event);
+    }
+
+    public allerAFinPartie(): void {
+        this.router.navigateByUrl('/finPartie');
+        this.tableauScoreService.temps = '3min 20s';
     }
 }

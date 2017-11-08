@@ -14,7 +14,7 @@ export class EmplacementMot {
     private indexFixe: number;
     private etatEmplacementMot: EtatEmplacementMot;
     public motsImpossible: string[] = new Array();
-    private GuidIndice = '';
+    public GuidIndice = '';
     private joueurQuiASelectionnerEmplacementMot = 0;
     
     public static creerInstanceAvecJSON(): EmplacementMot {

@@ -1,3 +1,4 @@
+import { RatingService } from './../rating/rating.service';
 import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { Piste } from './piste.model';
 import { Component, Input } from '@angular/core';
@@ -11,10 +12,11 @@ import { PisteService } from './piste.service';
 })
 
 export class PisteComponent {
-    @Input() public piste: Piste;
-    @Input() public admin: boolean;
-    public display = false;
-    public score = false;
+  @Input() public piste: Piste;
+  @Input() public admin: boolean;
+  public display = false;
+  public score = false;
+  public afficherConfiguration = false;
 
   constructor(private pisteService: PisteService, private tableauScoreService: TableauScoreService) { }
 
@@ -30,14 +32,15 @@ export class PisteComponent {
 
   public surClick(): void {
     this.display = !this.display;
-    this.tableauScoreService.meilleurTemps = this.piste.meilleursTemps;
+    this.tableauScoreService.piste = this.piste;
   }
 
   public montrerLesScores(): void {
     this.score = !this.score;
   }
 
-  public commencerPartie(): void {
-    this.pisteService.commencerPartie(this.piste);
+  public configurationPartie(): void {
+    this.afficherConfiguration = !this.afficherConfiguration;
+    this.tableauScoreService.piste = this.piste;
   }
 }

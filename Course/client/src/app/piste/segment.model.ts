@@ -24,8 +24,16 @@ export class Segment {
                 }
             }
 
+            const materiel = new THREE.MeshStandardMaterial();
             const loader = new THREE.TextureLoader();
-            const texture = loader.load('../../assets/textures/paving-stone.jpg');
+            loader.load('../../assets/textures/asphalt.JPG', (txt) => {
+                txt.wrapS = THREE.RepeatWrapping;
+                txt.wrapT = THREE.RepeatWrapping;
+                txt.anisotropy = 4;
+                txt.repeat.set( 10, 10 );
+                materiel.map = txt;
+                materiel.needsUpdate = true;
+            });
             geometrie.vertices[0] = new THREE.Vector3(
                 piste.listepositions[i].x + A * LARGEUR_PISTE, piste.listepositions[i].y + B * LARGEUR_PISTE, 0);
             geometrie.vertices[1] = new THREE.Vector3(
@@ -44,7 +52,6 @@ export class Segment {
             const patch = new THREE.CircleBufferGeometry(LARGEUR_PISTE, 128);
             patch.translate(piste.listepositions[i].x, piste.listepositions[i].y,  piste.listepositions[i].z);
 
-            const materiel = new THREE.MeshBasicMaterial( { map: texture} );
             segmentsPisteVisuel.push(new THREE.Mesh(patch, materiel));
             segmentsPisteVisuel.push(new THREE.Mesh(geometrie, materiel));
            // segmentsPisteVisuel.push(new THREE.Mesh(ligneDepart, materiel));
@@ -61,7 +68,7 @@ export class Segment {
 
         ligneArriver.scale(0.7, 0.7, 0);
         ligneArriver.translate(-8, 8, 0);
-        const materielDepart = new THREE.MeshBasicMaterial( { map: textureDepart} );
+        const materielDepart = new THREE.MeshStandardMaterial( { map: textureDepart} );
         segmentsPisteVisuel.push(new THREE.Mesh(ligneArriver, materielDepart));
 
         return segmentsPisteVisuel;
