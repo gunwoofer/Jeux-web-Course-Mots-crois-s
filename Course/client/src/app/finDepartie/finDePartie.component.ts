@@ -13,9 +13,10 @@ import { Component } from '@angular/core';
 export class FinDePartieComponent {
 
 
-    constructor(private router: Router, private pisteService: PisteService) { }
+    constructor(private router: Router) { }
 
     public jouerUneNouvellePartie(): void {
+        this.router.navigateByUrl('/generationpiste');
     }
 
     public allerAuMenuPrincipale(): void {
