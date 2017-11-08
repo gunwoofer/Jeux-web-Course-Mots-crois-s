@@ -35,7 +35,7 @@ export class Piste {
     }
 
     public modifieAttribut(coteAppreciation: number[], nombreFoisJouee: number, meilleursTemps: Score[], vignette: string): void {
-        this.coteAppreciation = coteAppreciation[];
+        this.coteAppreciation = coteAppreciation;
         this.nombreFoisJouee = nombreFoisJouee;
         for (let i = 0; i < meilleursTemps.length; i++) {
             this.meilleursTemps[i] = new Score(meilleursTemps[i].nom, meilleursTemps[i].valeur);

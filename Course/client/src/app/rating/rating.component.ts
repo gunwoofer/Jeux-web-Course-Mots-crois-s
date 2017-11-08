@@ -1,5 +1,5 @@
 import { RatingService } from './rating.service';
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
 
 @Component({
@@ -8,11 +8,16 @@ import { Component } from '@angular/core';
     styleUrls: ['./rating.component.css']
 })
 
-export class RatingComponent {
+export class RatingComponent implements OnInit {
 
     public veutVoter: boolean;
+    public affichage: boolean;
 
     constructor(private ratingService: RatingService) { }
+
+    public ngOnInit(): void {
+        this.affichage = false;
+    }
 
     public rating(event): void {
         console.log(event.target.value);
