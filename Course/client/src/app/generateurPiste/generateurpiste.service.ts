@@ -15,6 +15,8 @@ import { LigneArrivee } from '../partie/LigneArrivee';
 export const LARGEUR_PISTE = 5;
 const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 const FPS = 60;
+const MODE_JOUR_NUIT = 'n';
+const MODE_FILTRE_COULEUR = 'f';
 
 @Injectable()
 export class GenerateurPisteService {
@@ -208,9 +210,9 @@ export class GenerateurPisteService {
     }
 
     public gestionEvenement(event): void {
-        if (event.keyCode === 110) {
+        if (event.key === MODE_JOUR_NUIT) {
             this.lumiereService.modeJourNuit(event, this.scene);
-        } else if (event.keyCode === 102) {
+        } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         }
     }

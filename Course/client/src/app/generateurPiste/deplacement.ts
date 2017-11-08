@@ -39,6 +39,8 @@ export class Deplacement {
         if (voiture.vitesse < vitesseMax) {
             voiture.vitesse += acceleration;
             voiture.voiture3D.translateX(voiture.vitesse);
+        } else {
+            voiture.voiture3D.translateX(vitesseMax);
         }
     }
 
