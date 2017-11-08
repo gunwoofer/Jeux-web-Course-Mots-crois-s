@@ -18,10 +18,10 @@ export class TableauScoreComponent implements OnInit {
     public meilleurTemps: string;
 
     constructor(private tableauScoreService: TableauScoreService, private router: Router) {
-        this.temps = this.tableauScoreService.meilleurTemps;
     }
 
     public ngOnInit(): void {
+        this.temps = this.tableauScoreService.piste.meilleursTemps;
         if (this.tableauScoreService.temps) {
             this.meilleurTemps = this.tableauScoreService.temps;
             this.afficher = true;
@@ -29,7 +29,6 @@ export class TableauScoreComponent implements OnInit {
     }
 
     public soummettre(f: NgForm): void {
-        console.log(f.value.nom);
         const nouveauScore = new Score(f.value.nom, this.meilleurTemps);
         this.tableauScoreService.ajouterTemps(nouveauScore);
         this.afficher = false;

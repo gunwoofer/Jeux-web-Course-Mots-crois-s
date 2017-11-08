@@ -7,15 +7,14 @@ import { Injectable } from '@angular/core';
 export class TableauScoreService {
 
     public piste: Piste;
-    public meilleurTemps: Score[];
     public debut = 0;
     public temps: string;
 
     public ajouterTemps(score: Score): void {
-        this.meilleurTemps.push(score);
-        const fin = this.meilleurTemps.length - 1;
-        this.quickSort(this.meilleurTemps, this.debut, fin);
-        console.log(this.meilleurTemps);
+        this.piste.meilleursTemps.push(score);
+        const fin = this.piste.meilleursTemps.length - 1;
+        this.quickSort(this.piste.meilleursTemps, this.debut, fin);
+        console.log(this.piste.meilleursTemps);
     }
 
     public echanger(chiffresTab: Score[], score: number, score2: number): void {
@@ -42,6 +41,17 @@ export class TableauScoreService {
             const indexPartition = this.partition(chiffresTab, debut, fin);
             this.quickSort(chiffresTab, debut, indexPartition - 1);
             this.quickSort(chiffresTab, indexPartition + 1, fin);
+        }
+    }
+
+    public cinqMeilleurTemps(): void {
+        this.piste.meilleursTemps.slice(1, 5);
+        this.donnerUnRang();
+    }
+
+    public donnerUnRang(): void {
+        for (let i = 0; i < this.piste.meilleursTemps.length; i++) {
+            this.piste.meilleursTemps[i].position = i;
         }
     }
 }
