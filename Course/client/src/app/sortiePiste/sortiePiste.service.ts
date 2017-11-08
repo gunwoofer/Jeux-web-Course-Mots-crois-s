@@ -1,10 +1,10 @@
+import { Deplacement } from './../generateurPiste/deplacement';
 import { Position } from './../../../../../MotsCroises/commun/Position';
 import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
 import { Piste } from '../piste/piste.model';
-
 
 
 @Injectable()
@@ -23,18 +23,16 @@ export class SortiePisteService {
 
     public gererSortiePiste(voiture: Voiture): void {
         this.estSurLaPiste(voiture.obtenirVoiture3D());
-        console.log(voiture.obtenirVoiture3D().position);
         if (!this.estSurPiste) {
             // Apparition sur une position arbitraire sans conflits d intersections
-            voiture.obtenirVoiture3D().position.x = 33;
-            voiture.obtenirVoiture3D().position.y = -17;
+            voiture.obtenirVoiture3D().position.x = this.trouverMilieuSegment(this.segmentOuReapparaitre).x;
+            voiture.obtenirVoiture3D().position.y = this.trouverMilieuSegment(this.segmentOuReapparaitre).y;
             voiture.obtenirVoiture3D().position.z = 0;
         }
     }
 
 
     public estSurLaPiste(voiture: THREE.Object3D): boolean {
-        console.log(voiture);
         this.genererRayCaster(voiture);
         this.trouverPointsIntersection();
         if (this.estSurPiste) {
@@ -52,10 +50,8 @@ export class SortiePisteService {
     }
 
     public trouverPointsIntersection(): void {
-        let vertice: any;
         for (const segment of this.listeSegments) {
             if (this.rayCaster.intersectObject(segment).length !== 0) {
-               vertice = segment.geometry;
                 this.estSurPiste = true;
                 this.segmentOuReapparaitre = segment;
                 return;
@@ -63,5 +59,18 @@ export class SortiePisteService {
         }
         this.estSurPiste = false;
         return;
+    }
+
+    public trouverMilieuSegment(segment: THREE.Mesh): THREE.Vector3 {
+        const milieu = new THREE.Vector3();
+        const geometry = segment.geometry;
+        geometry.computeBoundingBox();
+
+        milieu.x = (geometry.boundingBox.max.x + geometry.boundingBox.min.x) / 2;
+        milieu.y = (geometry.boundingBox.max.y + geometry.boundingBox.min.y) / 2;
+        milieu.z = (geometry.boundingBox.max.z + geometry.boundingBox.min.z) / 2;
+
+        segment.localToWorld(milieu);
+        return milieu;
     }
 }
