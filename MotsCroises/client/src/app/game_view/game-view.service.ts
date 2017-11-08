@@ -184,8 +184,13 @@ export class GameViewService {
 
   public ecouterChangementSelectionMotAdversaire<RequisPourSelectionnerMot>(): void {
     this.connexionTempsReelClient.ecouterRequete(
-      requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, this.rappelRejoindrePartieMultijoueur, this
+      requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, this.rappelChangementSelectionIndiceAdversaire, this
     );
+  }
+
+  public ecouterRetourMot<RequisPourMotAVerifier>(): void {
+    this.connexionTempsReelClient.ecouterRequete<RequisPourMotAVerifier>
+    (requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
   }
 
   private rappelChangementSelectionIndiceAdversaire(requisPourSelectionnerMot: RequisPourSelectionnerMot, self: GameViewService) {
@@ -242,19 +247,19 @@ export class GameViewService {
     }
   }
 
-/*  public recupererPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
-    self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-    console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
-  }*/
+  /*  public recupererPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
+      self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+      console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
+    }*/
 
   public demarrerPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
     self.nbJoueursPartie = 1;
-    self.connexionTempsReelClient.ecouterRequete<RequisPourMotAVerifier>
-    (requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, self.recupererVerificationMot, self);
+    self.ecouterRetourMot();
     self.router.navigate([self.obtenirRoutePartie()]);
     console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
+    self.ecouterChangementSelectionMotAdversaire();
   }
 
   public obtenirRoutePartie(): string {
