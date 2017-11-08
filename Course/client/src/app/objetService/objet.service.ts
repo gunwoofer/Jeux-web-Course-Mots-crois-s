@@ -1,6 +1,10 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
+const LUMIERES = [
+    'AreaLight', 'AreaLight1', 'SpotLight', 'SpotLight1', 'HemisphereLight',
+    'BrakeLightLS1', 'BrakeLightLS2', 'BrakeLightLS3', 'BrakeLightLS4',
+    'BrakeLightRS1', 'BrakeLightRS2', 'BrakeLightRS3', 'BrakeLightRS4'];
 
 @Injectable()
 export class ObjetService {
@@ -40,19 +44,9 @@ export class ObjetService {
     }
 
     public gererPhares(objet: THREE.Object3D): void {
-        const noms = [
-        'AreaLight', 'AreaLight1', 'SpotLight', 'SpotLight1', 'HemisphereLight',
-        'BrakeLightLS1', 'BrakeLightLS2', 'BrakeLightLS3', 'BrakeLightLS4',
-        'BrakeLightRS1', 'BrakeLightRS2', 'BrakeLightRS3', 'BrakeLightRS4'];
-        for (let i = 0; i < noms.length; i++) {
-            objet.getObjectByName(noms[i]).visible = false;
+        for (let i = 0; i < LUMIERES.length; i++) {
+            objet.getObjectByName(LUMIERES[i]).visible = false;
         }
-        /*for (let i = 5; i < 9; i++) {
-            objet.getObjectByName(noms[i]).visible = true;
-        }*/
-        // objet.getObjectByName('BrakeLightLS1').visible = true;
-        // objet.getObjectByName('BrakeLightRS1').visible = true;
-        console.log(objet);
     }
 }
 

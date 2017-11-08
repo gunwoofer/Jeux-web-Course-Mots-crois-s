@@ -174,7 +174,7 @@ export class GenerateurPisteService {
 
     public gestionEvenement(event): void {
         if (event.key === MODE_JOUR_NUIT) {
-            this.lumiereService.modeJourNuit(event, this.scene);
+            this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
         } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         } else if (event.key === '+' || event.key === '-') {
