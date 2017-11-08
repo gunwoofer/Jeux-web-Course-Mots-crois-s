@@ -1,3 +1,4 @@
+import { RatingService } from './../rating/rating.service';
 import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { Piste } from './piste.model';
 import { Component, Input } from '@angular/core';

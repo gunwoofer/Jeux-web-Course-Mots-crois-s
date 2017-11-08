@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Score } from './Score.model';
 import { TableauScoreService } from './tableauScoreService.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-tableauscore-component',
@@ -10,7 +10,7 @@ import { Component, Input, OnInit } from '@angular/core';
     styleUrls: ['./tableauScore.component.css']
 })
 
-export class TableauScoreComponent implements OnInit {
+export class TableauScoreComponent implements OnInit, OnDestroy {
 
 
     public temps: Score[];
@@ -33,6 +33,11 @@ export class TableauScoreComponent implements OnInit {
         const nouveauScore = new Score(f.value.nom, this.meilleurTemps);
         this.tableauScoreService.ajouterTemps(nouveauScore);
         this.afficher = false;
+        this.temps = this.tableauScoreService.piste.meilleursTemps;
+    }
+
+    public ngOnDestroy(): void {
+        this.temps = null;
     }
 
 }

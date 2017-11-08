@@ -22,10 +22,7 @@ export class PisteService {
         this.pisteChoisie.subscribe(
             (piste: Piste) => {
                 generateurPisteService.ajouterPiste(piste);
-                tableauScoreService.piste = piste;
                 ratingService.piste = piste;
-                console.log(ratingService.piste);
-                console.log(tableauScoreService.piste);
             }
         );
     }

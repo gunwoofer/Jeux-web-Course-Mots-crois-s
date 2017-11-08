@@ -14,7 +14,7 @@ export class TableauScoreService {
         this.piste.meilleursTemps.push(score);
         const fin = this.piste.meilleursTemps.length - 1;
         this.quickSort(this.piste.meilleursTemps, this.debut, fin);
-        console.log(this.piste.meilleursTemps);
+        this.piste.meilleursTemps = this.cinqMeilleurTemps(this.piste.meilleursTemps);
     }
 
     public echanger(chiffresTab: Score[], score: number, score2: number): void {
@@ -44,10 +44,10 @@ export class TableauScoreService {
         }
     }
 
-    public cinqMeilleurTemps(temps: Score[]): void {
-        temps.slice(1, 5);
+    public cinqMeilleurTemps(temps: Score[]): Score[] {
+        temps = temps.slice(0, 5);
         this.donnerUnRang(temps);
-        console.log('on est dans la fonction');
+        return temps;
     }
 
     public donnerUnRang(temps: Score[]): void {
