@@ -183,7 +183,7 @@ export class GameViewService {
   }
 
   public ecouterChangementSelectionMotAdversaire<RequisPourSelectionnerMot>(): void {
-    this.connexionTempsReelClient.ecouterRequete(
+    this.connexionTempsReelClient.ecouterRequete<RequisPourSelectionnerMot>(
       requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, this.rappelChangementSelectionIndiceAdversaire, this
     );
   }
