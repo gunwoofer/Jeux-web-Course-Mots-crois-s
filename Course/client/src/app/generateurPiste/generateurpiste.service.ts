@@ -110,18 +110,18 @@ export class GenerateurPisteService {
     }
 
     public render(): void {
-        this.deplacement.moteurDeplacement(this.voitureDuJoueur);
         setTimeout(() => {
             requestAnimationFrame(() => this.render());
         }, 1000 / FPS );
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
             this.changementDeVue();
+            this.deplacement.moteurDeplacement(this.voitureDuJoueur);
         }
     }
 
     public renderMiseAJour(): void {
-        // this.renderer.render(this.scene, this.camera);
+        this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur !== undefined) {
             this.changementDeVue();
         }
