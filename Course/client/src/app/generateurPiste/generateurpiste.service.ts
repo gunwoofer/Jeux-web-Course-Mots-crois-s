@@ -70,10 +70,7 @@ export class GenerateurPisteService {
 
         this.sortiePisteService = new SortiePisteService(this.piste.obtenirSegments3D());
         this.lumiereService.ajouterLumierScene(this.scene);
-
-        this.surfaceHorsPisteService = new SurfaceHorsPiste(1000, 1000, this.piste.obtenirSegments3D());
-        const terrain = this.surfaceHorsPisteService.genererTerrain();
-        this.scene.add(terrain);
+        this.genererSurfaceHorsPiste();
 
         this.commencerRendu();
     }
@@ -92,6 +89,12 @@ export class GenerateurPisteService {
 
         this.partie.ajouterRouteur(this.routeur);
 
+    }
+
+    public genererSurfaceHorsPiste(): void {
+        this.surfaceHorsPisteService = new SurfaceHorsPiste(1000, 1000, this.piste.obtenirSegments3D());
+        const terrain = this.surfaceHorsPisteService.genererTerrain();
+        this.scene.add(terrain);
     }
 
     private obtenirPremierSegmentDePiste(): THREE.Mesh {

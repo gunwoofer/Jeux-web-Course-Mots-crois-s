@@ -18,13 +18,10 @@ export class ObjetService {
     public chargerArbre(path: string, texture: string, chiffre: number): THREE.Object3D {
         const loader = new THREE.ObjectLoader();
         const groupe = new THREE.Object3D();
-        let arbre: any; let lumieres: any; let instance: any;
-        const textur = new THREE.TextureLoader().load(texture);
         loader.load(path, (obj) => {
-            arbre = obj.children[1];
-            lumieres = obj.children[0];
-            arbre.material.map = textur;
-            groupe.add(lumieres);
+            let arbre: any; let instance: any;
+            arbre = obj.getObjectByName('Prunus_americana_01');
+            arbre.material.map = new THREE.TextureLoader().load(texture);
             for (let i = 0; i < 10; i++) {
                 instance = arbre.clone();
                 this.genereRandomPosition(instance.position, chiffre);
@@ -36,10 +33,10 @@ export class ObjetService {
     }
 
     public enleverObjet(object: THREE.Object3D): void {
-        object.remove(object.getChildByName('Plane'));
-        object.remove(object.getChildByName('SpotLight'));
-        object.remove(object.getChildByName('SpotLight1'));
-        object.remove(object.getChildByName('HemisphereLight'));
+        object.remove(object.getObjectByName('Plane'));
+        object.remove(object.getObjectByName('SpotLight'));
+        object.remove(object.getObjectByName('SpotLight1'));
+        object.remove(object.getObjectByName('HemisphereLight'));
     }
 }
 
