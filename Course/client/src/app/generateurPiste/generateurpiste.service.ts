@@ -1,3 +1,4 @@
+import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
 import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../dayNight/dayNight.service';
@@ -42,7 +43,7 @@ export class GenerateurPisteService {
     private lumierHemisphere: THREE.HemisphereLight;
     private lumiereDirectionnelle: THREE.DirectionalLight;
     private plane: THREE.Mesh;
-
+    private surfaceHorsPisteService: SurfaceHorsPiste;
     private partie: Partie;
     private routeur: Router;
 
@@ -56,6 +57,12 @@ export class GenerateurPisteService {
         this.creerScene();
         this.scene.add(this.camera);
         this.camera.add(this.skybox.creerSkybox());
+
+        this.surfaceHorsPisteService = new SurfaceHorsPiste(10, 10);
+        const terrain = this.surfaceHorsPisteService.genererTerrain();
+        terrain.translateZ(-1);
+
+        this.scene.add(terrain);
         this.creeplane();
         this.chargerArbres();
         this.chargerVoiture();
