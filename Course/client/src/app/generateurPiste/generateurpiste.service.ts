@@ -1,3 +1,4 @@
+import { Segment } from './../piste/segment.model';
 import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../dayNight/dayNight.service';
@@ -45,6 +46,7 @@ export class GenerateurPisteService {
     private lumierHemisphere: THREE.HemisphereLight;
     private lumiereDirectionnelle: THREE.DirectionalLight;
     private plane: THREE.Mesh;
+    private segments: THREE.Mesh[];
 
     private partie: Partie;
     private routeur: Router;
@@ -73,7 +75,7 @@ export class GenerateurPisteService {
 
     public preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
-        const segmentGeometrie: THREE.Geometry = <THREE.Geometry>this.obtenirPremierSegmentDePiste().geometry;
+        const segmentGeometrie: THREE.Geometry = <THREE.Geometry>this.segments[1].geometry;
         const ligneArrivee: LigneArrivee = new LigneArrivee(segmentGeometrie.vertices[0],
             segmentGeometrie.vertices[1]);
 
@@ -81,10 +83,6 @@ export class GenerateurPisteService {
 
         this.partie.ajouterRouteur(this.routeur);
 
-    }
-
-    private obtenirPremierSegmentDePiste(): THREE.Mesh {
-        return this.piste.obtenirSegments3D()[1];
     }
 
     public ajouterPiste(piste: Piste): void {
@@ -117,7 +115,7 @@ export class GenerateurPisteService {
     public render(): void {
         setTimeout(() => {
             requestAnimationFrame(() => this.render());
-        }, 1000 / FPS );
+        }, 1000 / FPS);
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
@@ -143,9 +141,9 @@ export class GenerateurPisteService {
     }
 
     public ajoutPisteAuPlan(): void {
-        this.piste.chargerSegments();
-        for (let i = 0; i < this.piste.obtenirSegments3D().length; i++) {
-            this.scene.add(this.piste.obtenirSegments3D()[i]);
+        this.segments = Segment.chargerSegmentsDePiste(this.piste);
+        for (let i = 0; i < this.segments.length; i++) {
+            this.scene.add(this.segments[i]);
         }
     }
 

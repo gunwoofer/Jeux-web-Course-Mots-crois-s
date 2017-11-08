@@ -86,6 +86,31 @@ module Route {
 
             });
         }
+
+        public modifierTableauPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+            modelDePiste.findById(req.params.id, (err, piste) => {
+                if (err) {
+                    return res.status(500).json({
+                        title: 'Une erreur est survenue',
+                        error: err
+                    });
+                }
+                piste.meilleursTemps = req.body.meilleursTemps;
+                piste.save((error: any, resultat: any) => {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'une erreur est survenue lors de la modification',
+                            error: err
+                        });
+                    }
+                    res.status(200).json({
+                        message: 'Le tableau de temps est modifie',
+                        obj: resultat
+                    });
+                });
+
+            });
+        }
     }
 }
 

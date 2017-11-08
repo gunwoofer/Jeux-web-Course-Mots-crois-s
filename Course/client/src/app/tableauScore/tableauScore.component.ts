@@ -31,7 +31,9 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
 
     public soummettre(f: NgForm): void {
         const nouveauScore = new Score(f.value.nom, this.meilleurTemps);
-        this.tableauScoreService.ajouterTemps(nouveauScore);
+        this.tableauScoreService.mettreAjourTableauMeilleurTemps(nouveauScore)
+            .then(message => console.log(message))
+            .catch(erreur => console.error(erreur));
         this.afficher = false;
         this.temps = this.tableauScoreService.piste.meilleursTemps;
     }

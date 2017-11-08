@@ -33,6 +33,7 @@ export class PisteComponent {
   public surClick(): void {
     this.display = !this.display;
     this.tableauScoreService.piste = this.piste;
+    console.log(this.piste);
   }
 
   public montrerLesScores(): void {

@@ -44,14 +44,6 @@ export class Piste {
         this.vignette = vignette;
     }
 
-    public chargerSegments(): void {
-        this.segmentsPisteVisuel = Segment.chargerSegmentsDePiste(this);
-    }
-
-    public obtenirSegments3D(): THREE.Mesh[] {
-        return this.segmentsPisteVisuel;
-    }
-
     public obtenirLongueurPiste(): number {
         let distanceX: number;
         let distanceY: number;

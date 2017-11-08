@@ -1,3 +1,4 @@
+import { Http, Response } from '@angular/http';
 import { Score } from './Score.model';
 import { Piste } from '../piste/piste.model';
 import { Injectable } from '@angular/core';
@@ -10,11 +11,22 @@ export class TableauScoreService {
     public debut = 0;
     public temps: string;
 
+    constructor(private http: Http) { }
+
     public ajouterTemps(score: Score): void {
         this.piste.meilleursTemps.push(score);
         const fin = this.piste.meilleursTemps.length - 1;
         this.quickSort(this.piste.meilleursTemps, this.debut, fin);
         this.piste.meilleursTemps = this.cinqMeilleurTemps(this.piste.meilleursTemps);
+    }
+
+    public mettreAjourTableauMeilleurTemps(score: Score): Promise<JSON> {
+        this.ajouterTemps(score);
+        console.log(this.piste.id);
+        return this.http.patch('http://localhost:3000/finPartie' + this.piste.id, this.piste)
+            .toPromise()
+            .then((reponse: Response) => reponse.json())
+            .catch(this.gererErreur);
     }
 
     public echanger(chiffresTab: Score[], score: number, score2: number): void {
@@ -54,5 +66,10 @@ export class TableauScoreService {
         for (let i = 0; i < temps.length; i++) {
             temps[i].position = i + 1;
         }
+    }
+
+    private gererErreur(erreur: any): Promise<any> {
+        console.error('Une erreur est arrivé', erreur);
+        return Promise.reject(erreur.message || erreur);
     }
 }
