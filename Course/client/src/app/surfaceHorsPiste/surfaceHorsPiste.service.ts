@@ -30,8 +30,16 @@ export class SurfaceHorsPiste {
                 }
             }
         }
-        const texture = THREE.ImageUtils.loadTexture('../../assets/textures/montagnes.jpg');
-        const materiel = new THREE.MeshLambertMaterial({ map : texture });
+        const materiel = new THREE.MeshPhongMaterial();
+        const loader = new THREE.TextureLoader();
+        loader.load('../../assets/textures/texturerock.jpg', (txt) => {
+            txt.wrapS = THREE.RepeatWrapping;
+            txt.wrapT = THREE.RepeatWrapping;
+            txt.anisotropy = 4;
+            txt.repeat.set( 10, 10);
+            materiel.map = txt;
+            materiel.needsUpdate = true;
+        });
         const terrain = new THREE.Mesh(geometrie, materiel);
         return terrain;
     }
@@ -48,7 +56,6 @@ export class SurfaceHorsPiste {
 
     public genererRayCasterVersLeBas(position: THREE.Vector3): void {
         const vecteurVersLeBas = new THREE.Vector3(0, 0, -1);
-        // position.z += 1;
         this.rayCaster = new THREE.Raycaster(position, vecteurVersLeBas);
     }
 
