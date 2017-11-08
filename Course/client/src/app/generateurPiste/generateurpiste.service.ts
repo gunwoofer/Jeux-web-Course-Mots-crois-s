@@ -122,11 +122,11 @@ export class GenerateurPisteService {
         if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
+            this.renderMiseAJour();
         }
     }
 
     public renderMiseAJour(): void {
-        this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
@@ -155,7 +155,6 @@ export class GenerateurPisteService {
 
     public touchePesee(event): void {
         this.deplacement.touchePesee(event);
-        this.renderMiseAJour();
     }
 
     public chargerVoiture(): void {
