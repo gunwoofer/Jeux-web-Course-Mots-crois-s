@@ -1,3 +1,4 @@
+import { RatingComponent } from './rating/rating.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 
@@ -22,6 +23,7 @@ const APP_ROUTES: Routes = [
     { path: 'listePiste', component: ListePisteComponent },
     { path: 'createurPiste', component: CreateurPisteComponent },
     { path: 'generationpiste', component: GenerateurPisteComponent },
+    { path: 'resultatPartie', component: RatingComponent },
     { path: 'finPartie', component: FinDePartieComponent }
 ];
 

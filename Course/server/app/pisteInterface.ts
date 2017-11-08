@@ -4,6 +4,7 @@ export interface Piste {
     typeCourse: string;
     description: string;
     nombreFoisJouee: number;
+    coteMoyenne: number;
     coteAppreciation: any[];
     meilleursTemps: any[];
     listepositions: any[];

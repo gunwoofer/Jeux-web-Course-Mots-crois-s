@@ -7,6 +7,7 @@ export const pisteSchema: Schema = new Schema({
   description: { type: String, required: true },
   vignette: { type: String, required: true },
   nombreFoisJouee: { type: Number, required: true },
+  coteMoyenne: { type: Number, required: false },
   coteAppreciation: { type: [], required: false },
   meilleursTemps: { type: [], required: true },
   listepositions: { type: [], required: true },

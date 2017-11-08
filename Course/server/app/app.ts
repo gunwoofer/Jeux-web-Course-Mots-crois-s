@@ -94,6 +94,7 @@ export class Application {
     // pistes
     router.patch('/createurPiste:id', index.modifierPiste.bind(index.modifierPiste));
     router.patch('/finPartie:id', index.modifierTableauPiste.bind(index.modifierTableauPiste));
+    router.patch('/resultatPartie:id', index.modifierRating.bind(index.modifierRating));
     router.delete('/listePiste:id', index.supprimerPiste.bind(index.supprimerPiste));
     router.get('/listePiste', index.retournerPiste.bind(index.retournerPiste));
     // createur de piste

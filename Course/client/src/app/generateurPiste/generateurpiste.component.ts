@@ -57,8 +57,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
         this.generateurPisteService.toucheRelachee(event);
     }
 
-    public allerAFinPartie(): void {
-        this.router.navigateByUrl('/finPartie');
-        this.tableauScoreService.temps = '3min 20s';
+    public allerTableauDeResultats(): void {
+        this.router.navigateByUrl('/resultatPartie');
     }
 }

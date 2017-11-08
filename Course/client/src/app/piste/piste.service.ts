@@ -45,6 +45,7 @@ export class PisteService {
                 for (const piste of pistes) {
                     const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
                     pist.modifieAttribut(piste.coteAppreciation, piste.nombreFoisJouee, piste.meilleursTemps, piste.vignette);
+                    pist.calculerLaMoyenneDeVotes(piste.coteAppreciation);
                     pisteTemporaire.push(pist);
                 }
                 this.pistes = pisteTemporaire;

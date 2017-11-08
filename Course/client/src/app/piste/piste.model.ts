@@ -9,6 +9,7 @@ export class Piste {
     public nombreFoisJouee: number;
     public coteAppreciation: number[];
     public meilleursTemps: Score[] = [];
+    public coteMoyenne: number;
     public vignette: string;
     private segmentsPisteVisuel: THREE.Mesh[] = [];
 
@@ -19,6 +20,7 @@ export class Piste {
         public id?: number) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = [];
+        this.coteMoyenne = 0;
 
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = new Score('anas', '4min 0' + i + 's');
@@ -54,7 +56,20 @@ export class Piste {
 
             distanceTotale += Math.pow(Math.pow(distanceX, 2) + Math.pow(distanceY, 2), 0.5);
         }
-
         return distanceTotale;
+    }
+
+    public calculerLaMoyenneDeVotes(coteAppreciation: number[]): void {
+        let chiffre = 0; let somme = 0;
+        if (coteAppreciation.length === 0) {
+            this.coteMoyenne = 0;
+            return;
+        } else {
+            for (let i = 0; i < coteAppreciation.length; i++) {
+                chiffre = coteAppreciation[i];
+                somme += +chiffre;
+            }
+            this.coteMoyenne = somme / coteAppreciation.length;
+        }
     }
 }
