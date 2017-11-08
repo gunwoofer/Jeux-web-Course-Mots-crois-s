@@ -14,6 +14,7 @@ import { LigneArrivee } from '../partie/LigneArrivee';
 
 export const LARGEUR_PISTE = 5;
 const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
+const FPS = 60;
 
 @Injectable()
 export class GenerateurPisteService {
@@ -110,7 +111,9 @@ export class GenerateurPisteService {
 
     public render(): void {
         this.deplacement.moteurDeplacement(this.voitureDuJoueur);
-        requestAnimationFrame(() => this.render());
+        setTimeout(() => {
+            requestAnimationFrame(() => this.render());
+        }, 1000 / FPS );
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
             this.changementDeVue();
@@ -118,7 +121,7 @@ export class GenerateurPisteService {
     }
 
     public renderMiseAJour(): void {
-        this.renderer.render(this.scene, this.camera);
+        // this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur !== undefined) {
             this.changementDeVue();
         }
