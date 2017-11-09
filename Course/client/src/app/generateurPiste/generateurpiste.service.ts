@@ -15,17 +15,24 @@ import { Partie } from '../partie/Partie';
 import { Pilote } from '../partie/Pilote';
 import { LigneArrivee } from '../partie/LigneArrivee';
 import { MusiqueService } from '../musique/musique.service';
+import { DUREE_STINGER } from '../musique/musique.model';
 import { Router } from '@angular/router';
+import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
+import { Observateur } from '../../../../commun/observateur/Observateur';
+import { EtatPartie } from '../partie/Partie';
+import { Sujet } from '../../../../commun/observateur/Sujet';
 
 export const LARGEUR_PISTE = 5;
 const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
-const FPS = 60;
+export const FIN_PARTIE_URL = '/finPartie';
+export const DUREE_STINGER_MILISECONDES = DUREE_STINGER * Math.pow(10, 3);
+const FPS = 15;
 const MODE_JOUR_NUIT = 'n';
 const MODE_FILTRE_COULEUR = 'f';
 const CHANGER_VUE = 'c';
 
 @Injectable()
-export class GenerateurPisteService {
+export class GenerateurPisteService implements Observateur {
 
     private WIDTH = 5000;
     private HEIGHT = 5000;
@@ -56,7 +63,8 @@ export class GenerateurPisteService {
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
-        private musiqueService: MusiqueService) { }
+        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService) {
+         }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
@@ -85,8 +93,9 @@ export class GenerateurPisteService {
         const ligneArrivee: LigneArrivee = new LigneArrivee(segmentGeometrie.vertices[0],
             segmentGeometrie.vertices[1]);
 
-        this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique]);
-
+        this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique, this]);
+        
+        this.voitureDuJoueur.ajouterObservateur(this.partie);                                                                                                                                                                                                                                                                                                           
         this.partie.ajouterRouteur(this.routeur);
 
     }
@@ -191,5 +200,17 @@ export class GenerateurPisteService {
         } else if (event.key === CHANGER_VUE) {
             this.voitureDuJoueur.vueDessusTroisieme = !this.voitureDuJoueur.vueDessusTroisieme;
         }
+    }
+
+
+    public notifier(sujet: Sujet): void {
+        if (this.partie.etatPartie === EtatPartie.Termine) {
+            setInterval(this.voirPageFinPartie(), DUREE_STINGER_MILISECONDES);
+        }
+    }
+
+    public voirPageFinPartie(): void {
+        this.tableauScoreService.temps = (Pilote.tempsTotal / 1000).toString();
+        this.routeur.navigateByUrl(FIN_PARTIE_URL);
     }
 }

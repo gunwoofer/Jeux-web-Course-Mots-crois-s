@@ -8,12 +8,18 @@ import { Router } from '@angular/router';
 import { DUREE_STINGER } from '../musique/musique.model';
 
 export const  NOMBRE_DE_TOURS_PAR_DEFAULT = 3;
-export const FIN_PARTIE_URL = '/finPartie';
-export const DUREE_STINGER_MILISECONDES = DUREE_STINGER * 1000;
+
+export enum EtatPartie {
+    En_attente,
+    En_cours,
+    Termine
+}
 
 
 export class Partie implements Observateur, Sujet {
     public static toursAComplete = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public etatPartie: EtatPartie = EtatPartie.En_attente;
+
     public observateurs: Observateur[];
 
     private pilotes: Pilotes;
@@ -33,6 +39,7 @@ export class Partie implements Observateur, Sujet {
         this.pilotes.demarrerMoteur();
         this.partirCompteur();
         this.notifierObservateurs();
+        this.etatPartie = EtatPartie.En_cours;
     }
 
     public partirCompteur(): void {
@@ -58,15 +65,12 @@ export class Partie implements Observateur, Sujet {
                 this.pilotes.incrementerTour(voitureCourante, Date.now() - this.tempsDepartMilisecondes);
 
                 if (this.pilotes.aTermine()) {
+                    this.etatPartie = EtatPartie.Termine;
                     this.notifierObservateurs();
-                    setInterval(this.voirPageFinPartie(), DUREE_STINGER_MILISECONDES);
                 }
             }
         }
 
-    }
-    public voirPageFinPartie(): void {
-        this.routeur.navigateByUrl(FIN_PARTIE_URL);
     }
 
     public ajouterRouteur(routeur: Router): void {

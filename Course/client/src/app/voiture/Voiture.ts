@@ -25,11 +25,11 @@ export class Voiture implements sujet.Sujet {
         this.vitesse = 0;
     }
 
-    public bougerVoiture(x?: number, y?): void {
+    public bougerVoiture(): void {
         this.xPrecedent = this.x;
         this.yPrecedemt = this.y;
-        this.x = (x !== undefined) ? x : this.x;
-        this.y = (y !== undefined) ? y : this.y;
+        this.x = this.obtenirVoiture3D().position.x;
+        this.y = this.obtenirVoiture3D().position.y;
         this.pointMilieu = this.voiture3D.position;
 
         const distanceParcourueCourante: number = this.distanceEntreDeuxPoints(this.x, this.y, this.xPrecedent, this.yPrecedemt);

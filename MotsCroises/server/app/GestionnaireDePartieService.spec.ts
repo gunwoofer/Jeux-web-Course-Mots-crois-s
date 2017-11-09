@@ -202,7 +202,7 @@ describe('GestionnaireDePartieService', () => {
 
     it('Une partie solo en cours se termine lorsque tous les mots sont trouvés.', (done) => {
         const joueur: Joueur = new Joueur();
-        const typePartie: TypePartie = TypePartie.dynamique_a_un;
+        const typePartie: TypePartie = TypePartie.classique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
@@ -211,7 +211,6 @@ describe('GestionnaireDePartieService', () => {
         guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
         const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
 
-        // Le « -1 » est pour qu'il ne manque qu'un mot à trouver.
         let casesEmplacementMot: Case[];
         let emplacementMot: EmplacementMot;
         let caseDebut: Case;
@@ -231,7 +230,7 @@ describe('GestionnaireDePartieService', () => {
 
             for (const caseCourante of casesEmplacementMot) {
                 motAVerifier += caseCourante.obtenirLettre();
-            }
+            }   
 
             assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
 

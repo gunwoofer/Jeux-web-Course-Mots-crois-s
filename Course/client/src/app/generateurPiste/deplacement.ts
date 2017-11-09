@@ -33,6 +33,8 @@ export class Deplacement {
         if (this.aGauche && voiture.vitesse > vitesseMin) {
             this.tournerGauche(voiture);
         }
+
+        voiture.bougerVoiture();
     }
 
     private avancer(voiture: Voiture): void {
