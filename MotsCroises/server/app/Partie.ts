@@ -77,9 +77,9 @@ export class Partie {
         const emplacementMotAChercher: EmplacementMot = this.grille.obtenirEmplacementMot(caseDebut, caseFin);
 
         if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
-            //joueur = this.obtenirJoueur(guidJoueur);
+            joueur = this.obtenirJoueur(guidJoueur);
 
-            //joueur.aTrouveMot(emplacementMotAChercher, motAVerifier);
+            joueur.aTrouveMot(emplacementMotAChercher, motAVerifier);
 
             return true;
         }
@@ -145,9 +145,8 @@ export class Partie {
         let totalPointage = 0;
 
         for (const joueur of this.joueurs) {
-            // totalPointage += joueur.obtenirPointage();
+            totalPointage += joueur.obtenirPointage();
         }
-
         if (totalPointage >= this.grille.obtenirEmplacementsMot().length) {
             return true;
         }

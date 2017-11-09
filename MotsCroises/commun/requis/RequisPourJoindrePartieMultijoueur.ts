@@ -17,17 +17,23 @@ export class RequisPourJoindrePartieMultijoueur {
         let joueur: Joueur;
         let joueurs: Joueur[] = new Array();
 
-        for(let joueurCourant of sourceVraie.joueurs) {
-            joueur = new Joueur();
-            Object.assign(joueur, joueurCourant);
-            joueurs.push(joueur);
+        // Lorsque le joueur veut joindre une partie, le client n'envoie pas cette valeur.
+        if (sourceVraie.joueurs !== undefined) {
+            for(let joueurCourant of sourceVraie.joueurs) {
+                joueur = new Joueur();
+                Object.assign(joueur, joueurCourant);
+                joueurs.push(joueur);
+            }
         }
 
         joueur = new Joueur();
         Object.assign(joueur, sourceVraie.joueurAAjouter);
         sourceVraie.joueurAAjouter = joueur;
-
-        sourceVraie.specificationPartie = SpecificationPartie.rehydrater(sourceVraie.specificationPartie);
+        
+        // Lorsque le joueur veut joindre une partie, le client n'envoie pas cette valeur.
+        if(sourceVraie.specificationPartie !== undefined) {
+            sourceVraie.specificationPartie = SpecificationPartie.rehydrater(sourceVraie.specificationPartie);
+        }
 
         let cibleVraie = new RequisPourJoindrePartieMultijoueur(sourceVraie.guidPartie, sourceVraie.joueurAAjouter);
         Object.assign(cibleVraie, sourceVraie);
