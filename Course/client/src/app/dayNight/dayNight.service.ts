@@ -3,8 +3,7 @@ import { HemisphereLight, DirectionalLight, ImageUtils, Scene } from 'three';
 import { Voiture } from '../voiture/Voiture';
 
 const PHARES = [
-    'BrakeLightLS1',
-    'BrakeLightRS1'];
+    'BrakeLightLS1', 'BrakeLightRS1', 'Lumière Avant Droite', 'Lumière Avant Gauche', 'Phare Droit', 'Phare Gauche'];
 
 @Injectable()
 export class LumiereService {
