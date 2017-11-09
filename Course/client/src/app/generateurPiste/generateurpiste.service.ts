@@ -35,6 +35,9 @@ export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
 export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
 export const LONGUEUR_SURFACE_HORS_PISTE = 1000;
 export const LARGEUR_SURFACE_HORS_PISTE = 1000;
+export const ZOOM_AVANT = '+';
+export const ZOOM_ARRIERE = '-';
+export const ALLUMER_PHARES = 'l';
 
 @Injectable()
 export class GenerateurPisteService implements Observateur {
@@ -49,6 +52,7 @@ export class GenerateurPisteService implements Observateur {
     private voitureDuJoueur: Voiture;
     private deplacement = new Deplacement();
     private jour = true;
+    private phares = false;
     private sortiePisteService: SortiePisteService;
 
     private piste: Piste;
@@ -284,15 +288,29 @@ export class GenerateurPisteService implements Observateur {
 
     public gestionEvenement(event): void {
         if (event.key === MODE_JOUR_NUIT) {
+            this.logiquePhares();
             this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
             this.jour = !this.jour;
             this.skyboxService.alternerSkybox(this.jour, this.camera, this.listeSkyboxJour, this.listeSkyboxNuit);
         } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
-        } else if (event.key === '+' || event.key === '-') {
+        } else if (event.key === ZOOM_AVANT || event.key === ZOOM_ARRIERE) {
             this.cameraService.zoom(event, this.camera);
         } else if (event.key === CHANGER_VUE) {
             this.voitureDuJoueur.vueDessusTroisieme = !this.voitureDuJoueur.vueDessusTroisieme;
+        } else if (event.key === ALLUMER_PHARES) {
+            this.phares = !this.phares;
+            this.lumiereService.alternerPhares(this.voitureDuJoueur);
+        }
+    }
+
+    public logiquePhares(): void {
+        if (!this.phares && this.jour) {
+            this.phares = !this.phares;
+            this.lumiereService.alternerPhares(this.voitureDuJoueur);
+        } else if (this.phares && !this.jour) {
+            this.phares = !this.phares;
+            this.lumiereService.alternerPhares(this.voitureDuJoueur);
         }
     }
 
