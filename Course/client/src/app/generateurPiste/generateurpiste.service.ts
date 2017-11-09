@@ -159,6 +159,7 @@ export class GenerateurPisteService {
             obj.name = 'Voiture';
             this.objetService.enleverObjet(obj);
             this.objetService.gererPhares(obj);
+            this.objetService.ajouterPhares(obj);
             obj.receiveShadow = true;
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);

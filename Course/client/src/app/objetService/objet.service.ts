@@ -48,6 +48,44 @@ export class ObjetService {
             objet.getObjectByName(LUMIERES[i]).visible = false;
         }
     }
+
+    public ajouterPhares(objet: THREE.Object3D): void {
+        console.log(objet.getObjectByName(LUMIERES[9]));
+        const phareDroit = new THREE.PointLight(0xffffff, 0.5, 5);
+        phareDroit.name = 'Phare Droit';
+        phareDroit.position.x = 3;
+        phareDroit.position.y = 1;
+        phareDroit.position.z = 0.6;
+        phareDroit.rotation.set(Math.PI, Math.PI, -Math.PI);
+
+        console.log(objet.getObjectByName(LUMIERES[5]));
+        const phareGauche = new THREE.PointLight(0xffffff, 0.5, 5);
+        phareGauche.name = 'Phare Gauche';
+        phareGauche.position.x = 3;
+        phareGauche.position.y = 1;
+        phareGauche.position.z = -0.6;
+        phareGauche.rotation.set(Math.PI, Math.PI, -Math.PI);
+
+        const lumiereAvantDroit = new THREE.SpotLight(0xffffff, 2);
+        lumiereAvantDroit.position.set(3, 1.5, 0.6);
+        lumiereAvantDroit.angle = 0.5;
+        lumiereAvantDroit.target.position.set(6, 0.5, 1);
+        lumiereAvantDroit.distance = 80;
+        objet.add(lumiereAvantDroit.target);
+
+        const lumiereAvantGauche = new THREE.SpotLight(0xffffff, 2);
+        lumiereAvantGauche.position.set(3, 1.5, -0.6);
+        lumiereAvantGauche.angle = 0.5;
+        lumiereAvantGauche.target.position.set(6, 0.5, -1);
+        lumiereAvantGauche.distance = 80;
+        objet.add(lumiereAvantGauche.target);
+
+        objet.add(phareDroit);
+        objet.add(lumiereAvantDroit);
+        objet.add(lumiereAvantGauche);
+        objet.add(phareGauche);
+        console.log(objet);
+    }
 }
 
 
