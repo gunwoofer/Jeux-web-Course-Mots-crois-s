@@ -58,6 +58,9 @@ export class GenerateurPisteService implements Observateur {
     private partie: Partie;
     private routeur: Router;
     private segment: Segment;
+    private vecteurSensPiste:  THREE.Vector2;
+    private vecteurOrthogonalPiste:  THREE.Vector2;
+    private centreSegmentDepart: THREE.Vector2;
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
@@ -166,6 +169,8 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public chargerVoiture(): void {
+        this.calculPositionCentreZoneDepart(this.segment.premierSegment);
+        this.obtenirVecteursSensPiste(this.segment.premierSegment);
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
             obj.rotateX(Math.PI / 2);
@@ -178,6 +183,23 @@ export class GenerateurPisteService implements Observateur {
             this.partie.demarrerPartie();
         });
     }
+
+    public calculPositionCentreZoneDepart(premierSegment: Array<THREE.Vector3>): void {
+       const centreSegmentGaucheX = ((premierSegment[1].x) + premierSegment[0].x) / 2 ;
+       const centreSegmentGaucheY = ((premierSegment[0].y) + premierSegment[1].y) / 2;
+       const centreSegmentDroiteX = ((premierSegment[3].x) + premierSegment[2].x) / 2;
+       const centreSegmentDroiteY = ((premierSegment[2].y) + premierSegment[3].y) / 2;
+       const centreSegmentX = (centreSegmentGaucheX + centreSegmentDroiteX) / 2;
+       const centreSegmentY = (centreSegmentGaucheY + centreSegmentDroiteY) / 2;
+       this.centreSegmentDepart = new THREE.Vector2(centreSegmentX, centreSegmentY);
+   }
+
+   public obtenirVecteursSensPiste(premierSegment: Array<THREE.Vector3>): void {
+        this.vecteurSensPiste = new THREE.Vector2(
+            (premierSegment[1].x - premierSegment[0].x), (premierSegment[1].y - premierSegment[0].y)).normalize();
+        this.vecteurOrthogonalPiste = new THREE.Vector2(-this.vecteurSensPiste.y, this.vecteurSensPiste.x);
+    }
+
 
     public chargerArbres(): void {
         this.arbres = this.objetService.chargerArbre(this.arbrePath, this.arbreTexture, this.WIDTH);
