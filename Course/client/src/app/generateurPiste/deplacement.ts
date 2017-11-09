@@ -34,7 +34,7 @@ export class Deplacement {
             this.tournerGauche(voiture);
         }
 
-        voiture.bougerVoiture();
+        voiture.calculerDistance();
     }
 
     private avancer(voiture: Voiture): void {

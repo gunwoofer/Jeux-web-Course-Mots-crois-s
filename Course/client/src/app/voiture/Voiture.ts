@@ -25,7 +25,7 @@ export class Voiture implements sujet.Sujet {
         this.vitesse = 0;
     }
 
-    public bougerVoiture(): void {
+    public calculerDistance(): void {
         this.xPrecedent = this.x;
         this.yPrecedemt = this.y;
         this.x = this.obtenirVoiture3D().position.x;

@@ -64,6 +64,7 @@ export class GenerateurPisteService implements Observateur {
     private vecteurSensPiste:  THREE.Vector2;
     private vecteurOrthogonalPiste:  THREE.Vector2;
     private centreSegmentDepart: THREE.Vector2;
+    private voituresIA: Voiture[] = [];
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
@@ -213,8 +214,8 @@ export class GenerateurPisteService implements Observateur {
             this.objetService.eteindreTousLesPhares(obj);
             obj.receiveShadow = true;
             this.scene.add(obj);
-            this.voitureDuJoueur = new Voiture(obj);
-            this.voitureDuJoueur.voiture3D.position.set(
+            this.voituresIA.push(new Voiture(obj));
+            this.voituresIA[this.voituresIA.length - 1].voiture3D.position.set(
                 this.calculPositionVoiture(A, B).x,
                 this.calculPositionVoiture(A, B).y, 0);
         });
