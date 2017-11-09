@@ -1,4 +1,5 @@
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
+import { Segment } from './../piste/segment.model';
 import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
 import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
@@ -23,13 +24,13 @@ import { EtatPartie } from '../partie/Partie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 
 export const LARGEUR_PISTE = 5;
-const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
+export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 export const FIN_PARTIE_URL = '/finPartie';
 export const DUREE_STINGER_MILISECONDES = DUREE_STINGER * Math.pow(10, 3);
-const FPS = 15;
-const MODE_JOUR_NUIT = 'n';
-const MODE_FILTRE_COULEUR = 'f';
-const CHANGER_VUE = 'c';
+export const FPS = 60;
+export const MODE_JOUR_NUIT = 'n';
+export const MODE_FILTRE_COULEUR = 'f';
+export const CHANGER_VUE = 'c';
 
 @Injectable()
 export class GenerateurPisteService implements Observateur {
@@ -60,11 +61,11 @@ export class GenerateurPisteService implements Observateur {
     private surfaceHorsPisteService: SurfaceHorsPiste;
     private partie: Partie;
     private routeur: Router;
+    private segment: Segment;
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
-        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService) {
-         }
+        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService) { this.segment = new Segment(); }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
@@ -76,7 +77,8 @@ export class GenerateurPisteService implements Observateur {
         this.chargerVoiture();
         this.ajoutPisteAuPlan();
 
-        this.sortiePisteService = new SortiePisteService(this.piste.obtenirSegments3D());
+        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
+        this.ajoutZoneDepart();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
 
@@ -89,25 +91,19 @@ export class GenerateurPisteService implements Observateur {
 
     public preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
-        const segmentGeometrie: THREE.Geometry = <THREE.Geometry>this.obtenirPremierSegmentDePiste().geometry;
-        const ligneArrivee: LigneArrivee = new LigneArrivee(segmentGeometrie.vertices[0],
-            segmentGeometrie.vertices[1]);
+        const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
+            this.segment.premierSegment[3]);
 
         this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique, this]);
-        
-        this.voitureDuJoueur.ajouterObservateur(this.partie);                                                                                                                                                                                                                                                                                                           
+        this.voitureDuJoueur.ajouterObservateur(this.partie);
         this.partie.ajouterRouteur(this.routeur);
 
     }
 
     public genererSurfaceHorsPiste(): void {
-        this.surfaceHorsPisteService = new SurfaceHorsPiste(1000, 1000, this.piste.obtenirSegments3D());
+        this.surfaceHorsPisteService = new SurfaceHorsPiste(1000, 1000, this.segment.chargerSegmentsDePiste(this.piste));
         const terrain = this.surfaceHorsPisteService.genererTerrain();
         this.scene.add(terrain);
-    }
-
-    private obtenirPremierSegmentDePiste(): THREE.Mesh {
-        return this.piste.obtenirSegments3D()[1];
     }
 
     public ajouterPiste(piste: Piste): void {
@@ -132,7 +128,7 @@ export class GenerateurPisteService implements Observateur {
             requestAnimationFrame(() => this.render());
         }, 1000 / FPS );
         this.renderer.render(this.scene, this.camera);
-        if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
+        if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
             this.renderMiseAJour();
@@ -157,10 +153,15 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public ajoutPisteAuPlan(): void {
-        this.piste.chargerSegments();
-        for (let i = 0; i < this.piste.obtenirSegments3D().length; i++) {
-            this.scene.add(this.piste.obtenirSegments3D()[i]);
+        const segmentsPiste = this.segment.chargerSegmentsDePiste(this.piste);
+        for (let i = 0; i < segmentsPiste.length; i++) {
+            this.scene.add(segmentsPiste[i]);
         }
+    }
+
+    public ajoutZoneDepart(): void {
+        this.scene.add(this.segment.ajoutDamier(this.piste));
+        this.scene.add(this.segment.ajoutLigneDepart(this.piste));
     }
 
     public toucheRelachee(event): void {
