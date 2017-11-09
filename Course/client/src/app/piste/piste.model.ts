@@ -10,7 +10,6 @@ export class Piste {
     public coteAppreciation: number;
     public meilleursTemps: Score[] = [];
     public vignette: string;
-    private segmentsPisteVisuel: THREE.Mesh[] = [];
 
     constructor(public nom: string,
         public typeCourse: string,
@@ -42,14 +41,6 @@ export class Piste {
             this.meilleursTemps[i] = new Score(meilleursTemps[i].nom, meilleursTemps[i].valeur);
         }
         this.vignette = vignette;
-    }
-
-    public chargerSegments(): void {
-        this.segmentsPisteVisuel = Segment.chargerSegmentsDePiste(this);
-    }
-
-    public obtenirSegments3D(): THREE.Mesh[] {
-        return this.segmentsPisteVisuel;
     }
 
     public obtenirLongueurPiste(): number {
