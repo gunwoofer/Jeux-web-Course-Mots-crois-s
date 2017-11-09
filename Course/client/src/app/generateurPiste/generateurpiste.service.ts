@@ -86,7 +86,7 @@ export class GenerateurPisteService implements Observateur {
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
 
-        this.commencerRendu();
+        this.commencerMoteurDeJeu();
     }
 
     public ajouterRouter(routeur: Router): void {
@@ -120,17 +120,17 @@ export class GenerateurPisteService implements Observateur {
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
     }
 
-    public commencerRendu(): void {
+    public commencerMoteurDeJeu(): void {
         this.renderer = new THREE.WebGLRenderer();
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.container.appendChild(this.renderer.domElement);
-        this.render();
+        this.moteurDeJeu();
     }
 
-    public render(): void {
+    public moteurDeJeu(): void {
         setTimeout(() => {
-            requestAnimationFrame(() => this.render());
+            requestAnimationFrame(() => this.moteurDeJeu());
         }, 1000 / FPS );
         this.renderer.render(this.scene, this.camera);
         if (this.voitureDuJoueur.voiture3D !== undefined) {
