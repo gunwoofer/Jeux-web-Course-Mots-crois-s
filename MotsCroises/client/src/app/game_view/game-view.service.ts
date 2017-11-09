@@ -28,7 +28,7 @@ export class GameViewService {
   private indiceSelectionne = new Subject<IndiceMot>();
   public indiceSelectionne$ = this.indiceSelectionne.asObservable();
   private indiceAdversaireSelectionne = new Subject<IndiceMot>();
-  public indiceAdversaireSelectionne$ = this.indiceSelectionne.asObservable();
+  public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
   private motEcrit = new Subject<string>();
   public motEcrit$ = this.motEcrit.asObservable();
   private partieGeneree: SpecificationPartie;
@@ -338,9 +338,11 @@ export class GameViewService {
   }
 
   public afficherSelectionIndice(indice: IndiceMot) {
-    this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
+    if (indice){
+      this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
+      this.indiceSelectionne.next(indice);
+    }
     this.changementSelectionMot();
-    this.indiceSelectionne.next(indice);
   }
 
   public mettreAJourMotEntre(motEntre: string) {
