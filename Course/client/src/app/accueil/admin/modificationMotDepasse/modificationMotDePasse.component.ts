@@ -16,10 +16,12 @@ export class ModificationMotDePasseComponent {
         const modiForm = new ModificationForm(form.value.email, form.value.motDePasse, form.value.NmotDePasse);
         this.utilisateurService.modifierMotDePasse(modiForm)
             .then(donne => {
-                if (donne) {
-                    console.log(donne);
-                    this.router.navigateByUrl('/admin');
+                if (donne.message) {
+                  alert(donne.message);
+                  this.router.navigateByUrl('/admin');
+                } else {
+                  alert(donne.error.message);
                 }
-            });
+              });
     }
 }
