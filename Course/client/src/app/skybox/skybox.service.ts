@@ -45,4 +45,13 @@ export class SkyboxService {
         camera.remove(camera.getObjectByName('Skybox'));
         camera.add(listeSkybox[this.skybox.emplacementAleatoire(listeSkybox.length)]);
     }
+
+    public alternerSkybox(jour: boolean, camera: THREE.PerspectiveCamera,
+        listeSkyboxJour: Array<THREE.Mesh>, listeSkyboxNuit: Array<THREE.Mesh>): void {
+        if (!jour) {
+            this.changerSkybox(camera, listeSkyboxNuit);
+        } else {
+            this.changerSkybox(camera, listeSkyboxJour);
+        }
+    }
 }

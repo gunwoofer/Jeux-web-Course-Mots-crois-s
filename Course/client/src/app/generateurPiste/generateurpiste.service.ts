@@ -296,11 +296,7 @@ export class GenerateurPisteService implements Observateur {
         if (event.key === MODE_JOUR_NUIT) {
             this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
             this.jour = !this.jour;
-            if (!this.jour) {
-                this.skyboxService.changerSkybox(this.camera, this.listeSkyboxNuit);
-            } else {
-                this.skyboxService.changerSkybox(this.camera, this.listeSkyboxJour);
-            }
+            this.skyboxService.alternerSkybox(this.jour, this.camera, this.listeSkyboxJour, this.listeSkyboxNuit);
         } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         } else if (event.key === '+' || event.key === '-') {
