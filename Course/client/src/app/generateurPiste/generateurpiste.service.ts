@@ -23,13 +23,13 @@ import { EtatPartie } from '../partie/Partie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 
 export const LARGEUR_PISTE = 5;
-const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
+export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 export const FIN_PARTIE_URL = '/finPartie';
 export const DUREE_STINGER_MILISECONDES = DUREE_STINGER * Math.pow(10, 3);
-const FPS = 15;
-const MODE_JOUR_NUIT = 'n';
-const MODE_FILTRE_COULEUR = 'f';
-const CHANGER_VUE = 'c';
+export const FPS = 60;
+export const MODE_JOUR_NUIT = 'n';
+export const MODE_FILTRE_COULEUR = 'f';
+export const CHANGER_VUE = 'c';
 
 @Injectable()
 export class GenerateurPisteService implements Observateur {
@@ -61,7 +61,7 @@ export class GenerateurPisteService implements Observateur {
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
-        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService) {  }
+        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService) { this.segment = new Segment(); }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
@@ -85,8 +85,8 @@ export class GenerateurPisteService implements Observateur {
 
     public preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
-        const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[0],
-            this.segment.premierSegment[1]);
+        const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
+            this.segment.premierSegment[3]);
 
         this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique, this]);
         this.voitureDuJoueur.ajouterObservateur(this.partie);
@@ -122,7 +122,7 @@ export class GenerateurPisteService implements Observateur {
             requestAnimationFrame(() => this.render());
         }, 1000 / FPS );
         this.renderer.render(this.scene, this.camera);
-        if (this.voitureDuJoueur.obtenirVoiture3D() !== undefined) {
+        if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
             this.renderMiseAJour();

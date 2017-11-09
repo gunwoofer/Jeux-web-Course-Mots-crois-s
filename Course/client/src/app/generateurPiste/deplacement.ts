@@ -1,14 +1,14 @@
 import { Voiture } from './../voiture/Voiture';
 import * as THREE from 'three';
 
-const avancer = 'w';
-const gauche = 'a';
-const droite = 'd';
-const rotation = 0.03;
-const acceleration = 0.1;
-const deceleration = 0.01;
-const vitesseMax = 1;
-const vitesseMin = 0.05;
+export const avancer = 'w';
+export const gauche = 'a';
+export const droite = 'd';
+export const rotation = 0.03;
+export const acceleration = 0.01;
+export const deceleration = 0.01;
+export const vitesseMax = 1;
+export const vitesseMin = 0.05;
 
 export class Deplacement {
     private enAvant: boolean;
