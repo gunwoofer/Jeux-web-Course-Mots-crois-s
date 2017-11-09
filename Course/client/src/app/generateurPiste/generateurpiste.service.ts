@@ -127,7 +127,7 @@ export class GenerateurPisteService implements Observateur {
 
     public creerScene(): void {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
+        this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
     }
 
     public commencerRendu(): void {

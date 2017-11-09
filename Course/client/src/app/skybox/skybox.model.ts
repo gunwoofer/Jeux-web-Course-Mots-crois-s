@@ -14,7 +14,7 @@ export class Skybox {
     private chargerTexture(emplacements: string[]): THREE.MeshBasicMaterial[] {
         const loader = new THREE.TextureLoader();
         const emplacementImage = this.obtenirSkyboxAleatoire(emplacements);
-        const orientations = ['front', 'back', 'top', 'down', 'right', 'left'];
+        const orientations = ['front', 'back', 'top', 'bottom', 'right', 'left'];
         const typeImage = '.png';
         const materiels = [];
         for (let i = 0; i < 6; i++) {
@@ -30,9 +30,9 @@ export class Skybox {
     }
 
     public creerSkybox(emplacements: string[]): THREE.Mesh {
-        const geometrie = new THREE.CubeGeometry(500, 500, 500);
+        const geometrie = new THREE.CubeGeometry(5000, 5000, 5000);
         const materiels = this.chargerTexture(emplacements);
-        const materiel = new THREE.MeshFaceMaterial(materiels);
+        const materiel = new THREE.MultiMaterial(materiels);
         const skybox = new THREE.Mesh(geometrie, materiel);
         skybox.name = 'Skybox';
         return skybox;
