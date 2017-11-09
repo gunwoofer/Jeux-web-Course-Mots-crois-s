@@ -6,12 +6,10 @@ import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../dayNight/dayNight.service';
 import { ObjetService } from '../objetService/objet.service';
-import { Skybox } from './../skybox/skybox.model';
-import { Deplacement, rotation, vitesseMin } from './deplacement';
+import { Deplacement} from './deplacement';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import { skyBoxJour, skyBoxNuit } from '../skybox/listeSkybox';
 
 import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';

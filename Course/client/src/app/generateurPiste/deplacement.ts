@@ -1,5 +1,4 @@
 import { Voiture } from './../voiture/Voiture';
-import * as THREE from 'three';
 
 export const avancer = 'w';
 export const gauche = 'a';
