@@ -151,6 +151,13 @@ export class GenerateurPisteService implements Observateur {
         }
     }
 
+    public ajoutZoneDepart(): void {
+        // this.segmentsPisteVisuelLigneDepart = this.segment.ajoutLigneDepart(this.piste);
+
+        this.scene.add(this.segment.ajoutDamier(this.piste));
+        this.scene.add();
+    }
+
     public toucheRelachee(event): void {
         this.deplacement.toucheRelachee(event);
     }

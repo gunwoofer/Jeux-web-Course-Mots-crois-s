@@ -78,4 +78,17 @@ export class Segment {
         const centreSegmentY = ((sommets[0].y + sommets[2].y) / 2 + (sommets[1].y + sommets[3].y) / 2) / 2;
         return new THREE.Vector3(centreSegmentX, centreSegmentY, 0);
     }
+
+    public ajoutDamier(piste: Piste): THREE.Mesh {
+        const geometrieZoneDepart = new THREE.PlaneGeometry(1, 1);
+        geometrieZoneDepart.vertices = this.premierSegment;
+        const materielZoneDepart = new THREE.MeshStandardMaterial();
+
+        const loaderZoneDepart = new THREE.TextureLoader();
+        loaderZoneDepart.load('../../assets/textures/ligne_depart.jpg', (texture) => {
+            materielZoneDepart.map = texture;
+        });
+
+        return new THREE.Mesh(geometrieZoneDepart, materielZoneDepart);
+    }
 }
