@@ -1,5 +1,7 @@
 import * as THREE from 'three';
 
+export const REAJUSTEMENT_SKYBOX = 0.2;
+
 export class Skybox {
 
     private emplacementAleatoire(): number {
@@ -30,11 +32,12 @@ export class Skybox {
     }
 
     public creerSkybox(emplacements: string[]): THREE.Mesh {
-        const geometrie = new THREE.CubeGeometry(5000, 5000, 5000);
+        const geometrie = new THREE.CubeGeometry(1500, 1500, 1500);
         const materiels = this.chargerTexture(emplacements);
         const materiel = new THREE.MultiMaterial(materiels);
         const skybox = new THREE.Mesh(geometrie, materiel);
         skybox.name = 'Skybox';
+        skybox.rotateX(REAJUSTEMENT_SKYBOX);
         return skybox;
     }
 }

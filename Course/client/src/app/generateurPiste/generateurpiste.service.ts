@@ -6,7 +6,7 @@ import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../dayNight/dayNight.service';
 import { ObjetService } from '../objetService/objet.service';
 import { Skybox } from './../skybox/skybox.model';
-import { Deplacement } from './deplacement';
+import { Deplacement, rotation, vitesseMin } from './deplacement';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
@@ -34,7 +34,6 @@ export const MODE_FILTRE_COULEUR = 'f';
 export const CHANGER_VUE = 'c';
 export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
 export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
-
 
 @Injectable()
 export class GenerateurPisteService implements Observateur {
@@ -143,10 +142,24 @@ export class GenerateurPisteService implements Observateur {
             requestAnimationFrame(() => this.moteurDeJeu());
         }, 1000 / FPS );
         this.renderer.render(this.scene, this.camera);
+        this.miseAJourPositionVoiture();
+        this.rotationSkybox();
+    }
+
+    public miseAJourPositionVoiture(): void {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
             this.renderMiseAJour();
+        }
+    }
+
+    public rotationSkybox(): void {
+        if (this.deplacement.aDroite && this.voitureDuJoueur.vitesse > vitesseMin) {
+            this.camera.getObjectByName('Skybox').rotateY(rotation);
+        }
+        if (this.deplacement.aGauche && this.voitureDuJoueur.vitesse > vitesseMin) {
+            this.camera.getObjectByName('Skybox').rotateY(-rotation);
         }
     }
 

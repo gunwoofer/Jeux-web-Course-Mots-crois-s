@@ -12,8 +12,8 @@ export const vitesseMin = 0.05;
 
 export class Deplacement {
     private enAvant: boolean;
-    private aDroite: boolean;
-    private aGauche: boolean;
+    public aDroite: boolean;
+    public aGauche: boolean;
 
     constructor() {
         this.enAvant = false;
