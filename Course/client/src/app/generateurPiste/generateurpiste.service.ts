@@ -40,11 +40,8 @@ export const LARGEUR_SURFACE_HORS_PISTE = 1000;
 export class GenerateurPisteService implements Observateur {
 
     private WIDTH = 5000;
-    private HEIGHT = 5000;
     private arbrePath = '../../assets/objects/arbre/tree.json';
     private arbreTexture = '../../assets/objects/arbre/tree.jpg';
-    private arbrePath2 = '../../assets/objects/arbre2/tree.json';
-    private arbreTexture2 = '../../assets/objects/arbre2/tree.jpg';
     private container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
@@ -52,14 +49,10 @@ export class GenerateurPisteService implements Observateur {
     private voitureDuJoueur: Voiture;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
-    private voiture: THREE.Object3D;
     private sortiePisteService: SortiePisteService;
 
     private piste: Piste;
     private arbres = new THREE.Object3D();
-    private lumierHemisphere: THREE.HemisphereLight;
-    private lumiereDirectionnelle: THREE.DirectionalLight;
-    private plane: THREE.Mesh;
     private surfaceHorsPisteService: SurfaceHorsPiste;
     private partie: Partie;
     private routeur: Router;
