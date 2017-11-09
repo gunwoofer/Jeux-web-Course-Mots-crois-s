@@ -15,12 +15,15 @@ import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/Requi
 import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {RequisPourSelectionnerMot} from '../../../../commun/requis/RequisPourSelectionnerMot';
+import {RequisPourObtenirTempsRestant} from "../../../../commun/requis/RequisPourObtenirTempsRestant";
 
 
 @Injectable()
 export class GameViewService {
   private motTrouve = new Subject<string>();
   public motTrouve$ = this.motTrouve.asObservable();
+  private modifierTempsRestant = new Subject<number>();
+  public modifierTempsRestant$ = this.modifierTempsRestant.asObservable();
   private partieTeminee = new Subject<string>();
   public partieTeminee$ = this.partieTeminee.asObservable();
   private joueurAdverseTrouve = new Subject<string>();
@@ -46,6 +49,7 @@ export class GameViewService {
   private nbJoueursPartie: number;
   private requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur;
   private requisPourSelectionnerMot: RequisPourSelectionnerMot;
+  private requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant;
   private emplacementMot: EmplacementMot;
 
   private listeVuePartie: VuePartieEnCours[] = new Array;
@@ -148,6 +152,20 @@ export class GameViewService {
     }
 
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
+  }
+
+  public demanderTempsPartie(): void {
+    // Demander liste de partie.
+    this.requisPourObtenirTempsRestant = new RequisPourObtenirTempsRestant(this.specificationPartie.guidPartie);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourObtenirTempsRestant>(
+      requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT,
+      this.requisPourObtenirTempsRestant, requetes.REQUETE_CLIENT_OBTENIR_TEMPS_RESTANT_RAPPEL,
+      this.mettreAJourTempsPartie, this);
+  }
+
+  public mettreAJourTempsPartie(requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant,
+                                self: GameViewService): void {
+    self.modifierTempsRestant.next(requisPourObtenirTempsRestant.tempsRestant);
   }
 
   public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
