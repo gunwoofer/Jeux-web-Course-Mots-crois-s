@@ -1,3 +1,4 @@
+import { SkyboxService } from './../skybox/skybox.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { Segment } from './../piste/segment.model';
 import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
@@ -6,10 +7,11 @@ import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../dayNight/dayNight.service';
 import { ObjetService } from '../objetService/objet.service';
 import { Skybox } from './../skybox/skybox.model';
-import { Deplacement } from './deplacement';
+import { Deplacement, rotation, vitesseMin } from './deplacement';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
+import { skyBoxJour, skyBoxNuit } from '../skybox/listeSkybox';
 
 import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
@@ -48,7 +50,7 @@ export class GenerateurPisteService implements Observateur {
     public scene: THREE.Scene;
     private voitureDuJoueur: Voiture;
     private deplacement = new Deplacement();
-    private skybox = new Skybox();
+    private jour = true;
     private sortiePisteService: SortiePisteService;
 
     private piste: Piste;
@@ -61,16 +63,23 @@ export class GenerateurPisteService implements Observateur {
     private vecteurOrthogonalPiste:  THREE.Vector2;
     private centreSegmentDepart: THREE.Vector2;
     private voituresIA: Voiture[] = [];
+    public listeSkyboxJour: Array<THREE.Mesh>;
+    public listeSkyboxNuit: Array<THREE.Mesh>;
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
-        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService) { this.segment = new Segment(); }
+        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService,
+        private skyboxService: SkyboxService) {
+            this.segment = new Segment();
+            this.listeSkyboxJour = new Array<THREE.Mesh>();
+            this.listeSkyboxNuit = new Array<THREE.Mesh>(); }
 
     public initialisation(container: HTMLDivElement) {
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
-        this.camera.add(this.skybox.creerSkybox());
+        this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
+        this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.chargerArbres();
         this.ajoutPisteAuPlan();
 
@@ -112,7 +121,7 @@ export class GenerateurPisteService implements Observateur {
 
     public creerScene(): void {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 1000);
+        this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
     }
 
     public commencerMoteurDeJeu(): void {
@@ -128,6 +137,11 @@ export class GenerateurPisteService implements Observateur {
             requestAnimationFrame(() => this.moteurDeJeu());
         }, 1000 / FPS );
         this.renderer.render(this.scene, this.camera);
+        this.miseAJourPositionVoiture();
+        this.skyboxService.rotationSkybox(this.deplacement, this.voitureDuJoueur, this.camera);
+    }
+
+    public miseAJourPositionVoiture(): void {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
@@ -273,6 +287,8 @@ export class GenerateurPisteService implements Observateur {
     public gestionEvenement(event): void {
         if (event.key === MODE_JOUR_NUIT) {
             this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
+            this.jour = !this.jour;
+            this.skyboxService.alternerSkybox(this.jour, this.camera, this.listeSkyboxJour, this.listeSkyboxNuit);
         } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         } else if (event.key === '+' || event.key === '-') {
