@@ -51,6 +51,9 @@ export class LumiereService {
         this.lumiereDirectionnelle.visible = !this.lumiereDirectionnelle.visible;
         scene.background = this.lumiereDirectionnelle.visible ? ImageUtils.loadTexture('../../assets/textures/day.jpeg') :
             ImageUtils.loadTexture('../../assets/textures/night.jpg');
+    }
+
+    public alternerPhares(voiture: Voiture): void {
         for (let i = 0; i < PHARES.length; i++) {
             const phareVisible = voiture.voiture3D.getObjectByName(PHARES[i]).visible;
             voiture.voiture3D.getObjectByName(PHARES[i]).visible = !phareVisible;
