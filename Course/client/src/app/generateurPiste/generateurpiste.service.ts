@@ -72,6 +72,7 @@ export class GenerateurPisteService implements Observateur {
         this.chargerArbres();
         this.chargerVoiture();
         this.ajoutPisteAuPlan();
+        this.ajoutZoneDepart();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
 
@@ -152,10 +153,8 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public ajoutZoneDepart(): void {
-        // this.segmentsPisteVisuelLigneDepart = this.segment.ajoutLigneDepart(this.piste);
-
         this.scene.add(this.segment.ajoutDamier(this.piste));
-        this.scene.add();
+        this.scene.add(this.segment.ajoutLigneDepart(this.piste));
     }
 
     public toucheRelachee(event): void {

@@ -91,4 +91,14 @@ export class Segment {
 
         return new THREE.Mesh(geometrieZoneDepart, materielZoneDepart);
     }
+
+    public ajoutLigneDepart(piste: Piste): THREE.Line {
+        const materialLigneDepart = new THREE.LineBasicMaterial({color: 0XFF0000});
+        const geometryLigneDepart = new THREE.Geometry();
+        geometryLigneDepart.vertices.push(
+            new THREE.Vector3( this.premierSegment[1].x, this.premierSegment[1].y, HAUTEUR_LIGNE ),
+            new THREE.Vector3( this.premierSegment[3].x, this.premierSegment[3].y, HAUTEUR_LIGNE ),
+        );
+        return new THREE.Line( geometryLigneDepart, materialLigneDepart );
+    }
 }
