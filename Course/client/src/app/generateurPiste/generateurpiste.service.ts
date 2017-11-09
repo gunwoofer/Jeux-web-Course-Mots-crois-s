@@ -207,8 +207,10 @@ export class GenerateurPisteService implements Observateur {
                 (this.segment.premierSegment[1].y - this.segment.premierSegment[0].y));
             obj.rotateX(Math.PI / 2);
             obj.rotateY(vecteurCalculAngle.angle());
-            obj.name = 'Voiture';
+            obj.name = 'Voiture IA';
             this.objetService.enleverObjet(obj);
+            this.objetService.ajouterPhares(obj);
+            this.objetService.eteindreTousLesPhares(obj);
             obj.receiveShadow = true;
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
@@ -225,14 +227,14 @@ export class GenerateurPisteService implements Observateur {
         const position2 = [-1, 1];
         const position3 = [ 1, -1];
         const position4 = [-1, -1];
-        let tableauPosition = [position1, position2, position3, position4] ;
+        const tableauPosition = [position1, position2, position3, position4] ;
 
         this.chargerVoiturePilote( tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1]);
         tableauPosition.splice(nombreAleatoire, 1);
-        console.log("Tableau position" + tableauPosition);
+        console.log('Tableau position' + tableauPosition);
         for (let i = 0; i < tableauPosition.length; i++) {
             this.chargerVoitureIA(tableauPosition[i][0], tableauPosition[i][1]);
-            console.log("Voiture" + "position x :" + tableauPosition[i][0] + "position y : " + tableauPosition[i][1] );
+            console.log('Voiture' + 'position x :' + tableauPosition[i][0] + 'position y : ' + tableauPosition[i][1] );
         }
     }
 
