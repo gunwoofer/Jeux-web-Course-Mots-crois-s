@@ -78,7 +78,7 @@ export class GenerateurPisteService implements Observateur {
         this.chargerArbres();
         this.ajoutPisteAuPlan();
         this.ajoutZoneDepart();
-        this.chargerVoiture();
+        this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
 
@@ -172,7 +172,7 @@ export class GenerateurPisteService implements Observateur {
         this.deplacement.touchePesee(event);
     }
 
-    public chargerVoiture(): void {
+    public chargerVoiturePilote(A: number, B: number): void {
         this.calculPositionCentreZoneDepart(this.segment.premierSegment);
         this.obtenirVecteursSensPiste(this.segment.premierSegment);
         const loader = new THREE.ObjectLoader();
@@ -188,13 +188,13 @@ export class GenerateurPisteService implements Observateur {
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.voitureDuJoueur.voiture3D.position.set(
-                this.calculPositionVoiture(1, 1).x,
-                this.calculPositionVoiture(1, 1).y, 0);
+                this.calculPositionVoiture(A, B).x,
+                this.calculPositionVoiture(A, B).y, 0);
             this.preparerPartie();
             this.partie.demarrerPartie();
         });
     }
-    /*
+
     public chargerVoitureIA(A: number, B: number): void {
         this.calculPositionCentreZoneDepart(this.segment.premierSegment);
         this.obtenirVecteursSensPiste(this.segment.premierSegment);
@@ -210,14 +210,30 @@ export class GenerateurPisteService implements Observateur {
             obj.receiveShadow = true;
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
-            this.voitureDuJoueur.modifierPositionVoiture(
-                this.calculPositionVoiture(1, 1).x,
-                this.calculPositionVoiture(1, 1).y);
-            this.preparerPartie();
-            this.partie.demarrerPartie();
+            this.voitureDuJoueur.voiture3D.position.set(
+                this.calculPositionVoiture(A, B).x,
+                this.calculPositionVoiture(A, B).y, 0);
         });
     }
-    */
+
+    public chargementDesVoitures(): void {
+
+        const nombreAleatoire = Math.round(Math.random() * 3);
+        const position1 = [1, 1];
+        const position2 = [-1, 1];
+        const position3 = [ 1, -1];
+        const position4 = [-1, -1];
+        let tableauPosition = [position1, position2, position3, position4] ;
+
+        this.chargerVoiturePilote( tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1]);
+        tableauPosition.splice(nombreAleatoire, 1);
+        console.log("Tableau position" + tableauPosition);
+        for (let i = 0; i < tableauPosition.length; i++) {
+            this.chargerVoitureIA(tableauPosition[i][0], tableauPosition[i][1]);
+            console.log("Voiture" + "position x :" + tableauPosition[i][0] + "position y : " + tableauPosition[i][1] );
+        }
+    }
+
     public calculPositionVoiture(cadranX: number, cadranY: number): THREE.Vector2 {
         const vecteurAvanceSensPiste = new THREE.Vector2().copy(this.vecteurSensPiste);
         vecteurAvanceSensPiste.multiplyScalar(DISTANCE_POSITIONNEMENT_PARALLELE * cadranX);
