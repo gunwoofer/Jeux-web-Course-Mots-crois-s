@@ -76,4 +76,8 @@ export class Voiture implements sujet.Sujet {
             observateurCourant.notifier(this);
         }
     }
+
+    public reduireVitesseSortiePiste(): void {
+        this.vitesse /= 3;
+    }
 }

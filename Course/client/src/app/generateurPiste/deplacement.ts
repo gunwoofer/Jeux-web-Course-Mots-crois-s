@@ -7,7 +7,7 @@ const droite = 'd';
 const rotation = 0.03;
 const acceleration = 0.005;
 const deceleration = 0.01;
-const vitesseMax = 0.7;
+const vitesseMax = 0.8;
 const vitesseMin = 0.05;
 
 export class Deplacement {

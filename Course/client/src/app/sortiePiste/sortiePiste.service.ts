@@ -23,14 +23,16 @@ export class SortiePisteService {
     public gererSortiePiste(voiture: Voiture): void {
         this.estSurLaPiste(voiture.obtenirVoiture3D());
         if (!this.estSurPiste) {
-            // Apparition sur une position arbitraire sans conflits d intersections
-            voiture.obtenirVoiture3D().position.x = this.trouverMilieuSegment(this.segmentOuReapparaitre).x;
-            voiture.obtenirVoiture3D().position.y = this.trouverMilieuSegment(this.segmentOuReapparaitre).y;
-            voiture.obtenirVoiture3D().position.z = 0;
-            voiture.vitesse = 0;
+            this.ramenerVoitureDernierSegment(voiture);
+            voiture.reduireVitesseSortiePiste();
         }
     }
 
+    public ramenerVoitureDernierSegment(voiture: Voiture): void {
+        voiture.obtenirVoiture3D().position.x = this.trouverMilieuSegment(this.segmentOuReapparaitre).x;
+        voiture.obtenirVoiture3D().position.y = this.trouverMilieuSegment(this.segmentOuReapparaitre).y;
+        voiture.obtenirVoiture3D().position.z = 0;
+    }
 
     public estSurLaPiste(voiture: THREE.Object3D): boolean {
         this.genererRayCaster(voiture);
@@ -65,11 +67,9 @@ export class SortiePisteService {
         const milieu = new THREE.Vector3();
         const geometry = segment.geometry;
         geometry.computeBoundingBox();
-
         milieu.x = (geometry.boundingBox.max.x + geometry.boundingBox.min.x) / 2;
         milieu.y = (geometry.boundingBox.max.y + geometry.boundingBox.min.y) / 2;
         milieu.z = (geometry.boundingBox.max.z + geometry.boundingBox.min.z) / 2;
-
         segment.localToWorld(milieu);
         return milieu;
     }
