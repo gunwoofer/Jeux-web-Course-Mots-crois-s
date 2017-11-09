@@ -38,6 +38,11 @@ export class Voiture implements sujet.Sujet {
         this.notifierObservateurs();
     }
 
+    public obtenirCoordonneesPrecedent(): THREE.Vector2 {
+        const vectPrecedant = new THREE.Vector2(this.xPrecedent, this.yPrecedemt);
+        return vectPrecedant;
+    }
+
     public distanceEntreDeuxPoints(x1: number, y1: number, x2: number, y2: number): number {
         return Math.pow( Math.pow((x1 - x2), 2) + Math.pow( (y1 - y2), 2), 0.5);
     }
@@ -70,5 +75,9 @@ export class Voiture implements sujet.Sujet {
         for (const observateurCourant of this.observateurs) {
             observateurCourant.notifier(this);
         }
+    }
+
+    public reduireVitesseSortiePiste(): void {
+        this.vitesse /= 3;
     }
 }

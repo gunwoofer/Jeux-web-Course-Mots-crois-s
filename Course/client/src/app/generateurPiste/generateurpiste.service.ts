@@ -1,3 +1,4 @@
+import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { Segment } from './../piste/segment.model';
 import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
 import { CameraService } from '../cameraService/cameraService.service';
@@ -52,6 +53,9 @@ export class GenerateurPisteService implements Observateur {
     private touche: number;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
+    private voiture: THREE.Object3D;
+    private sortiePisteService: SortiePisteService;
+
     private piste: Piste;
     private arbres = new THREE.Object3D();
     private lumierHemisphere: THREE.HemisphereLight;
@@ -78,6 +82,8 @@ export class GenerateurPisteService implements Observateur {
         this.camera.add(this.skybox.creerSkybox());
         this.chargerArbres();
         this.ajoutPisteAuPlan();
+
+        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
         this.ajoutZoneDepart();
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
@@ -139,6 +145,7 @@ export class GenerateurPisteService implements Observateur {
 
     public renderMiseAJour(): void {
         if (this.voitureDuJoueur !== undefined) {
+            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
     }
