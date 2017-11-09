@@ -33,7 +33,8 @@ export const MODE_FILTRE_COULEUR = 'f';
 export const CHANGER_VUE = 'c';
 export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
 export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
-
+export const LONGUEUR_SURFACE_HORS_PISTE = 1000;
+export const LARGEUR_SURFACE_HORS_PISTE = 1000;
 
 @Injectable()
 export class GenerateurPisteService implements Observateur {
@@ -105,7 +106,8 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public genererSurfaceHorsPiste(): void {
-        this.surfaceHorsPisteService = new SurfaceHorsPiste(1000, 1000, this.segment.chargerSegmentsDePiste(this.piste));
+        this.surfaceHorsPisteService = new SurfaceHorsPiste(LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE,
+            this.segment.chargerSegmentsDePiste(this.piste));
         const terrain = this.surfaceHorsPisteService.genererTerrain();
         terrain.position.z -= 1;
         this.scene.add(terrain);
