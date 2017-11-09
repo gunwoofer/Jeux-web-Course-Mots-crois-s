@@ -1,7 +1,7 @@
 import { skyBoxJour, skyBoxNuit } from './listeSkybox';
 import { Skybox } from './skybox.model';
 import { Voiture } from './../voiture/Voiture';
-import { Deplacement, vitesseMin, rotation } from './../generateurPiste/deplacement';
+import { Deplacement, vitesseMin, rotation } from './../generateurPiste/deplacement.model';
 import * as THREE from 'three';
 import { Injectable } from '@angular/core';
 
