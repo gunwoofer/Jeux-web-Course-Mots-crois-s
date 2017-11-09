@@ -9,4 +9,4 @@ export const skyBoxJour = [
 
 export const skyBoxNuit = [
     '../../assets/textures/Skybox/space/',
-    '../../assets/textures/Skybox/moon'];
+    '../../assets/textures/Skybox/moon/'];

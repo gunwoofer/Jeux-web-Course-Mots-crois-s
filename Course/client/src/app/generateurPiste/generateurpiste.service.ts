@@ -10,7 +10,7 @@ import { Deplacement } from './deplacement';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import { skyBoxJour } from '../skybox/listeSkybox';
+import { skyBoxJour, skyBoxNuit } from '../skybox/listeSkybox';
 
 import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
@@ -54,7 +54,7 @@ export class GenerateurPisteService implements Observateur {
     private touche: number;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
-    private skyboxJour: THREE.Mesh;
+    private jour = true;
     private voiture: THREE.Object3D;
     private sortiePisteService: SortiePisteService;
 
@@ -81,8 +81,7 @@ export class GenerateurPisteService implements Observateur {
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
-        this.skyboxJour = this.skybox.creerSkybox(skyBoxJour);
-        this.camera.add(this.skyboxJour);
+        this.camera.add(this.skybox.creerSkybox(skyBoxJour));
         this.chargerArbres();
         this.ajoutPisteAuPlan();
 
@@ -93,6 +92,11 @@ export class GenerateurPisteService implements Observateur {
         this.genererSurfaceHorsPiste();
 
         this.commencerRendu();
+    }
+
+    public changerSkybox(emplacements: string[]): void {
+        this.camera.remove(this.camera.getObjectByName('Skybox'));
+        this.camera.add(this.skybox.creerSkybox(emplacements));
     }
 
     public ajouterRouter(routeur: Router): void {
@@ -284,6 +288,12 @@ export class GenerateurPisteService implements Observateur {
     public gestionEvenement(event): void {
         if (event.key === MODE_JOUR_NUIT) {
             this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
+            this.jour = !this.jour;
+            if (!this.jour) {
+            this.changerSkybox(skyBoxNuit);
+            } else {
+                this.changerSkybox(skyBoxJour);
+            }
         } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         } else if (event.key === '+' || event.key === '-') {

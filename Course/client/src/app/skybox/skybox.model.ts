@@ -34,6 +34,7 @@ export class Skybox {
         const materiels = this.chargerTexture(emplacements);
         const materiel = new THREE.MeshFaceMaterial(materiels);
         const skybox = new THREE.Mesh(geometrie, materiel);
+        skybox.name = 'Skybox';
         return skybox;
     }
 }
