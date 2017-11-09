@@ -1,6 +1,8 @@
 import { Http, Response } from '@angular/http';
 import { Piste } from '../piste/piste.model';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/Rx';
 
 
 @Injectable()

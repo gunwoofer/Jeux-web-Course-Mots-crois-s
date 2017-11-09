@@ -3,6 +3,9 @@ import { Http, Response } from '@angular/http';
 import { Score } from './Score.model';
 import { Piste } from '../piste/piste.model';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/Rx';
+
 
 @Injectable()
 
@@ -23,9 +26,8 @@ export class TableauScoreService {
         this.temps = null;
     }
 
-    public mettreAjourTableauMeilleurTemps(score: Score): Promise<JSON> {
+    public mettreAjourTableauMeilleurTemps(score: Score): Promise<any> {
         this.ajouterTemps(score);
-        console.log(this.piste.id);
         return this.http.patch('http://localhost:3000/finPartie' + this.piste.id, this.piste)
             .toPromise()
             .then((reponse: Response) => reponse.json())

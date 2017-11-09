@@ -47,6 +47,5 @@ export class PisteComponent {
 
   public assignerService(): void {
     this.tableauScoreService.piste = this.piste;
-    this.ratingService.piste = this.piste;
   }
 }

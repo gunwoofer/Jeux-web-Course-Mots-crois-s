@@ -11,7 +11,6 @@ export class Piste {
     public meilleursTemps: Score[] = [];
     public coteMoyenne: number;
     public vignette: string;
-    private segmentsPisteVisuel: THREE.Mesh[] = [];
 
     constructor(public nom: string,
         public typeCourse: string,
