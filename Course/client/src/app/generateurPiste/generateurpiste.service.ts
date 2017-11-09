@@ -10,6 +10,7 @@ import { Deplacement } from './deplacement';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
+import { skyBoxJour } from '../skybox/listeSkybox';
 
 import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
@@ -53,6 +54,7 @@ export class GenerateurPisteService implements Observateur {
     private touche: number;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
+    private skyboxJour: THREE.Mesh;
     private voiture: THREE.Object3D;
     private sortiePisteService: SortiePisteService;
 
@@ -79,7 +81,8 @@ export class GenerateurPisteService implements Observateur {
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
-        this.camera.add(this.skybox.creerSkybox());
+        this.skyboxJour = this.skybox.creerSkybox(skyBoxJour);
+        this.camera.add(this.skyboxJour);
         this.chargerArbres();
         this.ajoutPisteAuPlan();
 

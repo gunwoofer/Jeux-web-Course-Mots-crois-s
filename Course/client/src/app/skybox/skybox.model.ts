@@ -1,24 +1,21 @@
-import { skyBoxJour } from './skyboxJour';
 import * as THREE from 'three';
 
 export class Skybox {
-    private emplacementsImages: string[] = skyBoxJour;
-
 
     private emplacementAleatoire(): number {
         return Math.floor(Math.random() * 5 + 1) - 1;
     }
 
-    private obtenirSkyboxAleatoire(): string {
+    private obtenirSkyboxAleatoire(emplacements: string[]): string {
         const indice = this.emplacementAleatoire();
-        return this.emplacementsImages[indice];
+        return emplacements[indice];
     }
 
-    private chargerTexture(): THREE.MeshBasicMaterial[] {
+    private chargerTexture(emplacements: string[]): THREE.MeshBasicMaterial[] {
         const loader = new THREE.TextureLoader();
-        const emplacementImage = this.obtenirSkyboxAleatoire();
-        const orientations = ['ft', 'bk', 'up', 'dn', 'rt', 'lf'];
-        const typeImage = '.jpg';
+        const emplacementImage = this.obtenirSkyboxAleatoire(emplacements);
+        const orientations = ['front', 'back', 'top', 'down', 'right', 'left'];
+        const typeImage = '.png';
         const materiels = [];
         for (let i = 0; i < 6; i++) {
             const texture = loader.load(emplacementImage + orientations[i] + typeImage);
@@ -32,9 +29,9 @@ export class Skybox {
         return materiels;
     }
 
-    public creerSkybox(): THREE.Mesh {
+    public creerSkybox(emplacements: string[]): THREE.Mesh {
         const geometrie = new THREE.CubeGeometry(500, 500, 500);
-        const materiels = this.chargerTexture();
+        const materiels = this.chargerTexture(emplacements);
         const materiel = new THREE.MeshFaceMaterial(materiels);
         const skybox = new THREE.Mesh(geometrie, materiel);
         return skybox;
