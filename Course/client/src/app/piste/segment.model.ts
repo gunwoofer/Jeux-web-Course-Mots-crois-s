@@ -1,11 +1,11 @@
 import * as THREE from 'three';
 import { Piste } from './piste.model';
 
-export const LARGEUR_PISTE = 10;
-export const DIAMETRE_CERCLE = 12;
-export const HAUTEUR = 0.0005;
-export const HAUTEUR_DISQUE = -0.0005;
-export const HAUTEUR_LIGNE = 0.0006;
+export const LARGEUR_PISTE = 15;
+export const DIAMETRE_CERCLE = 18;
+export const HAUTEUR_DEPART = 0.0001;
+export const HAUTEUR_DISQUE = -0.0001;
+export const HAUTEUR_LIGNE = 0.0002;
 
 export class Segment {
     public premierSegment = new Array<THREE.Vector3>();
@@ -56,9 +56,9 @@ export class Segment {
                 }
                 const point = this.calculPointMilieu(geometrie.vertices);
                 this.premierSegment[1] = new THREE.Vector3(
-                    point.x + A * LARGEUR_PISTE, point.y + B * LARGEUR_PISTE, HAUTEUR);
+                    point.x + A * LARGEUR_PISTE, point.y + B * LARGEUR_PISTE, HAUTEUR_DEPART);
                 this.premierSegment[3] = new THREE.Vector3(
-                    point.x - A * LARGEUR_PISTE, point.y - B * LARGEUR_PISTE, HAUTEUR);
+                    point.x - A * LARGEUR_PISTE, point.y - B * LARGEUR_PISTE, HAUTEUR_DEPART);
             }
             segmentsPisteVisuel.push(this.creerDisque(texture, piste, i));
             segmentsPisteVisuel.push(new THREE.Mesh(geometrie, materiel));
@@ -69,7 +69,7 @@ export class Segment {
     private creerDisque(texture: THREE.Texture, piste: Piste, i: number): THREE.Mesh {
         const patch = new THREE.CircleBufferGeometry(DIAMETRE_CERCLE, 128);
         patch.translate(piste.listepositions[i].x, piste.listepositions[i].y,  HAUTEUR_DISQUE);
-        const materielDisque = new THREE.MeshBasicMaterial( { map: texture} );
+        const materielDisque = new THREE.MeshStandardMaterial( { map: texture} );
         return new THREE.Mesh(patch, materielDisque);
     }
 
