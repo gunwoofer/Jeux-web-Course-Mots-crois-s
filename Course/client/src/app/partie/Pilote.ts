@@ -7,6 +7,7 @@ export const PREMIER_TOUR = 1;
 
 // Distance de la piste. À trouver.
 export const DISTANCE_DE_LA_PISTE = 1;
+export const DIFFERENCE_DISTANCE_PARCOURUE_RAISONNABLE = 100;
 
 export class Pilote {
     public static tempsTotal = 0;
@@ -25,7 +26,7 @@ export class Pilote {
     }
 
     public aParcourueUneDistanceRaisonnable(): boolean {
-        if ( this.voiture.distanceParcouru / Piste.longueurPiste < this.tourCourant ) {
+        if ( this.voiture.distanceParcouru / (Piste.longueurPiste - DIFFERENCE_DISTANCE_PARCOURUE_RAISONNABLE) < this.tourCourant ) {
             return false;
        }
 

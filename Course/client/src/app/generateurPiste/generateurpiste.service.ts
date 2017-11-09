@@ -99,7 +99,7 @@ export class GenerateurPisteService implements Observateur {
     public preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
         const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
-            this.segment.premierSegment[3]);
+            this.segment.premierSegment[3], this.segment.damierDeDepart);
 
         this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique, this]);
         this.voitureDuJoueur.ajouterObservateur(this.partie);

@@ -9,6 +9,7 @@ export const HAUTEUR_LIGNE = 0.0006;
 
 export class Segment {
     public premierSegment = new Array<THREE.Vector3>();
+    public damierDeDepart: THREE.Mesh;
 
     public chargerSegmentsDePiste(piste: Piste): THREE.Mesh[] {
         const segmentsPisteVisuel: THREE.Mesh[] = new Array();
@@ -88,8 +89,8 @@ export class Segment {
         loaderZoneDepart.load('../../assets/textures/ligne_depart.jpg', (texture) => {
             materielZoneDepart.map = texture;
         });
-
-        return new THREE.Mesh(geometrieZoneDepart, materielZoneDepart);
+        this.damierDeDepart = new THREE.Mesh(geometrieZoneDepart, materielZoneDepart);
+        return this.damierDeDepart;
     }
 
     public ajoutLigneDepart(piste: Piste): THREE.Line {

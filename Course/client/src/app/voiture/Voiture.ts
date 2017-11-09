@@ -38,6 +38,13 @@ export class Voiture implements sujet.Sujet {
         this.notifierObservateurs();
     }
 
+    public ignorerSortiepiste(): void {
+        this.xPrecedent = this.obtenirVoiture3D().position.x;
+        this.yPrecedemt = this.obtenirVoiture3D().position.y;
+        this.x = this.obtenirVoiture3D().position.x;
+        this.y = this.obtenirVoiture3D().position.y;
+    }
+
     public obtenirCoordonneesPrecedent(): THREE.Vector2 {
         const vectPrecedant = new THREE.Vector2(this.xPrecedent, this.yPrecedemt);
         return vectPrecedant;
