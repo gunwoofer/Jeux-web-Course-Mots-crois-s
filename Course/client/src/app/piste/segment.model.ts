@@ -72,4 +72,10 @@ export class Segment {
         const materielDisque = new THREE.MeshBasicMaterial( { map: texture} );
         return new THREE.Mesh(patch, materielDisque);
     }
+
+    public calculPointMilieu(sommets: THREE.Vector3[]): THREE.Vector3 {
+        const centreSegmentX = ((sommets[0].x + sommets[2].x) / 2 + (sommets[1].x + sommets[3].x) / 2) / 2;
+        const centreSegmentY = ((sommets[0].y + sommets[2].y) / 2 + (sommets[1].y + sommets[3].y) / 2) / 2;
+        return new THREE.Vector3(centreSegmentX, centreSegmentY, 0);
+    }
 }
