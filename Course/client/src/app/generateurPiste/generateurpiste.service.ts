@@ -184,6 +184,8 @@ export class GenerateurPisteService implements Observateur {
             obj.rotateY(vecteurCalculAngle.angle());
             obj.name = 'Voiture';
             this.objetService.enleverObjet(obj);
+            this.objetService.ajouterPhares(obj);
+            this.objetService.eteindreTousLesPhares(obj);
             obj.receiveShadow = true;
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
@@ -268,7 +270,7 @@ export class GenerateurPisteService implements Observateur {
 
     public gestionEvenement(event): void {
         if (event.key === MODE_JOUR_NUIT) {
-            this.lumiereService.modeJourNuit(event, this.scene);
+            this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
         } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);
         } else if (event.key === '+' || event.key === '-') {
