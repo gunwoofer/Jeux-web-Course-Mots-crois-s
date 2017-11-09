@@ -101,11 +101,6 @@ export class GenerateurPisteService implements Observateur {
         this.commencerMoteurDeJeu();
     }
 
-    public changerSkybox(emplacement: string): void {
-        this.camera.remove(this.camera.getObjectByName('Skybox'));
-        this.camera.add(this.skybox.creerSkybox(emplacement));
-    }
-
     public ajouterRouter(routeur: Router): void {
         this.routeur = routeur;
     }
@@ -302,9 +297,9 @@ export class GenerateurPisteService implements Observateur {
             this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
             this.jour = !this.jour;
             if (!this.jour) {
-            // this.changerSkybox(skyBoxNuit);
+                this.skyboxService.changerSkybox(this.camera, this.listeSkyboxNuit);
             } else {
-                // this.changerSkybox(skyBoxJour);
+                this.skyboxService.changerSkybox(this.camera, this.listeSkyboxJour);
             }
         } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);

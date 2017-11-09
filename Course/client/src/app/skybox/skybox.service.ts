@@ -40,4 +40,9 @@ export class SkyboxService {
     public ajouterSkybox(camera: THREE.PerspectiveCamera, listeSkybox: Array<THREE.Mesh>): void {
         camera.add(listeSkybox[this.skybox.emplacementAleatoire(listeSkybox.length)]);
     }
+
+    public changerSkybox(camera: THREE.PerspectiveCamera, listeSkybox: Array<THREE.Mesh>): void {
+        camera.remove(camera.getObjectByName('Skybox'));
+        camera.add(listeSkybox[this.skybox.emplacementAleatoire(listeSkybox.length)]);
+    }
 }
