@@ -1,3 +1,4 @@
+import { SkyboxService } from './../skybox/skybox.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { Segment } from './../piste/segment.model';
 import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
@@ -70,17 +71,24 @@ export class GenerateurPisteService implements Observateur {
     private vecteurOrthogonalPiste:  THREE.Vector2;
     private centreSegmentDepart: THREE.Vector2;
     private voituresIA: Voiture[] = [];
+    public listeSkyboxJour: Array<THREE.Mesh>;
+    public listeSkyboxNuit: Array<THREE.Mesh>;
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
-        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService) { this.segment = new Segment(); }
+        private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService,
+        private skyboxService: SkyboxService) {
+            this.segment = new Segment();
+            this.listeSkyboxJour = new Array<THREE.Mesh>();
+            this.listeSkyboxNuit = new Array<THREE.Mesh>(); }
 
     public initialisation(container: HTMLDivElement) {
         this.origine = new THREE.Vector3(0, 0, 0);
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
-        this.camera.add(this.skybox.creerSkybox(skyBoxJour));
+        this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
+        this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.chargerArbres();
         this.ajoutPisteAuPlan();
 
@@ -93,9 +101,9 @@ export class GenerateurPisteService implements Observateur {
         this.commencerMoteurDeJeu();
     }
 
-    public changerSkybox(emplacements: string[]): void {
+    public changerSkybox(emplacement: string): void {
         this.camera.remove(this.camera.getObjectByName('Skybox'));
-        this.camera.add(this.skybox.creerSkybox(emplacements));
+        this.camera.add(this.skybox.creerSkybox(emplacement));
     }
 
     public ajouterRouter(routeur: Router): void {
@@ -143,7 +151,7 @@ export class GenerateurPisteService implements Observateur {
         }, 1000 / FPS );
         this.renderer.render(this.scene, this.camera);
         this.miseAJourPositionVoiture();
-        this.rotationSkybox();
+        this.skyboxService.rotationSkybox(this.deplacement, this.voitureDuJoueur, this.camera);
     }
 
     public miseAJourPositionVoiture(): void {
@@ -151,15 +159,6 @@ export class GenerateurPisteService implements Observateur {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
             this.renderMiseAJour();
-        }
-    }
-
-    public rotationSkybox(): void {
-        if (this.deplacement.aDroite && this.voitureDuJoueur.vitesse > vitesseMin) {
-            this.camera.getObjectByName('Skybox').rotateY(rotation);
-        }
-        if (this.deplacement.aGauche && this.voitureDuJoueur.vitesse > vitesseMin) {
-            this.camera.getObjectByName('Skybox').rotateY(-rotation);
         }
     }
 
@@ -303,9 +302,9 @@ export class GenerateurPisteService implements Observateur {
             this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
             this.jour = !this.jour;
             if (!this.jour) {
-            this.changerSkybox(skyBoxNuit);
+            // this.changerSkybox(skyBoxNuit);
             } else {
-                this.changerSkybox(skyBoxJour);
+                // this.changerSkybox(skyBoxJour);
             }
         } else if (event.key === MODE_FILTRE_COULEUR) {
             this.filtreCouleurService.mettreFiltre(event, this.scene);

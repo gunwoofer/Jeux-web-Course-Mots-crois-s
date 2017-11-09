@@ -4,18 +4,12 @@ export const REAJUSTEMENT_SKYBOX = 0.2;
 
 export class Skybox {
 
-    private emplacementAleatoire(): number {
-        return Math.floor(Math.random() * 5 + 1) - 1;
+    public emplacementAleatoire(range: number): number {
+        return Math.floor(Math.random() * range + 1) - 1;
     }
 
-    private obtenirSkyboxAleatoire(emplacements: string[]): string {
-        const indice = this.emplacementAleatoire();
-        return emplacements[indice];
-    }
-
-    private chargerTexture(emplacements: string[]): THREE.MeshBasicMaterial[] {
+    private chargerTexture(emplacementImage: string): THREE.MeshBasicMaterial[] {
         const loader = new THREE.TextureLoader();
-        const emplacementImage = this.obtenirSkyboxAleatoire(emplacements);
         const orientations = ['front', 'back', 'top', 'bottom', 'right', 'left'];
         const typeImage = '.png';
         const materiels = [];
@@ -31,9 +25,9 @@ export class Skybox {
         return materiels;
     }
 
-    public creerSkybox(emplacements: string[]): THREE.Mesh {
+    public creerSkybox(emplacement: string): THREE.Mesh {
         const geometrie = new THREE.CubeGeometry(1500, 1500, 1500);
-        const materiels = this.chargerTexture(emplacements);
+        const materiels = this.chargerTexture(emplacement);
         const materiel = new THREE.MultiMaterial(materiels);
         const skybox = new THREE.Mesh(geometrie, materiel);
         skybox.name = 'Skybox';
