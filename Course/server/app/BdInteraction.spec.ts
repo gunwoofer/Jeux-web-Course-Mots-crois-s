@@ -34,67 +34,7 @@ const pisteModifie = new modelDePiste({
     { z: 0, y: 124.003569616469644, x: 102.77079099777208 }],
 });
 
-// describe('Test unitaire base de données', () => {
-//     beforeEach((fin) => {
-//         const expect = chai.expect;
-//         const bd = new BdImplementation();
-//         bd.connect(configuration.baseDeDonneesUrlTest);
-//         piste.save().then(() => {
-//             chai.assert(piste.isNew === false);
-//             fin();
-//         });
-//     });
-
-//     it('Trouver une piste dans la base de donnée', (fin) => {
-//         modelDePiste.findOne({ nom: 'pisteUnitTest' })
-//             .then((result) => {
-//                 chai.assert(result.nom === 'pisteUnitTest');
-//                 fin();
-//             });
-//     });
-
-//     it('Trouver une piste dans la base de donnée à partir de son Id', (fin) => {
-//         modelDePiste.findById({ _id: piste._id })
-//             .then((result) => {
-//                 chai.assert(result.nom === 'pisteUnitTest');
-//                 chai.assert(result._id === piste._id);
-//                 fin();
-//             });
-//     });
-
-//     it('Trouver une piste dans la base de donnée à partir de son Id et la modifier', (fin) => {
-//         modelDePiste.findById({ _id: piste._id })
-//             .then((result) => {
-//                 chai.assert(result.nom === 'pisteUnitTest');
-//                 chai.assert(result._id === piste._id);
-//                 result.nom = pisteModifie.nom;
-//                 result.typeCourse = pisteModifie.typeCourse;
-//                 result.description = pisteModifie.description;
-//                 result.listepositions = pisteModifie.listepositions;
-//                 result.save().then(() => {
-//                     chai.assert(result.nom !== piste.nom);
-//                     chai.assert(result.typeCourse !== piste.typeCourse);
-//                     chai.assert(result.description !== piste.description);
-//                     chai.assert(result.listepositions !== piste.listepositions);
-//                     fin();
-//                 });
-//             });
-//     });
-
-//     it('Trouver une piste dans la base de donnée à partir et la supprimer', (fin) => {
-//         modelDePiste.findById({ _id: piste._id })
-//             .then((result) => {
-//                 chai.assert(result.nom === 'pisteUnitTest');
-//                 chai.assert(result._id === piste._id);
-//                 result.remove().then(resultat => {
-//                     chai.assert(resultat === null);
-//                     fin();
-//                 });
-//             });
-//     });
-// });
-
-describe('Test unitaire ajout dans la base de données', () => {
+describe('Test unitaire base de données', () => {
     beforeEach((fin) => {
         const bd = new BdImplementation();
         bd.connect(configuration.baseDeDonneesUrlTest);
@@ -103,49 +43,57 @@ describe('Test unitaire ajout dans la base de données', () => {
 
     it('Ajouter une piste à la base de donnée', (fin) => {
         piste.save().then(() => {
-            chai.assert(piste.isNew === false);
+            chai.expect(piste.isNew === false);
             fin();
         });
     });
-});
 
-describe('Test unitaire ajout dans la base de données', () => {
-    beforeEach((fin) => {
-        const bd = new BdImplementation();
-        bd.connect(configuration.baseDeDonneesUrlTest);
-        fin();
-    });
-
-        it('Trouver une piste dans la base de donnée', (fin) => {
+    it('Trouver une piste dans la base de donnée', (fin) => {
+        const expect = chai.expect;
         modelDePiste.findOne({ nom: 'pisteUnitTest' })
             .then((result) => {
-                chai.assert(result.nom === 'pisteUnitTest');
+                expect(result.nom === 'pisteUnitTest');
                 fin();
             });
     });
 
     it('Trouver une piste dans la base de donnée à partir de son Id', (fin) => {
+        const expect = chai.expect;
         modelDePiste.findById({ _id: piste._id })
             .then((result) => {
-                chai.assert(result.nom === 'pisteUnitTest');
+                expect(result.nom === 'pisteUnitTest');
+                expect(result._id === piste._id);
                 fin();
             });
     });
-});
 
-describe('Test unitaire ajout dans la base de données', () => {
-    beforeEach((fin) => {
-        const bd = new BdImplementation();
-        bd.connect(configuration.baseDeDonneesUrlTest);
-        fin();
+    it('Trouver une piste dans la base de donnée à partir de son Id et la modifier', (fin) => {
+        modelDePiste.findById({ _id: piste._id })
+            .then((result) => {
+                chai.expect(result.nom === 'pisteUnitTest');
+                chai.expect(result._id === piste._id);
+                result.nom = pisteModifie.nom;
+                result.typeCourse = pisteModifie.typeCourse;
+                result.description = pisteModifie.description;
+                result.listepositions = pisteModifie.listepositions;
+                result.save().then(() => {
+                    chai.expect(result.nom !== piste.nom);
+                    chai.expect(result.typeCourse !== piste.typeCourse);
+                    chai.expect(result.description !== piste.description);
+                    chai.expect(result.listepositions !== piste.listepositions);
+                    fin();
+                });
+            });
     });
 
     it('Trouver une piste dans la base de donnée à partir et la supprimer', (fin) => {
+        const expect = chai.expect;
         modelDePiste.findById({ _id: piste._id })
             .then((result) => {
-                chai.assert(result.nom === 'pisteUnitTest');
+                expect(result.nom === 'pisteUnitTest');
+                expect(result._id === piste._id);
                 result.remove().then(resultat => {
-                    chai.assert(resultat === null);
+                    expect(resultat === null);
                     fin();
                 });
             });

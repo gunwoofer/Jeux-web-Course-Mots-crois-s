@@ -1,6 +1,7 @@
 import { BdImplementation } from './bdImplementation';
 import * as chai from 'chai';
 import { modelAdmin } from './adminModel';
+import * as configuration from './Configuration';
 
 const admin = new modelAdmin({
     nomUtilisateur: 'a-7',
@@ -16,51 +17,45 @@ const nouveauMotPasse = 'ALLLOOO';
 
 
 
-describe('Test unitaire base de données pour la collection administrateur (on ajoute un admin)', () => {
+describe('Test unitaire base de données pour la collection administrateur', () => {
     beforeEach((fin) => {
         const bd = new BdImplementation();
-        bd.connect('mongodb://localhost/BdadminTest');
+        bd.connect(configuration.baseDeDonneesUrlTest);
         fin();
-
     });
 
-    it('Ajouter une piste à la base de donnée', (fin) => {
+    it('Ajouter dun admin à la base de donnée', (fin) => {
         admin.save().then(() => {
-            chai.expect(admin.isNew).equal(false);
+            chai.expect(admin.isNew === false);
             fin();
         });
     });
 
     it('trouver le mot de passe dun admin dans la base de donnée', (fin) => {
         const expect = chai.expect;
-        modelAdmin.findOne({ email: email })
+        modelAdmin.findOne({ email: admin.email })
             .then((result) => {
-                expect(result.nom).equal(admin.nom);
-                expect(result.motDePasse).equal(admin.motDePasse);
+                expect(result.nom === admin.nom);
+                expect(result.motDePasse === admin.motDePasse);
                 fin();
             });
     });
 
     it('se connecter à partir de lemail et voir si le mot de passe est correct, on retourne le nom dadmin', (fin) => {
         const expect = chai.expect;
-        modelAdmin.findOne({ email: email })
+        modelAdmin.findOne({ email: admin.email })
             .then((result) => {
-                expect(result.email).equal(admin.email);
-                expect(result.motDePasse).equal(admin.motDePasse);
+                expect(result.email === admin.email);
+                expect(result.motDePasse === admin.motDePasse);
                 fin();
             });
     });
 
     it('modification du mot de passe', (fin) => {
-        modelAdmin.findOne({ email: email })
-            .then((result) => {
-                chai.expect(result.email).equal(admin.email);
-                chai.expect(result.motDePasse).equal(ancienMotPasse);
-                result.motDePasse = nouveauMotPasse;
-                result.save().then(() => {
-                    chai.expect(result.email).equal(result.email);
-                    chai.expect(result.motDePasse).not.equal(ancienMotPasse);
-                    chai.expect(result.motDePasse).equal(nouveauMotPasse);
+        modelAdmin.findOneAndUpdate({ motDePasse: admin.motDePasse }, { motDePasse: nouveauMotPasse })
+            .then(() => {
+                modelAdmin.findOne({ _id: admin._id }).then((result) => {
+                    chai.expect(result.motDePasse === nouveauMotPasse);
                     fin();
                 });
             });
@@ -68,7 +63,7 @@ describe('Test unitaire base de données pour la collection administrateur (on a
 
     it('retourne le nombre dadmin dans la base de donnée', (fin) => {
         modelAdmin.find().then((resultat) => {
-            chai.expect(resultat.length).not.equal(0);
+            chai.expect(resultat.length !== 0);
             chai.expect(resultat.length).greaterThan(0);
             fin();
         });
