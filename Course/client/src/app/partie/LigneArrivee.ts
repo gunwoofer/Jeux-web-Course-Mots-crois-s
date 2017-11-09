@@ -2,14 +2,17 @@
 import * as THREE from 'three';
 import { Voiture } from '../voiture/Voiture';
 export const DISTANCE_RAISONNABLE_PRES_LIGNE_ARRIVEE = 40;
+export const Z_AU_DESSUS_DU_SEGMENT = 2;
 
 export class LigneArrivee {
     private vecteurDebut: THREE.Vector3;
     private vecteurFin: THREE.Vector3;
+    private segmentArrivee: THREE.Mesh;
 
-    constructor(vecteurDebut: THREE.Vector3, vecteurFin: THREE.Vector3) {
+    constructor(vecteurDebut: THREE.Vector3, vecteurFin: THREE.Vector3, segmentArrivee: THREE.Mesh) {
         this.vecteurDebut = vecteurDebut;
         this.vecteurFin = vecteurFin;
+        this.segmentArrivee = segmentArrivee;
     }
 
     private mockLigneArrivee() {
@@ -23,7 +26,7 @@ export class LigneArrivee {
         const pointMilieu: THREE.Vector3 = voiture.obtenirPointMilieu();
 
         if ( this.estSurLaLigneArrivee(this.vecteurDebut.x, this.vecteurDebut.y, this.vecteurFin.x,
-            this.vecteurFin.y, pointMilieu.x, pointMilieu.y) ) {
+            this.vecteurFin.y, pointMilieu.x, pointMilieu.y, voiture) ) {
                 return true;
         }
 
@@ -31,14 +34,30 @@ export class LigneArrivee {
     }
 
     // Si le produit vectoriel est = 0, alors il est aligné avec la ligne.
-    public estSurLaLigneArrivee(p1X: number, p1Y: number, p2X: number, p2Y: number, pMilieuX: number, pMilieuY: number) {
+    public estSurLaLigneArrivee(p1X: number, p1Y: number, p2X: number, p2Y: number, pMilieuX: number, pMilieuY: number, voiture: Voiture) {
         if (this.calculDistanceSegmentAPoint(p1X, p1Y, p2X, p2Y, pMilieuX, pMilieuY) < 40) {
-            console.log('CALCUL PRODUITVECTO:' + this.calculDistanceSegmentAPoint(p1X, p1Y, p2X, p2Y, pMilieuX, pMilieuY));
+            if (this.estSurLeSegmentDeDepart(voiture)) {
+                console.log('CALCUL PRODUITVECTO:' + this.calculDistanceSegmentAPoint(p1X, p1Y, p2X, p2Y, pMilieuX, pMilieuY));
+            }
         }
 
         if (this.calculDistanceSegmentAPoint(p1X, p1Y, p2X, p2Y, pMilieuX, pMilieuY) < DISTANCE_RAISONNABLE_PRES_LIGNE_ARRIVEE) {
+            if (this.estSurLeSegmentDeDepart(voiture)) {
+                console.log("EST SUR LA LIGNE !!!!");
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public estSurLeSegmentDeDepart(voiture: Voiture): boolean {
+        const versLeBas: THREE.Vector3 = new THREE.Vector3(0, 0, -1);
+        voiture.voiture3D.position.z = Z_AU_DESSUS_DU_SEGMENT;
+        const raycaster: THREE.Raycaster = new THREE.Raycaster(voiture.voiture3D.position, versLeBas);
+        if (raycaster.intersectObject(this.segmentArrivee).length !== 0) {
             return true;
         }
+
         return false;
     }
 

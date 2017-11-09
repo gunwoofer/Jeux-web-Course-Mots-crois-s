@@ -26,6 +26,7 @@ export class SortiePisteService {
         voiture.obtenirVoiture3D().position.x = this.trouverMilieuSegment(this.segmentOuReapparaitre).x;
         voiture.obtenirVoiture3D().position.y = this.trouverMilieuSegment(this.segmentOuReapparaitre).y;
         voiture.obtenirVoiture3D().position.z = 0;
+        voiture.ignorerSortiepiste();
     }
 
     public estSurLaPiste(voiture: THREE.Object3D): boolean {

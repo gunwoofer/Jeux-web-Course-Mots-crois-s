@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 
+export const REDUCTION_VITESSE = 10;
+
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
     public vitesse;
@@ -23,7 +25,7 @@ export class Voiture implements sujet.Sujet {
         this.vitesse = 0;
     }
 
-    public bougerVoiture(): void {
+    public calculerDistance(): void {
         this.xPrecedent = this.x;
         this.yPrecedemt = this.y;
         this.x = this.obtenirVoiture3D().position.x;
@@ -34,6 +36,13 @@ export class Voiture implements sujet.Sujet {
 
         this.distanceParcouru += distanceParcourueCourante;
         this.notifierObservateurs();
+    }
+
+    public ignorerSortiepiste(): void {
+        this.xPrecedent = this.obtenirVoiture3D().position.x;
+        this.yPrecedemt = this.obtenirVoiture3D().position.y;
+        this.x = this.obtenirVoiture3D().position.x;
+        this.y = this.obtenirVoiture3D().position.y;
     }
 
     public obtenirCoordonneesPrecedent(): THREE.Vector2 {
@@ -76,6 +85,6 @@ export class Voiture implements sujet.Sujet {
     }
 
     public reduireVitesseSortiePiste(): void {
-        this.vitesse /= 3;
+        this.vitesse /= REDUCTION_VITESSE;
     }
 }
