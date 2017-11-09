@@ -23,6 +23,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
         private tableauScoreService: TableauScoreService
     ) {
         generateurPisteService.ajouterRouter(router);
+        generateurPisteService.configurerTours(pisteService.nombreDeTours)
     }
 
     public ngOnInit() {

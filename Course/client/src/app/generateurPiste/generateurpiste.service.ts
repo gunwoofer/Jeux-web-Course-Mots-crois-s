@@ -12,7 +12,7 @@ import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
 
 import { Piste } from '../piste/piste.model';
-import { Partie } from '../partie/Partie';
+import { Partie, NOMBRE_DE_TOURS_PAR_DEFAULT } from '../partie/Partie';
 import { Pilote } from '../partie/Pilote';
 import { LigneArrivee } from '../partie/LigneArrivee';
 import { MusiqueService } from '../musique/musique.service';
@@ -63,6 +63,7 @@ export class GenerateurPisteService implements Observateur {
     private voituresIA: Voiture[] = [];
     public listeSkyboxJour: Array<THREE.Mesh>;
     public listeSkyboxNuit: Array<THREE.Mesh>;
+    private nombreTours = NOMBRE_DE_TOURS_PAR_DEFAULT;
 
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
@@ -90,6 +91,11 @@ export class GenerateurPisteService implements Observateur {
         this.commencerMoteurDeJeu();
     }
 
+    public configurerTours(nombreTours: number) {
+        this.nombreTours = nombreTours;
+        Partie.toursAComplete = this.nombreTours;
+    }
+
     public ajouterRouter(routeur: Router): void {
         this.routeur = routeur;
     }
@@ -99,7 +105,7 @@ export class GenerateurPisteService implements Observateur {
         const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
             this.segment.premierSegment[3], this.segment.damierDeDepart);
 
-        this.partie = new Partie([pilote], ligneArrivee, undefined /* TOURS A COMPLETER ICI */, [this.musiqueService.musique, this]);
+        this.partie = new Partie([pilote], ligneArrivee, this.nombreTours, [this.musiqueService.musique, this]);
         this.voitureDuJoueur.ajouterObservateur(this.partie);
         this.partie.ajouterRouteur(this.routeur);
 

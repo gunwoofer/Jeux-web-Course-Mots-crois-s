@@ -15,14 +15,14 @@ export class Pilote {
     private voiture: Voiture;
     private tempsMiliSecondsParTour: number[] = [];
     private tourCourant = PREMIER_TOUR;
-    private tourACompleter = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public tourACompleter = NOMBRE_DE_TOURS_PAR_DEFAULT;
     private guidPilote = Guid.generateGUID();
     private estJoueur = false;
 
-    constructor (voiture: Voiture, estJoueur: boolean, tourACompleter?: number) {
+    constructor (voiture: Voiture, estJoueur: boolean) {
         this.voiture = voiture;
         this.estJoueur = estJoueur;
-        this.tourACompleter = (tourACompleter !== undefined) ? tourACompleter : NOMBRE_DE_TOURS_PAR_DEFAULT;
+        this.tourACompleter = Partie.toursAComplete;
     }
 
     public aParcourueUneDistanceRaisonnable(): boolean {
