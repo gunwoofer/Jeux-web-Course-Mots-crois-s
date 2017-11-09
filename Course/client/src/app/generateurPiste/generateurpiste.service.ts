@@ -48,9 +48,7 @@ export class GenerateurPisteService implements Observateur {
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
     public scene: THREE.Scene;
-    private origine: THREE.Vector3;
     private voitureDuJoueur: Voiture;
-    private touche: number;
     private deplacement = new Deplacement();
     private skybox = new Skybox();
     private voiture: THREE.Object3D;
@@ -74,7 +72,6 @@ export class GenerateurPisteService implements Observateur {
         private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService) { this.segment = new Segment(); }
 
     public initialisation(container: HTMLDivElement) {
-        this.origine = new THREE.Vector3(0, 0, 0);
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);

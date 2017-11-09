@@ -1,7 +1,6 @@
 import { Score } from './../tableauScore/Score.model';
 import * as THREE from 'three';
 import { NgForm } from '@angular/forms';
-import { Segment } from './segment.model';
 
 export class Piste {
     public static longueurPiste = 0;

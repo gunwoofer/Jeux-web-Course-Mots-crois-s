@@ -14,7 +14,7 @@ export class RatingComponent {
     public rating(event): void {
         console.log(event.target.value);
     }
-    
+
     public onClick() {
         this.veutVoter = false;
     }

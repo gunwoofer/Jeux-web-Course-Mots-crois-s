@@ -5,7 +5,6 @@ import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { Voiture } from '../voiture/Voiture';
 import { Router } from '@angular/router';
-import { DUREE_STINGER } from '../musique/musique.model';
 
 export const  NOMBRE_DE_TOURS_PAR_DEFAULT = 3;
 

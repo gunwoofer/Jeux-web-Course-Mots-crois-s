@@ -56,7 +56,7 @@ export class LigneArrivee {
         const avaby: number = avy * abx - avx * aby;
 
         // NORME AV ^ AB
-        const avabnorme: number = Math.pow(Math.pow(avabx ,2) + Math.pow(avaby ,2), 0.5);
+        const avabnorme: number = Math.pow(Math.pow(avabx , 2) + Math.pow(avaby , 2), 0.5);
 
         return avabnorme;
     }
