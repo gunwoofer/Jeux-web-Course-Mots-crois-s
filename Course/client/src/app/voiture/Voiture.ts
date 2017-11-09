@@ -3,6 +3,8 @@ import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 
+export const REDUCTION_VITESSE = 10;
+
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
     public vitesse;
@@ -85,6 +87,6 @@ export class Voiture implements sujet.Sujet {
     }
 
     public reduireVitesseSortiePiste(): void {
-        this.vitesse /= 3;
+        this.vitesse /= REDUCTION_VITESSE;
     }
 }
