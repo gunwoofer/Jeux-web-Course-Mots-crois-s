@@ -13,8 +13,8 @@ export class ModificationMotDePasseComponent {
     constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
     public soummetre(form: NgForm): void {
-        const modiForm = new ModificationForm(form.value.email, form.value.motDePasse, form.value.NmotDePasse);
-        this.utilisateurService.modifierMotDePasse(modiForm)
+        const modificationForm = new ModificationForm(form.value.email, form.value.motDePasse, form.value.NmotDePasse);
+        this.utilisateurService.modifierMotDePasse(modificationForm)
             .then(donne => {
                 if (donne.message) {
                   alert(donne.message);
