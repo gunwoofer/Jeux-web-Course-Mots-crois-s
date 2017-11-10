@@ -11,8 +11,6 @@ const admin = new modelAdmin({
     motDePasse: 'Hello',
 });
 
-const ancienMotPasse = 'Hello';
-const email = 'john.Doe@gmail.com';
 const nouveauMotPasse = 'ALLLOOO';
 
 
