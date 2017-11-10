@@ -16,7 +16,7 @@ import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/Requi
 import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {RequisPourSelectionnerMot} from '../../../../commun/requis/RequisPourSelectionnerMot';
-import {RequisPourObtenirTempsRestant} from "../../../../commun/requis/RequisPourObtenirTempsRestant";
+import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/RequisPourObtenirTempsRestant';
 
 
 @Injectable()
@@ -371,7 +371,7 @@ export class GameViewService {
   }
 
   public afficherSelectionIndice(indice: IndiceMot) {
-    if (indice){
+    if (indice) {
       this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
       this.indiceSelectionne.next(indice);
     }
