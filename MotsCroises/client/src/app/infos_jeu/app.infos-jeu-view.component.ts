@@ -65,6 +65,11 @@ export class InfosJeuViewComponent implements AfterViewInit {
     }
   }
 
+  public activerCheatMode(): void {
+    this.gameViewService.demanderMotsComplets();
+  }
+
+
   private MAJTempsServer() {
     this.gameViewService.demanderTempsPartie();
   }

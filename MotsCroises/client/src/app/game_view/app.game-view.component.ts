@@ -58,11 +58,11 @@ export class GameViewComponent implements OnInit {
     return false;
   }
 
-  private retourAccueil(): void{
+  private retourAccueil(): void {
     this.router.navigate(['/']);
   }
 
-  private obtenirNombreDeJoueurs(){
+  private obtenirNombreDeJoueurs() {
     this.route.paramMap
       .switchMap((params: ParamMap) => this.nbJoueurs = params.get('nbJoueurs'))
       .subscribe();

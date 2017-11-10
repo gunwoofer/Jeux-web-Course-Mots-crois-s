@@ -181,4 +181,8 @@ export class Partie {
 
         joueur.nePlusSelectionnerEmplacementMot();
     }
+
+    public obtenirGrille(): Grille {
+        return this.grille;
+    }
 }
