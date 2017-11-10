@@ -18,35 +18,6 @@ export class TableauScoreService {
 
     constructor(private http: Http) { }
 
-    public verifierTemps(): boolean {
-        let felicitation = false;
-        if (this.temps) {
-            const cinqMeilleurTemps: Score[] = this.traitementDonneeTableau.cinqMeilleurTemps(this.piste.meilleursTemps);
-
-
-            if (cinqMeilleurTemps.length < 5) {
-                felicitation = true;
-            }
-
-            if (cinqMeilleurTemps[0] !== undefined) {
-
-                if (cinqMeilleurTemps[0].valeur > this.temps) {
-                    felicitation = true;
-                }
-
-                if (cinqMeilleurTemps[cinqMeilleurTemps.length - 1].valeur > this.temps) {
-                    felicitation = true;
-                }
-
-            }
-
-            if (felicitation) {
-                alert('BRAVO ! Vous êtes dans les cinq meilleurs scores !');
-            }
-        }
-        return felicitation;
-    }
-
     public ajouterTemps(score: Score): void {
         this.piste.meilleursTemps.push(score);
         const fin = this.piste.meilleursTemps.length - 1;

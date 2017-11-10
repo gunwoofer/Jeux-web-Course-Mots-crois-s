@@ -1,8 +1,8 @@
 import * as THREE from 'three';
 import { Piste } from './piste.model';
 
-export const LARGEUR_PISTE = 10;
-export const DIAMETRE_CERCLE = 13;
+export const LARGEUR_PISTE = 15;
+export const DIAMETRE_CERCLE = 18;
 export const HAUTEUR_DEPART = 0.0001;
 export const HAUTEUR_DISQUE = -0.0001;
 export const HAUTEUR_LIGNE = 0.0002;

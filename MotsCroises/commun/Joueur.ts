@@ -1,5 +1,6 @@
 import {Guid} from './Guid';
 import {EmplacementMot} from './EmplacementMot';
+import {Couleur} from "./Couleur";
 
 export const NOM_JOUEUR_HOTE_DEFAULT = 'joueurHote';
 

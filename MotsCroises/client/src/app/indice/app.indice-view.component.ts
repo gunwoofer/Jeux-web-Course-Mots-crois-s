@@ -21,6 +21,7 @@ export class IndiceViewComponent implements OnInit {
     }
     this.selectedIndice = indice;
     this.gameViewService.afficherSelectionIndice(indice);
+    this.gameViewService.selectionIndice();
   }
 
   public annulerSelectionIndice() {

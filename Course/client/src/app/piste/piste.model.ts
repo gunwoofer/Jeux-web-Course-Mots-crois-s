@@ -18,6 +18,10 @@ export class Piste {
         public id?: number) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = [];
+
+        for (let i = 0; i < 5; i++) {
+            this.meilleursTemps[i] = new Score('anas', '4min 0' + i + 's');
+        }
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
 
         Piste.longueurPiste = this.obtenirLongueurPiste();

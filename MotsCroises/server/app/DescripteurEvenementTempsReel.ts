@@ -16,8 +16,6 @@ import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDeman
 import {VuePartieEnCours} from '../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {EtatPartie} from '../../commun/EtatPartie';
-import { Joueur } from '../../commun/Joueur';
-import {RequisPourModifierTempsRestant} from '../../commun/requis/RequisPourModifierTempsRestant';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -199,6 +197,7 @@ export class DescripteurEvenementTempsReel {
 
     public obtenirMotsComplets(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
     requisPourMotsComplets: RequisPourMotsComplets): void {
+        console.log("JE PASSE DANS LE SERVER");
         const listeMots: MotComplet[] = gestionnaireDePartieService.obtenirPartieEnCours(requisPourMotsComplets.guidPartie)
         .obtenirGrille().mots;
         requisPourMotsComplets = RequisPourMotsComplets.rehydrater(requisPourMotsComplets);
@@ -211,18 +210,5 @@ export class DescripteurEvenementTempsReel {
 
     private estUnAdversaire(clientEmetteur: SocketIO.Socket, clientCourant: SocketIO.Socket): boolean {
         return (clientEmetteur.id === clientCourant.id) ? false : true;
-    }
-
-    public modifierTempsRestant(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-                                requisPourModifierTempsRestant: RequisPourModifierTempsRestant, clientSockets: SocketIO.Socket[]) {
-
-        const requisPourObtenirTempsRestant =  new RequisPourObtenirTempsRestant(requisPourModifierTempsRestant.guidPartie);
-        gestionnaireDePartieService.obtenirPartieEnCours(requisPourModifierTempsRestant.guidPartie)
-            .nouveauTemps(requisPourModifierTempsRestant.nouveauTemps);
-
-        requisPourObtenirTempsRestant.tempsRestant = gestionnaireDePartieService
-            .obtenirPartieEnCours(requisPourObtenirTempsRestant.guidPartie).obtenirTempsRestantMilisecondes();
-
-        client.emit(requetes.REQUETE_CLIENT_MODIFIER_TEMPS_RESTANT_RAPPEL, requisPourObtenirTempsRestant);
     }
 }

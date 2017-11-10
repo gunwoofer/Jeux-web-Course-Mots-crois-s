@@ -9,17 +9,11 @@
     <div class='titre'>Infos de jeu</div>
     <div>{{tempsRestant}}</div>
     <button (click)="activerCheatMode()">Cheat Mode</button>
-    <div [hidden]="!cheatModeVisible">
-      <button (click)="demanderAffichageMots()">Afficher les mots</button>
-      <div class="changerTemps">
-        <input [(ngModel)]="tempsVoulu" placeholder="Name" type="number"/>
-      </div>
-      <button (click)="modifierTempsServeur()">Modifier Temps</button>
-    </div>
   </div>
   <div class='player_info' [hidden]="nbJoueurs === '0' ">
-    <div class='titre'>{{joueur2.nomJoueur}}</div>
+    <div class='titre' >{{joueur2.nomJoueur}}</div>
     <div>{{joueur2.pointage}} mots trouvés</div>
+    <div>{{motEnCoursJ2}}</div>
 
   </div>
 </div>
