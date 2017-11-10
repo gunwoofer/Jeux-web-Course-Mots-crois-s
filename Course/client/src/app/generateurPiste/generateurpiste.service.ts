@@ -25,7 +25,7 @@ import { Sujet } from '../../../../commun/observateur/Sujet';
 
 export const LARGEUR_PISTE = 5;
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
-export const FIN_PARTIE_URL = '/finPartie';
+export const FIN_PARTIE_URL = '/resultatPartie';
 export const DUREE_STINGER_MILISECONDES = DUREE_STINGER * Math.pow(10, 3);
 export const FPS = 60;
 export const MODE_JOUR_NUIT = 'n';
