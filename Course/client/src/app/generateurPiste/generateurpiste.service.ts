@@ -292,7 +292,7 @@ export class GenerateurPisteService implements Observateur {
     public gestionEvenement(event): void {
         if (event.key === MODE_JOUR_NUIT) {
             this.logiquePhares();
-            this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
+            this.lumiereService.modeJourNuit(event, this.scene);
             this.jour = !this.jour;
             this.skyboxService.alternerSkybox(this.jour, this.camera, this.listeSkyboxJour, this.listeSkyboxNuit);
         } else if (event.key === MODE_FILTRE_COULEUR) {

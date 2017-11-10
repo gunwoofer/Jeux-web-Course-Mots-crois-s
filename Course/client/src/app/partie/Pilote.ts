@@ -19,14 +19,14 @@ export class Pilote {
     private guidPilote = Guid.generateGUID();
     private estJoueur = false;
 
-    constructor (voiture: Voiture, estJoueur: boolean) {
+    constructor(voiture: Voiture, estJoueur: boolean) {
         this.voiture = voiture;
         this.estJoueur = estJoueur;
         this.tourACompleter = Partie.toursAComplete;
     }
 
     public aParcourueUneDistanceRaisonnable(): boolean {
-        if ( this.voiture.distanceParcouru / (Piste.longueurPiste / 2) < this.tourCourant ) {
+        if (this.voiture.distanceParcouru / (Piste.longueurPiste / 2) < this.tourCourant) {
             return false;
         }
         return true;
@@ -40,7 +40,7 @@ export class Pilote {
         return !this.estJoueur;
     }
 
-    public termineTour(tempsMiliSeconds: number) {
+    public termineTour(tempsMiliSeconds: number): void {
         this.tourACompleter--;
         this.tourCourant++;
         this.tempsMiliSecondsParTour.push(tempsMiliSeconds);
@@ -69,7 +69,7 @@ export class Pilote {
         return false;
     }
 
-    public observerVoiture(observateur: Observateur) {
+    public observerVoiture(observateur: Observateur): void {
         this.voiture.ajouterObservateur(observateur);
     }
 }

@@ -1,12 +1,10 @@
 import { FiltreCouleurService } from './filtreCouleur.service';
 import { Voiture } from '../voiture/Voiture';
-import { HttpModule } from '@angular/http';
-import { FormsModule } from '@angular/forms';
-import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing';
+import { TestBed, inject, async } from '@angular/core/testing';
 import * as THREE from 'three';
 
 
-describe('CameraService test', () => {
+describe('FiltreService test', () => {
 
     let filtreCouleurService: FiltreCouleurService;
     beforeEach(async(() => {
