@@ -41,7 +41,7 @@ describe('ConnexionTempsReel', () => {
   it('Il est possible de créer une partie via la connexion temps réel.', (done) => {
     const connexionTempsReelClient: ConnexionTempsReelClient = new ConnexionTempsReelClient();
     const joueur: Joueur = new Joueur();
-    const specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique);
+    const specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique_a_un);
 
     connexionTempsReelClient.demarerConnexion()
       .then((resultat: boolean) => {
@@ -63,7 +63,7 @@ describe('ConnexionTempsReel', () => {
   it('Il est possible de vérifier un mot en temps réél.', (done) => {
     const connexionTempsReelClient: ConnexionTempsReelClient = new ConnexionTempsReelClient();
     const joueur: Joueur = new Joueur();
-    const specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique);
+    const specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique_a_un);
 
     connexionTempsReelClient.demarerConnexion()
       .then((resultat: boolean) => {

@@ -16,6 +16,7 @@ import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDeman
 import {VuePartieEnCours} from '../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {EtatPartie} from '../../commun/EtatPartie';
+import { Joueur } from '../../commun/Joueur';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -56,7 +57,7 @@ export class DescripteurEvenementTempsReel {
     public joindrePartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
                                     generateurDeGrilleService: GenerateurDeGrilleService,
                                     requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur, clients: SocketIO.Socket[]): void {
-
+        requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
         const partieEnAttente: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourJoindrePartieMultijoueur.guidPartie);
         const grille: Grille = partieEnAttente.obtenirGrilleComplete();
         partieEnAttente.ajouterJoueur(requisPourJoindrePartieMultijoueur.joueurAAjouter);

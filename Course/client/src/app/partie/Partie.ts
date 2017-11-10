@@ -5,15 +5,20 @@ import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { Voiture } from '../voiture/Voiture';
 import { Router } from '@angular/router';
-import { DUREE_STINGER } from '../musique/musique.model';
 
 export const  NOMBRE_DE_TOURS_PAR_DEFAULT = 3;
-export const FIN_PARTIE_URL = '/finPartie';
-export const DUREE_STINGER_MILISECONDES = DUREE_STINGER * 1000;
+
+export enum EtatPartie {
+    En_attente,
+    En_cours,
+    Termine
+}
 
 
 export class Partie implements Observateur, Sujet {
     public static toursAComplete = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public etatPartie: EtatPartie = EtatPartie.En_attente;
+
     public observateurs: Observateur[];
 
     private pilotes: Pilotes;
@@ -30,9 +35,9 @@ export class Partie implements Observateur, Sujet {
     }
 
     public demarrerPartie(): void {
-        this.pilotes.demarrerMoteur();
         this.partirCompteur();
         this.notifierObservateurs();
+        this.etatPartie = EtatPartie.En_cours;
     }
 
     public partirCompteur(): void {
@@ -48,33 +53,24 @@ export class Partie implements Observateur, Sujet {
     }
 
     public notifier(sujet: Sujet): void {
-        // Le Sujet est une voiture.
         const voitureCourante: Voiture = <Voiture> sujet;
 
         if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
-
-            // Vérifions si la distance parcourue est raisonnable avant d'attribuer un tour de plus au pilotre.
             if (this.pilotes.aParcourueUneDistanceRaisonnable(voitureCourante)) {
                 this.pilotes.incrementerTour(voitureCourante, Date.now() - this.tempsDepartMilisecondes);
 
                 if (this.pilotes.aTermine()) {
+                    this.etatPartie = EtatPartie.Termine;
                     this.notifierObservateurs();
-                    setInterval(this.voirPageFinPartie(), DUREE_STINGER_MILISECONDES);
                 }
             }
         }
 
     }
-    public voirPageFinPartie(): void {
-        this.routeur.navigateByUrl(FIN_PARTIE_URL);
-    }
 
     public ajouterRouteur(routeur: Router): void {
         this.routeur = routeur;
     }
-
-    // Sujet
-
 
     public ajouterObservateur(observateur: Observateur): void {
         this.observateurs.push(observateur);

@@ -44,11 +44,11 @@ module Administrateur {
                 }
                 if (!admin) {
                     return res.status(500).json({
-                        message: 'il nexiste pas',
+                        message: 'cet administrateur nexiste pas dans la base de données',
                     });
                 }
                 res.status(200).json({
-                    motDePasse: admin.motDePasse,
+                    motDePasse: 'votre mot de passe est: ' + admin.motDePasse,
                 });
             });
         };
@@ -83,14 +83,15 @@ module Administrateur {
                 }
                 if (!admin || (admin.motDePasse !== req.body.ancienMotDpass)) {
                     return res.status(500).json({
-                        message: 'il nexiste pas un administrateur avec ces informations',
+                        message: 'Les informations fournis ne sont pas authentiques',
+                        error: err,
                     });
                 }
                 admin.motDePasse = req.body.nouveauMotDpass;
                 admin.save((error, resultat) => {
                     if (err) {
                         return res.status(500).json({
-                            title: 'une erreur est survenue lors de la modification',
+                            message: 'une erreur est survenue lors de la modification',
                             error: err
                         });
                     }

@@ -2,6 +2,8 @@ import { ModificationForm } from './admin/modificationMotDepasse/modificationMod
 import { Http, Response } from '@angular/http';
 import { Administrateur } from './admin/admin.model';
 import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs/Rx';
+import 'rxjs/Rx';
 
 @Injectable()
 
@@ -30,21 +32,21 @@ export class UtilisateurService {
         return this.http.get('http://localhost:3000/motDePasseOublie' + email)
             .toPromise()
             .then((reponse: Response) => reponse.json())
-            .catch(this.gererErreur);
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
     public modifierMotDePasse(form: ModificationForm): Promise<any> {
         return this.http.patch('http://localhost:3000/ModifierPass', form)
             .toPromise()
             .then((reponse: Response) => reponse.json())
-            .catch(this.gererErreur);
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
     public seConnecter(admin: Administrateur): Promise<any> {
         return this.http.post('http://localhost:3000/admin', admin)
             .toPromise()
             .then((reponse: Response) => reponse.json())
-            .catch(this.gererErreur);
+            .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
     private gererErreur(erreur: any): Promise<any> {
