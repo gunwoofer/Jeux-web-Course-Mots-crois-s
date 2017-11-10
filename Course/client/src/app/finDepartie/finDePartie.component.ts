@@ -1,3 +1,5 @@
+import { PisteService } from './../piste/piste.service';
+import { Router } from '@angular/router';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { Component } from '@angular/core';
 
@@ -9,4 +11,15 @@ import { Component } from '@angular/core';
 })
 
 export class FinDePartieComponent {
+
+
+    constructor(private router: Router) { }
+
+    public jouerUneNouvellePartie(): void {
+        this.router.navigateByUrl('/generationpiste');
+    }
+
+    public allerAuMenuPrincipale(): void {
+        this.router.navigateByUrl('/listePiste');
+    }
 }

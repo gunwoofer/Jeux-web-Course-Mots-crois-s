@@ -23,9 +23,13 @@ export class ConnexionComponent implements OnInit {
     const admin = new Administrateur(form.value.email, form.value.motDePasse);
     this.utilisateurService.seConnecter(admin)
       .then(donne => {
-        console.log(donne);
-        this.utilisateurService.isAdmin = true;
-        this.router.navigateByUrl('/listePiste');
+        if (donne.message) {
+          alert(donne.message);
+          this.utilisateurService.isAdmin = true;
+          this.router.navigateByUrl('/listePiste');
+        } else {
+          alert(donne.error.message);
+        }
       });
   }
 

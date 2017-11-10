@@ -3,15 +3,15 @@ import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 
+export const REDUCTION_VITESSE = 10;
+
 export class Voiture implements sujet.Sujet {
-    private voiture3D: THREE.Object3D;
-    public vitesse = 0;
+    public voiture3D: THREE.Object3D;
+    public vitesse;
     private x: number;
     private y: number;
     private xPrecedent: number;
     private yPrecedemt: number;
-    private longueur: number;
-    private largeur: number;
     private pointMilieu: THREE.Vector3;
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;
@@ -22,19 +22,32 @@ export class Voiture implements sujet.Sujet {
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
+        this.vitesse = 0;
     }
 
-    public bougerVoiture(x?: number, y?): void {
+    public calculerDistance(): void {
         this.xPrecedent = this.x;
         this.yPrecedemt = this.y;
-        this.x = (x !== undefined) ? x : this.x;
-        this.y = (y !== undefined) ? y : this.y;
+        this.x = this.obtenirVoiture3D().position.x;
+        this.y = this.obtenirVoiture3D().position.y;
         this.pointMilieu = this.voiture3D.position;
 
         const distanceParcourueCourante: number = this.distanceEntreDeuxPoints(this.x, this.y, this.xPrecedent, this.yPrecedemt);
 
         this.distanceParcouru += distanceParcourueCourante;
         this.notifierObservateurs();
+    }
+
+    public ignorerSortiepiste(): void {
+        this.xPrecedent = this.obtenirVoiture3D().position.x;
+        this.yPrecedemt = this.obtenirVoiture3D().position.y;
+        this.x = this.obtenirVoiture3D().position.x;
+        this.y = this.obtenirVoiture3D().position.y;
+    }
+
+    public obtenirCoordonneesPrecedent(): THREE.Vector2 {
+        const vectPrecedant = new THREE.Vector2(this.xPrecedent, this.yPrecedemt);
+        return vectPrecedant;
     }
 
     public distanceEntreDeuxPoints(x1: number, y1: number, x2: number, y2: number): number {
@@ -69,5 +82,9 @@ export class Voiture implements sujet.Sujet {
         for (const observateurCourant of this.observateurs) {
             observateurCourant.notifier(this);
         }
+    }
+
+    public reduireVitesseSortiePiste(): void {
+        this.vitesse /= REDUCTION_VITESSE;
     }
 }

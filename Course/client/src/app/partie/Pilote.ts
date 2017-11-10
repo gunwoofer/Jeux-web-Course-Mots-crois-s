@@ -7,25 +7,28 @@ export const PREMIER_TOUR = 1;
 
 // Distance de la piste. À trouver.
 export const DISTANCE_DE_LA_PISTE = 1;
+export const DIFFERENCE_DISTANCE_PARCOURUE_RAISONNABLE = 100;
 
 export class Pilote {
+    public static tempsTotal = 0;
+
     private voiture: Voiture;
     private tempsMiliSecondsParTour: number[] = [];
     private tourCourant = PREMIER_TOUR;
-    private tourACompleter = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public tourACompleter = NOMBRE_DE_TOURS_PAR_DEFAULT;
     private guidPilote = Guid.generateGUID();
     private estJoueur = false;
 
-    constructor (voiture: Voiture, estJoueur: boolean, tourACompleter?: number) {
+    constructor (voiture: Voiture, estJoueur: boolean) {
         this.voiture = voiture;
         this.estJoueur = estJoueur;
-        this.tourACompleter = (tourACompleter !== undefined) ? tourACompleter : NOMBRE_DE_TOURS_PAR_DEFAULT;
+        this.tourACompleter = Partie.toursAComplete;
     }
 
     public aParcourueUneDistanceRaisonnable(): boolean {
-        if ( this.voiture.distanceParcouru / Piste.longueurPiste < this.tourCourant ) {
+        if ( this.voiture.distanceParcouru / (Piste.longueurPiste - DIFFERENCE_DISTANCE_PARCOURUE_RAISONNABLE) < this.tourCourant ) {
             return false;
-        }
+       }
 
         return true;
     }
@@ -46,13 +49,13 @@ export class Pilote {
         if (this.aTermine()) {
             console.log('PARTIE TERMINE POUR JOUER : ' + this.guidPilote);
 
-            let tempsTotal = 0;
+            Pilote.tempsTotal = 0;
             for(const tempsDuTour of this.tempsMiliSecondsParTour) {
-                tempsTotal += tempsDuTour;
+                Pilote.tempsTotal += tempsDuTour;
             }
 
             this.voiture.supprimerObservateurs();
-            console.log('TEMPS TOTAL : ' + tempsTotal + 'ms' );
+            console.log('TEMPS TOTAL : ' + Pilote.tempsTotal + 'ms' );
         } else {
             console.log('TEMPS COURANT : ' + this.tempsMiliSecondsParTour[this.tourCourant - 2] + 'ms' );
         }

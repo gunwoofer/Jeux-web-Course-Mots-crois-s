@@ -1,8 +1,9 @@
+import { TraitementDonneTableau } from './traitementDonneTableau';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Score } from './Score.model';
 import { TableauScoreService } from './tableauScoreService.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-tableauscore-component',
@@ -10,18 +11,20 @@ import { Component, Input, OnInit } from '@angular/core';
     styleUrls: ['./tableauScore.component.css']
 })
 
-export class TableauScoreComponent implements OnInit {
+export class TableauScoreComponent implements OnInit, OnDestroy {
 
 
     public temps: Score[];
     public afficher: boolean;
     public meilleurTemps: string;
+    public traitementDonnee = new TraitementDonneTableau();
 
     constructor(private tableauScoreService: TableauScoreService, private router: Router) {
-        this.temps = this.tableauScoreService.piste.meilleursTemps;
     }
 
     public ngOnInit(): void {
+        this.temps = this.tableauScoreService.piste.meilleursTemps;
+        this.traitementDonnee.cinqMeilleurTemps(this.temps);
         if (this.tableauScoreService.temps) {
             this.meilleurTemps = this.tableauScoreService.temps;
             this.afficher = true;
@@ -29,10 +32,16 @@ export class TableauScoreComponent implements OnInit {
     }
 
     public soummettre(f: NgForm): void {
-        console.log(f.value.nom);
         const nouveauScore = new Score(f.value.nom, this.meilleurTemps);
-        this.tableauScoreService.ajouterTemps(nouveauScore);
+        this.tableauScoreService.mettreAjourTableauMeilleurTemps(nouveauScore)
+            .then(message => console.log(message))
+            .catch(erreur => console.error(erreur));
         this.afficher = false;
+        this.temps = this.tableauScoreService.piste.meilleursTemps;
+    }
+
+    public ngOnDestroy(): void {
+        this.temps = null;
     }
 
 }

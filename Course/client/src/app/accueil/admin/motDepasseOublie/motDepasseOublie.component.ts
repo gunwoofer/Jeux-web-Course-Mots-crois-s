@@ -15,9 +15,11 @@ export class MotDepasseOublieComponent {
         const email = form.value.email;
         this.utilisateurService.recupererMotDePasse(email)
             .then(donne => {
-                if (donne) {
-                    console.log(donne);
-                    this.router.navigateByUrl('/listePiste');
+                if (donne.motDePasse) {
+                    alert(donne.motDePasse);
+                    this.router.navigateByUrl('/admin');
+                } else {
+                    alert(donne.error.message);
                 }
             });
     }
