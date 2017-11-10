@@ -1,3 +1,4 @@
+import { PlacementService } from './../objetService/placementVoiture.service';
 import { LumiereService } from './../lumiere/lumiere.service';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
@@ -37,7 +38,7 @@ describe('RenderService test', () => {
         TestBed.configureTestingModule({
             providers: [RenderService, FacadeSourisService, PisteService,
                 GenerateurPisteService, MessageErreurService, RatingService,
-                MusiqueService, ObjetService, LumiereService, SkyboxService,
+                MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
                 FiltreCouleurService, CameraService, TableauScoreService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],
             imports: [FormsModule, HttpModule]
