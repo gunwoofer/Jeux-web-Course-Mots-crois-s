@@ -190,6 +190,7 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public chargerVoiturePilote(A: number, B: number, joueur: boolean): void {
+        let objet: any;
         this.placementService.calculPositionCentreZoneDepart(this.segment.premierSegment);
         this.placementService.obtenirVecteursSensPiste(this.segment.premierSegment);
         const loader = new THREE.ObjectLoader();
@@ -204,27 +205,29 @@ export class GenerateurPisteService implements Observateur {
             this.objetService.ajouterPhares(obj);
             this.objetService.eteindreTousLesPhares(obj);
             obj.receiveShadow = true;
+            objet = obj.getObjectByName('MainBody');
+            if (joueur) {
+                objet.material.color.set('grey');
+                this.preparerPartie();
+                this.partie.demarrerPartie();
+            } else {
+                objet.material.color.set('black');
+            }
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.voitureDuJoueur.voiture3D.position.set(
             this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).x,
             this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).y, 0);
-            if (joueur) {
-                this.preparerPartie();
-                this.partie.demarrerPartie();
-            }
         });
     }
 
     public chargementDesVoitures(): void {
-        let joueur = true;
         const nombreAleatoire = Math.round(Math.random() * 3);
         const tableauPosition = [[1, 1], [-1, 1], [ 1, -1], [-1, -1]] ;
-        this.chargerVoiturePilote(tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1], joueur);
-        joueur = false;
+        this.chargerVoiturePilote(tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1], true);
         tableauPosition.splice(nombreAleatoire, 1);
         for (let i = 0; i < tableauPosition.length; i++) {
-            this.chargerVoiturePilote(tableauPosition[i][0], tableauPosition[i][1], joueur);
+            this.chargerVoiturePilote(tableauPosition[i][0], tableauPosition[i][1], false);
         }
     }
 
