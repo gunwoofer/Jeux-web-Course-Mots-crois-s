@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
-import {IndiceViewService} from '../indice/indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
-import {Joueur} from "../../../../commun/Joueur";
+import {Joueur} from '../../../../commun/Joueur';
 
 
 @Component({
@@ -22,7 +21,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
   public motTrouveJ1 = 0;
   public motTrouveJ2 = 0;
   private tempsActuel: number;
-  public tempsRestant = 30;
+  public tempsRestant = 0;
   private dureeGrille = 3000000;
   public tempsFin: number;
   private intervalFunction: any;
@@ -31,13 +30,13 @@ export class InfosJeuViewComponent implements AfterViewInit {
   public joueur2: Joueur;
 
 
-  constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
+  constructor(private gameViewService: GameViewService) {
     this.gameViewService.motEcrit$.subscribe(nouveauMot => {
       this.motEnCoursJ1 = nouveauMot;
     });
     this.gameViewService.modifierTempsRestant$.subscribe(nouveauTemps => {
-      this.tempsRestant = nouveauTemps * 1000;
-      console.log("nouveau temps arrivée", nouveauTemps);
+      this.tempsRestant = Math.round(nouveauTemps / 1000);
+      console.log('nouveau temps arrivée', nouveauTemps);
     });
 
     this.joueur = this.gameViewService.joueur;
@@ -64,7 +63,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
   private MAJTemps() {
     /*this.tempsActuel = Date.now();
     this.tempsRestant = Math.round((this.tempsFin - this.tempsActuel) / 1000);*/
-    this.tempsRestant =  1000;
+    this.tempsRestant = this.tempsRestant + 1;
     if (this.tempsRestant < 0) {
       this.gameViewService.partieTermineeFauteDeTemps(true);
     }
