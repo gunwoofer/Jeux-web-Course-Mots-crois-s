@@ -253,10 +253,8 @@ export class GenerateurPisteService implements Observateur {
 
         this.chargerVoiturePilote( tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1]);
         tableauPosition.splice(nombreAleatoire, 1);
-        console.log('Tableau position' + tableauPosition);
         for (let i = 0; i < tableauPosition.length; i++) {
             this.chargerVoitureIA(tableauPosition[i][0], tableauPosition[i][1]);
-            console.log('Voiture' + 'position x :' + tableauPosition[i][0] + 'position y : ' + tableauPosition[i][1] );
         }
     }
 
