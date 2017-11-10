@@ -27,8 +27,8 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
         this.traitementDonnee.cinqMeilleurTemps(this.temps);
         if (this.tableauScoreService.temps) {
             this.meilleurTemps = this.tableauScoreService.temps;
-            this.afficher = true;
         }
+        this.afficher = this.tableauScoreService.verifierTemps();
     }
 
     public soummettre(f: NgForm): void {
