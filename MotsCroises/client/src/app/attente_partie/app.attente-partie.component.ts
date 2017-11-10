@@ -4,7 +4,6 @@ import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
 import {Niveau} from '../../../../commun/Niveau';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import { TypePartie } from '../../../../commun/TypePartie';
 
 
 @Component({

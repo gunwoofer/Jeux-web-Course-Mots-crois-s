@@ -22,7 +22,6 @@ import { Observateur } from '../../../../commun/observateur/Observateur';
 import { EtatPartie } from '../partie/Partie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 
-export const LARGEUR_PISTE = 5;
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 export const FIN_PARTIE_URL = '/resultatPartie';
 export const DUREE_STINGER_MILISECONDES = 3 * Math.pow(10, 3);
@@ -194,6 +193,7 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public chargerVoiturePilote(A: number, B: number): void {
+        let objet: any;
         this.calculPositionCentreZoneDepart(this.segment.premierSegment);
         this.obtenirVecteursSensPiste(this.segment.premierSegment);
         const loader = new THREE.ObjectLoader();
@@ -208,6 +208,8 @@ export class GenerateurPisteService implements Observateur {
             this.objetService.ajouterPhares(obj);
             this.objetService.eteindreTousLesPhares(obj);
             obj.receiveShadow = true;
+            objet = obj.getObjectByName('MainBody');
+            objet.material.color.set('grey');
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.voitureDuJoueur.voiture3D.position.set(
@@ -219,6 +221,7 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public chargerVoitureIA(A: number, B: number): void {
+        let objet: any;
         this.calculPositionCentreZoneDepart(this.segment.premierSegment);
         this.obtenirVecteursSensPiste(this.segment.premierSegment);
         const loader = new THREE.ObjectLoader();
@@ -233,6 +236,8 @@ export class GenerateurPisteService implements Observateur {
             this.objetService.ajouterPhares(obj);
             this.objetService.eteindreTousLesPhares(obj);
             obj.receiveShadow = true;
+            objet = obj.getObjectByName('MainBody');
+            objet.material.color.set('black');
             this.scene.add(obj);
             this.voituresIA.push(new Voiture(obj));
             this.voituresIA[this.voituresIA.length - 1].voiture3D.position.set(
