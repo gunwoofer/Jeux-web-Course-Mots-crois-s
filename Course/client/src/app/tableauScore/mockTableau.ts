@@ -16,8 +16,8 @@ const listepositions: any[] =
 { z: 0, y: -43.28512553789595, x: 99.40978401780862 },
 { z: 0, y: 24.003569616469644, x: 101.77079099777208 }];
 
-export const scoreMock = new Score('Younes', '3min10s', 3);
-
 export const pisteMock = new Piste('piste1', 'amateur', 'piste izi', listepositions);
+
+export const scoreMock = new Score('Younes', '3min10s', 3);
 
 

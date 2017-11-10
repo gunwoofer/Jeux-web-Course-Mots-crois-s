@@ -4,7 +4,7 @@ import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from 
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { TableauScoreService } from './tableauScoreService.service';
-describe('utilisateurService', () => {
+describe('tableauScore service test', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
@@ -23,11 +23,11 @@ describe('utilisateurService', () => {
         });
     });
 
-    it('doit creer le service', inject([TableauScoreService], (service: TableauScoreService) => {
+    it('Tableau service doit creer le service', inject([TableauScoreService], (service: TableauScoreService) => {
         expect(service).toBeTruthy();
     }));
 
-    it('admin sinscrit ', inject([TableauScoreService, MockBackend], (service: TableauScoreService, backend: MockBackend) => {
+    it('Tableau de piste est modifie ', inject([TableauScoreService, MockBackend], (service: TableauScoreService, backend: MockBackend) => {
         service.piste = pisteMock;
         const message = 'Tableau a ete modifie';
         const reponse = new ResponseOptions({

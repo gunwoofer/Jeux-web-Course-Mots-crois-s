@@ -16,7 +16,7 @@ export class RatingService {
         this.piste.coteAppreciation.push(rating);
     }
 
-    public mettreAjourRating(rating: number): Promise<JSON> {
+    public mettreAjourRating(rating: number): Promise<any> {
         this.ajouterMoyenne(rating);
         return this.http.patch('http://localhost:3000/resultatPartie' + this.piste.id, this.piste)
             .toPromise()
