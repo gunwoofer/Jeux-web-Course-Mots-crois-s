@@ -35,7 +35,6 @@ export class Partie implements Observateur, Sujet {
     }
 
     public demarrerPartie(): void {
-        this.pilotes.demarrerMoteur();
         this.partirCompteur();
         this.notifierObservateurs();
         this.etatPartie = EtatPartie.En_cours;
@@ -54,12 +53,9 @@ export class Partie implements Observateur, Sujet {
     }
 
     public notifier(sujet: Sujet): void {
-        // Le Sujet est une voiture.
         const voitureCourante: Voiture = <Voiture> sujet;
 
         if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
-
-            // Vérifions si la distance parcourue est raisonnable avant d'attribuer un tour de plus au pilotre.
             if (this.pilotes.aParcourueUneDistanceRaisonnable(voitureCourante)) {
                 this.pilotes.incrementerTour(voitureCourante, Date.now() - this.tempsDepartMilisecondes);
 
@@ -75,9 +71,6 @@ export class Partie implements Observateur, Sujet {
     public ajouterRouteur(routeur: Router): void {
         this.routeur = routeur;
     }
-
-    // Sujet
-
 
     public ajouterObservateur(observateur: Observateur): void {
         this.observateurs.push(observateur);

@@ -1,4 +1,4 @@
-import { Score } from './../tableauScore/Score.model';
+import { Score } from './../tableauScore/score.model';
 import * as THREE from 'three';
 import { NgForm } from '@angular/forms';
 

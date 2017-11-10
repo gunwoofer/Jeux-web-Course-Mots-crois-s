@@ -25,7 +25,7 @@ import { Sujet } from '../../../../commun/observateur/Sujet';
 
 export const LARGEUR_PISTE = 5;
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
-export const FIN_PARTIE_URL = '/finPartie';
+export const FIN_PARTIE_URL = '/resultatPartie';
 export const DUREE_STINGER_MILISECONDES = DUREE_STINGER * Math.pow(10, 3);
 export const FPS = 60;
 export const MODE_JOUR_NUIT = 'n';
@@ -253,10 +253,8 @@ export class GenerateurPisteService implements Observateur {
 
         this.chargerVoiturePilote( tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1]);
         tableauPosition.splice(nombreAleatoire, 1);
-        console.log('Tableau position' + tableauPosition);
         for (let i = 0; i < tableauPosition.length; i++) {
             this.chargerVoitureIA(tableauPosition[i][0], tableauPosition[i][1]);
-            console.log('Voiture' + 'position x :' + tableauPosition[i][0] + 'position y : ' + tableauPosition[i][1] );
         }
     }
 

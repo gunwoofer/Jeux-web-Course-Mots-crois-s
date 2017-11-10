@@ -1,7 +1,7 @@
 import { TraitementDonneTableau } from './traitementDonneTableau';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
-import { Score } from './Score.model';
+import { Score } from './score.model';
 import { TableauScoreService } from './tableauScoreService.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 

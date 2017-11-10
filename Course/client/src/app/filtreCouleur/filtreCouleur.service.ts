@@ -71,12 +71,11 @@ export class FiltreCouleurService {
     public mettreFiltre(event, scene: THREE.Scene): void {
         this.filtreApplique = !this.filtreApplique;
         if (!this.filtreApplique) {
-            console.log('filtre applique');
             this.appliquerFiltreScene(scene);
         } else if (this.filtreApplique) {
-            console.log('filtre enleve');
             this.enleverFiltre();
         }
+        console.log('Wallah on filtre');
     }
 
 }

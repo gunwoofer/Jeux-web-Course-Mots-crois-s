@@ -1,7 +1,7 @@
 
 import * as THREE from 'three';
 import { Voiture } from '../voiture/Voiture';
-export const DISTANCE_RAISONNABLE_PRES_LIGNE_ARRIVEE = 40;
+export const DISTANCE_RAISONNABLE_PRES_LIGNE_ARRIVEE = 100;
 export const Z_AU_DESSUS_DU_SEGMENT = 2;
 
 export class LigneArrivee {
@@ -35,15 +35,8 @@ export class LigneArrivee {
 
     // Si le produit vectoriel est = 0, alors il est aligné avec la ligne.
     public estSurLaLigneArrivee(p1X: number, p1Y: number, p2X: number, p2Y: number, pMilieuX: number, pMilieuY: number, voiture: Voiture) {
-        if (this.calculDistanceSegmentAPoint(p1X, p1Y, p2X, p2Y, pMilieuX, pMilieuY) < 40) {
-            if (this.estSurLeSegmentDeDepart(voiture)) {
-                console.log('CALCUL PRODUITVECTO:' + this.calculDistanceSegmentAPoint(p1X, p1Y, p2X, p2Y, pMilieuX, pMilieuY));
-            }
-        }
-
         if (this.calculDistanceSegmentAPoint(p1X, p1Y, p2X, p2Y, pMilieuX, pMilieuY) < DISTANCE_RAISONNABLE_PRES_LIGNE_ARRIVEE) {
             if (this.estSurLeSegmentDeDepart(voiture)) {
-                console.log("EST SUR LA LIGNE !!!!");
                 return true;
             }
         }
