@@ -19,9 +19,11 @@ export class Musique implements Observateur {
     private musique: HTMLAudioElement;
     private enEcoute: boolean;
     private etatMusique: EtatMusique = EtatMusique.enAttente;
+    public thematique: boolean;
 
     constructor() {
         this.enEcoute = false;
+        this.thematique = false;
     }
 
     private chargerMusique(nom: string): HTMLAudioElement {
@@ -41,12 +43,14 @@ export class Musique implements Observateur {
         if (this.enEcoute) {
             this.musique.pause();
             this.enEcoute = false;
+            this.thematique = false;
         }
     }
 
     public lancerMusiqueThematique(): void {
         this.musique = this.chargerMusique(NOM_THEMATIQUE);
         this.lancerMusique();
+        this.thematique = true;
     }
 
     public lancerMusiqueEditeur(): void {
