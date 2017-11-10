@@ -30,7 +30,7 @@ export class SurfaceHorsPiste {
                 }
             }
         }
-        const materiel = new THREE.MeshPhongMaterial();
+        const materiel = new THREE.MeshBasicMaterial();
         const loader = new THREE.TextureLoader();
         loader.load('../../assets/textures/texturerock.jpg', (txt) => {
             txt.wrapS = THREE.RepeatWrapping;
@@ -38,6 +38,7 @@ export class SurfaceHorsPiste {
             txt.anisotropy = 4;
             txt.repeat.set( 10, 10);
             materiel.map = txt;
+            materiel.color.set(0xFF5E4D);
             materiel.needsUpdate = true;
         });
         const terrain = new THREE.Mesh(geometrie, materiel);
