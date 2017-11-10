@@ -386,8 +386,4 @@ export class GameViewService {
     this.indiceAdversaireSelectionne.next(indice);
 
   }
-
-  public selectionIndice() {
-
-  }
 }
