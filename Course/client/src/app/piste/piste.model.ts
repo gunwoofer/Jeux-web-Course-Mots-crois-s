@@ -18,7 +18,6 @@ export class Piste {
         public id?: number) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = [];
-        this.coteMoyenne = 0;
 
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = new Score('anas', '4min 0' + i + 's');
@@ -58,16 +57,19 @@ export class Piste {
     }
 
     public calculerLaMoyenneDeVotes(coteAppreciation: number[]): void {
-        let chiffre = 0; let somme = 0;
+        let chiffre = 0; let somme = 0; let nombreElement = 0;
         if (coteAppreciation.length === 0) {
             this.coteMoyenne = 0;
             return;
         } else {
             for (let i = 0; i < coteAppreciation.length; i++) {
-                chiffre = coteAppreciation[i];
-                somme += +chiffre;
+                if (coteAppreciation[i] !== null) {
+                    nombreElement++;
+                    chiffre = coteAppreciation[i];
+                    somme += +chiffre;
+                }
             }
-            this.coteMoyenne = somme / coteAppreciation.length;
+            this.coteMoyenne = somme / nombreElement;
         }
     }
 }
