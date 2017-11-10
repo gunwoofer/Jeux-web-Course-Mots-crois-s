@@ -189,7 +189,7 @@ export class GenerateurPisteService implements Observateur {
         this.deplacement.touchePesee(event);
     }
 
-    public chargerVoiturePilote(A: number, B: number, joueur: boolean): void {
+    public chargerVoiture(A: number, B: number, joueur: boolean): void {
         let objet: any;
         this.placementService.calculPositionCentreZoneDepart(this.segment.premierSegment);
         this.placementService.obtenirVecteursSensPiste(this.segment.premierSegment);
@@ -208,26 +208,30 @@ export class GenerateurPisteService implements Observateur {
             objet = obj.getObjectByName('MainBody');
             if (joueur) {
                 objet.material.color.set('grey');
+                this.voitureDuJoueur = new Voiture(obj);
+                this.voitureDuJoueur.voiture3D.position.set(
+                this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).x,
+                this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).y, 0);
                 this.preparerPartie();
                 this.partie.demarrerPartie();
             } else {
                 objet.material.color.set('black');
+                this.voituresIA.push(new Voiture(obj)); 
+                this.voituresIA[this.voituresIA.length - 1].voiture3D.position.set(
+                this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).x,
+                this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).y, 0);
             }
             this.scene.add(obj);
-            this.voitureDuJoueur = new Voiture(obj);
-            this.voitureDuJoueur.voiture3D.position.set(
-            this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).x,
-            this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).y, 0);
         });
     }
 
     public chargementDesVoitures(): void {
         const nombreAleatoire = Math.round(Math.random() * 3);
         const tableauPosition = [[1, 1], [-1, 1], [ 1, -1], [-1, -1]] ;
-        this.chargerVoiturePilote(tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1], true);
+        this.chargerVoiture(tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1], true);
         tableauPosition.splice(nombreAleatoire, 1);
         for (let i = 0; i < tableauPosition.length; i++) {
-            this.chargerVoiturePilote(tableauPosition[i][0], tableauPosition[i][1], false);
+            this.chargerVoiture(tableauPosition[i][0], tableauPosition[i][1], false);
         }
     }
 
