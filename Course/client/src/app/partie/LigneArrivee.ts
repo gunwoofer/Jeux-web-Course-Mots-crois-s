@@ -34,7 +34,8 @@ export class LigneArrivee {
     }
 
     // Si le produit vectoriel est = 0, alors il est aligné avec la ligne.
-    public estSurLaLigneArrivee(p1X: number, p1Y: number, p2X: number, p2Y: number, pMilieuX: number, pMilieuY: number, voiture: Voiture) {
+    public estSurLaLigneArrivee(p1X: number,
+         p1Y: number, p2X: number, p2Y: number, pMilieuX: number, pMilieuY: number, voiture: Voiture): boolean {
         if (this.calculDistanceSegmentAPoint(p1X, p1Y, p2X, p2Y, pMilieuX, pMilieuY) < DISTANCE_RAISONNABLE_PRES_LIGNE_ARRIVEE) {
             if (this.estSurLeSegmentDeDepart(voiture)) {
                 return true;

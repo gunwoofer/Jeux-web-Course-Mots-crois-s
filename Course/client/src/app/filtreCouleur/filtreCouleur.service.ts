@@ -15,6 +15,7 @@ export class FiltreCouleurService {
     private objectWithMaterial: any[] = [];
     private taille = nomFiltre.length - 1;
     private min = 0;
+    private un = 1;
     private filtreApplique = true;
 
 
@@ -47,7 +48,7 @@ export class FiltreCouleurService {
     }
 
     public randomFiltre(): string {
-        const indice = Math.floor(Math.random() * (this.taille - 0 + 1) + 0);
+        const indice = Math.floor(Math.random() * (this.taille - this.min + this.un) + this.min);
         return nomFiltre[indice];
     }
 
@@ -75,7 +76,6 @@ export class FiltreCouleurService {
         } else if (this.filtreApplique) {
             this.enleverFiltre();
         }
-        console.log('Wallah on filtre');
     }
 
 }

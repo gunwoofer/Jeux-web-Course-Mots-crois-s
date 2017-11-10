@@ -3,7 +3,7 @@ import { RatingComponent } from './rating/rating.component';
 import { TableauScoreService } from './tableauScore/tableauScoreService.service';
 import { FinDePartieComponent } from './finDepartie/finDePartie.component';
 import { ConfigurationPartieComponent } from './configurationPartie/configurationPartie.component';
-import { LumiereService } from './dayNight/dayNight.service';
+import { LumiereService } from './lumiere/lumiere.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';

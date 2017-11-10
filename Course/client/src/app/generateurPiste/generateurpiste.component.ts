@@ -26,11 +26,11 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
         generateurPisteService.configurerTours(pisteService.nombreDeTours)
     }
 
-    public ngOnInit() {
+    public ngOnInit(): void {
         this.musiqueService.musique.arreterMusique();
     }
 
-    public ngAfterViewInit() {
+    public ngAfterViewInit(): void {
         this.generateurPisteService.initialisation(this.container);
     }
 
@@ -39,22 +39,22 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
     }
 
     @HostListener('window:resize', ['$event'])
-    public onResize() {
+    public onResize(): void {
         this.generateurPisteService.onResize();
     }
 
     @HostListener('document:keypress', ['$event'])
-    public touchePressee(event: KeyboardEvent) {
+    public touchePressee(event: KeyboardEvent): void {
         this.generateurPisteService.gestionEvenement(event);
     }
 
     @HostListener('document:keydown', ['$event'])
-    public touchePesee(event: KeyboardEvent) {
+    public touchePesee(event: KeyboardEvent): void {
         this.generateurPisteService.touchePesee(event);
     }
 
     @HostListener('document:keyup', ['$event'])
-    public toucheLachee(event: KeyboardEvent) {
+    public toucheLachee(event: KeyboardEvent): void {
         this.generateurPisteService.toucheRelachee(event);
     }
 
