@@ -30,7 +30,7 @@ export class GameViewComponent implements OnInit {
       this.actualiserGrille();
     });
     this.gameViewService.partieTeminee$.subscribe(() => {
-      this.infosJeuViewComponent.stopperTimer();
+      this.infosJeuViewComponent.stopperIntervalFonction();
       this.allerAPartieTerminee();
     });
 
@@ -58,11 +58,11 @@ export class GameViewComponent implements OnInit {
     return false;
   }
 
-  private retourAccueil(): void{
+  private retourAccueil(): void {
     this.router.navigate(['/']);
   }
 
-  private obtenirNombreDeJoueurs(){
+  private obtenirNombreDeJoueurs() {
     this.route.paramMap
       .switchMap((params: ParamMap) => this.nbJoueurs = params.get('nbJoueurs'))
       .subscribe();

@@ -59,7 +59,7 @@ export class GestionnaireDePartieService {
 
     public voirSiPartieTermine(guidPartie: string): boolean {
         const partieEnCours: Partie = this.obtenirPartieEnCours(guidPartie);
-        
+
         if (partieEnCours.estMultijoueur() && partieEnCours.partieEstTermineAvecCompteur()) {
             return true;
         }

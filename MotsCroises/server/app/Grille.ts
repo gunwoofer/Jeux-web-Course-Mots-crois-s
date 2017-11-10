@@ -316,7 +316,7 @@ export class Grille {
     }
 
     public ObtenirEmplacementMotSelonEmplacementMot(emplacementMot: EmplacementMot) {
-        for(const emplacement of this.emplacementMots) {
+        for (const emplacement of this.emplacementMots) {
             if (emplacement.estPareilQue(emplacementMot)) {
                 return emplacement;
             }

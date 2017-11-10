@@ -63,10 +63,10 @@ export class ConnexionTempsReelServer {
                     self.clientSockets, requisPourSelectionnerMot));
 
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT, (requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant) =>
-            self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.io, requisPourObtenirTempsRestant, self.clientSockets));
+            self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.gestionnaireDePartieService, requisPourObtenirTempsRestant, self.clientSockets));
 
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_MOTS_TROUVES, (requisPourMotsTrouve: RequisPourMotsTrouve) =>
-            self.descripteurEvenementTempsReel.obtenirMotsTrouve(client, self.io, requisPourMotsTrouve, self.clientSockets));
+            self.descripteurEvenementTempsReel.obtenirMotsTrouve(client, self.gestionnaireDePartieService, requisPourMotsTrouve, self.clientSockets));
 
         client.on(requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
             (requisDemandeListePartieEnAttente: RequisDemandeListePartieEnAttente) => self.descripteurEvenementTempsReel
