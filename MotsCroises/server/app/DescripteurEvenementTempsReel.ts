@@ -138,7 +138,9 @@ export class DescripteurEvenementTempsReel {
         for (const socketCourante of clientSocket) {
             console.log(clientSocket.length);
             console.log(socketCourante.client.conn.id);
-            socketCourante.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
+            if (this.estUnAdversaire(client, socketCourante)) {
+                socketCourante.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
+            }
         }
     }
 
@@ -189,5 +191,9 @@ export class DescripteurEvenementTempsReel {
             }
             console.log('partie terminee');
         }
+    }
+
+    private estUnAdversaire(clientEmetteur: SocketIO.Socket, clientCourant: SocketIO.Socket): boolean {
+        return (clientEmetteur.id === clientCourant.id) ? false : true;
     }
 }
