@@ -1,3 +1,4 @@
+import { LumiereService } from './../lumiere/lumiere.service';
 import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing';
@@ -16,7 +17,6 @@ import { SkyboxService } from './../skybox/skybox.service';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { CameraService } from './../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
-import { LumiereService } from '../dayNight/dayNight.service';
 import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
