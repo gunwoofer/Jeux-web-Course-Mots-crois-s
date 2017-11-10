@@ -14,7 +14,6 @@ import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDeman
 import {VuePartieEnCours} from '../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {EtatPartie} from '../../commun/EtatPartie';
-import { Joueur } from '../../commun/Joueur';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -53,8 +52,8 @@ export class DescripteurEvenementTempsReel {
     }
 
     public joindrePartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-                                    generateurDeGrilleService: GenerateurDeGrilleService,
-                                    requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur, clients: SocketIO.Socket[]): void {
+            generateurDeGrilleService: GenerateurDeGrilleService, requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur,
+            clients: SocketIO.Socket[]): void {
         requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
         const partieEnAttente: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourJoindrePartieMultijoueur.guidPartie);
         const grille: Grille = partieEnAttente.obtenirGrilleComplete();
@@ -85,7 +84,7 @@ export class DescripteurEvenementTempsReel {
 
 
     public preparerNouvellePartie(gestionnaireDePartieService: GestionnaireDePartieService,
-                                  generateurDeGrilleService: GenerateurDeGrilleService, specificationPartieRecu: SpecificationPartie): SpecificationPartie {
+            generateurDeGrilleService: GenerateurDeGrilleService, specificationPartieRecu: SpecificationPartie): SpecificationPartie {
 
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(specificationPartieRecu.niveau);
         const guidPartie = gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
@@ -139,9 +138,7 @@ export class DescripteurEvenementTempsReel {
         for (const socketCourante of clientSocket) {
             console.log(clientSocket.length);
             console.log(socketCourante.client.conn.id);
-            // if (this.estUnAdversaire(client, socketCourante)) {
             socketCourante.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
-            // }
         }
     }
 
@@ -192,9 +189,5 @@ export class DescripteurEvenementTempsReel {
             }
             console.log('partie terminee');
         }
-    }
-
-    private estUnAdversaire(clientEmetteur: SocketIO.Socket, clientCourant: SocketIO.Socket): boolean {
-        return (clientEmetteur.id === clientCourant.id) ? false : true;
     }
 }

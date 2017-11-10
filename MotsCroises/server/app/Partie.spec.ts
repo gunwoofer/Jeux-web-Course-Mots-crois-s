@@ -24,7 +24,7 @@ describe('Partie', () => {
         let emplacementMotSelectionnerParJoueur2: EmplacementMot = grille.emplacementMots[1];
 
 
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, 
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
             grille, Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
 
@@ -62,7 +62,8 @@ describe('Partie', () => {
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
 
 
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, grille, Niveau.facile, joueur2);
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
+            grille, Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
         partieEnCours.demarrerPartie();
 
@@ -88,7 +89,7 @@ describe('Partie', () => {
         const tempsAlloueMilisecondes: number = 1 * Math.pow(10, 3);
 
 
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, 
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
             grille, Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
         partieEnCours.demarrerPartie(tempsAlloueMilisecondes);
@@ -112,7 +113,7 @@ describe('Partie', () => {
         const tempsAlloueMilisecondes: number = 1 * Math.pow(10, 3);
 
 
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, grille, 
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, grille,
             Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
         partieEnCours.demarrerPartie(tempsAlloueMilisecondes);
@@ -140,7 +141,7 @@ describe('Partie', () => {
         let motAVerifierJoueur1 = '';
         let motAVerifierJoueur2 = '';
         let casesEmplacementMot: Case[];
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, grille, 
+        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux, grille,
             Niveau.facile, joueur2);
         const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
         partieEnCours.demarrerPartie();
@@ -153,7 +154,7 @@ describe('Partie', () => {
             motAVerifierJoueur1 += caseCourante.obtenirLettre();
         }
 
-        partieEnCours.estLeMot(emplacementMotTrouveJoueur1.obtenirCaseDebut(), emplacementMotTrouveJoueur1.obtenirCaseFin(), 
+        partieEnCours.estLeMot(emplacementMotTrouveJoueur1.obtenirCaseDebut(), emplacementMotTrouveJoueur1.obtenirCaseFin(),
             motAVerifierJoueur1, joueur1.obtenirGuid());
 
         // Trouve mot emplacement 2, joueur 2
