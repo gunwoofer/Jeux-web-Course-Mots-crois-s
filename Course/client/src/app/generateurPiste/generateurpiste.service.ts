@@ -16,7 +16,6 @@ import { Partie, NOMBRE_DE_TOURS_PAR_DEFAULT } from '../partie/Partie';
 import { Pilote } from '../partie/Pilote';
 import { LigneArrivee } from '../partie/LigneArrivee';
 import { MusiqueService } from '../musique/musique.service';
-import { DUREE_STINGER } from '../musique/musique.model';
 import { Router } from '@angular/router';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { Observateur } from '../../../../commun/observateur/Observateur';
@@ -26,7 +25,7 @@ import { Sujet } from '../../../../commun/observateur/Sujet';
 export const LARGEUR_PISTE = 5;
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 export const FIN_PARTIE_URL = '/resultatPartie';
-export const DUREE_STINGER_MILISECONDES = DUREE_STINGER * Math.pow(10, 3);
+export const DUREE_STINGER_MILISECONDES = 3 * Math.pow(10, 3);
 export const FPS = 60;
 export const MODE_JOUR_NUIT = 'n';
 export const MODE_FILTRE_COULEUR = 'f';
@@ -321,7 +320,9 @@ export class GenerateurPisteService implements Observateur {
 
     public notifier(sujet: Sujet): void {
         if (this.partie.etatPartie === EtatPartie.Termine) {
-            setInterval(this.voirPageFinPartie(), DUREE_STINGER_MILISECONDES);
+            setTimeout(() => {
+                this.voirPageFinPartie();
+            }, DUREE_STINGER_MILISECONDES);
         }
     }
 

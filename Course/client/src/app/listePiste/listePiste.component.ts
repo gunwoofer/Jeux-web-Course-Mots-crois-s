@@ -24,8 +24,10 @@ export class ListePisteComponent implements OnInit {
       this.estUnAdmin = true;
     }
     this.pisteService.retournerListePiste().then((pistes: Piste[]) => this.listePistes = pistes);
-    this.musiqueService.musique.arreterMusique();
-    this.musiqueService.musique.lancerMusiqueThematique();
+    if (!this.musiqueService.musique.thematique) {
+      this.musiqueService.musique.arreterMusique();
+      this.musiqueService.musique.lancerMusiqueThematique();
+    }
   }
 }
 

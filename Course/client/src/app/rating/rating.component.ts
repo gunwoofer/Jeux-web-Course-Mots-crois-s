@@ -1,3 +1,4 @@
+import { MusiqueService } from './../musique/musique.service';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { Router } from '@angular/router';
 import { RatingService } from './rating.service';
@@ -16,10 +17,15 @@ export class RatingComponent implements OnInit {
     public affichage: boolean;
     public ratingMoyen: number;
 
-    constructor(private ratingService: RatingService, private router: Router, private tableauScoreService: TableauScoreService) { }
+    constructor(private ratingService: RatingService, private router: Router, private tableauScoreService: TableauScoreService,
+                private musiqueService: MusiqueService) { }
 
     public ngOnInit(): void {
         this.affichage = true;
+        if (!this.musiqueService.musique.thematique) {
+            this.musiqueService.musique.arreterMusique();
+            this.musiqueService.musique.lancerMusiqueThematique();
+        }
     }
     public rating(event): void {
         this.ratingService.mettreAjourRating(event.target.value)
@@ -27,7 +33,6 @@ export class RatingComponent implements OnInit {
             .catch(erreur => console.error(erreur));
         this.affichage = false;
         this.router.navigateByUrl('/finPartie');
-        this.tableauScoreService.temps = '3min 20s';
     }
 
     public onClick() {
