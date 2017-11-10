@@ -1,6 +1,6 @@
 import { TraitementDonneTableau } from './traitementDonneTableau';
 import { Http, Response } from '@angular/http';
-import { Score } from './Score.model';
+import { Score } from './score.model';
 import { Piste } from '../piste/piste.model';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';

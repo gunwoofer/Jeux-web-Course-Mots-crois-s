@@ -1,4 +1,4 @@
-import { Score } from './Score.model';
+import { Score } from './score.model';
 
 export class TraitementDonneTableau {
 
