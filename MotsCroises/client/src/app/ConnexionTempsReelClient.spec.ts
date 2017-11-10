@@ -6,7 +6,6 @@ import { Joueur } from '../../../commun/Joueur';
 import { TypePartie } from '../../../commun/TypePartie';
 import { RequisPourMotAVerifier } from '../../../commun/requis/RequisPourMotAVerifier';
 
-
 describe('ConnexionTempsReel', () => {
 
   it('Une connexion en temps réel peut être créé.', (done) => {
