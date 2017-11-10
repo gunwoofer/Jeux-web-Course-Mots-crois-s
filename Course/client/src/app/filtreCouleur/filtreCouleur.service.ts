@@ -75,6 +75,7 @@ export class FiltreCouleurService {
         } else if (this.filtreApplique) {
             this.enleverFiltre();
         }
+        console.log('Wallah on filtre');
     }
 
 }
