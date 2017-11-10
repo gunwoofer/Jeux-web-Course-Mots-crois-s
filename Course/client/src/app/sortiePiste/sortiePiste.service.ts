@@ -1,20 +1,14 @@
-import { Deplacement } from './../generateurPiste/deplacement';
-import { Position } from './../../../../../MotsCroises/commun/Position';
-import { Segment } from './../piste/segment.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import { Piste } from '../piste/piste.model';
 
 
 @Injectable()
 export class SortiePisteService {
     private rayCaster: THREE.Raycaster;
-    private voiture: THREE.Object3D;
     private listeSegments: THREE.Mesh[];
     private estSurPiste: boolean;
     private segmentOuReapparaitre: THREE.Mesh;
-    private deplacement = new Deplacement();
 
     constructor(piste: THREE.Mesh[]) {
         this.listeSegments = piste;

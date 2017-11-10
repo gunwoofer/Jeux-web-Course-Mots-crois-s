@@ -4,6 +4,7 @@ import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
+import { NOMBRE_DE_TOURS_PAR_DEFAULT } from '../partie/Partie';
 import 'rxjs/Rx';
 
 import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
@@ -15,6 +16,7 @@ export class PisteService {
     public pisteAEditer = new EventEmitter<Piste>();
     public pisteChoisie = new EventEmitter<Piste>();
     public tableauMeilleurTemps = new EventEmitter<Piste>();
+    public nombreDeTours = NOMBRE_DE_TOURS_PAR_DEFAULT;
 
     constructor(generateurPisteService: GenerateurPisteService, private http: Http,
         private tableauScoreService: TableauScoreService, private ratingService: RatingService) {
@@ -45,6 +47,7 @@ export class PisteService {
                 for (const piste of pistes) {
                     const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
                     pist.modifieAttribut(piste.coteAppreciation, piste.nombreFoisJouee, piste.meilleursTemps, piste.vignette);
+                    pist.calculerLaMoyenneDeVotes(piste.coteAppreciation);
                     pisteTemporaire.push(pist);
                 }
                 this.pistes = pisteTemporaire;
@@ -65,7 +68,8 @@ export class PisteService {
         this.pisteAEditer.emit(piste);
     }
 
-    public commencerPartie(piste: Piste) {
+    public commencerPartie(piste: Piste, nombreTours: number) {
+        this.nombreDeTours = nombreTours;
         this.pisteChoisie.emit(piste);
     }
 

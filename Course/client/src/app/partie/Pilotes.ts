@@ -13,14 +13,6 @@ export class Pilotes {
         this.pilotes.push(pilote);
     }
 
-    public demarrerMoteur(): void {
-
-        for (const piloteCourant of this.pilotes) {
-            piloteCourant.demarrerMoteur();
-        }
-
-    }
-
     public aTermine(): boolean {
         let termine = false;
 

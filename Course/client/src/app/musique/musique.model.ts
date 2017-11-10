@@ -74,7 +74,7 @@ export class Musique implements Observateur {
     }
 
     public notifier(sujet: Sujet): void {
-        switch(this.etatMusique) {
+        switch (this.etatMusique) {
             case EtatMusique.enAttente :
                 // Debut
                 this.lancerMusiqueCourse();

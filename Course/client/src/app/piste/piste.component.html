@@ -7,7 +7,7 @@
             <div id="info">
                 <p>Type Course: {{ piste.typeCourse }}</p>
                 <p>Description: {{ piste.description }}</p>
-                <p>Cote appréciation: {{ piste.coteAppreciation }}/5</p>
+                <p>Cote appréciation: {{ piste.coteMoyenne }} <span style="color:#FFD700" class="glyphicon glyphicon-star"></span></p>
                 <p>Nombre de fois jouée: {{ piste.nombreFoisJouee }} </p>
                 <button type="button" (click)="montrerLesScores()">Meilleurs scores</button>
             </div>

@@ -12,8 +12,6 @@ export class Voiture implements sujet.Sujet {
     private y: number;
     private xPrecedent: number;
     private yPrecedemt: number;
-    private longueur: number;
-    private largeur: number;
     private pointMilieu: THREE.Vector3;
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;

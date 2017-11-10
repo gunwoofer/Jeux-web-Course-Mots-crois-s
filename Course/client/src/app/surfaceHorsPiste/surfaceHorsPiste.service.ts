@@ -2,8 +2,8 @@ import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
 // Precision du relief
-export const NOMBRE_SOMMETS_LARGEUR = 50;
-export const NOMBRE_SOMMETS_LONGUEUR = 50;
+export const NOMBRE_SOMMETS_LARGEUR = 300;
+export const NOMBRE_SOMMETS_LONGUEUR = 300;
 
 @Injectable()
 export class SurfaceHorsPiste {

@@ -23,6 +23,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
         private tableauScoreService: TableauScoreService
     ) {
         generateurPisteService.ajouterRouter(router);
+        generateurPisteService.configurerTours(pisteService.nombreDeTours)
     }
 
     public ngOnInit() {
@@ -57,8 +58,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
         this.generateurPisteService.toucheRelachee(event);
     }
 
-    public allerAFinPartie(): void {
-        this.router.navigateByUrl('/finPartie');
-        this.tableauScoreService.temps = '3min 20s';
+    public allerTableauDeResultats(): void {
+        this.router.navigateByUrl('/resultatPartie');
     }
 }

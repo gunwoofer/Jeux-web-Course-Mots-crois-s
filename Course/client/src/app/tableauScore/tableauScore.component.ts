@@ -1,6 +1,7 @@
+import { TraitementDonneTableau } from './traitementDonneTableau';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
-import { Score } from './Score.model';
+import { Score } from './score.model';
 import { TableauScoreService } from './tableauScoreService.service';
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 
@@ -16,13 +17,14 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
     public temps: Score[];
     public afficher: boolean;
     public meilleurTemps: string;
+    public traitementDonnee = new TraitementDonneTableau();
 
     constructor(private tableauScoreService: TableauScoreService, private router: Router) {
     }
 
     public ngOnInit(): void {
         this.temps = this.tableauScoreService.piste.meilleursTemps;
-        this.tableauScoreService.cinqMeilleurTemps(this.temps);
+        this.traitementDonnee.cinqMeilleurTemps(this.temps);
         if (this.tableauScoreService.temps) {
             this.meilleurTemps = this.tableauScoreService.temps;
             this.afficher = true;
@@ -31,7 +33,9 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
 
     public soummettre(f: NgForm): void {
         const nouveauScore = new Score(f.value.nom, this.meilleurTemps);
-        this.tableauScoreService.ajouterTemps(nouveauScore);
+        this.tableauScoreService.mettreAjourTableauMeilleurTemps(nouveauScore)
+            .then(message => console.log(message))
+            .catch(erreur => console.error(erreur));
         this.afficher = false;
         this.temps = this.tableauScoreService.piste.meilleursTemps;
     }

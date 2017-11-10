@@ -32,6 +32,6 @@ export class ConfigurationPartieComponent {
     }
 
     public commencerPartie(): void {
-        this.pisteService.commencerPartie(this.piste);
+        this.pisteService.commencerPartie(this.piste, this.nombreDesTours);
     }
 }
