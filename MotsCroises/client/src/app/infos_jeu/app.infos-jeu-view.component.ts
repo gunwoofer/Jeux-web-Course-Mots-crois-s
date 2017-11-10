@@ -18,9 +18,6 @@ export class InfosJeuViewComponent implements AfterViewInit {
 
   public motEnCoursJ1: string;
   public motEnCoursJ2: string;
-  public motTrouveJ1 = 0;
-  public motTrouveJ2 = 0;
-  private tempsActuel: number;
   public tempsRestant = 0;
   private dureeGrille = 3000000;
   public tempsFin: number;
@@ -60,9 +57,8 @@ export class InfosJeuViewComponent implements AfterViewInit {
       this.MAJTempsServer();
     }, this.FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS);
   }
+
   private MAJTemps() {
-    /*this.tempsActuel = Date.now();
-    this.tempsRestant = Math.round((this.tempsFin - this.tempsActuel) / 1000);*/
     this.tempsRestant = this.tempsRestant + 1;
     if (this.tempsRestant < 0) {
       this.gameViewService.partieTermineeFauteDeTemps(true);
