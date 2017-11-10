@@ -6,8 +6,9 @@ export class Piste {
     public static longueurPiste = 0;
 
     public nombreFoisJouee: number;
-    public coteAppreciation: number;
+    public coteAppreciation: number[];
     public meilleursTemps: Score[] = [];
+    public coteMoyenne: number;
     public vignette: string;
 
     constructor(public nom: string,
@@ -16,12 +17,12 @@ export class Piste {
         public listepositions: THREE.Vector3[],
         public id?: number) {
         this.nombreFoisJouee = 0;
-        this.coteAppreciation = 0;
+        this.coteAppreciation = [];
+        this.coteMoyenne = 0;
 
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = new Score('anas', '4min 0' + i + 's');
         }
-
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
 
         Piste.longueurPiste = this.obtenirLongueurPiste();
@@ -33,7 +34,7 @@ export class Piste {
         this.listepositions = listePosition;
     }
 
-    public modifieAttribut(coteAppreciation: number, nombreFoisJouee: number, meilleursTemps: Score[], vignette: string): void {
+    public modifieAttribut(coteAppreciation: number[], nombreFoisJouee: number, meilleursTemps: Score[], vignette: string): void {
         this.coteAppreciation = coteAppreciation;
         this.nombreFoisJouee = nombreFoisJouee;
         for (let i = 0; i < meilleursTemps.length; i++) {
@@ -53,7 +54,20 @@ export class Piste {
 
             distanceTotale += Math.pow(Math.pow(distanceX, 2) + Math.pow(distanceY, 2), 0.5);
         }
-
         return distanceTotale;
+    }
+
+    public calculerLaMoyenneDeVotes(coteAppreciation: number[]): void {
+        let chiffre = 0; let somme = 0;
+        if (coteAppreciation.length === 0) {
+            this.coteMoyenne = 0;
+            return;
+        } else {
+            for (let i = 0; i < coteAppreciation.length; i++) {
+                chiffre = coteAppreciation[i];
+                somme += +chiffre;
+            }
+            this.coteMoyenne = somme / coteAppreciation.length;
+        }
     }
 }

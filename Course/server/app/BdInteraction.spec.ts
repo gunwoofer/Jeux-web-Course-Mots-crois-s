@@ -36,11 +36,14 @@ const pisteModifie = new modelDePiste({
 
 describe('Test unitaire base de données', () => {
     beforeEach((fin) => {
-        const expect = chai.expect;
         const bd = new BdImplementation();
-        bd.connect(configuration.baseDeDonneesUrl);
+        bd.connect(configuration.baseDeDonneesUrlTest);
+        fin();
+    });
+
+    it('Ajouter une piste à la base de donnée', (fin) => {
         piste.save().then(() => {
-            expect(piste.isNew === false);
+            chai.expect(piste.isNew === false);
             fin();
         });
     });
@@ -97,19 +100,6 @@ describe('Test unitaire base de données', () => {
     });
 });
 
-describe('Test unitaire ajout dans la base de données', () => {
-    beforeEach((fin) => {
-        const bd = new BdImplementation();
-        bd.connect(configuration.baseDeDonneesUrl);
-        fin();
-    });
 
-    it('Ajouter une piste à la base de donnée', (fin) => {
-        piste.save().then(() => {
-            chai.expect(piste.isNew === false);
-            fin();
-        });
-    });
-});
 
 
