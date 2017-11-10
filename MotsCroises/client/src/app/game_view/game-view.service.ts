@@ -22,26 +22,13 @@ import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/RequisPou
 @Injectable()
 export class GameViewService {
   private motTrouve = new Subject<string>();
-  public motTrouve$ = this.motTrouve.asObservable();
   private modifierTempsRestant = new Subject<number>();
-  public modifierTempsRestant$ = this.modifierTempsRestant.asObservable();
   private partieTeminee = new Subject<string>();
-  public partieTeminee$ = this.partieTeminee.asObservable();
   private joueurAdverseTrouve = new Subject<string>();
-  public joueurAdverseTrouve$ = this.joueurAdverseTrouve.asObservable();
   private indiceSelectionne = new Subject<IndiceMot>();
-  public indiceSelectionne$ = this.indiceSelectionne.asObservable();
   private indiceAdversaireSelectionne = new Subject<IndiceMot>();
-  public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
   private motEcrit = new Subject<string>();
-  public motEcrit$ = this.motEcrit.asObservable();
   private partieGeneree: SpecificationPartie;
-  public indices: IndiceMot[];
-  public connexionTempsReelClient: ConnexionTempsReelClient;
-  public specificationPartie: SpecificationPartie;
-  public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
-  public joueur: Joueur = new Joueur();
-  public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
   private indiceTeste: IndiceMot;
   private indiceAdversaire: IndiceMot;
   private motEntre: string;
@@ -52,8 +39,21 @@ export class GameViewService {
   private requisPourSelectionnerMot: RequisPourSelectionnerMot;
   private requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant;
   private emplacementMot: EmplacementMot;
-
   private listeVuePartie: VuePartieEnCours[] = new Array;
+
+  public motTrouve$ = this.motTrouve.asObservable();
+  public modifierTempsRestant$ = this.modifierTempsRestant.asObservable();
+  public partieTeminee$ = this.partieTeminee.asObservable();
+  public joueurAdverseTrouve$ = this.joueurAdverseTrouve.asObservable();
+  public indiceSelectionne$ = this.indiceSelectionne.asObservable();
+  public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
+  public motEcrit$ = this.motEcrit.asObservable();
+  public indices: IndiceMot[];
+  public connexionTempsReelClient: ConnexionTempsReelClient;
+  public specificationPartie: SpecificationPartie;
+  public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
+  public joueur: Joueur = new Joueur();
+  public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
 
   constructor(private router: Router) {
   }
