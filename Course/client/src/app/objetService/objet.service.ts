@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
-const LUMIERES = [
+export const LUMIERES = [
     'AreaLight', 'AreaLight1', 'SpotLight', 'SpotLight1', 'HemisphereLight',
     'BrakeLightLS1', 'BrakeLightLS2', 'BrakeLightLS3', 'BrakeLightLS4',
     'BrakeLightRS1', 'BrakeLightRS2', 'BrakeLightRS3', 'BrakeLightRS4',

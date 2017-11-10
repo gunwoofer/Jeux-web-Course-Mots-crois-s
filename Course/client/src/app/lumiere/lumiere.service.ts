@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HemisphereLight, DirectionalLight, ImageUtils, Scene } from 'three';
 import { Voiture } from '../voiture/Voiture';
 
-const PHARES = [
+export const PHARES = [
     'BrakeLightLS1', 'BrakeLightRS1', 'Lumière Avant Droite', 'Lumière Avant Gauche', 'Phare Droit', 'Phare Gauche'];
 
 @Injectable()
@@ -19,8 +19,8 @@ export class LumiereService {
     private lumierHemiPosition = { x: 0, y: 500, z: 0 };
     private lumierDirePosition = { x: -1, y: 0.75, z: 1 };
     private scalaire = 30;
-    private lumiereHemisphere: HemisphereLight;
-    private lumiereDirectionnelle: DirectionalLight;
+    public lumiereHemisphere: HemisphereLight;
+    public lumiereDirectionnelle: DirectionalLight;
 
     constructor() {
         this.creeLumierDirectionnel();
@@ -47,7 +47,7 @@ export class LumiereService {
         scene.add(this.lumiereHemisphere);
     }
 
-    public modeJourNuit(event, scene: Scene, voiture: Voiture): void {
+    public modeJourNuit(event, scene: Scene): void {
         this.lumiereDirectionnelle.visible = !this.lumiereDirectionnelle.visible;
         scene.background = this.lumiereDirectionnelle.visible ? ImageUtils.loadTexture('../../assets/textures/day.jpeg') :
             ImageUtils.loadTexture('../../assets/textures/night.jpg');

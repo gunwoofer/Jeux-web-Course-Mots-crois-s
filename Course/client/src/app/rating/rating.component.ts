@@ -35,12 +35,12 @@ export class RatingComponent implements OnInit {
         this.router.navigateByUrl('/finPartie');
     }
 
-    public onClick() {
+    public onClick(): void {
         this.veutVoter = false;
         this.router.navigateByUrl('/finPartie');
     }
 
-    public onClick1() {
+    public onClick1(): void {
         this.veutVoter = true;
     }
 

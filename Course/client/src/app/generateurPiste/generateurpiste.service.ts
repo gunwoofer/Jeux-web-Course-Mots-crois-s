@@ -5,7 +5,7 @@ import { Segment } from './../piste/segment.model';
 import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
 import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
-import { LumiereService } from '../dayNight/dayNight.service';
+import { LumiereService } from '../lumiere/lumiere.service';
 import { ObjetService } from '../objetService/objet.service';
 import { Deplacement} from './deplacement.model';
 import { Injectable } from '@angular/core';
@@ -243,7 +243,7 @@ export class GenerateurPisteService implements Observateur {
     public gestionEvenement(event): void {
         if (event.key === MODE_JOUR_NUIT) {
             this.logiquePhares();
-            this.lumiereService.modeJourNuit(event, this.scene, this.voitureDuJoueur);
+            this.lumiereService.modeJourNuit(event, this.scene);
             this.jour = !this.jour;
             this.skyboxService.alternerSkybox(this.jour, this.camera, this.listeSkyboxJour, this.listeSkyboxNuit);
         } else if (event.key === MODE_FILTRE_COULEUR) {
