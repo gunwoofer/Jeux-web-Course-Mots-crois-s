@@ -1,5 +1,5 @@
 import { Piste } from './../piste/piste.model';
-import { Score } from './Score.model';
+import { Score } from './score.model';
 
 export const mockTableauScore = [
     new Score('Stephanie', '4min10s', null),
