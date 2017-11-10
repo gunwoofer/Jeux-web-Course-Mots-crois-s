@@ -28,6 +28,7 @@ describe('utilisateurService', () => {
     }));
 
     it('admin sinscrit ', inject([TableauScoreService, MockBackend], (service: TableauScoreService, backend: MockBackend) => {
+        service.piste = pisteMock;
         const message = 'Tableau a ete modifie';
         const reponse = new ResponseOptions({
             body: JSON.stringify(message)
