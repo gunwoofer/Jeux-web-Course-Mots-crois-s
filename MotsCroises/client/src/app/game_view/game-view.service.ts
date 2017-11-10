@@ -29,7 +29,6 @@ export class GameViewService {
   private indiceAdversaireSelectionne = new Subject<IndiceMot>();
   private motEcrit = new Subject<string>();
   private partieGeneree: SpecificationPartie;
-  private indiceTeste: IndiceMot;
   private indiceAdversaire: IndiceMot;
   private motEntre: string;
   private niveauPartie: Niveau;
@@ -114,7 +113,6 @@ export class GameViewService {
   }
 
   public testMotEntre(motAtester: string, indice: IndiceMot): void {
-    this.indiceTeste = indice;
     this.motEntre = motAtester;
     this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
     this.demanderVerificationMot(this.emplacementMot, motAtester);
@@ -301,7 +299,6 @@ export class GameViewService {
       return;
     }
     if (requisPourMotAVerifier.estLeMot) {
-      // self.indiceTeste.motTrouve = self.motEntre;
 
       console.log('joueurs guid ', requisPourMotAVerifier.guidJoueur, '  :', self.joueur.obtenirGuid());
       const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice);
