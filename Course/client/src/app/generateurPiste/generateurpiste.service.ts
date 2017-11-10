@@ -1,3 +1,4 @@
+import { PlacementService } from './../objetService/placementVoiture.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { Segment } from './../piste/segment.model';
@@ -30,8 +31,6 @@ export const FPS = 60;
 export const MODE_JOUR_NUIT = 'n';
 export const MODE_FILTRE_COULEUR = 'f';
 export const CHANGER_VUE = 'c';
-export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
-export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
 export const LONGUEUR_SURFACE_HORS_PISTE = 1000;
 export const LARGEUR_SURFACE_HORS_PISTE = 1000;
 export const ZOOM_AVANT = '+';
@@ -60,9 +59,6 @@ export class GenerateurPisteService implements Observateur {
     private partie: Partie;
     private routeur: Router;
     private segment: Segment;
-    private vecteurSensPiste:  THREE.Vector2;
-    private vecteurOrthogonalPiste:  THREE.Vector2;
-    private centreSegmentDepart: THREE.Vector2;
     private voituresIA: Voiture[] = [];
     public listeSkyboxJour: Array<THREE.Mesh>;
     public listeSkyboxNuit: Array<THREE.Mesh>;
@@ -71,7 +67,7 @@ export class GenerateurPisteService implements Observateur {
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
         private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService,
-        private skyboxService: SkyboxService) {
+        private skyboxService: SkyboxService, private placementService: PlacementService) {
             this.segment = new Segment();
             this.listeSkyboxJour = new Array<THREE.Mesh>();
             this.listeSkyboxNuit = new Array<THREE.Mesh>(); }
@@ -193,9 +189,10 @@ export class GenerateurPisteService implements Observateur {
         this.deplacement.touchePesee(event);
     }
 
-    public chargerVoiturePilote(A: number, B: number): void {
-        this.calculPositionCentreZoneDepart(this.segment.premierSegment);
-        this.obtenirVecteursSensPiste(this.segment.premierSegment);
+    public chargerVoiturePilote(A: number, B: number, joueur: boolean): void {
+        let objet: any;
+        this.placementService.calculPositionCentreZoneDepart(this.segment.premierSegment);
+        this.placementService.obtenirVecteursSensPiste(this.segment.premierSegment);
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
             const vecteurCalculAngle = new THREE.Vector2(
@@ -208,81 +205,31 @@ export class GenerateurPisteService implements Observateur {
             this.objetService.ajouterPhares(obj);
             this.objetService.eteindreTousLesPhares(obj);
             obj.receiveShadow = true;
+            objet = obj.getObjectByName('MainBody');
+            if (joueur) {
+                objet.material.color.set('grey');
+                this.preparerPartie();
+                this.partie.demarrerPartie();
+            } else {
+                objet.material.color.set('black');
+            }
             this.scene.add(obj);
             this.voitureDuJoueur = new Voiture(obj);
             this.voitureDuJoueur.voiture3D.position.set(
-                this.calculPositionVoiture(A, B).x,
-                this.calculPositionVoiture(A, B).y, 0);
-            this.preparerPartie();
-            this.partie.demarrerPartie();
-        });
-    }
-
-    public chargerVoitureIA(A: number, B: number): void {
-        this.calculPositionCentreZoneDepart(this.segment.premierSegment);
-        this.obtenirVecteursSensPiste(this.segment.premierSegment);
-        const loader = new THREE.ObjectLoader();
-        loader.load(EMPLACEMENT_VOITURE, (obj) => {
-            const vecteurCalculAngle = new THREE.Vector2(
-                (this.segment.premierSegment[1].x - this.segment.premierSegment[0].x),
-                (this.segment.premierSegment[1].y - this.segment.premierSegment[0].y));
-            obj.rotateX(Math.PI / 2);
-            obj.rotateY(vecteurCalculAngle.angle());
-            obj.name = 'Voiture IA';
-            this.objetService.enleverObjet(obj);
-            this.objetService.ajouterPhares(obj);
-            this.objetService.eteindreTousLesPhares(obj);
-            obj.receiveShadow = true;
-            this.scene.add(obj);
-            this.voituresIA.push(new Voiture(obj));
-            this.voituresIA[this.voituresIA.length - 1].voiture3D.position.set(
-                this.calculPositionVoiture(A, B).x,
-                this.calculPositionVoiture(A, B).y, 0);
+            this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).x,
+            this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).y, 0);
         });
     }
 
     public chargementDesVoitures(): void {
-
         const nombreAleatoire = Math.round(Math.random() * 3);
-        const position1 = [1, 1];
-        const position2 = [-1, 1];
-        const position3 = [ 1, -1];
-        const position4 = [-1, -1];
-        const tableauPosition = [position1, position2, position3, position4] ;
-
-        this.chargerVoiturePilote( tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1]);
+        const tableauPosition = [[1, 1], [-1, 1], [ 1, -1], [-1, -1]] ;
+        this.chargerVoiturePilote(tableauPosition[nombreAleatoire][0], tableauPosition[nombreAleatoire][1], true);
         tableauPosition.splice(nombreAleatoire, 1);
         for (let i = 0; i < tableauPosition.length; i++) {
-            this.chargerVoitureIA(tableauPosition[i][0], tableauPosition[i][1]);
+            this.chargerVoiturePilote(tableauPosition[i][0], tableauPosition[i][1], false);
         }
     }
-
-    public calculPositionVoiture(cadranX: number, cadranY: number): THREE.Vector2 {
-        const vecteurAvanceSensPiste = new THREE.Vector2().copy(this.vecteurSensPiste);
-        vecteurAvanceSensPiste.multiplyScalar(DISTANCE_POSITIONNEMENT_PARALLELE * cadranX);
-        const vecteurAvanceSensOrthogonal = new THREE.Vector2().copy(this.vecteurOrthogonalPiste);
-        vecteurAvanceSensOrthogonal.multiplyScalar(DISTANCE_POSITIONNEMENT_ORTHOGONALE * cadranY);
-        return new THREE.Vector2().copy(this.centreSegmentDepart).
-        add(vecteurAvanceSensPiste).
-        add(vecteurAvanceSensOrthogonal);
-    }
-
-    public calculPositionCentreZoneDepart(premierSegment: Array<THREE.Vector3>): void {
-       const centreSegmentGaucheX = ((premierSegment[1].x) + premierSegment[0].x) / 2 ;
-       const centreSegmentGaucheY = ((premierSegment[0].y) + premierSegment[1].y) / 2;
-       const centreSegmentDroiteX = ((premierSegment[3].x) + premierSegment[2].x) / 2;
-       const centreSegmentDroiteY = ((premierSegment[2].y) + premierSegment[3].y) / 2;
-       const centreSegmentX = (centreSegmentGaucheX + centreSegmentDroiteX) / 2;
-       const centreSegmentY = (centreSegmentGaucheY + centreSegmentDroiteY) / 2;
-       this.centreSegmentDepart = new THREE.Vector2(centreSegmentX, centreSegmentY);
-   }
-
-   public obtenirVecteursSensPiste(premierSegment: Array<THREE.Vector3>): void {
-        this.vecteurSensPiste = new THREE.Vector2(
-            (premierSegment[1].x - premierSegment[0].x), (premierSegment[1].y - premierSegment[0].y)).normalize();
-        this.vecteurOrthogonalPiste = new THREE.Vector2(-this.vecteurSensPiste.y, this.vecteurSensPiste.x);
-    }
-
 
     public chargerArbres(): void {
         this.arbres = this.objetService.chargerArbre(this.arbrePath, this.arbreTexture, this.WIDTH);

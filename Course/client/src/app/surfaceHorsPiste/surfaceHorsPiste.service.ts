@@ -37,6 +37,7 @@ export class SurfaceHorsPiste {
             txt.wrapT = THREE.RepeatWrapping;
             txt.anisotropy = 4;
             txt.repeat.set( 10, 10);
+            materiel.color.set('red');
             materiel.map = txt;
             materiel.needsUpdate = true;
         });
