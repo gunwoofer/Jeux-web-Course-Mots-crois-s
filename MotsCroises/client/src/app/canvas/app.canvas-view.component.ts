@@ -1,5 +1,4 @@
 import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
-import {IndiceViewService} from '../indice/indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
 import {CanvasGrille} from './canvasGrille';
 
@@ -13,7 +12,7 @@ import {CanvasGrille} from './canvasGrille';
 export class CanvasViewComponent implements AfterViewInit {
   private canvasGrille: CanvasGrille;
 
-  constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
+  constructor(private gameViewService: GameViewService) {
     this.souscrireEvenementIndices();
   }
 

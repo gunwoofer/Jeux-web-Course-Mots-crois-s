@@ -139,9 +139,9 @@ export class DescripteurEvenementTempsReel {
         for (const socketCourante of clientSocket) {
             console.log(clientSocket.length);
             console.log(socketCourante.client.conn.id);
-            // if (this.estUnAdversaire(client, socketCourante)) {
-            socketCourante.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
-            // }
+            if (this.estUnAdversaire(client, socketCourante)) {
+                socketCourante.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
+            }
         }
     }
 
