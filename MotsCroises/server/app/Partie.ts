@@ -40,12 +40,17 @@ export class Partie {
         this.debutDePartie = Date.now();
     }
 
+    public nouveauTemps(nouveauTemps: number) : void {
+        this.tempsAlloue = nouveauTemps * 1000;
+        this.debutDePartie = Date.now();
+    }
+
     public estMultijoueur(): boolean {
         return (this.joueurs.length > 1) ? true : false;
     }
 
     public obtenirTempsRestantMilisecondes(): number {
-        return ((Date.now() - this.debutDePartie) < 0) ? undefined : (Date.now() - this.debutDePartie);
+        return this.tempsAlloue - (Date.now() - this.debutDePartie);
     }
 
     public obtenirIndicesGrille(): Indice[] {

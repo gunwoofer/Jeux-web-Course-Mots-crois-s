@@ -1,4 +1,4 @@
-import { RequisPourMotsComplets } from './../../../../commun/requis/RequisPourMotsComplets';
+import {RequisPourMotsComplets} from './../../../../commun/requis/RequisPourMotsComplets';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
@@ -17,6 +17,7 @@ import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {RequisPourSelectionnerMot} from '../../../../commun/requis/RequisPourSelectionnerMot';
 import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/RequisPourObtenirTempsRestant';
+import {RequisPourModifierTempsRestant} from '../../../../commun/requis/RequisPourModifierTempsRestant';
 
 
 @Injectable()
@@ -171,7 +172,6 @@ export class GameViewService {
 
   public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
     this.listeVuePartie = listeVuePartie;
-
     // Demander liste de partie.
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisDemandeListePartieEnAttente>(
       requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
@@ -301,8 +301,6 @@ export class GameViewService {
       return;
     }
     if (requisPourMotAVerifier.estLeMot) {
-      // self.indiceTeste.motTrouve = self.motEntre;
-
       console.log('joueurs guid ', requisPourMotAVerifier.guidJoueur, '  :', self.joueur.obtenirGuid());
       const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice);
       if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {
@@ -366,10 +364,6 @@ export class GameViewService {
     }
   }
 
-  public attentePartieDeuxJoueurs() {
-
-  }
-
   public afficherSelectionIndice(indice: IndiceMot) {
     if (indice) {
       this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
@@ -384,6 +378,11 @@ export class GameViewService {
 
   public mettreAJourSelectionAdversaire(indice: IndiceMot) {
     this.indiceAdversaireSelectionne.next(indice);
+  }
 
+  public modifierTempsServeur(tempsVoulu: number) {
+    const requisPourModifierTempsRestant = new RequisPourModifierTempsRestant(this.specificationPartie.guidPartie, tempsVoulu);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourModifierTempsRestant>(requetes.REQUETE_SERVEUR_MODIFIER_TEMPS_RESTANT,
+      requisPourModifierTempsRestant, requetes.REQUETE_CLIENT_MODIFIER_TEMPS_RESTANT_RAPPEL, this.mettreAJourTempsPartie, this);
   }
 }
