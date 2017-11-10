@@ -30,9 +30,7 @@ export class GameViewService {
   private indiceAdversaireSelectionne = new Subject<IndiceMot>();
   private motEcrit = new Subject<string>();
   private partieGeneree: SpecificationPartie;
-  private indiceTeste: IndiceMot;
   private indiceAdversaire: IndiceMot;
-  private motEntre: string;
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
@@ -115,8 +113,6 @@ export class GameViewService {
   }
 
   public testMotEntre(motAtester: string, indice: IndiceMot): void {
-    this.indiceTeste = indice;
-    this.motEntre = motAtester;
     this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
     this.demanderVerificationMot(this.emplacementMot, motAtester);
   }
