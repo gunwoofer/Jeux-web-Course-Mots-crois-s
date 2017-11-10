@@ -32,6 +32,10 @@ export class CanvasGrille {
   public actionToucheAppuyee(event: KeyboardEvent) {
     const cleMot = event.key;
     const codeLettre = event.keyCode;
+    if (!this.testIndiceSelectionne()){
+      alert('Selectionner  d\'abord un indice svp');
+      return;
+    }
     if (cleMot === 'Backspace') {
       if (this.motEcrit.length === 0) {
         return;
@@ -62,10 +66,18 @@ export class CanvasGrille {
     this.rafraichirCanvas();
   }
 
+  public testIndiceSelectionne(): boolean{
+    if (!this.indice){
+      return false;
+    }
+    return true;
+  }
+
   public miseAJourIndiceAdversaire(indice: IndiceMot) {
-    this.motEcrit = '';
+    // this.motEcrit = '';
     this.indiceAdversaire = indice;
-    this.definirCaseActive(indice.positionI, indice.positionJ);
+    console.log('mise a jour indice adversaire');
+    // this.definirCaseActive(indice.positionI, indice.positionJ);
     this.rafraichirCanvas();
   }
 
@@ -118,10 +130,11 @@ export class CanvasGrille {
     this.ecrireMotsGrilleObtenueServeur();
     this.dessinerCaseNoiresGrilleObtenueServeur();
     this.ecrireMotsTrouves();
-    this.dessinerCaseNoiresGrilleObtenueServeur();
-    this.ecrireMotDansGrille(this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur);
-
-    this.afficherSelecteurAdversaireSurGrille();
+    //this.dessinerCaseNoiresGrilleObtenueServeur();
+    if (this.indice) {
+      this.ecrireMotDansGrille(this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur);
+    }
+    this.gererAffichageSelecteurs();
   }
 
   public motTrouveRafraichirCanvas() {
@@ -155,10 +168,13 @@ export class CanvasGrille {
     this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.largeurCase);
   }
 
-  private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string, ligneDash: number = 10) {
+  private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string, ligneDash: boolean = false) {
     this.ctxCanvas.strokeStyle = couleur;
     this.ctxCanvas.lineWidth = '5';
-    this.ctxCanvas.setLineDash([ligneDash, ligneDash]);
+    this.ctxCanvas.setLineDash([]);
+    if (ligneDash) {
+      this.ctxCanvas.setLineDash([20, 20]);
+    }
     this.ctxCanvas.beginPath();
     if (sens === 0) {
       this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
@@ -171,6 +187,7 @@ export class CanvasGrille {
 
   private afficherSelecteurAdversaireSurGrille() {
     if (this.indiceAdversaire) {
+      console.log("afficher selecteur Adversaire");
       this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
         this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2);
     }
@@ -180,7 +197,7 @@ export class CanvasGrille {
     this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
       this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ1);
     this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
-      this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2, 20);
+      this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2, true);
   }
 
   private gererAffichageSelecteurs() {
