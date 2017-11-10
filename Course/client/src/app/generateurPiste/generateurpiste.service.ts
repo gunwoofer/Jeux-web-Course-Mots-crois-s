@@ -4,7 +4,7 @@ import { Segment } from './../piste/segment.model';
 import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
 import { CameraService } from '../cameraService/cameraService.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
-import { LumiereService } from '../dayNight/dayNight.service';
+import { LumiereService } from '../lumiere/lumiere.service';
 import { ObjetService } from '../objetService/objet.service';
 import { Deplacement} from './deplacement.model';
 import { Injectable } from '@angular/core';
