@@ -30,7 +30,7 @@ export class GameViewComponent implements OnInit {
       this.actualiserGrille();
     });
     this.gameViewService.partieTeminee$.subscribe(() => {
-      this.infosJeuViewComponent.stopperTimer();
+      this.infosJeuViewComponent.stopperIntervalFonction();
       this.allerAPartieTerminee();
     });
 

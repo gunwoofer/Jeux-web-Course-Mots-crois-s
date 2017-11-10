@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {IndiceViewService} from './indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
 import {IndiceMot} from './indiceMot';
 
@@ -12,7 +11,7 @@ import {IndiceMot} from './indiceMot';
 export class IndiceViewComponent implements OnInit {
   public indices: IndiceMot[];
   public selectedIndice: IndiceMot;
-  constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
+  constructor(private gameViewService: GameViewService) {
   }
 
   public onSelect(indice: IndiceMot, event: Event): void {

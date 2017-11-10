@@ -1,7 +1,6 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
-import {IndiceViewService} from '../indice/indice-view.service';
 import {GameViewService} from '../game_view/game-view.service';
-import {Joueur} from "../../../../commun/Joueur";
+import {Joueur} from '../../../../commun/Joueur';
 
 
 @Component({
@@ -13,22 +12,28 @@ import {Joueur} from "../../../../commun/Joueur";
 export class InfosJeuViewComponent implements AfterViewInit {
   @Input()
   public nbJoueurs: string;
+
+  private FREQUENCE_DECREMENTATION_TEMPS_EN_MS = 1000;
+  private FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS = 10000;
+
   public motEnCoursJ1: string;
   public motEnCoursJ2: string;
-  public motTrouveJ1 = 0;
-  public motTrouveJ2 = 0;
-  private tempsActuel: number;
-  public tempsRestant = 30;
+  public tempsRestant = 0;
   private dureeGrille = 3000000;
   public tempsFin: number;
   private intervalFunction: any;
+  private intervalFunctionServer: any;
   public joueur: Joueur;
   public joueur2: Joueur;
 
 
-  constructor(private indiceViewService: IndiceViewService, private gameViewService: GameViewService) {
-    this.indiceViewService.motEcrit$.subscribe(nouveauMot => {
+  constructor(private gameViewService: GameViewService) {
+    this.gameViewService.motEcrit$.subscribe(nouveauMot => {
       this.motEnCoursJ1 = nouveauMot;
+    });
+    this.gameViewService.modifierTempsRestant$.subscribe(nouveauTemps => {
+      this.tempsRestant = Math.round(nouveauTemps / 1000);
+      console.log('nouveau temps arrivée', nouveauTemps);
     });
 
     this.joueur = this.gameViewService.joueur;
@@ -37,25 +42,36 @@ export class InfosJeuViewComponent implements AfterViewInit {
 
   public ngAfterViewInit(): void {
     this.recommencerTimer();
-    this.intervalFunction = setInterval(() => {
-      this.MAJTemps();
-    }, 1000);
+    this.demarrerFonctionIntervalTemps();
   }
 
   private recommencerTimer() {
     this.tempsFin = Date.now() + this.dureeGrille;
   }
 
+  private demarrerFonctionIntervalTemps() {
+    this.intervalFunction = setInterval(() => {
+      this.MAJTemps();
+    }, this.FREQUENCE_DECREMENTATION_TEMPS_EN_MS);
+    this.intervalFunctionServer = setInterval(() => {
+      this.MAJTempsServer();
+    }, this.FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS);
+  }
+
   private MAJTemps() {
-    this.tempsActuel = Date.now();
-    this.tempsRestant = Math.round((this.tempsFin - this.tempsActuel) / 1000);
+    this.tempsRestant = this.tempsRestant + 1;
     if (this.tempsRestant < 0) {
       this.gameViewService.partieTermineeFauteDeTemps(true);
     }
   }
 
-  public stopperTimer() {
+  private MAJTempsServer() {
+    this.gameViewService.demanderTempsPartie();
+  }
+
+  public stopperIntervalFonction() {
     clearInterval(this.intervalFunction);
+    clearInterval(this.intervalFunctionServer);
   }
 
 
