@@ -1,3 +1,4 @@
+import { PlacementService } from './objetService/placementVoiture.service';
 import { RatingComponent } from './rating/rating.component';
 import { TableauScoreService } from './tableauScore/tableauScoreService.service';
 import { FinDePartieComponent } from './finDepartie/finDePartie.component';
@@ -88,6 +89,7 @@ import { AppRoutingModule } from './app.routing';
     CameraService,
     RatingService,
     SkyboxService,
+    PlacementService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
