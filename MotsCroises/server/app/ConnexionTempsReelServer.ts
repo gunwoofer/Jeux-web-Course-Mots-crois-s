@@ -80,14 +80,13 @@ export class ConnexionTempsReelServer {
                 self.descripteurEvenementTempsReel.creerPartieMultijoueur(client, self.gestionnaireDePartieService,
                     self.generateurDeGrilleService, specificationPartie));
 
-        // Cheat mode
-        client.on(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
-            (requisPourMotComplet: RequisPourMotsComplets) =>
-            self.descripteurEvenementTempsReel.obtenirMotsComplets(client, self.gestionnaireDePartieService, requisPourMotComplet));
-
         client.on(requetes.REQUETE_SERVEUR_JOINDRE_PARTIE,
             (requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur) =>
                 self.descripteurEvenementTempsReel.joindrePartieMultijoueur(client, self.gestionnaireDePartieService,
                     self.generateurDeGrilleService, requisPourJoindrePartieMultijoueur, self.clientSockets));
+
+        client.on(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
+            (requisPourMotComplet: RequisPourMotsComplets) =>
+            self.descripteurEvenementTempsReel.obtenirMotsComplets(client, self.gestionnaireDePartieService, requisPourMotComplet));
     }
 }

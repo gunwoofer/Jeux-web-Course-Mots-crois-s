@@ -156,8 +156,8 @@ export class GameViewService {
   }
 
   public demanderTempsPartie(): void {
-    // Demander liste de partie.
     this.requisPourObtenirTempsRestant = new RequisPourObtenirTempsRestant(this.specificationPartie.guidPartie);
+
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourObtenirTempsRestant>(
       requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT,
       this.requisPourObtenirTempsRestant, requetes.REQUETE_CLIENT_OBTENIR_TEMPS_RESTANT_RAPPEL,
@@ -172,7 +172,6 @@ export class GameViewService {
   public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
     this.listeVuePartie = listeVuePartie;
 
-    // Demander liste de partie.
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisDemandeListePartieEnAttente>(
       requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
       this.requisDemandeListePartieEnCours, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL,
@@ -214,10 +213,8 @@ export class GameViewService {
   }
 
   private rappelChangementSelectionIndiceAdversaire(requisPourSelectionnerMot: RequisPourSelectionnerMot, self: GameViewService) {
-    console.log('retour changement mot');
     self.requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
     self.indiceAdversaire = self.trouverIndiceMotAvecGuid(requisPourSelectionnerMot.emplacementMot.GuidIndice);
-    console.log('indice ' + self.indiceAdversaire.guidIndice + ' de valeur ' + self.indiceAdversaire.definition + 'trouvé');
     self.mettreAJourSelectionAdversaire(self.indiceAdversaire);
 
   }
@@ -225,26 +222,18 @@ export class GameViewService {
   public rappelRejoindrePartieMultijoueur(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur
     , self: GameViewService): void {
     requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
-    /*console.log('JOUEUR A Rejoins LA PARTIE : ' + requisPourJoindrePartieMultijoueur.guidPartie);
-    console.log(requisPourJoindrePartieMultijoueur.joueurs);
-    console.log(requisPourJoindrePartieMultijoueur.joueurAAjouter);
-    self.joueur2 = this.requisPourJoindrePartieMultijoueur.joueurAAjouter;*/
 
     for (const joueurCourant of requisPourJoindrePartieMultijoueur.joueurs) {
       if (joueurCourant.obtenirGuid() !== self.joueur.obtenirGuid()) {
         self.joueur2 = joueurCourant;
       }
-      console.log('NOM JOUEUR: ' + joueurCourant.obtenirNomJoueur());
     }
 
     self.demarrerPartieMultijoueur(requisPourJoindrePartieMultijoueur.specificationPartie, self);
-    // self.recupererPartie(this.requisPourJoindrePartieMultijoueur.specificationPartie, self);
   }
 
   public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: GameViewService) {
-    console.log('RETOUR Rappel DEMANDER : ' + requisDemandeListePartieEnCours.listePartie.length);
     for (const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
-      console.log(vuePartieCourante.nomJoueurHote + ' | ' + vuePartieCourante.guidPartie);
       self.listeVuePartie.push(vuePartieCourante);
     }
   }
@@ -267,18 +256,12 @@ export class GameViewService {
     }
   }
 
-  /*  public recupererPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
-      self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-      console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
-    }*/
-
   public demarrerPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
     self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
     self.mettreAJourGrilleGeneree(self.specificationPartie);
     self.nbJoueursPartie = 1;
     self.ecouterRetourMot();
     self.router.navigate([self.obtenirRoutePartie()]);
-    console.log(specificationPartie.guidPartie + ' | ' + 'PARTIE CRÉÉ MULTI');
     self.ecouterChangementSelectionMotAdversaire();
   }
 
@@ -287,7 +270,6 @@ export class GameViewService {
   }
 
   public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
-    console.log('demande Verif mot');
     const requisPourMotAVerifier: RequisPourMotAVerifier = new RequisPourMotAVerifier(
       emplacementMot, motAtester, this.joueur.obtenirGuid(), this.specificationPartie.guidPartie);
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourMotAVerifier>(requetes.REQUETE_SERVEUR_VERIFIER_MOT,
@@ -295,26 +277,18 @@ export class GameViewService {
   }
 
   public recupererVerificationMot(requisPourMotAVerifier: RequisPourMotAVerifier, self: GameViewService): void {
-    console.log(requisPourMotAVerifier);
-    console.log('GUID partie', self.specificationPartie.guidPartie);
     if (requisPourMotAVerifier.guidPartie !== self.specificationPartie.guidPartie) {
       return;
     }
     if (requisPourMotAVerifier.estLeMot) {
-      // self.indiceTeste.motTrouve = self.motEntre;
-
-      console.log('joueurs guid ', requisPourMotAVerifier.guidJoueur, '  :', self.joueur.obtenirGuid());
       const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice);
       if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {
-        console.log('joueur 1 a trouvé');
         self.joueur.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
         indiceMotTrouve.modifierCouleurMot(self.joueur.obtenirCouleur());
       } else {
-        console.log('joueur 2 a trouvé');
         self.joueur2.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
         indiceMotTrouve.modifierCouleurMot(COULEUR_BLEUE);
       }
-      console.log(self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice));
       indiceMotTrouve.motTrouve = requisPourMotAVerifier.motAVerifier;
       self.motTrouve.next();
     } else if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {

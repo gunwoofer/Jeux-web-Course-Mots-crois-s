@@ -74,10 +74,7 @@ export class CanvasGrille {
   }
 
   public miseAJourIndiceAdversaire(indice: IndiceMot) {
-    // this.motEcrit = '';
     this.indiceAdversaire = indice;
-    console.log('mise a jour indice adversaire');
-    // this.definirCaseActive(indice.positionI, indice.positionJ);
     this.rafraichirCanvas();
   }
 
@@ -130,7 +127,6 @@ export class CanvasGrille {
     this.ecrireMotsGrilleObtenueServeur();
     this.dessinerCaseNoiresGrilleObtenueServeur();
     this.ecrireMotsTrouves();
-    //this.dessinerCaseNoiresGrilleObtenueServeur();
     if (this.indice) {
       this.ecrireMotDansGrille(this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur);
     }
@@ -187,7 +183,6 @@ export class CanvasGrille {
 
   private afficherSelecteurAdversaireSurGrille() {
     if (this.indiceAdversaire) {
-      console.log("afficher selecteur Adversaire");
       this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
         this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2);
     }

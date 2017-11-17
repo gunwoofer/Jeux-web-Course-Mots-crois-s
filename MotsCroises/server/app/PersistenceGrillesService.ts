@@ -59,7 +59,6 @@ export class PersistenceGrillesService {
     private connectiondbMotsCroises(callback?: any, donneesAuCallback?: any): void {
         const self: PersistenceGrillesService = this;
 
-        // Connexion à la base de données persistente.
         this.compteurRequetesEntiteePersistente++;
         this.bdImplementation.seConnecter(Configuration.baseDeDonneesUrl, (err: any, db: any) => {
 
@@ -125,7 +124,6 @@ export class PersistenceGrillesService {
 
     public asyncConnectiondbMotsCroises(self: PersistenceGrillesService): Promise<any> {
         return new Promise((resolve: any, reject: any) => {
-            // Connexion à la base de données persistente.
             self.compteurRequetesEntiteePersistente++;
             self.bdImplementation.seConnecter(Configuration.baseDeDonneesUrl, (err: any, db: any) => {
 

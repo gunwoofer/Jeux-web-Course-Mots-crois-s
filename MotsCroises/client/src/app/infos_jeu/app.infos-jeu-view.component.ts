@@ -33,7 +33,6 @@ export class InfosJeuViewComponent implements AfterViewInit {
     });
     this.gameViewService.modifierTempsRestant$.subscribe(nouveauTemps => {
       this.tempsRestant = Math.round(nouveauTemps / 1000);
-      console.log('nouveau temps arrivée', nouveauTemps);
     });
 
     this.joueur = this.gameViewService.joueur;
