@@ -70,16 +70,20 @@ export class InfosJeuViewComponent implements AfterViewInit {
   }
 
   public afficherCheatMode(): void {
-    this.cheatModeVisible =  !this.cheatModeVisible;
+    this.cheatModeVisible = !this.cheatModeVisible;
   }
 
 
-  private MAJTempsServer() {
+  private MAJTempsServer(): void {
     this.gameViewService.demanderTempsPartie();
   }
 
-  public stopperIntervalFonction() {
+  public stopperIntervalFonction(): void {
     clearInterval(this.intervalFunction);
     clearInterval(this.intervalFunctionServer);
+  }
+
+  public envoyerTemps(): void {
+
   }
 }

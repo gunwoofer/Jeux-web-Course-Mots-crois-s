@@ -11,7 +11,10 @@
     <div>{{tempsRestant}}</div>
     <div *ngIf="cheatModeVisible">
       <button (click)="recupererMotsCheatMode()">Afficher mots</button>
-      <input [(ngModel)]="tempsRestantAEnvoyer" type="number" />
+      <div>
+        <input [(ngModel)]="tempsRestantAEnvoyer" type="number"/>
+        <button (click)="envoyerTemps()">Modifier</button>
+      </div>
     </div>
   </div>
 
