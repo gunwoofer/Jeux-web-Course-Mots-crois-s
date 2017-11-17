@@ -1,3 +1,4 @@
+import { element } from 'protractor';
 import { Voiture } from './../voiture/Voiture';
 import { Score } from './../tableauScore/score.model';
 import * as THREE from 'three';
@@ -34,10 +35,27 @@ export class Piste {
 
     public gererElementDePiste(listeVoitures: Voiture[]): void {
         // Boucler sur les voitures
-        // Boucler sur les elements de piste
-        // pour chaque element raycaster vers le haut
-        // Si la voiture est collisioné
-        // Active l effet de l element iteré
+        for (const voiture of listeVoitures) {
+            // Boucler sur les elements de piste
+            for (const element of this.listeElementsDePiste) {
+                // pour chaque element raycaster vers le haut
+                const vecteurVersLeHaut = new THREE.Vector3(0, 0, 1);
+                element.genererRayCaster(vecteurVersLeHaut);
+                // Si la voiture est collisionée
+                if (element.raycaster.intersectObject(voiture.obtenirVoiture3D()).length !== 0) {
+                    // Active l effet de l element iteré
+                    element.effetSurObstacle();
+                }
+            }
+        }
+    }
+
+    public ajouterElementPiste(elementPiste: ElementDePiste): void {
+        this.listeElementsDePiste.push(elementPiste);
+    }
+
+    public obtenirElementsPiste(): ElementDePiste[] {
+        return this.listeElementsDePiste;
     }
 
     public modifierAttribut(form: NgForm, listePosition: any[]): void {

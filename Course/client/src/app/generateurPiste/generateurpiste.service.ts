@@ -1,3 +1,4 @@
+import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
@@ -36,6 +37,8 @@ export const LARGEUR_SURFACE_HORS_PISTE = 1000;
 export const ZOOM_AVANT = '+';
 export const ZOOM_ARRIERE = '-';
 export const ALLUMER_PHARES = 'l';
+
+
 
 @Injectable()
 export class GenerateurPisteService implements Observateur {
@@ -87,12 +90,23 @@ export class GenerateurPisteService implements Observateur {
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
 
+        // Mock nid de poule
+        const nidDePoule = new NidDePoule(6, -18, 0);
+        this.piste.ajouterElementPiste(nidDePoule);
+
+        this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
     }
 
     public configurerTours(nombreTours: number) {
         this.nombreTours = nombreTours;
         Partie.toursAComplete = this.nombreTours;
+    }
+
+    public ajouterElementDePisteScene(): void {
+        for (const element of this.piste.obtenirElementsPiste()) {
+            this.scene.add(element.obtenirMesh());
+        }
     }
 
     public ajouterRouter(routeur: Router): void {

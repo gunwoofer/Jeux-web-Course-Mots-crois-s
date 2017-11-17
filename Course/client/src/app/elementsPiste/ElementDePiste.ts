@@ -2,12 +2,11 @@
 
 
 export abstract class ElementDePiste {
-    private x: number;
-    private y: number;
-    private z: number;
-    private geometrie: THREE.Geometry;
-    private materiel: THREE.Material;
-    private mesh: THREE.Mesh;
+    protected x: number;
+    protected y: number;
+    protected z: number;
+    protected mesh: THREE.Mesh;
+    public raycaster: THREE.Raycaster;
 
 
     constructor(x: number, y: number, z: number) {
@@ -15,6 +14,8 @@ export abstract class ElementDePiste {
         this.y = y;
         this.z = z;
     }
+
+    public abstract genererRayCaster(vecteur: THREE.Vector3): void;
 
     public abstract effetSurObstacle(): void;
 
