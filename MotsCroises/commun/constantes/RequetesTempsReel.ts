@@ -10,6 +10,8 @@ export const REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS = 'parties/liste';
 export const REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE = 'partie/obtenir/motscomplets';
 export const REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR = 'partie/creer/multijoueur';
 export const REQUETE_SERVEUR_JOINDRE_PARTIE = 'partie/joindre';
+export const REQUETE_SERVEUR_MODIFIER_TEMPS_RESTANT = 'partie/modifiertempsrestant';
+
 
 
 // liste des requêtes lors des communications temps réels disponibles côté client.
@@ -27,3 +29,4 @@ export const REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL = 'parties/lis
 export const REQUETE_CLIENT_RAPPEL_OBTENIR_MOTS_COMPLETS_CHEAT_MODE = 'partie/obtenir/motscomplets/rappel';
 export const REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL = 'partie/creer/multijoueur/rappel';
 export const REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL = 'partie/joindre/rappel';
+export const REQUETE_CLIENT_MODIFIER_TEMPS_RESTANT_RAPPEL = 'partie/modifiertempsrestant/rappel';

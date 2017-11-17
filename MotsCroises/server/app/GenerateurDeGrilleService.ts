@@ -7,6 +7,8 @@ import { Position } from '../../commun/Position';
 import { Indice, DifficulteDefinition } from './Indice';
 import * as grilleConstantes from './GrilleConstants';
 
+export const NOMBRE_DE_GRILLE = 5;
+
 export class GenerateurDeGrilleService {
     private motCroiseGenere: Grille;
 
@@ -34,12 +36,9 @@ export class GenerateurDeGrilleService {
 
     private obtenirGrilles(generateur: GenerateurDeGrilleService, niveau: Niveau): Grille[] {
         const grilles: Grille[] = new Array();
-        grilles.push(generateur.genererGrille(niveau));
-        grilles.push(generateur.genererGrille(niveau));
-        grilles.push(generateur.genererGrille(niveau));
-        grilles.push(generateur.genererGrille(niveau));
-        grilles.push(generateur.genererGrille(niveau));
-
+        for (let i = 0; i < NOMBRE_DE_GRILLE; i++) {
+            grilles.push(generateur.genererGrille(niveau));
+        }
         return grilles;
     }
 
