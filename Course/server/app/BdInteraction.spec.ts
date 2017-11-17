@@ -37,7 +37,7 @@ const pisteModifie = new modelDePiste({
 describe('Test unitaire base de données', () => {
     beforeEach((fin) => {
         const bd = new BdImplementation();
-        bd.connect(configuration.baseDeDonneesUrlExterne);
+        bd.connect(configuration.baseDeDonneesUrlTest);
         fin();
     });
 

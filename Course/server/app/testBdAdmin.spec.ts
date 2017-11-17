@@ -18,7 +18,7 @@ const nouveauMotPasse = 'ALLLOOO';
 describe('Test unitaire base de données pour la collection administrateur', () => {
     beforeEach((fin) => {
         const bd = new BdImplementation();
-        bd.connect(configuration.baseDeDonneesUrlExterne);
+        bd.connect(configuration.baseDeDonneesUrlTest);
         fin();
     });
 
