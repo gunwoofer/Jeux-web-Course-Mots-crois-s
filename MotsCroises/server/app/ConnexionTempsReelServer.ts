@@ -63,10 +63,12 @@ export class ConnexionTempsReelServer {
                     self.clientSockets, requisPourSelectionnerMot));
 
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT, (requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant) =>
-            self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.gestionnaireDePartieService, requisPourObtenirTempsRestant, self.clientSockets));
+            self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.gestionnaireDePartieService,
+                requisPourObtenirTempsRestant, self.clientSockets));
 
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_MOTS_TROUVES, (requisPourMotsTrouve: RequisPourMotsTrouve) =>
-            self.descripteurEvenementTempsReel.obtenirMotsTrouve(client, self.gestionnaireDePartieService, requisPourMotsTrouve, self.clientSockets));
+            self.descripteurEvenementTempsReel.obtenirMotsTrouve(client, self.gestionnaireDePartieService,
+                requisPourMotsTrouve, self.clientSockets));
 
         client.on(requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
             (requisDemandeListePartieEnAttente: RequisDemandeListePartieEnAttente) => self.descripteurEvenementTempsReel
@@ -78,14 +80,13 @@ export class ConnexionTempsReelServer {
                 self.descripteurEvenementTempsReel.creerPartieMultijoueur(client, self.gestionnaireDePartieService,
                     self.generateurDeGrilleService, specificationPartie));
 
-        // Cheat mode
-        client.on(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
-            (requisPourMotComplet: RequisPourMotsComplets) =>
-            self.descripteurEvenementTempsReel.obtenirMotsComplets(client, self.gestionnaireDePartieService, requisPourMotComplet));
-
         client.on(requetes.REQUETE_SERVEUR_JOINDRE_PARTIE,
             (requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur) =>
                 self.descripteurEvenementTempsReel.joindrePartieMultijoueur(client, self.gestionnaireDePartieService,
                     self.generateurDeGrilleService, requisPourJoindrePartieMultijoueur, self.clientSockets));
+
+        client.on(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
+            (requisPourMotComplet: RequisPourMotsComplets) =>
+            self.descripteurEvenementTempsReel.obtenirMotsComplets(client, self.gestionnaireDePartieService, requisPourMotComplet));
     }
 }

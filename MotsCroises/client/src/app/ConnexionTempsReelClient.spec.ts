@@ -59,7 +59,7 @@ describe('ConnexionTempsReel', () => {
       });
   });
 
-  it('Il est possible de vérifier un mot en temps réél.', (done) => {
+  it('Il est possible de vérifier un mot en temps réél.', function(done) {
     const connexionTempsReelClient: ConnexionTempsReelClient = new ConnexionTempsReelClient();
     const joueur: Joueur = new Joueur();
     const specificationPartie = new SpecificationPartie(Niveau.facile, joueur, TypePartie.classique_a_un);

@@ -1,6 +1,8 @@
+import { Voiture } from './../voiture/Voiture';
 import { Score } from './../tableauScore/score.model';
 import * as THREE from 'three';
 import { NgForm } from '@angular/forms';
+import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 export class Piste {
     public static longueurPiste = 0;
@@ -11,6 +13,8 @@ export class Piste {
     public coteMoyenne: number;
     public vignette: string;
 
+    private listeElementsDePiste: ElementDePiste[];
+
     constructor(public nom: string,
         public typeCourse: string,
         public description: string,
@@ -19,12 +23,21 @@ export class Piste {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = [];
 
+        this.listeElementsDePiste = new Array();
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = new Score('anas', '4min 0' + i + 's');
         }
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
 
         Piste.longueurPiste = this.obtenirLongueurPiste();
+    }
+
+    public gererElementDePiste(listeVoitures: Voiture[]): void {
+        // Boucler sur les voitures
+        // Boucler sur les elements de piste
+        // pour chaque element raycaster vers le haut
+        // Si la voiture est collisioné
+        // Active l effet de l element iteré
     }
 
     public modifierAttribut(form: NgForm, listePosition: any[]): void {

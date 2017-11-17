@@ -4,11 +4,11 @@ import { SpecificationPartie } from "../SpecificationPartie";
 
 
 export class RequisPourJoindrePartieMultijoueur {
-    // A completer
+    // A completer côté client
     public guidPartie: string;
     public joueurAAjouter: Joueur;
 
-    // Retour serveur
+    // Retour du serveur
     public joueurs: Joueur[];
     public specificationPartie: SpecificationPartie;
     

@@ -40,7 +40,6 @@ describe('Partie', () => {
         emplacementMotSelectionnerParJoueur1 = grille.emplacementMots[2];
         emplacementMotSelectionnerParJoueur2 = grille.emplacementMots[2];
 
-        // Changer l'emplacement mot des deux joueurs.
         partieEnCours.changerSelectionMot(joueur1.obtenirGuid(), emplacementMotSelectionnerParJoueur1);
         partieEnCours.changerSelectionMot(joueur2.obtenirGuid(), emplacementMotSelectionnerParJoueur2);
 

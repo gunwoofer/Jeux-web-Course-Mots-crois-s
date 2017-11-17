@@ -12,7 +12,6 @@ export class CanvasGrille {
   private nbCases = 11;
   private couleurNoire = '#AA3EF0';
   private couleurJoueur = '#2baa87';
-  private couleurMotTrouve = '#3665aa';
   private policeLettres = '35px Arial';
   private ligneActuelle: number;
   private colonneActuelle: number;
@@ -32,7 +31,7 @@ export class CanvasGrille {
   public actionToucheAppuyee(event: KeyboardEvent) {
     const cleMot = event.key;
     const codeLettre = event.keyCode;
-    if (!this.testIndiceSelectionne()){
+    if (!this.testIndiceSelectionne()) {
       alert('Selectionner  d\'abord un indice svp');
       return;
     }
@@ -66,18 +65,15 @@ export class CanvasGrille {
     this.rafraichirCanvas();
   }
 
-  public testIndiceSelectionne(): boolean{
-    if (!this.indice){
+  public testIndiceSelectionne(): boolean {
+    if (!this.indice) {
       return false;
     }
     return true;
   }
 
   public miseAJourIndiceAdversaire(indice: IndiceMot) {
-    // this.motEcrit = '';
     this.indiceAdversaire = indice;
-    console.log('mise a jour indice adversaire');
-    // this.definirCaseActive(indice.positionI, indice.positionJ);
     this.rafraichirCanvas();
   }
 
@@ -130,7 +126,6 @@ export class CanvasGrille {
     this.ecrireMotsGrilleObtenueServeur();
     this.dessinerCaseNoiresGrilleObtenueServeur();
     this.ecrireMotsTrouves();
-    //this.dessinerCaseNoiresGrilleObtenueServeur();
     if (this.indice) {
       this.ecrireMotDansGrille(this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur);
     }
@@ -168,7 +163,8 @@ export class CanvasGrille {
     this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.largeurCase);
   }
 
-  private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number, j: number, couleur: string, ligneDash: boolean = false) {
+  private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number,
+     j: number, couleur: string, ligneDash: boolean = false) {
     this.ctxCanvas.strokeStyle = couleur;
     this.ctxCanvas.lineWidth = '5';
     this.ctxCanvas.setLineDash([]);
@@ -187,7 +183,6 @@ export class CanvasGrille {
 
   private afficherSelecteurAdversaireSurGrille() {
     if (this.indiceAdversaire) {
-      console.log("afficher selecteur Adversaire");
       this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
         this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2);
     }

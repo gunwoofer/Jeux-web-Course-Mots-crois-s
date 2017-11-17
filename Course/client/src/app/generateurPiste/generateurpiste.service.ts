@@ -155,6 +155,7 @@ export class GenerateurPisteService implements Observateur {
     public renderMiseAJour(): void {
         if (this.voitureDuJoueur !== undefined) {
             this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
+            this.piste.gererElementDePiste([this.voitureDuJoueur]);
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
     }
@@ -216,7 +217,7 @@ export class GenerateurPisteService implements Observateur {
                 this.partie.demarrerPartie();
             } else {
                 objet.material.color.set('black');
-                this.voituresIA.push(new Voiture(obj)); 
+                this.voituresIA.push(new Voiture(obj));
                 this.voituresIA[this.voituresIA.length - 1].voiture3D.position.set(
                 this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).x,
                 this.placementService.calculPositionVoiture(A, B, this.segment.premierSegment).y, 0);

@@ -128,7 +128,6 @@ export class DescripteurEvenementTempsReel {
 
     public changerEmplacementMotSelectionner(client: SocketIO.Socket, gestionnairePartieService: GestionnaireDePartieService,
                                              clientSocket: SocketIO.Socket[], requisPourSelectionnerMot: RequisPourSelectionnerMot): void {
-        console.log('envoi');
 
         requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
 
@@ -138,8 +137,6 @@ export class DescripteurEvenementTempsReel {
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
 
         for (const socketCourante of clientSocket) {
-            console.log(clientSocket.length);
-            console.log(socketCourante.client.conn.id);
             if (this.estUnAdversaire(client, socketCourante)) {
                 socketCourante.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
             }
@@ -191,13 +188,11 @@ export class DescripteurEvenementTempsReel {
             for (const clientCourant of clients) {
                 clientCourant.emit(requetes.REQUETE_CLIENT_PARTIE_TERMINE, partieTermine);
             }
-            console.log('partie terminee');
         }
     }
 
     public obtenirMotsComplets(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
     requisPourMotsComplets: RequisPourMotsComplets): void {
-        console.log("JE PASSE DANS LE SERVER");
         const listeMots: MotComplet[] = gestionnaireDePartieService.obtenirPartieEnCours(requisPourMotsComplets.guidPartie)
         .obtenirGrille().mots;
         requisPourMotsComplets = RequisPourMotsComplets.rehydrater(requisPourMotsComplets);
