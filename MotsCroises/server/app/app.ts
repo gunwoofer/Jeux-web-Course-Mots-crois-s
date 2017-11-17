@@ -87,8 +87,6 @@ export class Application {
         router.use('/grilles/persistence/grille/moyen/async', index.asyncObtenirGrilleMoyen.bind(index.asyncObtenirGrilleMoyen));
         router.use('/grilles/persistence/grille/difficile/async',
             index.asyncObtenirGrilleDifficile.bind(index.asyncObtenirGrilleDifficile));
-        router.use('/grilles/persistence/grille/ajouter/5/async',
-            index.asyncPersistenceGrillesService.bind(index.asyncPersistenceGrillesService));
         router.use('/grilles/persistence/grille/ajouter/15', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
 
         // Socket IO
