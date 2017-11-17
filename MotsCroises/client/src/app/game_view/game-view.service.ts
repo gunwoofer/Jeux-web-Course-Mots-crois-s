@@ -16,7 +16,7 @@ import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/Requi
 import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {RequisPourSelectionnerMot} from '../../../../commun/requis/RequisPourSelectionnerMot';
-import {RequisPourObtenirTempsRestant} from "../../../../commun/requis/RequisPourObtenirTempsRestant";
+import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/RequisPourObtenirTempsRestant';
 
 
 @Injectable()
@@ -42,9 +42,7 @@ export class GameViewService {
   public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
   public joueur: Joueur = new Joueur();
   public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
-  private indiceTeste: IndiceMot;
   private indiceAdversaire: IndiceMot;
-  private motEntre: string;
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
@@ -114,8 +112,6 @@ export class GameViewService {
   }
 
   public testMotEntre(motAtester: string, indice: IndiceMot): void {
-    this.indiceTeste = indice;
-    this.motEntre = motAtester;
     this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
     this.demanderVerificationMot(this.emplacementMot, motAtester);
   }
@@ -186,7 +182,7 @@ export class GameViewService {
       this.rappelRejoindrePartieMultijoueur, this);
   }
 
-  public ecouterRetourRejoindrePartieMultijoueur<RequisDemandeListePartieEnAttente>(): void {
+  public ecouterRetourRejoindrePartieMultijoueur(): void {
     this.connexionTempsReelClient.ecouterRequete(
       requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, this.rappelRejoindrePartieMultijoueur, this
     );
@@ -345,7 +341,7 @@ export class GameViewService {
   }
 
   public afficherSelectionIndice(indice: IndiceMot) {
-    if (indice){
+    if (indice) {
       this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
       this.indiceSelectionne.next(indice);
     }

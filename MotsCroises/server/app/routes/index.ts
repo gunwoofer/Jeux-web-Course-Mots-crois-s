@@ -3,11 +3,6 @@ import { GenerateurDeGrilleService } from '../GenerateurDeGrilleService';
 import { PersistenceGrillesService } from '../PersistenceGrillesService';
 import { Grille } from '../Grille';
 import { Niveau } from '../../../commun/Niveau';
-import { GestionnaireDePartieService } from '../GestionnaireDePartieService';
-import { TypePartie } from '../../../commun/TypePartie';
-import { Joueur } from '../../../commun/Joueur';
-import { EmplacementMot } from '../../../commun/EmplacementMot';
-import { Case } from '../../../commun/Case';
 
 module Route {
 
@@ -27,16 +22,6 @@ module Route {
             persistenceGrilles.insererPlusieursGrilles(generateur.obtenirGrillesBase(generateur));
         }
 
-        public asyncPersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
-            const grilles: Grille[] = generateur.obtenirGrillesBase(generateur);
-
-            persistenceGrilles.asyncInsererPlusieursGrilles(grilles)
-                .then(resultat => { res.send(resultat); })
-                .catch(erreur => { throw new Error(erreur); });
-        }
-
         public obtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
@@ -51,6 +36,13 @@ module Route {
             persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
                 .then(grille => { res.send(grille); })
                 .catch(erreur => { throw new Error(erreur); });
+        }
+
+        public obtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
+
+            persistenceGrilles.obtenirGrillePersistante(Niveau.moyen);
         }
 
         public asyncObtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction): void {
@@ -71,57 +63,12 @@ module Route {
                 .catch(erreur => { throw new Error(erreur); });
         }
 
-        public creerTableauGrille(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
-
-            persistenceGrilles.creerTableauGrilles();
-        }
-
-        public obtenirGrilleMoyen(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
-
-            persistenceGrilles.obtenirGrillePersistante(Niveau.moyen);
-        }
-
         public obtenirGrilleDifficile(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
 
             persistenceGrilles.obtenirGrillePersistante(Niveau.difficile);
         }
-
-
-        public verifierMauvaisMot(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            const joueur: Joueur = new Joueur();
-            const typePartie: TypePartie = TypePartie.classique_a_un;
-            const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            const persistenceGrillesService: PersistenceGrillesService = new PersistenceGrillesService(generateurDeGrilleService);
-            const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
-            let guidPartie = '';
-
-            persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
-                .then((grilleDepart: Grille) => {
-                    guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-                    const emplacementsMot: EmplacementMot[] = grilleDepart.emplacementsHorizontaux();
-                    const emplacementMot: EmplacementMot = emplacementsMot[0];
-                    const caseDebut: Case = emplacementMot.obtenirCaseDebut();
-                    const caseFin: Case = emplacementMot.obtenirCaseFin();
-                    const longueurMot: number = emplacementMot.obtenirGrandeur();
-                    let motAVerifier: string;
-
-                    for (let i = 0; i < longueurMot; i++) {
-                        motAVerifier += 'a';
-                    }
-
-                    res.send(!gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
-                })
-                .catch((erreur) => {
-                    console.error(erreur);
-                });
-        }
-
     }
 }
 
