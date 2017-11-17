@@ -19,6 +19,8 @@ export const longueurEspaceNoirEntreDeuxMots = 1;
 export const tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne = 100;
 export const LETTRE_PAR_DEFAUT_A_INSERER_MOCK_GRILLE = 'a';
 
+export const NOMBRE_DE_GRILLE = 5;
+
 export class GenerateurDeGrilleService {
 
     private motCroiseGenere: Grille;
@@ -54,12 +56,9 @@ export class GenerateurDeGrilleService {
 
     private obtenirGrilles(generateur: GenerateurDeGrilleService, niveau: Niveau): Grille[] {
         const grilles: Grille[] = new Array();
-        grilles.push(generateur.genererGrille(niveau));
-        grilles.push(generateur.genererGrille(niveau));
-        grilles.push(generateur.genererGrille(niveau));
-        grilles.push(generateur.genererGrille(niveau));
-        grilles.push(generateur.genererGrille(niveau));
-
+        for (let i = 0; i < NOMBRE_DE_GRILLE; i++) {
+            grilles.push(generateur.genererGrille(niveau));
+        }
         return grilles;
     }
 
