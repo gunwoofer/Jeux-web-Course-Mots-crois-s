@@ -1,4 +1,3 @@
-import { Guid } from './../Guid';
 import { MotComplet } from './../../server/app/MotComplet';
 
 

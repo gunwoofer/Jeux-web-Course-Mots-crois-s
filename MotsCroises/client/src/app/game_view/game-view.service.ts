@@ -16,35 +16,21 @@ import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/Requi
 import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {RequisPourSelectionnerMot} from '../../../../commun/requis/RequisPourSelectionnerMot';
-import {RequisPourObtenirTempsRestant} from "../../../../commun/requis/RequisPourObtenirTempsRestant";
+import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/RequisPourObtenirTempsRestant';
+import {RequisPourModifierTempsRestant} from '../../../../commun/requis/RequisPourModifierTempsRestant';
 
 
 @Injectable()
 export class GameViewService {
   private motTrouve = new Subject<string>();
-  public motTrouve$ = this.motTrouve.asObservable();
   private modifierTempsRestant = new Subject<number>();
-  public modifierTempsRestant$ = this.modifierTempsRestant.asObservable();
   private partieTeminee = new Subject<string>();
-  public partieTeminee$ = this.partieTeminee.asObservable();
   private joueurAdverseTrouve = new Subject<string>();
-  public joueurAdverseTrouve$ = this.joueurAdverseTrouve.asObservable();
   private indiceSelectionne = new Subject<IndiceMot>();
-  public indiceSelectionne$ = this.indiceSelectionne.asObservable();
   private indiceAdversaireSelectionne = new Subject<IndiceMot>();
-  public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
   private motEcrit = new Subject<string>();
-  public motEcrit$ = this.motEcrit.asObservable();
   private partieGeneree: SpecificationPartie;
-  public indices: IndiceMot[];
-  public connexionTempsReelClient: ConnexionTempsReelClient;
-  public specificationPartie: SpecificationPartie;
-  public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
-  public joueur: Joueur = new Joueur();
-  public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
-  private indiceTeste: IndiceMot;
   private indiceAdversaire: IndiceMot;
-  private motEntre: string;
   private niveauPartie: Niveau;
   private typePartie: TypePartie;
   private nbJoueursPartie: number;
@@ -52,8 +38,21 @@ export class GameViewService {
   private requisPourSelectionnerMot: RequisPourSelectionnerMot;
   private requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant;
   private emplacementMot: EmplacementMot;
-
   private listeVuePartie: VuePartieEnCours[] = new Array;
+
+  public motTrouve$ = this.motTrouve.asObservable();
+  public modifierTempsRestant$ = this.modifierTempsRestant.asObservable();
+  public partieTeminee$ = this.partieTeminee.asObservable();
+  public joueurAdverseTrouve$ = this.joueurAdverseTrouve.asObservable();
+  public indiceSelectionne$ = this.indiceSelectionne.asObservable();
+  public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
+  public motEcrit$ = this.motEcrit.asObservable();
+  public indices: IndiceMot[];
+  public connexionTempsReelClient: ConnexionTempsReelClient;
+  public specificationPartie: SpecificationPartie;
+  public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
+  public joueur: Joueur = new Joueur();
+  public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
 
   constructor(private router: Router) {
   }
@@ -114,8 +113,6 @@ export class GameViewService {
   }
 
   public testMotEntre(motAtester: string, indice: IndiceMot): void {
-    this.indiceTeste = indice;
-    this.motEntre = motAtester;
     this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
     this.demanderVerificationMot(this.emplacementMot, motAtester);
   }
@@ -157,7 +154,6 @@ export class GameViewService {
 
   public demanderTempsPartie(): void {
     this.requisPourObtenirTempsRestant = new RequisPourObtenirTempsRestant(this.specificationPartie.guidPartie);
-
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourObtenirTempsRestant>(
       requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT,
       this.requisPourObtenirTempsRestant, requetes.REQUETE_CLIENT_OBTENIR_TEMPS_RESTANT_RAPPEL,
@@ -186,7 +182,7 @@ export class GameViewService {
       this.rappelRejoindrePartieMultijoueur, this);
   }
 
-  public ecouterRetourRejoindrePartieMultijoueur<RequisDemandeListePartieEnAttente>(): void {
+  public ecouterRetourRejoindrePartieMultijoueur(): void {
     this.connexionTempsReelClient.ecouterRequete(
       requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, this.rappelRejoindrePartieMultijoueur, this
     );
@@ -340,12 +336,8 @@ export class GameViewService {
     }
   }
 
-  public attentePartieDeuxJoueurs() {
-
-  }
-
   public afficherSelectionIndice(indice: IndiceMot) {
-    if (indice){
+    if (indice) {
       this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
       this.indiceSelectionne.next(indice);
     }
@@ -358,10 +350,11 @@ export class GameViewService {
 
   public mettreAJourSelectionAdversaire(indice: IndiceMot) {
     this.indiceAdversaireSelectionne.next(indice);
-
   }
 
-  public selectionIndice() {
-
+  public modifierTempsServeur(tempsVoulu: number) {
+    const requisPourModifierTempsRestant = new RequisPourModifierTempsRestant(this.specificationPartie.guidPartie, tempsVoulu);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourModifierTempsRestant>(requetes.REQUETE_SERVEUR_MODIFIER_TEMPS_RESTANT,
+      requisPourModifierTempsRestant, requetes.REQUETE_CLIENT_MODIFIER_TEMPS_RESTANT_RAPPEL, this.mettreAJourTempsPartie, this);
   }
 }
