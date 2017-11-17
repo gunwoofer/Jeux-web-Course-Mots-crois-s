@@ -5,34 +5,14 @@ import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Case, EtatCase } from '../../commun/Case';
 import { Position } from '../../commun/Position';
 import { Indice, DifficulteDefinition } from './Indice';
-
-export const lettresDeAlphabet = 'abcdefghijklmnopqrstuvwxyz';
-export const nombreLettresDeAlphabet = 26;
-
-export const nombreMotMinimumParLigneOuColonne = 1;
-export const nombreMotMaximumParLigneOuColonne = 2;
-
-export const grandeurMotMinimum = 3;
-export const grandeurMotMaximum = 6;
-export const longueurEspaceNoirEntreDeuxMots = 1;
-
-export const tentativeDeChercheUnDeuxiemeMotSurLaLigneOrColonne = 100;
-export const LETTRE_PAR_DEFAUT_A_INSERER_MOCK_GRILLE = 'a';
+import * as grilleConstantes from './GrilleConstants';
 
 export class GenerateurDeGrilleService {
-
     private motCroiseGenere: Grille;
 
     public genererGrille(niveau: Niveau): Grille {
         this.motCroiseGenere = this.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);
-
-        return this.motCroiseGenere;
-    }
-
-    public genererGrilleMemeLettrePartout(niveau: Niveau): Grille {
-        this.motCroiseGenere = this.genereGrilleVide(niveau);
-        this.motCroiseGenere = this.remplirGrille(niveau, true);
 
         return this.motCroiseGenere;
     }
@@ -207,7 +187,7 @@ export class GenerateurDeGrilleService {
 
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             grandeurMots[i] = new Array();
-            grandeurMotLigne = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
+            grandeurMotLigne = this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grilleConstantes.grandeurMotMaximum);
 
             grandeurMots[i].push(grandeurMotLigne);
 
@@ -220,23 +200,26 @@ export class GenerateurDeGrilleService {
     }
 
     private peutAccueillirSecondMot(nombreMots: number, grandeurPremierMot: number): boolean {
-        const grandeurMaximumDuProchainMot: number = grandeurMotMaximum - grandeurPremierMot - longueurEspaceNoirEntreDeuxMots;
+        const grandeurMaximumDuProchainMot: number = grilleConstantes.grandeurMotMaximum -
+            grandeurPremierMot - grilleConstantes.longueurEspaceNoirEntreDeuxMots;
 
-        return ((nombreMots === nombreMotMaximumParLigneOuColonne) && (grandeurMaximumDuProchainMot >= grandeurMotMinimum));
+        return ((nombreMots === grilleConstantes.nombreMotMaximumParLigneOuColonne) &&
+                (grandeurMaximumDuProchainMot >= grilleConstantes.grandeurMotMinimum));
     }
 
     private obtenirGrandeurSecondMot(grandeurPremierMot: number): number {
-        const grandeurMaximumDuProchainMot: number = grandeurMotMaximum - grandeurPremierMot - longueurEspaceNoirEntreDeuxMots;
+        const grandeurMaximumDuProchainMot: number = grilleConstantes.grandeurMotMaximum -
+                grandeurPremierMot - grilleConstantes.longueurEspaceNoirEntreDeuxMots;
 
-        return this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMaximumDuProchainMot);
+        return this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grandeurMaximumDuProchainMot);
     }
 
     private obtenirNombreMots(): number[] {
         const nombreMots: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            const grandeurMot: number = this.nombreAleatoireEntreXEtY(nombreMotMinimumParLigneOuColonne,
-                nombreMotMaximumParLigneOuColonne);
+            const grandeurMot: number = this.nombreAleatoireEntreXEtY(grilleConstantes.nombreMotMinimumParLigneOuColonne,
+                grilleConstantes.nombreMotMaximumParLigneOuColonne);
 
             nombreMots[i] = grandeurMot;
         }
@@ -258,12 +241,12 @@ export class GenerateurDeGrilleService {
 
                     if (!toujoursMemeLettre) {
                         for (let i = 0; i < grandeur; i++) {
-                            chaineIdiote = chaineIdiote + lettresDeAlphabet.charAt(
-                                this.nombreAleatoireEntreXEtY(1, nombreLettresDeAlphabet));
+                            chaineIdiote = chaineIdiote + grilleConstantes.lettresDeAlphabet.charAt(
+                                this.nombreAleatoireEntreXEtY(1, grilleConstantes.nombreLettresDeAlphabet));
                         }
                     } else {
                         for (let i = 0; i < grandeur; i++) {
-                            chaineIdiote = chaineIdiote + LETTRE_PAR_DEFAUT_A_INSERER_MOCK_GRILLE;
+                            chaineIdiote = chaineIdiote + grilleConstantes.LETTRE_PAR_DEFAUT_A_INSERER_MOCK_GRILLE;
                         }
                     }
 
@@ -296,7 +279,6 @@ export class GenerateurDeGrilleService {
         }
         return grillePlein;
     }
-
 
     private genererGrilleVideMock(niveau: Niveau): Grille {
         const grilleMock: Grille = new Grille(niveau);
