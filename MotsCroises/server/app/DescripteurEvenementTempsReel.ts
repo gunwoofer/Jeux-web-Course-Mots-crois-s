@@ -16,7 +16,7 @@ import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDeman
 import {VuePartieEnCours} from '../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {EtatPartie} from '../../commun/EtatPartie';
-import {RequisPourModifierTempsRestant} from "../../commun/requis/RequisPourModifierTempsRestant";
+import {RequisPourModifierTempsRestant} from '../../commun/requis/RequisPourModifierTempsRestant';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {

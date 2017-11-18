@@ -9,7 +9,7 @@ import {RequisPourMotsTrouve} from '../../commun/requis/RequisPourMotsTrouve';
 import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDemandeListePartieEnAttente';
 import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
-import {RequisPourModifierTempsRestant} from "../../commun/requis/RequisPourModifierTempsRestant";
+import {RequisPourModifierTempsRestant} from '../../commun/requis/RequisPourModifierTempsRestant';
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
 import * as express from 'express';
 
