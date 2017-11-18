@@ -37,7 +37,7 @@ export class DescripteurEvenementTempsReel {
         specificationPartieRecu = this.preparerNouvellePartie(gestionnaireDePartieService,
             generateurDeGrilleService, specificationPartieRecu);
 
-        // La partie solo peut être démarrer dès sa création.
+        // La partie solo peut être démarré dès sa création.
         gestionnaireDePartieService.obtenirPartieEnCours(specificationPartieRecu.guidPartie).demarrerPartie();
 
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieRecu);
@@ -45,7 +45,6 @@ export class DescripteurEvenementTempsReel {
 
     public creerPartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
                                   generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
-
         let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
 
         specificationPartieRecu = this.preparerNouvellePartie(gestionnaireDePartieService,
@@ -60,8 +59,8 @@ export class DescripteurEvenementTempsReel {
         requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
         const partieEnAttente: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourJoindrePartieMultijoueur.guidPartie);
         const grille: Grille = partieEnAttente.obtenirGrilleComplete();
-        partieEnAttente.ajouterJoueur(requisPourJoindrePartieMultijoueur.joueurAAjouter);
 
+        partieEnAttente.ajouterJoueur(requisPourJoindrePartieMultijoueur.joueurAAjouter);
         requisPourJoindrePartieMultijoueur.specificationPartie = this.preparerEtDemarrerPartieEnAttente(partieEnAttente, grille);
         requisPourJoindrePartieMultijoueur.joueurs = partieEnAttente.obtenirJoueurs();
 
@@ -88,12 +87,11 @@ export class DescripteurEvenementTempsReel {
 
     public preparerNouvellePartie(gestionnaireDePartieService: GestionnaireDePartieService,
             generateurDeGrilleService: GenerateurDeGrilleService, specificationPartieRecu: SpecificationPartie): SpecificationPartie {
-
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(specificationPartieRecu.niveau);
         const guidPartie = gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
             specificationPartieRecu.typePartie, grille, grille.obtenirNiveau());
-
         let tableauIndices: Indice[] = new Array();
+
         tableauIndices = grille.motsComplet.recupererIndices();
         specificationPartieRecu.indices = tableauIndices;
 
@@ -193,6 +191,7 @@ export class DescripteurEvenementTempsReel {
     private verifierEtAvertirSiPartieTermine(gestionnaireDePartieService: GestionnaireDePartieService,
                                              guidPartie: string, clients: SocketIO.Socket[]) {
         const partieTermine = gestionnaireDePartieService.voirSiPartieTermine(guidPartie);
+
         if (partieTermine) {
             for (const clientCourant of clients) {
                 clientCourant.emit(requetes.REQUETE_CLIENT_PARTIE_TERMINE, partieTermine);
@@ -201,16 +200,14 @@ export class DescripteurEvenementTempsReel {
     }
 
     public obtenirMotsComplets(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-    requisPourMotsComplets: RequisPourMotsComplets): void {
+                                            requisPourMotsComplets: RequisPourMotsComplets): void {
         const listeMots: MotComplet[] = gestionnaireDePartieService.obtenirPartieEnCours(requisPourMotsComplets.guidPartie)
-        .obtenirGrille().mots;
+                .obtenirGrille().mots;
         requisPourMotsComplets = RequisPourMotsComplets.rehydrater(requisPourMotsComplets);
         requisPourMotsComplets.remplirListeMotComplets(listeMots);
 
          client.emit(requetes.REQUETE_CLIENT_RAPPEL_OBTENIR_MOTS_COMPLETS_CHEAT_MODE, requisPourMotsComplets);
     }
-
-
 
     private estUnAdversaire(clientEmetteur: SocketIO.Socket, clientCourant: SocketIO.Socket): boolean {
         return (clientEmetteur.id === clientCourant.id) ? false : true;

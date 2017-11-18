@@ -8,7 +8,6 @@ import { Grille } from './Grille';
 export class FabriqueDeGrille {
     public static creerInstanceAvecJSON(jsonGrille: string): Grille {
         const jsonEnGrille = (JSON.parse(jsonGrille) as Grille);
-
         const vraieGrille: Grille = new Grille(Niveau.facile);
 
         Object.assign(vraieGrille, jsonEnGrille);
@@ -48,6 +47,7 @@ export class FabriqueDeGrille {
         let vraieCaseDebut: Case;
         let vraieCaseFin: Case;
         let emplacementMotCourant: any;
+
         for (let i = 0; i < jsonEnGrille.emplacementMots.length; i++) {
             emplacementMotCourant = jsonEnGrille.emplacementMots[i];
             vraieCaseDebut = new Case(emplacementMotCourant.caseDebut.numeroLigne,
@@ -85,7 +85,6 @@ export class FabriqueDeGrille {
                 Object.assign(vraieCase, jsonEnGrille.cases.cases[i][j] as Case);
 
                 cases.ajouterCase(vraieCase, vraieCase.obtenirNumeroLigne(), vraieCase.obtenirNumeroColonne());
-
             }
         }
 

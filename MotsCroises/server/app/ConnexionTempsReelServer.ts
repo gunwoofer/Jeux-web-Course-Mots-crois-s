@@ -8,16 +8,14 @@ import {DescripteurEvenementTempsReel} from './DescripteurEvenementTempsReel';
 import {RequisPourMotsTrouve} from '../../commun/requis/RequisPourMotsTrouve';
 import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDemandeListePartieEnAttente';
 import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
-
+import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
+import {RequisPourModifierTempsRestant} from "../../commun/requis/RequisPourModifierTempsRestant";
+import * as requetes from '../../commun/constantes/RequetesTempsReel';
 import * as express from 'express';
 
 export const PORT_SOCKET_IO = 3001;
-import * as requetes from '../../commun/constantes/RequetesTempsReel';
-import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
-import {RequisPourModifierTempsRestant} from "../../commun/requis/RequisPourModifierTempsRestant";
 
 export class ConnexionTempsReelServer {
-
     private server: any;
     private io: any;
     private gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();

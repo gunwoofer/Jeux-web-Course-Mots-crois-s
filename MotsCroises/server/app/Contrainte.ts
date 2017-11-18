@@ -15,5 +15,4 @@ export class Contrainte {
     public obtenirPositionContrainte(): number {
         return this.positionContrainte;
     }
-
 }
