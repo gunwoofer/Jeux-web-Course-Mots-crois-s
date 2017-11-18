@@ -20,6 +20,7 @@ export class IndiceViewComponent implements OnInit {
       return;
     }
     this.selectedIndice = indice;
+    this.gameViewService.desactiverModificationTempsServeur();
     this.gameViewService.afficherSelectionIndice(indice);
   }
 

@@ -17,7 +17,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
   private FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS = 10000;
 
   public motEnCoursJ1: string;
-  public tempsRestant = 0;
+  public tempsRestant = 3000;
   private dureeGrille = 3000000;
   public tempsFin: number;
   private intervalFunction: any;
@@ -59,7 +59,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
   }
 
   private MAJTemps() {
-    this.tempsRestant = this.tempsRestant + 1;
+    this.tempsRestant = this.tempsRestant - 1;
     if (this.tempsRestant < 0) {
       this.gameViewService.partieTermineeFauteDeTemps(true);
     }
@@ -84,6 +84,10 @@ export class InfosJeuViewComponent implements AfterViewInit {
   }
 
   public envoyerTemps(): void {
+    this.gameViewService.modifierTempsServeur(this.tempsRestantAEnvoyer * 1000);
+  }
 
+  public activerEcritureTempsCheatMode(): void {
+    this.gameViewService.activerModificationTempsServeur();
   }
 }

@@ -45,7 +45,7 @@ export class Partie {
     }
 
     public obtenirTempsRestantMilisecondes(): number {
-        return ((Date.now() - this.debutDePartie) < 0) ? undefined : (Date.now() - this.debutDePartie);
+        return ((Date.now() - this.debutDePartie) < 0) ? undefined : (this.debutDePartie + this.tempsAlloue - Date.now());
     }
 
     public obtenirIndicesGrille(): Indice[] {

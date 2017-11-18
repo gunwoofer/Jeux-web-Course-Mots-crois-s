@@ -1,4 +1,4 @@
-import { RequisPourMotsComplets } from './../../../../commun/requis/RequisPourMotsComplets';
+import {RequisPourMotsComplets} from './../../../../commun/requis/RequisPourMotsComplets';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
@@ -25,6 +25,7 @@ export class GameViewService {
   private motTrouve = new Subject<string>();
   private modifierTempsRestant = new Subject<number>();
   private partieTeminee = new Subject<string>();
+  private modificationTemps = new Subject<string>();
   private joueurAdverseTrouve = new Subject<string>();
   private indiceSelectionne = new Subject<IndiceMot>();
   private indiceAdversaireSelectionne = new Subject<IndiceMot>();
@@ -43,6 +44,7 @@ export class GameViewService {
   public motTrouve$ = this.motTrouve.asObservable();
   public modifierTempsRestant$ = this.modifierTempsRestant.asObservable();
   public partieTeminee$ = this.partieTeminee.asObservable();
+  public modificationTemps$ = this.partieTeminee.asObservable();
   public joueurAdverseTrouve$ = this.joueurAdverseTrouve.asObservable();
   public indiceSelectionne$ = this.indiceSelectionne.asObservable();
   public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
@@ -53,10 +55,19 @@ export class GameViewService {
   public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
   public joueur: Joueur = new Joueur();
   public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
+  public modificationTempsServeurEnCours = false;
 
   constructor(private router: Router) {
   }
 
+  public activerModificationTempsServeur(): void {
+    this.modificationTempsServeurEnCours = true;
+    this.modificationTemps.next();
+  }
+
+  public desactiverModificationTempsServeur(): void {
+    this.modificationTempsServeurEnCours = false;
+  }
 
   public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie): void {
     this.partieGeneree = specificationPartie;
@@ -340,6 +351,9 @@ export class GameViewService {
     if (indice) {
       this.emplacementMot = this.trouverEmplacementMotAvecGuid(indice.guidIndice);
       this.indiceSelectionne.next(indice);
+    } else {
+      this.emplacementMot = null;
+      this.indiceSelectionne.next();
     }
     this.changementSelectionMot();
   }

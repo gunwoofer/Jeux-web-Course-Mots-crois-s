@@ -14,6 +14,7 @@ import * as express from 'express';
 export const PORT_SOCKET_IO = 3001;
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
+import {RequisPourModifierTempsRestant} from "../../commun/requis/RequisPourModifierTempsRestant";
 
 export class ConnexionTempsReelServer {
 
@@ -65,6 +66,10 @@ export class ConnexionTempsReelServer {
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT, (requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant) =>
             self.descripteurEvenementTempsReel.obtenirTempsRestant(client, self.gestionnaireDePartieService,
                 requisPourObtenirTempsRestant, self.clientSockets));
+
+        client.on(requetes.REQUETE_SERVEUR_MODIFIER_TEMPS_RESTANT, (requisPourModifierTempsRestant: RequisPourModifierTempsRestant) =>
+            self.descripteurEvenementTempsReel.modifierTempsRestant(client, self.gestionnaireDePartieService,
+                requisPourModifierTempsRestant, self.clientSockets));
 
         client.on(requetes.REQUETE_SERVEUR_OBTENIR_MOTS_TROUVES, (requisPourMotsTrouve: RequisPourMotsTrouve) =>
             self.descripteurEvenementTempsReel.obtenirMotsTrouve(client, self.gestionnaireDePartieService,

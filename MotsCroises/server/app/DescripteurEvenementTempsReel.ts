@@ -16,6 +16,7 @@ import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDeman
 import {VuePartieEnCours} from '../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {EtatPartie} from '../../commun/EtatPartie';
+import {RequisPourModifierTempsRestant} from "../../commun/requis/RequisPourModifierTempsRestant";
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -153,6 +154,14 @@ export class DescripteurEvenementTempsReel {
         if (requisPourObtenirTempsRestant.tempsRestant === undefined) {
             this.verifierEtAvertirSiPartieTermine(gestionnaireDePartieService, requisPourObtenirTempsRestant.guidPartie, clients);
         }
+    }
+
+    public modifierTempsRestant(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
+                               requisPourModifierTempsRestant: RequisPourModifierTempsRestant, clients: SocketIO.Socket[]): void {
+        gestionnaireDePartieService
+            .obtenirPartieEnCours(requisPourModifierTempsRestant.guidPartie).demarrerPartie(requisPourModifierTempsRestant.tempsRestant);
+        const requisPourObtenirTempsRestant = new RequisPourObtenirTempsRestant(requisPourModifierTempsRestant.guidPartie);
+        this.obtenirTempsRestant(client, gestionnaireDePartieService, requisPourObtenirTempsRestant, clients);
     }
 
     public obtenirMotsTrouve(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,

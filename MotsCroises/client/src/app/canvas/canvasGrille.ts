@@ -28,9 +28,12 @@ export class CanvasGrille {
     this.initialise();
   }
 
-  public actionToucheAppuyee(event: KeyboardEvent) {
+  public actionToucheAppuyee(event: KeyboardEvent): void {
     const cleMot = event.key;
     const codeLettre = event.keyCode;
+    if (this.gameViewService.modificationTempsServeurEnCours) {
+      return;
+    }
     if (!this.testIndiceSelectionne()) {
       alert('Selectionner  d\'abord un indice svp');
       return;
@@ -58,10 +61,12 @@ export class CanvasGrille {
     this.validerMotEntre();
   }
 
-  public miseAJourIndice(indice: IndiceMot) {
+  public miseAJourIndice(indice: IndiceMot): void {
     this.motEcrit = '';
     this.indice = indice;
-    this.definirCaseActive(indice.positionI, indice.positionJ);
+    if (indice) {
+      this.definirCaseActive(indice.positionI, indice.positionJ);
+    }
     this.rafraichirCanvas();
   }
 
@@ -72,19 +77,19 @@ export class CanvasGrille {
     return true;
   }
 
-  public miseAJourIndiceAdversaire(indice: IndiceMot) {
+  public miseAJourIndiceAdversaire(indice: IndiceMot): void {
     this.indiceAdversaire = indice;
     this.rafraichirCanvas();
   }
 
-  public validerMotEntre() {
+  public validerMotEntre(): void {
     if (this.motEcrit.length === this.indice.tailleMot) {
       this.gameViewService.testMotEntre(this.motEcrit, this.indice);
       this.ecrireMotsTrouves();
     }
   }
 
-  public ecrireMotsTrouves() {
+  public ecrireMotsTrouves(): void {
     for (const i of this.gameViewService.indices) {
       if (i.motTrouve.length > 0) {
         this.ecrireMotDansGrille(i.motTrouve, i.sens, i.positionI, i.positionJ, i.couleur);
@@ -108,7 +113,7 @@ export class CanvasGrille {
     this.dessinerCaseNoiresGrilleObtenueServeur();
   }
 
-  public dessinerLignesGrille() {
+  public dessinerLignesGrille(): void {
     this.ctxCanvas.fillStyle = '#000000';
     for (let i = 1; i < this.nbCases; i++) {
       this.ecrireLettreDansCase(i.toString(), i, 0, this.couleurNoire);
@@ -120,7 +125,7 @@ export class CanvasGrille {
     this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * this.nbCases - 1, this.canvas.width, 1);
   }
 
-  public rafraichirCanvas() {
+  public rafraichirCanvas(): void {
     this.ctxCanvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
     this.dessinerLignesGrille();
     this.ecrireMotsGrilleObtenueServeur();
@@ -132,12 +137,12 @@ export class CanvasGrille {
     this.gererAffichageSelecteurs();
   }
 
-  public motTrouveRafraichirCanvas() {
+  public motTrouveRafraichirCanvas(): void {
     this.motEcrit = '';
     this.rafraichirCanvas();
   }
 
-  public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string) {
+  public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string): void {
     if (sens === 0) {
       for (let u = 0; u < mot.length; u++) {
         this.ecrireLettreDansCase(mot.charAt(u), i + u, j, couleur);
@@ -149,7 +154,7 @@ export class CanvasGrille {
     }
   }
 
-  public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string) {
+  public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string): void {
     this.effacerLettreDansCase(i, j);
     this.ctxCanvas.font = this.policeLettres;
     this.ctxCanvas.fillStyle = couleur;
@@ -164,7 +169,7 @@ export class CanvasGrille {
   }
 
   private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number,
-     j: number, couleur: string, ligneDash: boolean = false) {
+                                        j: number, couleur: string, ligneDash: boolean = false): void {
     this.ctxCanvas.strokeStyle = couleur;
     this.ctxCanvas.lineWidth = '5';
     this.ctxCanvas.setLineDash([]);
@@ -181,21 +186,21 @@ export class CanvasGrille {
     }
   }
 
-  private afficherSelecteurAdversaireSurGrille() {
+  private afficherSelecteurAdversaireSurGrille(): void {
     if (this.indiceAdversaire) {
       this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
         this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2);
     }
   }
 
-  private afficherDoubleSelecteur() {
+  private afficherDoubleSelecteur(): void {
     this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
       this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ1);
     this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
       this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2, true);
   }
 
-  private gererAffichageSelecteurs() {
+  private gererAffichageSelecteurs(): void {
     if (this.indice) {
       this.afficherSelecteurMotSurGrille(this.indice.tailleMot, this.indice.sens,
         this.indice.positionI, this.indice.positionJ, this.couleurJ1);
@@ -211,35 +216,35 @@ export class CanvasGrille {
 
   }
 
-  public ecrireLettreDansCaseActive(lettre: string, couleur: string) {
+  public ecrireLettreDansCaseActive(lettre: string, couleur: string): void {
     this.ecrireLettreDansCase(lettre, this.ligneActuelle, this.colonneActuelle, couleur);
   }
 
 
-  public definirCaseActive(i: number, j: number) {
+  public definirCaseActive(i: number, j: number): void {
     this.ligneActuelle = i;
     this.colonneActuelle = j;
   }
 
-  public avancerCaseActive(sens) {
+  public avancerCaseActive(sens): void {
     sens === 0 ? this.ligneActuelle++ : this.colonneActuelle++;
   }
 
-  public reculerCaseActive(sens) {
+  public reculerCaseActive(sens): void {
     sens === 0 ? this.ligneActuelle-- : this.colonneActuelle--;
   }
 
-  public effacerLettreDansCase(i: number, j: number) {
+  public effacerLettreDansCase(i: number, j: number): void {
     this.ctxCanvas.clearRect(this.largeurCase * i + this.margeEffacement, this.hauteurCase * j + this.margeEffacement,
       this.largeurCase - 2 * this.margeEffacement, this.hauteurCase - 2 * this.margeEffacement);
   }
 
-  public effacerLettreDansCaseActive() {
+  public effacerLettreDansCaseActive(): void {
     this.effacerLettreDansCase(this.ligneActuelle, this.colonneActuelle);
     this.rafraichirCanvas();
   }
 
-  public testCaseDisponible(i: number, j: number) {
+  public testCaseDisponible(i: number, j: number): boolean {
     if (this.indice.sens === 0) {
       return i < this.indice.positionI + this.indice.tailleMot;
     } else {
@@ -247,7 +252,7 @@ export class CanvasGrille {
     }
   }
 
-  public dessinerCaseNoiresGrilleObtenueServeur() {
+  public dessinerCaseNoiresGrilleObtenueServeur(): void {
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         if (this.specificationPartie.specificationGrilleEnCours.cases.obtenirLigneCases(i)[j].obtenirEtat() === 2) {
@@ -257,7 +262,7 @@ export class CanvasGrille {
     }
   }
 
-  public ecrireMotsGrilleObtenueServeur() {
+  public ecrireMotsGrilleObtenueServeur(): void {
     for (let i = 0; i < 10; i++) {
       for (let j = 0; j < 10; j++) {
         this.ecrireLettreDansCase(

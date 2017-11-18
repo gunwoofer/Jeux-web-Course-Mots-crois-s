@@ -12,7 +12,7 @@
     <div *ngIf="cheatModeVisible">
       <button (click)="recupererMotsCheatMode()">Afficher mots</button>
       <div>
-        <input [(ngModel)]="tempsRestantAEnvoyer" type="number"/>
+        <input [(ngModel)]="tempsRestantAEnvoyer" (click)="activerEcritureTempsCheatMode()" ng-blur="desactiverEcritureTempsCheatMode()" type="number"/>
         <button (click)="envoyerTemps()">Modifier</button>
       </div>
     </div>
