@@ -2,7 +2,7 @@ import { FabriqueDeGrille } from './FabriqueDeGrille';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
-import { grandeurMotMinimum } from './GenerateurDeGrilleService';
+import { grandeurMotMinimum } from './GrilleConstants';
 import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
 import { Position } from '../../commun/Position';

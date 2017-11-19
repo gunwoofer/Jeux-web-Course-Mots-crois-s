@@ -67,10 +67,8 @@ describe('Partie', () => {
         partieEnCours.demarrerPartie();
 
         const tempsPartieMilisecondes1: number = partieEnCours.obtenirTempsRestantMilisecondes();
-
         setTimeout((premiertemps: number) => {
             const tempsPartieMilisecondes2: number = partieEnCours.obtenirTempsRestantMilisecondes();
-
             assert((tempsPartieMilisecondes2 - tempsPartieMilisecondes1) > 0);
             done();
 
