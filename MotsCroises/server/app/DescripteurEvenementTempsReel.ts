@@ -43,7 +43,8 @@ export class DescripteurEvenementTempsReel {
     }
 
     public creerPartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-                                  generateurDeGrilleService: GenerateurDeGrilleServiceMock, specificationPartie: SpecificationPartie): void {
+                                  generateurDeGrilleService: GenerateurDeGrilleServiceMock,
+                                  specificationPartie: SpecificationPartie): void {
         let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
 
         specificationPartieRecu = this.preparerNouvellePartie(gestionnaireDePartieService,
@@ -53,7 +54,8 @@ export class DescripteurEvenementTempsReel {
     }
 
     public joindrePartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-            generateurDeGrilleService: GenerateurDeGrilleServiceMock, requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur,
+                                    generateurDeGrilleService: GenerateurDeGrilleServiceMock,
+                                    requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur,
             clients: SocketIO.Socket[]): void {
         requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
         const partieEnAttente: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourJoindrePartieMultijoueur.guidPartie);

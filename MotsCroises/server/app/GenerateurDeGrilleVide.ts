@@ -96,7 +96,7 @@ export class GenerateurDeGrilleVide {
         return grille;
     }
 
-    private trouverMeilleurPosition(grille:Grille, positionCourante: number, position: Position, grandeurMot: number): number[] {
+    private trouverMeilleurPosition(grille: Grille, positionCourante: number, position: Position, grandeurMot: number): number[] {
         const meilleurPosition: number[] = [0, 0, 0, 0]; // [NUMERO_LIGNE_DEBUT, NUMERO_COLONNE_DEBUT, NUMERO_LIGNE_FIN, NUMERO_COLONNE_FIN]
         let meilleurPositionIndex: number;
 
@@ -161,5 +161,4 @@ export class GenerateurDeGrilleVide {
     private nombreAleatoireEntreXEtY(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
-
 }
