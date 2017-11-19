@@ -56,15 +56,6 @@ export class GenerateurDeGrilleService {
         return grilleVide;
     }
 
-    private caseAMemeLigneColonneQueCaseB(caseA: Case, caseB: Case): boolean {
-        if ((caseA.obtenirNumeroLigne() === caseB.obtenirNumeroLigne()) &&
-                (caseA.obtenirNumeroColonne() === caseB.obtenirNumeroColonne())) {
-            return true;
-        }
-
-        return false;
-    }
-
     private remplirGrille(niveau: Niveau): Grille {
         const grillePlein = this.motCroiseGenere;
         let motAjoute: boolean;
@@ -95,7 +86,7 @@ export class GenerateurDeGrilleService {
                         caseDebut = emplacementMotCourant.obtenirCaseDebut();
                         caseFin = emplacementMotCourant.obtenirCaseFin();
 
-                        grillePlein.ajouterMot(motIdiot, caseDebut.obtenirNumeroLigne(), 
+                        grillePlein.ajouterMot(motIdiot, caseDebut.obtenirNumeroLigne(),
                                 caseDebut.obtenirNumeroColonne(), caseFin.obtenirNumeroLigne(), caseFin.obtenirNumeroColonne());
 
                         motAjoute = true;
