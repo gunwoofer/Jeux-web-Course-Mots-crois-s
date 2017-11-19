@@ -75,7 +75,6 @@ describe('GenerateurDeGrilleService', () => {
                 if (caseCourante.etat === EtatCase.pleine) {
                     const lettreCourante: string = caseCourante.obtenirLettre();
 
-
                     assert((lettreCourante !== '-') && (lettreCourante !== '\''));
                 }
             }
@@ -98,6 +97,7 @@ describe('GenerateurDeGrilleService', () => {
         const grille1: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
         const grille2: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
         let grilleDifferente = false;
+
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
                 const caseGrille1: Case = grille1.obtenirCase(i, j);

@@ -1,5 +1,5 @@
 import {GestionnaireDePartieService} from './GestionnaireDePartieService';
-import {GenerateurDeGrilleService} from './GenerateurDeGrilleService';
+import {GenerateurDeGrilleServiceMock} from './GenerateurDeGrilleServiceMock';
 import {SpecificationPartie} from '../../commun/SpecificationPartie';
 import {RequisPourMotAVerifier} from '../../commun/requis/RequisPourMotAVerifier';
 import {RequisPourSelectionnerMot} from '../../commun/requis/RequisPourSelectionnerMot';
@@ -19,7 +19,7 @@ export class ConnexionTempsReelServer {
     private server: any;
     private io: any;
     private gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
-    private generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+    private generateurDeGrilleServiceMock: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
     private descripteurEvenementTempsReel: DescripteurEvenementTempsReel = new DescripteurEvenementTempsReel();
 
     private clientSockets: SocketIO.Socket[] = new Array();
@@ -48,7 +48,7 @@ export class ConnexionTempsReelServer {
         client.on(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
             (specificationPartie: SpecificationPartie) =>
                 self.descripteurEvenementTempsReel.creerPartieSolo(client, self.gestionnaireDePartieService,
-                    self.generateurDeGrilleService, specificationPartie));
+                    self.generateurDeGrilleServiceMock, specificationPartie));
 
         client.on(requetes.REQUETE_SERVEUR_VERIFIER_MOT,
             (requisPourMotAVerifier: RequisPourMotAVerifier) =>
@@ -81,12 +81,12 @@ export class ConnexionTempsReelServer {
         client.on(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR,
             (specificationPartie: SpecificationPartie) =>
                 self.descripteurEvenementTempsReel.creerPartieMultijoueur(client, self.gestionnaireDePartieService,
-                    self.generateurDeGrilleService, specificationPartie));
+                    self.generateurDeGrilleServiceMock, specificationPartie));
 
         client.on(requetes.REQUETE_SERVEUR_JOINDRE_PARTIE,
             (requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur) =>
                 self.descripteurEvenementTempsReel.joindrePartieMultijoueur(client, self.gestionnaireDePartieService,
-                    self.generateurDeGrilleService, requisPourJoindrePartieMultijoueur, self.clientSockets));
+                    self.generateurDeGrilleServiceMock, requisPourJoindrePartieMultijoueur, self.clientSockets));
 
         client.on(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
             (requisPourMotComplet: RequisPourMotsComplets) =>

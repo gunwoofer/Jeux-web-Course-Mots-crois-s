@@ -1,7 +1,7 @@
 import { assert } from 'chai';
 import { Joueur } from '../../commun/Joueur';
 import { Grille } from './Grille';
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
+import { GenerateurDeGrilleServiceMock } from './GenerateurDeGrilleServiceMock';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
@@ -13,7 +13,7 @@ const DELAI_MAXIMUM_MILISECONDES = 5 * Math.pow(10, 3);
 
 describe('Partie', () => {
     it('Le serveur conserve les mots sélectionnés des joueurs.', () => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
@@ -53,7 +53,7 @@ describe('Partie', () => {
     });
 
     it('Le serveur conserve un compteur pour les joueurs.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
@@ -77,7 +77,7 @@ describe('Partie', () => {
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
     it('Le serveur indique que la partie est terminé quand le compteur est échoué.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
@@ -101,7 +101,7 @@ describe('Partie', () => {
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
     it('Le serveur indique que la partie n\'est pas terminé quand le compteur n\'est pas échoué.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
@@ -125,7 +125,7 @@ describe('Partie', () => {
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
     it('Il est possible d\'obtenir une liste des mots trouvés par chaque joueur.', () => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
