@@ -8,6 +8,12 @@ import * as grilleConstantes from './GrilleConstants';
 
 export const NOMBRE_DE_GRILLE = 5;
 
+// Pour le tableau de position de la case : [NUMERO_LIGNE_DEBUT, NUMERO_COLONNE_DEBUT, NUMERO_LIGNE_FIN, NUMERO_COLONNE_FIN]
+const NUMERO_LIGNE_DEBUT = 0;
+const NUMERO_COLONNE_DEBUT = 1;
+const NUMERO_LIGNE_FIN = 2;
+const NUMERO_COLONNE_FIN = 3;
+
 export class GenerateurDeGrilleService {
     protected motCroiseGenere: Grille;
 
@@ -93,37 +99,29 @@ export class GenerateurDeGrilleService {
         return false;
     }
 
+
     private ajouterCasesMeilleurEndroit(position: Position, grille: Grille, grandeurMots: number[][]): Grille {
-        let numeroLigneDebut: number;
-        let numeroColonneDebut: number;
-        let numeroLigneFin: number;
-        let numeroColonneFin: number;
-        let positionDebutFin: number[];
+        let numeroPosition: number[] = [0, 0, 0, 0]; // [NUMERO_LIGNE_DEBUT, NUMERO_COLONNE_DEBUT, NUMERO_LIGNE_FIN, NUMERO_COLONNE_FIN]
         let cases: Case[] = new Array();
 
-        // Positionnez mot de la meilleur façon.
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-
-            // pour chaque mot.
             for (let j = 0; j < grandeurMots[i].length; j++) {
                 cases = new Array();
-                positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][j]);
-                numeroLigneDebut = positionDebutFin[0];
-                numeroColonneDebut = positionDebutFin[1];
-                numeroLigneFin = positionDebutFin[2];
-                numeroColonneFin = positionDebutFin[3];
+                grille.calculerPointsContraintes();
+                numeroPosition = this.trouverMeilleurPosition(grille, i, position, grandeurMots[i][j]);
 
                 // Vérifier si le mot chevauche un autre présent sur la même colonne | même ligne.
-                if (!this.meilleurPositionDebutFinSeChevauchent(grille, numeroLigneDebut,
-                    numeroColonneDebut, numeroLigneFin, numeroColonneFin) || j === 0) {
+                if (!this.meilleurPositionDebutFinSeChevauchent(grille, numeroPosition[NUMERO_LIGNE_DEBUT],
+                        numeroPosition[NUMERO_COLONNE_DEBUT], numeroPosition[NUMERO_LIGNE_FIN], numeroPosition[NUMERO_COLONNE_FIN]) ||
+                    j === 0) {
 
                     // Changer l'état des cases à vide.
                     if (position === Position.Ligne) {
-                        this.mettreAJourEtAjouterATableauCases(cases, numeroColonneDebut,
-                                numeroColonneFin, grille, position, i);
+                        this.mettreAJourEtAjouterATableauCases(cases, numeroPosition[NUMERO_COLONNE_DEBUT],
+                            numeroPosition[NUMERO_COLONNE_FIN], grille, position, i);
                     } else if (position === Position.Colonne) {
-                        this.mettreAJourEtAjouterATableauCases(cases, numeroLigneDebut,
-                            numeroLigneFin, grille, position, i);
+                        this.mettreAJourEtAjouterATableauCases(cases, numeroPosition[NUMERO_LIGNE_DEBUT],
+                            numeroPosition[NUMERO_LIGNE_FIN], grille, position, i);
                     }
                 }
             }
@@ -143,47 +141,25 @@ export class GenerateurDeGrilleService {
         }
     }
 
-    private obtenirMeilleurPositionDebutFin(grille: Grille, position: Position, positionCourante: number, grandeurMot: number): number[] {
-        const meilleurPosition: number[] = [0, 0, 0, 0]; // [xDebut, yDebut, xFin, yFin]
+    private trouverMeilleurPosition(grille:Grille, positionCourante: number, position: Position, grandeurMot: number): number[] {
+        const meilleurPosition: number[] = [0, 0, 0, 0]; // [NUMERO_LIGNE_DEBUT, NUMERO_COLONNE_DEBUT, NUMERO_LIGNE_FIN, NUMERO_COLONNE_FIN]
         let meilleurPositionIndex: number;
 
-        grille.calculerPointsContraintes();
+        // Position dans la ligne courante.
+        meilleurPosition[(position === Position.Ligne) ? NUMERO_LIGNE_DEBUT : NUMERO_COLONNE_DEBUT] = positionCourante;
+        meilleurPosition[(position === Position.Ligne) ? NUMERO_LIGNE_FIN : NUMERO_COLONNE_FIN] = positionCourante;
 
-        switch (position) {
-            case Position.Ligne:
-                // Position dans la ligne courante.
-                meilleurPosition[0] = positionCourante;
-                meilleurPosition[2] = positionCourante;
+        // trouver la meilleur position.
+        meilleurPositionIndex = grille.motsComplet.trouverMeilleurPositionIndexDebut(
+            grandeurMot, positionCourante, position, grille.cases);
 
-                // trouver la meilleur position.
-                meilleurPositionIndex = grille.motsComplet.trouverMeilleurPositionIndexDebut(
-                    grandeurMot, positionCourante, position, grille.cases);
-
-                // assignation des positions.
-                meilleurPosition[1] = meilleurPositionIndex;
-                meilleurPosition[3] = meilleurPositionIndex + grandeurMot - 1;
-
-                break;
-
-            case Position.Colonne:
-
-                // Position dans la colonne courante.
-                meilleurPosition[1] = positionCourante;
-                meilleurPosition[3] = positionCourante;
-
-                // trouver la meilleur position.
-                meilleurPositionIndex = grille.motsComplet.trouverMeilleurPositionIndexDebut(
-                    grandeurMot, positionCourante, position, grille.cases);
-
-                // assignation des positions.
-                meilleurPosition[0] = meilleurPositionIndex;
-                meilleurPosition[2] = meilleurPositionIndex + grandeurMot - 1;
-
-                break;
-        }
+        // assignation des positions.
+        meilleurPosition[(position === Position.Ligne) ? NUMERO_COLONNE_DEBUT : NUMERO_LIGNE_DEBUT] = meilleurPositionIndex;
+        meilleurPosition[(position === Position.Ligne) ? NUMERO_COLONNE_FIN : NUMERO_LIGNE_FIN] = meilleurPositionIndex + grandeurMot - 1;
 
         return meilleurPosition;
     }
+
 
     private obtenirGrandeurMots(nombreMots: number[]): number[][] {
         const grandeurMots: number[][] = new Array(DIMENSION_LIGNE_COLONNE);
