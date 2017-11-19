@@ -56,7 +56,7 @@ describe('PersistenceGrillesService', () => {
     it('Il est possible de creer 5 grilles de chaque niveau dans la base de données.', (done) => {
         const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur);
-        const grilles: Grille[] = generateur.obtenirGrillesBase(generateur);
+        const grilles: Grille[] = generateur.obtenirGrillesBase();
 
         persistenceGrilles.asyncInsererPlusieursGrilles(grilles)
             .then(resultat => {

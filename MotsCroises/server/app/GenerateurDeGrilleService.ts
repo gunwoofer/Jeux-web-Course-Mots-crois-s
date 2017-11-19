@@ -18,18 +18,18 @@ export class GenerateurDeGrilleService {
         return this.motCroiseGenere;
     }
 
-    public obtenirGrillesBase(generateur: GenerateurDeGrilleService): Grille[] {
-        const grillesFacileObtenue: Grille[] = this.obtenirGrilles(generateur, Niveau.facile);
-        const grillesMoyenObtenue: Grille[] = this.obtenirGrilles(generateur, Niveau.moyen);
-        const grillesDifficileObtenue: Grille[] = this.obtenirGrilles(generateur, Niveau.difficile);
+    public obtenirGrillesBase(): Grille[] {
+        const grillesFacileObtenue: Grille[] = this.obtenirGrilles(Niveau.facile);
+        const grillesMoyenObtenue: Grille[] = this.obtenirGrilles(Niveau.moyen);
+        const grillesDifficileObtenue: Grille[] = this.obtenirGrilles(Niveau.difficile);
 
         return grillesFacileObtenue.concat(grillesMoyenObtenue).concat(grillesDifficileObtenue);
     }
 
-    private obtenirGrilles(generateur: GenerateurDeGrilleService, niveau: Niveau): Grille[] {
+    private obtenirGrilles(niveau: Niveau): Grille[] {
         const grilles: Grille[] = new Array();
         for (let i = 0; i < NOMBRE_DE_GRILLE; i++) {
-            grilles.push(generateur.genererGrille(niveau));
+            grilles.push(this.genererGrille(niveau));
         }
         return grilles;
     }
@@ -46,13 +46,19 @@ export class GenerateurDeGrilleService {
         const grandeurMotsParColonne: number[][] = this.obtenirGrandeurMots(nombreMotsParColonne);
 
         // Pour chaque mot de lignes & colonnes, positionnez-le pour que celui-ci est le moins d'intersection possible.
-        grilleVide = this.ajouterCasesMeilleurEndroit(Position.Ligne, grilleVide, grandeurMotsParLigne);
-        grilleVide = this.ajouterCasesMeilleurEndroit(Position.Colonne, grilleVide, grandeurMotsParColonne);
-        grilleVide.calculerPointsContraintes();
+        grilleVide = this.positionnerCases(grilleVide, grandeurMotsParLigne, grandeurMotsParColonne);
 
         grilleVide.genererEmplacementsMot();
 
         return grilleVide;
+    }
+
+    private positionnerCases(grille: Grille, grandeurMotsParLigne: number[][], grandeurMotsParColonne: number[][]): Grille {
+        grille = this.ajouterCasesMeilleurEndroit(Position.Ligne, grille, grandeurMotsParLigne);
+        grille = this.ajouterCasesMeilleurEndroit(Position.Colonne, grille, grandeurMotsParColonne);
+        grille.calculerPointsContraintes();
+
+        return grille;
     }
 
     private meilleurPositionDebutFinSeChevauchent(grille: Grille, numeroLigneDebut: number, numeroColonneDebut: number,
@@ -66,15 +72,22 @@ export class GenerateurDeGrilleService {
                 emplacementMotCourant.obtenirPosition(), emplacementMotCourant.obtenirGrandeur());
 
             for (const caseCourante of casesEmplacementMot) {
-                if ((caseCourante.obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
-                    && (caseCourante.obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())) {
+                if (this.caseAMemeLigneColonneQueCaseB(caseCourante, caseDebut)) {
                     return true;
                 }
-                if ((caseCourante.obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())
-                    && (caseCourante.obtenirNumeroColonne() === caseFin.obtenirNumeroColonne())) {
+                if (this.caseAMemeLigneColonneQueCaseB(caseCourante, caseFin)) {
                     return true;
                 }
             }
+        }
+
+        return false;
+    }
+
+    private caseAMemeLigneColonneQueCaseB(caseA: Case, caseB: Case): boolean {
+        if ((caseA.obtenirNumeroLigne() === caseB.obtenirNumeroLigne()) &&
+                (caseA.obtenirNumeroColonne() === caseB.obtenirNumeroColonne())) {
+            return true;
         }
 
         return false;
@@ -86,15 +99,14 @@ export class GenerateurDeGrilleService {
         let numeroLigneFin: number;
         let numeroColonneFin: number;
         let positionDebutFin: number[];
-        let caseCouranteVide: Case;
-        let casesEmplacementMots: Case[] = new Array();
+        let cases: Case[] = new Array();
 
         // Positionnez mot de la meilleur façon.
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
 
             // pour chaque mot.
             for (let j = 0; j < grandeurMots[i].length; j++) {
-                casesEmplacementMots = new Array();
+                cases = new Array();
                 positionDebutFin = this.obtenirMeilleurPositionDebutFin(grille, position, i, grandeurMots[i][j]);
                 numeroLigneDebut = positionDebutFin[0];
                 numeroColonneDebut = positionDebutFin[1];
@@ -106,28 +118,29 @@ export class GenerateurDeGrilleService {
                     numeroColonneDebut, numeroLigneFin, numeroColonneFin) || j === 0) {
 
                     // Changer l'état des cases à vide.
-                    switch (position) {
-                        case Position.Ligne:
-                            for (let k = numeroColonneDebut; k <= numeroColonneFin; k++) {
-                                caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
-                                caseCouranteVide.etat = EtatCase.vide;
-                                casesEmplacementMots.push(caseCouranteVide);
-                            }
-                            break;
-
-                        case Position.Colonne:
-                            for (let k = numeroLigneDebut; k <= numeroLigneFin; k++) {
-                                caseCouranteVide = grille.obtenirCaseSelonPosition(position, i, k);
-                                caseCouranteVide.etat = EtatCase.vide;
-                                casesEmplacementMots.push(caseCouranteVide);
-                            }
-                            break;
+                    if (position === Position.Ligne) {
+                        this.mettreAJourEtAjouterATableauCases(cases, numeroColonneDebut,
+                                numeroColonneFin, grille, position, i);
+                    } else if (position === Position.Colonne) {
+                        this.mettreAJourEtAjouterATableauCases(cases, numeroLigneDebut,
+                            numeroLigneFin, grille, position, i);
                     }
                 }
             }
         }
 
         return grille;
+    }
+
+    private mettreAJourEtAjouterATableauCases(cases: Case[], numeroDebut: number, numeroFin: number,
+            grille: Grille, position: Position, iCourant: number): void {
+        let caseCouranteVide: Case;
+
+        for (let k = numeroDebut; k <= numeroFin; k++) {
+            caseCouranteVide = grille.obtenirCaseSelonPosition(position, iCourant, k);
+            caseCouranteVide.etat = EtatCase.vide;
+            cases.push(caseCouranteVide);
+        }
     }
 
     private obtenirMeilleurPositionDebutFin(grille: Grille, position: Position, positionCourante: number, grandeurMot: number): number[] {
