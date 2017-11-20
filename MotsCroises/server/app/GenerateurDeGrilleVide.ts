@@ -8,12 +8,13 @@ const NUMERO_LIGNE_DEBUT = 0;
 const NUMERO_COLONNE_DEBUT = 1;
 const NUMERO_LIGNE_FIN = 2;
 const NUMERO_COLONNE_FIN = 3;
+const MAX_CONTRAINTES = 2;
 
 export class GenerateurDeGrilleVide {
 
     public genererEmplacementsMotsLigne(grilleVide: Grille): Grille {
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            const tailleMot = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
+            const tailleMot = this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grilleConstantes.grandeurMotMaximum);
             const debutEmplacementMot = this.nombreAleatoireEntreXEtY(0, DIMENSION_LIGNE_COLONNE - tailleMot);
             if (this.testContraintesMotAuDessus(grilleVide, debutEmplacementMot, tailleMot, i)) {
                 grilleVide = this.creerEmplacementMotLigne(i, grilleVide, debutEmplacementMot, tailleMot);
@@ -35,7 +36,7 @@ export class GenerateurDeGrilleVide {
                 nombreCasesOccupeesAuDessus++;
             }
         }
-        if (nombreCasesOccupeesAuDessus > nombreMaximumContraintes) {
+        if (nombreCasesOccupeesAuDessus > MAX_CONTRAINTES) {
             return false;
         }
         return true;
@@ -43,7 +44,6 @@ export class GenerateurDeGrilleVide {
 
     public creerEmplacementMotLigne(posLigne: number, grilleVide: Grille, posDepart: number, tailleMot: number): Grille {
         for (let i = posDepart; i < tailleMot + posDepart; i++) {
-            // grilleVide.cases.changerEtatCase(EtatCase.vide, posLigne, i);
             grilleVide.cases[posLigne][i].etat = EtatCase.vide;
         }
         return grilleVide;
@@ -51,7 +51,7 @@ export class GenerateurDeGrilleVide {
 
     public genererEmplacementsMotsColonne(grilleVide: Grille): Grille {
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            const tailleMot = this.nombreAleatoireEntreXEtY(grandeurMotMinimum, grandeurMotMaximum);
+            const tailleMot = this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grilleConstantes.grandeurMotMaximum);
             const debutEmplacementMot = this.nombreAleatoireEntreXEtY(0, DIMENSION_LIGNE_COLONNE - tailleMot);
             if (this.testContraintesMotAGauche(grilleVide, debutEmplacementMot, tailleMot, i)) {
                 grilleVide = this.creerEmplacementMotColonne(i, grilleVide, debutEmplacementMot, tailleMot);
@@ -73,12 +73,54 @@ export class GenerateurDeGrilleVide {
                 nombreCasesOccupeesAGauche++;
             }
         }
-        if (nombreCasesOccupeesAGauche > nombreMaximumContraintes) {
+        if (nombreCasesOccupeesAGauche > MAX_CONTRAINTES) {
             return false;
         }
         return true;
     }
 
+    public creerEmplacementMotColonne(posColonne: number, grilleVide: Grille, posDepart: number, tailleMot: number): Grille {
+        for (let i = posDepart; i < tailleMot + posDepart; i++) {
+            grilleVide.cases[i][posColonne].etat = EtatCase.vide;
+        }
+        return grilleVide;
+    }
+
+    public rechercheMotDeuxLettres(grilleVide: Grille): Grille {
+        const tailleEchantillon = 4;
+        const motDeuxLettres: EtatCase[] = [EtatCase.noir, EtatCase.vide, EtatCase.vide, EtatCase.noir];
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                if (j <= DIMENSION_LIGNE_COLONNE - tailleEchantillon) {
+                    const echantillonLigne: EtatCase[] = [
+                        grilleVide.cases.obtenirCase(i, j).etat,
+                        grilleVide.cases.obtenirCase(i, j + 1).etat,
+                        grilleVide.cases.obtenirCase(i, j + 2).etat,
+                        grilleVide.cases.obtenirCase(i, j + 3).etat
+                    ];
+                    if (echantillonLigne === motDeuxLettres) {
+                        grilleVide.cases[i][j + 1].etat = EtatCase.noir;
+                        grilleVide.cases[i][j + 2].etat = EtatCase.noir;
+                    }
+                }
+                if (i <= DIMENSION_LIGNE_COLONNE - tailleEchantillon) {
+                    const echantillonColonne: EtatCase[] = [
+                        grilleVide.cases.obtenirCase(i, j).etat,
+                        grilleVide.cases.obtenirCase(i + 1, j).etat,
+                        grilleVide.cases.obtenirCase(i + 2, j).etat,
+                        grilleVide.cases.obtenirCase(i + 3, j).etat
+                    ];
+                    if (echantillonColonne === motDeuxLettres) {
+                        grilleVide.cases[i + 1][j].etat = EtatCase.noir;
+                        grilleVide.cases[i + 2][j].etat = EtatCase.noir;
+                    }
+                }
+            }
+        }
+        return grilleVide;
+    }
+
+    // ----------------------------------------- //
     public obtenirNombreMots(): number[] {
         const nombreMots: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
