@@ -2,7 +2,6 @@ import { FabriqueDeGrille } from './FabriqueDeGrille';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
-import { grandeurMotMinimum } from './GrilleConstants';
 import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
 import { Position } from '../../commun/Position';
@@ -48,64 +47,9 @@ export class Grille {
         return grilleCopier.cases;
     }
 
-    public estEgale(emplacement1: EmplacementMot, emplacement2: EmplacementMot): boolean {
-        const casesEmplacementMot1: Case[] = this.obtenirCasesSelonCaseDebut(emplacement1.obtenirCaseDebut(),
-            emplacement1.obtenirPosition(), emplacement1.obtenirGrandeur());
-        const casesEmplacementMot2: Case[] = this.obtenirCasesSelonCaseDebut(emplacement1.obtenirCaseDebut(),
-            emplacement1.obtenirPosition(), emplacement1.obtenirGrandeur());
-        if (emplacement1.obtenirGrandeur() !== emplacement2.obtenirGrandeur()) {
-            return false;
-        }
-        for (let i = 0; i < emplacement2.obtenirGrandeur(); i++) {
-            if ((casesEmplacementMot2[i].obtenirNumeroLigne() !== casesEmplacementMot1[i].obtenirNumeroLigne())
-                || (casesEmplacementMot2[i].obtenirNumeroColonne() !== casesEmplacementMot1[i].obtenirNumeroColonne())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     public genererEmplacementsMot() {
-        this.genererEmplacementsSelonPosition(Position.Ligne);
-        this.genererEmplacementsSelonPosition(Position.Colonne);
-    }
-
-    private genererEmplacementsSelonPosition(position: Position): void {
-        let caseCourante: Case;
-        let caseDebut: Case;
-        let longueurMot = 0;
-        let etatDeLaCaseProchaine: EtatCase;
-
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-
-                caseCourante = (position === Position.Ligne) ? this.cases.obtenirCase(i, j).copieCase() : 
-                                                                this.cases.obtenirCase(j, i).copieCase();
-                if ((caseCourante.obtenirEtat() === EtatCase.vide) && caseDebut === undefined) {
-                    caseDebut = caseCourante.copieCase();
-                }
-
-                if (j + 1 < DIMENSION_LIGNE_COLONNE) {
-                    etatDeLaCaseProchaine = (position === Position.Ligne) ? this.cases.obtenirCase(i, j + 1).obtenirEtat() :
-                                                                            this.cases.obtenirCase(j + 1, i).obtenirEtat();
-                }
-
-                longueurMot++;
-
-                if ((etatDeLaCaseProchaine !== EtatCase.vide) || (j + 1 === DIMENSION_LIGNE_COLONNE)) {
-
-                    if (longueurMot >= grandeurMotMinimum) {
-                        this.emplacementMots.push(new EmplacementMot(caseDebut, caseCourante.copieCase()));
-                        this.emplacementsMots.emplacementMots.push(new EmplacementMot(caseDebut, caseCourante.copieCase()));
-                    }
-
-                    // Comme la prochaine case ne peut accueillir une lettre,
-                    // on doit remettre les variables à leurs valeurs initales.
-                    caseDebut = undefined;
-                    longueurMot = 0;
-                }
-            }
-        }
+        this.emplacementsMots.genererEmplacementsSelonPosition(this.cases, Position.Ligne);
+        this.emplacementsMots.genererEmplacementsSelonPosition(this.cases, Position.Colonne);
     }
 
     public ajouterMotEmplacement(mot: MotComplet, emplacement: EmplacementMot): void {
@@ -189,48 +133,11 @@ export class Grille {
         return false;
     }
 
-    public verifierMot(motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
-        let casesEmplacementMot: Case[] = new Array();
-        for (const emplacementMot of this.emplacementsMots.emplacementMots) {
-            casesEmplacementMot = this.cases.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
-                emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-            if (emplacementMot.estLeBonEmplacementMot(caseDebut, caseFin) &&
-                this.cases.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
-                emplacementMot.estTrouve();
-                return true;
-            }
-        }
-        return false;
-    }
-
     public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
         return this.cases.obtenirCasesSelonCaseDebut(caseDebut, direction, grandeur);
     }
 
-    public obtenirEmplacementMot(caseDebut: Case, caseFin: Case): EmplacementMot {
-        for (const emplacementMot of this.emplacementsMots.emplacementMots) {
-            if (emplacementMot.estLeBonEmplacementMot(caseDebut, caseFin)) {
-                return emplacementMot;
-            }
-        }
-        return undefined;
-    }
-
-    public ObtenirEmplacementMotSelonEmplacementMot(emplacementMot: EmplacementMot) {
-        for (const emplacement of this.emplacementsMots.emplacementMots) {
-            if (emplacement.estPareilQue(emplacementMot)) {
-                return emplacement;
-            }
-        }
-    }
-
-    public emplacementsHorizontaux(): EmplacementMot[] {
-        const emplacementsHorizontaux: EmplacementMot[] = new Array();
-        for (let i = 0; i < this.emplacementsMots.emplacementMots.length; i++) {
-            if (this.emplacementsMots.emplacementMots[i].estHorizontal()) {
-                emplacementsHorizontaux.push(this.emplacementsMots.emplacementMots[i]);
-            }
-        }
-        return emplacementsHorizontaux;
+    public verifierMot(motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
+        return this.emplacementsMots.verifierMot(this.cases, motAVerifier, caseDebut, caseFin);
     }
 }

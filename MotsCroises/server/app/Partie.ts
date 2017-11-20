@@ -74,7 +74,7 @@ export class Partie {
 
     public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidJoueur: string): boolean {
         let joueur: Joueur;
-        const emplacementMotAChercher: EmplacementMot = this.grille.obtenirEmplacementMot(caseDebut, caseFin);
+        const emplacementMotAChercher: EmplacementMot = this.grille.emplacementsMots.obtenirEmplacementMot(caseDebut, caseFin);
 
         if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
             joueur = this.obtenirJoueur(guidJoueur);
@@ -160,7 +160,8 @@ export class Partie {
 
     public changerSelectionMot(guidJoueur: string, emplacementMotSelectionner: EmplacementMot) {
         // Comme l'emplacement mot vient d'ailleurs, on doit le référencer dans notre grille en mémoire.
-        const emplacementMotDansGrille: EmplacementMot = this.grille.ObtenirEmplacementMotSelonEmplacementMot(emplacementMotSelectionner);
+        const emplacementMotDansGrille: EmplacementMot = 
+                        this.grille.emplacementsMots.ObtenirEmplacementMotSelonEmplacementMot(emplacementMotSelectionner);
         const joueur: Joueur = this.obtenirJoueur(guidJoueur);
 
         this.nePlusSelectionnerMot(joueur);

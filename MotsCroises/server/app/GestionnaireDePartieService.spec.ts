@@ -83,7 +83,7 @@ describe('GestionnaireDePartieService', () => {
         persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
             .then((grilleDepart: Grille) => {
                 guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-                const emplacementsMot: EmplacementMot[] = grilleDepart.emplacementsHorizontaux();
+                const emplacementsMot: EmplacementMot[] = grilleDepart.emplacementsMots.emplacementsHorizontaux();
                 const emplacementMot: EmplacementMot = emplacementsMot[0];
                 const caseDebut: Case = emplacementMot.obtenirCaseDebut();
                 const caseFin: Case = emplacementMot.obtenirCaseFin();
