@@ -5,6 +5,7 @@ import { PersistenceGrillesService } from '../PersistenceGrillesService';
 import { Grille } from '../Grille';
 import { Niveau } from '../../../commun/Niveau';
 import { Case, EtatCase } from '../../../commun/Case';
+import { GenerateurDeMotContrainteService } from '../GenerateurDeMotContrainteService';
 
 module Route {
 
@@ -26,6 +27,11 @@ module Route {
                 }
                 console.log(ligne);
             }
+            const tailleMot = 4;
+            const generateurDeMot = new GenerateurDeMotContrainteService(tailleMot);
+            generateurDeMot.genererMotAleatoire(Niveau.moyen).then((mot) => {
+                console.log('MOT => ', mot.obtenirLettres());
+            });
         }
 
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction): void {
