@@ -185,7 +185,7 @@ export class PersistenceGrillesService {
         const grilleStringify: string = JSON.stringify(grille);
         const grilleAInserer: Object = {
             id: Guid.generateGUID(),
-            niveau: grille.obtenirNiveau(),
+            niveau: grille.niveau,
             grille: grilleStringify
         };
 
@@ -226,7 +226,7 @@ export class PersistenceGrillesService {
                     grilleStringify = JSON.stringify(grille);
                     grilleAInserer = {
                         id: Guid.generateGUID(),
-                        niveau: grille.obtenirNiveau(),
+                        niveau: grille.niveau,
                         grille: grilleStringify
                     };
                     grillesAInserer.push(grilleAInserer);
@@ -253,7 +253,7 @@ export class PersistenceGrillesService {
             grilleStringify = JSON.stringify(grille);
             grilleAInserer = {
                 id: Guid.generateGUID(),
-                niveau: grille.obtenirNiveau(),
+                niveau: grille.niveau,
                 grille: grilleStringify
             };
             grillesAInserer.push(grilleAInserer);

@@ -12,8 +12,8 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
     }
 
     public genererGrilleMock(niveau: Niveau): Grille {
-        super.motCroiseGenere = this.genererGrilleVideMock(niveau);
-        super.motCroiseGenere = this.remplirGrilleMock(niveau);
+        this.motCroiseGenere = this.genererGrilleVideMock(niveau);
+        this.motCroiseGenere = this.remplirGrilleMock(niveau);
 
         return this.motCroiseGenere;
     }
@@ -22,17 +22,17 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
         const grilleMock: Grille = new Grille(niveau);
 
         // Emplacements horizontaux
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(2, 6), grilleMock.obtenirCase(2, 9)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(3, 0), grilleMock.obtenirCase(3, 3)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(5, 0), grilleMock.obtenirCase(5, 8)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(8, 3), grilleMock.obtenirCase(8, 9)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(2, 6), grilleMock.cases.obtenirCase(2, 9)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 0), grilleMock.cases.obtenirCase(3, 3)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 0), grilleMock.cases.obtenirCase(5, 8)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(8, 3), grilleMock.cases.obtenirCase(8, 9)));
 
         // Emplacements verticaux
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(1, 1), grilleMock.obtenirCase(9, 1)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(0, 3), grilleMock.obtenirCase(6, 3)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(3, 5), grilleMock.obtenirCase(6, 5)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(5, 7), grilleMock.obtenirCase(8, 7)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.obtenirCase(1, 8), grilleMock.obtenirCase(5, 8)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 1), grilleMock.cases.obtenirCase(9, 1)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(0, 3), grilleMock.cases.obtenirCase(6, 3)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 5), grilleMock.cases.obtenirCase(6, 5)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 7), grilleMock.cases.obtenirCase(8, 7)));
+        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 8), grilleMock.cases.obtenirCase(5, 8)));
 
         return grilleMock;
     }
@@ -113,15 +113,15 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
     }
 
     private ajouterIntersectionsMock(grille: Grille): Grille {
-        grille.obtenirCase(2, 8).intersection = true;
-        grille.obtenirCase(3, 1).intersection = true;
-        grille.obtenirCase(3, 3).intersection = true;
-        grille.obtenirCase(5, 1).intersection = true;
-        grille.obtenirCase(5, 3).intersection = true;
-        grille.obtenirCase(5, 5).intersection = true;
-        grille.obtenirCase(5, 7).intersection = true;
-        grille.obtenirCase(5, 8).intersection = true;
-        grille.obtenirCase(8, 7).intersection = true;
+        grille.cases.obtenirCase(2, 8).intersection = true;
+        grille.cases.obtenirCase(3, 1).intersection = true;
+        grille.cases.obtenirCase(3, 3).intersection = true;
+        grille.cases.obtenirCase(5, 1).intersection = true;
+        grille.cases.obtenirCase(5, 3).intersection = true;
+        grille.cases.obtenirCase(5, 5).intersection = true;
+        grille.cases.obtenirCase(5, 7).intersection = true;
+        grille.cases.obtenirCase(5, 8).intersection = true;
+        grille.cases.obtenirCase(8, 7).intersection = true;
 
         return grille;
     }

@@ -63,7 +63,7 @@ export class GenerateurDeGrilleService {
         let caseFin: Case;
 
 
-        while (!grillePlein.estComplete()) {
+        while (!this.estComplete(grillePlein)) {
             for (const emplacementMotCourant of grillePlein.obtenirEmplacementsMot()) {
                 motAjoute = false;
 
@@ -96,6 +96,16 @@ export class GenerateurDeGrilleService {
         }
 
         return grillePlein;
+    }
+
+    private estComplete(grille: Grille): boolean {
+        for (let i = 0; i < 10; i++) {
+            if (grille.obtenirNombreMotsSurLigne(i) < 1 || grille.obtenirNombreMotsSurColonne(i) < 1) {
+                return false;
+            }
+        }
+
+        return true;
     }
 
     private mettreAJourNiveauMot(motIdiot: MotComplet, rarete: number, difficulteDesDefinitions: number): MotComplet {

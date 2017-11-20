@@ -102,7 +102,7 @@ export class Partie {
     }
 
     public obtenirNiveauGrille(): Niveau {
-        return this.grille.obtenirNiveau();
+        return this.grille.niveau;
     }
 
     public obtenirJoueurHote(): Joueur {
