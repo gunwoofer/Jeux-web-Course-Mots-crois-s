@@ -1,12 +1,32 @@
+import { GenerateurDeGrilleVide } from './../GenerateurDeGrilleVide';
 import * as express from 'express';
 import { GenerateurDeGrilleServiceMock } from '../GenerateurDeGrilleServiceMock';
 import { PersistenceGrillesService } from '../PersistenceGrillesService';
 import { Grille } from '../Grille';
 import { Niveau } from '../../../commun/Niveau';
+import { Case, EtatCase } from '../../../commun/Case';
 
 module Route {
 
     export class Index {
+
+        public testGenerationGrille(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            const generateurDeGrilleVide = new GenerateurDeGrilleVide();
+            const grille: Grille = generateurDeGrilleVide.genereGrilleVide(Niveau.facile);
+            for (let i = 0; i < 10; i++) {
+                let ligne: string;
+                ligne = '';
+                for (let j = 0; j < 10; j++) {
+                    const caseGrille: Case = grille.cases.obtenirCase(i, j);
+                    if (caseGrille.etat === EtatCase.noir) {
+                        ligne += '#';
+                    } else {
+                        ligne += '.';
+                    }
+                }
+                console.log(ligne);
+            }
+        }
 
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateur: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();

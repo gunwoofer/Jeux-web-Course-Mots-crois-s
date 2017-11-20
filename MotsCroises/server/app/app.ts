@@ -79,6 +79,9 @@ export class Application {
         // create routes
         const index: indexRoute.Index = new indexRoute.Index();
 
+        // Affichage console de la grille (Pour les tests)
+        router.get('/test', index.testGenerationGrille.bind(index.testGenerationGrille));
+
         // Generation d'une grille
         router.get('/GenerationDeGrilleService', index.GenerationDeGrilleService.bind(index.GenerationDeGrilleService));
 

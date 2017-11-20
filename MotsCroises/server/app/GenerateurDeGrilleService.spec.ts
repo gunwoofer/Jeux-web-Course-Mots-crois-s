@@ -3,6 +3,7 @@ import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Grille } from './Grille';
 import { Case, EtatCase } from '../../commun/Case';
 import { Niveau } from '../../commun/Niveau';
+import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
 
 describe('GenerateurDeGrilleService', () => {
     it('Une grille est carre et fait dix cases de cote.', () => {
@@ -94,9 +95,9 @@ describe('GenerateurDeGrilleService', () => {
     });
 
     it('Plusieurs grilles vides différentes doivent pouvoir être généré.', () => {
-        const generateurDeGrilleService = new GenerateurDeGrilleService();
-        const grille1: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
-        const grille2: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
+        const generateurDeGrilleVide = new GenerateurDeGrilleVide();
+        const grille1: Grille = generateurDeGrilleVide.genereGrilleVide(Niveau.facile);
+        const grille2: Grille = generateurDeGrilleVide.genereGrilleVide(Niveau.facile);
         let grilleDifferente = false;
 
         for (let i = 0; i < 10; i++) {
