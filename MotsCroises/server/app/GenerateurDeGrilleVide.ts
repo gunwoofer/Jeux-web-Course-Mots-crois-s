@@ -36,7 +36,7 @@ export class GenerateurDeGrilleVide {
             return true;
         }
         for (let i = positionMot; i < positionMot + tailleMot; i++) {
-            const caseDessus = grilleVide.cases[ligne - 1][i];
+            const caseDessus = grilleVide.cases.obtenirCase(ligne - 1, i);
             if (caseDessus.etat === EtatCase.vide) {
                 nombreCasesOccupeesAuDessus++;
             }
@@ -49,7 +49,7 @@ export class GenerateurDeGrilleVide {
 
     public creerEmplacementMotLigne(posLigne: number, grilleVide: Grille, posDepart: number, tailleMot: number): Grille {
         for (let i = posDepart; i < tailleMot + posDepart; i++) {
-            grilleVide.cases[posLigne][i].etat = EtatCase.vide;
+            grilleVide.cases.obtenirCase(posLigne, i).etat = EtatCase.vide;
         }
         return grilleVide;
     }
@@ -73,7 +73,7 @@ export class GenerateurDeGrilleVide {
             return true;
         }
         for (let i = positionMot; i < positionMot + tailleMot; i++) {
-            const caseGauche = grilleVide.cases[i][colonne - 1];
+            const caseGauche = grilleVide.cases.obtenirCase(i, colonne - 1);
             if (caseGauche.etat === EtatCase.vide) {
                 nombreCasesOccupeesAGauche++;
             }
@@ -86,7 +86,7 @@ export class GenerateurDeGrilleVide {
 
     public creerEmplacementMotColonne(posColonne: number, grilleVide: Grille, posDepart: number, tailleMot: number): Grille {
         for (let i = posDepart; i < tailleMot + posDepart; i++) {
-            grilleVide.cases[i][posColonne].etat = EtatCase.vide;
+            grilleVide.cases.obtenirCase(i, posColonne).etat = EtatCase.vide;
         }
         return grilleVide;
     }
@@ -98,44 +98,31 @@ export class GenerateurDeGrilleVide {
             for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
                 if (j <= DIMENSION_LIGNE_COLONNE - tailleEchantillon) {
                     const echantillonLigne: EtatCase[] = [
-                        grilleVide.cases[i][j].etat,
-                        grilleVide.cases[i][j + 1].etat,
-                        grilleVide.cases[i][j + 2].etat,
-                        grilleVide.cases[i][j + 3].etat
+                        grilleVide.cases.obtenirCase(i, j).etat,
+                        grilleVide.cases.obtenirCase(i, j + 1).etat,
+                        grilleVide.cases.obtenirCase(i, j + 2).etat,
+                        grilleVide.cases.obtenirCase(i, j + 3).etat
                     ];
                     if (echantillonLigne === motDeuxLettres) {
-                        grilleVide.cases[i][j + 1].etat = EtatCase.noir;
-                        grilleVide.cases[i][j + 2].etat = EtatCase.noir;
+                        grilleVide.cases.obtenirCase(i, j + 1).etat = EtatCase.noir;
+                        grilleVide.cases.obtenirCase(i, j + 2).etat = EtatCase.noir;
                     }
                 }
                 if (i <= DIMENSION_LIGNE_COLONNE - tailleEchantillon) {
                     const echantillonColonne: EtatCase[] = [
-                        grilleVide.cases[i][j].etat,
-                        grilleVide.cases[i + 1][j].etat,
-                        grilleVide.cases[i + 2][j].etat,
-                        grilleVide.cases[i + 3][j].etat
+                        grilleVide.cases.obtenirCase(i, j).etat,
+                        grilleVide.cases.obtenirCase(i + 1, j).etat,
+                        grilleVide.cases.obtenirCase(i + 2, j).etat,
+                        grilleVide.cases.obtenirCase(i + 3, j).etat
                     ];
                     if (echantillonColonne === motDeuxLettres) {
-                        grilleVide.cases[i + 1][j].etat = EtatCase.noir;
-                        grilleVide.cases[i + 2][j].etat = EtatCase.noir;
+                        grilleVide.cases.obtenirCase(i + 1, j).etat = EtatCase.noir;
+                        grilleVide.cases.obtenirCase(i + 2, j).etat = EtatCase.noir;
                     }
                 }
             }
         }
         return grilleVide;
-    }
-
-    public obtenirNombreMots(): number[] {
-        const nombreMots: number[] = new Array(DIMENSION_LIGNE_COLONNE);
-
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            const grandeurMot: number = this.nombreAleatoireEntreXEtY(grilleConstantes.nombreMotMinimumParLigneOuColonne,
-                grilleConstantes.nombreMotMaximumParLigneOuColonne);
-
-            nombreMots[i] = grandeurMot;
-        }
-
-        return nombreMots;
     }
 
     private nombreAleatoireEntreXEtY(min: number, max: number): number {

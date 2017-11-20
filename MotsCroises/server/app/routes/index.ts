@@ -17,7 +17,7 @@ module Route {
                 let ligne: string;
                 ligne = '';
                 for (let j = 0; j < 10; j++) {
-                    const caseGrille: Case = grille.cases[i][j];
+                    const caseGrille: Case = grille.cases.obtenirCase(i, j);
                     if (caseGrille.etat === EtatCase.noir) {
                         ligne += '#';
                     } else {
