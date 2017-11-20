@@ -4,7 +4,7 @@ import { MotComplet, Rarete } from './MotComplet';
 import { Case } from '../../commun/Case';
 import { Indice, DifficulteDefinition } from './Indice';
 import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
-import * as grilleConstantes from './GrilleConstants';
+import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 
 export const NOMBRE_DE_GRILLE = 5;
 

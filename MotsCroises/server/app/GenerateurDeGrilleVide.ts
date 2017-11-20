@@ -1,6 +1,6 @@
 import { EtatCase, Case } from '../../commun/Case';
 import { Grille, DIMENSION_LIGNE_COLONNE } from './Grille';
-import * as grilleConstantes from './GrilleConstants';
+import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 import { Position } from '../../commun/Position';
 
 // Pour le tableau de position de la case : [NUMERO_LIGNE_DEBUT, NUMERO_COLONNE_DEBUT, NUMERO_LIGNE_FIN, NUMERO_COLONNE_FIN]
