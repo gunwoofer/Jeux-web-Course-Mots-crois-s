@@ -15,7 +15,7 @@ export class GenerateurDeGrilleService {
     private generateurDeGrilleVide: GenerateurDeGrilleVide = new GenerateurDeGrilleVide();
 
     public genererGrille(niveau: Niveau): Grille {
-        this.motCroiseGenere = this.genereGrilleVide(niveau);
+        this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
         this.motCroiseGenere = this.remplirGrille(niveau);
 
         return this.motCroiseGenere;
@@ -35,25 +35,6 @@ export class GenerateurDeGrilleService {
             grilles.push(this.genererGrille(niveau));
         }
         return grilles;
-    }
-
-    public genereGrilleVide(niveau: Niveau): Grille {
-        let grilleVide = new Grille(niveau);
-
-        // Pour chaque ligne & colonne, on créer un nombre équivaut aux nombre de mots.
-        const nombreMotsParLigne: number[] = this.generateurDeGrilleVide.obtenirNombreMots();
-        const nombreMotsParColonne: number[] = this.generateurDeGrilleVide.obtenirNombreMots();
-
-        // Pour chaque mot de lignes & colonnes, on créer un nombre équivaut à la longueur du mot.
-        const grandeurMotsParLigne: number[][] = this.generateurDeGrilleVide.obtenirGrandeurMots(nombreMotsParLigne);
-        const grandeurMotsParColonne: number[][] = this.generateurDeGrilleVide.obtenirGrandeurMots(nombreMotsParColonne);
-
-        // Pour chaque mot de lignes & colonnes, positionnez-le pour que celui-ci est le moins d'intersection possible.
-        grilleVide = this.generateurDeGrilleVide.positionnerCases(grilleVide, grandeurMotsParLigne, grandeurMotsParColonne);
-
-        grilleVide.genererEmplacementsMot();
-
-        return grilleVide;
     }
 
     private remplirGrille(niveau: Niveau): Grille {
