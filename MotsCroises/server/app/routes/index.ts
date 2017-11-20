@@ -3,6 +3,8 @@ import { GenerateurDeGrilleServiceMock } from '../GenerateurDeGrilleServiceMock'
 import { PersistenceGrillesService } from '../PersistenceGrillesService';
 import { Grille } from '../Grille';
 import { Niveau } from '../../../commun/Niveau';
+import { Case, EtatCase } from '../../../commun/Case';
+import { GenerateurDeGrilleService } from '../GenerateurDeGrilleService';
 
 module Route {
 
@@ -15,7 +17,7 @@ module Route {
                 let ligne: string;
                 ligne = '';
                 for (let j = 0; j < 10; j++) {
-                    const caseGrille: Case = grille.obtenirCase(i, j);
+                    const caseGrille: Case = grille.cases[i][j];
                     if (caseGrille.etat === EtatCase.noir) {
                         ligne += '#';
                     } else {
