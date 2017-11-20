@@ -9,8 +9,8 @@ describe('GenerateurDeGrilleService', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
-        assert(grille.obtenirHauteurCases() === 10);
-        assert(grille.obtenirLongueurCases() === 10);
+        assert(grille.cases.obtenirHauteurCases() === 10);
+        assert(grille.cases.obtenirLongueurCases() === 10);
     });
 
     it('Chaque ligne et colonne contient un ou deux mots ecrits de gauche a droite et de haut en bas.', () => {
