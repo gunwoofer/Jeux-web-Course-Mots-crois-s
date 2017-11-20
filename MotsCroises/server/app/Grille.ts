@@ -7,7 +7,6 @@ import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
 import { Position } from '../../commun/Position';
 import { MotsComplet } from './MotsComplet';
-import { EtatGrille } from './EtatGrille';
 
 export const DIMENSION_LIGNE_COLONNE = 10;
 
@@ -115,7 +114,7 @@ export class Grille {
         const numeroColonneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroColonne();
         const numeroColonneFin: number = emplacement.obtenirCaseFin().obtenirNumeroColonne();
         const casesEmplacementMot: Case[] = this.obtenirCasesSelonCaseDebut(emplacement.obtenirCaseDebut(),
-            emplacement.obtenirPosition(), emplacement.obtenirGrandeur());
+                                                                            emplacement.obtenirPosition(), emplacement.obtenirGrandeur());
 
         for (const caseCourante of casesEmplacementMot) {
             const ligne: number = caseCourante.obtenirNumeroLigne();
@@ -163,23 +162,11 @@ export class Grille {
         }
     }
 
-    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
-        return this.cases.obtenirCaseSelonPosition(position, indexFixe, index);
-    }
-
     public obtenirNombreMotsSurLigne(ligne: number): number {
-
-        if (ligne >= DIMENSION_LIGNE_COLONNE) {
-            return -1;
-        }
         return this.nombreMotsSurLigne[ligne];
     }
 
     public obtenirNombreMotsSurColonne(ligne: number): number {
-
-        if (ligne >= DIMENSION_LIGNE_COLONNE) {
-            return -1;
-        }
         return this.nombreMotsSurColonne[ligne];
     }
 
@@ -198,27 +185,12 @@ export class Grille {
         return false;
     }
 
-    public obtenirLongueurCases(): number {
-        return DIMENSION_LIGNE_COLONNE;
-    }
-
-    public obtenirHauteurCases(): number {
-        let nbrCasesY = 0;
-        for (const casesDeLaLigne of this.cases.obtenirCases()) {
-            if (nbrCasesY !== 0 && nbrCasesY !== casesDeLaLigne.length) {
-                return -1;
-            }
-            nbrCasesY = casesDeLaLigne.length;
-        }
-        return nbrCasesY;
-    }
-
     public verifierMot(motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
         let casesEmplacementMot: Case[] = new Array();
         for (const emplacementMot of this.emplacementMots) {
             casesEmplacementMot = this.cases.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
                 emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-            if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin) &&
+            if (emplacementMot.estLeBonEmplacementMot(caseDebut, caseFin) &&
                 this.cases.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
                 emplacementMot.estTrouve();
                 return true;
@@ -233,7 +205,7 @@ export class Grille {
 
     public obtenirEmplacementMot(caseDebut: Case, caseFin: Case): EmplacementMot {
         for (const emplacementMot of this.emplacementMots) {
-            if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin)) {
+            if (emplacementMot.estLeBonEmplacementMot(caseDebut, caseFin)) {
                 return emplacementMot;
             }
         }
@@ -244,29 +216,6 @@ export class Grille {
         for (const emplacement of this.emplacementMots) {
             if (emplacement.estPareilQue(emplacementMot)) {
                 return emplacement;
-            }
-        }
-    }
-
-    private estLeBonEmplacementMot(emplacementMot: EmplacementMot, caseDebut: Case, caseFin: Case): boolean {
-        if ((emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
-        && (emplacementMot.obtenirCaseFin().obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())) {
-            if ((emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())
-            && (emplacementMot.obtenirCaseFin().obtenirNumeroColonne() === caseFin.obtenirNumeroColonne())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public calculerPointsContraintes(): void {
-        let caseCourante: Case;
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                caseCourante = this.cases.obtenirCase(i, j);
-                caseCourante.remettrePointsContraintesAZero();
-                this.cases.calculerPointsContraintesDeLaCase(caseCourante,
-                    caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne());
             }
         }
     }

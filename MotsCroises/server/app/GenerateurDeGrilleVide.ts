@@ -45,7 +45,7 @@ export class GenerateurDeGrilleVide {
     public positionnerCases(grille: Grille, grandeurMotsParLigne: number[][], grandeurMotsParColonne: number[][]): Grille {
         grille = this.ajouterCasesMeilleurEndroit(Position.Ligne, grille, grandeurMotsParLigne);
         grille = this.ajouterCasesMeilleurEndroit(Position.Colonne, grille, grandeurMotsParColonne);
-        grille.calculerPointsContraintes();
+        grille.cases.calculerPointsContraintes();
 
         return grille;
     }
@@ -73,7 +73,7 @@ export class GenerateurDeGrilleVide {
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             for (let j = 0; j < grandeurMots[i].length; j++) {
                 cases = new Array();
-                grille.calculerPointsContraintes();
+                grille.cases.calculerPointsContraintes();
                 numeroPosition = this.trouverMeilleurPosition(grille, i, position, grandeurMots[i][j]);
 
                 // Vérifier si le mot chevauche un autre présent sur la même colonne | même ligne.
@@ -152,7 +152,7 @@ export class GenerateurDeGrilleVide {
         let caseCouranteVide: Case;
 
         for (let k = numeroDebut; k <= numeroFin; k++) {
-            caseCouranteVide = grille.obtenirCaseSelonPosition(position, iCourant, k);
+            caseCouranteVide = grille.cases.obtenirCaseSelonPosition(position, iCourant, k);
             caseCouranteVide.etat = EtatCase.vide;
             cases.push(caseCouranteVide);
         }
