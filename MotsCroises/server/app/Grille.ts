@@ -7,6 +7,7 @@ import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
 import { Position } from '../../commun/Position';
 import { MotsComplet } from './MotsComplet';
+import { EmplacementsMots } from '../../commun/EmplacementsMots';
 
 export const DIMENSION_LIGNE_COLONNE = 10;
 
@@ -14,6 +15,7 @@ export class Grille {
     public mots: MotComplet[] = new Array();
     public motsComplet: MotsComplet = new MotsComplet();
     public emplacementMots: EmplacementMot[] = new Array();
+    public emplacementsMots: EmplacementsMots = new EmplacementsMots();
     public cases: Cases = new Cases();
     public niveau: Niveau;
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
@@ -94,6 +96,7 @@ export class Grille {
 
                     if (longueurMot >= grandeurMotMinimum) {
                         this.emplacementMots.push(new EmplacementMot(caseDebut, caseCourante.copieCase()));
+                        this.emplacementsMots.emplacementMots.push(new EmplacementMot(caseDebut, caseCourante.copieCase()));
                     }
 
                     // Comme la prochaine case ne peut accueillir une lettre,
@@ -171,11 +174,12 @@ export class Grille {
     }
 
     public obtenirEmplacementsMot(): EmplacementMot[] {
-        return this.emplacementMots;
+        return this.emplacementsMots.emplacementMots;
     }
 
     public modifierEmplacementsMot(emplacementsMot: EmplacementMot[]) {
         this.emplacementMots = emplacementsMot;
+        this.emplacementsMots.emplacementMots = emplacementsMot;
     }
 
     public dansLaLimiteDuMot(caseCourante: number, debutNumeroColonne: number, finNumeroColonne: number): boolean {
@@ -187,7 +191,7 @@ export class Grille {
 
     public verifierMot(motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
         let casesEmplacementMot: Case[] = new Array();
-        for (const emplacementMot of this.emplacementMots) {
+        for (const emplacementMot of this.emplacementsMots.emplacementMots) {
             casesEmplacementMot = this.cases.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
                 emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
             if (emplacementMot.estLeBonEmplacementMot(caseDebut, caseFin) &&
@@ -204,7 +208,7 @@ export class Grille {
     }
 
     public obtenirEmplacementMot(caseDebut: Case, caseFin: Case): EmplacementMot {
-        for (const emplacementMot of this.emplacementMots) {
+        for (const emplacementMot of this.emplacementsMots.emplacementMots) {
             if (emplacementMot.estLeBonEmplacementMot(caseDebut, caseFin)) {
                 return emplacementMot;
             }
@@ -213,7 +217,7 @@ export class Grille {
     }
 
     public ObtenirEmplacementMotSelonEmplacementMot(emplacementMot: EmplacementMot) {
-        for (const emplacement of this.emplacementMots) {
+        for (const emplacement of this.emplacementsMots.emplacementMots) {
             if (emplacement.estPareilQue(emplacementMot)) {
                 return emplacement;
             }
@@ -222,9 +226,9 @@ export class Grille {
 
     public emplacementsHorizontaux(): EmplacementMot[] {
         const emplacementsHorizontaux: EmplacementMot[] = new Array();
-        for (let i = 0; i < this.emplacementMots.length; i++) {
-            if (this.emplacementMots[i].estHorizontal()) {
-                emplacementsHorizontaux.push(this.emplacementMots[i]);
+        for (let i = 0; i < this.emplacementsMots.emplacementMots.length; i++) {
+            if (this.emplacementsMots.emplacementMots[i].estHorizontal()) {
+                emplacementsHorizontaux.push(this.emplacementsMots.emplacementMots[i]);
             }
         }
         return emplacementsHorizontaux;
