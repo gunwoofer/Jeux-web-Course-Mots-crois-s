@@ -1,9 +1,8 @@
 import { TraitementDonneTableau } from './traitementDonneTableau';
-import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Score } from './score.model';
 import { TableauScoreService } from './tableauScoreService.service';
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 
 @Component({
     selector: 'app-tableauscore-component',
@@ -19,7 +18,7 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
     public meilleurTemps: string;
     public traitementDonnee = new TraitementDonneTableau();
 
-    constructor(private tableauScoreService: TableauScoreService, private router: Router) {
+    constructor(private tableauScoreService: TableauScoreService) {
     }
 
     public ngOnInit(): void {

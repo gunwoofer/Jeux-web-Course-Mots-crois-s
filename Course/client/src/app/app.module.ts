@@ -27,7 +27,7 @@ import { ModificationMotDePasseComponent } from './accueil/admin/modificationMot
 import { RenderService } from './renderService/render.service';
 import { PisteService } from './piste/piste.service';
 import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
-import { FacadeSourisService } from './facadeSouris/facadesouris.service';
+import { EvenementService } from './gestionnaireEvenement/gestionnaireEvenement.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
@@ -75,7 +75,7 @@ import { AppRoutingModule } from './app.routing';
     RenderService,
     PisteService,
     FacadeCoordonneesService,
-    FacadeSourisService,
+    EvenementService,
     FacadePointService,
     FacadeLigneService,
     MessageErreurService,

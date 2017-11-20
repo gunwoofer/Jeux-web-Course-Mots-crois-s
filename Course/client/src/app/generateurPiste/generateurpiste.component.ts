@@ -1,9 +1,9 @@
-import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './generateurpiste.service';
 import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
 import { Router } from '@angular/router';
+import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 
 @Component({
     selector: 'app-generateurpiste-component',
@@ -17,13 +17,12 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
     private containerRef: ElementRef;
 
     constructor(private generateurPisteService: GenerateurPisteService,
-        pisteService: PisteService,
+        pisteService: PisteService, private evenementService: EvenementService,
         private musiqueService: MusiqueService,
-        private router: Router,
-        private tableauScoreService: TableauScoreService
+        private router: Router
     ) {
         generateurPisteService.ajouterRouter(router);
-        generateurPisteService.configurerTours(pisteService.nombreDeTours)
+        generateurPisteService.configurerTours(pisteService.nombreDeTours);
     }
 
     public ngOnInit(): void {
@@ -45,17 +44,17 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
 
     @HostListener('document:keypress', ['$event'])
     public touchePressee(event: KeyboardEvent): void {
-        this.generateurPisteService.gestionEvenement(event);
+        this.evenementService.gestionEvenement(event);
     }
 
     @HostListener('document:keydown', ['$event'])
     public touchePesee(event: KeyboardEvent): void {
-        this.generateurPisteService.touchePesee(event);
+        this.evenementService.touchePesee(event);
     }
 
     @HostListener('document:keyup', ['$event'])
     public toucheLachee(event: KeyboardEvent): void {
-        this.generateurPisteService.toucheRelachee(event);
+        this.evenementService.toucheRelachee(event);
     }
 
     public allerTableauDeResultats(): void {

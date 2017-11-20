@@ -9,7 +9,6 @@ import { PisteValidationComponent } from '../pisteValidator/pisteValidation.comp
 
 import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
 import { FacadeLigneService } from '../facadeLigne/facadeligne.service';
-import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { RenderService } from './render.service';
 import { PisteService } from '../piste/piste.service';
@@ -21,6 +20,7 @@ import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
+import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 
 describe('RenderService test', () => {
 
@@ -30,13 +30,13 @@ describe('RenderService test', () => {
     let component: CreateurPisteComponent;
     let fixture: ComponentFixture<CreateurPisteComponent>;
     let renderService: RenderService;
-    let facadeSourisService: FacadeSourisService;
+    let evenementService: EvenementService;
     let fakeClickEvent: MouseEvent;
     const fakeClickEventArray: MouseEvent[] = [];
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            providers: [RenderService, FacadeSourisService, PisteService,
+            providers: [RenderService, EvenementService, PisteService,
                 GenerateurPisteService, MessageErreurService, RatingService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
                 FiltreCouleurService, CameraService, TableauScoreService],
@@ -46,9 +46,9 @@ describe('RenderService test', () => {
             .compileComponents();
     }));
 
-    beforeEach(inject([RenderService, FacadeSourisService], (service: RenderService, souris: FacadeSourisService) => {
+    beforeEach(inject([RenderService, EvenementService], (service: RenderService, souris: EvenementService) => {
         renderService = service;
-        facadeSourisService = souris;
+        evenementService = souris;
         fixture = TestBed.createComponent(CreateurPisteComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
@@ -58,8 +58,8 @@ describe('RenderService test', () => {
         expect(renderService).toBeTruthy();
     });
 
-    it('facadeSourisService devrait être créé', () => {
-        expect(facadeSourisService).toBeTruthy();
+    it('EvenementService devrait être créé', () => {
+        expect(EvenementService).toBeTruthy();
     });
 
     it('La zone d\'édition est initialement vide.', () => {
@@ -74,7 +74,7 @@ describe('RenderService test', () => {
             view: window,
         });
 
-        facadeSourisService.onMouseClick(fakeClickEvent);
+        evenementService.onMouseClick(fakeClickEvent);
         expect(fakeClickEvent.button).toEqual(0);
     });
 
@@ -84,7 +84,7 @@ describe('RenderService test', () => {
             cancelable: true,
             view: window,
         });
-        facadeSourisService.onMouseClick(fakeClickEvent);
+        evenementService.onMouseClick(fakeClickEvent);
         const longueurVecteurPoints = renderService.points.length;
         const longueurVecteurScene = renderService.scene.children.length;
         expect(longueurVecteurPoints).toEqual(1);
@@ -98,7 +98,7 @@ describe('RenderService test', () => {
             view: window,
         });
         const compteur = 0;
-        facadeSourisService.onMouseClick(fakeClickEvent);
+        evenementService.onMouseClick(fakeClickEvent);
         const pointListe = renderService.points;
         const typeObjet = pointListe[compteur].isPoints;
         expect(typeObjet).toEqual(true);
@@ -113,7 +113,7 @@ describe('RenderService test', () => {
                 clientX: 200 + 200 * i,
                 clientY: 200 - 100 * i
             });
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         const longueurVecteurPoints = renderService.points.length;
         const longueurVecteurScene = renderService.scene.children.length;
@@ -155,7 +155,7 @@ describe('RenderService test', () => {
             clientY: 200
         });
         for (let i = 0; i <= 3; i++) {
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         const longueurVecteurPoints = renderService.points.length;
         const premierPointX = renderService.points[0].position.x;
@@ -189,13 +189,13 @@ describe('RenderService test', () => {
             clientX: 800,
             clientY: 300
         });
-        facadeSourisService.onMouseClick(fakeClickEventArray[0]);
-        facadeSourisService.onMouseClick(fakeClickEventArray[1]);
-        facadeSourisService.onMouseClick(fakeClickEventArray[2]);
+        evenementService.onMouseClick(fakeClickEventArray[0]);
+        evenementService.onMouseClick(fakeClickEventArray[1]);
+        evenementService.onMouseClick(fakeClickEventArray[2]);
         const premierPointX = renderService.points[0].position.x;
         const premierPointY = renderService.points[0].position.y;
         expect(renderService.points.length).toEqual(3);
-        facadeSourisService.rightClick();
+        evenementService.rightClick();
         expect(renderService.points.length).toEqual(2);
         expect(premierPointX).toEqual(renderService.points[0].position.x);
         expect(premierPointY).toEqual(renderService.points[0].position.y);
@@ -225,7 +225,7 @@ describe('RenderService test', () => {
             clientY: 405
         });
         for (let i = 0; i <= 2; i++) {
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         const angle = contraintesCircuitService.calculerAngle(1, renderService.points, renderService.facadePointService.compteur);
         expect(angle).toBeLessThanOrEqual(0.785398163);
@@ -241,7 +241,7 @@ describe('RenderService test', () => {
                 clientX: 758 - (i * 50),
                 clientY: 266 + (i * 20)
             });
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         expect(renderService.points[0].material.color.getHex()).toEqual(0x800080);
         for (let i = 1; i <= 4; i++) {
@@ -258,7 +258,7 @@ describe('RenderService test', () => {
                 clientX: 458 - (i * 100),
                 clientY: 266 + (i * 20)
             });
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
         const vecteurCouleurs = renderService.pointsLine.geometry.attributes.color.array;
@@ -304,7 +304,7 @@ describe('RenderService test', () => {
             clientY: 200
         });
         for (let i = 0; i <= 3; i++) {
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         expect(renderService.dessinTermine).toBeTruthy();
         expect(renderService.points.length).toBeGreaterThan(2);
@@ -333,7 +333,7 @@ describe('RenderService test', () => {
             clientY: 405
         });
         for (let i = 0; i <= 2; i++) {
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         expect(renderService.nbAnglesPlusPetit45).toEqual(1);
         expect(
@@ -374,7 +374,7 @@ describe('RenderService test', () => {
             clientY: 266
         });
         for (let i = 0; i <= 3; i++) {
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         expect(renderService.nbAnglesPlusPetit45).toEqual(2);
         expect(
@@ -423,7 +423,7 @@ describe('RenderService test', () => {
             clientY: 266
         });
         for (let i = 0; i <= 4; i++) {
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         expect(renderService.nbSegmentsCroises).toEqual(1);
         expect(
@@ -472,7 +472,7 @@ describe('RenderService test', () => {
             clientY: 100
         });
         for (let i = 0; i <= 4; i++) {
-            facadeSourisService.onMouseClick(fakeClickEventArray[i]);
+            evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         expect(renderService.nbSegmentsTropProche).toEqual(1);
         expect(

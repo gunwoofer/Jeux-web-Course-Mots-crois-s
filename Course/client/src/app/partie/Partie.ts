@@ -5,8 +5,7 @@ import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { Voiture } from '../voiture/Voiture';
 import { Router } from '@angular/router';
-
-export const  NOMBRE_DE_TOURS_PAR_DEFAULT = 3;
+import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
 
 export enum EtatPartie {
     En_attente,

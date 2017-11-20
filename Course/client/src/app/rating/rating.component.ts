@@ -1,5 +1,4 @@
 import { MusiqueService } from './../musique/musique.service';
-import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { Router } from '@angular/router';
 import { RatingService } from './rating.service';
 import { Component, OnInit } from '@angular/core';
@@ -17,8 +16,7 @@ export class RatingComponent implements OnInit {
     public affichage: boolean;
     public ratingMoyen: number;
 
-    constructor(private ratingService: RatingService, private router: Router, private tableauScoreService: TableauScoreService,
-                private musiqueService: MusiqueService) { }
+    constructor(private ratingService: RatingService, private router: Router, private musiqueService: MusiqueService) { }
 
     public ngOnInit(): void {
         this.affichage = true;

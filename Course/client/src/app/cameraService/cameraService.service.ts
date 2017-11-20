@@ -1,31 +1,36 @@
+import { DELTA_ZOOM, ZOOM_AVANT, ZOOM_ARRIERE, ORIGINE } from './../constant';
 import { Injectable } from '@angular/core';
-import * as THREE from 'three';
+import { PerspectiveCamera, Vector3 } from 'three';
 import { Voiture } from './../voiture/Voiture';
-
 
 @Injectable()
 export class CameraService {
 
-    public vueMiseAjour(camera: THREE.PerspectiveCamera, voiture: Voiture): void {
+    private offsetVueDessus = 50;
+    private cameraOfssetX = -5;
+    private cameraOfssetY = 2;
+    private cameraOfssetZ = 0;
+
+    public vueMiseAjour(camera: PerspectiveCamera, voiture: Voiture): void {
         camera.lookAt(voiture.obtenirVoiture3D().position);
         camera.updateMatrix();
         camera.updateProjectionMatrix();
     }
 
-    public vueDessus(camera: THREE.PerspectiveCamera, voiture: Voiture): void {
+    public vueDessus(camera: PerspectiveCamera, voiture: Voiture): void {
         camera.position.y = voiture.obtenirVoiture3D().position.y;
         camera.position.x = voiture.obtenirVoiture3D().position.x;
-        camera.position.z = voiture.obtenirVoiture3D().position.z + 50;
+        camera.position.z = voiture.obtenirVoiture3D().position.z + this.offsetVueDessus;
     }
 
-    public vueTroisiemePersonne(camera: THREE.PerspectiveCamera, voiture: Voiture): void {
-        let relativeCameraOffset = new THREE.Vector3(-5, 2, 0);
+    public vueTroisiemePersonne(camera: PerspectiveCamera, voiture: Voiture): void {
+        let relativeCameraOffset = new Vector3(this.cameraOfssetX, this.cameraOfssetY, this.cameraOfssetZ);
         relativeCameraOffset = relativeCameraOffset.applyMatrix4(voiture.obtenirVoiture3D().matrixWorld);
         camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
-        camera.up = new THREE.Vector3(0, 0, 1);
+        camera.up = new Vector3(ORIGINE, ORIGINE, ORIGINE + 1);
     }
 
-    public changementDeVue(camera: THREE.PerspectiveCamera, voiture: Voiture): void {
+    public changementDeVue(camera: PerspectiveCamera, voiture: Voiture): void {
         if (voiture.vueDessusTroisieme) {
             this.vueTroisiemePersonne(camera, voiture);
         } else {
@@ -34,12 +39,12 @@ export class CameraService {
         this.vueMiseAjour(camera, voiture);
     }
 
-    public zoom(event, camera: THREE.PerspectiveCamera): void {
-        if (event.key === '+' && camera.zoom <= 5) {
-            camera.zoom += .5;
+    public zoom(event, camera: PerspectiveCamera): void {
+        if (event.key === ZOOM_AVANT && camera.zoom <= 5) {
+            camera.zoom += DELTA_ZOOM;
         }
-        if (event.key === '-' && camera.zoom > 1) {
-            camera.zoom -= .5;
+        if (event.key === ZOOM_ARRIERE && camera.zoom > 1) {
+            camera.zoom -= DELTA_ZOOM;
         }
     }
 }

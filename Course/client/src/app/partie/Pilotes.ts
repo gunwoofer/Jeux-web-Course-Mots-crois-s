@@ -43,7 +43,6 @@ export class Pilotes {
                 return piloteCourant.aParcourueUneDistanceRaisonnable();
             }
         }
-
         return false;
     }
 }

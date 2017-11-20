@@ -1,16 +1,9 @@
+import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX } from './../constant';
+
 import { Voiture } from './../voiture/Voiture';
 
-export const avancer = 'w';
-export const gauche = 'a';
-export const droite = 'd';
-export const rotation = 0.03;
-export const acceleration = 0.01;
-export const deceleration = 0.01;
-export const vitesseMax = 1;
-export const vitesseMin = 0.05;
-
 export class Deplacement {
-    private enAvant: boolean;
+    public enAvant: boolean;
     public aDroite: boolean;
     public aGauche: boolean;
 
@@ -26,28 +19,27 @@ export class Deplacement {
         } else {
             this.freiner(voiture);
         }
-        if (this.aDroite && voiture.vitesse > vitesseMin) {
+        if (this.aDroite && voiture.vitesse > VITESSE_MIN) {
             this.tournerDroite(voiture);
         }
-        if (this.aGauche && voiture.vitesse > vitesseMin) {
+        if (this.aGauche && voiture.vitesse > VITESSE_MIN) {
             this.tournerGauche(voiture);
         }
-
         voiture.calculerDistance();
     }
 
     private avancer(voiture: Voiture): void {
-        if (voiture.vitesse < vitesseMax) {
-            voiture.vitesse += acceleration;
+        if (voiture.vitesse < VITESSE_MAX) {
+            voiture.vitesse += ACCELERATION;
             voiture.voiture3D.translateX(voiture.vitesse);
         } else {
-            voiture.voiture3D.translateX(vitesseMax);
+            voiture.voiture3D.translateX(VITESSE_MAX);
         }
     }
 
     private freiner(voiture: Voiture): void {
-        if (voiture.vitesse >= 0 + deceleration) {
-            voiture.vitesse -= deceleration;
+        if (voiture.vitesse >= 0 + DECELERATION) {
+            voiture.vitesse -= DECELERATION;
             voiture.voiture3D.translateX(voiture.vitesse);
         } else {
             voiture.vitesse = 0;
@@ -55,34 +47,22 @@ export class Deplacement {
     }
 
     private tournerGauche(voiture: Voiture): void {
-        voiture.voiture3D.rotateY(rotation);
+        voiture.voiture3D.rotateY(ROTATION);
     }
 
     private tournerDroite(voiture: Voiture): void {
-        voiture.voiture3D.rotateY(-rotation);
+        voiture.voiture3D.rotateY(-ROTATION);
     }
 
     public touchePesee(event): void {
-        if (event.key === avancer) {
-            this.enAvant = true;
-        }
-        if (event.key === gauche) {
-            this.aGauche = true;
-        }
-        if (event.key === droite) {
-            this.aDroite = true;
-        }
+        if (event.key === AVANCER) { this.enAvant = true; }
+        if (event.key === GAUCHE) { this.aGauche = true; }
+        if (event.key === DROITE) { this.aDroite = true; }
     }
 
     public toucheRelachee(event): void {
-        if (event.key === avancer) {
-            this.enAvant = false;
-        }
-        if (event.key === droite) {
-            this.aDroite = false;
-        }
-        if (event.key === gauche) {
-            this.aGauche = false;
-        }
+        if (event.key === AVANCER) { this.enAvant = false; }
+        if (event.key === DROITE) { this.aDroite = false; }
+        if (event.key === GAUCHE) { this.aGauche = false; }
     }
 }

@@ -1,7 +1,6 @@
 import { Voiture } from '../voiture/Voiture';
 import { CameraService } from './cameraService.service';
 import { TestBed, inject, async } from '@angular/core/testing';
-import { NgModule } from '@angular/core';
 import * as THREE from 'three';
 
 const object = new THREE.Object3D();

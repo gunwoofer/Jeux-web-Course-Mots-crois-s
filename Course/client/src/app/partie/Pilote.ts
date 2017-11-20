@@ -1,13 +1,8 @@
+import { NOMBRE_DE_TOURS_PAR_DEFAULT, PREMIER_TOUR } from './../constant';
 import { Voiture } from '../voiture/Voiture';
-import { Guid } from '../../../../commun/Guid';
-import { Partie, NOMBRE_DE_TOURS_PAR_DEFAULT } from '../partie/Partie';
+import { Partie } from '../partie/Partie';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Piste } from '../piste/piste.model';
-export const PREMIER_TOUR = 1;
-
-// Distance de la piste. À trouver.
-export const DISTANCE_DE_LA_PISTE = 1;
-export const DIFFERENCE_DISTANCE_PARCOURUE_RAISONNABLE = 100;
 
 export class Pilote {
     public static tempsTotal = 0;
@@ -16,7 +11,6 @@ export class Pilote {
     private tempsMiliSecondsParTour: number[] = [];
     private tourCourant = PREMIER_TOUR;
     public tourACompleter = NOMBRE_DE_TOURS_PAR_DEFAULT;
-    private guidPilote = Guid.generateGUID();
     private estJoueur = false;
 
     constructor(voiture: Voiture, estJoueur: boolean) {

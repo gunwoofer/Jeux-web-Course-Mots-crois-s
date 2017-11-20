@@ -1,10 +1,6 @@
-import { LumiereService, PHARES } from './lumiere.service';
+import { LumiereService } from './lumiere.service';
 import { TestBed, inject, async } from '@angular/core/testing';
 import * as THREE from 'three';
-
-const fakeClickEvent = new KeyboardEvent('keypress', {
-    key: 'n'
-});
 
 
 describe('LumiereService test', () => {
@@ -44,5 +40,12 @@ describe('LumiereService test', () => {
         expect(lumiereService.lumiereDirectionnelle.visible).toEqual(false);
         lumiereService.modeJourNuit(event, scene);
         expect(lumiereService.lumiereDirectionnelle.visible).toEqual(true);
+    });
+
+    it('creation des phares', () => {
+        const nom = 'phare';
+        const objet = lumiereService.creerPhare(nom, 1000);
+        expect(objet).toBeTruthy();
+        expect(objet.name).toEqual(nom);
     });
 });

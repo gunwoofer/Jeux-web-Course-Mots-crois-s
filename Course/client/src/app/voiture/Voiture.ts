@@ -1,9 +1,10 @@
+import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 
-export const REDUCTION_VITESSE = 10;
+
 
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
@@ -17,12 +18,13 @@ export class Voiture implements sujet.Sujet {
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
 
+
     constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {
         this.voiture3D = voiture3D;
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
-        this.vitesse = 0;
+        this.vitesse = VITESSE_INTIALE;
     }
 
     public calculerDistance(): void {
