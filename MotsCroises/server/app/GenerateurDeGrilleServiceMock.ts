@@ -22,17 +22,17 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
         const grilleMock: Grille = new Grille(niveau);
 
         // Emplacements horizontaux
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(2, 6), grilleMock.cases.obtenirCase(2, 9)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 0), grilleMock.cases.obtenirCase(3, 3)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 0), grilleMock.cases.obtenirCase(5, 8)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(8, 3), grilleMock.cases.obtenirCase(8, 9)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(2, 6), grilleMock.cases.obtenirCase(2, 9)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 0), grilleMock.cases.obtenirCase(3, 3)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 0), grilleMock.cases.obtenirCase(5, 8)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(8, 3), grilleMock.cases.obtenirCase(8, 9)));
 
         // Emplacements verticaux
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 1), grilleMock.cases.obtenirCase(9, 1)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(0, 3), grilleMock.cases.obtenirCase(6, 3)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 5), grilleMock.cases.obtenirCase(6, 5)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 7), grilleMock.cases.obtenirCase(8, 7)));
-        grilleMock.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 8), grilleMock.cases.obtenirCase(5, 8)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 1), grilleMock.cases.obtenirCase(9, 1)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(0, 3), grilleMock.cases.obtenirCase(6, 3)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 5), grilleMock.cases.obtenirCase(6, 5)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 7), grilleMock.cases.obtenirCase(8, 7)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 8), grilleMock.cases.obtenirCase(5, 8)));
 
         return grilleMock;
     }
@@ -68,43 +68,43 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
         const indice5V = new Indice(['a book regarded as authoritative in its field', 'the sacred writings of the Christian religions']);
         const mot5V = new MotComplet('BIBLE', indice5V);
 
-        for (let i = 0; i < grilleRemplieMock.emplacementMots.length; i++) {
+        for (let i = 0; i < grilleRemplieMock.emplacementsMots.emplacementMots.length; i++) {
             // Parcourt horizontal puis vertical de bas en haut et de gauche a droite
             if (i === 0) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice1H.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice1H.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot1H, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
             if (i === 1) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice2H.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot2H, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice2H.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot2H, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
             if (i === 2) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice3H.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot3H, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice3H.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot3H, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
             if (i === 3) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice4H.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot4H, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice4H.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot4H, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
             if (i === 4) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice1V.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot1V, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice1V.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot1V, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
             if (i === 5) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice2V.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot2V, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice2V.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot2V, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
             if (i === 6) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice3V.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot3V, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice3V.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot3V, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
             if (i === 7) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice4V.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot4V, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice4V.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot4V, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
             if (i === 8) {
-                grilleRemplieMock.emplacementMots[i].attribuerGuidIndice(indice5V.id);
-                grilleRemplieMock.ajouterMotEmplacement(mot5V, grilleRemplieMock.emplacementMots[i]);
+                grilleRemplieMock.emplacementsMots.emplacementMots[i].attribuerGuidIndice(indice5V.id);
+                grilleRemplieMock.ajouterMotEmplacement(mot5V, grilleRemplieMock.emplacementsMots.emplacementMots[i]);
             }
         }
 

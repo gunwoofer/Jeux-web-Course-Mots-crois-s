@@ -20,8 +20,8 @@ describe('Partie', () => {
         const joueur2: Joueur = new Joueur();
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
 
-        let emplacementMotSelectionnerParJoueur1: EmplacementMot = grille.emplacementMots[0];
-        let emplacementMotSelectionnerParJoueur2: EmplacementMot = grille.emplacementMots[1];
+        let emplacementMotSelectionnerParJoueur1: EmplacementMot = grille.emplacementsMots.emplacementMots[0];
+        let emplacementMotSelectionnerParJoueur2: EmplacementMot = grille.emplacementsMots.emplacementMots[1];
 
 
         const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
@@ -37,8 +37,8 @@ describe('Partie', () => {
         assert(emplacementMotSelectionnerParJoueur2.estPareilQue(
             partieEnCours.obtenirEmplacementMotSelectionnerJoueur(joueur2.obtenirGuid())));
 
-        emplacementMotSelectionnerParJoueur1 = grille.emplacementMots[2];
-        emplacementMotSelectionnerParJoueur2 = grille.emplacementMots[2];
+        emplacementMotSelectionnerParJoueur1 = grille.emplacementsMots.emplacementMots[2];
+        emplacementMotSelectionnerParJoueur2 = grille.emplacementsMots.emplacementMots[2];
 
         partieEnCours.changerSelectionMot(joueur1.obtenirGuid(), emplacementMotSelectionnerParJoueur1);
         partieEnCours.changerSelectionMot(joueur2.obtenirGuid(), emplacementMotSelectionnerParJoueur2);
@@ -49,7 +49,7 @@ describe('Partie', () => {
         assert(emplacementMotSelectionnerParJoueur2.estPareilQue(
             partieEnCours.obtenirEmplacementMotSelectionnerJoueur(joueur2.obtenirGuid())));
 
-        assert(grille.emplacementMots[2].estSelectionnerNombreDeJoueurs() === 2);
+        assert(grille.emplacementsMots.emplacementMots[2].estSelectionnerNombreDeJoueurs() === 2);
     });
 
     it('Le serveur conserve un compteur pour les joueurs.', (done) => {
@@ -132,8 +132,8 @@ describe('Partie', () => {
         const joueur2: Joueur = new Joueur();
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
 
-        const emplacementMotTrouveJoueur1: EmplacementMot = grille.emplacementMots[0];
-        const emplacementMotTrouveJoueur2: EmplacementMot = grille.emplacementMots[1];
+        const emplacementMotTrouveJoueur1: EmplacementMot = grille.emplacementsMots.emplacementMots[0];
+        const emplacementMotTrouveJoueur2: EmplacementMot = grille.emplacementsMots.emplacementMots[1];
 
         let motAVerifierJoueur1 = '';
         let motAVerifierJoueur2 = '';
