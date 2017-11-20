@@ -20,6 +20,14 @@ export class Cases {
         this.cases = cases;
     }
 
+    public viderCases(): void {
+        for (const ligneCourante of this.obtenirCases()) {
+            for (const caseCourante of ligneCourante) {
+                caseCourante.viderCase();
+            }
+        }
+    }
+
     public obtenirCase(numeroLigne: number, numeroColonne: number): Case {
         for(let ligneCase of this.cases) {
             for(let caseCourante of ligneCase) {
@@ -38,10 +46,6 @@ export class Cases {
 
     public obtenirCases(): Case[][] {
         return this.cases;
-    }
-
-    public changerEtatCase(etatCase: EtatCase, numeroLigne: number, numeroColonne: number): void {
-        this.cases[numeroLigne][numeroColonne].etat = etatCase;
     }
 
     public remplirCase(lettre: string, numeroLigne: number, numeroColonne: number): void {

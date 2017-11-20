@@ -55,7 +55,7 @@ describe('GenerateurDeGrilleService', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
-        for (const ligneCasesCourante of grille.obtenirCases()) {
+        for (const ligneCasesCourante of grille.cases.obtenirCases()) {
             for (const caseCourante of ligneCasesCourante) {
                 if (caseCourante.etat === EtatCase.pleine) {
                     const lettreCourante: string = caseCourante.obtenirLettre();
@@ -70,7 +70,7 @@ describe('GenerateurDeGrilleService', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
-        for (const ligneCasesCourante of grille.obtenirCases()) {
+        for (const ligneCasesCourante of grille.cases.obtenirCases()) {
             for (const caseCourante of ligneCasesCourante) {
                 if (caseCourante.etat === EtatCase.pleine) {
                     const lettreCourante: string = caseCourante.obtenirLettre();
@@ -87,7 +87,8 @@ describe('GenerateurDeGrilleService', () => {
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                assert((grille.obtenirCase(i, j).etat === EtatCase.noir) || (grille.obtenirCase(i, j).etat === EtatCase.pleine));
+                assert((grille.cases.obtenirCase(i, j).etat === EtatCase.noir) || 
+                    (grille.cases.obtenirCase(i, j).etat === EtatCase.pleine));
             }
         }
     });
@@ -100,8 +101,8 @@ describe('GenerateurDeGrilleService', () => {
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                const caseGrille1: Case = grille1.obtenirCase(i, j);
-                const caseGrille2: Case = grille2.obtenirCase(i, j);
+                const caseGrille1: Case = grille1.cases.obtenirCase(i, j);
+                const caseGrille2: Case = grille2.cases.obtenirCase(i, j);
                 if (caseGrille1.etat !== caseGrille2.etat) {
                     grilleDifferente = true;
                 }

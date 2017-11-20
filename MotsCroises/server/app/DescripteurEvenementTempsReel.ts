@@ -91,7 +91,7 @@ export class DescripteurEvenementTempsReel {
             generateurDeGrilleService: GenerateurDeGrilleServiceMock, specificationPartieRecu: SpecificationPartie): SpecificationPartie {
         const grille: Grille = generateurDeGrilleService.genererGrilleMock(specificationPartieRecu.niveau);
         const guidPartie = gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
-            specificationPartieRecu.typePartie, grille, grille.obtenirNiveau());
+            specificationPartieRecu.typePartie, grille, grille.niveau);
         let tableauIndices: Indice[] = new Array();
 
         tableauIndices = grille.motsComplet.recupererIndices();

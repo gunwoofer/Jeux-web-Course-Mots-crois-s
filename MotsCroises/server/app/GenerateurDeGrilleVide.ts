@@ -117,8 +117,8 @@ export class GenerateurDeGrilleVide {
 
     private meilleurPositionDebutFinSeChevauchent(grille: Grille, numeroLigneDebut: number, numeroColonneDebut: number,
         numeroLigneFin: number, numeroColonneFin: number): boolean {
-        const caseDebut: Case = grille.obtenirCase(numeroLigneDebut, numeroColonneDebut);
-        const caseFin: Case = grille.obtenirCase(numeroLigneFin, numeroColonneFin);
+        const caseDebut: Case = grille.cases.obtenirCase(numeroLigneDebut, numeroColonneDebut);
+        const caseFin: Case = grille.cases.obtenirCase(numeroLigneFin, numeroColonneFin);
         let casesEmplacementMot: Case[];
 
         for (const emplacementMotCourant of grille.obtenirEmplacementsMot()) {
