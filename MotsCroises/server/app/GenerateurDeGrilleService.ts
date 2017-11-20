@@ -1,3 +1,4 @@
+import { EtatCase } from './../../commun/Case';
 import { Grille } from './Grille';
 import { Niveau } from '../../commun/Niveau';
 import { MotComplet, Rarete } from './MotComplet';
@@ -17,9 +18,29 @@ export class GenerateurDeGrilleService {
 
     public genererGrille(niveau: Niveau): Grille {
         this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
-        this.motCroiseGenere = this.remplirGrille(niveau, this.motCroiseGenere);
+        // this.motCroiseGenere = this.remplirGrille(niveau, this.motCroiseGenere);
+        this.remplirGrille(niveau, this.motCroiseGenere).then((grilleRemplie) => {
+            this.motCroiseGenere = grilleRemplie;
+            this.affichageConsole(this.motCroiseGenere);
+        });
 
         return this.motCroiseGenere;
+    }
+
+    public affichageConsole(grille: Grille): void {
+        for (let i = 0; i < 10; i++) {
+            let ligne: string;
+            ligne = '';
+            for (let j = 0; j < 10; j++) {
+                const caseGrille: Case = grille.cases.obtenirCase(i, j);
+                if (caseGrille.etat === EtatCase.noir) {
+                    ligne += '#';
+                } else {
+                    ligne += '.';
+                }
+            }
+            console.log(ligne);
+        }
     }
 
     public obtenirGrillesBase(): Grille[] {
