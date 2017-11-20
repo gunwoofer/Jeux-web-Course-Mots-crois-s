@@ -8,6 +8,24 @@ module Route {
 
     export class Index {
 
+        public testGenerationGrille(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            const generateurDeGrilleService = new GenerateurDeGrilleService();
+            const grille: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
+            for (let i = 0; i < 10; i++) {
+                let ligne: string;
+                ligne = '';
+                for (let j = 0; j < 10; j++) {
+                    const caseGrille: Case = grille.obtenirCase(i, j);
+                    if (caseGrille.etat === EtatCase.noir) {
+                        ligne += '#';
+                    } else {
+                        ligne += '.';
+                    }
+                }
+                console.log(ligne);
+            }
+        }
+
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateur: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
             const grille: Grille = generateur.genererGrilleMock(Niveau.facile);
