@@ -160,7 +160,7 @@ export class Partie {
 
     public changerSelectionMot(guidJoueur: string, emplacementMotSelectionner: EmplacementMot) {
         // Comme l'emplacement mot vient d'ailleurs, on doit le référencer dans notre grille en mémoire.
-        const emplacementMotDansGrille: EmplacementMot = 
+        const emplacementMotDansGrille: EmplacementMot =
                         this.grille.emplacementsMots.ObtenirEmplacementMotSelonEmplacementMot(emplacementMotSelectionner);
         const joueur: Joueur = this.obtenirJoueur(guidJoueur);
 

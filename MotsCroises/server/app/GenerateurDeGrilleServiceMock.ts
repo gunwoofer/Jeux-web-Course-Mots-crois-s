@@ -22,17 +22,26 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
         const grilleMock: Grille = new Grille(niveau);
 
         // Emplacements horizontaux
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(2, 6), grilleMock.cases.obtenirCase(2, 9)));
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 0), grilleMock.cases.obtenirCase(3, 3)));
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 0), grilleMock.cases.obtenirCase(5, 8)));
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(8, 3), grilleMock.cases.obtenirCase(8, 9)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(2, 6),
+                                                                            grilleMock.cases.obtenirCase(2, 9)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 0),
+                                                                            grilleMock.cases.obtenirCase(3, 3)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 0),
+                                                                            grilleMock.cases.obtenirCase(5, 8)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(8, 3),
+                                                                            grilleMock.cases.obtenirCase(8, 9)));
 
         // Emplacements verticaux
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 1), grilleMock.cases.obtenirCase(9, 1)));
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(0, 3), grilleMock.cases.obtenirCase(6, 3)));
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 5), grilleMock.cases.obtenirCase(6, 5)));
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 7), grilleMock.cases.obtenirCase(8, 7)));
-        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 8), grilleMock.cases.obtenirCase(5, 8)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 1),
+                                                                             grilleMock.cases.obtenirCase(9, 1)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(0, 3),
+                                                                             grilleMock.cases.obtenirCase(6, 3)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(3, 5),
+                                                                             grilleMock.cases.obtenirCase(6, 5)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(5, 7),
+                                                                             grilleMock.cases.obtenirCase(8, 7)));
+        grilleMock.emplacementsMots.emplacementMots.push(new EmplacementMot(grilleMock.cases.obtenirCase(1, 8),
+                                                                             grilleMock.cases.obtenirCase(5, 8)));
 
         return grilleMock;
     }

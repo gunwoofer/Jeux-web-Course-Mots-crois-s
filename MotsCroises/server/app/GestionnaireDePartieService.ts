@@ -66,7 +66,7 @@ export class GestionnaireDePartieService {
         if (partieEnCours.partieEstTermine()) {
             return true;
         }
-        
+
         return false;
     }
 }

@@ -87,7 +87,7 @@ describe('GenerateurDeGrilleService', () => {
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                assert((grille.cases.obtenirCase(i, j).etat === EtatCase.noir) || 
+                assert((grille.cases.obtenirCase(i, j).etat === EtatCase.noir) ||
                     (grille.cases.obtenirCase(i, j).etat === EtatCase.pleine));
             }
         }
