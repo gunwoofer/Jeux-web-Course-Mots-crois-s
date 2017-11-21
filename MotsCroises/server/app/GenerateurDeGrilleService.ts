@@ -1,3 +1,5 @@
+import { EmplacementMot } from './../../commun/EmplacementMot';
+import { Contrainte } from './Contrainte';
 import { EtatCase } from './../../commun/Case';
 import { Grille } from './Grille';
 import { Niveau } from '../../commun/Niveau';
@@ -7,6 +9,7 @@ import { Indice, DifficulteDefinition } from './Indice';
 import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
 import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
+import { Position } from '../../commun/Position';
 
 export const NOMBRE_DE_GRILLE = 5;
 
@@ -24,6 +27,7 @@ export class GenerateurDeGrilleService {
     }
 
     public affichageConsole(grille: Grille): void {
+        let nombrePleine = 0;
         for (let i = 0; i < 10; i++) {
             let ligne: string;
             ligne = '';
@@ -34,9 +38,14 @@ export class GenerateurDeGrilleService {
                 } else {
                     ligne += '.';
                 }
+                if (caseGrille.etat === EtatCase.pleine) {
+                    nombrePleine++;
+                }
             }
             console.log(ligne);
         }
+        console.log('------------------------------------------');
+        console.log('Nombre de cases pleines = ', nombrePleine);
         console.log('------------------------------------------');
         for (let i = 0; i < 10; i++) {
             let ligne: string;
@@ -51,6 +60,26 @@ export class GenerateurDeGrilleService {
             }
             console.log(ligne);
         }
+    }
+
+    private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
+        const tableauContraintes: Contrainte[] = new Array();
+        const ligneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
+        const colonneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroColonne();
+        const position: Position = emplacement.obtenirPosition();
+        for (let i = 0; i < emplacement.obtenirGrandeur(); i++) {
+            let caseCourrante: Case;
+            if (position === Position.Ligne) {
+                caseCourrante = grille.cases.obtenirCase(ligneDepart + i, colonneDepart);
+            } else {
+                caseCourrante = grille.cases.obtenirCase(ligneDepart, colonneDepart + i);
+            }
+            if (caseCourrante.etat === EtatCase.pleine) {
+                const contrainte = new Contrainte(caseCourrante.obtenirLettre(), i);
+                tableauContraintes.push(contrainte);
+            }
+        }
+        return tableauContraintes;
     }
 
     public obtenirGrillesBase(): Grille[] {
@@ -70,6 +99,7 @@ export class GenerateurDeGrilleService {
     }
 
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
+        const nombreEmplacements = grille.obtenirEmplacementsMot().length;
         // Premier mot seulement
         const emplacementMot = grille.obtenirEmplacementsMot()[0];
         const tailleMot = emplacementMot.obtenirGrandeur();
