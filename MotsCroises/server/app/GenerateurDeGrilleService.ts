@@ -106,29 +106,15 @@ export class GenerateurDeGrilleService {
 
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
-        for (let i = 0; i < 5; i++) {
+        for (let i = 0; i < 6 ; i++) {
             const tailleMot = emplacements[i].obtenirGrandeur();
-            const contraintes = await this.genererTableauContraintes(grille, emplacements[i]);
-            this.afficherContraintes(contraintes);
+            const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
             const mot = await generateurMot.genererMotAleatoire(niveau);
-            console.log('Mot n°', i, ': ', mot.lettres);
             grille.ajouterMotEmplacement(mot, emplacements[i]);
         }
 
         return grille;
-    }
-
-    private afficherContraintes(contraintes: Contrainte[]): void {
-        if (contraintes.length === 0) {
-            console.log('Aucune contrainte');
-        } else {
-            console.log('Calcul des contraintes...');
-            for (let i = 0; i < contraintes.length; i++) {
-                console.log('Contraintes n°', i);
-                console.log('Lettre: ', contraintes[i].obtenirLettre(), ', Position: ', contraintes[i].obtenirPositionContrainte());
-            }
-        }
     }
 
     private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
@@ -139,14 +125,11 @@ export class GenerateurDeGrilleService {
         for (let i = 0; i < emplacement.obtenirGrandeur(); i++) {
             let caseCourrante: Case;
             if (position === Position.Ligne) {
-                caseCourrante = grille.cases.obtenirCase(ligneDepart + i, colonneDepart);
-            } else {
                 caseCourrante = grille.cases.obtenirCase(ligneDepart, colonneDepart + i);
+            } else {
+                caseCourrante = grille.cases.obtenirCase(ligneDepart + i, colonneDepart);
             }
-            if (caseCourrante.etat === EtatCase.pleine) {
-                console.log('Contrainte trouvée !');
-                console.log('Lettre détectée: ', caseCourrante.obtenirLettre(), ' à la position: [L=',
-                    caseCourrante.obtenirNumeroLigne(), ';C=', caseCourrante.obtenirNumeroColonne(), ']');
+            if (caseCourrante.obtenirEtat() === EtatCase.pleine) {
                 const contrainte = new Contrainte(caseCourrante.obtenirLettre(), i);
                 tableauContraintes.push(contrainte);
             }
