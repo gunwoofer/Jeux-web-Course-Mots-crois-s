@@ -108,9 +108,9 @@ export class GenerateurDeGrilleService {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
         for (let i = 0; i < 5; i++) {
             const tailleMot = emplacements[i].obtenirGrandeur();
-            const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
+            const contraintes = await this.genererTableauContraintes(grille, emplacements[i]);
             this.afficherContraintes(contraintes);
-            const generateurMot = new GenerateurDeMotContrainteService(tailleMot);
+            const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
             const mot = await generateurMot.genererMotAleatoire(niveau);
             console.log('Mot n°', i, ': ', mot.lettres);
             grille.ajouterMotEmplacement(mot, emplacements[i]);
@@ -140,11 +140,13 @@ export class GenerateurDeGrilleService {
             let caseCourrante: Case;
             if (position === Position.Ligne) {
                 caseCourrante = grille.cases.obtenirCase(ligneDepart + i, colonneDepart);
-            } else if (position === Position.Colonne) {
+            } else {
                 caseCourrante = grille.cases.obtenirCase(ligneDepart, colonneDepart + i);
             }
             if (caseCourrante.etat === EtatCase.pleine) {
                 console.log('Contrainte trouvée !');
+                console.log('Lettre détectée: ', caseCourrante.obtenirLettre(), ' à la position: [L=',
+                    caseCourrante.obtenirNumeroLigne(), ';C=', caseCourrante.obtenirNumeroColonne(), ']');
                 const contrainte = new Contrainte(caseCourrante.obtenirLettre(), i);
                 tableauContraintes.push(contrainte);
             }
