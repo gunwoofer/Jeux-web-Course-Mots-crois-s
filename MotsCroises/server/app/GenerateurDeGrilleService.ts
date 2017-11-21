@@ -99,13 +99,21 @@ export class GenerateurDeGrilleService {
     }
 
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
-        const nombreEmplacements = grille.obtenirEmplacementsMot().length;
+        const emplacements: EmplacementMot[] = grille.obtenirEmplacementsMot();
         // Premier mot seulement
-        const emplacementMot = grille.obtenirEmplacementsMot()[0];
-        const tailleMot = emplacementMot.obtenirGrandeur();
+        /*const emplacementMotCourrant = grille.obtenirEmplacementsMot()[0];
+        const tailleMot = emplacementMotCourrant.obtenirGrandeur();
         const generateurMot = new GenerateurDeMotContrainteService(tailleMot);
         const mot = await generateurMot.genererMotAleatoire(tailleMot);
-        grille.ajouterMotEmplacement(mot, emplacementMot);
+        grille.ajouterMotEmplacement(mot, emplacementMotCourrant);*/
+
+        for (let i = 0; i < emplacements.length; i++) {
+            const tailleMot = emplacements[i].obtenirGrandeur();
+            // const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
+            const generateurMot = new GenerateurDeMotContrainteService(tailleMot);
+            const mot = await generateurMot.genererMotAleatoire(niveau);
+            grille.ajouterMotEmplacement(mot, emplacements[i]);
+        }
 
         return grille;
     }
