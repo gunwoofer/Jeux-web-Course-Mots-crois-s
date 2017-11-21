@@ -105,7 +105,7 @@ export class GenerateurDeGrilleService {
     }
 
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
-        const emplacements: EmplacementMot[] = grille.obtenirEmplacementsMot();
+        const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
         for (let i = 0; i < 4; i++) {
             const tailleMot = emplacements[i].obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
