@@ -1,12 +1,8 @@
-import { Niveau } from './../../../commun/Niveau';
-import { GenerateurDeGrilleVide } from './../GenerateurDeGrilleVide';
 import * as express from 'express';
 import { GenerateurDeGrilleServiceMock } from '../GenerateurDeGrilleServiceMock';
 import { PersistenceGrillesService } from '../PersistenceGrillesService';
 import { Grille } from '../Grille';
 import { Niveau } from '../../../commun/Niveau';
-import { Case, EtatCase } from '../../../commun/Case';
-import { GenerateurDeMotContrainteService } from '../GenerateurDeMotContrainteService';
 import { GenerateurDeGrilleService } from '../GenerateurDeGrilleService';
 
 module Route {
@@ -14,14 +10,8 @@ module Route {
     export class Index {
 
         public testGenerationGrille(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            const generateurDeGrilleVide = new GenerateurDeGrilleVide();
             const generateurDeGrilleService = new GenerateurDeGrilleService();
             generateurDeGrilleService.genererGrille(Niveau.facile);
-            /*const tailleMot = 4;
-            const generateurDeMot = new GenerateurDeMotContrainteService(tailleMot);
-            generateurDeMot.genererMotAleatoire(Niveau.moyen).then((mot) => {
-                console.log('MOT => ', mot.obtenirLettres());
-            });*/
         }
 
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction): void {

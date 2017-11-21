@@ -10,20 +10,16 @@ import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteSer
 
 export const NOMBRE_DE_GRILLE = 5;
 
-const INDICE_MOCK = new Indice(['definition facile', 'definition un peu difficile', 'definition dure de ouuuuf']);
-
 export class GenerateurDeGrilleService {
     protected motCroiseGenere: Grille;
     private generateurDeGrilleVide: GenerateurDeGrilleVide = new GenerateurDeGrilleVide();
 
     public genererGrille(niveau: Niveau): Grille {
         this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
-        // this.motCroiseGenere = this.remplirGrille(niveau, this.motCroiseGenere);
         this.remplirGrille(niveau, this.motCroiseGenere).then((grilleRemplie) => {
             this.motCroiseGenere = grilleRemplie;
             this.affichageConsole(this.motCroiseGenere);
         });
-
         return this.motCroiseGenere;
     }
 
@@ -37,6 +33,20 @@ export class GenerateurDeGrilleService {
                     ligne += '#';
                 } else {
                     ligne += '.';
+                }
+            }
+            console.log(ligne);
+        }
+        console.log('------------------------------------------');
+        for (let i = 0; i < 10; i++) {
+            let ligne: string;
+            ligne = '';
+            for (let j = 0; j < 10; j++) {
+                const caseGrille: Case = grille.cases.obtenirCase(i, j);
+                if (caseGrille.obtenirLettre() === '') {
+                    ligne += '#';
+                } else {
+                    ligne += caseGrille.obtenirLettre();
                 }
             }
             console.log(ligne);
@@ -64,11 +74,8 @@ export class GenerateurDeGrilleService {
         const emplacementMot = grille.obtenirEmplacementsMot()[0];
         const tailleMot = emplacementMot.obtenirGrandeur();
         const generateurMot = new GenerateurDeMotContrainteService(tailleMot);
-        generateurMot.genererMotAleatoire(tailleMot).then((mot) => {
-            const caseDebut = emplacementMot.obtenirCaseDebut();
-            const caseFin = emplacementMot.obtenirCaseFin();
-            grille.ajouterMotEmplacement(mot, emplacementMot);
-        });
+        const mot = await generateurMot.genererMotAleatoire(tailleMot);
+        grille.ajouterMotEmplacement(mot, emplacementMot);
 
         return grille;
     }
