@@ -4,7 +4,6 @@ import { NotificationType } from '../../../../commun/observateur/NotificationTyp
 
 export class AffichageTeteHaute implements Observateur {
 
-
     public notifier(sujet: Sujet, type: NotificationType): void {
 
         if (type === NotificationType.Deplacement) {

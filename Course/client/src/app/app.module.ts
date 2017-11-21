@@ -43,6 +43,7 @@ import { SkyboxService } from './skybox/skybox.service';
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
+import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichagetetehaute.component';
 
 
 
@@ -63,7 +64,8 @@ import { AppRoutingModule } from './app.routing';
     ModificationMotDePasseComponent,
     ConfigurationPartieComponent,
     FinDePartieComponent,
-    RatingComponent
+    RatingComponent,
+    AffichageTeteHauteComponent
   ],
   imports: [
     BrowserModule,
