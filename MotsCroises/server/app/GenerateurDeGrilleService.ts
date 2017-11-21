@@ -3,11 +3,9 @@ import { Contrainte } from './Contrainte';
 import { EtatCase } from './../../commun/Case';
 import { Grille } from './Grille';
 import { Niveau } from '../../commun/Niveau';
-import { MotComplet, Rarete } from './MotComplet';
+import { MotComplet } from './MotComplet';
 import { Case } from '../../commun/Case';
-import { Indice, DifficulteDefinition } from './Indice';
 import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
-import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
 import { Position } from '../../commun/Position';
 
@@ -106,7 +104,7 @@ export class GenerateurDeGrilleService {
 
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
-        for (let i = 0; i < 6 ; i++) {
+        for (let i = 0; i < emplacements.length ; i++) {
             const tailleMot = emplacements[i].obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
