@@ -4,8 +4,7 @@ import { Grille, DIMENSION_LIGNE_COLONNE } from './Grille';
 import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 import { Niveau } from '../../commun/Niveau';
 
-// Pour le tableau de position de la case : [NUMERO_LIGNE_DEBUT, NUMERO_COLONNE_DEBUT, NUMERO_LIGNE_FIN, NUMERO_COLONNE_FIN]
-const MAX_CONTRAINTES = 2;
+const MAX_CONTRAINTES = 1;
 
 export class GenerateurDeGrilleVide {
 
