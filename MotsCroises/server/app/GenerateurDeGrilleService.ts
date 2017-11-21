@@ -106,12 +106,13 @@ export class GenerateurDeGrilleService {
 
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
-        for (let i = 0; i < 4; i++) {
+        for (let i = 0; i < 5; i++) {
             const tailleMot = emplacements[i].obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
             this.afficherContraintes(contraintes);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot);
             const mot = await generateurMot.genererMotAleatoire(niveau);
+            console.log('Mot n°', i, ': ', mot.lettres);
             grille.ajouterMotEmplacement(mot, emplacements[i]);
         }
 
