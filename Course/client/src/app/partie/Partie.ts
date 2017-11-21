@@ -6,6 +6,8 @@ import { Sujet } from '../../../../commun/observateur/Sujet';
 import { Voiture } from '../voiture/Voiture';
 import { Router } from '@angular/router';
 import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
+import { NotificationType } from '../../../../commun/observateur/NotificationType';
+import { AffichageTeteHaute } from '../affichageTeteHaute/AffichageTeteHaute';
 
 export enum EtatPartie {
     En_attente,
@@ -15,6 +17,7 @@ export enum EtatPartie {
 
 
 export class Partie implements Observateur, Sujet {
+
     public static toursAComplete = NOMBRE_DE_TOURS_PAR_DEFAULT;
     public etatPartie: EtatPartie = EtatPartie.En_attente;
 
@@ -25,17 +28,21 @@ export class Partie implements Observateur, Sujet {
     private ligneArrivee: LigneArrivee;
     private routeur: Router;
 
+    private affichageTeteHaute: AffichageTeteHaute = new AffichageTeteHaute();
+
     constructor (pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number, observateurs?: Observateur[]) {
         this.pilotes = new Pilotes(pilotes);
         Partie.toursAComplete = (toursAComplete !== undefined) ? toursAComplete : NOMBRE_DE_TOURS_PAR_DEFAULT;
         this.ligneArrivee = ligneArrivee;
         this.pilotes.observerVoiture(this);
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
+
+        this.observateurs.push(this.affichageTeteHaute);
     }
 
     public demarrerPartie(): void {
         this.partirCompteur();
-        this.notifierObservateurs();
+        this.notifierObservateurs(NotificationType.Non_definie);
         this.etatPartie = EtatPartie.En_cours;
     }
 
@@ -51,7 +58,7 @@ export class Partie implements Observateur, Sujet {
         return true;
     }
 
-    public notifier(sujet: Sujet): void {
+    public notifier(sujet: Sujet, type: NotificationType): void {
         const voitureCourante: Voiture = <Voiture> sujet;
 
         if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
@@ -60,7 +67,7 @@ export class Partie implements Observateur, Sujet {
 
                 if (this.pilotes.aTermine()) {
                     this.etatPartie = EtatPartie.Termine;
-                    this.notifierObservateurs();
+                    this.notifierObservateurs(NotificationType.Non_definie);
                 }
             }
         }
@@ -83,9 +90,9 @@ export class Partie implements Observateur, Sujet {
         }
     }
 
-    public notifierObservateurs(): void {
+    public notifierObservateurs(type: NotificationType): void {
         for (const observateurCourant of this.observateurs) {
-            observateurCourant.notifier(this);
+            observateurCourant.notifier(this, type);
         }
     }
 }

@@ -3,8 +3,7 @@ import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
-
-
+import { NotificationType } from '../../../../commun/observateur/NotificationType';
 
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
@@ -82,7 +81,7 @@ export class Voiture implements sujet.Sujet {
 
     public notifierObservateurs(): void {
         for (const observateurCourant of this.observateurs) {
-            observateurCourant.notifier(this);
+            observateurCourant.notifier(this, NotificationType.Non_definie);
         }
     }
 
