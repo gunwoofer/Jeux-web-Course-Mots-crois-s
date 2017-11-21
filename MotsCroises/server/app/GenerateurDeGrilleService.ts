@@ -62,26 +62,6 @@ export class GenerateurDeGrilleService {
         }
     }
 
-    private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
-        const tableauContraintes: Contrainte[] = new Array();
-        const ligneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
-        const colonneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroColonne();
-        const position: Position = emplacement.obtenirPosition();
-        for (let i = 0; i < emplacement.obtenirGrandeur(); i++) {
-            let caseCourrante: Case;
-            if (position === Position.Ligne) {
-                caseCourrante = grille.cases.obtenirCase(ligneDepart + i, colonneDepart);
-            } else {
-                caseCourrante = grille.cases.obtenirCase(ligneDepart, colonneDepart + i);
-            }
-            if (caseCourrante.etat === EtatCase.pleine) {
-                const contrainte = new Contrainte(caseCourrante.obtenirLettre(), i);
-                tableauContraintes.push(contrainte);
-            }
-        }
-        return tableauContraintes;
-    }
-
     public obtenirGrillesBase(): Grille[] {
         const grillesFacileObtenue: Grille[] = this.obtenirGrilles(Niveau.facile);
         const grillesMoyenObtenue: Grille[] = this.obtenirGrilles(Niveau.moyen);
@@ -98,24 +78,77 @@ export class GenerateurDeGrilleService {
         return grilles;
     }
 
+    private trierEmplacements(emplacements: EmplacementMot[]): EmplacementMot[] {
+        const emplacementsTries: EmplacementMot[] = new Array(emplacements.length);
+        const emplacementsLignes: EmplacementMot[] = new Array();
+        const emplacementsColonnes: EmplacementMot[] = new Array();
+        for (const emplacement of emplacements) {
+            if (emplacement.obtenirPosition() === Position.Colonne) {
+                emplacementsColonnes.push(emplacement);
+            } else {
+                emplacementsLignes.push(emplacement);
+            }
+        }
+        let iLignes = 0;
+        let iColonnes = 0;
+        for (let i = 0; i < emplacementsTries.length; i++) {
+            if ((i % 2 === 0 && iLignes < emplacementsLignes.length) || (iColonnes === emplacementsColonnes.length)) {
+                emplacementsTries[i] = emplacementsLignes[iLignes];
+                iLignes++;
+            }
+            if ((i % 2 !== 0 && iColonnes < emplacementsColonnes.length) || (iLignes === emplacementsLignes.length)) {
+                emplacementsTries[i] = emplacementsColonnes[iColonnes];
+                iColonnes++;
+            }
+        }
+        return emplacementsTries;
+    }
+
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = grille.obtenirEmplacementsMot();
-        // Premier mot seulement
-        /*const emplacementMotCourrant = grille.obtenirEmplacementsMot()[0];
-        const tailleMot = emplacementMotCourrant.obtenirGrandeur();
-        const generateurMot = new GenerateurDeMotContrainteService(tailleMot);
-        const mot = await generateurMot.genererMotAleatoire(tailleMot);
-        grille.ajouterMotEmplacement(mot, emplacementMotCourrant);*/
-
-        for (let i = 0; i < emplacements.length; i++) {
+        for (let i = 0; i < 4; i++) {
             const tailleMot = emplacements[i].obtenirGrandeur();
-            // const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
+            const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
+            this.afficherContraintes(contraintes);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot);
             const mot = await generateurMot.genererMotAleatoire(niveau);
             grille.ajouterMotEmplacement(mot, emplacements[i]);
         }
 
         return grille;
+    }
+
+    private afficherContraintes(contraintes: Contrainte[]): void {
+        if (contraintes.length === 0) {
+            console.log('Aucune contrainte');
+        } else {
+            console.log('Calcul des contraintes...');
+            for (let i = 0; i < contraintes.length; i++) {
+                console.log('Contraintes n°', i);
+                console.log('Lettre: ', contraintes[i].obtenirLettre(), ', Position: ', contraintes[i].obtenirPositionContrainte());
+            }
+        }
+    }
+
+    private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
+        const tableauContraintes: Contrainte[] = new Array();
+        const ligneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
+        const colonneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroColonne();
+        const position: Position = emplacement.obtenirPosition();
+        for (let i = 0; i < emplacement.obtenirGrandeur(); i++) {
+            let caseCourrante: Case;
+            if (position === Position.Ligne) {
+                caseCourrante = grille.cases.obtenirCase(ligneDepart + i, colonneDepart);
+            } else if (position === Position.Colonne) {
+                caseCourrante = grille.cases.obtenirCase(ligneDepart, colonneDepart + i);
+            }
+            if (caseCourrante.etat === EtatCase.pleine) {
+                console.log('Contrainte trouvée !');
+                const contrainte = new Contrainte(caseCourrante.obtenirLettre(), i);
+                tableauContraintes.push(contrainte);
+            }
+        }
+        return tableauContraintes;
     }
 
     private estComplete(grille: Grille): boolean {
