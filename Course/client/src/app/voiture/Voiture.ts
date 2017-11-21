@@ -87,4 +87,8 @@ export class Voiture implements sujet.Sujet {
     public reduireVitesseSortiePiste(): void {
         this.vitesse /= REDUCTION_VITESSE;
     }
+
+    public reduireVitesseNidDePoule(): void {
+        this.vitesse -= 0.00000005;
+    }
 }

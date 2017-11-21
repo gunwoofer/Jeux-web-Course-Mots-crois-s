@@ -13,6 +13,7 @@ export class Piste {
     public meilleursTemps: Score[] = [];
     public coteMoyenne: number;
     public vignette: string;
+    public estSurNidPoule: boolean;
 
     private listeElementsDePiste: ElementDePiste[];
 
@@ -42,9 +43,9 @@ export class Piste {
                 const vecteurVersLeHaut = new THREE.Vector3(0, 0, 1);
                 element.genererRayCaster(vecteurVersLeHaut);
                 // Si la voiture est collisionée
-                if (element.raycaster.intersectObject(voiture.obtenirVoiture3D()).length !== 0) {
+                if (element.raycaster.intersectObject(voiture.obtenirVoiture3D(), true).length !== 0) {
                     // Active l effet de l element iteré
-                    element.effetSurObstacle();
+                    element.effetSurObstacle(voiture);
                 }
             }
         }

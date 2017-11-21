@@ -1,3 +1,4 @@
+import { Voiture } from './../voiture/Voiture';
 
 
 
@@ -17,7 +18,9 @@ export abstract class ElementDePiste {
 
     public abstract genererRayCaster(vecteur: THREE.Vector3): void;
 
-    public abstract effetSurObstacle(): void;
+    public abstract effetSurObstacle(voiture: Voiture): void;
+
+    public abstract stopperIntervalle(): void;
 
     public obtenirMesh(): THREE.Mesh {
         return this.mesh;
