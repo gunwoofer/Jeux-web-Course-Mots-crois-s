@@ -15,18 +15,20 @@ export class GenerateurDeGrilleService {
     protected motCroiseGenere: Grille;
     private generateurDeGrilleVide: GenerateurDeGrilleVide = new GenerateurDeGrilleVide();
 
-    public genererGrille(niveau: Niveau): Grille {
+    public async genererGrille(niveau: Niveau): Promise<Grille> {
         try {
             this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
             this.generateurDeGrilleVide.affichageConsole(this.motCroiseGenere);
-            this.remplirGrille(niveau, this.motCroiseGenere)
+            /*this.remplirGrille(niveau, this.motCroiseGenere)
                 .then((grilleRemplie) => {
                 this.motCroiseGenere = grilleRemplie;
                 this.affichageConsole(this.motCroiseGenere);
                 }, (e) => {
                     console.log('Erreur dans reject: ', e);
                     throw new Error('Promesse de remplir grille rejetée !');
-                });
+                });*/
+            this.motCroiseGenere = await this.remplirGrille(niveau, this.motCroiseGenere);
+            this.affichageConsole(this.motCroiseGenere);
         } catch (e) {
             console.log('Erreur: ', e);
             console.log('Regénération de la grille...');
@@ -55,18 +57,19 @@ export class GenerateurDeGrilleService {
         }
     }
 
-    public obtenirGrillesBase(): Grille[] {
-        const grillesFacileObtenue: Grille[] = this.obtenirGrilles(Niveau.facile);
-        const grillesMoyenObtenue: Grille[] = this.obtenirGrilles(Niveau.moyen);
-        const grillesDifficileObtenue: Grille[] = this.obtenirGrilles(Niveau.difficile);
+    public async obtenirGrillesBase(): Promise<Grille[]> {
+        const grillesFacileObtenue: Grille[] = await this.obtenirGrilles(Niveau.facile);
+        const grillesMoyenObtenue: Grille[] = await this.obtenirGrilles(Niveau.moyen);
+        const grillesDifficileObtenue: Grille[] = await this.obtenirGrilles(Niveau.difficile);
 
         return grillesFacileObtenue.concat(grillesMoyenObtenue).concat(grillesDifficileObtenue);
     }
 
-    private obtenirGrilles(niveau: Niveau): Grille[] {
+    private async obtenirGrilles(niveau: Niveau): Promise<Grille[]> {
         const grilles: Grille[] = new Array();
         for (let i = 0; i < NOMBRE_DE_GRILLE; i++) {
-            grilles.push(this.genererGrille(niveau));
+            const grilleAAjouter = await this.genererGrille(niveau);
+            grilles.push(grilleAAjouter);
         }
         return grilles;
     }
