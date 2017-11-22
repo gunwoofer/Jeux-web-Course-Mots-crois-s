@@ -19,23 +19,10 @@ export class GenerateurDeGrilleService {
         try {
             this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
             this.generateurDeGrilleVide.affichageConsole(this.motCroiseGenere);
-            /*this.remplirGrille(niveau, this.motCroiseGenere)
-                .then((grilleRemplie) => {
-                this.motCroiseGenere = grilleRemplie;
-                this.affichageConsole(this.motCroiseGenere);
-                }, (e) => {
-                    console.log('Erreur dans reject: ', e);
-                    throw new Error('Promesse de remplir grille rejetée !');
-                });*/
             this.motCroiseGenere = await this.remplirGrille(niveau, this.motCroiseGenere);
             this.affichageConsole(this.motCroiseGenere);
         } catch (e) {
-            console.log('Erreur: ', e);
             console.log('Regénération de la grille...');
-            Promise.reject(e).then(() => {
-                console.log('ça marche !');
-                this.genererGrille(niveau);
-            });
             this.genererGrille(niveau);
         }
         return this.motCroiseGenere;
@@ -103,17 +90,15 @@ export class GenerateurDeGrilleService {
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
         let i = 0;
-        while (!this.estComplete(grille) && i < emplacements.length) {
-            console.log('Type de l\' emplacement: ', emplacements[i].obtenirPosition());
-            const tailleMot = emplacements[i].obtenirGrandeur();
-            const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
+        for (const emplacement of emplacements) {
+            const tailleMot = emplacement.obtenirGrandeur();
+            const contraintes = this.genererTableauContraintes(grille, emplacement);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
             try {
                 const mot: MotComplet = await generateurMot.genererMotAleatoire(niveau);
                 this.affichageConsole(grille);
-                grille.ajouterMotEmplacement(mot, emplacements[i]);
+                grille.ajouterMotEmplacement(mot, emplacement);
             } catch (e) {
-                console.log('Erreur data muse: ', e);
                 throw new Error('Aucun mot ne fonctionne !');
             }
             i++;
