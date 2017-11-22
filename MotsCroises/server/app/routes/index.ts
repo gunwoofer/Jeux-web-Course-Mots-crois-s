@@ -25,7 +25,10 @@ module Route {
             const generateur: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
 
-            persistenceGrilles.insererPlusieursGrilles(generateur.obtenirGrillesBase());
+            generateur.obtenirGrillesBase().then((grilles) => {
+                persistenceGrilles.insererPlusieursGrilles(grilles);
+            });
+
         }
 
         public obtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction): void {
