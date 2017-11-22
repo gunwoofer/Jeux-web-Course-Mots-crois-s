@@ -91,7 +91,7 @@ export class GenerateurPisteService implements Observateur {
         this.genererSurfaceHorsPiste();
 
         // Mock nid de poule
-        const nidDePoule = new NidDePoule(6, -18, 0);
+        const nidDePoule = new NidDePoule(6, -18, 0.01);
         this.piste.ajouterElementPiste(nidDePoule);
 
         this.ajouterElementDePisteScene();

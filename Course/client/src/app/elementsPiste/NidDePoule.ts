@@ -5,10 +5,26 @@ import * as THREE from 'three';
 export class NidDePoule extends ElementDePiste {
     constructor(x: number, y: number, z: number) {
         super(x, y, z);
-        const geometrieNidDePoule = new THREE.CircleGeometry(0.8);  // Remplacer le rayon par la taille de la voiture
-        const materielNidDePoule = new THREE.MeshBasicMaterial({color: 0xffff00});
-        this.mesh = new THREE.Mesh(geometrieNidDePoule, materielNidDePoule);
+        this.mesh = this.genererMesh(); // Remplacer le rayon par la taille de la voiture
         this.mesh.position.set(this.x, this.y, this.z);
+    }
+
+    public genererMesh(): THREE.Mesh {
+        let nidDePouleGeometrie = new THREE.CircleGeometry(1, 10);
+
+        nidDePouleGeometrie = this.ajouterBruitGeometrie(nidDePouleGeometrie);
+
+        const materiel = new THREE.MeshPhongMaterial({ color: 0x000000 });
+
+        const mesh = new THREE.Mesh(nidDePouleGeometrie, materiel);
+        return mesh;
+    }
+
+    private ajouterBruitGeometrie(geometrie: THREE.CircleGeometry): THREE.CircleGeometry {
+        for (let i = 1; i < 10; i++) {
+            geometrie.vertices[i].x = Math.random() * 1.5;
+        }
+        return geometrie;
     }
 
     public genererRayCaster(vecteur: THREE.Vector3): void {
@@ -17,7 +33,6 @@ export class NidDePoule extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        console.log('effet nid de poule !');
         voiture.reduireVitesseNidDePoule();
     }
 }
