@@ -112,8 +112,8 @@ export class GenerateurDeGrilleService {
                 const mot: MotComplet = await generateurMot.genererMotAleatoire(niveau);
                 this.affichageConsole(grille);
                 grille.ajouterMotEmplacement(mot, emplacements[i]);
-            } catch {
-                console.log('Annule');
+            } catch (e) {
+                console.log('Erreur: ', e);
             }
         }
         return grille;
