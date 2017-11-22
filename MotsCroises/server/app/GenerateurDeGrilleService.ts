@@ -108,10 +108,14 @@ export class GenerateurDeGrilleService {
             const tailleMot = emplacements[i].obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
-            const mot = await generateurMot.genererMotAleatoire(niveau);
-            grille.ajouterMotEmplacement(mot, emplacements[i]);
+            try {
+                const mot: MotComplet = await generateurMot.genererMotAleatoire(niveau);
+                this.affichageConsole(grille);
+                grille.ajouterMotEmplacement(mot, emplacements[i]);
+            } catch {
+                console.log('Annule');
+            }
         }
-
         return grille;
     }
 
