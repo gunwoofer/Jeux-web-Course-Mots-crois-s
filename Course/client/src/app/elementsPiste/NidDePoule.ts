@@ -34,5 +34,6 @@ export class NidDePoule extends ElementDePiste {
 
     public effetSurObstacle(voiture: Voiture): void {
         voiture.reduireVitesseNidDePoule();
+        voiture.secousseNidDePoule();
     }
 }

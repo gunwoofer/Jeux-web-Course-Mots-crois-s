@@ -112,4 +112,9 @@ export class Voiture implements sujet.Sujet {
     public reduireVitesseNidDePoule(): void {
         this.vitesse /= REDUCTION_VITESSE_NID_DE_POULE;
     }
+
+    public secousseNidDePoule(): void {
+        console.log('SECOUUUUSSE');
+        // Faire trembler la voiture
+    }
 }
