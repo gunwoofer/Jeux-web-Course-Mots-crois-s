@@ -16,6 +16,7 @@ export class GenerateurDeGrilleVide {
         grilleVide.genererEmplacementsMot();
         return grilleVide;
     }
+
     public affichageConsole(grille: Grille): void {
         let nombrePleine = 0;
         for (let i = 0; i < 10; i++) {

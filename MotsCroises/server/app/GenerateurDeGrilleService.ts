@@ -16,42 +16,37 @@ export class GenerateurDeGrilleService {
     private generateurDeGrilleVide: GenerateurDeGrilleVide = new GenerateurDeGrilleVide();
 
     public genererGrille(niveau: Niveau): Grille {
-        this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
-        this.remplirGrille(niveau, this.motCroiseGenere).then((grilleRemplie) => {
-            this.motCroiseGenere = grilleRemplie;
-            this.affichageConsole(this.motCroiseGenere);
-        });
+        try {
+            this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
+            this.generateurDeGrilleVide.affichageConsole(this.motCroiseGenere);
+            this.remplirGrille(niveau, this.motCroiseGenere)
+                .then((grilleRemplie) => {
+                this.motCroiseGenere = grilleRemplie;
+                this.affichageConsole(this.motCroiseGenere);
+                }, (e) => {
+                    console.log('Erreur dans reject: ', e);
+                    throw new Error('Promesse de remplir grille rejetée !');
+                });
+        } catch (e) {
+            console.log('Erreur: ', e);
+            console.log('Regénération de la grille...');
+            Promise.reject(e).then(() => {
+                console.log('ça marche !');
+                this.genererGrille(niveau);
+            });
+            this.genererGrille(niveau);
+        }
         return this.motCroiseGenere;
     }
 
     public affichageConsole(grille: Grille): void {
-        let nombrePleine = 0;
-        for (let i = 0; i < 10; i++) {
-            let ligne: string;
-            ligne = '';
-            for (let j = 0; j < 10; j++) {
-                const caseGrille: Case = grille.cases.obtenirCase(i, j);
-                if (caseGrille.etat === EtatCase.noir) {
-                    ligne += '#';
-                } else {
-                    ligne += '.';
-                }
-                if (caseGrille.etat === EtatCase.pleine) {
-                    nombrePleine++;
-                }
-            }
-            console.log(ligne);
-        }
-        console.log('------------------------------------------');
-        console.log('Nombre de cases pleines = ', nombrePleine);
-        console.log('------------------------------------------');
         for (let i = 0; i < 10; i++) {
             let ligne: string;
             ligne = '';
             for (let j = 0; j < 10; j++) {
                 const caseGrille: Case = grille.cases.obtenirCase(i, j);
                 if (caseGrille.obtenirLettre() === '') {
-                    ligne += '#';
+                    ligne += '*';
                 } else {
                     ligne += caseGrille.obtenirLettre();
                 }
@@ -104,7 +99,9 @@ export class GenerateurDeGrilleService {
 
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
-        for (let i = 0; i < emplacements.length ; i++) {
+        let i = 0;
+        while (!this.estComplete(grille) && i < emplacements.length) {
+            console.log('Type de l\' emplacement: ', emplacements[i].obtenirPosition());
             const tailleMot = emplacements[i].obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacements[i]);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
@@ -113,9 +110,12 @@ export class GenerateurDeGrilleService {
                 this.affichageConsole(grille);
                 grille.ajouterMotEmplacement(mot, emplacements[i]);
             } catch (e) {
-                console.log('Erreur: ', e);
+                console.log('Erreur data muse: ', e);
+                throw new Error('Aucun mot ne fonctionne !');
             }
+            i++;
         }
+        console.log('Grille terminée !');
         return grille;
     }
 
@@ -145,7 +145,6 @@ export class GenerateurDeGrilleService {
                 return false;
             }
         }
-
         return true;
     }
 
