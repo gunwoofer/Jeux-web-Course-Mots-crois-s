@@ -4,7 +4,6 @@ import { Observateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { AffichageTeteHaute } from './AffichageTeteHaute';
-import { Notification } from 'rxjs/Notification';
 import { Pilote } from '../partie/Pilote';
 
 @Injectable()
@@ -19,9 +18,6 @@ export class AffichageTeteHauteService implements Observateur {
     }
 
     public notifier(sujet: Sujet, type: NotificationType): void {
-
-        console.log("NOTIFICATION AFFICHAGE SERVICE ");
-
         if (this.estUnPilote(sujet)) {
             const pilote: Pilote = <Pilote> sujet;
             this.notifierVue = true;

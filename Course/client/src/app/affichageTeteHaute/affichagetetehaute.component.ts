@@ -3,7 +3,6 @@ import { AffichageTeteHaute } from './AffichageTeteHaute';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { Sujet } from '../../../../commun/observateur/Sujet';
-import { Partie } from '../partie/Partie';
 import { AffichageTeteHauteService } from './affichagetetehaute.service';
 
 @Component({
@@ -14,12 +13,12 @@ import { AffichageTeteHauteService } from './affichagetetehaute.service';
 
 export class AffichageTeteHauteComponent implements OnInit, OnDestroy, Observateur {
     // Valeurs affichées
-    private position: number;
-    private nombrePilotes: number;
-    private tourCourant: number;
-    private nombreTours: number;
-    private tempsTour: string;
-    private tempsTotal: string;
+    public position: number;
+    public nombrePilotes: number;
+    public tourCourant: number;
+    public nombreTours: number;
+    public tempsTour: string;
+    public tempsTotal: string;
 
 
     private affichageTeteHauteService: AffichageTeteHauteService;

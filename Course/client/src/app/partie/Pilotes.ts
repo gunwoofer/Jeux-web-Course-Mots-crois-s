@@ -1,7 +1,7 @@
 import { Pilote } from './Pilote';
 import { Voiture } from '../voiture/Voiture';
 import { Observateur } from '../../../../commun/observateur/Observateur';
-import { Partie } from './Partie';
+import { Partie } from './Partie';  // À utilisez qu'en lecture. Sinon, risque d'une dépendance circulaire.
 
 export class Pilotes {
     private pilotes: Pilote[] = new Array();

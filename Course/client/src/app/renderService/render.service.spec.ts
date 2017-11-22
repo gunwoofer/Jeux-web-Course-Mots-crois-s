@@ -27,7 +27,6 @@ describe('RenderService test', () => {
     const contraintesCircuitService = new ContraintesCircuitService();
     const messageErreurService = new MessageErreurService();
     const facadeligne = new FacadeLigneService();
-    let component: CreateurPisteComponent;
     let fixture: ComponentFixture<CreateurPisteComponent>;
     let renderService: RenderService;
     let evenementService: EvenementService;
@@ -50,7 +49,6 @@ describe('RenderService test', () => {
         renderService = service;
         evenementService = souris;
         fixture = TestBed.createComponent(CreateurPisteComponent);
-        component = fixture.componentInstance;
         fixture.detectChanges();
     }));
 

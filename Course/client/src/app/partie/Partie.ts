@@ -7,8 +7,6 @@ import { Voiture } from '../voiture/Voiture';
 import { Router } from '@angular/router';
 import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
-import { AffichageTeteHaute } from '../affichageTeteHaute/AffichageTeteHaute';
-import { Injectable } from '@angular/core';
 import { EtatPartie } from './EtatPartie';
 
 export class Partie implements Observateur, Sujet {

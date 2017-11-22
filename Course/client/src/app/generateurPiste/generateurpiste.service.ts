@@ -57,7 +57,7 @@ export class GenerateurPisteService implements Observateur {
     constructor(public objetService: ObjetService, public lumiereService: LumiereService,
         public filtreCouleurService: FiltreCouleurService, public cameraService: CameraService,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
-        public skyboxService: SkyboxService, public placementService: PlacementService, 
+        public skyboxService: SkyboxService, public placementService: PlacementService,
         public affichageTeteHauteService: AffichageTeteHauteService) {
         this.segment = new Segment();
         this.listeSkyboxJour = new Array<THREE.Mesh>();

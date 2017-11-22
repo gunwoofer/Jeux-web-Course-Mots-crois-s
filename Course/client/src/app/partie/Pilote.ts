@@ -28,7 +28,7 @@ export class Pilote implements Sujet {
     }
 
     public aParcourueUneDistanceRaisonnable(): boolean {
-        const distanceParcourueMinimal = this.voiture.distanceParcouru / 
+        const distanceParcourueMinimal = this.voiture.distanceParcouru /
             (Piste.longueurPiste - DIFFERENCE_RAISONNABLE_DE_PARCOURS_A_IGNORE);
         if (distanceParcourueMinimal < this.tourCourant) {
             return false;
