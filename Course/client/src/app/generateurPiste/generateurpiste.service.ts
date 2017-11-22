@@ -26,8 +26,9 @@ import { Pilote } from '../partie/Pilote';
 import { LigneArrivee } from '../partie/LigneArrivee';
 import { Router } from '@angular/router';
 import { Observateur } from '../../../../commun/observateur/Observateur';
-import { EtatPartie } from '../partie/Partie';
+import { EtatPartie } from '../partie/EtatPartie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
+import { NotificationType } from '../../../../commun/observateur/NotificationType';
 
 
 @Injectable()
@@ -230,11 +231,13 @@ export class GenerateurPisteService implements Observateur {
         }
     }
 
-    public notifier(sujet: Sujet): void {
-        if (this.partie.etatPartie === EtatPartie.Termine) {
-            setTimeout(() => {
-                this.voirPageFinPartie();
-            }, DUREE_STINGER_MILISECONDES);
+    public notifier(sujet: Sujet, type: NotificationType): void {
+        if (type === NotificationType.Non_definie) {
+            if (this.partie.etatPartie === EtatPartie.Termine) {
+                setTimeout(() => {
+                    this.voirPageFinPartie();
+                }, DUREE_STINGER_MILISECONDES);
+            }
         }
     }
 

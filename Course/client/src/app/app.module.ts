@@ -40,6 +40,8 @@ import { CameraService } from './cameraService/cameraService.service';
 import { RatingService } from './rating/rating.service';
 import { SkyboxService } from './skybox/skybox.service';
 
+import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehaute.service';
+
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
@@ -92,6 +94,7 @@ import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichageteteh
     RatingService,
     SkyboxService,
     PlacementService,
+    AffichageTeteHauteService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

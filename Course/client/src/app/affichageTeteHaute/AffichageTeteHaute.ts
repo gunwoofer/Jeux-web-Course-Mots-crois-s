@@ -2,21 +2,32 @@ import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 
-export class AffichageTeteHaute implements Observateur {
+export class AffichageTeteHaute implements Sujet {
+    public position: number;
+    public nombreVoiture: number;
+    public toursComplete: number;
+    public nombreTours: number;
+    public tempsTour: number;
+    public tempsTotal: number;
 
-    public notifier(sujet: Sujet, type: NotificationType): void {
+    private observateurs: Observateur[] = [];
 
-        if (type === NotificationType.Deplacement) {
-            // Modifier temps écoulé depuis tour
-            // Modifier temps écoulé depuis debut
-        }
+    public ajouterObservateur(observateur: Observateur): void {
+        this.observateurs.push(observateur);
+    }
 
-        if (type === NotificationType.Nouvelle_position) {
-            // Modifier position
-        }
-
-        if (type === NotificationType.Tour_termine) {
-            // Modifier nombre tours complété.
+    public supprimerObservateur(observateur: Observateur): void {
+        for (let i = 0; i < this.observateurs.length; i++) {
+            if (this.observateurs[i] === observateur) {
+                this.observateurs.splice(i, 1);
+            }
         }
     }
+
+    public notifierObservateurs(type: NotificationType): void {
+        for (const observateurCourant of this.observateurs) {
+            observateurCourant.notifier(this, type);
+        }
+    }
+
 }

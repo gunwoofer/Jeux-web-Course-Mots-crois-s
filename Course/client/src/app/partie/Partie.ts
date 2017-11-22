@@ -8,13 +8,8 @@ import { Router } from '@angular/router';
 import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { AffichageTeteHaute } from '../affichageTeteHaute/AffichageTeteHaute';
-
-export enum EtatPartie {
-    En_attente,
-    En_cours,
-    Termine
-}
-
+import { Injectable } from '@angular/core';
+import { EtatPartie } from './EtatPartie';
 
 export class Partie implements Observateur, Sujet {
 
@@ -28,16 +23,16 @@ export class Partie implements Observateur, Sujet {
     private ligneArrivee: LigneArrivee;
     private routeur: Router;
 
-    private affichageTeteHaute: AffichageTeteHaute = new AffichageTeteHaute();
-
     constructor (pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number, observateurs?: Observateur[]) {
         this.pilotes = new Pilotes(pilotes);
         Partie.toursAComplete = (toursAComplete !== undefined) ? toursAComplete : NOMBRE_DE_TOURS_PAR_DEFAULT;
         this.ligneArrivee = ligneArrivee;
         this.pilotes.observerVoiture(this);
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
+    }
 
-        this.observateurs.push(this.affichageTeteHaute);
+    public obtenirNombreVoitures(): number {
+        return this.pilotes.obtenirNombrePilotes();
     }
 
     public demarrerPartie(): void {
@@ -60,10 +55,12 @@ export class Partie implements Observateur, Sujet {
 
     public notifier(sujet: Sujet, type: NotificationType): void {
         const voitureCourante: Voiture = <Voiture> sujet;
+        this.notifierObservateurs(NotificationType.Deplacement);
 
         if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
             if (this.pilotes.aParcourueUneDistanceRaisonnable(voitureCourante)) {
                 this.pilotes.incrementerTour(voitureCourante, Date.now() - this.tempsDepartMilisecondes);
+                this.notifierObservateurs(NotificationType.Tour_termine);
 
                 if (this.pilotes.aTermine()) {
                     this.etatPartie = EtatPartie.Termine;

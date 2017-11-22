@@ -4,6 +4,7 @@ import {
 } from './../constant';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Sujet } from '../../../../commun/observateur/Sujet';
+import { NotificationType } from '../../../../commun/observateur/NotificationType';
 
 export enum EtatMusique {
     enAttente,
@@ -73,20 +74,22 @@ export class Musique implements Observateur {
         }
     }
 
-    public notifier(sujet: Sujet): void {
-        switch (this.etatMusique) {
-            case EtatMusique.enAttente:
-                // Debut
-                this.lancerMusiqueCourse();
-                this.etatMusique = EtatMusique.enCoursPartie;
-                break;
+    public notifier(sujet: Sujet, type: NotificationType): void {
+        if (type === NotificationType.Non_definie) {
+            switch (this.etatMusique) {
+                case EtatMusique.enAttente:
+                    // Debut
+                    this.lancerMusiqueCourse();
+                    this.etatMusique = EtatMusique.enCoursPartie;
+                    break;
 
-            case EtatMusique.enCoursPartie:
-                // Arrive
-                this.arreterMusique();
-                this.lancerStinger();
-                this.etatMusique = EtatMusique.enCoursArrivee;
-                break;
+                case EtatMusique.enCoursPartie:
+                    // Arrive
+                    this.arreterMusique();
+                    this.lancerStinger();
+                    this.etatMusique = EtatMusique.enCoursArrivee;
+                    break;
+            }
         }
     }
 }

@@ -3,10 +3,14 @@ import { Voiture } from '../voiture/Voiture';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 
 export class Pilotes {
-    private pilotes: Pilote[];
+    private pilotes: Pilote[] = new Array();
 
     constructor(pilotes?: Pilote[]) {
         this.pilotes = (pilotes !== undefined) ? pilotes : [];
+    }
+
+    public obtenirNombrePilotes(): number {
+        return 2;
     }
 
     public ajouterPilote(pilote: Pilote): void {
