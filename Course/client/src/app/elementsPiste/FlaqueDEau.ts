@@ -18,7 +18,4 @@ export class FlaqueDEau extends ElementDePiste {
     public effetSurObstacle(voiture: Voiture): void {
         throw new Error('Method not implemented.');
     }
-    public stopperIntervalle(): void {
-        return;
-    }
 }

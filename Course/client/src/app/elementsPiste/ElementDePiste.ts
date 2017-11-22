@@ -7,6 +7,7 @@ export abstract class ElementDePiste {
     protected y: number;
     protected z: number;
     protected mesh: THREE.Mesh;
+    public antirebond: boolean;
     public raycaster: THREE.Raycaster;
 
 
@@ -20,7 +21,6 @@ export abstract class ElementDePiste {
 
     public abstract effetSurObstacle(voiture: Voiture): void;
 
-    public abstract stopperIntervalle(): void;
 
     public obtenirMesh(): THREE.Mesh {
         return this.mesh;
