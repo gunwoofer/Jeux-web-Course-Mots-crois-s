@@ -14,21 +14,29 @@ import { EtatPartie } from './EtatPartie';
 export class Partie implements Observateur, Sujet {
 
     public static toursAComplete = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public static tempsDepartMilisecondes = 0;
+    public static aEteNotifie = false;
     public etatPartie: EtatPartie = EtatPartie.En_attente;
 
     public observateurs: Observateur[];
 
     private pilotes: Pilotes;
-    private tempsDepartMilisecondes: number;
     private ligneArrivee: LigneArrivee;
     private routeur: Router;
 
-    constructor (pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number, observateurs?: Observateur[]) {
+    constructor (pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number,
+                 observateurs?: Observateur[], observateursPiloteJoueur?: Observateur[]) {
         this.pilotes = new Pilotes(pilotes);
         Partie.toursAComplete = (toursAComplete !== undefined) ? toursAComplete : NOMBRE_DE_TOURS_PAR_DEFAULT;
         this.ligneArrivee = ligneArrivee;
-        this.pilotes.observerVoiture(this);
+        this.pilotes.observerVoitures(this);
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
+
+        if (observateursPiloteJoueur !== undefined) {
+            for (const observateurCourant of observateursPiloteJoueur) {
+                this.pilotes.observerPiloteJoueur(observateurCourant);
+            }
+        }
     }
 
     public obtenirNombreVoitures(): number {
@@ -42,11 +50,11 @@ export class Partie implements Observateur, Sujet {
     }
 
     public partirCompteur(): void {
-        this.tempsDepartMilisecondes = Date.now();
+        Partie.tempsDepartMilisecondes = Date.now();
     }
 
     public estDebute(): boolean {
-        if (this.tempsDepartMilisecondes === undefined) {
+        if (Partie.tempsDepartMilisecondes === undefined) {
             return false;
         }
 
@@ -54,21 +62,24 @@ export class Partie implements Observateur, Sujet {
     }
 
     public notifier(sujet: Sujet, type: NotificationType): void {
-        const voitureCourante: Voiture = <Voiture> sujet;
-        this.notifierObservateurs(NotificationType.Deplacement);
+        if (!Partie.aEteNotifie) {
+            const voitureCourante: Voiture = <Voiture> sujet;
+            this.notifierObservateurs(NotificationType.Deplacement);
+            this.pilotes.mettreAJourTemps();
 
-        if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
-            if (this.pilotes.aParcourueUneDistanceRaisonnable(voitureCourante)) {
-                this.pilotes.incrementerTour(voitureCourante, Date.now() - this.tempsDepartMilisecondes);
-                this.notifierObservateurs(NotificationType.Tour_termine);
+            if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
+                if (this.pilotes.aParcourueUneDistanceRaisonnable(voitureCourante)) {
+                    Partie.aEteNotifie = true;
+                    this.pilotes.incrementerTour(voitureCourante, Date.now() - Partie.tempsDepartMilisecondes);
+                    this.notifierObservateurs(NotificationType.Tour_termine);
 
-                if (this.pilotes.aTermine()) {
-                    this.etatPartie = EtatPartie.Termine;
-                    this.notifierObservateurs(NotificationType.Non_definie);
+                    if (this.pilotes.aTermine()) {
+                        this.etatPartie = EtatPartie.Termine;
+                        this.notifierObservateurs(NotificationType.Non_definie);
+                    }
                 }
             }
         }
-
     }
 
     public ajouterRouteur(routeur: Router): void {

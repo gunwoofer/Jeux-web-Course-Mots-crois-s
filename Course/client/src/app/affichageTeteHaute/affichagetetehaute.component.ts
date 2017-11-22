@@ -15,11 +15,11 @@ import { AffichageTeteHauteService } from './affichagetetehaute.service';
 export class AffichageTeteHauteComponent implements OnInit, OnDestroy, Observateur {
     // Valeurs affichées
     private position: number;
-    private nombreVoiture: number;
-    private toursComplete: number;
+    private nombrePilotes: number;
+    private tourCourant: number;
     private nombreTours: number;
-    private tempsTour: number;
-    private tempsTotal: number;
+    private tempsTour: string;
+    private tempsTotal: string;
 
 
     private affichageTeteHauteService: AffichageTeteHauteService;
@@ -37,11 +37,14 @@ export class AffichageTeteHauteComponent implements OnInit, OnDestroy, Observate
             const affichageTeteHaute: AffichageTeteHaute = <AffichageTeteHaute> sujet;
 
             this.position = affichageTeteHaute.position;
-            this.nombreVoiture = affichageTeteHaute.nombreVoiture;
-            this.toursComplete = affichageTeteHaute.toursComplete;
+            this.nombrePilotes = affichageTeteHaute.nombrePilotes;
+            this.tourCourant = (affichageTeteHaute.tourCourant <= affichageTeteHaute.nombreTours) ?
+                                                affichageTeteHaute.tourCourant : this.tourCourant;
             this.nombreTours = affichageTeteHaute.nombreTours;
-            this.tempsTour = affichageTeteHaute.tempsTour;
-            this.tempsTotal = affichageTeteHaute.tempsTotal;
+
+            this.tempsTour = (Math.pow(10, -3) * affichageTeteHaute.tempsTour).toFixed(2);
+
+            this.tempsTotal = (Math.pow(10, -3) * affichageTeteHaute.tempsTotal).toFixed(2);
         }
     }
 

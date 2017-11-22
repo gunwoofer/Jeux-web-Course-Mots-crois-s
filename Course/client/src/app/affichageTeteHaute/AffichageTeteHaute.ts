@@ -4,11 +4,15 @@ import { NotificationType } from '../../../../commun/observateur/NotificationTyp
 
 export class AffichageTeteHaute implements Sujet {
     public position: number;
-    public nombreVoiture: number;
-    public toursComplete: number;
+    public nombrePilotes: number;
+    public tourCourant: number;
     public nombreTours: number;
     public tempsTour: number;
     public tempsTotal: number;
+
+    constructor() {
+        this.tourCourant = 1;
+    }
 
     private observateurs: Observateur[] = [];
 
@@ -29,5 +33,4 @@ export class AffichageTeteHaute implements Sujet {
             observateurCourant.notifier(this, type);
         }
     }
-
 }

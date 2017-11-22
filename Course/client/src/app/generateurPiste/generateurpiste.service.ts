@@ -29,6 +29,7 @@ import { Observateur } from '../../../../commun/observateur/Observateur';
 import { EtatPartie } from '../partie/EtatPartie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
+import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 
 
 @Injectable()
@@ -56,7 +57,8 @@ export class GenerateurPisteService implements Observateur {
     constructor(public objetService: ObjetService, public lumiereService: LumiereService,
         public filtreCouleurService: FiltreCouleurService, public cameraService: CameraService,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
-        public skyboxService: SkyboxService, public placementService: PlacementService) {
+        public skyboxService: SkyboxService, public placementService: PlacementService, 
+        public affichageTeteHauteService: AffichageTeteHauteService) {
         this.segment = new Segment();
         this.listeSkyboxJour = new Array<THREE.Mesh>();
         this.listeSkyboxNuit = new Array<THREE.Mesh>();
@@ -92,8 +94,11 @@ export class GenerateurPisteService implements Observateur {
         const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
             this.segment.premierSegment[3], this.segment.damierDeDepart);
 
-        this.partie = new Partie([pilote], ligneArrivee, this.nombreTours, [this.musiqueService.musique, this]);
-        this.voitureDuJoueur.ajouterObservateur(this.partie);
+        const pilotes: Pilote[] = [pilote];
+
+        this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
+                                 [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
+        this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
         this.partie.ajouterRouteur(this.routeur);
     }
 
@@ -125,10 +130,10 @@ export class GenerateurPisteService implements Observateur {
     public moteurDeJeu(): void {
         setTimeout(() => {
             requestAnimationFrame(() => this.moteurDeJeu());
+            this.renderer.render(this.scene, this.camera);
+            this.miseAJourPositionVoiture();
+            this.skyboxService.rotationSkybox(this.deplacement, this.voitureDuJoueur, this.camera);
         }, 1000 / FPS);
-        this.renderer.render(this.scene, this.camera);
-        this.miseAJourPositionVoiture();
-        this.skyboxService.rotationSkybox(this.deplacement, this.voitureDuJoueur, this.camera);
     }
 
     public miseAJourPositionVoiture(): void {
