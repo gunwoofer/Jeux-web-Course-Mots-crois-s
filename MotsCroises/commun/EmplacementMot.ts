@@ -172,19 +172,19 @@ export class EmplacementMot {
         return false;
     }
 
-    public obtenirCases(grille: Grille): Case[][] {
-        let cases: Case[][] = new Array(TAILLE_GRILLE);
+    public obtenirCases(grille: Grille): Case[] {
+        let cases: Case[] = new Array(TAILLE_GRILLE);
         const ligneDebut = this.caseDebut.obtenirNumeroLigne();
         const colonneDebut = this.caseDebut.obtenirNumeroColonne();
         if (this.position === Position.Colonne) {
             for (let i = 0; i < this.grandeur; i++) {
-                cases[ligneDebut + i][colonneDebut] = grille.cases[ligneDebut + i][colonneDebut];
+                cases[i] = grille.cases[ligneDebut + i][colonneDebut];
             }
         } else {
             const ligneDebut = this.caseDebut.obtenirNumeroLigne();
             const colonneDebut = this.caseDebut.obtenirNumeroColonne();
             for (let i = 0; i < this.grandeur; i++) {
-                cases[ligneDebut][colonneDebut + i] = grille.cases[ligneDebut + i][colonneDebut];
+                cases[i] = grille.cases[ligneDebut][colonneDebut + i];
             }
         }
         return cases;

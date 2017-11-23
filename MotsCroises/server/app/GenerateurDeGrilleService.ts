@@ -146,4 +146,27 @@ export class GenerateurDeGrilleService {
     private nombreAleatoireEntreXEtY(min: number, max: number): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
     }
+
+    private obtenirEmplacementsIntersection(grille: Grille, emplacement: EmplacementMot): EmplacementMot[] {
+        const emplacementMots: EmplacementMot[] = new Array();
+        for (const caseCourrante of emplacement.obtenirCases(grille)) {
+            for (const emplacementGrille of grille.obtenirEmplacementsMot()) {
+                if (!emplacementGrille.estPareilQue(emplacement) &&
+                    this.caseEstEnIntersectionAvecEmplacement(caseCourrante, emplacementGrille, grille)) {
+                        emplacementMots.push(emplacementGrille);
+                }
+            }
+        }
+        return emplacementMots;
+    }
+
+    private caseEstEnIntersectionAvecEmplacement(caseCourrante: Case, emplacement: EmplacementMot, grille: Grille): boolean {
+        for (const caseEmplacement of emplacement.obtenirCases(grille)) {
+            if (caseEmplacement.obtenirNumeroColonne() === caseCourrante.obtenirNumeroColonne() &&
+                caseEmplacement.obtenirNumeroLigne() === caseCourrante.obtenirNumeroLigne()) {
+                    return true;
+                }
+        }
+        return false;
+    }
 }
