@@ -1,3 +1,4 @@
+import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
 import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { SkyboxService } from './../skybox/skybox.service';
@@ -93,6 +94,11 @@ export class GenerateurPisteService implements Observateur {
         // Mock nid de poule
         const nidDePoule = new NidDePoule(6, -18, 0.01);
         this.piste.ajouterElementPiste(nidDePoule);
+
+        // Mock flaque d eau
+        const flaque = new FlaqueDEau(40, -19, 0.01);
+        this.piste.ajouterElementPiste(flaque);
+
 
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();

@@ -40,12 +40,12 @@ export class Piste {
                 const vecteurVersLeHaut = new THREE.Vector3(0, 0, 1);
                 element.genererRayCaster(vecteurVersLeHaut);
             if (element.raycaster.intersectObject(voiture.obtenirVoiture3D(), true).length !== 0) {
-                if (!this.estSurNidPoule) {
+                if (!element.antirebond) {
                     element.effetSurObstacle(voiture);
-                    this.estSurNidPoule = true;
+                    element.antirebond = true;
                 }
             } else {
-                this.estSurNidPoule = false;
+                element.antirebond = false;
                 }
             }
         }

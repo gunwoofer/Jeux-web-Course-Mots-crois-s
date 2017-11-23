@@ -33,6 +33,7 @@ export class NidDePoule extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
+        console.log('sur nid de poule');
         voiture.reduireVitesseNidDePoule();
         voiture.secousseNidDePoule();
     }

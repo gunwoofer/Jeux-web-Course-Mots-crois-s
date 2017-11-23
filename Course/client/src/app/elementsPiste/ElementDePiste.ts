@@ -7,14 +7,15 @@ export abstract class ElementDePiste {
     protected y: number;
     protected z: number;
     protected mesh: THREE.Mesh;
-    public antirebond: boolean;
     public raycaster: THREE.Raycaster;
+    public antirebond;
 
 
     constructor(x: number, y: number, z: number) {
         this.x = x;
         this.y = y;
         this.z = z;
+        this.antirebond = false;
     }
 
     public abstract genererRayCaster(vecteur: THREE.Vector3): void;
