@@ -115,6 +115,6 @@ export class Voiture implements sujet.Sujet {
 
     public secousseNidDePoule(): void {
         console.log('SECOUUUUSSE');
-        // Faire trembler la voiture
+        this.obtenirVoiture3D().position.y += 5;
     }
 }
