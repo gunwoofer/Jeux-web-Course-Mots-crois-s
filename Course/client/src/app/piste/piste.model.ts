@@ -22,11 +22,9 @@ export class Piste {
         public id?: number) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = [];
-
         this.listeElementsDePiste = new Array();
         this.meilleursTemps = [];
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
-
         Piste.longueurPiste = this.obtenirLongueurPiste();
     }
 

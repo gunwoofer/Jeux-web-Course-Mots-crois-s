@@ -1,6 +1,6 @@
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './generateurpiste.service';
-import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
+import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
 import { Router } from '@angular/router';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
@@ -22,7 +22,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
         private router: Router
     ) {
         generateurPisteService.ajouterRouter(router);
-        generateurPisteService.configurerTours(pisteService.nombreDeTours);
+        generateurPisteService.configurerTours(this.pisteService.nombreDeTours);
     }
 
     public ngOnInit(): void {

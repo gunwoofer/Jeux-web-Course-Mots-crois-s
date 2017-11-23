@@ -23,10 +23,9 @@ export class TableauScoreService {
     }
 
     public produireTableauResultat(): Score[] {
-        if (this.temps) {
-            for (let i = 0; i < NOMBRE_JOUEURS; i++) {
-                this.gestionTempsFinPartie(i, this.temps);
-            }
+        if (!this.temps) { return; }
+        for (let i = 0; i < NOMBRE_JOUEURS; i++) {
+            this.gestionTempsFinPartie(i, this.temps);
         }
         return this.tempsFinPartie;
     }

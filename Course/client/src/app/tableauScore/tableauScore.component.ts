@@ -30,7 +30,7 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
             this.temps = this.tableauScoreService.produireTableauResultat();
         }
         if (this.tableauScoreService.temps) {
-            this.meilleurTemps = this.tableauScoreService.temps.toString();
+            this.meilleurTemps = Math.floor(this.tableauScoreService.temps).toString();
             this.afficher = true;
         }
     }

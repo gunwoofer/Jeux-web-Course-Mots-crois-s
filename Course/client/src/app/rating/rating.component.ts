@@ -1,8 +1,9 @@
-import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
-import { MusiqueService } from './../musique/musique.service';
 import { Router } from '@angular/router';
 import { RatingService } from './rating.service';
 import { Component, OnInit } from '@angular/core';
+
+import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
+import { MusiqueService } from './../musique/musique.service';
 
 
 @Component({
