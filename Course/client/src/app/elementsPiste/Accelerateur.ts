@@ -21,8 +21,4 @@ export class Accelerateur extends ElementDePiste {
         throw new Error('Method not implemented.');
     }
 
-    public stopperIntervalle(): void {
-        return;
-    }
-
 }

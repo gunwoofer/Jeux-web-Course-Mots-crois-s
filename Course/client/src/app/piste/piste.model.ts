@@ -13,9 +13,9 @@ export class Piste {
     public meilleursTemps: Score[] = [];
     public coteMoyenne: number;
     public vignette: string;
-    public estSurNidPoule: boolean;
 
     private listeElementsDePiste: ElementDePiste[];
+    private estSurNidPoule: boolean;
 
     constructor(public nom: string,
         public typeCourse: string,
@@ -24,7 +24,7 @@ export class Piste {
         public id?: number) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = [];
-
+        this.estSurNidPoule = false;
         this.listeElementsDePiste = new Array();
         for (let i = 0; i < 5; i++) {
             this.meilleursTemps[i] = new Score('anas', '4min 0' + i + 's');
@@ -35,17 +35,17 @@ export class Piste {
     }
 
     public gererElementDePiste(listeVoitures: Voiture[]): void {
-        // Boucler sur les voitures
         for (const voiture of listeVoitures) {
-            // Boucler sur les elements de piste
             for (const element of this.listeElementsDePiste) {
-                // pour chaque element raycaster vers le haut
                 const vecteurVersLeHaut = new THREE.Vector3(0, 0, 1);
                 element.genererRayCaster(vecteurVersLeHaut);
-                // Si la voiture est collisionée
-                if (element.raycaster.intersectObject(voiture.obtenirVoiture3D(), true).length !== 0) {
-                    // Active l effet de l element iteré
+            if (element.raycaster.intersectObject(voiture.obtenirVoiture3D(), true).length !== 0) {
+                if (!element.antirebond) {
                     element.effetSurObstacle(voiture);
+                    element.antirebond = true;
+                }
+            } else {
+                element.antirebond = false;
                 }
             }
         }

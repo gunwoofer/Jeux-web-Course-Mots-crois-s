@@ -6,19 +6,26 @@ export class FlaqueDEau extends ElementDePiste {
 
     constructor(x: number, y: number, z: number) {
         super(x, y, z);
-
+        this.mesh = this.genererMesh();
+        this.mesh.position.set(this.x, this.y, this.z);
     }
 
+    public genererMesh(): THREE.Mesh {
+        const flaqueDEauGeometrie = new THREE.CircleGeometry(2, 10);
+        const materiel = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+        const mesh = new THREE.Mesh(flaqueDEauGeometrie, materiel);
+        return mesh;
+    }
+
+
+
     public genererRayCaster(vecteur: THREE.Vector3): void {
-        const positionNidDePoule = new THREE.Vector3(this.x, this.y, this.z);
-        this.raycaster = new THREE.Raycaster(positionNidDePoule, vecteur);
+        const positionFlaqueDEau = new THREE.Vector3(this.x, this.y, this.z);
+        this.raycaster = new THREE.Raycaster(positionFlaqueDEau, vecteur);
     }
 
 
     public effetSurObstacle(voiture: Voiture): void {
-        throw new Error('Method not implemented.');
-    }
-    public stopperIntervalle(): void {
-        return;
+        console.log('Sur flaque d eau !');
     }
 }

@@ -3,7 +3,9 @@ import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 
-export const REDUCTION_VITESSE = 10;
+export const REDUCTION_VITESSE_SORTIE_PISTE = 10;
+export const REDUCTION_VITESSE_NID_DE_POULE = 4;
+
 
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
@@ -17,12 +19,21 @@ export class Voiture implements sujet.Sujet {
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
 
+
     constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {
         this.voiture3D = voiture3D;
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
         this.vitesse = 0;
+    }
+
+    public obtenirRoueAvantGauche(): THREE.Object3D {
+        return this.voiture3D.children[21];
+    }
+
+    public obtenirRoueAvantDroite(): THREE.Object3D {
+        return this.voiture3D.children[25];
     }
 
     public calculerDistance(): void {
@@ -95,10 +106,15 @@ export class Voiture implements sujet.Sujet {
     }
 
     public reduireVitesseSortiePiste(): void {
-        this.vitesse /= REDUCTION_VITESSE;
+        this.vitesse /= REDUCTION_VITESSE_SORTIE_PISTE;
     }
 
     public reduireVitesseNidDePoule(): void {
-        this.vitesse -= 0.00000005;
+        this.vitesse /= REDUCTION_VITESSE_NID_DE_POULE;
+    }
+
+    public secousseNidDePoule(): void {
+        console.log('SECOUUUUSSE');
+        // Faire trembler la voiture
     }
 }
