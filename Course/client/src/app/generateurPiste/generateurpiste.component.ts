@@ -8,7 +8,7 @@ import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement
 @Component({
     selector: 'app-generateurpiste-component',
     templateUrl: './generateurpiste.component.html',
-    styleUrls: ['./generateurpiste.component.css']
+    styleUrls: ['./generateurpiste.component.css'],
 })
 
 export class GenerateurPisteComponent implements AfterViewInit, OnInit {
@@ -17,12 +17,12 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
     private containerRef: ElementRef;
 
     constructor(private generateurPisteService: GenerateurPisteService,
-        pisteService: PisteService, private evenementService: EvenementService,
+        private pisteService: PisteService, private evenementService: EvenementService,
         private musiqueService: MusiqueService,
         private router: Router
     ) {
         generateurPisteService.ajouterRouter(router);
-        generateurPisteService.configurerTours(pisteService.nombreDeTours);
+        generateurPisteService.configurerTours(this.pisteService.nombreDeTours);
     }
 
     public ngOnInit(): void {

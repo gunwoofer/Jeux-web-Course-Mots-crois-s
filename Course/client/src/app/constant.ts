@@ -16,7 +16,7 @@ export const WIDTH = 5000;
 export const ARBRE_PATH = '../../assets/objects/arbre/tree.json';
 export const ARBRE_TEXTURE = '../../assets/objects/arbre/tree.jpg';
 export const NOMBRE_DE_TOURS_PAR_DEFAULT = 3;
-export const NOMBRE_DE_TOURS_PAR_MINIMAL = 3;
+export const NOMBRE_DE_TOURS_PAR_MINIMAL = 1;
 export const LUMIERES = [
     'AreaLight', 'AreaLight1', 'SpotLight', 'SpotLight1', 'HemisphereLight',
     'BrakeLightLS1', 'BrakeLightLS2', 'BrakeLightLS3', 'BrakeLightLS4',
@@ -62,5 +62,6 @@ export const ACCELERATION = 0.01;
 export const DECELERATION = 0.01;
 export const VITESSE_MAX = 1;
 export const VITESSE_MIN = 0.05;
+export const NOMBRE_JOUEURS = 4;
 
 
