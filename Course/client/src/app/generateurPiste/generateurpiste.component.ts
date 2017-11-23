@@ -1,6 +1,6 @@
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './generateurpiste.service';
-import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
+import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit, OnDestroy } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
 import { Router } from '@angular/router';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
@@ -8,7 +8,7 @@ import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement
 @Component({
     selector: 'app-generateurpiste-component',
     templateUrl: './generateurpiste.component.html',
-    styleUrls: ['./generateurpiste.component.css']
+    styleUrls: ['./generateurpiste.component.css'],
 })
 
 export class GenerateurPisteComponent implements AfterViewInit, OnInit {
@@ -17,7 +17,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
     private containerRef: ElementRef;
 
     constructor(private generateurPisteService: GenerateurPisteService,
-        pisteService: PisteService, private evenementService: EvenementService,
+        private pisteService: PisteService, private evenementService: EvenementService,
         private musiqueService: MusiqueService,
         private router: Router
     ) {

@@ -51,6 +51,7 @@ export class GenerateurPisteService implements Observateur {
     public listeSkyboxJour: Array<THREE.Mesh>;
     public listeSkyboxNuit: Array<THREE.Mesh>;
     public nombreTours = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public idGlobale: number;
 
     constructor(public objetService: ObjetService, public lumiereService: LumiereService,
         public filtreCouleurService: FiltreCouleurService, public cameraService: CameraService,
@@ -123,7 +124,7 @@ export class GenerateurPisteService implements Observateur {
 
     public moteurDeJeu(): void {
         setTimeout(() => {
-            requestAnimationFrame(() => this.moteurDeJeu());
+            this.idGlobale = requestAnimationFrame(() => this.moteurDeJeu());
         }, 1000 / FPS);
         this.renderer.render(this.scene, this.camera);
         this.miseAJourPositionVoiture();
@@ -239,7 +240,8 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public voirPageFinPartie(): void {
-        this.tableauScoreService.temps = (Pilote.tempsTotal / 1000).toString();
+        this.tableauScoreService.temps = (Pilote.tempsTotal / 1000);
+        this.tableauScoreService.finPartie = true;
         this.routeur.navigateByUrl(FIN_PARTIE_URL);
     }
 }

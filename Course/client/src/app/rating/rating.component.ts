@@ -1,3 +1,4 @@
+import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { MusiqueService } from './../musique/musique.service';
 import { Router } from '@angular/router';
 import { RatingService } from './rating.service';
@@ -16,7 +17,8 @@ export class RatingComponent implements OnInit {
     public affichage: boolean;
     public ratingMoyen: number;
 
-    constructor(private ratingService: RatingService, private router: Router, private musiqueService: MusiqueService) { }
+    constructor(private ratingService: RatingService, private router: Router, private musiqueService: MusiqueService,
+        private tableauScoreSevice: TableauScoreService) { }
 
     public ngOnInit(): void {
         this.affichage = true;
@@ -30,16 +32,21 @@ export class RatingComponent implements OnInit {
             .then(message => console.log(message))
             .catch(erreur => console.error(erreur));
         this.affichage = false;
-        this.router.navigateByUrl('/finPartie');
+        this.changementDeroutage();
     }
 
     public onClick(): void {
         this.veutVoter = false;
-        this.router.navigateByUrl('/finPartie');
+        this.changementDeroutage();
     }
 
     public onClick1(): void {
         this.veutVoter = true;
+    }
+
+    public changementDeroutage(): void {
+        this.router.navigateByUrl('/finPartie');
+        this.tableauScoreSevice.finPartie = false;
     }
 
 }

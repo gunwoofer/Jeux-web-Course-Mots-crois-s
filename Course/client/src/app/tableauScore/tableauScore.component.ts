@@ -15,7 +15,9 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
 
     public temps: Score[];
     public afficher: boolean;
+    public finPartie: boolean;
     public meilleurTemps: string;
+    public resultatPartie: boolean;
     public traitementDonnee = new TraitementDonneTableau();
 
     constructor(private tableauScoreService: TableauScoreService) {
@@ -24,8 +26,11 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.temps = this.tableauScoreService.piste.meilleursTemps;
         this.traitementDonnee.cinqMeilleurTemps(this.temps);
+        if (this.tableauScoreService.finPartie) {
+            this.temps = this.tableauScoreService.produireTableauResultat();
+        }
         if (this.tableauScoreService.temps) {
-            this.meilleurTemps = this.tableauScoreService.temps;
+            this.meilleurTemps = this.tableauScoreService.temps.toString();
             this.afficher = true;
         }
     }
