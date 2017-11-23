@@ -38,6 +38,7 @@ export class GenerateurPisteService implements Observateur {
     public container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
+    public rendererRetro: THREE.WebGLRenderer;
     public scene: THREE.Scene;
     public voitureDuJoueur: Voiture;
     public deplacement = new Deplacement();
@@ -54,6 +55,8 @@ export class GenerateurPisteService implements Observateur {
     public listeSkyboxNuit: Array<THREE.Mesh>;
     public nombreTours = NOMBRE_DE_TOURS_PAR_DEFAULT;
 
+    public retroviseur: THREE.PerspectiveCamera;
+
     constructor(public objetService: ObjetService, public lumiereService: LumiereService,
         public filtreCouleurService: FiltreCouleurService, public cameraService: CameraService,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
@@ -68,6 +71,9 @@ export class GenerateurPisteService implements Observateur {
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
+
+        this.scene.add(this.retroviseur);
+
         this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
@@ -117,10 +123,17 @@ export class GenerateurPisteService implements Observateur {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
+        this.retroviseur = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
     }
 
     public commencerMoteurDeJeu(): void {
         this.renderer = new THREE.WebGLRenderer();
+        this.rendererRetro = new THREE.WebGLRenderer();
+
+        this.rendererRetro.setPixelRatio(devicePixelRatio);
+        this.rendererRetro.setSize(this.container.clientWidth - 1500, this.container.clientHeight - 900);
+        this.container.appendChild(this.rendererRetro.domElement);
+
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.container.appendChild(this.renderer.domElement);
@@ -131,6 +144,7 @@ export class GenerateurPisteService implements Observateur {
         setTimeout(() => {
             requestAnimationFrame(() => this.moteurDeJeu());
             this.renderer.render(this.scene, this.camera);
+            this.rendererRetro.render(this.scene, this.retroviseur);
             this.miseAJourPositionVoiture();
             this.skyboxService.rotationSkybox(this.deplacement, this.voitureDuJoueur, this.camera);
         }, 1000 / FPS);
@@ -138,7 +152,6 @@ export class GenerateurPisteService implements Observateur {
 
     public miseAJourPositionVoiture(): void {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
-            this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
             this.renderMiseAJour();
         }
@@ -149,6 +162,7 @@ export class GenerateurPisteService implements Observateur {
             this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
             this.piste.gererElementDePiste([this.voitureDuJoueur]);
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
+
         }
     }
 
@@ -201,6 +215,7 @@ export class GenerateurPisteService implements Observateur {
             meshPrincipalVoiture = obj.getObjectByName('MainBody');
             this.configurationVoiturePiste(cadranX, cadranY, obj, joueur);
             this.scene.add(obj);
+            this.cameraService.vueRetroviseur(this.retroviseur, this.voitureDuJoueur);
         });
     }
 

@@ -47,4 +47,10 @@ export class CameraService {
             camera.zoom -= DELTA_ZOOM;
         }
     }
+
+    public vueRetroviseur(camera: PerspectiveCamera, voiture: Voiture): void {
+        voiture.obtenirVoiture3D().add(camera);
+        camera.position.y = 2;
+        camera.rotateY(Math.PI / 4);
+    }
 }
