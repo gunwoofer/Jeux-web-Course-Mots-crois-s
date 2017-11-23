@@ -12,6 +12,7 @@ import { Deplacement} from './deplacement.model';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
+import {ElementDePiste} from './../elementsPiste/ElementDePiste';
 
 import { Piste } from '../piste/piste.model';
 import { Partie, NOMBRE_DE_TOURS_PAR_DEFAULT } from '../partie/Partie';
@@ -57,6 +58,7 @@ export class GenerateurPisteService implements Observateur {
     private sortiePisteService: SortiePisteService;
 
     private piste: Piste;
+    private elementPiste: ElementDePiste;
     private arbres = new THREE.Object3D();
     private surfaceHorsPisteService: SurfaceHorsPiste;
     private partie: Partie;
@@ -89,7 +91,6 @@ export class GenerateurPisteService implements Observateur {
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
-
         // Mock nid de poule
         const nidDePoule = new NidDePoule(6, -18, 0);
         this.piste.ajouterElementPiste(nidDePoule);
@@ -296,4 +297,5 @@ export class GenerateurPisteService implements Observateur {
         this.tableauScoreService.temps = (Pilote.tempsTotal / 1000).toString();
         this.routeur.navigateByUrl(FIN_PARTIE_URL);
     }
+
 }

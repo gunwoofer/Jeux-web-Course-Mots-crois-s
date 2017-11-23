@@ -1,11 +1,17 @@
 import { Voiture } from './../voiture/Voiture';
-
+import { Piste } from '../piste/piste.model';
+import { Segment } from './../piste/segment.model';
+import * as THREE from 'three';
 
 
 export abstract class ElementDePiste {
     protected x: number;
     protected y: number;
     protected z: number;
+
+    public segment: Segment;
+    public piste: Piste;
+
     protected mesh: THREE.Mesh;
     public raycaster: THREE.Raycaster;
 
@@ -26,14 +32,19 @@ export abstract class ElementDePiste {
         return this.mesh;
     }
 
-    public genererPositionAleatoire(listeSegments: THREE.Mesh[]): THREE.Vector3 {
+    public genererPositionAleatoire(segment: THREE.Mesh[]): THREE.Vector3 {
         // Prendre aleatoirement des segments
         // Pour chaque segment aleatoirement choisi faire :
-        // this.genererPointAleatoireSegment(segmentaleatoire);
+        // this.genererPointAleatoireSegment(segmentaleatoire)
+
+        console.log('Coucou');
+
         return;
     }
 
-    private genererPointAleatoireSegment(segment: THREE.Mesh): THREE.Vector3 {
-        return;
+
+    private genererAleatoireSegment(segment: THREE.Mesh[]): THREE.Mesh {
+        const nombreAleatoirePourSegment = Math.round(Math.random() * ( segment.length - 1 ));
+        return segment[nombreAleatoirePourSegment];
     }
 }

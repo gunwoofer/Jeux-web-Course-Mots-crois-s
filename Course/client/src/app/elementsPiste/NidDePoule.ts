@@ -5,6 +5,8 @@ import * as THREE from 'three';
 export class NidDePoule extends ElementDePiste {
     private fonctionIntervalle: any;
     private bActif: boolean;
+
+
     constructor(x: number, y: number, z: number) {
         super(x, y, z);
         const geometrieNidDePoule = new THREE.CircleGeometry(2);  // Remplacer le rayon par la taille de la voiture
@@ -18,6 +20,9 @@ export class NidDePoule extends ElementDePiste {
     public genererRayCaster(vecteur: THREE.Vector3): void {
         const positionNidDePoule = new THREE.Vector3(this.x, this.y, this.z);
         this.raycaster = new THREE.Raycaster(positionNidDePoule, vecteur);
+        //Implementation dune promesse pour sassurer que mes segments de piste ont bien ete chargées
+       // const positionAleatoire = this.genererPositionAleatoire(this.segment.chargerSegmentsDePiste(this.piste));
+
     }
 
     public effetSurObstacle(voiture: Voiture): void {
