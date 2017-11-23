@@ -1,3 +1,4 @@
+import { Accelerateur } from './../elementsPiste/Accelerateur';
 import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
 import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { PlacementService } from './../objetService/placementVoiture.service';
@@ -99,6 +100,10 @@ export class GenerateurPisteService implements Observateur {
         // Mock flaque d eau
         const flaque = new FlaqueDEau(40, -19, 0.01);
         this.piste.ajouterElementPiste(flaque);
+
+         // Mock boost
+         const accelerateur = new Accelerateur(60, -19, 0.01);
+         this.piste.ajouterElementPiste(accelerateur);
 
 
         this.ajouterElementDePisteScene();
