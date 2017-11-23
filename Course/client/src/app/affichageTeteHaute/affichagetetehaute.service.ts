@@ -46,7 +46,6 @@ export class AffichageTeteHauteService implements Observateur {
         if (sujet instanceof Pilote) {
             return true;
         }
-
         return false;
     }
 }

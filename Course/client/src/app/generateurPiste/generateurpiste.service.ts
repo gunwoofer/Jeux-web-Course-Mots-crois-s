@@ -1,3 +1,4 @@
+import { PointDeControle } from './../piste/pointDeControle.model';
 import {
     FIN_PARTIE_URL, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
     LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PAR_DEFAULT
@@ -49,6 +50,7 @@ export class GenerateurPisteService implements Observateur {
     public partie: Partie;
     public routeur: Router;
     public segment: Segment;
+    public pointeDeControle = new PointDeControle();
     public voituresIA: Voiture[] = [];
     public listeSkyboxJour: Array<THREE.Mesh>;
     public listeSkyboxNuit: Array<THREE.Mesh>;
@@ -78,6 +80,7 @@ export class GenerateurPisteService implements Observateur {
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
+        this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
         this.commencerMoteurDeJeu();
     }
 
@@ -98,7 +101,7 @@ export class GenerateurPisteService implements Observateur {
         const pilotes: Pilote[] = [pilote];
 
         this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
-                                 [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
+            [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
         this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
         this.partie.ajouterRouteur(this.routeur);
     }
@@ -169,6 +172,13 @@ export class GenerateurPisteService implements Observateur {
             this.scene.add(segmentsPiste[i]);
         }
     }
+
+    // public AjoutCheckpoint(): void {
+    //     const checkPoint = this.segment.ajouterCheckPoint(this.piste);
+    //     for (let i = 0; i < checkPoint.length; i++) {
+    //         this.scene.add(checkPoint[i]);
+    //     }
+    // }
 
     public ajoutZoneDepart(): void {
         this.scene.add(this.segment.ajoutDamier(this.piste));
