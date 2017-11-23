@@ -173,13 +173,6 @@ export class GenerateurPisteService implements Observateur {
         }
     }
 
-    // public AjoutCheckpoint(): void {
-    //     const checkPoint = this.segment.ajouterCheckPoint(this.piste);
-    //     for (let i = 0; i < checkPoint.length; i++) {
-    //         this.scene.add(checkPoint[i]);
-    //     }
-    // }
-
     public ajoutZoneDepart(): void {
         this.scene.add(this.segment.ajoutDamier(this.piste));
         this.scene.add(this.segment.ajoutLigneDepart(this.piste));

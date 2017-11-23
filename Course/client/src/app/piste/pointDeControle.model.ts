@@ -4,9 +4,6 @@ import { Piste } from './piste.model';
 
 export class PointDeControle {
 
-    constructor() {
-    }
-
     public ajouterPointDeControleScene(piste: Piste, scene: THREE.Scene): void {
         const checkPoint = this.creationPointDeControle(piste);
         for (let i = 0; i < checkPoint.length; i++) {
