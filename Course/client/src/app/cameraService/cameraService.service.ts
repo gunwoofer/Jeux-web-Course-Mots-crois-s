@@ -1,3 +1,4 @@
+import { Retroviseur } from './retroviseur';
 import { DELTA_ZOOM, ZOOM_AVANT, ZOOM_ARRIERE, ORIGINE } from './../constant';
 import { Injectable } from '@angular/core';
 import { PerspectiveCamera, Vector3 } from 'three';
@@ -48,9 +49,9 @@ export class CameraService {
         }
     }
 
-    public vueRetroviseur(camera: PerspectiveCamera, voiture: Voiture): void {
-        voiture.obtenirVoiture3D().add(camera);
-        camera.position.y = 2;
-        camera.rotateY(Math.PI / 4);
+    public vueRetroviseur(retroviseur: Retroviseur, voiture: Voiture): void {
+        voiture.obtenirVoiture3D().add(retroviseur.camera);
+        retroviseur.camera.position.y = 2;
+        retroviseur.camera.rotateY(Math.PI / 4);
     }
 }

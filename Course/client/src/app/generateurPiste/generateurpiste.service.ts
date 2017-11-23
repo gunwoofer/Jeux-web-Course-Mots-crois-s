@@ -1,3 +1,4 @@
+import { Retroviseur } from './../cameraService/retroviseur';
 import {
     FIN_PARTIE_URL, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
     LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PAR_DEFAULT
@@ -38,7 +39,7 @@ export class GenerateurPisteService implements Observateur {
     public container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
-    public rendererRetro: THREE.WebGLRenderer;
+    // public rendererRetro: THREE.WebGLRenderer;
     public scene: THREE.Scene;
     public voitureDuJoueur: Voiture;
     public deplacement = new Deplacement();
@@ -55,7 +56,8 @@ export class GenerateurPisteService implements Observateur {
     public listeSkyboxNuit: Array<THREE.Mesh>;
     public nombreTours = NOMBRE_DE_TOURS_PAR_DEFAULT;
 
-    public retroviseur: THREE.PerspectiveCamera;
+    // public retroviseur: THREE.PerspectiveCamera;
+    private retroviseur: Retroviseur;
 
     constructor(public objetService: ObjetService, public lumiereService: LumiereService,
         public filtreCouleurService: FiltreCouleurService, public cameraService: CameraService,
@@ -71,9 +73,6 @@ export class GenerateurPisteService implements Observateur {
         this.container = container;
         this.creerScene();
         this.scene.add(this.camera);
-
-        this.scene.add(this.retroviseur);
-
         this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
@@ -83,6 +82,7 @@ export class GenerateurPisteService implements Observateur {
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
+        this.retroviseur = new Retroviseur(this.getAspectRatio(), this.container.clientWidth, this.container.clientHeight);
         this.commencerMoteurDeJeu();
     }
 
@@ -123,17 +123,10 @@ export class GenerateurPisteService implements Observateur {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
-        this.retroviseur = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
     }
 
     public commencerMoteurDeJeu(): void {
         this.renderer = new THREE.WebGLRenderer();
-        this.rendererRetro = new THREE.WebGLRenderer();
-
-        this.rendererRetro.setPixelRatio(devicePixelRatio);
-        this.rendererRetro.setSize(this.container.clientWidth - 1500, this.container.clientHeight - 900);
-        this.container.appendChild(this.rendererRetro.domElement);
-
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.container.appendChild(this.renderer.domElement);
@@ -143,8 +136,26 @@ export class GenerateurPisteService implements Observateur {
     public moteurDeJeu(): void {
         setTimeout(() => {
             requestAnimationFrame(() => this.moteurDeJeu());
-            this.renderer.render(this.scene, this.camera);
-            this.rendererRetro.render(this.scene, this.retroviseur);
+
+            for (let i = 0; i < 2; i++) {
+                if (i === 0) {
+                    this.renderer.setViewport(0, 0, this.container.clientWidth, this.container.clientHeight);
+                    this.renderer.setScissor(0, 0, this.container.clientWidth, this.container.clientHeight);
+                    this.renderer.setScissorTest(true);
+                    this.renderer.render(this.scene, this.camera);
+                }
+                if (i === 1) {
+                    this.renderer.setViewport(this.retroviseur.coinX, this.retroviseur.coinY,
+                        this.retroviseur.largeur, this.retroviseur.hauteur);
+                    this.renderer.setScissor(this.retroviseur.coinX, this.retroviseur.coinY,
+                        this.retroviseur.largeur, this.retroviseur.hauteur);
+                    this.renderer.setScissorTest(true);
+                    this.renderer.render(this.scene, this.retroviseur.camera);
+                }
+            }
+
+            // this.renderer.render(this.scene, this.camera);
+            // this.rendererRetro.render(this.scene, this.retroviseur);
             this.miseAJourPositionVoiture();
             this.skyboxService.rotationSkybox(this.deplacement, this.voitureDuJoueur, this.camera);
         }, 1000 / FPS);
