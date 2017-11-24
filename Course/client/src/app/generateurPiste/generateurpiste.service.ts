@@ -139,11 +139,13 @@ export class GenerateurPisteService implements Observateur {
             this.renderer.setScissor(0, 0, this.container.clientWidth, this.container.clientHeight);
             this.renderer.render(this.scene, this.camera);
 
-            this.renderer.setViewport(this.retroviseur.coinX, this.retroviseur.coinY,
-                this.retroviseur.largeur, this.retroviseur.hauteur);
-            this.renderer.setScissor(this.retroviseur.coinX, this.retroviseur.coinY,
-                this.retroviseur.largeur, this.retroviseur.hauteur);
-            this.renderer.render(this.scene, this.retroviseur.camera);
+            if (this.cameraService.obtenirEtatRetroviseur()) {
+                this.renderer.setViewport(this.retroviseur.coinX, this.retroviseur.coinY,
+                    this.retroviseur.largeur, this.retroviseur.hauteur);
+                this.renderer.setScissor(this.retroviseur.coinX, this.retroviseur.coinY,
+                    this.retroviseur.largeur, this.retroviseur.hauteur);
+                this.renderer.render(this.scene, this.retroviseur.camera);
+            }
 
             this.miseAJourPositionVoiture();
             this.skyboxService.rotationSkybox(this.deplacement, this.voitureDuJoueur, this.camera);

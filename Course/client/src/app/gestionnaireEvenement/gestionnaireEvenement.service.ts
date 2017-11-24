@@ -1,8 +1,9 @@
+import { Retroviseur } from './../cameraService/retroviseur';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { LumiereService } from './../lumiere/lumiere.service';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
-import { MODE_JOUR_NUIT, MODE_FILTRE_COULEUR, ZOOM_AVANT, ZOOM_ARRIERE, CHANGER_VUE, ALLUMER_PHARES } from './../constant';
+import { MODE_JOUR_NUIT, MODE_FILTRE_COULEUR, ZOOM_AVANT, ZOOM_ARRIERE, CHANGER_VUE, ALLUMER_PHARES, RETROVISEUR } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { RenderService } from '../renderService/render.service';
@@ -117,6 +118,8 @@ export class EvenementService {
     } else if (event.key === ALLUMER_PHARES) {
       this.generateurPisteService.phares = !this.generateurPisteService.phares;
       this.lumiereService.alternerPhares(this.generateurPisteService.voitureDuJoueur);
+    }else if (event.key === RETROVISEUR) {
+      this.cameraService.changerEtatRetroviseur();
     }
   }
 

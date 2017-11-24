@@ -11,11 +11,20 @@ export class CameraService {
     private cameraOfssetX = -5;
     private cameraOfssetY = 2;
     private cameraOfssetZ = 0;
+    private etatRetroviseur = true;
 
     public vueMiseAjour(camera: PerspectiveCamera, voiture: Voiture): void {
         camera.lookAt(voiture.obtenirVoiture3D().position);
         camera.updateMatrix();
         camera.updateProjectionMatrix();
+    }
+
+    public changerEtatRetroviseur(): void {
+        this.etatRetroviseur = !this.etatRetroviseur;
+    }
+
+    public obtenirEtatRetroviseur(): boolean {
+        return this.etatRetroviseur;
     }
 
     public vueDessus(camera: PerspectiveCamera, voiture: Voiture): void {
