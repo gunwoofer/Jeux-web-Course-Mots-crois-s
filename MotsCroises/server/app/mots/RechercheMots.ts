@@ -4,7 +4,7 @@ import { Contrainte } from '../Contrainte';
 export class RechercheMots {
 
     public static rechercherMot(taille: number, contrainteDeMots: Contrainte[]): string {
-        let regEx = '';
+        let regEx = '[^a-z]';
         let position = 0;
         for (const contrainteCourante of contrainteDeMots) {
             position = contrainteCourante.obtenirPositionContrainte();
@@ -21,7 +21,7 @@ export class RechercheMots {
             regEx += '[a-z]{' + ( taille - 1 - position ) + '}';
         }
 
-        const contrainte: RegExp = new RegExp(regEx, 'g');
+        const contrainte: RegExp = new RegExp(regEx + '\n', 'g');
         const mots: string[] = this.rechercheDansListeMots(contrainte);
         return mots[this.nombreAleatoireEntreXEtY(0, mots.length - 1)];
     }
