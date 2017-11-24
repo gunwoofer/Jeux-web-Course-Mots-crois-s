@@ -1,4 +1,4 @@
-import { Retroviseur } from './../cameraService/retroviseur';
+import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 
 
 export class Rendu {

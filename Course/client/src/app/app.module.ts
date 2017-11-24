@@ -36,7 +36,7 @@ import { UtilisateurService } from './accueil/utilisateur.service';
 import { MusiqueService } from './musique/musique.service';
 import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
 import { ObjetService } from './objetService/objet.service';
-import { CameraService } from './cameraService/cameraService.service';
+import { GestionnaireDeVue } from './gestionnaireDeVue/gestionnaireDeVue.service';
 import { RatingService } from './rating/rating.service';
 import { SkyboxService } from './skybox/skybox.service';
 
@@ -90,7 +90,7 @@ import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichageteteh
     ObjetService,
     LumiereService,
     TableauScoreService,
-    CameraService,
+    GestionnaireDeVue,
     RatingService,
     SkyboxService,
     PlacementService,

@@ -1,5 +1,5 @@
 import { Rendu } from './renduObject';
-import { Retroviseur } from './../cameraService/retroviseur';
+import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import {
     FIN_PARTIE_URL, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
     LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PAR_DEFAULT
@@ -10,7 +10,7 @@ import { SkyboxService } from './../skybox/skybox.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { Segment } from './../piste/segment.model';
 import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
-import { CameraService } from '../cameraService/cameraService.service';
+import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../lumiere/lumiere.service';
 import { ObjetService } from '../objetService/objet.service';
@@ -59,7 +59,7 @@ export class GenerateurPisteService implements Observateur {
     private retroviseur: Retroviseur;
 
     constructor(public objetService: ObjetService, public lumiereService: LumiereService,
-        public filtreCouleurService: FiltreCouleurService, public cameraService: CameraService,
+        public filtreCouleurService: FiltreCouleurService, public gestionnaireDeVue: GestionnaireDeVue,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
         public skyboxService: SkyboxService, public placementService: PlacementService,
         public affichageTeteHauteService: AffichageTeteHauteService) {
@@ -81,7 +81,6 @@ export class GenerateurPisteService implements Observateur {
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
-        this.retroviseur = new Retroviseur(this.getAspectRatio(), this.container.clientWidth, this.container.clientHeight);
         this.commencerMoteurDeJeu();
     }
 
@@ -135,7 +134,7 @@ export class GenerateurPisteService implements Observateur {
             requestAnimationFrame(() => this.moteurDeJeu());
             this.renduObject.ajusterCadre(this.renderer, this.container, this.camera, this.scene);
 
-            if (this.cameraService.obtenirEtatRetroviseur()) {
+            if (this.gestionnaireDeVue.obtenirEtatRetroviseur()) {
                 this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
             }
 
@@ -155,7 +154,7 @@ export class GenerateurPisteService implements Observateur {
         if (this.voitureDuJoueur !== undefined) {
             this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
             this.piste.gererElementDePiste([this.voitureDuJoueur]);
-            this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
+            this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
 
         }
     }
@@ -219,7 +218,7 @@ export class GenerateurPisteService implements Observateur {
             meshPrincipalVoiture.material.color.set('grey');
             this.voitureDuJoueur = new Voiture(obj);
             this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
-            this.cameraService.vueRetroviseur(this.retroviseur, this.voitureDuJoueur);
+            this.retroviseur = new Retroviseur(this.container, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
         } else {

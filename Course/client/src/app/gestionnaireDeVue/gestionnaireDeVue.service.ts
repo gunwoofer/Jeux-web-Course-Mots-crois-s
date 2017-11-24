@@ -5,7 +5,7 @@ import { PerspectiveCamera, Vector3 } from 'three';
 import { Voiture } from './../voiture/Voiture';
 
 @Injectable()
-export class CameraService {
+export class GestionnaireDeVue {
 
     private offsetVueDessus = 50;
     private cameraOfssetX = -5;
@@ -56,11 +56,5 @@ export class CameraService {
         if (event.key === ZOOM_ARRIERE && camera.zoom > 1) {
             camera.zoom -= DELTA_ZOOM;
         }
-    }
-
-    public vueRetroviseur(retroviseur: Retroviseur, voiture: Voiture): void {
-        voiture.obtenirVoiture3D().add(retroviseur.camera);
-        retroviseur.camera.position.y = 2;
-        retroviseur.camera.rotateY(Math.PI / 2);
     }
 }

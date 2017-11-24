@@ -19,7 +19,7 @@ describe('FiltreService test', () => {
         filtreCouleurService = service;
     }));
 
-    it('cameraService devrait être créé', () => {
+    it('filtreCouleur devrait être créé', () => {
         expect(filtreCouleurService).toBeTruthy();
     });
 

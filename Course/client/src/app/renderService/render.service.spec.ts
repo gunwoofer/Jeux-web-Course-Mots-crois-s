@@ -15,7 +15,7 @@ import { PisteService } from '../piste/piste.service';
 import { RatingService } from './../rating/rating.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
-import { CameraService } from './../cameraService/cameraService.service';
+import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
@@ -38,7 +38,7 @@ describe('RenderService test', () => {
             providers: [RenderService, EvenementService, PisteService,
                 GenerateurPisteService, MessageErreurService, RatingService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
-                FiltreCouleurService, CameraService, TableauScoreService],
+                FiltreCouleurService, GestionnaireDeVue, TableauScoreService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],
             imports: [FormsModule, HttpModule]
         })
