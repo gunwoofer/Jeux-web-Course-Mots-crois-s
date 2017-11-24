@@ -1,3 +1,4 @@
+import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { LumiereService } from './../lumiere/lumiere.service';
 import { HttpModule } from '@angular/http';
@@ -35,7 +36,7 @@ describe('RenderService test', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            providers: [RenderService, EvenementService, PisteService,
+            providers: [RenderService, EvenementService, PisteService, AffichageTeteHauteService,
                 GenerateurPisteService, MessageErreurService, RatingService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService],

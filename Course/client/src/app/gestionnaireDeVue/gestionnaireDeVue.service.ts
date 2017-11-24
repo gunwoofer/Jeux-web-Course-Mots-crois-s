@@ -1,4 +1,3 @@
-import { Retroviseur } from './retroviseur';
 import { DELTA_ZOOM, ZOOM_AVANT, ZOOM_ARRIERE, ORIGINE } from './../constant';
 import { Injectable } from '@angular/core';
 import { PerspectiveCamera, Vector3 } from 'three';

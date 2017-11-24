@@ -1,3 +1,5 @@
+import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
+import { PlacementService } from './../objetService/placementVoiture.service';
 import { LumiereService } from './../lumiere/lumiere.service';
 import { RatingService } from './../rating/rating.service';
 import { SkyboxService } from '../skybox/skybox.service';
@@ -19,9 +21,9 @@ describe('pisteService test', () => {
         TestBed.configureTestingModule({
             providers: [
                 PisteService, GestionnaireDeVue, MusiqueService,
-                GenerateurPisteService, FiltreCouleurService,
+                GenerateurPisteService, FiltreCouleurService, AffichageTeteHauteService,
                 ObjetService, LumiereService, TableauScoreService,
-                MockBackend, SkyboxService, RatingService,
+                MockBackend, SkyboxService, RatingService, PlacementService,
                 BaseRequestOptions,
                 {
                     provide: Http,
