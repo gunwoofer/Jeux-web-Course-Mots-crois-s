@@ -1,3 +1,4 @@
+import { Rendu } from './renduObject';
 import { Retroviseur } from './../cameraService/retroviseur';
 import {
     FIN_PARTIE_URL, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
@@ -39,6 +40,7 @@ export class GenerateurPisteService implements Observateur {
     public container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
+    public renduObject = new Rendu();
     public scene: THREE.Scene;
     public voitureDuJoueur: Voiture;
     public deplacement = new Deplacement();
@@ -124,27 +126,17 @@ export class GenerateurPisteService implements Observateur {
 
     public commencerMoteurDeJeu(): void {
         this.renderer = new THREE.WebGLRenderer();
-        this.renderer.setPixelRatio(devicePixelRatio);
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-        this.container.appendChild(this.renderer.domElement);
+        this.renduObject.commencerRendu(this.renderer, this.container);
         this.moteurDeJeu();
     }
 
     public moteurDeJeu(): void {
         setTimeout(() => {
             requestAnimationFrame(() => this.moteurDeJeu());
-
-            this.renderer.setScissorTest(true);
-            this.renderer.setViewport(0, 0, this.container.clientWidth, this.container.clientHeight);
-            this.renderer.setScissor(0, 0, this.container.clientWidth, this.container.clientHeight);
-            this.renderer.render(this.scene, this.camera);
+            this.renduObject.ajusterCadre(this.renderer, this.container, this.camera, this.scene);
 
             if (this.cameraService.obtenirEtatRetroviseur()) {
-                this.renderer.setViewport(this.retroviseur.coinX, this.retroviseur.coinY,
-                    this.retroviseur.largeur, this.retroviseur.hauteur);
-                this.renderer.setScissor(this.retroviseur.coinX, this.retroviseur.coinY,
-                    this.retroviseur.largeur, this.retroviseur.hauteur);
-                this.renderer.render(this.scene, this.retroviseur.camera);
+                this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
             }
 
             this.miseAJourPositionVoiture();
