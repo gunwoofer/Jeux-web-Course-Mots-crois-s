@@ -88,24 +88,31 @@ export class GenerateurDeGrilleService {
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
         for (const emplacement of emplacements) {
+            let nEssaiAjoutDeMot = 0;
             const tailleMot = emplacement.obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacement);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
             const emplacementsIntersections = this.obtenirEmplacementsIntersection(grille, emplacement);
             try {
-                const mot: MotComplet = await generateurMot.genererMotAleatoire(niveau);
-                this.affichageConsole(grille);
-
+                let mot: MotComplet;
+                while (!this.motEstPossibleAInserer(emplacementsIntersections, grille, niveau)) {
+                    mot = await generateurMot.genererMotAleatoire(niveau);
+                    nEssaiAjoutDeMot++;
+                    if (nEssaiAjoutDeMot > 50) {
+                        throw new Error ('Trop d\'essais !');
+                    }
+                }
                 grille.ajouterMotEmplacement(mot, emplacement);
             } catch (e) {
-                throw new Error('Aucun mot ne fonctionne !');
+                throw new Error('Grille impossible !');
             }
+            this.affichageConsole(grille);
         }
         console.log('Grille terminée !');
         return grille;
     }
 
-    private async motEstPossibleAInserer(emplacementsIntersections: EmplacementMot[]): Promise<boolean> {
+    private async motEstPossibleAInserer(emplacementsIntersections: EmplacementMot[], grille: Grille, niveau: Niveau): Promise<boolean> {
         if (emplacementsIntersections.length > 0) {
             for (const emplacementIntersection of emplacementsIntersections) {
                 const tailleMotIntersection = emplacementIntersection.obtenirGrandeur();

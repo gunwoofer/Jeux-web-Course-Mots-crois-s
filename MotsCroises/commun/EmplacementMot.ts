@@ -181,8 +181,6 @@ export class EmplacementMot {
                 cases[i] = grille.cases[ligneDebut + i][colonneDebut];
             }
         } else {
-            const ligneDebut = this.caseDebut.obtenirNumeroLigne();
-            const colonneDebut = this.caseDebut.obtenirNumeroColonne();
             for (let i = 0; i < this.grandeur; i++) {
                 cases[i] = grille.cases[ligneDebut][colonneDebut + i];
             }
