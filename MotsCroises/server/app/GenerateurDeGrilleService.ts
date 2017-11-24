@@ -17,9 +17,7 @@ export class GenerateurDeGrilleService {
 
     public async genererGrille(niveau: Niveau): Promise<Grille> {
         try {
-            this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
-            this.generateurDeGrilleVide.affichageConsole(this.motCroiseGenere);
-            this.motCroiseGenere = await this.remplirGrille(niveau, this.motCroiseGenere);
+            this.motCroiseGenere = await this.remplirGrille(niveau, this.generateurDeGrilleVide.genereGrilleVide(niveau));
             this.affichageConsole(this.motCroiseGenere);
         } catch (e) {
             console.log('Regénération de la grille...');
@@ -89,22 +87,38 @@ export class GenerateurDeGrilleService {
 
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
-        let i = 0;
         for (const emplacement of emplacements) {
             const tailleMot = emplacement.obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacement);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
+            const emplacementsIntersections = this.obtenirEmplacementsIntersection(grille, emplacement);
             try {
                 const mot: MotComplet = await generateurMot.genererMotAleatoire(niveau);
                 this.affichageConsole(grille);
+
                 grille.ajouterMotEmplacement(mot, emplacement);
             } catch (e) {
                 throw new Error('Aucun mot ne fonctionne !');
             }
-            i++;
         }
         console.log('Grille terminée !');
         return grille;
+    }
+
+    private async motEstPossibleAInserer(emplacementsIntersections: EmplacementMot[]): Promise<boolean> {
+        if (emplacementsIntersections.length > 0) {
+            for (const emplacementIntersection of emplacementsIntersections) {
+                const tailleMotIntersection = emplacementIntersection.obtenirGrandeur();
+                const contraintesIntersection = this.genererTableauContraintes(grille, emplacementIntersection);
+                const generateurMotIntersection = new GenerateurDeMotContrainteService(tailleMotIntersection, contraintesIntersection);
+                try {
+                    await generateurMotIntersection.genererMotAleatoire(niveau);
+                } catch (e) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
