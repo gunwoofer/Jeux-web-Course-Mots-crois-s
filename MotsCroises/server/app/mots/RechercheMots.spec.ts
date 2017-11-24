@@ -1,5 +1,6 @@
 import { assert } from 'chai';
 import { RechercheMots } from './RechercheMots';
+import { Contrainte } from '../Contrainte';
 
 describe('RechercheMots', () => {
 
@@ -12,6 +13,7 @@ describe('RechercheMots', () => {
     });
     
     it('On peut trouver une mot aléatoire selon certains critères.', () => {
-        assert( RechercheMots.rechercherMot(/[^a-z]a[a-z]{4}\n/g).length !== 0);
+        console.log(RechercheMots.rechercherMot(4, [new Contrainte('a', 1)]));
+        assert( RechercheMots.rechercherMot(4, [new Contrainte('a', 1)]).length !== 0);
     });
 });
