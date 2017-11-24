@@ -18,8 +18,8 @@ export class GenerateurDeGrilleService {
     public async genererGrille(niveau: Niveau): Promise<Grille> {
         try {
             this.motCroiseGenere = await this.remplirGrille(niveau, this.generateurDeGrilleVide.genereGrilleVide(niveau));
-            this.affichageConsole(this.motCroiseGenere);
         } catch (e) {
+            console.log(e);
             console.log('Regénération de la grille...');
             this.genererGrille(niveau);
         }
@@ -88,24 +88,32 @@ export class GenerateurDeGrilleService {
     private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
         for (const emplacement of emplacements) {
+            let nEssaiAjoutDeMot = 0;
             const tailleMot = emplacement.obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacement);
             const generateurMot = new GenerateurDeMotContrainteService(tailleMot, contraintes);
             const emplacementsIntersections = this.obtenirEmplacementsIntersection(grille, emplacement);
             try {
-                const mot: MotComplet = await generateurMot.genererMotAleatoire(niveau);
-                this.affichageConsole(grille);
-
+                let mot: MotComplet;
+                while (!this.motEstPossibleAInserer(emplacementsIntersections, grille, niveau)) {
+                    mot = await generateurMot.genererMotAleatoire(niveau);
+                    nEssaiAjoutDeMot++;
+                    if (nEssaiAjoutDeMot > 50) {
+                        throw new Error ('Trop d\'essais !');
+                    }
+                }
                 grille.ajouterMotEmplacement(mot, emplacement);
+                this.affichageConsole(grille);
             } catch (e) {
-                throw new Error('Aucun mot ne fonctionne !');
+                throw new Error('Grille impossible !');
             }
+            this.affichageConsole(grille);
         }
         console.log('Grille terminée !');
         return grille;
     }
 
-    private async motEstPossibleAInserer(emplacementsIntersections: EmplacementMot[]): Promise<boolean> {
+    private async motEstPossibleAInserer(emplacementsIntersections: EmplacementMot[], grille: Grille, niveau: Niveau): Promise<boolean> {
         if (emplacementsIntersections.length > 0) {
             for (const emplacementIntersection of emplacementsIntersections) {
                 const tailleMotIntersection = emplacementIntersection.obtenirGrandeur();
@@ -163,7 +171,11 @@ export class GenerateurDeGrilleService {
 
     private obtenirEmplacementsIntersection(grille: Grille, emplacement: EmplacementMot): EmplacementMot[] {
         const emplacementMots: EmplacementMot[] = new Array();
-        for (const caseCourrante of emplacement.obtenirCases(grille)) {
+        const casesEmplacement: Case[] = grille.obtenirCasesSelonCaseDebut(
+                                                                            emplacement.obtenirCaseDebut(),
+                                                                            emplacement.obtenirPosition(),
+                                                                            emplacement.obtenirGrandeur());
+        for (const caseCourrante of casesEmplacement) {
             for (const emplacementGrille of grille.obtenirEmplacementsMot()) {
                 if (!emplacementGrille.estPareilQue(emplacement) &&
                     this.caseEstEnIntersectionAvecEmplacement(caseCourrante, emplacementGrille, grille)) {
@@ -175,7 +187,11 @@ export class GenerateurDeGrilleService {
     }
 
     private caseEstEnIntersectionAvecEmplacement(caseCourrante: Case, emplacement: EmplacementMot, grille: Grille): boolean {
-        for (const caseEmplacement of emplacement.obtenirCases(grille)) {
+        const casesEmplacement: Case[] = grille.obtenirCasesSelonCaseDebut(
+                                                                            emplacement.obtenirCaseDebut(),
+                                                                            emplacement.obtenirPosition(),
+                                                                            emplacement.obtenirGrandeur());
+        for (const caseEmplacement of casesEmplacement) {
             if (caseEmplacement.obtenirNumeroColonne() === caseCourrante.obtenirNumeroColonne() &&
                 caseEmplacement.obtenirNumeroLigne() === caseCourrante.obtenirNumeroLigne()) {
                     return true;

@@ -12,9 +12,8 @@ export class GenerateurDeGrilleVide {
         let grilleVide = new Grille(niveau);
         grilleVide = this.genererEmplacementsMotsLigne(grilleVide);
         grilleVide = this.genererEmplacementsMotsColonne(grilleVide);
-        grilleVide = this.rechercheMotDeuxLettres(grilleVide);
+        // grilleVide = this.rechercheMotDeuxLettres(grilleVide);
         grilleVide.genererEmplacementsMot();
-        this.affichageConsole(grilleVide);
         return grilleVide;
     }
 
