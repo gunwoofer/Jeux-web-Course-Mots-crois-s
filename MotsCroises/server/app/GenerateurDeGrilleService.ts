@@ -18,8 +18,8 @@ export class GenerateurDeGrilleService {
     public async genererGrille(niveau: Niveau): Promise<Grille> {
         try {
             this.motCroiseGenere = await this.remplirGrille(niveau, this.generateurDeGrilleVide.genereGrilleVide(niveau));
-            this.affichageConsole(this.motCroiseGenere);
         } catch (e) {
+            console.log(e);
             console.log('Regénération de la grille...');
             this.genererGrille(niveau);
         }
@@ -103,6 +103,7 @@ export class GenerateurDeGrilleService {
                     }
                 }
                 grille.ajouterMotEmplacement(mot, emplacement);
+                this.affichageConsole(grille);
             } catch (e) {
                 throw new Error('Grille impossible !');
             }
@@ -170,7 +171,11 @@ export class GenerateurDeGrilleService {
 
     private obtenirEmplacementsIntersection(grille: Grille, emplacement: EmplacementMot): EmplacementMot[] {
         const emplacementMots: EmplacementMot[] = new Array();
-        for (const caseCourrante of emplacement.obtenirCases(grille)) {
+        const casesEmplacement: Case[] = grille.obtenirCasesSelonCaseDebut(
+                                                                            emplacement.obtenirCaseDebut(),
+                                                                            emplacement.obtenirPosition(),
+                                                                            emplacement.obtenirGrandeur());
+        for (const caseCourrante of casesEmplacement) {
             for (const emplacementGrille of grille.obtenirEmplacementsMot()) {
                 if (!emplacementGrille.estPareilQue(emplacement) &&
                     this.caseEstEnIntersectionAvecEmplacement(caseCourrante, emplacementGrille, grille)) {
@@ -182,7 +187,11 @@ export class GenerateurDeGrilleService {
     }
 
     private caseEstEnIntersectionAvecEmplacement(caseCourrante: Case, emplacement: EmplacementMot, grille: Grille): boolean {
-        for (const caseEmplacement of emplacement.obtenirCases(grille)) {
+        const casesEmplacement: Case[] = grille.obtenirCasesSelonCaseDebut(
+                                                                            emplacement.obtenirCaseDebut(),
+                                                                            emplacement.obtenirPosition(),
+                                                                            emplacement.obtenirGrandeur());
+        for (const caseEmplacement of casesEmplacement) {
             if (caseEmplacement.obtenirNumeroColonne() === caseCourrante.obtenirNumeroColonne() &&
                 caseEmplacement.obtenirNumeroLigne() === caseCourrante.obtenirNumeroLigne()) {
                     return true;
