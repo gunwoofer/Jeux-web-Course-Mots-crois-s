@@ -52,6 +52,6 @@ export class CameraService {
     public vueRetroviseur(retroviseur: Retroviseur, voiture: Voiture): void {
         voiture.obtenirVoiture3D().add(retroviseur.camera);
         retroviseur.camera.position.y = 2;
-        retroviseur.camera.rotateY(Math.PI / 4);
+        retroviseur.camera.rotateY(Math.PI / 2);
     }
 }

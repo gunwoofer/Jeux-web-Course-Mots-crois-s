@@ -215,7 +215,6 @@ export class GenerateurPisteService implements Observateur {
             meshPrincipalVoiture = obj.getObjectByName('MainBody');
             this.configurationVoiturePiste(cadranX, cadranY, obj, joueur);
             this.scene.add(obj);
-            this.cameraService.vueRetroviseur(this.retroviseur, this.voitureDuJoueur);
         });
     }
 
@@ -226,6 +225,7 @@ export class GenerateurPisteService implements Observateur {
             meshPrincipalVoiture.material.color.set('grey');
             this.voitureDuJoueur = new Voiture(obj);
             this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
+            this.cameraService.vueRetroviseur(this.retroviseur, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
         } else {
