@@ -8,7 +8,7 @@ export class RechercheMots {
         let position = 0;
         for (const contrainteCourante of contrainteDeMots) {
             position = contrainteCourante.obtenirPositionContrainte();
-            const lettre = contrainteCourante.obtenirLettre();
+            const lettre = contrainteCourante.obtenirLettre().toLowerCase();
 
             if (position === 0) {
                 regEx += lettre;
@@ -23,7 +23,10 @@ export class RechercheMots {
 
         const contrainte: RegExp = new RegExp(regEx + '\n', 'g');
         const mots: string[] = this.rechercheDansListeMots(contrainte);
-        return mots[this.nombreAleatoireEntreXEtY(0, mots.length - 1)];
+        if (mots[this.nombreAleatoireEntreXEtY(0, mots.length - 1)] === undefined) {
+            return undefined;
+        }
+        return mots[this.nombreAleatoireEntreXEtY(0, mots.length - 1)].trim();
     }
 
     public static rechercheMots(contrainte: RegExp): string[] {
