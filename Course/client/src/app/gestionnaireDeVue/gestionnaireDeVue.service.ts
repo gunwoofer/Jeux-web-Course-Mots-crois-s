@@ -1,20 +1,30 @@
+import { Retroviseur } from './retroviseur';
 import { DELTA_ZOOM, ZOOM_AVANT, ZOOM_ARRIERE, ORIGINE } from './../constant';
 import { Injectable } from '@angular/core';
 import { PerspectiveCamera, Vector3 } from 'three';
 import { Voiture } from './../voiture/Voiture';
 
 @Injectable()
-export class CameraService {
+export class GestionnaireDeVue {
 
     private offsetVueDessus = 50;
     private cameraOfssetX = -5;
     private cameraOfssetY = 2;
     private cameraOfssetZ = 0;
+    private etatRetroviseur = true;
 
     public vueMiseAjour(camera: PerspectiveCamera, voiture: Voiture): void {
         camera.lookAt(voiture.obtenirVoiture3D().position);
         camera.updateMatrix();
         camera.updateProjectionMatrix();
+    }
+
+    public changerEtatRetroviseur(): void {
+        this.etatRetroviseur = !this.etatRetroviseur;
+    }
+
+    public obtenirEtatRetroviseur(): boolean {
+        return this.etatRetroviseur;
     }
 
     public vueDessus(camera: PerspectiveCamera, voiture: Voiture): void {

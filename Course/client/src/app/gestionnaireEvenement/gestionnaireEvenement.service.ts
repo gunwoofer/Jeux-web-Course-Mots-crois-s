@@ -2,18 +2,18 @@ import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { LumiereService } from './../lumiere/lumiere.service';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
-import { MODE_JOUR_NUIT, MODE_FILTRE_COULEUR, ZOOM_AVANT, ZOOM_ARRIERE, CHANGER_VUE, ALLUMER_PHARES } from './../constant';
+import { MODE_JOUR_NUIT, MODE_FILTRE_COULEUR, ZOOM_AVANT, ZOOM_ARRIERE, CHANGER_VUE, ALLUMER_PHARES, RETROVISEUR } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { RenderService } from '../renderService/render.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
-import { CameraService } from '../cameraService/cameraService.service';
+import { GestionnaireDeVue } from '../gestionnaireDeVue/gestionnaireDeVue.service';
 
 @Injectable()
 export class EvenementService {
   constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService,
-    private cameraService: CameraService, private lumiereService: LumiereService, private skyboxService: SkyboxService,
+    private gestionnaireDeVue: GestionnaireDeVue, private lumiereService: LumiereService, private skyboxService: SkyboxService,
     private filtreCouleurService: FiltreCouleurService) { }
 
   private tempsMouseDown;
@@ -111,12 +111,14 @@ export class EvenementService {
     } else if (event.key === MODE_FILTRE_COULEUR) {
       this.filtreCouleurService.mettreFiltre(event, this.generateurPisteService.scene);
     } else if (event.key === ZOOM_AVANT || event.key === ZOOM_ARRIERE) {
-      this.cameraService.zoom(event, this.generateurPisteService.camera);
+      this.gestionnaireDeVue.zoom(event, this.generateurPisteService.camera);
     } else if (event.key === CHANGER_VUE) {
       this.generateurPisteService.voitureDuJoueur.vueDessusTroisieme = !this.generateurPisteService.voitureDuJoueur.vueDessusTroisieme;
     } else if (event.key === ALLUMER_PHARES) {
       this.generateurPisteService.phares = !this.generateurPisteService.phares;
       this.lumiereService.alternerPhares(this.generateurPisteService.voitureDuJoueur);
+    }else if (event.key === RETROVISEUR) {
+      this.gestionnaireDeVue.changerEtatRetroviseur();
     }
   }
 

@@ -63,5 +63,8 @@ export const DECELERATION = 0.01;
 export const VITESSE_MAX = 1;
 export const VITESSE_MIN = 0.05;
 export const NOMBRE_JOUEURS = 4;
+export const RETROVISEUR = 'r';
+export const LARGEUR_RETROVISEUR = 300;
+export const HAUTEUR_RETROVISEUR = 100;
 
 
