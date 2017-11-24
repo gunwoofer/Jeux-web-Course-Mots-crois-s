@@ -1,10 +1,11 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste } from './ElementDePiste';
 import * as THREE from 'three';
 
 export class Accelerateur extends ElementDePiste {
 
-    constructor(x: number, y: number, z: number) {
+    constructor(x: number, y: number, z: number, private deplacementService: DeplacementService) {
         super(x, y, z);
         this.mesh = this.genererMesh();
         this.mesh.position.set(this.x, this.y, this.z);
@@ -33,6 +34,7 @@ export class Accelerateur extends ElementDePiste {
 
     public effetSurObstacle(voiture: Voiture): void {
         console.log('Sur accelerateur !');
+        this.deplacementService.augmenterVitesseAccelerateur(voiture);
     }
 
 }

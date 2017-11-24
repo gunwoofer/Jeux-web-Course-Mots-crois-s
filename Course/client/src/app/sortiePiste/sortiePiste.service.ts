@@ -1,3 +1,4 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { ORIGINE, ORIENTATION_Z } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
@@ -11,7 +12,7 @@ export class SortiePisteService {
     private estSurPiste: boolean;
     private segmentOuReapparaitre: THREE.Mesh;
 
-    constructor(piste: THREE.Mesh[]) {
+    constructor(piste: THREE.Mesh[], private deplacementService: DeplacementService) {
         this.listeSegments = piste;
     }
 
@@ -19,7 +20,7 @@ export class SortiePisteService {
         this.estSurLaPiste(voiture.obtenirVoiture3D());
         if (!this.estSurPiste) {
             this.ramenerVoitureDernierSegment(voiture);
-            voiture.reduireVitesseSortiePiste();
+            this.deplacementService.reduireVitesseSortiePiste(voiture);
         }
     }
 

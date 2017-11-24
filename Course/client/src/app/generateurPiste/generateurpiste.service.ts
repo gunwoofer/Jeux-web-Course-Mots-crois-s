@@ -20,7 +20,7 @@ import { ObjetService } from '../objetService/objet.service';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { MusiqueService } from '../musique/musique.service';
 
-import { Deplacement } from './deplacement.model';
+import { DeplacementService } from './deplacement.service';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
@@ -49,7 +49,6 @@ export class GenerateurPisteService implements Observateur {
     public renduObject = new Rendu();
     public scene: THREE.Scene;
     public voitureDuJoueur: Voiture;
-    public deplacement = new Deplacement();
     public jour = true;
     public phares = false;
     public sortiePisteService: SortiePisteService;
@@ -71,7 +70,7 @@ export class GenerateurPisteService implements Observateur {
         public filtreCouleurService: FiltreCouleurService, public gestionnaireDeVue: GestionnaireDeVue,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
         public skyboxService: SkyboxService, public placementService: PlacementService,
-        public affichageTeteHauteService: AffichageTeteHauteService) {
+        public affichageTeteHauteService: AffichageTeteHauteService, public deplacementService: DeplacementService) {
         this.segment = new Segment();
         this.listeSkyboxJour = new Array<THREE.Mesh>();
         this.listeSkyboxNuit = new Array<THREE.Mesh>();
@@ -85,21 +84,22 @@ export class GenerateurPisteService implements Observateur {
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
         this.ajoutPisteAuPlan();
-        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
+        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste),
+                                                        this.deplacementService);
         this.ajoutZoneDepart();
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
         // Mock nid de poule
-        const nidDePoule = new NidDePoule(6, -18, 0.01);
+        const nidDePoule = new NidDePoule(6, -18, 0.01, this.deplacementService);
         this.piste.ajouterElementPiste(nidDePoule);
 
         // Mock flaque d eau
-        const flaque = new FlaqueDEau(40, -19, 0.01);
+        const flaque = new FlaqueDEau(40, -19, 0.01, this.deplacementService);
         this.piste.ajouterElementPiste(flaque);
 
          // Mock boost
-         const accelerateur = new Accelerateur(60, -19, 0.01);
+         const accelerateur = new Accelerateur(60, -19, 0.01, this.deplacementService);
          this.piste.ajouterElementPiste(accelerateur);
 
 
@@ -166,13 +166,13 @@ export class GenerateurPisteService implements Observateur {
                 this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
             }
             this.miseAJourPositionVoiture();
-            this.skyboxService.rotationSkybox(this.deplacement, this.voitureDuJoueur, this.camera);
+            this.skyboxService.rotationSkybox(this.deplacementService, this.voitureDuJoueur, this.camera);
         }, 1000 / FPS);
     }
 
     public miseAJourPositionVoiture(): void {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
-            this.deplacement.moteurDeplacement(this.voitureDuJoueur);
+            this.deplacementService.moteurDeplacement(this.voitureDuJoueur);
             this.renderMiseAJour();
         }
     }
@@ -209,11 +209,11 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public toucheRelachee(event): void {
-        this.deplacement.toucheRelachee(event);
+        this.deplacementService.toucheRelachee(event);
     }
 
     public touchePesee(event): void {
-        this.deplacement.touchePesee(event);
+        this.deplacementService.touchePesee(event);
     }
 
     public chargementDesVoitures(): void {

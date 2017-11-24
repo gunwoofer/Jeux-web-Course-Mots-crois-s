@@ -1,13 +1,15 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste } from './ElementDePiste';
 import * as THREE from 'three';
+
 
 export class NidDePoule extends ElementDePiste {
     private fonctionIntervalle: any;
     private bActif: boolean;
 
 
-    constructor(x: number, y: number, z: number) {
+    constructor(x: number, y: number, z: number, private deplacementService: DeplacementService) {
         super(x, y, z);
         this.mesh = this.genererMesh(); // Remplacer le rayon par la taille de la voiture
         this.mesh.position.set(this.x, this.y, this.z);
@@ -34,14 +36,11 @@ export class NidDePoule extends ElementDePiste {
     public genererRayCaster(vecteur: THREE.Vector3): void {
         const positionNidDePoule = new THREE.Vector3(this.x, this.y, this.z);
         this.raycaster = new THREE.Raycaster(positionNidDePoule, vecteur);
-        //Implementation dune promesse pour sassurer que mes segments de piste ont bien ete chargées
-       // const positionAleatoire = this.genererPositionAleatoire(this.segment.chargerSegmentsDePiste(this.piste));
-
     }
 
     public effetSurObstacle(voiture: Voiture): void {
         console.log('sur nid de poule');
-        voiture.reduireVitesseNidDePoule();
-        voiture.secousseNidDePoule();
+        this.deplacementService.reduireVitesseNidDePoule(voiture);
+        this.deplacementService.secousseNidDePoule();
     }
 }

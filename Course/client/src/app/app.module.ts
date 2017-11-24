@@ -1,3 +1,4 @@
+import { DeplacementService } from './generateurPiste/deplacement.service';
 import { PlacementService } from './objetService/placementVoiture.service';
 import { RatingComponent } from './rating/rating.component';
 import { TableauScoreService } from './tableauScore/tableauScoreService.service';
@@ -84,6 +85,7 @@ import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichageteteh
     FacadeLigneService,
     MessageErreurService,
     GenerateurPisteService,
+    DeplacementService,
     MusiqueService,
     UtilisateurService,
     FiltreCouleurService,

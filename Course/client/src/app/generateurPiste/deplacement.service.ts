@@ -1,8 +1,10 @@
+import { Injectable } from '@angular/core';
 import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX } from './../constant';
 
-import { Voiture } from './../voiture/Voiture';
+import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
 
-export class Deplacement {
+@Injectable()
+export class DeplacementService {
     public enAvant: boolean;
     public aDroite: boolean;
     public aGauche: boolean;
@@ -52,6 +54,22 @@ export class Deplacement {
 
     private tournerDroite(voiture: Voiture): void {
         voiture.voiture3D.rotateY(-ROTATION);
+    }
+
+    public reduireVitesseSortiePiste(voiture: Voiture): void {
+        voiture.vitesse /= REDUCTION_VITESSE_SORTIE_PISTE;
+    }
+
+    public reduireVitesseNidDePoule(voiture: Voiture): void {
+        voiture.vitesse /= REDUCTION_VITESSE_NID_DE_POULE;
+    }
+
+    public secousseNidDePoule(): void {
+        return;
+    }
+
+    public augmenterVitesseAccelerateur(voiture: Voiture): void {
+        voiture.vitesse = 1;
     }
 
     public touchePesee(event): void {

@@ -107,16 +107,4 @@ export class Voiture implements sujet.Sujet {
         }
     }
 
-    public reduireVitesseSortiePiste(): void {
-        this.vitesse /= REDUCTION_VITESSE_SORTIE_PISTE;
-    }
-
-    public reduireVitesseNidDePoule(): void {
-        this.vitesse /= REDUCTION_VITESSE_NID_DE_POULE;
-    }
-
-    public secousseNidDePoule(): void {
-        console.log('SECOUUUUSSE');
-        this.obtenirVoiture3D().position.y += 5;
-    }
 }

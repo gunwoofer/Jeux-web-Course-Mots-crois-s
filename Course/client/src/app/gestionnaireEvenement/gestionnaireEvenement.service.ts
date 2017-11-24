@@ -123,10 +123,10 @@ export class EvenementService {
   }
 
   public toucheRelachee(event): void {
-    this.generateurPisteService.deplacement.toucheRelachee(event);
+    this.generateurPisteService.deplacementService.toucheRelachee(event);
   }
 
   public touchePesee(event): void {
-    this.generateurPisteService.deplacement.touchePesee(event);
+    this.generateurPisteService.deplacementService.touchePesee(event);
   }
 }
