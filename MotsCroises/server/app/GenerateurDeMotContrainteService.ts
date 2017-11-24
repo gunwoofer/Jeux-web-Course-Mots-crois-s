@@ -24,7 +24,7 @@ export class GenerateurDeMotContrainteService {
         return new Promise((resolve: any, reject: any) => {
             const contrainte = this.preparerContrainte();
 
-            this.obtenirMotAleatoireDeDataMuse(contrainte, niveau)
+            this.demanderMotsADatamuse(contrainte, niveau)
                 .then((resultat: MotComplet) => { resolve(resultat); })
                 .catch((erreur: string) => { reject(erreur); });
         });
@@ -48,7 +48,7 @@ export class GenerateurDeMotContrainteService {
     }
 
     private creerMotAleatoireAPartirDe(motsDataMuse: MotDataMuse[], difficulteDefinition: DifficulteDefinition,
-        rarete: Rarete): MotComplet {
+                                            rarete: Rarete): MotComplet {
         let mot: MotComplet;
         const nombrealeat = this.nombreAleatoireEntreXEtY(0, motsDataMuse.length - 1);
         const monIndice: Indice = new Indice(motsDataMuse[nombrealeat].defs);
@@ -60,69 +60,48 @@ export class GenerateurDeMotContrainteService {
         return mot;
     }
 
-    private obtenirMotAleatoireDeDataMuse(contrainte: string, niveau: Niveau): Promise<MotComplet> {
-
-        // Un score au dessus de 1000 indique un mot commun et inferieure a 1000 non commun
-        const tableauCommun = new Array<any>();
-        const tableauNonCommun = new Array<any>();
-
+    private demanderMotsADatamuse(contrainte: string, niveau: Niveau): Promise<MotComplet> {
         return new Promise((resolve: any, reject: any) => {
             datamuse.request('words?sp=' + contrainte + '&md=df').then((motsDataMuse: MotDataMuse[]) => {
-                motsDataMuse = MotDataMuse.convertirJsonEnMotsDataMuse(motsDataMuse);
+                const motComplet: MotComplet = this.traiterMots(motsDataMuse, niveau);
 
-                const nombreMotPossible = motsDataMuse.length;
-
-                if (nombreMotPossible === 0) {
-                    reject(aucunMotObtenuDeDataMuse);
+                if (motComplet !== undefined) {
+                    resolve(motComplet);
                 }
-
-
-                for (const motDataMuseCourant of motsDataMuse) {
-                    if ((motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined)
-                        && (motDataMuseCourant.defs.length !== 1)) {
-                        tableauNonCommun.push(motDataMuseCourant);
-                    } else if ((!motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined)
-                        && (motDataMuseCourant.defs.length !== 1)) {
-                        tableauCommun.push(motDataMuseCourant);
-                    }
-                }
-
-                switch (niveau) {
-                    case Niveau.facile:
-                        if (tableauCommun.length > 0) {
-                            resolve(this.creerMotAleatoireAPartirDe(tableauCommun, DifficulteDefinition.PremiereDefinition, Rarete.commun));
-                        } else {
-                            reject(aucunMotDansTableauCommun);
-                        }
-                        break;
-
-                    case Niveau.moyen:
-                        if (tableauCommun.length > 0) {
-                            resolve(this.creerMotAleatoireAPartirDe(tableauCommun,
-                                DifficulteDefinition.DefinitionAlternative, Rarete.commun));
-                        } else {
-                            reject(aucunMotDansTableauCommun);
-                        }
-                        break;
-
-                    case Niveau.difficile:
-                        if (tableauNonCommun.length > 0) {
-                            resolve(this.creerMotAleatoireAPartirDe(tableauNonCommun,
-                                DifficulteDefinition.DefinitionAlternative, Rarete.nonCommun));
-                        } else {
-                            reject(aucunMotDansTableauNonCommun);
-                        }
-                        break;
-
-                    default:
-                        reject();
-                        break;
-                }
+                reject(aucunMotObtenuDeDataMuse);
 
             }).catch((erreur: any) => {
                 reject(erreur);
             });
         });
+    }
+
+    private traiterMots(motsDataMuse: MotDataMuse[], niveau: Niveau): MotComplet {
+
+        // Un score au dessus de 1000 indique un mot commun et inferieure a 1000 non commun
+        const tableauCommun = new Array<any>();
+        const tableauNonCommun = new Array<any>();
+
+        motsDataMuse = MotDataMuse.convertirJsonEnMotsDataMuse(motsDataMuse);
+
+        for (const motDataMuseCourant of motsDataMuse) {
+            if ((motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined)
+                && (motDataMuseCourant.defs.length !== 1)) {
+                tableauNonCommun.push(motDataMuseCourant);
+            } else if ((!motDataMuseCourant.estUnMotNonCommun()) && (motDataMuseCourant.defs !== undefined)
+                && (motDataMuseCourant.defs.length !== 1)) {
+                tableauCommun.push(motDataMuseCourant);
+            }
+        }
+
+        if ((tableauNonCommun.length > 0 && niveau === Niveau.difficile) || tableauCommun.length > 0 && niveau !== Niveau.difficile) {
+            return this.creerMotAleatoireAPartirDe((niveau !== Niveau.difficile) ? tableauCommun : tableauNonCommun,
+                                                (niveau !== Niveau.facile) ? DifficulteDefinition.DefinitionAlternative :
+                                                DifficulteDefinition.PremiereDefinition, (niveau !== Niveau.difficile) ?
+                                                Rarete.commun : Rarete.nonCommun);
+        }
+
+        return undefined;
     }
 
     private nombreAleatoireEntreXEtY(min: number, max: number): number {

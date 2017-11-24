@@ -1,10 +1,9 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {GameViewService} from '../game_view/game-view.service';
 import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
 import {Niveau} from '../../../../commun/Niveau';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import { TypePartie } from '../../../../commun/TypePartie';
 
 
 @Component({
@@ -13,7 +12,7 @@ import { TypePartie } from '../../../../commun/TypePartie';
   styleUrls: ['./attente-partie.component.css']
 })
 
-export class AttentePartieComponent implements OnInit {
+export class AttentePartieComponent {
   public nomJoueur = '';
   public nomJoueur2 = '';
   public partieSelectionne: VuePartieEnCours;
@@ -27,10 +26,6 @@ export class AttentePartieComponent implements OnInit {
     this.gameViewService.joueurAdverseTrouve$.subscribe(() => {
 
     });
-  }
-
-  public ngOnInit(): void {
-    // this.gameViewService.demanderPartieServer();
   }
 
   private recupererDonnesPartie(): void {

@@ -1,7 +1,9 @@
+import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
+import { NotificationType } from '../../../../commun/observateur/NotificationType';
 
 export const REDUCTION_VITESSE_SORTIE_PISTE = 10;
 export const REDUCTION_VITESSE_NID_DE_POULE = 4;
@@ -25,7 +27,7 @@ export class Voiture implements sujet.Sujet {
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
-        this.vitesse = 0;
+        this.vitesse = VITESSE_INTIALE;
     }
 
     public obtenirRoueAvantGauche(): THREE.Object3D {
@@ -101,7 +103,7 @@ export class Voiture implements sujet.Sujet {
 
     public notifierObservateurs(): void {
         for (const observateurCourant of this.observateurs) {
-            observateurCourant.notifier(this);
+            observateurCourant.notifier(this, NotificationType.Non_definie);
         }
     }
 

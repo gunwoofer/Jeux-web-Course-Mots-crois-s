@@ -10,7 +10,7 @@ import {CanvasGrille} from './canvasGrille';
 })
 
 export class CanvasViewComponent implements AfterViewInit {
-  private canvasGrille: CanvasGrille;
+  private   canvasGrille: CanvasGrille;
 
   constructor(private gameViewService: GameViewService) {
     this.souscrireEvenementIndices();
@@ -38,6 +38,7 @@ export class CanvasViewComponent implements AfterViewInit {
     this.gameViewService.indiceSelectionne$.subscribe(indice => {
       if (!indice) {
         this.canvasGrille.initialise();
+        this.canvasGrille.miseAJourIndice(null);
         return;
       }
       this.canvasGrille.miseAJourIndice(indice);

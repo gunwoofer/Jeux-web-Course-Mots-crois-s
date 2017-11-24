@@ -42,7 +42,6 @@ export class TrouverPartieComponent implements OnInit {
   }
 
   public rejoindrePartie() {
-    console.log('PARTIE EN TRAIN DE REJOINDRE');
     this.joueur.changerNomJoueur(this.nomJoueur);
     this.gameViewService.rejoindrePartieMultijoueur(this.partieSelectionne, this.joueur);
   }

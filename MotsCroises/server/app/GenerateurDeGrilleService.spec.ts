@@ -3,14 +3,15 @@ import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Grille } from './Grille';
 import { Case, EtatCase } from '../../commun/Case';
 import { Niveau } from '../../commun/Niveau';
+import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
 
 describe('GenerateurDeGrilleService', () => {
     it('Une grille est carre et fait dix cases de cote.', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
-        assert(grille.obtenirHauteurCases() === 10);
-        assert(grille.obtenirLongueurCases() === 10);
+        assert(grille.cases.obtenirHauteurCases() === 10);
+        assert(grille.cases.obtenirLongueurCases() === 10);
     });
 
     it('Chaque ligne et colonne contient un ou deux mots ecrits de gauche a droite et de haut en bas.', () => {
@@ -55,7 +56,7 @@ describe('GenerateurDeGrilleService', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
-        for (const ligneCasesCourante of grille.obtenirCases()) {
+        for (const ligneCasesCourante of grille.cases.obtenirCases()) {
             for (const caseCourante of ligneCasesCourante) {
                 if (caseCourante.etat === EtatCase.pleine) {
                     const lettreCourante: string = caseCourante.obtenirLettre();
@@ -70,11 +71,10 @@ describe('GenerateurDeGrilleService', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         const grille = generateurDeGrilleService.genererGrille(Niveau.facile);
 
-        for (const ligneCasesCourante of grille.obtenirCases()) {
+        for (const ligneCasesCourante of grille.cases.obtenirCases()) {
             for (const caseCourante of ligneCasesCourante) {
                 if (caseCourante.etat === EtatCase.pleine) {
                     const lettreCourante: string = caseCourante.obtenirLettre();
-
 
                     assert((lettreCourante !== '-') && (lettreCourante !== '\''));
                 }
@@ -88,20 +88,22 @@ describe('GenerateurDeGrilleService', () => {
 
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                assert((grille.obtenirCase(i, j).etat === EtatCase.noir) || (grille.obtenirCase(i, j).etat === EtatCase.pleine));
+                assert((grille.cases.obtenirCase(i, j).etat === EtatCase.noir) ||
+                    (grille.cases.obtenirCase(i, j).etat === EtatCase.pleine));
             }
         }
     });
 
     it('Plusieurs grilles vides différentes doivent pouvoir être généré.', () => {
-        const generateurDeGrilleService = new GenerateurDeGrilleService();
-        const grille1: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
-        const grille2: Grille = generateurDeGrilleService.genereGrilleVide(Niveau.facile);
+        const generateurDeGrilleVide = new GenerateurDeGrilleVide();
+        const grille1: Grille = generateurDeGrilleVide.genereGrilleVide(Niveau.facile);
+        const grille2: Grille = generateurDeGrilleVide.genereGrilleVide(Niveau.facile);
         let grilleDifferente = false;
+
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                const caseGrille1: Case = grille1.obtenirCase(i, j);
-                const caseGrille2: Case = grille2.obtenirCase(i, j);
+                const caseGrille1: Case = grille1.cases.obtenirCase(i, j);
+                const caseGrille2: Case = grille2.cases.obtenirCase(i, j);
                 if (caseGrille1.etat !== caseGrille2.etat) {
                     grilleDifferente = true;
                 }

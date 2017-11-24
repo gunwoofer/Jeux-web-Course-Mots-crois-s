@@ -1,6 +1,5 @@
+import { REAJUSTEMENT_SKYBOX, DIMENSION_CUBE } from './../constant';
 import * as THREE from 'three';
-
-export const REAJUSTEMENT_SKYBOX = 0.2;
 
 export class Skybox {
 
@@ -26,7 +25,7 @@ export class Skybox {
     }
 
     public creerSkybox(emplacement: string): THREE.Mesh {
-        const geometrie = new THREE.CubeGeometry(1500, 1500, 1500);
+        const geometrie = new THREE.CubeGeometry(DIMENSION_CUBE, DIMENSION_CUBE, DIMENSION_CUBE);
         const materiels = this.chargerTexture(emplacement);
         const materiel = new THREE.MultiMaterial(materiels);
         const skybox = new THREE.Mesh(geometrie, materiel);

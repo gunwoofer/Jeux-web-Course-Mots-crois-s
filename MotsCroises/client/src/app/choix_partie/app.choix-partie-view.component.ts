@@ -21,7 +21,6 @@ export class ChoixPartieViewComponent {
   public niveauValue: string[] = ['facile', 'moyen', 'difficile'];
   public typePartieValue: string[] = ['classique', 'dynamique'];
   public nbJoueursValue: string[] = ['1 joueur', '2 joueurs'];
-  public playerName = '';
 
   constructor(private router: Router, private gameViewService: GameViewService) {
 

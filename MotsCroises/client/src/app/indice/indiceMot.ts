@@ -7,7 +7,7 @@ export class IndiceMot {
   public positionI: number;
   public positionJ: number;
   public motTrouve: string;
-  public couleur: string = '#000000';
+  public couleur = '#000000';
 
   constructor(guidIndice: string, indexFixe: number, definition: string, tailleMot: number, sens: number,
               positionI: number, positionJ: number, motTrouve: string = '') {

@@ -27,7 +27,7 @@ import { ModificationMotDePasseComponent } from './accueil/admin/modificationMot
 import { RenderService } from './renderService/render.service';
 import { PisteService } from './piste/piste.service';
 import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
-import { FacadeSourisService } from './facadeSouris/facadesouris.service';
+import { EvenementService } from './gestionnaireEvenement/gestionnaireEvenement.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
@@ -36,13 +36,16 @@ import { UtilisateurService } from './accueil/utilisateur.service';
 import { MusiqueService } from './musique/musique.service';
 import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
 import { ObjetService } from './objetService/objet.service';
-import { CameraService } from './cameraService/cameraService.service';
+import { GestionnaireDeVue } from './gestionnaireDeVue/gestionnaireDeVue.service';
 import { RatingService } from './rating/rating.service';
 import { SkyboxService } from './skybox/skybox.service';
+
+import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehaute.service';
 
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
+import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichagetetehaute.component';
 
 
 
@@ -63,7 +66,8 @@ import { AppRoutingModule } from './app.routing';
     ModificationMotDePasseComponent,
     ConfigurationPartieComponent,
     FinDePartieComponent,
-    RatingComponent
+    RatingComponent,
+    AffichageTeteHauteComponent
   ],
   imports: [
     BrowserModule,
@@ -75,7 +79,7 @@ import { AppRoutingModule } from './app.routing';
     RenderService,
     PisteService,
     FacadeCoordonneesService,
-    FacadeSourisService,
+    EvenementService,
     FacadePointService,
     FacadeLigneService,
     MessageErreurService,
@@ -86,10 +90,11 @@ import { AppRoutingModule } from './app.routing';
     ObjetService,
     LumiereService,
     TableauScoreService,
-    CameraService,
+    GestionnaireDeVue,
     RatingService,
     SkyboxService,
     PlacementService,
+    AffichageTeteHauteService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

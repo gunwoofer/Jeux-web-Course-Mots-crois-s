@@ -27,7 +27,6 @@ export class GestionnaireDePartieService {
     public obtenirPartiesEnAttente(): Partie[] {
         const partiesEnCours: Partie[] = [];
 
-
         for (const partieCourante of this.parties) {
             if (!partieCourante.estDebute()) {
                 partiesEnCours.push(partieCourante);
@@ -67,6 +66,7 @@ export class GestionnaireDePartieService {
         if (partieEnCours.partieEstTermine()) {
             return true;
         }
+
         return false;
     }
 }

@@ -79,32 +79,18 @@ export class Application {
         // create routes
         const index: indexRoute.Index = new indexRoute.Index();
 
+        // Affichage console de la grille (Pour les tests)
+        router.get('/test', index.testGenerationGrille.bind(index.testGenerationGrille));
+
         // Generation d'une grille
         router.get('/GenerationDeGrilleService', index.GenerationDeGrilleService.bind(index.GenerationDeGrilleService));
 
-        // Utilisation de la base de données.
+        // Routage pour les requêtes serveurs.
         router.use('/grilles/persistence/grille/facile/async', index.asyncObtenirGrilleFacile.bind(index.asyncObtenirGrilleFacile));
-        router.use('/grilles/persistence/grille/facile', index.obtenirGrilleFacile.bind(index.obtenirGrilleFacile));
         router.use('/grilles/persistence/grille/moyen/async', index.asyncObtenirGrilleMoyen.bind(index.asyncObtenirGrilleMoyen));
-        router.use('/grilles/persistence/grille/moyen', index.obtenirGrilleMoyen.bind(index.obtenirGrilleMoyen));
         router.use('/grilles/persistence/grille/difficile/async',
             index.asyncObtenirGrilleDifficile.bind(index.asyncObtenirGrilleDifficile));
-        router.use('/grilles/persistence/grille/difficile', index.obtenirGrilleDifficile.bind(index.obtenirGrilleDifficile));
-
-        router.use('/grilles/persistence/grille/ajouter/5/async',
-            index.asyncPersistenceGrillesService.bind(index.asyncPersistenceGrillesService));
         router.use('/grilles/persistence/grille/ajouter/15', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
-        router.use('/grilles/tableau/creer', index.creerTableauGrille.bind(index.creerTableauGrille));
-
-        // Generation De mot
-        router.use('/mot/creer/facile', index.GenererMotAleatoireFacile.bind(index.GenererMotAleatoireFacile));
-        router.use('/mot/creer/moyen', index.GenererMotAleatoireMoyen.bind(index.GenererMotAleatoireMoyen));
-        router.use('/mot/creer/difficile', index.GenererMotAleatoireDifficile.bind(index.GenererMotAleatoireDifficile));
-
-        // partie
-        router.use('/partie/test/verifier/mot', index.verifierMauvaisMot.bind(index.verifierMauvaisMot));
-
-
 
         // Socket IO
         const connexionTempsReelServer: ConnexionTempsReelServer = new ConnexionTempsReelServer(this.app);

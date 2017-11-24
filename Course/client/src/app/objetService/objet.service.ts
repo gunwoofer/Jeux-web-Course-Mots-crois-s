@@ -1,14 +1,16 @@
+import { LumiereService } from '../lumiere/lumiere.service';
+import { LUMIERES, ARBRE_PATH, ARBRE_TEXTURE, WIDTH } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
-export const LUMIERES = [
-    'AreaLight', 'AreaLight1', 'SpotLight', 'SpotLight1', 'HemisphereLight',
-    'BrakeLightLS1', 'BrakeLightLS2', 'BrakeLightLS3', 'BrakeLightLS4',
-    'BrakeLightRS1', 'BrakeLightRS2', 'BrakeLightRS3', 'BrakeLightRS4',
-    'Lumière Avant Droite', 'Lumière Avant Gauche', 'Phare Droit', 'Phare Gauche'];
-
 @Injectable()
 export class ObjetService {
+
+    private objetArbre: THREE.Object3D;
+
+    constructor(private lumiereService: LumiereService) {
+        this.objetArbre = this.chargerArbre(ARBRE_PATH, ARBRE_TEXTURE, WIDTH);
+    }
 
     public random(min, max): number {
         return Math.floor(Math.random() * (max - min + 1) + min);
@@ -37,6 +39,10 @@ export class ObjetService {
         return groupe;
     }
 
+    public ajouterArbreScene(scene: THREE.Scene): void {
+        scene.add(this.objetArbre);
+    }
+
     public enleverObjet(object: THREE.Object3D): void {
         const noms = ['Plane', 'Null'];
         for (let i = 0; i < noms.length; i++) {
@@ -51,33 +57,29 @@ export class ObjetService {
     }
 
     public ajouterPhares(objet: THREE.Object3D): void {
-        const lumiereDroite = this.creerLumiereAvant('Lumière Avant Droite', 1);
+        const lumiereDroite = this.lumiereService.creerLumiereAvant('Lumière Avant Droite', 1);
         objet.add(lumiereDroite);
         objet.add(lumiereDroite.target);
-        const lumiereGauche = this.creerLumiereAvant('Lumière Avant Gauche', -1);
+        const lumiereGauche = this.lumiereService.creerLumiereAvant('Lumière Avant Gauche', -1);
         objet.add(lumiereGauche);
         objet.add(lumiereGauche.target);
-
-        objet.add(this.creerPhare('Phare Droit', 1));
-        objet.add(this.creerPhare('Phare Gauche', -1));
+        objet.add(this.lumiereService.creerPhare('Phare Droit', 1));
+        objet.add(this.lumiereService.creerPhare('Phare Gauche', -1));
     }
 
-    public creerPhare(nom: string, cote: number): THREE.PointLight {
-        const phare = new THREE.PointLight(0xffffff, 0.5, 5);
-        phare.name = nom;
-        phare.position.set(2.7, 1, cote * 0.6);
-        phare.rotation.set(Math.PI, Math.PI, -Math.PI);
-        return phare;
+    public vecteurAngle(vecteur: THREE.Vector3, vecteur2: THREE.Vector3): THREE.Vector2 {
+        return new THREE.Vector2((vecteur.x - vecteur2.x), (vecteur.y - vecteur2.y));
     }
 
-    public creerLumiereAvant(nom: string, cote: number) {
-        const lumiereAvant = new THREE.SpotLight(0xffffff, 2);
-        lumiereAvant.name = nom;
-        lumiereAvant.position.set(3, 1.5, cote * 0.6);
-        lumiereAvant.angle = 0.5;
-        lumiereAvant.target.position.set(6, 0.5, cote * 1);
-        lumiereAvant.distance = 80;
-        return lumiereAvant;
+    public manipulationObjetVoiture(vecteur: THREE.Vector3, vecteur2: THREE.Vector3, objet: THREE.Object3D): void {
+        const vecteurCalculAngle = this.vecteurAngle(vecteur, vecteur2);
+        objet.rotateX(Math.PI / 2);
+        objet.rotateY(vecteurCalculAngle.angle());
+        objet.name = 'Voiture';
+        this.enleverObjet(objet);
+        this.ajouterPhares(objet);
+        this.eteindreTousLesPhares(objet);
+        objet.receiveShadow = true;
     }
 
 }

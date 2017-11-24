@@ -26,11 +26,8 @@ export class Piste {
         this.coteAppreciation = [];
         this.estSurNidPoule = false;
         this.listeElementsDePiste = new Array();
-        for (let i = 0; i < 5; i++) {
-            this.meilleursTemps[i] = new Score('anas', '4min 0' + i + 's');
-        }
+        this.meilleursTemps = [];
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
-
         Piste.longueurPiste = this.obtenirLongueurPiste();
     }
 
@@ -101,7 +98,7 @@ export class Piste {
                     somme += +chiffre;
                 }
             }
-            this.coteMoyenne = somme / nombreElement;
+            this.coteMoyenne = Math.abs(somme / nombreElement);
         }
     }
 }

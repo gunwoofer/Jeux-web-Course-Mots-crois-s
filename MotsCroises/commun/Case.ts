@@ -71,6 +71,10 @@ export class Case {
         this.etat = EtatCase.pleine;
     }
 
+    public viderCase(): void {
+        this.lettre = '';
+    }
+
     public ajouterUnPointDeContrainte(position: Position, increment: number = 1): void {
         this.pointsDeContraintes += increment;
         this.pointsDeContraintesProvenance.push(position);
@@ -109,10 +113,5 @@ export class Case {
         this.pointsDeContraintes = 0;
         this.pointsDeContraintesProvenance = new Array();
         this.intersection = false;
-    }
-
-    public viderCase(): void {
-        this.etat = EtatCase.vide;
-        this.lettre = '';
     }
 }

@@ -1,6 +1,4 @@
-import { PisteService } from './../piste/piste.service';
 import { Router } from '@angular/router';
-import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { Component } from '@angular/core';
 
 

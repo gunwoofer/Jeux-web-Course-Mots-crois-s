@@ -17,14 +17,15 @@ export class InfosJeuViewComponent implements AfterViewInit {
   private FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS = 10000;
 
   public motEnCoursJ1: string;
-  public motEnCoursJ2: string;
-  public tempsRestant = 0;
+  public tempsRestant = 3000;
   private dureeGrille = 3000000;
   public tempsFin: number;
   private intervalFunction: any;
   private intervalFunctionServer: any;
   public joueur: Joueur;
   public joueur2: Joueur;
+  public cheatModeVisible = false;
+  public tempsRestantAEnvoyer: number;
 
 
   constructor(private gameViewService: GameViewService) {
@@ -33,7 +34,6 @@ export class InfosJeuViewComponent implements AfterViewInit {
     });
     this.gameViewService.modifierTempsRestant$.subscribe(nouveauTemps => {
       this.tempsRestant = Math.round(nouveauTemps / 1000);
-      console.log('nouveau temps arrivée', nouveauTemps);
     });
 
     this.joueur = this.gameViewService.joueur;
@@ -59,25 +59,35 @@ export class InfosJeuViewComponent implements AfterViewInit {
   }
 
   private MAJTemps() {
-    this.tempsRestant = this.tempsRestant + 1;
+    this.tempsRestant = this.tempsRestant - 1;
     if (this.tempsRestant < 0) {
       this.gameViewService.partieTermineeFauteDeTemps(true);
     }
   }
 
-  public activerCheatMode(): void {
+  public recupererMotsCheatMode(): void {
     this.gameViewService.demanderMotsComplets();
   }
 
+  public afficherCheatMode(): void {
+    this.cheatModeVisible = !this.cheatModeVisible;
+  }
 
-  private MAJTempsServer() {
+
+  private MAJTempsServer(): void {
     this.gameViewService.demanderTempsPartie();
   }
 
-  public stopperIntervalFonction() {
+  public stopperIntervalFonction(): void {
     clearInterval(this.intervalFunction);
     clearInterval(this.intervalFunctionServer);
   }
 
+  public envoyerTemps(): void {
+    this.gameViewService.modifierTempsServeur(this.tempsRestantAEnvoyer * 1000);
+  }
 
+  public activerEcritureTempsCheatMode(): void {
+    this.gameViewService.activerModificationTempsServeur();
+  }
 }

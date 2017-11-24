@@ -7,7 +7,7 @@ describe('Test unitaire base de données', () => {
         const bd = new BdImplementation();
         const expect = chai.expect;
 
-        const valeurRetour = bd.connect(configuration.baseDeDonneesUrlExterne);
+        const valeurRetour = bd.connect(configuration.baseDeDonneesUrlTest);
         expect(valeurRetour === true);
     });
 });

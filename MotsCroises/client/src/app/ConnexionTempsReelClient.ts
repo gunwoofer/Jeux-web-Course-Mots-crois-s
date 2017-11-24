@@ -14,11 +14,9 @@ export class ConnexionTempsReelClient {
         nomRequeteAEcouter: string, callback: any, self: Object) {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
           if ( !this.connexionSocket.hasListeners(nomRequeteAEcouter)) {
-            console.log('ajout ecoute ', nomRequeteAEcouter);
             this.connexionSocket.on(nomRequeteAEcouter, (resultat: T) => callback(resultat, self));
           }
             this.connexionSocket.emit(nomRequeteAEnvoyer, valeurEnvoye);
-            console.log(this.connexionSocket, nomRequeteAEnvoyer, nomRequeteAEcouter);
         });
     }
 
@@ -30,7 +28,6 @@ export class ConnexionTempsReelClient {
 
   public ecouterRequete<T>(nomRequete: string, callback: any, self: Object): void {
     this.preparerRequete().then((peutPoursuivre: boolean) => {
-      console.log('ajout ecoute ', nomRequete);
       this.connexionSocket.on(nomRequete, (resultat: T) => callback(resultat, self));
     });
   }

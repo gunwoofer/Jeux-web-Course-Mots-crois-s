@@ -1,12 +1,20 @@
+import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
+import { SkyboxService } from './../skybox/skybox.service';
+import { LumiereService } from './../lumiere/lumiere.service';
+import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
+import { MODE_JOUR_NUIT, MODE_FILTRE_COULEUR, ZOOM_AVANT, ZOOM_ARRIERE, CHANGER_VUE, ALLUMER_PHARES, RETROVISEUR } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { RenderService } from '../renderService/render.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
+import { GestionnaireDeVue } from '../gestionnaireDeVue/gestionnaireDeVue.service';
 
 @Injectable()
-export class FacadeSourisService {
-  constructor(private renderService: RenderService) { }
+export class EvenementService {
+  constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService,
+    private gestionnaireDeVue: GestionnaireDeVue, private lumiereService: LumiereService, private skyboxService: SkyboxService,
+    private filtreCouleurService: FiltreCouleurService) { }
 
   private tempsMouseDown;
   private tempsMouseUp;
@@ -91,5 +99,34 @@ export class FacadeSourisService {
     this.objetGlisse = point;
     point.material.color.set(0x0000ff);
     point.material.size = 11;
+  }
+
+  public gestionEvenement(event): void {
+    if (event.key === MODE_JOUR_NUIT) {
+      this.generateurPisteService.logiquePhares();
+      this.lumiereService.modeJourNuit(event, this.generateurPisteService.scene);
+      this.generateurPisteService.jour = !this.generateurPisteService.jour;
+      this.skyboxService.alternerSkybox(this.generateurPisteService.jour,
+        this.generateurPisteService.camera, this.generateurPisteService.listeSkyboxJour, this.generateurPisteService.listeSkyboxNuit);
+    } else if (event.key === MODE_FILTRE_COULEUR) {
+      this.filtreCouleurService.mettreFiltre(event, this.generateurPisteService.scene);
+    } else if (event.key === ZOOM_AVANT || event.key === ZOOM_ARRIERE) {
+      this.gestionnaireDeVue.zoom(event, this.generateurPisteService.camera);
+    } else if (event.key === CHANGER_VUE) {
+      this.generateurPisteService.voitureDuJoueur.vueDessusTroisieme = !this.generateurPisteService.voitureDuJoueur.vueDessusTroisieme;
+    } else if (event.key === ALLUMER_PHARES) {
+      this.generateurPisteService.phares = !this.generateurPisteService.phares;
+      this.lumiereService.alternerPhares(this.generateurPisteService.voitureDuJoueur);
+    }else if (event.key === RETROVISEUR) {
+      this.gestionnaireDeVue.changerEtatRetroviseur();
+    }
+  }
+
+  public toucheRelachee(event): void {
+    this.generateurPisteService.deplacement.toucheRelachee(event);
+  }
+
+  public touchePesee(event): void {
+    this.generateurPisteService.deplacement.touchePesee(event);
   }
 }

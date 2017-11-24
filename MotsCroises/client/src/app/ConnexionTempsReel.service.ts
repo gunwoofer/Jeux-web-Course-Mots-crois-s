@@ -30,7 +30,6 @@ export class ConnexionTempsReelService {
   }
 
   public demanderVerificationMot(specificationPartie: SpecificationPartie, self: ConnexionTempsReelService) {
-    // REQUETE VERIFIER MOT
     const requisPourMotAVerifierMauvais: RequisPourMotAVerifier = new RequisPourMotAVerifier(
       self.specificationPartie.specificationGrilleEnCours.emplacementMots[0],
       'XYZ', self.specificationPartie.joueur.obtenirGuid(), self.specificationPartie.guidPartie);

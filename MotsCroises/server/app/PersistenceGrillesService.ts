@@ -1,12 +1,11 @@
-import { FabriqueDeGrille } from './FabriqueDeGrille';
+import { PersistenceGrilleServiceLecture } from './PersistenceGrilleServiceLecture';
 import { Guid } from '../../commun/Guid';
-import { Niveau } from '../../commun/Niveau';
 import { Grille } from './Grille';
 import * as express from 'express';
-import { Observateur } from './Observateur';
 import { BDImplementation } from './BDImplementation';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import * as Configuration from './Configuration';
+import { Niveau } from '../../commun/Niveau';
 
 
 export const nomTableauGrilles = 'grilles';
@@ -14,11 +13,11 @@ export const nomTableauGrilles = 'grilles';
 export class PersistenceGrillesService {
     private reponse: express.Response;
     public message = '';
-    private compteurRequetesEntiteePersistente = 0;
+    public compteurRequetesEntiteePersistente = 0;
     private pretPourEnvoyerReponse = false;
-    private observateurs: Observateur[] = new Array();
-    private generateurDeGrilleService: GenerateurDeGrilleService;
+    public generateurDeGrilleService: GenerateurDeGrilleService;
     private aEteEnvoye = false;
+    private persistenceGrillesServiceLecture: PersistenceGrilleServiceLecture = new PersistenceGrilleServiceLecture();
 
     private bdImplementation: BDImplementation = new BDImplementation();
 
@@ -29,14 +28,13 @@ export class PersistenceGrillesService {
         }
     }
 
-    public inscrire(observateur: Observateur) {
-        this.observateurs.push(observateur);
+    // LECTURE
+    public obtenirGrillePersistante(niveau: Niveau): void {
+        this.persistenceGrillesServiceLecture.obtenirGrillePersistante(this, niveau);
     }
 
-    public notifier(): void {
-        for (const observateur of this.observateurs) {
-            observateur.notifier();
-        }
+    public asyncObtenirGrillePersistante(niveau: Niveau): Promise<Grille> {
+        return this.persistenceGrillesServiceLecture.asyncObtenirGrillePersistante(this, niveau);
     }
 
     public envoyerReponse(message: string): void {
@@ -56,10 +54,9 @@ export class PersistenceGrillesService {
         }
     }
 
-    private connectiondbMotsCroises(callback?: any, donneesAuCallback?: any): void {
+    public connectiondbMotsCroises(callback?: any, donneesAuCallback?: any): void {
         const self: PersistenceGrillesService = this;
 
-        // Connexion à la base de données persistente.
         this.compteurRequetesEntiteePersistente++;
         this.bdImplementation.seConnecter(Configuration.baseDeDonneesUrl, (err: any, db: any) => {
 
@@ -78,27 +75,11 @@ export class PersistenceGrillesService {
         });
     }
 
-    public creerTableauGrilles(): void {
-        this.connectiondbMotsCroises(this.procedureRappelCreerTableauGrilles);
-    }
-
-    private procedureRappelCreerTableauGrilles(self: PersistenceGrillesService, db: any): void {
-        self.compteurRequetesEntiteePersistente++;
-        db.createCollection(nomTableauGrilles, (err: any, res: any) => {
-            self.notifierReponseRecuEntiteePersistente();
-            self.verifierSierrConnection(err, db, self);
-            self.notifier();
-            self.envoyerReponse(' | Collection créé !');
-            db.close();
-        });
-    }
-
-    private supprimerGrille(self: PersistenceGrillesService, db: any, id: string): void {
+    public supprimerGrille(self: PersistenceGrillesService, db: any, id: string): void {
         self.compteurRequetesEntiteePersistente++;
         db.collection(nomTableauGrilles).deleteOne({ id: id }, (err: any, obj: any) => {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
-            self.notifier();
 
             db.close();
         });
@@ -108,24 +89,8 @@ export class PersistenceGrillesService {
         this.connectiondbMotsCroises(this.procedureRappelInsererGrille, grille);
     }
 
-    public obtenirGrillePersistante(niveau: Niveau): void {
-        this.connectiondbMotsCroises(this.procedureRappelObtenirGrille, niveau);
-    }
-
-    public asyncObtenirGrillePersistante(niveau: Niveau): Promise<Grille> {
-        const self: PersistenceGrillesService = this;
-
-        return new Promise((resolve: any, reject: any) => {
-            self.asyncConnectiondbMotsCroises(self)
-                .then(db => self.asyncProcedureRappelObtenirGrille(self, db, niveau))
-                .then(result => { resolve(result); })
-                .catch(error => { reject(error); });
-        });
-    }
-
     public asyncConnectiondbMotsCroises(self: PersistenceGrillesService): Promise<any> {
         return new Promise((resolve: any, reject: any) => {
-            // Connexion à la base de données persistente.
             self.compteurRequetesEntiteePersistente++;
             self.bdImplementation.seConnecter(Configuration.baseDeDonneesUrl, (err: any, db: any) => {
 
@@ -137,7 +102,7 @@ export class PersistenceGrillesService {
         });
     }
 
-    private asyncVerifierSierrConnection(err: any, db: any, reject: any): boolean {
+    public asyncVerifierSierrConnection(err: any, db: any, reject: any): boolean {
         if (err) {
             reject(err);
             db.close();
@@ -147,47 +112,11 @@ export class PersistenceGrillesService {
         return false;
     }
 
-    private asyncProcedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau): Promise<Grille> {
-
-        return new Promise(
-            (resolve: any, reject: any) => {
-                self.compteurRequetesEntiteePersistente++;
-                db.collection(nomTableauGrilles).find({ niveau: niveau }).toArray((err: any, result: any) => {
-
-                    self.notifierReponseRecuEntiteePersistente();
-                    self.asyncVerifierSierrConnection(err, db, reject);
-                    resolve(FabriqueDeGrille.creerInstanceAvecJSON(result[0].grille.replace('\\', '')));
-                    self.notifier();
-
-                    self.supprimerGrille(self, db, result[0].id);
-                    self.insererGrille(self.generateurDeGrilleService.genererGrille(niveau));
-                    db.close();
-                });
-            }
-        );
-    }
-
-    private procedureRappelObtenirGrille(self: PersistenceGrillesService, db: any, niveau: Niveau): void {
-
-        self.compteurRequetesEntiteePersistente++;
-        db.collection(nomTableauGrilles).find({ niveau: niveau }).toArray((err: any, result: any) => {
-
-            self.notifierReponseRecuEntiteePersistente();
-            self.verifierSierrConnection(err, db, self);
-            self.envoyerReponse(result[0].grille.replace('\\', ''));
-            self.notifier();
-
-            self.supprimerGrille(self, db, result[0].id);
-            self.insererGrille(self.generateurDeGrilleService.genererGrille(niveau));
-            db.close();
-        });
-    }
-
     private procedureRappelInsererGrille(self: PersistenceGrillesService, db: any, grille: Grille): void {
         const grilleStringify: string = JSON.stringify(grille);
         const grilleAInserer: Object = {
             id: Guid.generateGUID(),
-            niveau: grille.obtenirNiveau(),
+            niveau: grille.niveau,
             grille: grilleStringify
         };
 
@@ -195,7 +124,6 @@ export class PersistenceGrillesService {
         db.collection(nomTableauGrilles).insertOne(grilleAInserer, (err: any, res: any) => {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
-            self.notifier();
             self.envoyerReponse('| 1 grille inséré');
             db.close();
         });
@@ -228,7 +156,7 @@ export class PersistenceGrillesService {
                     grilleStringify = JSON.stringify(grille);
                     grilleAInserer = {
                         id: Guid.generateGUID(),
-                        niveau: grille.obtenirNiveau(),
+                        niveau: grille.niveau,
                         grille: grilleStringify
                     };
                     grillesAInserer.push(grilleAInserer);
@@ -238,7 +166,6 @@ export class PersistenceGrillesService {
                 db.collection(nomTableauGrilles).insertMany(grillesAInserer, (err: any, res: any) => {
                     self.notifierReponseRecuEntiteePersistente();
                     self.asyncVerifierSierrConnection(err, db, self);
-                    self.notifier();
                     resolve(' | ' + res.insertedCount + ' grilles insérés (async)');
                     db.close();
                 });
@@ -255,7 +182,7 @@ export class PersistenceGrillesService {
             grilleStringify = JSON.stringify(grille);
             grilleAInserer = {
                 id: Guid.generateGUID(),
-                niveau: grille.obtenirNiveau(),
+                niveau: grille.niveau,
                 grille: grilleStringify
             };
             grillesAInserer.push(grilleAInserer);
@@ -265,13 +192,12 @@ export class PersistenceGrillesService {
         db.collection(nomTableauGrilles).insertMany(grillesAInserer, (err: any, res: any) => {
             self.notifierReponseRecuEntiteePersistente();
             self.verifierSierrConnection(err, db, self);
-            self.notifier();
             self.envoyerReponse(' | ' + res.insertedCount + ' grilles insérés');
             db.close();
         });
     }
 
-    private verifierSierrConnection(err: any, db: any, self: PersistenceGrillesService): boolean {
+    public verifierSierrConnection(err: any, db: any, self: PersistenceGrillesService): boolean {
         if (err) {
             db.close();
             self.reponse.send(err);
