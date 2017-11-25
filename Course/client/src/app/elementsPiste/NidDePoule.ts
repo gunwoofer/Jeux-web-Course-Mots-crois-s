@@ -1,4 +1,3 @@
-import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste } from './ElementDePiste';
 import * as THREE from 'three';
@@ -14,7 +13,7 @@ export class NidDePoule extends ElementDePiste {
         this.mesh.position.set(this.position.x, this.position.y, this.position.z);
     }
 
-    public genererMesh(): THREE.Mesh {
+    private genererMesh(): THREE.Mesh {
         let nidDePouleGeometrie = new THREE.CircleGeometry(1, 10);
 
         nidDePouleGeometrie = this.ajouterBruitGeometrie(nidDePouleGeometrie);

@@ -1,4 +1,3 @@
-import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste } from './ElementDePiste';
 import * as THREE from 'three';
@@ -12,7 +11,7 @@ export class FlaqueDEau extends ElementDePiste {
         this.mesh.position.set(this.position.x, this.position.y, this.position.z);
     }
 
-    public genererMesh(): THREE.Mesh {
+    private genererMesh(): THREE.Mesh {
         const flaqueDEauGeometrie = new THREE.CircleGeometry(2, 10);
         const materiel = new THREE.MeshPhongMaterial({ color: 0x0000ff });
         const mesh = new THREE.Mesh(flaqueDEauGeometrie, materiel);

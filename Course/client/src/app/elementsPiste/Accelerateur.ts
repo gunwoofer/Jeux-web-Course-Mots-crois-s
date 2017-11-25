@@ -1,4 +1,3 @@
-import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste } from './ElementDePiste';
 import * as THREE from 'three';
@@ -13,7 +12,7 @@ export class Accelerateur extends ElementDePiste {
 
     }
 
-    public genererMesh(): THREE.Mesh {
+    private genererMesh(): THREE.Mesh {
         const accelerateurGeometrie = new THREE.PlaneGeometry(2, 2);
         const materiel = new THREE.MeshPhongMaterial();
         const loader = new THREE.TextureLoader();

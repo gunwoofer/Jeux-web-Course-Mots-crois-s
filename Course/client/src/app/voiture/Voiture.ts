@@ -1,4 +1,4 @@
-import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
+import { VITESSE_INTIALE } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
@@ -75,7 +75,7 @@ export class Voiture implements sujet.Sujet {
 
     public obtenirTailleVoiture(): THREE.Vector2 {
 
-        //https://stackoverflow.com/questions/33758313/get-size-of-object3d-in-three-js
+        // https://stackoverflow.com/questions/33758313/get-size-of-object3d-in-three-js
         const boite = new THREE.Box3().setFromObject(this.voiture3D);
         const tailleX = Math.abs(boite.max.x - boite.min.x);
         const tailleY = Math.abs(boite.max.y - boite.min.y);

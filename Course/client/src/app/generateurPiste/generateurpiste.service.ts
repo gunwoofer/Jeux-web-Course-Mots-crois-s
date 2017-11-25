@@ -226,13 +226,11 @@ export class GenerateurPisteService implements Observateur {
     }
 
     public chargerVoiture(cadranX: number, cadranY: number, joueur: boolean): void {
-        let meshPrincipalVoiture: any;
         this.placementService.calculPositionCentreZoneDepart(this.segment.premierSegment);
         this.placementService.obtenirVecteursSensPiste(this.segment.premierSegment);
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
             this.objetService.manipulationObjetVoiture(this.segment.premierSegment[1], this.segment.premierSegment[0], obj);
-            meshPrincipalVoiture = obj.getObjectByName('MainBody');
             this.configurationVoiturePiste(cadranX, cadranY, obj, joueur);
             this.scene.add(obj);
         });

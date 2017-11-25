@@ -6,9 +6,9 @@ import * as THREE from 'three';
 export abstract class ElementDePiste {
     protected position: THREE.Vector3;
     protected mesh: THREE.Mesh;
+    protected deplacementService: DeplacementService;
     public raycaster: THREE.Raycaster;
     public antirebond;
-    protected deplacementService: DeplacementService;
 
     constructor() {
         this.antirebond = false;

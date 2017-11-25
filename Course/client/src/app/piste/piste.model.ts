@@ -1,4 +1,3 @@
-import { element } from 'protractor';
 import { Voiture } from './../voiture/Voiture';
 import { Score } from './../tableauScore/score.model';
 import * as THREE from 'three';
@@ -15,7 +14,6 @@ export class Piste {
     public vignette: string;
 
     private listeElementsDePiste: ElementDePiste[];
-    private estSurNidPoule: boolean;
 
     constructor(public nom: string,
         public typeCourse: string,
@@ -24,7 +22,6 @@ export class Piste {
         public id?: number) {
         this.nombreFoisJouee = 0;
         this.coteAppreciation = [];
-        this.estSurNidPoule = false;
         this.listeElementsDePiste = new Array();
         this.meilleursTemps = [];
         this.vignette = 'https://thumbs.dreamstime.com/z/cartoon-racing-map-game-49708152.jpg';
