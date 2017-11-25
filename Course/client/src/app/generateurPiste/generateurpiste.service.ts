@@ -132,7 +132,6 @@ export class GenerateurPisteService implements Observateur {
         this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
                                  [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
         this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
-        this.partie.ajouterRouteur(this.routeur);
     }
 
     public genererSurfaceHorsPiste(): void {
