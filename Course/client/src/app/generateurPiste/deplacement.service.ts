@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX, VITESSE_MODE_ACCELERATEUR, DUREE_ACCELERATEUR } from './../constant';
+import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX,
+    VITESSE_MODE_ACCELERATEUR, DUREE_ACCELERATEUR, NOMBRE_SECOUSSES_NID_DE_POULE } from './../constant';
 
 import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
 
@@ -9,11 +10,14 @@ export class DeplacementService {
     public aDroite: boolean;
     public aGauche: boolean;
     private modeAccelerateur: boolean;
+    private modeSecousse: boolean;
+
     constructor() {
         this.enAvant = false;
         this.aGauche = false;
         this.aDroite = false;
         this.modeAccelerateur = false;
+        this.modeSecousse = false;
     }
 
     public moteurDeplacement(voiture: Voiture): void {
@@ -22,10 +26,10 @@ export class DeplacementService {
         } else {
             this.freiner(voiture);
         }
-        if (this.aDroite && voiture.vitesse > VITESSE_MIN) {
+        if ((this.aDroite && voiture.vitesse > VITESSE_MIN) && !this.modeSecousse) {
             this.tournerDroite(voiture);
         }
-        if (this.aGauche && voiture.vitesse > VITESSE_MIN) {
+        if ((this.aGauche && voiture.vitesse > VITESSE_MIN) && !this.modeSecousse) {
             this.tournerGauche(voiture);
         }
         voiture.calculerDistance();
@@ -69,15 +73,31 @@ export class DeplacementService {
         voiture.vitesse /= REDUCTION_VITESSE_NID_DE_POULE;
     }
 
-    public secousseNidDePoule(): void {
-        // SECOUSSE
+    public secousseNidDePoule(voiture: Voiture): void {
+        this.modeSecousse = true;
+        for (let i = 0; i < NOMBRE_SECOUSSES_NID_DE_POULE; i++) {
+            setTimeout(() => {
+                this.secousseAlternative(i, voiture);
+            }, i * 100);
+        }
+        setTimeout(() => {
+            this.modeSecousse = false;
+        }, NOMBRE_SECOUSSES_NID_DE_POULE * 100);
+    }
+
+    private secousseAlternative(i: number, voiture: Voiture): void {
+        if (i % 2 === 0) {
+            voiture.obtenirVoiture3D().rotateX(0.2);
+        } else {
+            voiture.obtenirVoiture3D().rotateX(-0.2);
+        }
     }
 
     public augmenterVitesseAccelerateur(voiture: Voiture): void {
         this.modeAccelerateur = true;
         setTimeout(() => {
             this.modeAccelerateur = false;
-            voiture.vitesse = 1;
+            voiture.vitesse = VITESSE_MAX;
         }, DUREE_ACCELERATEUR);
     }
 

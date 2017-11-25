@@ -1,3 +1,4 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { Piste } from '../piste/piste.model';
 import { Segment } from './../piste/segment.model';
@@ -9,13 +10,11 @@ export abstract class ElementDePiste {
 
     public segment: Segment;
     public piste: Piste;
-
     protected mesh: THREE.Mesh;
     public raycaster: THREE.Raycaster;
     public antirebond;
 
-
-    constructor() {
+    constructor(protected deplacementService: DeplacementService) {
         this.antirebond = false;
     }
 

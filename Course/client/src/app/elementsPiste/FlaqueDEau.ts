@@ -5,8 +5,8 @@ import * as THREE from 'three';
 
 export class FlaqueDEau extends ElementDePiste {
 
-    constructor(listePoint: THREE.Vector3[], private deplacementService: DeplacementService) {
-        super();
+    constructor(listePoint: THREE.Vector3[], deplacementService: DeplacementService) {
+        super(deplacementService);
         this.position = this.genererPositionAleatoire(listePoint);
         this.mesh = this.genererMesh();
         this.mesh.position.set(this.position.x, this.position.y, this.position.z);

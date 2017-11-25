@@ -9,10 +9,10 @@ export class NidDePoule extends ElementDePiste {
     private bActif: boolean;
 
 
-    constructor(listePoint: THREE.Vector3[], private deplacementService: DeplacementService) {
-        super();
+    constructor(listePoint: THREE.Vector3[], deplacementService: DeplacementService) {
+        super(deplacementService);
         this.position = this.genererPositionAleatoire(listePoint);
-        this.mesh = this.genererMesh(); 
+        this.mesh = this.genererMesh();
         this.mesh.position.set(this.position.x, this.position.y, this.position.z);
     }
 
@@ -38,7 +38,7 @@ export class NidDePoule extends ElementDePiste {
     public effetSurObstacle(voiture: Voiture): void {
         console.log('sur nid de poule');
         this.deplacementService.reduireVitesseNidDePoule(voiture);
-        this.deplacementService.secousseNidDePoule();
+        this.deplacementService.secousseNidDePoule(voiture);
     }
 
     public genererPositionAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3 {

@@ -69,4 +69,5 @@ export const RETROVISEUR = 'r';
 export const LARGEUR_RETROVISEUR = 300;
 export const HAUTEUR_RETROVISEUR = 100;
 
+export const NOMBRE_SECOUSSES_NID_DE_POULE = 4;
 
