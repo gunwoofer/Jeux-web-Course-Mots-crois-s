@@ -42,8 +42,9 @@ export class NidDePoule extends ElementDePiste {
     }
 
     public genererPositionAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3 {
-        const point1 = this.genererSegmentAleatoire(listePoints)[0];
-        const point2 = this.genererSegmentAleatoire(listePoints)[1];
+        const segmentAleatoire = this.genererSegmentAleatoire(listePoints);
+        const point1 = segmentAleatoire[0];
+        const point2 = segmentAleatoire[1];
         const pente = this.calculerPenteDroite(point1, point2);
         const xPositionNidDePoule = this.trouverXAleatoire(point1.x, point2.x);
         const yPositionNidDePoule = pente * xPositionNidDePoule + this.calculerOrdonneeALOrigine(point1, pente);
