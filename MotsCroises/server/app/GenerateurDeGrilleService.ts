@@ -17,14 +17,26 @@ export class GenerateurDeGrilleService {
     private generateurDeGrilleVide: GenerateurDeGrilleVide = new GenerateurDeGrilleVide();
 
     public async genererGrille(niveau: Niveau): Promise<Grille> {
-        let grille: Grille;
+        /*let grille: Grille;
         while (true) {
             grille = await this.remplirGrille(niveau, this.generateurDeGrilleVide.genereGrilleVide(niveau));
             if (grille !== undefined) {
                 break;
             }
+        }*/
+        this.remplirGrille(niveau, this.generateurDeGrilleVide.genereGrilleVide(niveau))
+                            .then((grille) => {
+                                return Promise.resolve(grille);
+                            })
+                            .catch((e) => {
+                                console.log('Erreur: ', e);
+                                console.log('Regeneration de la grille...');
+                                this.genererGrille(niveau);
+                            });
+        for (let i = 0; i < 10; i++) {
+            console.log('ABORT');
         }
-        return grille;
+        return undefined;
     }
 
     public affichageConsole(grille: Grille): void {
@@ -93,7 +105,7 @@ export class GenerateurDeGrilleService {
             const contraintes = this.genererTableauContraintes(grille, emplacement);
             const chaineMot =  RechercheMots.rechercherMot(tailleMot, contraintes);
             if (chaineMot === undefined) {
-                return undefined;
+                return Promise.reject('Mot impossible !');
             } else {
                 let mot: MotComplet;
                 mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
@@ -102,7 +114,7 @@ export class GenerateurDeGrilleService {
             }
         }
         console.log('Grille terminée !');
-        return grille;
+        return Promise.resolve(grille);
     }
 
     /*private async motEstPossibleAInserer(emplacementsIntersections: EmplacementMot[], grille: Grille, niveau: Niveau): Promise<boolean> {
@@ -198,5 +210,40 @@ export class GenerateurDeGrilleService {
                 }
         }
         return false;
+    }
+
+
+
+    private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
+        const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
+        for (const emplacement of emplacements) {
+            const tailleMot = emplacement.obtenirGrandeur();
+            const contraintes = this.genererTableauContraintes(grille, emplacement);
+            const chaineMot =  RechercheMots.rechercherMot(tailleMot, contraintes);
+            if (chaineMot === undefined) {
+                return undefined;
+            } else {
+                let mot: MotComplet;
+                mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
+                grille.ajouterMotEmplacement(mot, emplacement);
+                this.affichageConsole(grille);
+            }
+        }
+        console.log('Grille terminée !');
+        return grille;
+    }
+
+    public genererGrilleSync(niveau: Niveau): Grille {
+        console.log('Debut de la generation de grille...');
+        let grille: Grille;
+        while (true) {
+            const grilleVide = this.generateurDeGrilleVide.genereGrilleVide(niveau)
+            grille = this.remplirGrilleSync(niveau, grilleVide);
+            if (grille !== undefined) {
+                break;
+            }
+            console.log('Generation d\'une nouvelle grille...');
+        }
+        return grille;
     }
 }
