@@ -34,7 +34,7 @@ export class Accelerateur extends ElementDePiste {
         const point1 = segmentAleatoire[0];
         const point2 = segmentAleatoire[1];
         const pente = this.calculerPenteDroite(point1, point2);
-        const xPositionAccelerateur = this.trouverXAleatoire(point1.x, point2.x);
+        const xPositionAccelerateur = this.trouverXAleatoire(point1.x, point1.x + (point2.x - point1.x ) / 2);
         const yPositionAccelerateur = pente * xPositionAccelerateur + this.calculerOrdonneeALOrigine(point1, pente);
 
         return new THREE.Vector3(xPositionAccelerateur, yPositionAccelerateur, 0.01);
