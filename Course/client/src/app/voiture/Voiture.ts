@@ -20,6 +20,8 @@ export class Voiture implements sujet.Sujet {
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
+    public modeAccelerateur = false;
+    public modeSecousse = false;
 
 
     constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {

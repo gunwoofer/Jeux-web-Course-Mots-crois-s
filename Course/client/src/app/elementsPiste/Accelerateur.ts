@@ -5,8 +5,8 @@ import * as THREE from 'three';
 
 export class Accelerateur extends ElementDePiste {
 
-    constructor(listePoint: THREE.Vector3[], deplacementService: DeplacementService) {
-        super(deplacementService);
+    constructor(listePoint: THREE.Vector3[]) {
+        super();
         this.position = this.genererPositionAleatoire(listePoint);
         this.mesh = this.genererMesh();
         this.mesh.position.set(this.position.x, this.position.y, this.position.z);
@@ -41,7 +41,6 @@ export class Accelerateur extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        console.log('Sur accelerateur !');
         this.deplacementService.augmenterVitesseAccelerateur(voiture);
     }
 
