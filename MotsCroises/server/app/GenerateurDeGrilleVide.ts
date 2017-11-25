@@ -10,10 +10,18 @@ export class GenerateurDeGrilleVide {
 
     public genereGrilleVide(niveau: Niveau): Grille {
         let grilleVide = new Grille(niveau);
-        grilleVide = this.genererEmplacementsMotsLigne(grilleVide);
-        grilleVide = this.genererEmplacementsMotsColonne(grilleVide);
-        // grilleVide = this.rechercheMotDeuxLettres(grilleVide);
+        try {
+            grilleVide = this.genererEmplacementsMotsLigne(grilleVide);
+            grilleVide = this.genererEmplacementsMotsColonne(grilleVide);
+            // grilleVide = this.rechercheMotDeuxLettres(grilleVide);
+        } catch (e) {
+            console.log('GRILLE VIDE INVALIDE', e);
+            grilleVide = this.genereGrilleVide(niveau);
+        }
         grilleVide.genererEmplacementsMot();
+        console.log('Grille vide: -------------------');
+        this.affichageConsole(grilleVide);
+        console.log('--------------------------------');
         return grilleVide;
     }
 
@@ -38,13 +46,18 @@ export class GenerateurDeGrilleVide {
     }
 
     public genererEmplacementsMotsLigne(grilleVide: Grille): Grille {
+        let nEssais = 0;
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             const tailleMot = this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grilleConstantes.grandeurMotMaximum);
             const debutEmplacementMot = this.nombreAleatoireEntreXEtY(0, DIMENSION_LIGNE_COLONNE - tailleMot);
             if (this.testContraintesMotAuDessus(grilleVide, debutEmplacementMot, tailleMot, i)) {
                 grilleVide = this.creerEmplacementMotLigne(i, grilleVide, debutEmplacementMot, tailleMot);
             } else {
+                nEssais++;
                 i--;
+            }
+            if (nEssais > 1000) {
+                throw new Error ('Generer Emplacement de Mot Ligne impossible');
             }
         }
         return grilleVide;
@@ -75,13 +88,18 @@ export class GenerateurDeGrilleVide {
     }
 
     public genererEmplacementsMotsColonne(grilleVide: Grille): Grille {
+        let nEssais = 0;
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             const tailleMot = this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grilleConstantes.grandeurMotMaximum);
             const debutEmplacementMot = this.nombreAleatoireEntreXEtY(0, DIMENSION_LIGNE_COLONNE - tailleMot);
             if (this.testContraintesMotAGauche(grilleVide, debutEmplacementMot, tailleMot, i)) {
                 grilleVide = this.creerEmplacementMotColonne(i, grilleVide, debutEmplacementMot, tailleMot);
             } else {
+                nEssais++;
                 i--;
+            }
+            if (nEssais > 1000) {
+                throw new Error ('Generer Emplacement de Mot Colonne impossible');
             }
         }
         return grilleVide;
