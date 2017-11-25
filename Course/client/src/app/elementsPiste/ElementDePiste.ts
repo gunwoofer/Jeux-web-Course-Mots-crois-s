@@ -43,7 +43,7 @@ export abstract class ElementDePiste {
     }
 
     protected genererSegmentAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3[] {
-        const pointAleatoire = Math.round(Math.random() * (listePoints.length - 1));
+        const pointAleatoire = Math.round(Math.random() * (listePoints.length - 2));
         return [listePoints[pointAleatoire], listePoints[pointAleatoire + 1]];
     }
     public obtenirMesh(): THREE.Mesh {

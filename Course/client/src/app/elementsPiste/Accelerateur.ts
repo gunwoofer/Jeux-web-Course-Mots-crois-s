@@ -7,7 +7,7 @@ export class Accelerateur extends ElementDePiste {
 
     constructor(listePoint: THREE.Vector3[], private deplacementService: DeplacementService) {
         super();
-        this.position = new THREE.Vector3(0, 0, 0);
+        this.position = this.genererPositionAleatoire(listePoint);
         this.mesh = this.genererMesh();
         this.mesh.position.set(this.position.x, this.position.y, this.position.z);
 
