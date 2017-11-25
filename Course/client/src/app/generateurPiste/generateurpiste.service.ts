@@ -91,15 +91,15 @@ export class GenerateurPisteService implements Observateur {
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
         // Mock nid de poule
-        const nidDePoule = new NidDePoule(6, -18, 0.01, this.deplacementService);
+        const nidDePoule = new NidDePoule(this.piste.listepositions, this.deplacementService);
         this.piste.ajouterElementPiste(nidDePoule);
 
         // Mock flaque d eau
-        const flaque = new FlaqueDEau(40, -19, 0.01, this.deplacementService);
+        const flaque = new FlaqueDEau(this.piste.listepositions, this.deplacementService);
         this.piste.ajouterElementPiste(flaque);
 
          // Mock boost
-         const accelerateur = new Accelerateur(60, -19, 0.01, this.deplacementService);
+         const accelerateur = new Accelerateur(this.piste.listepositions, this.deplacementService);
          this.piste.ajouterElementPiste(accelerateur);
 
 

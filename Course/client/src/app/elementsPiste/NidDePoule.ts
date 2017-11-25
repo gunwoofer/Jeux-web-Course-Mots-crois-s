@@ -9,10 +9,11 @@ export class NidDePoule extends ElementDePiste {
     private bActif: boolean;
 
 
-    constructor(x: number, y: number, z: number, private deplacementService: DeplacementService) {
-        super(x, y, z);
+    constructor(listePoint: THREE.Vector3[], private deplacementService: DeplacementService) {
+        super();
+        this.position = this.genererPositionAleatoire(listePoint);
         this.mesh = this.genererMesh(); // Remplacer le rayon par la taille de la voiture
-        this.mesh.position.set(this.x, this.y, this.z);
+        this.mesh.position.set(this.position.x, this.position.y, this.position.z);
     }
 
     public genererMesh(): THREE.Mesh {
@@ -33,14 +34,21 @@ export class NidDePoule extends ElementDePiste {
         return geometrie;
     }
 
-    public genererRayCaster(vecteur: THREE.Vector3): void {
-        const positionNidDePoule = new THREE.Vector3(this.x, this.y, this.z);
-        this.raycaster = new THREE.Raycaster(positionNidDePoule, vecteur);
-    }
 
     public effetSurObstacle(voiture: Voiture): void {
         console.log('sur nid de poule');
         this.deplacementService.reduireVitesseNidDePoule(voiture);
         this.deplacementService.secousseNidDePoule();
     }
+
+    public genererPositionAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3 {
+        const point1 = this.genererSegmentAleatoire(listePoints)[0];
+        const point2 = this.genererSegmentAleatoire(listePoints)[1];
+        const pente = this.calculerPenteDroite(point1, point2);
+        const xPositionNidDePoule = this.trouverXAleatoire(point1.x, point2.x);
+        const yPositionNidDePoule = pente * xPositionNidDePoule + this.calculerOrdonneeALOrigine(point1, pente);
+
+        return new THREE.Vector3(xPositionNidDePoule, yPositionNidDePoule, 0.01);
+    }
+
 }

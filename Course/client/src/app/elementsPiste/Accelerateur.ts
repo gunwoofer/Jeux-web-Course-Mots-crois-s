@@ -5,10 +5,11 @@ import * as THREE from 'three';
 
 export class Accelerateur extends ElementDePiste {
 
-    constructor(x: number, y: number, z: number, private deplacementService: DeplacementService) {
-        super(x, y, z);
+    constructor(listePoint: THREE.Vector3[], private deplacementService: DeplacementService) {
+        super();
+        this.position = new THREE.Vector3(0, 0, 0);
         this.mesh = this.genererMesh();
-        this.mesh.position.set(this.x, this.y, this.z);
+        this.mesh.position.set(this.position.x, this.position.y, this.position.z);
 
     }
 
@@ -27,9 +28,15 @@ export class Accelerateur extends ElementDePiste {
         const mesh = new THREE.Mesh(accelerateurGeometrie, materiel);
         return mesh;
     }
-    public genererRayCaster(vecteur: THREE.Vector3): void {
-        const positionAccelerateur = new THREE.Vector3(this.x, this.y, this.z);
-        this.raycaster = new THREE.Raycaster(positionAccelerateur, vecteur);
+
+    public genererPositionAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3 {
+        const point1 = this.genererSegmentAleatoire(listePoints)[0];
+        const point2 = this.genererSegmentAleatoire(listePoints)[1];
+        const pente = this.calculerPenteDroite(point1, point2);
+        const xPositionAccelerateur = this.trouverXAleatoire(point1.x, point2.x);
+        const yPositionAccelerateur = pente * xPositionAccelerateur + this.calculerOrdonneeALOrigine(point1, pente);
+
+        return new THREE.Vector3(xPositionAccelerateur, yPositionAccelerateur, 0.01);
     }
 
     public effetSurObstacle(voiture: Voiture): void {

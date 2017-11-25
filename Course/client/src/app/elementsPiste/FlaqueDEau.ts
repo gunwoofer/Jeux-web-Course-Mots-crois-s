@@ -5,10 +5,11 @@ import * as THREE from 'three';
 
 export class FlaqueDEau extends ElementDePiste {
 
-    constructor(x: number, y: number, z: number, private deplacementService: DeplacementService) {
-        super(x, y, z);
+    constructor(listePoint: THREE.Vector3[], private deplacementService: DeplacementService) {
+        super();
+        this.position = this.genererPositionAleatoire(listePoint);
         this.mesh = this.genererMesh();
-        this.mesh.position.set(this.x, this.y, this.z);
+        this.mesh.position.set(this.position.x, this.position.y, this.position.z);
     }
 
     public genererMesh(): THREE.Mesh {
@@ -18,13 +19,15 @@ export class FlaqueDEau extends ElementDePiste {
         return mesh;
     }
 
+    public genererPositionAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3 {
+        const point1 = this.genererSegmentAleatoire(listePoints)[0];
+        const point2 = this.genererSegmentAleatoire(listePoints)[1];
+        const pente = this.calculerPenteDroite(point1, point2);
+        const xPositionFlaqueDEau = this.trouverXAleatoire(point1.x, point2.x);
+        const yPositionFlaqueDEau = pente * xPositionFlaqueDEau + this.calculerOrdonneeALOrigine(point1, pente);
 
-
-    public genererRayCaster(vecteur: THREE.Vector3): void {
-        const positionFlaqueDEau = new THREE.Vector3(this.x, this.y, this.z);
-        this.raycaster = new THREE.Raycaster(positionFlaqueDEau, vecteur);
+        return new THREE.Vector3(xPositionFlaqueDEau, xPositionFlaqueDEau, 0.01);
     }
-
 
     public effetSurObstacle(voiture: Voiture): void {
         console.log('Sur flaque d eau !');

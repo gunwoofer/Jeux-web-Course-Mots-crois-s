@@ -5,9 +5,7 @@ import * as THREE from 'three';
 
 
 export abstract class ElementDePiste {
-    protected x: number;
-    protected y: number;
-    protected z: number;
+    protected position: THREE.Vector3;
 
     public segment: Segment;
     public piste: Piste;
@@ -17,35 +15,38 @@ export abstract class ElementDePiste {
     public antirebond;
 
 
-    constructor(x: number, y: number, z: number) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    constructor() {
         this.antirebond = false;
     }
 
-    public abstract genererRayCaster(vecteur: THREE.Vector3): void;
 
     public abstract effetSurObstacle(voiture: Voiture): void;
 
+    public abstract genererPositionAleatoire(segment: THREE.Vector3[]): THREE.Vector3;
 
+    public genererRayCaster(vecteur: THREE.Vector3): void {
+        const positionFlaqueDEau = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
+        this.raycaster = new THREE.Raycaster(positionFlaqueDEau, vecteur);
+    }
+
+
+    protected trouverXAleatoire(x1: number, x2: number): number {
+        return Math.random() * (Math.max(x1, x2) - Math.min(x1, x2)) + Math.min(x1, x2);
+    }
+
+    protected calculerPenteDroite(point1: THREE.Vector3, point2: THREE.Vector3): number {
+        return ((point2.y - point1.y) / (point2.x - point1.x));
+    }
+
+    protected calculerOrdonneeALOrigine(point1: THREE.Vector3, pente: number): number {
+        return (point1.y - pente * point1.x);
+    }
+
+    protected genererSegmentAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3[] {
+        const pointAleatoire = Math.round(Math.random() * (listePoints.length - 1));
+        return [listePoints[pointAleatoire], listePoints[pointAleatoire + 1]];
+    }
     public obtenirMesh(): THREE.Mesh {
         return this.mesh;
-    }
-
-    public genererPositionAleatoire(segment: THREE.Mesh[]): THREE.Vector3 {
-        // Prendre aleatoirement des segments
-        // Pour chaque segment aleatoirement choisi faire :
-        // this.genererPointAleatoireSegment(segmentaleatoire)
-
-        console.log('Coucou');
-
-        return;
-    }
-
-
-    private genererAleatoireSegment(segment: THREE.Mesh[]): THREE.Mesh {
-        const nombreAleatoirePourSegment = Math.round(Math.random() * ( segment.length - 1 ));
-        return segment[nombreAleatoirePourSegment];
     }
 }
