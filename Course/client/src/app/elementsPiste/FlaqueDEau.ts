@@ -27,7 +27,7 @@ export class FlaqueDEau extends ElementDePiste {
         const xPositionFlaqueDEau = this.trouverXAleatoire(point1.x, point2.x);
         const yPositionFlaqueDEau = pente * xPositionFlaqueDEau + this.calculerOrdonneeALOrigine(point1, pente);
 
-        return new THREE.Vector3(xPositionFlaqueDEau, xPositionFlaqueDEau, 0.01);
+        return new THREE.Vector3(xPositionFlaqueDEau, yPositionFlaqueDEau, 0.01);
     }
 
     public effetSurObstacle(voiture: Voiture): void {
