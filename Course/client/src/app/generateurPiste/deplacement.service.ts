@@ -8,15 +8,16 @@ export class DeplacementService {
     public enAvant: boolean;
     public aDroite: boolean;
     public aGauche: boolean;
-
+    private modeAccelerateur: boolean;
     constructor() {
         this.enAvant = false;
         this.aGauche = false;
         this.aDroite = false;
+        this.modeAccelerateur = false;
     }
 
     public moteurDeplacement(voiture: Voiture): void {
-        if (this.enAvant) {
+        if (this.enAvant || this.modeAccelerateur) {
             this.avancer(voiture);
         } else {
             this.freiner(voiture);
@@ -31,11 +32,15 @@ export class DeplacementService {
     }
 
     private avancer(voiture: Voiture): void {
-        if (voiture.vitesse < VITESSE_MAX) {
-            voiture.vitesse += ACCELERATION;
-            voiture.voiture3D.translateX(voiture.vitesse);
+        if (this.modeAccelerateur) {
+            voiture.voiture3D.translateX(1.5);
         } else {
-            voiture.voiture3D.translateX(VITESSE_MAX);
+            if (voiture.vitesse < VITESSE_MAX) {
+                voiture.vitesse += ACCELERATION;
+                voiture.voiture3D.translateX(voiture.vitesse);
+            } else {
+                voiture.voiture3D.translateX(VITESSE_MAX);
+            }
         }
     }
 
@@ -65,11 +70,15 @@ export class DeplacementService {
     }
 
     public secousseNidDePoule(): void {
-        return;
+        // SECOUSSE
     }
 
     public augmenterVitesseAccelerateur(voiture: Voiture): void {
-        voiture.vitesse = 1;
+        this.modeAccelerateur = true;
+        setTimeout(() => {
+            this.modeAccelerateur = false;
+            voiture.vitesse = 1;
+        }, 1500);
     }
 
     public touchePesee(event): void {
