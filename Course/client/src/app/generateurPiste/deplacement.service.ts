@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX } from './../constant';
+import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX, VITESSE_MODE_ACCELERATEUR } from './../constant';
 
 import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
 
@@ -33,7 +33,7 @@ export class DeplacementService {
 
     private avancer(voiture: Voiture): void {
         if (this.modeAccelerateur) {
-            voiture.voiture3D.translateX(1.5);
+            voiture.voiture3D.translateX(VITESSE_MODE_ACCELERATEUR);
         } else {
             if (voiture.vitesse < VITESSE_MAX) {
                 voiture.vitesse += ACCELERATION;
