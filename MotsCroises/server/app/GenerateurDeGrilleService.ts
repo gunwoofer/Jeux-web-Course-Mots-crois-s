@@ -73,7 +73,7 @@ export class GenerateurDeGrilleService {
     }
 
     private trierEmplacements(emplacements: EmplacementMot[]): EmplacementMot[] {
-        const emplacementsTries: EmplacementMot[] = new Array(emplacements.length);
+        let emplacementsTries: EmplacementMot[] = new Array();
         const emplacementsLignes: EmplacementMot[] = new Array();
         const emplacementsColonnes: EmplacementMot[] = new Array();
         for (const emplacement of emplacements) {
@@ -83,17 +83,20 @@ export class GenerateurDeGrilleService {
                 emplacementsLignes.push(emplacement);
             }
         }
-        let iLignes = 0;
-        let iColonnes = 0;
-        for (let i = 0; i < emplacementsTries.length; i++) {
-            if ((i % 2 === 0 && iLignes < emplacementsLignes.length) || (iColonnes === emplacementsColonnes.length)) {
-                emplacementsTries[i] = emplacementsLignes[iLignes];
-                iLignes++;
-            }
-            if ((i % 2 !== 0 && iColonnes < emplacementsColonnes.length) || (iLignes === emplacementsLignes.length)) {
-                emplacementsTries[i] = emplacementsColonnes[iColonnes];
-                iColonnes++;
-            }
+        const tailleMinimumTableau = Math.min(emplacementsColonnes.length, emplacementsLignes.length);
+        for (let i = 0; i < tailleMinimumTableau; i++) {
+            emplacementsTries.push(emplacementsLignes[i]);
+            emplacementsTries.push(emplacementsColonnes[i]);
+        }
+        if (emplacementsColonnes.length > tailleMinimumTableau) {
+            emplacementsTries = emplacementsTries.concat(emplacementsColonnes.splice(
+                                                                                    tailleMinimumTableau - 1,
+                                                                                    emplacementsColonnes.length - 1));
+        }
+        if (emplacementsLignes.length > tailleMinimumTableau) {
+            emplacementsTries = emplacementsTries.concat(emplacementsLignes.splice(
+                                                                                    tailleMinimumTableau - 1,
+                                                                                    emplacementsLignes.length - 1));
         }
         return emplacementsTries;
     }
@@ -207,6 +210,10 @@ export class GenerateurDeGrilleService {
 
     private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
+        // const emplacements: EmplacementMot[] = grille.obtenirEmplacementsMot();
+        console.log('JSON Emplacements: ', JSON.stringify(emplacements));
+        console.log('----------------------------------------------');
+        console.log('JSON EMPLACEMENTS NORMAUX', JSON.stringify(grille.obtenirEmplacementsMot()));
         for (const emplacement of emplacements) {
             const tailleMot = emplacement.obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacement);
@@ -230,7 +237,7 @@ export class GenerateurDeGrilleService {
         console.log('Debut de la generation de grille...');
         let grille: Grille;
         while (true) {
-            const grilleVide = this.generateurDeGrilleVide.genereGrilleVide(niveau)
+            const grilleVide = this.generateurDeGrilleVide.genereGrilleVide(niveau);
             console.log('Grille vide: -------------');
             this.generateurDeGrilleVide.affichageConsole(grilleVide);
             grille = this.remplirGrilleSync(niveau, grilleVide);
