@@ -67,7 +67,9 @@ export class Application {
     this.app.use(cors());
 
     const bd: BdImplementation = new BdImplementation();
-    bd.connect(configuration.baseDeDonneesUrlExterne);
+    bd.connect(configuration.baseDeDonneesUrlLocal);
+    //bd.connect(configuration.baseDeDonneesUrlExterne);
+
 
   }
 

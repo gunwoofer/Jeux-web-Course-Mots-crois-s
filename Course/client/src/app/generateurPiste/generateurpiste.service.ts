@@ -22,6 +22,8 @@ import { TableauScoreService } from '../tableauScore/tableauScoreService.service
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { EtatPartie } from '../partie/Partie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
+import {EffetSonoreService} from '../musique/effetSonore.service';
+import {EffetSonore, NOM_THEMATIQUE} from '../musique/effetSonore.model';
 
 export const LARGEUR_PISTE = 5;
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
@@ -67,7 +69,7 @@ export class GenerateurPisteService implements Observateur {
     constructor(private objetService: ObjetService, private lumiereService: LumiereService,
         private filtreCouleurService: FiltreCouleurService, private cameraService: CameraService,
         private musiqueService: MusiqueService, private tableauScoreService: TableauScoreService,
-        private skyboxService: SkyboxService, private placementService: PlacementService) {
+        private skyboxService: SkyboxService, private placementService: PlacementService, private effetSonoreServie: EffetSonoreService) {
             this.segment = new Segment();
             this.listeSkyboxJour = new Array<THREE.Mesh>();
             this.listeSkyboxNuit = new Array<THREE.Mesh>(); }
@@ -107,6 +109,8 @@ export class GenerateurPisteService implements Observateur {
         this.partie = new Partie([pilote], ligneArrivee, this.nombreTours, [this.musiqueService.musique, this]);
         this.voitureDuJoueur.ajouterObservateur(this.partie);
         this.partie.ajouterRouteur(this.routeur);
+
+        this.effetSonoreServie.jouerNouvelEffetSonore(NOM_THEMATIQUE);
 
     }
 

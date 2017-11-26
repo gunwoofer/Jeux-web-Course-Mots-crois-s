@@ -39,6 +39,7 @@ import { ObjetService } from './objetService/objet.service';
 import { CameraService } from './cameraService/cameraService.service';
 import { RatingService } from './rating/rating.service';
 import { SkyboxService } from './skybox/skybox.service';
+import {EffetSonoreService} from './musique/effetSonore.service';
 
 
 import { APP_BASE_HREF } from '@angular/common';
@@ -90,6 +91,7 @@ import { AppRoutingModule } from './app.routing';
     RatingService,
     SkyboxService,
     PlacementService,
+    EffetSonoreService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
