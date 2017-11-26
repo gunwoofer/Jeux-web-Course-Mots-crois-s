@@ -10,7 +10,6 @@ module Route {
 
         public testGenerationGrille(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateurDeGrilleService = new GenerateurDeGrilleService();
-            // const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
             generateurDeGrilleService.genererGrille(Niveau.facile).then((grille) => {
                 generateurDeGrilleService.affichageConsole(grille);
             });
@@ -18,9 +17,9 @@ module Route {
 
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            const grille: Grille = generateur.genererGrilleMotSync(Niveau.facile);
-
-            res.send(JSON.stringify(grille));
+            generateur.genererGrille(Niveau.facile).then((grille) => {
+                res.send(JSON.stringify(grille));
+            });
         }
 
         public PersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction): void {

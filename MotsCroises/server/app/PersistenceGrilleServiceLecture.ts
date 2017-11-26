@@ -18,12 +18,10 @@ export class PersistenceGrilleServiceLecture {
                     resolve(FabriqueDeGrille.creerInstanceAvecJSON(result[0].grille.replace('\\', '')));
 
                     self.supprimerGrille(self, db, result[0].id);
-                    /*self.generateurDeGrilleService.genererGrilleMotSync(niveau).then((grille) => {
+                    self.generateurDeGrilleService.genererGrille(niveau).then((grille) => {
                         self.insererGrille(grille);
                         db.close();
-                    });*/
-                    self.insererGrille(self.generateurDeGrilleService.genererGrilleMotSync(niveau));
-                    db.close();
+                    });
                 });
             }
         );
@@ -38,12 +36,10 @@ export class PersistenceGrilleServiceLecture {
             self.verifierSierrConnection(err, db, self);
             self.envoyerReponse(result[0].grille.replace('\\', ''));
             self.supprimerGrille(self, db, result[0].id);
-            /*self.generateurDeGrilleService.genererGrilleMotSync(niveau).then((grille) => {
+            self.generateurDeGrilleService.genererGrille(niveau).then((grille) => {
                 self.insererGrille(grille);
                 db.close();
-            });*/
-            self.insererGrille(self.generateurDeGrilleService.genererGrilleMotSync(niveau));
-            db.close();
+            });
         });
     }
 

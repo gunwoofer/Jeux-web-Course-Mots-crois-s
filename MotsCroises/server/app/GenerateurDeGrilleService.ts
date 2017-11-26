@@ -10,7 +10,6 @@ import { Case } from '../../commun/Case';
 import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
 import { Position } from '../../commun/Position';
 import { Indice } from './Indice';
-import { resolve } from 'url';
 
 export const NOMBRE_DE_GRILLE = 5;
 export const PAS_DE_DEFINITION = ['Indice 1', 'Indice 2', 'Indice 3'];
@@ -19,19 +18,10 @@ export class GenerateurDeGrilleService {
     private generateurDeGrilleVide: GenerateurDeGrilleVide = new GenerateurDeGrilleVide();
 
     public async genererGrille(niveau: Niveau): Promise<Grille> {
-        /*let grille = this.genererGrilleMotSync(niveau); 
-        for (let mot of grille.mots) { 
-            const contraintesMot = this.contraintesMotComplet(mot); 
-            let generateurDeMotAPI = new GenerateurDeMotService(); 
-            generateurDeMotAPI
-        }
-        return grille; */
         const grille = this.genererGrilleMotSync(niveau);
         for (let mot of grille.mots) {
             const generateurDeMotApi = new GenerateurDeMotContrainteService();
             generateurDeMotApi.demanderMotsADatamuse(mot.lettres).then((motAPI) => {
-                console.log('Mot lexique: ', JSON.stringify(mot));
-                console.log('Mot API: ', JSON.stringify(motAPI));
                 mot = motAPI.copieMot();
             }, (erreur) => {
                 console.log('Erreur', erreur);
