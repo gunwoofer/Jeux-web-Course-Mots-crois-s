@@ -15,7 +15,7 @@ export class GenerateurDeMotContrainteService {
     private contraintes: Contrainte[];
     private tailleEmplacement: number;
 
-    public constructor(nbreLettres: number, contraintes?: Contrainte[]) {
+    public constructor(nbreLettres?: number, contraintes?: Contrainte[]) {
         this.contraintes = contraintes;
         this.tailleEmplacement = nbreLettres;
     }
@@ -60,10 +60,10 @@ export class GenerateurDeMotContrainteService {
         return mot;
     }
 
-    private demanderMotsADatamuse(contrainte: string, niveau: Niveau): Promise<MotComplet> {
+    public demanderMotsADatamuse(contrainte: string): Promise<MotComplet> {
         return new Promise((resolve: any, reject: any) => {
             datamuse.request('words?sp=' + contrainte + '&md=df').then((motsDataMuse: MotDataMuse[]) => {
-                const motComplet: MotComplet = this.traiterMots(motsDataMuse, niveau);
+                const motComplet: MotComplet = new MotComplet(contrainte, new Indice(motsDataMuse[0].defs));
 
                 if (motComplet !== undefined) {
                     resolve(motComplet);
