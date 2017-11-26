@@ -14,10 +14,11 @@ describe('GestionElementsPiste', () => {
 
   it('Le nombre d\'elements de piste se vident lorsque l\'on depasse 5.', () => {
     const gestionElementsPiste: GestionElementsPiste = new GestionElementsPiste();
-    for (let i = 0; i < 6; i++) {
+    const nombreElements: number[] = [1, 3, 5, 0];
+    for (let i = 0; i < 4; i++) {
       gestionElementsPiste.ajouterElementDePiste();
+      expect(gestionElementsPiste.obtenirNombreElements()).toBe(nombreElements[i]);
     }
 
-    expect(gestionElementsPiste.obtenirNombreElements()).toBe(0);
   });
 });

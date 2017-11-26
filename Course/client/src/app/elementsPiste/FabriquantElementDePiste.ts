@@ -21,9 +21,9 @@ export class FabriquantElementDePiste {
   public static estDeType(type: TypeElementPiste, elementAVerifier: ElementDePiste): boolean {
       if (type === TypeElementPiste.Accelerateur && elementAVerifier instanceof Accelerateur) {
           return true;
-      } else if (type === TypeElementPiste.Accelerateur && elementAVerifier instanceof FlaqueDEau) {
+      } else if (type === TypeElementPiste.FlaqueDEau && elementAVerifier instanceof FlaqueDEau) {
           return true;
-      } else if (type === TypeElementPiste.Accelerateur && elementAVerifier instanceof NidDePoule) {
+      } else if (type === TypeElementPiste.NidDePoule && elementAVerifier instanceof NidDePoule) {
           return true;
       }
 

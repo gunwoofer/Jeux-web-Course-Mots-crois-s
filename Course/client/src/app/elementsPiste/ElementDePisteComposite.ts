@@ -24,8 +24,29 @@ export class ElementDePisteComposite {
         }
     }
 
-    public retirerTous(): void {
-        this.elementsDePiste = new Array();
+    public retirerTous(type?: TypeElementPiste): void {
+        if (type === undefined) {
+            this.elementsDePiste = new Array();
+        } else {
+            const elementsASupprime: ElementDePiste[] = [];
+            for (const elementCourant of this.elementsDePiste) {
+                console.log('ELEMENTS LENGTH DEBUT i : ' + this.elementsDePiste.length);
+                console.log('SPLICE ELEMENT TYPE : ' + type );
+                if (FabriquantElementDePiste.estDeType(type, elementCourant)) {
+                    elementsASupprime.push(elementCourant);
+                    console.log('ELEMENTS:' + JSON.stringify(this.elementsDePiste));
+                }
+            }
+
+            for (const elementCourantASupprime of elementsASupprime) {
+                for (let noElement = 0; noElement < this.elementsDePiste.length; noElement++) {
+                    if (elementCourantASupprime === this.elementsDePiste[noElement]) {
+                        this.elementsDePiste.splice(noElement, 1);
+                        console.log('SPLICE : ' + noElement);
+                    }
+                }
+            }
+        }
     }
 
     public obtenirEnfant(index: number): ElementDePiste {
