@@ -5,6 +5,7 @@ import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 import { Niveau } from '../../commun/Niveau';
 
 const MAX_CONTRAINTES = 1;
+const MAX_ESSAIS = 1000;
 
 export class GenerateurDeGrilleVide {
 
@@ -56,7 +57,7 @@ export class GenerateurDeGrilleVide {
                 nEssais++;
                 i--;
             }
-            if (nEssais > 1000) {
+            if (nEssais > MAX_ESSAIS) {
                 throw new Error ('Generer Emplacement de Mot Ligne impossible');
             }
         }
@@ -98,7 +99,7 @@ export class GenerateurDeGrilleVide {
                 nEssais++;
                 i--;
             }
-            if (nEssais > 1000) {
+            if (nEssais > MAX_ESSAIS) {
                 throw new Error ('Generer Emplacement de Mot Colonne impossible');
             }
         }

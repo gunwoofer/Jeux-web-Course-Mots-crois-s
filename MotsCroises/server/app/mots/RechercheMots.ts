@@ -22,7 +22,7 @@ export class RechercheMots {
             }
         }
         const contrainte: RegExp = new RegExp(regEx + '\n', 'g');
-        const mots: string[] = this.rechercheDansListeMots(contrainte);
+        const mots: string[] = this.rechercheDansListeMots(contrainte);
         if (mots[this.nombreAleatoireEntreXEtY(0, mots.length - 1)] === undefined) {
             return undefined;
         }
