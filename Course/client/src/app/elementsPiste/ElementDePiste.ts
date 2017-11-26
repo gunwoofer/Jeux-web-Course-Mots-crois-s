@@ -1,5 +1,13 @@
+import { Accelerateur } from './Accelerateur';
+import { FlaqueDEau } from './FlaqueDEau';
+import { NidDePoule } from './NidDePoule';
+import { Vecteur } from '../../../../commun/Vecteur';
 
-
+export enum TypeElementPiste {
+    Accelerateur,
+    FlaqueDEau,
+    NidDePoule
+}
 
 export abstract class ElementDePiste {
     private x: number;
@@ -8,7 +16,6 @@ export abstract class ElementDePiste {
     private geometrie: THREE.Geometry;
     private materiel: THREE.Material;
     private mesh: THREE.Mesh;
-
 
     constructor(x: number, y: number, z: number) {
         this.x = x;
@@ -32,4 +39,5 @@ export abstract class ElementDePiste {
     private genererPointAleatoireSegment(segment: THREE.Mesh): THREE.Vector3 {
         return;
     }
+
 }

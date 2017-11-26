@@ -1,6 +1,5 @@
 import { ElementDePiste } from './ElementDePiste';
 
-
 export class Accelerateur extends ElementDePiste {
 
     constructor(x: number, y: number, z: number) {

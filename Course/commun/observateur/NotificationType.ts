@@ -3,5 +3,6 @@ export enum NotificationType {
     Deplacement,
     Tour_termine,
     Nouvelle_position,
-    MettreAJourAffichageTeteHaute
+    MettreAJourAffichageTeteHaute,
+    PisteOuverte
 }
