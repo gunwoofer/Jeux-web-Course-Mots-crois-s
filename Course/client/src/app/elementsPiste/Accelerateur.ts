@@ -13,7 +13,7 @@ export class Accelerateur extends ElementDePiste {
     }
 
     private genererMesh(): THREE.Mesh {
-        const accelerateurGeometrie = new THREE.PlaneGeometry(2, 2);
+        const accelerateurGeometrie = new THREE.PlaneGeometry(3, 2);
         const materiel = new THREE.MeshPhongMaterial();
         const loader = new THREE.TextureLoader();
         loader.load('../../assets/textures/accelerateur.png', (txt) => {

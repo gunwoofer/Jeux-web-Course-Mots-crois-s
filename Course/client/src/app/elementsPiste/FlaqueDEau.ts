@@ -12,7 +12,7 @@ export class FlaqueDEau extends ElementDePiste {
     }
 
     private genererMesh(): THREE.Mesh {
-        const flaqueDEauGeometrie = new THREE.CircleGeometry(2, 10);
+        const flaqueDEauGeometrie = new THREE.CircleGeometry(2, 7);
         const materiel = new THREE.MeshPhongMaterial({ color: 0x0000ff });
         const mesh = new THREE.Mesh(flaqueDEauGeometrie, materiel);
         return mesh;
@@ -29,7 +29,18 @@ export class FlaqueDEau extends ElementDePiste {
         return new THREE.Vector3(xPositionFlaqueDEau, yPositionFlaqueDEau, 0.01);
     }
 
+
+    // 4: arriere gauche 82: avant gauche
     public effetSurObstacle(voiture: Voiture): void {
-        console.log('Sur flaque d eau !');
+        const vecteurAvantGauche = new THREE.Vector3();
+        const vecteurArriereGauche = new THREE.Vector3();
+        vecteurAvantGauche.setFromMatrixPosition(voiture.voiture3D.children[82].matrixWorld);
+        vecteurArriereGauche.setFromMatrixPosition(voiture.voiture3D.children[4].matrixWorld);
+        const vecteurVoiture = new THREE.Vector3(
+            vecteurAvantGauche.x - vecteurArriereGauche.x,
+            vecteurAvantGauche.y - vecteurArriereGauche.y,
+            0
+        );
+        this.deplacementService.aquaPlannageFlaqueDEau(voiture, vecteurVoiture);
     }
 }

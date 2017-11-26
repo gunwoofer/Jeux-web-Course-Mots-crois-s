@@ -22,6 +22,9 @@ export class Voiture implements sujet.Sujet {
     public distanceParcouru = 0;
     public modeAccelerateur = false;
     public modeSecousse = false;
+    public modeAquaplannage = false;
+    public vecteurVoiture: THREE.Vector3;
+    public coteAleatoireAquaplannage: number;
 
 
     constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {

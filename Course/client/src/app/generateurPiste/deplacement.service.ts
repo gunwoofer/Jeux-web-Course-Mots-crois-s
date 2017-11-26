@@ -17,16 +17,20 @@ export class DeplacementService {
     }
 
     public moteurDeplacement(voiture: Voiture): void {
-        if (this.enAvant || voiture.modeAccelerateur) {
-            this.avancer(voiture);
+        if (voiture.modeAquaplannage) {
+            this.effetAquaplannage(voiture, voiture.coteAleatoireAquaplannage);
         } else {
-            this.freiner(voiture);
+            if (this.enAvant || voiture.modeAccelerateur) {
+                this.avancer(voiture);
+            } else if (!voiture.modeAquaplannage) {
+                this.freiner(voiture);
+            }
+            if ((this.aDroite && voiture.vitesse > VITESSE_MIN) && !voiture.modeSecousse) {
+                this.tournerDroite(voiture);
+            }
+            if ((this.aGauche && voiture.vitesse > VITESSE_MIN) && !voiture.modeSecousse) {
+                this.tournerGauche(voiture);
         }
-        if ((this.aDroite && voiture.vitesse > VITESSE_MIN) && !voiture.modeSecousse) {
-            this.tournerDroite(voiture);
-        }
-        if ((this.aGauche && voiture.vitesse > VITESSE_MIN) && !voiture.modeSecousse) {
-            this.tournerGauche(voiture);
         }
         voiture.calculerDistance();
     }
@@ -59,6 +63,12 @@ export class DeplacementService {
 
     private tournerDroite(voiture: Voiture): void {
         voiture.voiture3D.rotateY(-ROTATION);
+    }
+
+    private effetAquaplannage(voiture: Voiture, coteAleatoire: number): void {
+        voiture.voiture3D.position.x += voiture.vecteurVoiture.x * voiture.vitesse;
+        voiture.voiture3D.position.y += voiture.vecteurVoiture.y * voiture.vitesse;
+        voiture.voiture3D.rotateY(voiture.vitesse * - coteAleatoire * 0.10);
     }
 
     public reduireVitesseSortiePiste(voiture: Voiture): void {
@@ -95,6 +105,15 @@ export class DeplacementService {
             voiture.modeAccelerateur = false;
             voiture.vitesse = VITESSE_MAX;
         }, DUREE_ACCELERATEUR);
+    }
+
+    public aquaPlannageFlaqueDEau(voiture: Voiture, vecteurVoiture: THREE.Vector3): void {
+        voiture.vecteurVoiture = vecteurVoiture.normalize();
+        voiture.coteAleatoireAquaplannage = (Math.random() < 0.5) ? -1 : 1;
+        voiture.modeAquaplannage = true;
+        setTimeout(() => {
+            voiture.modeAquaplannage = false;
+        }, 200);
     }
 
     public touchePesee(event): void {
