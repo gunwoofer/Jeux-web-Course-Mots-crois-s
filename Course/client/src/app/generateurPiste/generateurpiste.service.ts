@@ -4,10 +4,6 @@ import {
     FIN_PARTIE_URL, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
     LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PAR_DEFAULT
 } from './../constant';
-
-import { Accelerateur } from './../elementsPiste/Accelerateur';
-import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
-import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
@@ -90,19 +86,6 @@ export class GenerateurPisteService implements Observateur {
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
-        // Mock nid de poule
-        const nidDePoule = new NidDePoule(this.piste.listepositions);
-        this.piste.ajouterElementPiste(nidDePoule);
-
-        // Mock flaque d eau
-        const flaque = new FlaqueDEau(this.piste.listepositions);
-        this.piste.ajouterElementPiste(flaque);
-
-         // Mock boost
-         const accelerateur = new Accelerateur(this.piste.listepositions);
-         this.piste.ajouterElementPiste(accelerateur);
-
-
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
     }

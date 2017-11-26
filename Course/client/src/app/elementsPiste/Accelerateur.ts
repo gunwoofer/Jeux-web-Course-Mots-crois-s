@@ -4,9 +4,9 @@ import * as THREE from 'three';
 
 export class Accelerateur extends ElementDePiste {
 
-    constructor(listePoint: THREE.Vector3[]) {
+    constructor(position: THREE.Vector3) {
         super();
-        this.position = this.genererPositionAleatoire(listePoint);
+        this.position = position;
         this.mesh = this.genererMesh();
         this.mesh.position.set(this.position.x, this.position.y, this.position.z);
 
@@ -26,17 +26,6 @@ export class Accelerateur extends ElementDePiste {
         });
         const mesh = new THREE.Mesh(accelerateurGeometrie, materiel);
         return mesh;
-    }
-
-    public genererPositionAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3 {
-        const segmentAleatoire = this.genererSegmentAleatoire(listePoints);
-        const point1 = segmentAleatoire[0];
-        const point2 = segmentAleatoire[1];
-        const pente = this.calculerPenteDroite(point1, point2);
-        const xPositionAccelerateur = this.trouverXAleatoire(point1.x, point1.x + (point2.x - point1.x ) / 2);
-        const yPositionAccelerateur = pente * xPositionAccelerateur + this.calculerOrdonneeALOrigine(point1, pente);
-
-        return new THREE.Vector3(xPositionAccelerateur, yPositionAccelerateur, 0.01);
     }
 
     public effetSurObstacle(voiture: Voiture): void {
