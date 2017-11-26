@@ -97,9 +97,7 @@ export class GenerateurPisteService implements Observateur {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
         const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
             this.segment.premierSegment[3], this.segment.damierDeDepart);
-
         const pilotes: Pilote[] = [pilote];
-
         this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
             [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
         this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
@@ -144,6 +142,9 @@ export class GenerateurPisteService implements Observateur {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
+            //this.voitureDuJoueur.voiture3D.translate(0.05, this.voitureDuJoueur.voiture3D.getWorldDirection());
+            this.voitureDuJoueur.miseAjourPointDestination(this.piste.listepositions[1]);
+            this.voitureDuJoueur.actualiserPositionVoiture();
             this.renderMiseAJour();
         }
     }

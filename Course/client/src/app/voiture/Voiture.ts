@@ -1,4 +1,5 @@
-import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
+import { Piste } from './../piste/piste.model';
+import { REDUCTION_VITESSE, VITESSE_INTIALE, ROTATION } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
@@ -16,6 +17,51 @@ export class Voiture implements sujet.Sujet {
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
+    public pointDestination: THREE.Vector3;
+    public vecteurDirectionVoitureDestination: THREE.Vector3;
+
+    public miseAjourPointDestination(positionDestination: THREE.Vector3): void {
+        this.pointDestination = positionDestination;
+    }
+    public miseAjourvecteurDirectionVoitureDestination(): void {
+        const positionVoitureNegatif = new THREE.Vector3().set(-this.voiture3D.position.x, 0, -this.voiture3D.position.z);
+        this.vecteurDirectionVoitureDestination =  new THREE.Vector3().copy(this.pointDestination).add(positionVoitureNegatif);
+        this.vecteurDirectionVoitureDestination.y = 0;
+        this.vecteurDirectionVoitureDestination.normalize();
+    }
+
+    public obtenirSensRotation(): number {
+        // return Math.sign(this.ecartDirection());
+        return Math.sign(this.voiture3D.getWorldDirection().cross(this.vecteurDirectionVoitureDestination).y);
+    }
+
+    public faireAvancerVoiture(): void {
+        // this.voiture3D.translateX(this.vitesse);
+        this.voiture3D.translateX(0.5);
+    }
+
+    public faireTournerVoiture(): void {
+        this.voiture3D.rotateY(- ROTATION * this.obtenirSensRotation());
+    }
+
+    public ecartDirection(): number {
+        // return this.voiture3D.getWorldDirection().cross(this.vecteurDirectionVoitureDestination).y;
+        const vecteurDirectionVoitureDestinationInverse = new THREE.Vector3().copy(this.vecteurDirectionVoitureDestination).negate();
+        const differenceVecteurDirectionEtDestination = this.voiture3D.getWorldDirection().add(this.vecteurDirectionVoitureDestination);
+        console.log(differenceVecteurDirectionEtDestination);
+        return differenceVecteurDirectionEtDestination.dot(differenceVecteurDirectionEtDestination);
+    }
+
+    public actualiserPositionVoiture(): void {
+//        public actualiserPositionVoiture(piste: Piste): void {
+        // this.miseAjourPointDestination(piste.listepositions[0]);
+        this.faireAvancerVoiture();
+        this.miseAjourvecteurDirectionVoitureDestination();
+        if (this.ecartDirection() > 0.2) {
+            this.faireTournerVoiture();
+            console.log(this.vecteurDirectionVoitureDestination, this.voiture3D.getWorldDirection(), this.ecartDirection());
+        }
+    }
 
 
     constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {
@@ -52,7 +98,7 @@ export class Voiture implements sujet.Sujet {
     }
 
     public distanceEntreDeuxPoints(x1: number, y1: number, x2: number, y2: number): number {
-        return Math.pow( Math.pow((x1 - x2), 2) + Math.pow( (y1 - y2), 2), 0.5);
+        return Math.pow(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2), 0.5);
     }
 
     public obtenirVoiture3D(): THREE.Object3D {
