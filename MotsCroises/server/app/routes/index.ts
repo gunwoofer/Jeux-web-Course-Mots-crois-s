@@ -11,7 +11,7 @@ module Route {
 
         public testGenerationGrille(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateurDeGrilleService = new GenerateurDeGrilleService();
-            const grille: Grille = generateurDeGrilleService.genererGrilleSync(Niveau.facile);
+            const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
             generateurDeGrilleService.affichageConsole(grille);
         }
 

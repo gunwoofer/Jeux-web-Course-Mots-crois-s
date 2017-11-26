@@ -17,25 +17,6 @@ export class GenerateurDeGrilleService {
     private generateurDeGrilleVide: GenerateurDeGrilleVide = new GenerateurDeGrilleVide();
 
     public async genererGrille(niveau: Niveau): Promise<Grille> {
-        /*let grille: Grille;
-        while (true) {
-            grille = await this.remplirGrille(niveau, this.generateurDeGrilleVide.genereGrilleVide(niveau));
-            if (grille !== undefined) {
-                break;
-            }
-        }*/
-        this.remplirGrille(niveau, this.generateurDeGrilleVide.genereGrilleVide(niveau))
-                            .then((grille) => {
-                                return Promise.resolve(grille);
-                            })
-                            .catch((e) => {
-                                console.log('Erreur: ', e);
-                                console.log('Regeneration de la grille...');
-                                this.genererGrille(niveau);
-                            });
-        for (let i = 0; i < 10; i++) {
-            console.log('ABORT');
-        }
         return undefined;
     }
 
@@ -120,30 +101,6 @@ export class GenerateurDeGrilleService {
         return Promise.resolve(grille);
     }
 
-    /*private async motEstPossibleAInserer(emplacementsIntersections: EmplacementMot[], grille: Grille, niveau: Niveau): Promise<boolean> {
-        if (emplacementsIntersections.length > 0) {
-            for (const emplacementIntersection of emplacementsIntersections) {
-                const tailleMotIntersection = emplacementIntersection.obtenirGrandeur();
-                const contraintesIntersection = this.genererTableauContraintes(grille, emplacementIntersection);
-                // const generateurMotIntersection = new GenerateurDeMotContrainteService(tailleMotIntersection, contraintesIntersection);
-                try {
-                    const chaineMot =  RechercheMots.rechercherMot(tailleMot, contraintes);
-                    if (chaineMot === undefined) {
-                        throw new Error('Grille impossible');
-                    }
-                    const mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
-                    if (mot.lettres === '') {
-                        throw Error('Aucun mot trouvé !');
-                    }
-                    // await generateurMotIntersection.genererMotAleatoire(niveau);
-                } catch (e) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }*/
-
     private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
         const tableauContraintes: Contrainte[] = new Array();
         const ligneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
@@ -164,50 +121,6 @@ export class GenerateurDeGrilleService {
         return tableauContraintes;
     }
 
-    private mettreAJourNiveauMot(motIdiot: MotComplet, rarete: number, difficulteDesDefinitions: number): MotComplet {
-        motIdiot.setRarete(rarete);
-        motIdiot.obtenirIndice().setDifficulteDefinition(difficulteDesDefinitions);
-
-        return motIdiot;
-    }
-
-    private nombreAleatoireEntreXEtY(min: number, max: number): number {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
-    private obtenirEmplacementsIntersection(grille: Grille, emplacement: EmplacementMot): EmplacementMot[] {
-        const emplacementMots: EmplacementMot[] = new Array();
-        const casesEmplacement: Case[] = grille.obtenirCasesSelonCaseDebut(
-                                                                            emplacement.obtenirCaseDebut(),
-                                                                            emplacement.obtenirPosition(),
-                                                                            emplacement.obtenirGrandeur());
-        for (const caseCourrante of casesEmplacement) {
-            for (const emplacementGrille of grille.obtenirEmplacementsMot()) {
-                if (!emplacementGrille.estPareilQue(emplacement) &&
-                    this.caseEstEnIntersectionAvecEmplacement(caseCourrante, emplacementGrille, grille)) {
-                        emplacementMots.push(emplacementGrille);
-                }
-            }
-        }
-        return emplacementMots;
-    }
-
-    private caseEstEnIntersectionAvecEmplacement(caseCourrante: Case, emplacement: EmplacementMot, grille: Grille): boolean {
-        const casesEmplacement: Case[] = grille.obtenirCasesSelonCaseDebut(
-                                                                            emplacement.obtenirCaseDebut(),
-                                                                            emplacement.obtenirPosition(),
-                                                                            emplacement.obtenirGrandeur());
-        for (const caseEmplacement of casesEmplacement) {
-            if (caseEmplacement.obtenirNumeroColonne() === caseCourrante.obtenirNumeroColonne() &&
-                caseEmplacement.obtenirNumeroLigne() === caseCourrante.obtenirNumeroLigne()) {
-                    return true;
-                }
-        }
-        return false;
-    }
-
-
-
     private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
         for (const emplacement of emplacements) {
@@ -226,7 +139,7 @@ export class GenerateurDeGrilleService {
         return grille;
     }
 
-    public genererGrilleSync(niveau: Niveau): Grille {
+    public genererGrilleMotSync(niveau: Niveau): Grille {
         console.log('Debut de la generation de grille...');
         let grille: Grille;
         while (true) {
