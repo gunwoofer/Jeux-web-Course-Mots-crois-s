@@ -32,8 +32,8 @@ describe('RechercheMots', () => {
         assert(RechercheMots.rechercherMot(5, []).length === 5);
     });
 
-    it('Je peux trouver un mot avec 3 contraintes et une a la fin', () => {
-        console.log(RechercheMots.rechercherMot(4, [new Contrainte('u', 0), new Contrainte('s', 2), new Contrainte('t', 3)]));
-        assert(RechercheMots.rechercherMot(4, [new Contrainte('u', 0), new Contrainte('s', 2), new Contrainte('t', 3)])).length === 4;
+    it('Je peux trouver un mot de 10 lettres avec 3 contraintes', () => {
+        console.log(RechercheMots.rechercherMot(10, [new Contrainte('o', 0), new Contrainte('d', 1), new Contrainte('a', 5)]));
+        assert(RechercheMots.rechercherMot(10, [new Contrainte('o', 0), new Contrainte('d', 1), new Contrainte('a', 5)]) !== undefined);
     });
 });
