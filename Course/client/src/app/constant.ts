@@ -17,6 +17,9 @@ export const ACCELERATION = 0.01;
 export const DECELERATION = 0.01;
 export const VITESSE_MAX = 1;
 export const VITESSE_MIN = 0.05;
+export const VITESSE_MODE_ACCELERATEUR = 1.5;
+export const DUREE_ACCELERATEUR = 1500;
+export const NOMBRE_SECOUSSES_NID_DE_POULE = 4;
 
 // Emplacements
 export const FIN_PARTIE_URL = '/resultatPartie';
@@ -82,10 +85,5 @@ export const REAJUSTEMENT_SKYBOX = 0.2;
 export const DIMENSION_CUBE = 1500;
 export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
 export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
-
-
-
-
-
 
 

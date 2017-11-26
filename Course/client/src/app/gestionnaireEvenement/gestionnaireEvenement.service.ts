@@ -1,3 +1,4 @@
+import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { LumiereService } from './../lumiere/lumiere.service';
@@ -8,7 +9,6 @@ import * as THREE from 'three';
 import { RenderService } from '../renderService/render.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
-import { GestionnaireDeVue } from '../gestionnaireDeVue/gestionnaireDeVue.service';
 
 @Injectable()
 export class EvenementService {
@@ -123,10 +123,10 @@ export class EvenementService {
   }
 
   public toucheRelachee(event): void {
-    this.generateurPisteService.deplacement.toucheRelachee(event);
+    this.generateurPisteService.deplacementService.toucheRelachee(event);
   }
 
   public touchePesee(event): void {
-    this.generateurPisteService.deplacement.touchePesee(event);
+    this.generateurPisteService.deplacementService.touchePesee(event);
   }
 }

@@ -1,3 +1,4 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { LumiereService } from './../lumiere/lumiere.service';
@@ -37,7 +38,7 @@ describe('RenderService test', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [RenderService, EvenementService, PisteService, AffichageTeteHauteService,
-                GenerateurPisteService, MessageErreurService, RatingService,
+                GenerateurPisteService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],

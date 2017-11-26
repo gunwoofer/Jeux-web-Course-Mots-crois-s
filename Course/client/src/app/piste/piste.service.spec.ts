@@ -1,3 +1,5 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { LumiereService } from './../lumiere/lumiere.service';
@@ -5,7 +7,6 @@ import { RatingService } from './../rating/rating.service';
 import { SkyboxService } from '../skybox/skybox.service';
 import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { MusiqueService } from './../musique/musique.service';
-import { GestionnaireDeVue } from '../gestionnaireDeVue/gestionnaireDeVue.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { ObjetService } from '../objetService/objet.service';
 import { TestBed, inject } from '@angular/core/testing';
@@ -22,7 +23,7 @@ describe('pisteService test', () => {
             providers: [
                 PisteService, GestionnaireDeVue, MusiqueService,
                 GenerateurPisteService, FiltreCouleurService, AffichageTeteHauteService,
-                ObjetService, LumiereService, TableauScoreService,
+                ObjetService, LumiereService, TableauScoreService, DeplacementService,
                 MockBackend, SkyboxService, RatingService, PlacementService,
                 BaseRequestOptions,
                 {

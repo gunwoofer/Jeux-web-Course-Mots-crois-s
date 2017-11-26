@@ -4,17 +4,18 @@ import { Accelerateur } from './Accelerateur';
 import { FlaqueDEau } from './FlaqueDEau';
 import { NidDePoule } from './NidDePoule';
 import { Vecteur } from '../../../../commun/Vecteur';
+import * as THREE from 'three';
 
 export class FabriquantElementDePiste {
-  public static creerNouvelleElementPiste(typeElementPiste: TypeElementPiste, posiiton: Vecteur): ElementDePiste {
+  public static creerNouvelleElementPiste(typeElementPiste: TypeElementPiste, position: Vecteur): ElementDePiste {
       if (typeElementPiste === TypeElementPiste.Accelerateur) {
-          return new Accelerateur(posiiton.x, posiiton.y, posiiton.z);
+          return new Accelerateur(new THREE.Vector3(position.x, position.y, position.z));
       }
       if (typeElementPiste === TypeElementPiste.FlaqueDEau) {
-          return new FlaqueDEau(posiiton.x, posiiton.y, posiiton.z);
+          return new FlaqueDEau(new THREE.Vector3(position.x, position.y, position.z));
       }
       if (typeElementPiste === TypeElementPiste.NidDePoule) {
-          return new NidDePoule(posiiton.x, posiiton.y, posiiton.z);
+          return new NidDePoule(new THREE.Vector3(position.x, position.y, position.z));
       }
   }
 

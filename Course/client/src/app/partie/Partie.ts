@@ -4,7 +4,6 @@ import { LigneArrivee } from './LigneArrivee';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { Voiture } from '../voiture/Voiture';
-import { Router } from '@angular/router';
 import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { EtatPartie } from './EtatPartie';
@@ -20,7 +19,6 @@ export class Partie implements Observateur, Sujet {
 
     private pilotes: Pilotes;
     private ligneArrivee: LigneArrivee;
-    private routeur: Router;
 
     constructor (pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number,
                  observateurs?: Observateur[], observateursPiloteJoueur?: Observateur[]) {
@@ -78,10 +76,6 @@ export class Partie implements Observateur, Sujet {
                 }
             }
         }
-    }
-
-    public ajouterRouteur(routeur: Router): void {
-        this.routeur = routeur;
     }
 
     public ajouterObservateur(observateur: Observateur): void {

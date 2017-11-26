@@ -34,7 +34,6 @@ export class ElementDePisteComposite {
                 console.log('SPLICE ELEMENT TYPE : ' + type );
                 if (FabriquantElementDePiste.estDeType(type, elementCourant)) {
                     elementsASupprime.push(elementCourant);
-                    console.log('ELEMENTS:' + JSON.stringify(this.elementsDePiste));
                 }
             }
 

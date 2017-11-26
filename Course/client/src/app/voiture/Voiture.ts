@@ -1,9 +1,13 @@
-import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
+import { VITESSE_INTIALE } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
+
+export const REDUCTION_VITESSE_SORTIE_PISTE = 10;
+export const REDUCTION_VITESSE_NID_DE_POULE = 4;
+
 
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
@@ -16,6 +20,11 @@ export class Voiture implements sujet.Sujet {
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
+    public modeAccelerateur = false;
+    public modeSecousse = false;
+    public modeAquaplannage = false;
+    public vecteurVoiture: THREE.Vector3;
+    public coteAleatoireAquaplannage: number;
 
 
     constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {
@@ -24,6 +33,14 @@ export class Voiture implements sujet.Sujet {
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
         this.vitesse = VITESSE_INTIALE;
+    }
+
+    public obtenirRoueAvantGauche(): THREE.Object3D {
+        return this.voiture3D.children[21];
+    }
+
+    public obtenirRoueAvantDroite(): THREE.Object3D {
+        return this.voiture3D.children[25];
     }
 
     public calculerDistance(): void {
@@ -59,6 +76,16 @@ export class Voiture implements sujet.Sujet {
         return this.voiture3D;
     }
 
+    public obtenirTailleVoiture(): THREE.Vector2 {
+
+        // https://stackoverflow.com/questions/33758313/get-size-of-object3d-in-three-js
+        const boite = new THREE.Box3().setFromObject(this.voiture3D);
+        const tailleX = Math.abs(boite.max.x - boite.min.x);
+        const tailleY = Math.abs(boite.max.y - boite.min.y);
+
+        return new THREE.Vector2(tailleX, tailleY);
+    }
+
     public obtenirPointMilieu(): THREE.Vector3 {
         return this.pointMilieu;
     }
@@ -85,7 +112,4 @@ export class Voiture implements sujet.Sujet {
         }
     }
 
-    public reduireVitesseSortiePiste(): void {
-        this.vitesse /= REDUCTION_VITESSE;
-    }
 }
