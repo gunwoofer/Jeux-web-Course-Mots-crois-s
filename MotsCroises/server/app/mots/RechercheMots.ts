@@ -5,22 +5,22 @@ export class RechercheMots {
 
     public static rechercherMot(taille: number, contrainteDeMots: Contrainte[]): string {
         let regEx = '[^a-z]';
-        let position = 0;
-        for (const contrainteCourante of contrainteDeMots) {
-            position = contrainteCourante.obtenirPositionContrainte();
-            const lettre = contrainteCourante.obtenirLettre().toLowerCase();
-
-            if (position === 0) {
+        for (let i = 0; i < taille; i++) {
+            let estContrainte = false;
+            let lettre = '';
+            for (const contrainte of contrainteDeMots) {
+                if (contrainte.obtenirPositionContrainte() === i) {
+                    lettre = contrainte.obtenirLettre();
+                    estContrainte = true;
+                    break;
+                }
+            }
+            if (estContrainte) {
                 regEx += lettre;
             } else {
-                regEx += '[a-z]{' + position + '}' + lettre;
+                regEx += '[a-z]{1}';
             }
         }
-
-        if (position !== taille - 1) {
-            regEx += '[a-z]{' + ( taille - 1 - position ) + '}';
-        }
-
         const contrainte: RegExp = new RegExp(regEx + '\n', 'g');
         const mots: string[] = this.rechercheDansListeMots(contrainte);
         if (mots[this.nombreAleatoireEntreXEtY(0, mots.length - 1)] === undefined) {

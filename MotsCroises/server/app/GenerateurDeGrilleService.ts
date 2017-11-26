@@ -217,6 +217,10 @@ export class GenerateurDeGrilleService {
     private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
         for (const emplacement of emplacements) {
+            console.log('Emplacement courrant = ', emplacement);
+            if (emplacement === undefined) {
+                console.log(JSON.stringify(grille.mots));
+            }
             const tailleMot = emplacement.obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacement);
             const chaineMot =  RechercheMots.rechercherMot(tailleMot, contraintes);
@@ -226,7 +230,11 @@ export class GenerateurDeGrilleService {
                 let mot: MotComplet;
                 mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
                 grille.ajouterMotEmplacement(mot, emplacement);
+                console.log('------------------------');
                 this.affichageConsole(grille);
+                console.log('------------------------');
+                this.generateurDeGrilleVide.affichageConsole(grille);
+                console.log('------------------------');
             }
         }
         console.log('Grille terminée !');
