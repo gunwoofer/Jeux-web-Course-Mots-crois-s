@@ -20,9 +20,8 @@ export class GenerateurDeGrilleVide {
             grilleVide = this.genereGrilleVide(niveau);
         }
         grilleVide.genererEmplacementsMot();
-        console.log('Grille vide: -------------------');
+        console.log('Grille vide: -------------');
         this.affichageConsole(grilleVide);
-        console.log('--------------------------------');
         return grilleVide;
     }
 

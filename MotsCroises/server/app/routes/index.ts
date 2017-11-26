@@ -13,8 +13,6 @@ module Route {
             const generateurDeGrilleService = new GenerateurDeGrilleService();
             const grille: Grille = generateurDeGrilleService.genererGrilleSync(Niveau.facile);
             generateurDeGrilleService.affichageConsole(grille);
-            console.log('Send de la requete !');
-            res.send();
         }
 
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction): void {

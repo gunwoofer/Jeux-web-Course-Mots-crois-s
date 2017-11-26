@@ -161,15 +161,6 @@ export class GenerateurDeGrilleService {
         return tableauContraintes;
     }
 
-    private estComplete(grille: Grille): boolean {
-        for (let i = 0; i < 10; i++) {
-            if (grille.obtenirNombreMotsSurLigne(i) < 1 || grille.obtenirNombreMotsSurColonne(i) < 1) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     private mettreAJourNiveauMot(motIdiot: MotComplet, rarete: number, difficulteDesDefinitions: number): MotComplet {
         motIdiot.setRarete(rarete);
         motIdiot.obtenirIndice().setDifficulteDefinition(difficulteDesDefinitions);
