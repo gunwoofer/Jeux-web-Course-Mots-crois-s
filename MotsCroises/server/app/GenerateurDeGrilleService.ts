@@ -210,10 +210,6 @@ export class GenerateurDeGrilleService {
 
     private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
         const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
-        // const emplacements: EmplacementMot[] = grille.obtenirEmplacementsMot();
-        console.log('JSON Emplacements: ', JSON.stringify(emplacements));
-        console.log('----------------------------------------------');
-        console.log('JSON EMPLACEMENTS NORMAUX', JSON.stringify(grille.obtenirEmplacementsMot()));
         for (const emplacement of emplacements) {
             const tailleMot = emplacement.obtenirGrandeur();
             const contraintes = this.genererTableauContraintes(grille, emplacement);
@@ -224,9 +220,6 @@ export class GenerateurDeGrilleService {
                 let mot: MotComplet;
                 mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
                 grille.ajouterMotEmplacement(mot, emplacement);
-                console.log('------------------------');
-                this.affichageConsole(grille);
-                console.log('------------------------');
             }
         }
         console.log('Grille terminée !');
@@ -238,13 +231,10 @@ export class GenerateurDeGrilleService {
         let grille: Grille;
         while (true) {
             const grilleVide = this.generateurDeGrilleVide.genereGrilleVide(niveau);
-            console.log('Grille vide: -------------');
-            this.generateurDeGrilleVide.affichageConsole(grilleVide);
             grille = this.remplirGrilleSync(niveau, grilleVide);
             if (grille !== undefined) {
                 break;
             }
-            console.log('Generation d\'une nouvelle grille...');
         }
         return grille;
     }

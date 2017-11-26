@@ -16,7 +16,6 @@ export class GenerateurDeGrilleVide {
             grilleVide = this.genererEmplacementsMotsColonne(grilleVide);
             // grilleVide = this.rechercheMotDeuxLettres(grilleVide);
         } catch (e) {
-            console.log('GRILLE VIDE INVALIDE');
             grilleVide = this.genereGrilleVide(niveau);
         }
         grilleVide.genererEmplacementsMot();
