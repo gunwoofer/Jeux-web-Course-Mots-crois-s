@@ -149,6 +149,7 @@ export class GameViewService {
   public demanderPartieServer() {
     switch (this.nbJoueursPartie) {
       case 0 :
+      console.log('demande partie');
         this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
           this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
         break;

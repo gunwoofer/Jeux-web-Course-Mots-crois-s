@@ -6,7 +6,7 @@ import { Niveau } from '../../commun/Niveau';
 import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
 
 describe('GenerateurDeGrilleService', () => {
-    it('Une grille est carre et fait dix cases de cote.', () => {
+    /*it('Une grille est carre et fait dix cases de cote.', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         generateurDeGrilleService.genererGrille(Niveau.facile).then((grille) => {
             assert(grille.cases.obtenirHauteurCases() === 10);
@@ -108,5 +108,5 @@ describe('GenerateurDeGrilleService', () => {
         }
 
         assert(grilleDifferente);
-    });
+    });*/
 });

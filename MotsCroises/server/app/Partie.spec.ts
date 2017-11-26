@@ -1,24 +1,24 @@
 import { assert } from 'chai';
 import { Joueur } from '../../commun/Joueur';
 import { Grille } from './Grille';
-import { GenerateurDeGrilleServiceMock } from './GenerateurDeGrilleServiceMock';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
 import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
 import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Partie } from './Partie';
 import { Case } from '../../commun/Case';
+import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 
 const DELAI_MAXIMUM_MILISECONDES = 5 * Math.pow(10, 3);
 
 describe('Partie', () => {
     it('Le serveur conserve les mots sélectionnés des joueurs.', () => {
-        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
+        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
 
         let emplacementMotSelectionnerParJoueur1: EmplacementMot = grille.emplacementsMots.emplacementMots[0];
         let emplacementMotSelectionnerParJoueur2: EmplacementMot = grille.emplacementsMots.emplacementMots[1];
@@ -53,12 +53,12 @@ describe('Partie', () => {
     });
 
     it('Le serveur conserve un compteur pour les joueurs.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
+        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
 
 
         const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
@@ -77,12 +77,12 @@ describe('Partie', () => {
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
     it('Le serveur indique que la partie est terminé quand le compteur est échoué.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
+        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
         const tempsAlloueMilisecondes: number = 1 * Math.pow(10, 3);
 
 
@@ -101,12 +101,12 @@ describe('Partie', () => {
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
     it('Le serveur indique que la partie n\'est pas terminé quand le compteur n\'est pas échoué.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
+        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
         const tempsAlloueMilisecondes: number = 1 * Math.pow(10, 3);
 
 
@@ -125,12 +125,12 @@ describe('Partie', () => {
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
     it('Il est possible d\'obtenir une liste des mots trouvés par chaque joueur.', () => {
-        const generateurDeGrilleService: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
+        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMock(Niveau.facile);
+        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
 
         const emplacementMotTrouveJoueur1: EmplacementMot = grille.emplacementsMots.emplacementMots[0];
         const emplacementMotTrouveJoueur2: EmplacementMot = grille.emplacementsMots.emplacementMots[1];

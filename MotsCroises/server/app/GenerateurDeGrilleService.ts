@@ -132,6 +132,7 @@ export class GenerateurDeGrilleService {
             } else {
                 let mot: MotComplet;
                 mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
+                emplacement.attribuerGuidIndice('Pas d\'indice...');
                 grille.ajouterMotEmplacement(mot, emplacement);
             }
         }
