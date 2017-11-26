@@ -84,16 +84,18 @@ export class GameViewService {
 
   private MAJIndices(specificationPartie: SpecificationPartie): void {
     const indices: IndiceMot[] = new Array();
+    console.log(specificationPartie);
 
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
       const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
-      const definition = indiceServeur.definitions[0];
+      //const definition = indiceServeur.definitions[0];
       indices.push(new IndiceMot(emplacementMot.obtenirGuidIndice(), emplacementMot.obtenirIndexFixe() + 1,
-        definition, emplacementMot.obtenirGrandeur(), emplacementMot.obtenirPosition(),
+        'bubibu', emplacementMot.obtenirGrandeur(), emplacementMot.obtenirPosition(),
         emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() + 1,
         emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
     }
     this.indices = indices;
+    console.log(indices);
   }
 
   private trouverIndiceAvecGuid(guid: string): Indice {
