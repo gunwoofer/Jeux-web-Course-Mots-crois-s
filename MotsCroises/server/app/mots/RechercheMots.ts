@@ -10,7 +10,7 @@ export class RechercheMots {
             let lettre = '';
             for (const contrainte of contrainteDeMots) {
                 if (contrainte.obtenirPositionContrainte() === i) {
-                    lettre = contrainte.obtenirLettre();
+                    lettre = contrainte.obtenirLettre().toLowerCase();
                     estContrainte = true;
                     break;
                 }

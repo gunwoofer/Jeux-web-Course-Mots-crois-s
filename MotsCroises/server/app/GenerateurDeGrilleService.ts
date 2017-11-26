@@ -231,6 +231,8 @@ export class GenerateurDeGrilleService {
         let grille: Grille;
         while (true) {
             const grilleVide = this.generateurDeGrilleVide.genereGrilleVide(niveau)
+            console.log('Grille vide: -------------');
+            this.generateurDeGrilleVide.affichageConsole(grilleVide);
             grille = this.remplirGrilleSync(niveau, grilleVide);
             if (grille !== undefined) {
                 break;
