@@ -3,9 +3,10 @@ import { Grille } from './Grille';
 import { Niveau } from '../../commun/Niveau';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
+import { GenerateurDeGrilleServiceMock } from './GenerateurDeGrilleServiceMock';
 
 export const maxDelaiRetourRequeteMS = 20000;
-export const maxDelaiInserer15Grilles = 30000;
+export const maxDelaiInserer15Grilles = 5000;
 
 describe('PersistenceGrillesService', () => {
     it('Il est possible d\'obtenir une grille facile de la base de données.', (done) => {
@@ -54,9 +55,9 @@ describe('PersistenceGrillesService', () => {
     }).timeout(maxDelaiRetourRequeteMS);
 
     it('Il est possible de creer 5 grilles de chaque niveau dans la base de données.', (done) => {
-        const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
+        const generateur: GenerateurDeGrilleServiceMock = new GenerateurDeGrilleServiceMock();
         const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur);
-        const grilles: Grille[] = generateur.obtenirGrillesBase();
+        const grilles: Grille[] = generateur.obtenirGrillesBaseMock();
 
         persistenceGrilles.asyncInsererPlusieursGrilles(grilles)
             .then(resultat => {

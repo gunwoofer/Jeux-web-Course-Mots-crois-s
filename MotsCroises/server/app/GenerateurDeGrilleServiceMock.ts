@@ -5,6 +5,8 @@ import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Indice } from './Indice';
 import { MotComplet } from './MotComplet';
 
+const NOMBRE_DE_GRILLE = 5;
+
 export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
 
     constructor() {
@@ -16,6 +18,22 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
         this.motCroiseGenere = this.remplirGrilleMock(niveau);
 
         return this.motCroiseGenere;
+    }
+
+    public obtenirGrillesBaseMock(): Grille[] {
+        const grillesFacileObtenue: Grille[] = this.genererGrillesMock(Niveau.facile);
+        const grillesMoyenObtenue: Grille[] = this.genererGrillesMock(Niveau.moyen);
+        const grillesDifficileObtenue: Grille[] = this.genererGrillesMock(Niveau.difficile);
+
+        return grillesFacileObtenue.concat(grillesMoyenObtenue).concat(grillesDifficileObtenue);
+    }
+
+    private genererGrillesMock(niveau: Niveau): Grille[] {
+        const grilles: Grille[] = new Array();
+        for (let i = 0; i < NOMBRE_DE_GRILLE; i++) {
+            grilles.push(this.genererGrilleMock(niveau));
+        }
+        return grilles;
     }
 
     private genererGrilleVideMock(niveau: Niveau): Grille {
