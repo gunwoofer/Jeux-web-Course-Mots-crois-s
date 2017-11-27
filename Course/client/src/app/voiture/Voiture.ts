@@ -19,25 +19,33 @@ export class Voiture implements sujet.Sujet {
     public distanceParcouru = 0;
     public pointDestination: THREE.Vector3;
     public vecteurDirectionVoitureDestination: THREE.Vector3;
+    public piste: any;
+    public entierI = 0;
 
     public miseAjourPointDestination(positionDestination: THREE.Vector3): void {
         this.pointDestination = positionDestination;
+        //this.voiture3D.position.add(new THREE.Vector3(-10,-10,-20));
     }
     public miseAjourvecteurDirectionVoitureDestination(): void {
-        const positionVoitureNegatif = new THREE.Vector3().set(-this.voiture3D.position.x, 0, -this.voiture3D.position.z);
+        const positionVoitureNegatif = new THREE.Vector3().set(-this.voiture3D.position.x, -this.voiture3D.position.y, 0);
         this.vecteurDirectionVoitureDestination =  new THREE.Vector3().copy(this.pointDestination).add(positionVoitureNegatif);
-        this.vecteurDirectionVoitureDestination.y = 0;
+        // console.log("positionVoiture", this.voiture3D.position, "pointDestination", this.pointDestination, "difference", this.vecteurDirectionVoitureDestination)
         this.vecteurDirectionVoitureDestination.normalize();
     }
 
     public obtenirSensRotation(): number {
         // return Math.sign(this.ecartDirection());
-        return Math.sign(this.voiture3D.getWorldDirection().cross(this.vecteurDirectionVoitureDestination).y);
+      if (this.entierI > 20) {
+
+        console.log(new THREE.Vector3().copy(this.voiture3D.getWorldDirection()).cross(this.vecteurDirectionVoitureDestination));
+        console.log(this.pointDestination, this.piste.listepositions[2] );
+      }
+        return Math.sign(this.voiture3D.getWorldDirection().cross(this.vecteurDirectionVoitureDestination).z);
     }
 
     public faireAvancerVoiture(): void {
         // this.voiture3D.translateX(this.vitesse);
-        this.voiture3D.translateX(0.5);
+        this.voiture3D.translateX(0.1);
     }
 
     public faireTournerVoiture(): void {
@@ -47,20 +55,30 @@ export class Voiture implements sujet.Sujet {
     public ecartDirection(): number {
         // return this.voiture3D.getWorldDirection().cross(this.vecteurDirectionVoitureDestination).y;
         const vecteurDirectionVoitureDestinationInverse = new THREE.Vector3().copy(this.vecteurDirectionVoitureDestination).negate();
-        const differenceVecteurDirectionEtDestination = this.voiture3D.getWorldDirection().add(this.vecteurDirectionVoitureDestination);
-        console.log(differenceVecteurDirectionEtDestination);
-        return differenceVecteurDirectionEtDestination.dot(differenceVecteurDirectionEtDestination);
+        const differenceVecteurDirectionEtDestination = this.voiture3D.getWorldDirection().add(vecteurDirectionVoitureDestinationInverse);
+        // return differenceVecteurDirectionEtDestination.dot(differenceVecteurDirectionEtDestination);
+      return this.vecteurDirectionVoitureDestination.distanceTo( this.voiture3D.getWorldDirection());
     }
 
     public actualiserPositionVoiture(): void {
 //        public actualiserPositionVoiture(piste: Piste): void {
         // this.miseAjourPointDestination(piste.listepositions[0]);
-        this.faireAvancerVoiture();
+
         this.miseAjourvecteurDirectionVoitureDestination();
         if (this.ecartDirection() > 0.2) {
             this.faireTournerVoiture();
-            console.log(this.vecteurDirectionVoitureDestination, this.voiture3D.getWorldDirection(), this.ecartDirection());
+          if (this.voiture3D.position.distanceTo(this.pointDestination) < 10) {
+            console.log("MAJ point destination");
+            this.miseAjourPointDestination(this.piste.listepositions[2]);
+          }
         }
+      this.faireAvancerVoiture();
+        this.entierI++;
+        if (this.entierI > 21){
+          console.log(this.vecteurDirectionVoitureDestination, this.voiture3D.getWorldDirection(), this.ecartDirection(), this.obtenirSensRotation());
+          this.entierI=0;
+        }
+
     }
 
 

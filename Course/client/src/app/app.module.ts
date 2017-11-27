@@ -46,6 +46,8 @@ import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehau
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
 import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichagetetehaute.component';
+import {IaComponent} from './iaComponent/ia.component';
+import {IaRenderService} from './iaComponent/iaRender.service';
 
 
 
@@ -67,7 +69,8 @@ import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichageteteh
     ConfigurationPartieComponent,
     FinDePartieComponent,
     RatingComponent,
-    AffichageTeteHauteComponent
+    AffichageTeteHauteComponent,
+    IaComponent
   ],
   imports: [
     BrowserModule,
@@ -77,6 +80,7 @@ import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichageteteh
   ],
   providers: [
     RenderService,
+    IaRenderService,
     PisteService,
     FacadeCoordonneesService,
     EvenementService,

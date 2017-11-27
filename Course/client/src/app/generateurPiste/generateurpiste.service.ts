@@ -82,6 +82,7 @@ export class GenerateurPisteService implements Observateur {
         this.genererSurfaceHorsPiste();
         this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
         this.commencerMoteurDeJeu();
+
     }
 
     public configurerTours(nombreTours: number): void {
@@ -143,8 +144,7 @@ export class GenerateurPisteService implements Observateur {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
             //this.voitureDuJoueur.voiture3D.translate(0.05, this.voitureDuJoueur.voiture3D.getWorldDirection());
-            this.voitureDuJoueur.miseAjourPointDestination(this.piste.listepositions[1]);
-            this.voitureDuJoueur.actualiserPositionVoiture();
+          this.voitureDuJoueur.actualiserPositionVoiture();
             this.renderMiseAJour();
         }
     }
@@ -215,7 +215,9 @@ export class GenerateurPisteService implements Observateur {
         if (joueur) {
             meshPrincipalVoiture.material.color.set('grey');
             this.voitureDuJoueur = new Voiture(obj);
-            this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
+          this.voitureDuJoueur.piste = this.piste; ////test
+          this.voitureDuJoueur.miseAjourPointDestination(this.piste.listepositions[1]);
+          this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
         } else {
