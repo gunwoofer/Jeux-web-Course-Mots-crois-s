@@ -103,7 +103,7 @@ describe('GestionnaireDePartieService', () => {
             });
     }).timeout(maxDelaiRetourRequeteMS);
 
-    /*it('Il est possible de vérifier un bon mot dans la grille.', (done) => {
+    it('Il est possible de vérifier un bon mot dans la grille.', (done) => {
         const joueur: Joueur = new Joueur();
         const typePartie: TypePartie = TypePartie.dynamique_a_un;
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
@@ -236,7 +236,5 @@ describe('GestionnaireDePartieService', () => {
             gestionniareDePartieService.obtenirPartieEnCours(guidPartie).demarrerPartie();
             assert(gestionniareDePartieService.obtenirPartiesEnAttente().length === 2);
         });
-    });*/
-
-
+    });
 });

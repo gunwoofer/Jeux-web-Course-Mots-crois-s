@@ -24,7 +24,7 @@ export class GenerateurDeMotContrainteService {
         return new Promise((resolve: any, reject: any) => {
             const contrainte = this.preparerContrainte();
 
-            this.demanderMotsADatamuse(contrainte, niveau)
+            this.demanderMotsADatamuse(contrainte)
                 .then((resultat: MotComplet) => { resolve(resultat); })
                 .catch((erreur: string) => { reject(erreur); });
         });
