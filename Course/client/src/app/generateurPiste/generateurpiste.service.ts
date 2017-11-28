@@ -214,14 +214,14 @@ export class GenerateurPisteService implements Observateur {
         meshPrincipalVoiture = obj.getObjectByName('MainBody');
         if (joueur) {
             meshPrincipalVoiture.material.color.set('grey');
-            this.voitureDuJoueur = new Voiture(obj, this.piste.listepositions);
+            this.voitureDuJoueur = new Voiture(obj, this.piste);
             this.voitureDuJoueur.ajouterIndicateursVoitureScene(this.scene);
             this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
         } else {
             meshPrincipalVoiture.material.color.set('black');
-            this.voituresIA.push(new Voiture(obj, this.piste.listepositions));
+            this.voituresIA.push(new Voiture(obj, this.piste));
             this.calculePositionVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1]);
         }
     }

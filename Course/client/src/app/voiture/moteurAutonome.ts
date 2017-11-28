@@ -14,12 +14,14 @@ export class MoteurAutonome {
     public directionIndicateurDevant: THREE.Vector3;
     public indiceCheckPointAAteindre: number;
     public engine: THREE.Object3D;
+    public distanceMinimaleDetection: number;
 
-    constructor(listePositions: THREE.Vector3[], objet: THREE.Object3D) {
+    constructor(listePositions: THREE.Vector3[], objet: THREE.Object3D, niveau: String) {
         this.indicateurVoiture = new IndicateurVoiture();
         this.directionIndicateurDevant = new THREE.Vector3();
         this.indiceCheckPointAAteindre = 1;
         this.engine = objet;
+        this.niveau(niveau);
         this.miseAjourDirectionDestination(listePositions);
     }
 
@@ -32,8 +34,16 @@ export class MoteurAutonome {
         this.repetition(listePositions);
     }
 
+    public niveau(niveau: String): void {
+        if (niveau === 'Professionnel') {
+            this.distanceMinimaleDetection = 45;
+        } else {
+            this.distanceMinimaleDetection = 10;
+        }
+    }
+
     public repetition(listePositions: THREE.Vector3[]): void {
-        if (this.engine.position.distanceTo(listePositions[this.indiceCheckPointAAteindre]) < 10) {
+        if (this.engine.position.distanceTo(listePositions[this.indiceCheckPointAAteindre]) < this.distanceMinimaleDetection) {
             this.indiceCheckPointAAteindre = this.indiceCheckPointAAteindre + 1;
         }
         if (this.indiceCheckPointAAteindre === listePositions.length) {

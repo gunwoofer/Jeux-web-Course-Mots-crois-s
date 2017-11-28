@@ -1,6 +1,6 @@
 import { MoteurAutonome } from './moteurAutonome';
 import { Piste } from './../piste/piste.model';
-import { REDUCTION_VITESSE, VITESSE_INTIALE, ROTATION } from './../constant';
+import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
@@ -23,14 +23,14 @@ export class Voiture implements sujet.Sujet {
     private moteurAutonome: MoteurAutonome;
 
 
-    constructor(voiture3D: THREE.Object3D, listePositions: THREE.Vector3[], observateurs?: observateur.Observateur[]) {
+    constructor(voiture3D: THREE.Object3D, piste: Piste, observateurs?: observateur.Observateur[]) {
         this.voiture3D = voiture3D;
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
         this.vitesse = VITESSE_INTIALE;
-        this.listePositions = listePositions;
-        this.moteurAutonome = new MoteurAutonome(this.listePositions, this.voiture3D);
+        this.listePositions = piste.listepositions;
+        this.moteurAutonome = new MoteurAutonome(this.listePositions, this.voiture3D, piste.typeCourse);
     }
 
     public ajouterIndicateursVoitureScene(scene: THREE.Scene): void {
