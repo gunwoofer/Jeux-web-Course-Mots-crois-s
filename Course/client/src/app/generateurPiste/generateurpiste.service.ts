@@ -144,7 +144,9 @@ export class GenerateurPisteService implements Observateur {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
-            this.voitureDuJoueur.dirigerVoiture();
+            for (let i = 0; i < this.voituresIA.length; i++) {
+                this.voituresIA[i].dirigerVoiture();
+            }
             this.renderMiseAJour();
         }
     }
@@ -215,8 +217,6 @@ export class GenerateurPisteService implements Observateur {
         if (joueur) {
             meshPrincipalVoiture.material.color.set('grey');
             this.voitureDuJoueur = new Voiture(obj, this.piste);
-            this.voitureDuJoueur.creerCubeDevant(this.scene);
-            this.voitureDuJoueur.creerCubeDirection(this.scene, this.piste);
             this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
@@ -224,6 +224,7 @@ export class GenerateurPisteService implements Observateur {
             meshPrincipalVoiture.material.color.set('black');
             this.voituresIA.push(new Voiture(obj, this.piste));
             this.calculePositionVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1]);
+            this.voituresIA[this.voituresIA.length - 1].creationIndicateur(this.scene);
         }
     }
 
