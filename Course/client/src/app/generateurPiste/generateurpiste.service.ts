@@ -31,6 +31,7 @@ import { EtatPartie } from '../partie/EtatPartie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
+import { AxisHelper } from 'three';
 
 
 @Injectable()
@@ -81,8 +82,8 @@ export class GenerateurPisteService implements Observateur {
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
         this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
+        this.scene.add(new AxisHelper(100));
         this.commencerMoteurDeJeu();
-
     }
 
     public configurerTours(nombreTours: number): void {
@@ -143,8 +144,9 @@ export class GenerateurPisteService implements Observateur {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
-            //this.voitureDuJoueur.voiture3D.translate(0.05, this.voitureDuJoueur.voiture3D.getWorldDirection());
-          this.voitureDuJoueur.actualiserPositionVoiture();
+            this.voitureDuJoueur.miseAjourPositionCubeDevant();
+            this.voitureDuJoueur.miseAjourDirectionDestination(this.piste);
+            this.voitureDuJoueur.miseAjourPositionCubeDirectionDestination();
             this.renderMiseAJour();
         }
     }
@@ -214,15 +216,15 @@ export class GenerateurPisteService implements Observateur {
         meshPrincipalVoiture = obj.getObjectByName('MainBody');
         if (joueur) {
             meshPrincipalVoiture.material.color.set('grey');
-            this.voitureDuJoueur = new Voiture(obj);
-          this.voitureDuJoueur.piste = this.piste; ////test
-          this.voitureDuJoueur.miseAjourPointDestination(this.piste.listepositions[1]);
-          this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
+            this.voitureDuJoueur = new Voiture(obj, this.piste);
+            this.voitureDuJoueur.creerCubeDevant(this.scene);
+            this.voitureDuJoueur.creerCubeDirection(this.scene, this.piste);
+            this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
         } else {
             meshPrincipalVoiture.material.color.set('black');
-            this.voituresIA.push(new Voiture(obj));
+            this.voituresIA.push(new Voiture(obj, this.piste));
             this.calculePositionVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1]);
         }
     }

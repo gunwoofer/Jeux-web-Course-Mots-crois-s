@@ -1,6 +1,6 @@
-import {Injectable} from '@angular/core';
+import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import {AxisHelper} from 'three';
+import { AxisHelper } from 'three';
 
 @Injectable()
 export class IaRenderService {
@@ -14,8 +14,8 @@ export class IaRenderService {
   private camera: THREE.OrthographicCamera;
 
   private cube: THREE.Mesh;
-  private cubeDirection: THREE.Mesh;
-  private cubeDeplacement: THREE.Mesh;
+  private cubeDirectionDestination: THREE.Mesh;
+  private indicateurDevant: THREE.Mesh;
 
 
   private renderer: THREE.WebGLRenderer;
@@ -34,23 +34,35 @@ export class IaRenderService {
 
   public rotationSpeedY = 0.01;
 
-  private listeCube: any [] = [];
+  private listeCube: any[] = [];
 
   private directionDestination: THREE.Vector3;
-  private directionCube: THREE.Vector3;
+  private directionDevantCube: THREE.Vector3;
 
   private indiceCubeAAtteindre: number;
 
-  private animateCube() {
-    this.cube.rotation.x += this.rotationSpeedX;
-    this.cube.rotation.y += this.rotationSpeedY;
+  public initialize(container: HTMLDivElement, rotationX: number, rotationY: number) {
+    this.container = container;
+    this.rotationSpeedX = rotationX;
+    this.rotationSpeedY = rotationY;
+    this.createScene();
+    this.cube = this.createVoiture(new THREE.Vector3(0, 0, 0));
+    this.scene.add(this.cube);
+    this.scene.add(new AxisHelper(100));
+    this.indiceCubeAAtteindre = 0;
+    this.creerCubes();
+    this.miseAjourDirectionDestination();
+    this.creerCubeDirection();
+    this.miseAjourPositionCubeDirectionDestination();
+    this.creerCubeDeplacement();
+    this.miseAjourPositionCubeDeplacement();
+    this.startRenderingLoop();
   }
 
   private createVoiture(position: THREE.Vector3) {
     const geometry = new THREE.BoxGeometry(40, 20, 20);
     geometry.faces[0].color.setHex(Math.random() * 0xffffff);
-    const material = new THREE.MeshBasicMaterial({vertexColors: THREE.FaceColors, overdraw: 0.5});
-
+    const material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors, overdraw: 0.5 });
     const cubeRetourne = new THREE.Mesh(geometry, material);
     cubeRetourne.position.set(position.x, position.y, position.z);
     return cubeRetourne;
@@ -58,16 +70,8 @@ export class IaRenderService {
 
   private createCube(position: THREE.Vector3, size: number = 1): THREE.Mesh {
     const geometry = new THREE.BoxGeometry(20 * size, 20 * size, 20 * size);
-
-    /*for (let i = 0; i < geometry.faces.length; i += 2) {
-      const hex = Math.random() * 0xffffff;
-      geometry.faces[i].color.setHex(hex);
-      geometry.faces[i + 1].color.setHex(hex);
-    }*/
     geometry.faces[0].color.setHex(Math.random() * 0xffffff);
-
-    const material = new THREE.MeshBasicMaterial({vertexColors: THREE.FaceColors, overdraw: 0.5});
-
+    const material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors, overdraw: 0.5 });
     const cubeRetourne = new THREE.Mesh(geometry, material);
     cubeRetourne.position.set(position.x, position.y, position.z);
     return cubeRetourne;
@@ -80,22 +84,11 @@ export class IaRenderService {
       this.scene.add(cubeCree);
       this.listeCube[i].material.color.setHex((i + 1) * 0x222211);
     }
-
-
   }
 
   private createScene() {
-    /* Scene */
     this.scene = new THREE.Scene();
-
-    /* Camera */
     const aspectRatio = this.getAspectRatio();
-    /*this.camera = new THREE.PerspectiveCamera(
-      this.fieldOfView,
-      aspectRatio,
-      this.nearClippingPane,
-      this.farClippingPane
-    );*/
     this.camera = new THREE.OrthographicCamera(
       this.container.clientWidth / -2, this.container.clientWidth / 2, this.container.clientHeight / 2, this.container.clientHeight / -2, 1, 1000
     );
@@ -110,24 +103,18 @@ export class IaRenderService {
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setPixelRatio(devicePixelRatio);
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-
     this.container.appendChild(this.renderer.domElement);
-    // this.controls = new THREE.TrackballControls( this.camera , this.container);
-
     this.render();
   }
 
   private render() {
     requestAnimationFrame(() => this.render());
-    // this.animateCube();
     this.avancerCube();
     this.miseAjourDirectionDestination();
-    this.miseAjourPositionCubeDirection();
+    this.miseAjourPositionCubeDirectionDestination();
     this.miseAjourPositionCubeDeplacement();
-    // console.log(this.obtenirSensRotationVoiture());
-    console.log(this.listeCube);
     this.faireTournerCube(this.obtenirSensRotationVoiture());
-    if (this.listeCube[this.indiceCubeAAtteindre].position.distanceTo(this.cube.position) < 100) {
+    if (this.listeCube[this.indiceCubeAAtteindre].position.distanceTo(this.cube.position) < 10) {
       this.indiceCubeAAtteindre = this.indiceCubeAAtteindre + 1;
     }
     if (this.indiceCubeAAtteindre === this.listeCube.length) {
@@ -138,43 +125,53 @@ export class IaRenderService {
   }
 
   public onResize() {
-    // this.camera.aspect = this.getAspectRatio();
     this.camera.updateProjectionMatrix();
-
     this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
   }
 
   private avancerCube() {
-    // this.cube.translate(1, new THREE.Vector3().set(0, 1, 0));
     this.cube.translateX(5);
-    // this.cube.position.add(new THREE.Vector3().set(1, 0, 0));
   }
 
+  /// DECLARATION ET MISE A JOUR D VECTEURS
+
   private miseAjourDirectionDestination() {
-    this.directionDestination = new THREE.Vector3().copy(this.listeCube[this.indiceCubeAAtteindre].position).add(new THREE.Vector3().copy(this.cube.position).negate()).normalize();
+    this.directionDestination = new THREE.Vector3()
+      .copy(this.listeCube[this.indiceCubeAAtteindre].position)
+      .add(new THREE.Vector3()
+        .copy(this.cube.position)
+        .negate()).normalize();
   }
 
   private creerCubeDirection() {
-    this.cubeDirection = this.createCube(new THREE.Vector3().copy(this.cube.position).add(this.directionDestination), 0.3);
-    this.scene.add(this.cubeDirection);
+    this.cubeDirectionDestination = this.createCube(new THREE.Vector3()
+      .copy(this.cube.position)
+      .add(this.directionDestination), 0.3);
+    this.scene.add(this.cubeDirectionDestination);
   }
 
-  private miseAjourPositionCubeDirection() {
-    const positionIndicDirection = new THREE.Vector3().copy(this.cube.position).add(new THREE.Vector3().copy(this.directionDestination).multiplyScalar(50));
-    this.cubeDirection.position.set(positionIndicDirection.x, positionIndicDirection.y, positionIndicDirection.z);
+  private miseAjourPositionCubeDirectionDestination() {
+    const positionIndicDirection = new THREE.Vector3()
+      .copy(this.cube.position)
+      .add(new THREE.Vector3()
+        .copy(this.directionDestination)
+        .multiplyScalar(50));
+    this.cubeDirectionDestination.position.set(positionIndicDirection.x, positionIndicDirection.y, positionIndicDirection.z);
   }
 
   private creerCubeDeplacement() {
-    this.cubeDeplacement = this.createCube(new THREE.Vector3().copy(this.cube.position).add(this.directionDestination), 0.5);
-    this.scene.add(this.cubeDeplacement);
+    this.indicateurDevant = this.createCube(new THREE.Vector3().copy(this.cube.position).add(this.directionDestination), 0.5);
+    this.scene.add(this.indicateurDevant);
   }
 
   private miseAjourPositionCubeDeplacement() {
     const angleOrientationCube = this.cube.getWorldRotation().z;
     const vecteurDirection = new THREE.Vector3(Math.cos(angleOrientationCube), Math.sin(angleOrientationCube), 0);
-    this.directionCube = new THREE.Vector3().copy(vecteurDirection);
-    const positionIndicDeplacement = new THREE.Vector3().copy(this.cube.position).add(vecteurDirection.multiplyScalar(50));
-    this.cubeDeplacement.position.set(positionIndicDeplacement.x, positionIndicDeplacement.y, positionIndicDeplacement.z);
+    this.directionDevantCube = new THREE.Vector3().copy(vecteurDirection);
+    const positionIndicDeplacement = new THREE.Vector3()
+      .copy(this.cube.position)
+      .add(vecteurDirection.multiplyScalar(50));
+    this.indicateurDevant.position.set(positionIndicDeplacement.x, positionIndicDeplacement.y, positionIndicDeplacement.z);
   }
 
   private faireTournerCube(sens: number) {
@@ -182,36 +179,10 @@ export class IaRenderService {
   }
 
   private obtenirSensRotationVoiture(): number { // >0 --> Gauche
-    const signeProduitVectoriel = new THREE.Vector3().copy(this.directionCube).cross(new THREE.Vector3().copy(this.directionDestination));
+    const signeProduitVectoriel = new THREE.Vector3()
+      .copy(this.directionDevantCube)
+      .cross(new THREE.Vector3()
+        .copy(this.directionDestination));
     return Math.sign(signeProduitVectoriel.z);
-  }
-
-  public initialize(container: HTMLDivElement, rotationX: number, rotationY: number) {
-    this.container = container;
-    this.rotationSpeedX = rotationX;
-    this.rotationSpeedY = rotationY;
-
-
-    this.createScene();
-
-    this.cube = this.createVoiture(new THREE.Vector3(0, 0, 0));
-    this.scene.add(this.cube);
-    this.scene.add(new AxisHelper(100));
-    this.indiceCubeAAtteindre = 0;
-
-    this.creerCubes();
-    this.miseAjourDirectionDestination();
-    this.creerCubeDirection();
-    this.miseAjourPositionCubeDirection();
-    this.creerCubeDeplacement();
-    this.miseAjourPositionCubeDeplacement();
-
-    console.log(this.cube.getWorldDirection(), this.cube.getWorldRotation(), this.cube.getWorldQuaternion());
-    this.cube.rotateZ(1.7);
-    console.log(this.cube.getWorldDirection(), this.cube.getWorldRotation(), this.cube.getWorldQuaternion());
-
-
-    this.startRenderingLoop();
-
   }
 }

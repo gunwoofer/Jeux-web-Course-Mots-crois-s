@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
+import { Scene, Vector3 } from 'three';
 
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
@@ -17,78 +18,118 @@ export class Voiture implements sujet.Sujet {
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
-    public pointDestination: THREE.Vector3;
-    public vecteurDirectionVoitureDestination: THREE.Vector3;
-    public piste: any;
-    public entierI = 0;
-
-    public miseAjourPointDestination(positionDestination: THREE.Vector3): void {
-        this.pointDestination = positionDestination;
-        //this.voiture3D.position.add(new THREE.Vector3(-10,-10,-20));
-    }
-    public miseAjourvecteurDirectionVoitureDestination(): void {
-        const positionVoitureNegatif = new THREE.Vector3().set(-this.voiture3D.position.x, -this.voiture3D.position.y, 0);
-        this.vecteurDirectionVoitureDestination =  new THREE.Vector3().copy(this.pointDestination).add(positionVoitureNegatif);
-        // console.log("positionVoiture", this.voiture3D.position, "pointDestination", this.pointDestination, "difference", this.vecteurDirectionVoitureDestination)
-        this.vecteurDirectionVoitureDestination.normalize();
-    }
-
-    public obtenirSensRotation(): number {
-        // return Math.sign(this.ecartDirection());
-      if (this.entierI > 20) {
-
-        console.log(new THREE.Vector3().copy(this.voiture3D.getWorldDirection()).cross(this.vecteurDirectionVoitureDestination));
-        console.log(this.pointDestination, this.piste.listepositions[2] );
-      }
-        return Math.sign(this.voiture3D.getWorldDirection().cross(this.vecteurDirectionVoitureDestination).z);
-    }
-
-    public faireAvancerVoiture(): void {
-        // this.voiture3D.translateX(this.vitesse);
-        this.voiture3D.translateX(0.1);
-    }
-
-    public faireTournerVoiture(): void {
-        this.voiture3D.rotateY(- ROTATION * this.obtenirSensRotation());
-    }
-
-    public ecartDirection(): number {
-        // return this.voiture3D.getWorldDirection().cross(this.vecteurDirectionVoitureDestination).y;
-        const vecteurDirectionVoitureDestinationInverse = new THREE.Vector3().copy(this.vecteurDirectionVoitureDestination).negate();
-        const differenceVecteurDirectionEtDestination = this.voiture3D.getWorldDirection().add(vecteurDirectionVoitureDestinationInverse);
-        // return differenceVecteurDirectionEtDestination.dot(differenceVecteurDirectionEtDestination);
-      return this.vecteurDirectionVoitureDestination.distanceTo( this.voiture3D.getWorldDirection());
-    }
-
-    public actualiserPositionVoiture(): void {
-//        public actualiserPositionVoiture(piste: Piste): void {
-        // this.miseAjourPointDestination(piste.listepositions[0]);
-
-        this.miseAjourvecteurDirectionVoitureDestination();
-        if (this.ecartDirection() > 0.2) {
-            this.faireTournerVoiture();
-          if (this.voiture3D.position.distanceTo(this.pointDestination) < 10) {
-            console.log("MAJ point destination");
-            this.miseAjourPointDestination(this.piste.listepositions[2]);
-          }
-        }
-      this.faireAvancerVoiture();
-        this.entierI++;
-        if (this.entierI > 21){
-          console.log(this.vecteurDirectionVoitureDestination, this.voiture3D.getWorldDirection(), this.ecartDirection(), this.obtenirSensRotation());
-          this.entierI=0;
-        }
-
-    }
+    private indicateurDirectionDestination: THREE.Mesh;
+    private indicateurDevant: THREE.Mesh;
+    private cubeDirectionDestination: THREE.Mesh;
+    private directionDestination: THREE.Vector3;
+    private indiceCubeAAtteindre = 1;
+    private directionDevantCube: THREE.Vector3;
 
 
-    constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {
+    constructor(voiture3D: THREE.Object3D, piste: Piste, observateurs?: observateur.Observateur[]) {
         this.voiture3D = voiture3D;
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
         this.vitesse = VITESSE_INTIALE;
+        this.miseAjourDirectionDestination(piste);
     }
+
+    public createCube(position: THREE.Vector3, size: number = 1): THREE.Mesh {
+        const geometry = new THREE.BoxGeometry(5 * size, 5 * size, 5 * size);
+        geometry.faces[0].color.setHex(Math.random() * 0xffffff);
+        const material = new THREE.MeshBasicMaterial({ vertexColors: THREE.FaceColors, overdraw: 0.5 });
+        const cubeRetourne = new THREE.Mesh(geometry, material);
+        cubeRetourne.position.set(position.x, position.y, position.z);
+        cubeRetourne.rotateX(Math.PI / 2);
+        return cubeRetourne;
+    }
+
+    public miseAjourDirectionDestination(piste: Piste) {
+        this.directionDestination = new THREE.Vector3()
+            .copy(piste.listepositions[this.indiceCubeAAtteindre])
+            .add(new THREE.Vector3()
+                .copy(this.voiture3D.position)
+                .negate()).normalize();
+    }
+
+    public creerCubeDevant(scene: THREE.Scene) {
+        this.indicateurDevant = this.createCube(new THREE.Vector3().copy(this.voiture3D.position).add(this.directionDestination), 0.5);
+        scene.add(this.indicateurDevant);
+    }
+
+    public creerCubeDirection(scene: THREE.Scene, piste: Piste) {
+        this.cubeDirectionDestination = this.createCube(new THREE.Vector3()
+            .copy(this.voiture3D.position)
+            .add(this.directionDestination), 0.3);
+        this.miseAjourDirectionDestination(piste);
+        scene.add(this.cubeDirectionDestination);
+    }
+
+    public miseAjourPositionCubeDirectionDestination() {
+        const positionIndicDirection = new THREE.Vector3().addVectors(this.voiture3D.position,
+            new THREE.Vector3()
+                .copy(this.directionDestination)
+                .multiplyScalar(50));
+        this.cubeDirectionDestination.position.set(positionIndicDirection.x, positionIndicDirection.y, positionIndicDirection.z);
+    }
+
+
+
+    public miseAjourPositionCubeDevant() {
+        console.log(this.voiture3D.getWorldRotation(), this.voiture3D.getWorldDirection(), this.voiture3D.localToWorld(new THREE.Vector3(1, 0, 0)),
+            this.voiture3D.worldToLocal(this.voiture3D.getWorldDirection()), new THREE.Vector3(1, 0, 0).setFromMatrixPosition(this.voiture3D.matrixWorld));
+        const angleOrientationCube = this.voiture3D.getWorldRotation().z;
+        //const vecteurDirection = new THREE.Vector3(Math.cos(angleOrientationCube), Math.sin(angleOrientationCube), 0);
+        const vecteurDirection = new THREE.Vector3().subVectors(this.voiture3D.localToWorld(new THREE.Vector3(1, 0, 0)), this.voiture3D.position).normalize();
+        // this.directionDevantCube = new THREE.Vector3().copy(vecteurDirection);
+        this.directionDevantCube = new THREE.Vector3().subVectors(this.voiture3D.localToWorld(new THREE.Vector3(1, 0, 0)), this.voiture3D.position).normalize();
+        // this.voiture3D.position.add(this.voiture3D.worldToLocal(this.voiture3D.getWorldDirection()).normalize());
+        this.voiture3D.translate(1, this.voiture3D.worldToLocal(this.voiture3D.localToWorld(new THREE.Vector3(1, 0, 0))));
+        // this.voiture3D.translateX(1);
+        const positionIndicDeplacement = new THREE.Vector3()
+            .copy(this.voiture3D.position)
+            .add(vecteurDirection.multiplyScalar(30));
+        this.indicateurDevant.position.set(positionIndicDeplacement.x, positionIndicDeplacement.y, positionIndicDeplacement.z);
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     public calculerDistance(): void {
         this.xPrecedent = this.x;
