@@ -144,9 +144,7 @@ export class GenerateurPisteService implements Observateur {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
-            for (let i = 0; i < this.voituresIA.length; i++) {
-                this.voituresIA[i].dirigerVoiture();
-            }
+            this.voitureDuJoueur.modeAutonome();
             this.renderMiseAJour();
         }
     }
@@ -154,9 +152,6 @@ export class GenerateurPisteService implements Observateur {
     public renderMiseAJour(): void {
         if (this.voitureDuJoueur !== undefined) {
             this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
-            for (let i = 0; i < this.voituresIA.length; i++) {
-                this.sortiePisteService.gererSortiePiste(this.voituresIA[i]);
-            }
             this.piste.gererElementDePiste([this.voitureDuJoueur]);
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
         }
@@ -219,15 +214,15 @@ export class GenerateurPisteService implements Observateur {
         meshPrincipalVoiture = obj.getObjectByName('MainBody');
         if (joueur) {
             meshPrincipalVoiture.material.color.set('grey');
-            this.voitureDuJoueur = new Voiture(obj, this.piste);
+            this.voitureDuJoueur = new Voiture(obj, this.piste.listepositions);
+            this.voitureDuJoueur.ajouterIndicateursVoitureScene(this.scene);
             this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
         } else {
             meshPrincipalVoiture.material.color.set('black');
-            this.voituresIA.push(new Voiture(obj, this.piste));
+            this.voituresIA.push(new Voiture(obj, this.piste.listepositions));
             this.calculePositionVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1]);
-            this.voituresIA[this.voituresIA.length - 1].creationIndicateur(this.scene);
         }
     }
 
