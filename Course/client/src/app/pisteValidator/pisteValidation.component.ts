@@ -61,19 +61,15 @@ export class PisteValidationComponent {
     }
 
     public ajouterElementDePiste(typeElement): void {
-        let element: any;
-        if (typeElement.target.name === 'nidDePoule') {
-             element = FabriquantElementDePiste.creerNouvelleElementPiste(TypeElementPiste.NidDePoule,
-                this.renderService.obtenirPositions());
-                this.renderService.ajouterElementDePiste(element.position, '#ff0000');
-        } else if (typeElement.target.name === 'flaqueDEau') {
-             element = FabriquantElementDePiste.creerNouvelleElementPiste(TypeElementPiste.FlaqueDEau,
-                this.renderService.obtenirPositions());
-                this.renderService.ajouterElementDePiste(element.position, '#0000ff');
-        } else if (typeElement.target.name === 'accelerateur') {
-             element = FabriquantElementDePiste.creerNouvelleElementPiste(TypeElementPiste.Accelerateur,
-                this.renderService.obtenirPositions());
-                this.renderService.ajouterElementDePiste(element.position, '#f9d500');
+        let type: TypeElementPiste;
+        let couleur: string;
+        switch (typeElement.target.name) {
+            case 'nidDePoule': { type = TypeElementPiste.NidDePoule; couleur = '#ff0000'; break; }
+            case 'flaqueDEau': { type = TypeElementPiste.FlaqueDEau; couleur = '#0000ff'; break; }
+            case 'accelerateur': { type = TypeElementPiste.Accelerateur; couleur = '#f9d500'; break; }
         }
+        const element = FabriquantElementDePiste.creerNouvelleElementPiste(type,
+            this.renderService.obtenirPositions());
+        this.renderService.ajouterElementDePiste(element.position, couleur);
     }
 }
