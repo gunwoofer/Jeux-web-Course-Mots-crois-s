@@ -144,9 +144,7 @@ export class GenerateurPisteService implements Observateur {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
             this.cameraService.changementDeVue(this.camera, this.voitureDuJoueur);
             this.deplacement.moteurDeplacement(this.voitureDuJoueur);
-            this.voitureDuJoueur.miseAjourPositionCubeDevant();
-            this.voitureDuJoueur.miseAjourDirectionDestination(this.piste);
-            this.voitureDuJoueur.miseAjourPositionCubeDirectionDestination();
+            this.voitureDuJoueur.dirigerVoiture();
             this.renderMiseAJour();
         }
     }
