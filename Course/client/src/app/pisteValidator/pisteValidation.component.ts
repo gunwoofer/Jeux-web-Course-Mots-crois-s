@@ -1,3 +1,6 @@
+import { TypeElementPiste } from './../elementsPiste/ElementDePiste';
+import { FabriquantElementDePiste } from './../elementsPiste/FabriquantElementDePiste';
+import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 
@@ -55,5 +58,22 @@ export class PisteValidationComponent {
             .then(
             donnee => console.log(donnee)
             );
+    }
+
+    public ajouterElementDePiste(typeElement): void {
+        let element: any;
+        if (typeElement.target.name === 'nidDePoule') {
+             element = FabriquantElementDePiste.creerNouvelleElementPiste(TypeElementPiste.NidDePoule,
+                this.renderService.obtenirPositions());
+                this.renderService.ajouterElementDePiste(element.position, '#ff0000');
+        } else if (typeElement.target.name === 'flaqueDEau') {
+             element = FabriquantElementDePiste.creerNouvelleElementPiste(TypeElementPiste.FlaqueDEau,
+                this.renderService.obtenirPositions());
+                this.renderService.ajouterElementDePiste(element.position, '#0000ff');
+        } else if (typeElement.target.name === 'accelerateur') {
+             element = FabriquantElementDePiste.creerNouvelleElementPiste(TypeElementPiste.Accelerateur,
+                this.renderService.obtenirPositions());
+                this.renderService.ajouterElementDePiste(element.position, '#f9d500');
+        }
     }
 }

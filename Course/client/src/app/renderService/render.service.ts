@@ -190,6 +190,11 @@ export class RenderService {
     return vecteur;
   }
 
+  public ajouterElementDePiste(position: THREE.Vector3, couleur: string): void {
+    const point = this.facadePointService.creerPoint(position, couleur);
+    this.scene.add(point);
+  }
+
   public dessinerPointDejaConnu(position: THREE.Vector3) {
     let point;
     if (!this.dessinTermine) {

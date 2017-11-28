@@ -98,41 +98,4 @@ export class Piste {
             this.coteMoyenne = Math.abs(somme / nombreElement);
         }
     }
-
-    public genererPositionAleatoire(estUnAccelerateur: boolean): THREE.Vector3 {
-        const segmentAleatoire = this.genererSegmentAleatoire(this.listepositions);
-        const pointDebut = segmentAleatoire[0];
-        const pointFin = segmentAleatoire[1];
-
-        let x: number;
-
-        if (estUnAccelerateur) {
-            x = this.trouverXAleatoire(pointDebut.x, this.obtenirMoitieEntre2points(pointDebut.x, pointFin.x));
-        } else {
-            x = this.trouverXAleatoire(pointDebut.x, pointFin.x);
-        }
-        const pente = this.calculerPenteDroite(pointDebut, pointFin);
-        const y = pente * x + this.calculerOrdonneeALOrigine(pointDebut, pente);
-        return new THREE.Vector3(x, y, 0.01);
-    }
-
-    private obtenirMoitieEntre2points(xDebut: number, xFin: number) {
-        return (xDebut + (xFin - xDebut ) / 2);
-    }
-    private trouverXAleatoire(xDebut: number, xFin: number): number {
-        return Math.random() * (Math.max(xDebut, xFin) - Math.min(xDebut, xFin)) + Math.min(xDebut, xFin);
-    }
-
-    private calculerPenteDroite(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
-        return ((pointFin.y - pointDebut.y) / (pointFin.x - pointDebut.x));
-    }
-
-    private calculerOrdonneeALOrigine(pointDebut: THREE.Vector3, pente: number): number {
-        return (pointDebut.y - pente * pointDebut.x);
-    }
-
-    private genererSegmentAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3[] {
-        const pointAleatoire = Math.round(Math.random() * (listePoints.length - 2));
-        return [listePoints[pointAleatoire], listePoints[pointAleatoire + 1]];
-    }
 }

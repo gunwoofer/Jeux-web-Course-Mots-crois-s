@@ -14,18 +14,17 @@ export class GestionElementsPiste implements Observateur {
     private typeElementPiste: TypeElementPiste = TypeElementPiste.Accelerateur;
     private elementDePisteComposite: ElementDePisteComposite = new ElementDePisteComposite();
 
-    public ajouterElementDePiste(): void {
+    public ajouterElementDePiste(listePosition: THREE.Vector3[]): void {
         if (this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste) >= 5) {
             this.elementDePisteComposite.retirerTous(this.typeElementPiste);
         } else {
-            this.ajouterElementDePisteSelonContraintes();
+            this.ajouterElementDePisteSelonContraintes(listePosition);
         }
     }
 
-    private ajouterElementDePisteSelonContraintes(): void {
+    private ajouterElementDePisteSelonContraintes(listePosition: THREE.Vector3[]): void {
         while (this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste) < 5) {
-            const position: Vecteur = this.obtenirAleatoirementPositionSurPiste();
-            this.elementDePisteComposite.ajouter(FabriquantElementDePiste.creerNouvelleElementPiste(this.typeElementPiste, position));
+            this.elementDePisteComposite.ajouter(FabriquantElementDePiste.creerNouvelleElementPiste(this.typeElementPiste, listePosition));
 
             if (this.nombreElementsEstImpair()) {
                 break;
