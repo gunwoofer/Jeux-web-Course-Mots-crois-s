@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { GenerateurDeMotContrainteService, aucunMotObtenuDeDataMuse } from './GenerateurDeMotContrainteService';
+import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
 import { Niveau } from '../../commun/Niveau';
 
 export const maxDelaiRetourRequeteMS = 10000;

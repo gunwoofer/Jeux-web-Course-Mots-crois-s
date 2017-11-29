@@ -33,22 +33,6 @@ export class GenerateurDeGrilleService {
         return grille;
     }
 
-    public affichageConsole(grille: Grille): void {
-        for (let i = 0; i < 10; i++) {
-            let ligne: string;
-            ligne = '';
-            for (let j = 0; j < 10; j++) {
-                const caseGrille: Case = grille.cases.obtenirCase(i, j);
-                if (caseGrille.obtenirLettre() === '') {
-                    ligne += '*';
-                } else {
-                    ligne += caseGrille.obtenirLettre();
-                }
-            }
-            console.log(ligne);
-        }
-    }
-
     public async obtenirGrillesBase(): Promise<Grille[]> {
         const grillesFacileObtenue: Grille[] = await this.obtenirGrilles(Niveau.facile);
         const grillesMoyenObtenue: Grille[] = await this.obtenirGrilles(Niveau.moyen);
@@ -93,25 +77,6 @@ export class GenerateurDeGrilleService {
                                                                                     emplacementsLignes.length - 1));
         }
         return emplacementsTries;
-    }
-
-    private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
-        const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
-        for (const emplacement of emplacements) {
-            const tailleMot = emplacement.obtenirGrandeur();
-            const contraintes = this.genererTableauContraintes(grille, emplacement);
-            const chaineMot =  RechercheMots.rechercherMot(tailleMot, contraintes);
-            if (chaineMot === undefined) {
-                return Promise.reject('Mot impossible !');
-            } else {
-                let mot: MotComplet;
-                mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
-                grille.ajouterMotEmplacement(mot, emplacement);
-                this.affichageConsole(grille);
-            }
-        }
-        console.log('Grille terminée !');
-        return Promise.resolve(grille);
     }
 
     private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {

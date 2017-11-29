@@ -1,7 +1,5 @@
-import { MotComplet, Rarete } from './MotComplet';
-import { Contrainte } from './Contrainte';
-import { Indice, DifficulteDefinition } from './Indice';
-import { Niveau } from '../../commun/Niveau';
+import { MotComplet } from './MotComplet';
+import { Indice } from './Indice';
 import { MotDataMuse } from './MotDataMuse';
 
 const datamuse = require('datamuse');
