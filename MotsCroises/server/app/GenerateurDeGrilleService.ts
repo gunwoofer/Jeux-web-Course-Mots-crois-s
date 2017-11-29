@@ -1,5 +1,5 @@
 import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
-import { RechercheMots } from './mots/RechercheMots';
+import { RechercheMots } from './RechercheMots';
 import { EmplacementMot } from './../../commun/EmplacementMot';
 import { Contrainte } from './Contrainte';
 import { EtatCase } from './../../commun/Case';

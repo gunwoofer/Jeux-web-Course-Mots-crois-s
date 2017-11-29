@@ -1,5 +1,5 @@
 import { ListeMotsAnglais } from './ListeMotsAnglais';
-import { Contrainte } from '../Contrainte';
+import { Contrainte } from './Contrainte';
 
 export class RechercheMots {
 

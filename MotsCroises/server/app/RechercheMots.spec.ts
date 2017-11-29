@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { RechercheMots } from './mots/RechercheMots';
+import { RechercheMots } from './RechercheMots';
 import { Contrainte } from './Contrainte';
 
 describe('RechercheMots', () => {

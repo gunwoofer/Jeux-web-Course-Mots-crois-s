@@ -6,7 +6,7 @@ export const maxDelaiRetourRequeteMS = 10000;
 
 describe('GenerateurDeMotContrainteService', () => {
 
-    it('Il est possible d obtenir un mot et ses definitions', (done) => {
+    it('Il est possible d\'obtenir un mot et ses definitions', (done) => {
         const mot = 'buy';
         const monGenerateurDeMot = new GenerateurDeMotContrainteService();
 
