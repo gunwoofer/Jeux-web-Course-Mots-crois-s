@@ -1,9 +1,9 @@
 <h4 class="alert alert-warning" *ngIf="erreursCircuit()">
     <strong>Warning! </strong><br>{{message}}</h4>
-<h4 class="alert alert-success" *ngIf="condition()">
+<h4 class="alert alert-success" *ngIf="estValide()">
     <strong>Success! </strong><br>Votre dessin est terminé mais vous pouvez le modifier encore.</h4>
 <br>
 <br>
 <div #container (contextmenu)="oncontextmenu()" (click)="onMouseClick($event)" (mousemove)="onMouseMove($event)" (mousedown)="onMouseDown($event)" (mouseup)="onMouseUp($event)"></div>
 <br>
-<app-pistevalidator-component *ngIf="condition()" [pisteAmodifier]="pisteAmodifier"></app-pistevalidator-component>
+<app-pistevalidator-component *ngIf="estValide()" [pisteAmodifier]="pisteAmodifier"></app-pistevalidator-component>
