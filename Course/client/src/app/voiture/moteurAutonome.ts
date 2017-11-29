@@ -2,7 +2,7 @@ import { IndicateurVoiture } from './indicateursVoiture';
 
 import * as THREE from 'three';
 
-export const COEFFICIENT_ACTUALISATION_DIRECTION = 0.99;
+export const COEFFICIENT_ACTUALISATION_DIRECTION = 0.999;
 export const ANGLEROTATION = 0.01;
 
 export class MoteurAutonome {
@@ -15,6 +15,7 @@ export class MoteurAutonome {
     public indiceCheckPointAAteindre: number;
     public engine: THREE.Object3D;
     public distanceMinimaleDetection: number;
+    public valeurProdVectoriel: number;
 
     constructor(listePositions: THREE.Vector3[], objet: THREE.Object3D, niveau: String) {
         this.indicateurVoiture = new IndicateurVoiture();
@@ -52,7 +53,7 @@ export class MoteurAutonome {
     }
 
     private faireTournerVoiture(sens: number): void {
-        this.engine.rotateY(ANGLEROTATION * sens);
+        this.engine.rotateY(ANGLEROTATION * sens * Math.min(this.valeurProdVectoriel, 3));
     }
 
     private avancerVoiture(): void {
@@ -106,11 +107,12 @@ export class MoteurAutonome {
     }
 
     private obtenirSensRotationVoiture(): number { // >0 --> Gauche
-        const signeProduitVectoriel = new THREE.Vector3()
+        const vecteurProduitVectoriel = new THREE.Vector3()
             .copy(this.directionIndicateurDevant)
             .cross(new THREE.Vector3()
                 .copy(this.directionDestination));
-        return Math.sign(signeProduitVectoriel.z);
+            this.valeurProdVectoriel = Math.cos(vecteurProduitVectoriel.z);
+        return Math.sign(vecteurProduitVectoriel.z);
     }
 
 }
