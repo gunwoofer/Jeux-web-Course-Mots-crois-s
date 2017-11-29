@@ -19,10 +19,16 @@ export class GenerateurDeGrilleService {
 
     public async genererGrille(niveau: Niveau): Promise<Grille> {
         const grille = this.genererGrilleMotSync(niveau);
-        for (let mot of grille.mots) {
+        let nEmplacement = 0;
+        for (const mot of grille.mots) {
             const generateurDeMotApi = new GenerateurDeMotContrainteService();
             generateurDeMotApi.demanderMotsADatamuse(mot.lettres).then((motAPI) => {
-                mot = motAPI.copieMot();
+                const emplacementsTries = this.trierEmplacements(grille.obtenirEmplacementsMot());
+                mot.indice.definitions = motAPI.indice.definitions;
+                mot.indice.id = motAPI.indice.id;
+                emplacementsTries[nEmplacement].GuidIndice = mot.indice.id;
+                grille.modifierEmplacementsMot(emplacementsTries);
+                nEmplacement++;
             }, (erreur) => {
                 console.log('Erreur', erreur);
             });

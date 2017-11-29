@@ -88,9 +88,9 @@ export class GameViewService {
 
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
       const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
-      //const definition = indiceServeur.definitions[0];
+      const definition = indiceServeur.definitions[0];
       indices.push(new IndiceMot(emplacementMot.obtenirGuidIndice(), emplacementMot.obtenirIndexFixe() + 1,
-        'bubibu', emplacementMot.obtenirGrandeur(), emplacementMot.obtenirPosition(),
+        definition, emplacementMot.obtenirGrandeur(), emplacementMot.obtenirPosition(),
         emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() + 1,
         emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
     }

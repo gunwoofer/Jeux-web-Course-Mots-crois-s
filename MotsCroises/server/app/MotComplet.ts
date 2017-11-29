@@ -8,7 +8,7 @@ export enum Rarete {
 export class MotComplet {
     public lettres: string;
     private rarete: Rarete;
-    private indice: Indice;
+    public indice: Indice;
 
     public constructor(lettres: string, indice: Indice) {
         this.lettres = lettres.toUpperCase();
