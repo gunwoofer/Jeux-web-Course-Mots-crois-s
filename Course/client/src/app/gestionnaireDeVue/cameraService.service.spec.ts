@@ -1,11 +1,15 @@
+import { mockPistes } from './../piste/pistes.mock';
+
 import { Voiture } from '../voiture/Voiture';
 import { GestionnaireDeVue } from './gestionnaireDeVue.service';
 import { TestBed, inject, async } from '@angular/core/testing';
 import * as THREE from 'three';
+import { Piste } from '../piste/piste.model';
 
 const object = new THREE.Object3D();
 object.position.set(10, 20, 20);
-const voiture = new Voiture(object);
+const piste = mockPistes[0];
+const voiture = new Voiture(object, piste);
 const camera = new THREE.PerspectiveCamera(75, 300, 1, 6000);
 
 const fakeClickEvent = new KeyboardEvent('keypress', {
