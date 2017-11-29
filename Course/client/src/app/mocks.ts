@@ -1,5 +1,5 @@
-import { ModificationForm } from './admin/modificationMotDepasse/modificationModel';
-import { Administrateur } from './admin/admin.model';
+import { ModificationForm } from './accueil/admin/modificationMotDepasse/modificationModel';
+import { Administrateur } from './accueil/admin/admin.model';
 
 
 

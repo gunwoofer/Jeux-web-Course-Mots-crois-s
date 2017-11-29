@@ -1,4 +1,4 @@
-import { mockAdmin, mockListAdmin, mockForm } from './mockAdmin';
+import { mockForm, mockListAdmin, mockAdmin } from './../mocks';
 import { UtilisateurService } from './utilisateur.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';
