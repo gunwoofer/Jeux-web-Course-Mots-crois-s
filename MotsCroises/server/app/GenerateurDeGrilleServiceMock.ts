@@ -14,10 +14,7 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
     }
 
     public genererGrilleMock(niveau: Niveau): Grille {
-        this.motCroiseGenere = this.genererGrilleVideMock(niveau);
-        this.motCroiseGenere = this.remplirGrilleMock(niveau);
-
-        return this.motCroiseGenere;
+        return this.remplirGrilleMock(niveau, this.genererGrilleVideMock(niveau));
     }
 
     public obtenirGrillesBaseMock(): Grille[] {
@@ -64,9 +61,7 @@ export class GenerateurDeGrilleServiceMock extends GenerateurDeGrilleService {
         return grilleMock;
     }
 
-    private remplirGrilleMock(niveau: Niveau): Grille {
-        let grilleRemplieMock: Grille = this.motCroiseGenere;
-
+    private remplirGrilleMock(niveau: Niveau, grilleRemplieMock: Grille): Grille {
         // Mots horizontaux:
         const indice1H = new Indice(['a firm controlling influence',
             'worker who moves the camera around while a film or television show is being made']);

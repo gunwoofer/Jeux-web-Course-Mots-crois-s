@@ -1,102 +1,168 @@
+import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
+import { RechercheMots } from './mots/RechercheMots';
+import { EmplacementMot } from './../../commun/EmplacementMot';
+import { Contrainte } from './Contrainte';
+import { EtatCase } from './../../commun/Case';
 import { Grille } from './Grille';
 import { Niveau } from '../../commun/Niveau';
-import { MotComplet, Rarete } from './MotComplet';
+import { MotComplet } from './MotComplet';
 import { Case } from '../../commun/Case';
-import { Indice, DifficulteDefinition } from './Indice';
 import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
-import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
+import { Position } from '../../commun/Position';
+import { Indice } from './Indice';
 
 export const NOMBRE_DE_GRILLE = 5;
-
-const INDICE_MOCK = new Indice(['definition facile', 'definition un peu difficile', 'definition dure de ouuuuf']);
+export const PAS_DE_DEFINITION = ['Indice 1', 'Indice 2', 'Indice 3'];
 
 export class GenerateurDeGrilleService {
-    protected motCroiseGenere: Grille;
     private generateurDeGrilleVide: GenerateurDeGrilleVide = new GenerateurDeGrilleVide();
 
-    public genererGrille(niveau: Niveau): Grille {
-        this.motCroiseGenere = this.generateurDeGrilleVide.genereGrilleVide(niveau);
-        this.motCroiseGenere = this.remplirGrille(niveau);
-
-        return this.motCroiseGenere;
+    public async genererGrille(niveau: Niveau): Promise<Grille> {
+        const grille = this.genererGrilleMotSync(niveau);
+        let nEmplacement = 0;
+        for (const mot of grille.mots) {
+            const generateurDeMotApi = new GenerateurDeMotContrainteService();
+            const motAPI: MotComplet = await generateurDeMotApi.demanderMotsADatamuse(mot.lettres);
+            const emplacementsTries = this.trierEmplacements(grille.obtenirEmplacementsMot());
+            mot.indice.definitions = motAPI.indice.definitions;
+            mot.indice.id = motAPI.indice.id;
+            emplacementsTries[nEmplacement].GuidIndice = mot.indice.id;
+            grille.modifierEmplacementsMot(emplacementsTries);
+            nEmplacement++;
+        }
+        return grille;
     }
 
-    public obtenirGrillesBase(): Grille[] {
-        const grillesFacileObtenue: Grille[] = this.obtenirGrilles(Niveau.facile);
-        const grillesMoyenObtenue: Grille[] = this.obtenirGrilles(Niveau.moyen);
-        const grillesDifficileObtenue: Grille[] = this.obtenirGrilles(Niveau.difficile);
+    public affichageConsole(grille: Grille): void {
+        for (let i = 0; i < 10; i++) {
+            let ligne: string;
+            ligne = '';
+            for (let j = 0; j < 10; j++) {
+                const caseGrille: Case = grille.cases.obtenirCase(i, j);
+                if (caseGrille.obtenirLettre() === '') {
+                    ligne += '*';
+                } else {
+                    ligne += caseGrille.obtenirLettre();
+                }
+            }
+            console.log(ligne);
+        }
+    }
+
+    public async obtenirGrillesBase(): Promise<Grille[]> {
+        const grillesFacileObtenue: Grille[] = await this.obtenirGrilles(Niveau.facile);
+        const grillesMoyenObtenue: Grille[] = await this.obtenirGrilles(Niveau.moyen);
+        const grillesDifficileObtenue: Grille[] = await this.obtenirGrilles(Niveau.difficile);
 
         return grillesFacileObtenue.concat(grillesMoyenObtenue).concat(grillesDifficileObtenue);
     }
 
-    private obtenirGrilles(niveau: Niveau): Grille[] {
+    private async obtenirGrilles(niveau: Niveau): Promise<Grille[]> {
         const grilles: Grille[] = new Array();
         for (let i = 0; i < NOMBRE_DE_GRILLE; i++) {
-            grilles.push(this.genererGrille(niveau));
+            const grilleAAjouter = await this.genererGrille(niveau);
+            grilles.push(grilleAAjouter);
         }
         return grilles;
     }
 
-    private remplirGrille(niveau: Niveau): Grille {
-        const grillePlein = this.motCroiseGenere;
-        let motAjoute: boolean;
-        let caseDebut: Case;
-        let caseFin: Case;
-
-
-        while (!this.estComplete(grillePlein)) {
-            for (const emplacementMotCourant of grillePlein.obtenirEmplacementsMot()) {
-                motAjoute = false;
-
-                while (!motAjoute) {
-                    const grandeur = emplacementMotCourant.obtenirGrandeur();
-                    let chaineIdiote = '';
-
-                    for (let i = 0; i < grandeur; i++) {
-                        chaineIdiote = chaineIdiote + grilleConstantes.lettresDeAlphabet.charAt(
-                            this.nombreAleatoireEntreXEtY(1, grilleConstantes.nombreLettresDeAlphabet));
-                    }
-
-                    let motIdiot: MotComplet = new MotComplet(chaineIdiote, INDICE_MOCK);
-
-                    motIdiot = this.mettreAJourNiveauMot(motIdiot, (niveau !== Niveau.difficile) ? Rarete.commun : Rarete.nonCommun,
-                                                        (niveau !== Niveau.facile) ? DifficulteDefinition.DefinitionAlternative :
-                                                        DifficulteDefinition.PremiereDefinition);
-
-                    if (!grillePlein.motsComplet.contientDejaLeMot(motIdiot)) {
-                        caseDebut = emplacementMotCourant.obtenirCaseDebut();
-                        caseFin = emplacementMotCourant.obtenirCaseFin();
-
-                        grillePlein.ajouterMot(motIdiot, caseDebut.obtenirNumeroLigne(),
-                                caseDebut.obtenirNumeroColonne(), caseFin.obtenirNumeroLigne(), caseFin.obtenirNumeroColonne());
-
-                        motAjoute = true;
-                    }
-                }
+    private trierEmplacements(emplacements: EmplacementMot[]): EmplacementMot[] {
+        let emplacementsTries: EmplacementMot[] = new Array();
+        const emplacementsLignes: EmplacementMot[] = new Array();
+        const emplacementsColonnes: EmplacementMot[] = new Array();
+        for (const emplacement of emplacements) {
+            if (emplacement.obtenirPosition() === Position.Colonne) {
+                emplacementsColonnes.push(emplacement);
+            } else {
+                emplacementsLignes.push(emplacement);
             }
         }
-
-        return grillePlein;
+        const tailleMinimumTableau = Math.min(emplacementsColonnes.length, emplacementsLignes.length);
+        for (let i = 0; i < tailleMinimumTableau; i++) {
+            emplacementsTries.push(emplacementsLignes[i]);
+            emplacementsTries.push(emplacementsColonnes[i]);
+        }
+        if (emplacementsColonnes.length > tailleMinimumTableau) {
+            emplacementsTries = emplacementsTries.concat(emplacementsColonnes.splice(
+                                                                                    tailleMinimumTableau - 1,
+                                                                                    emplacementsColonnes.length - 1));
+        }
+        if (emplacementsLignes.length > tailleMinimumTableau) {
+            emplacementsTries = emplacementsTries.concat(emplacementsLignes.splice(
+                                                                                    tailleMinimumTableau - 1,
+                                                                                    emplacementsLignes.length - 1));
+        }
+        return emplacementsTries;
     }
 
-    private estComplete(grille: Grille): boolean {
-        for (let i = 0; i < 10; i++) {
-            if (grille.obtenirNombreMotsSurLigne(i) < 1 || grille.obtenirNombreMotsSurColonne(i) < 1) {
-                return false;
+    private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
+        const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
+        for (const emplacement of emplacements) {
+            const tailleMot = emplacement.obtenirGrandeur();
+            const contraintes = this.genererTableauContraintes(grille, emplacement);
+            const chaineMot =  RechercheMots.rechercherMot(tailleMot, contraintes);
+            if (chaineMot === undefined) {
+                return Promise.reject('Mot impossible !');
+            } else {
+                let mot: MotComplet;
+                mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
+                grille.ajouterMotEmplacement(mot, emplacement);
+                this.affichageConsole(grille);
             }
         }
-
-        return true;
+        console.log('Grille terminée !');
+        return Promise.resolve(grille);
     }
 
-    private mettreAJourNiveauMot(motIdiot: MotComplet, rarete: number, difficulteDesDefinitions: number): MotComplet {
-        motIdiot.setRarete(rarete);
-        motIdiot.obtenirIndice().setDifficulteDefinition(difficulteDesDefinitions);
-
-        return motIdiot;
+    private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
+        const tableauContraintes: Contrainte[] = new Array();
+        const ligneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
+        const colonneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroColonne();
+        const position: Position = emplacement.obtenirPosition();
+        for (let i = 0; i < emplacement.obtenirGrandeur(); i++) {
+            let caseCourrante: Case;
+            if (position === Position.Ligne) {
+                caseCourrante = grille.cases.obtenirCase(ligneDepart, colonneDepart + i);
+            } else {
+                caseCourrante = grille.cases.obtenirCase(ligneDepart + i, colonneDepart);
+            }
+            if (caseCourrante.obtenirEtat() === EtatCase.pleine) {
+                const contrainte = new Contrainte(caseCourrante.obtenirLettre(), i);
+                tableauContraintes.push(contrainte);
+            }
+        }
+        return tableauContraintes;
     }
 
-    private nombreAleatoireEntreXEtY(min: number, max: number): number {
-        return Math.floor(Math.random() * (max - min + 1) + min);
+    private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
+        const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
+        for (const emplacement of emplacements) {
+            const tailleMot = emplacement.obtenirGrandeur();
+            const contraintes = this.genererTableauContraintes(grille, emplacement);
+            const chaineMot =  RechercheMots.rechercherMot(tailleMot, contraintes);
+            if (chaineMot === undefined) {
+                return undefined;
+            } else {
+                let mot: MotComplet;
+                mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
+                emplacement.attribuerGuidIndice('Pas d\'indice...');
+                grille.ajouterMotEmplacement(mot, emplacement);
+            }
+        }
+        console.log('Grille terminée !');
+        return grille;
+    }
+
+    public genererGrilleMotSync(niveau: Niveau): Grille {
+        console.log('Debut de la generation de grille...');
+        let grille: Grille;
+        while (true) {
+            const grilleVide = this.generateurDeGrilleVide.genereGrilleVide(niveau);
+            grille = this.remplirGrilleSync(niveau, grilleVide);
+            if (grille !== undefined) {
+                break;
+            }
+        }
+        return grille;
     }
 }

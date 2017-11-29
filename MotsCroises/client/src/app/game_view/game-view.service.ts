@@ -84,7 +84,6 @@ export class GameViewService {
 
   private MAJIndices(specificationPartie: SpecificationPartie): void {
     const indices: IndiceMot[] = new Array();
-
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
       const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
       const definition = indiceServeur.definitions[0];

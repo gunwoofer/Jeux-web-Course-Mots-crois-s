@@ -18,8 +18,10 @@ export class PersistenceGrilleServiceLecture {
                     resolve(FabriqueDeGrille.creerInstanceAvecJSON(result[0].grille.replace('\\', '')));
 
                     self.supprimerGrille(self, db, result[0].id);
-                    self.insererGrille(self.generateurDeGrilleService.genererGrille(niveau));
-                    db.close();
+                    self.generateurDeGrilleService.genererGrille(niveau).then((grille) => {
+                        self.insererGrille(grille);
+                        db.close();
+                    });
                 });
             }
         );
@@ -34,8 +36,10 @@ export class PersistenceGrilleServiceLecture {
             self.verifierSierrConnection(err, db, self);
             self.envoyerReponse(result[0].grille.replace('\\', ''));
             self.supprimerGrille(self, db, result[0].id);
-            self.insererGrille(self.generateurDeGrilleService.genererGrille(niveau));
-            db.close();
+            self.generateurDeGrilleService.genererGrille(niveau).then((grille) => {
+                self.insererGrille(grille);
+                db.close();
+            });
         });
     }
 

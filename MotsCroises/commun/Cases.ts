@@ -36,7 +36,6 @@ export class Cases {
                 }
             }
         }
-
         return undefined;
     }
 
