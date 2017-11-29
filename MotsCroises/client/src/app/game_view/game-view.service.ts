@@ -84,8 +84,6 @@ export class GameViewService {
 
   private MAJIndices(specificationPartie: SpecificationPartie): void {
     const indices: IndiceMot[] = new Array();
-    console.log(specificationPartie);
-
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
       const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
       const definition = indiceServeur.definitions[0];
@@ -95,7 +93,6 @@ export class GameViewService {
         emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() + 1, ''));
     }
     this.indices = indices;
-    console.log(indices);
   }
 
   private trouverIndiceAvecGuid(guid: string): Indice {
@@ -151,7 +148,6 @@ export class GameViewService {
   public demanderPartieServer() {
     switch (this.nbJoueursPartie) {
       case 0 :
-      console.log('demande partie');
         this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
           this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
         break;

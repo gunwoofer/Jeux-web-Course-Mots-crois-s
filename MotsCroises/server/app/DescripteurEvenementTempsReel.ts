@@ -38,7 +38,6 @@ export class DescripteurEvenementTempsReel {
             generateurDeGrilleService, specificationPartieRecu).then((specificationPartie) => {
                 specificationPartieRecu = specificationPartie;
                 // La partie solo peut être démarré dès sa création.
-                // console.log(JSON.stringify(specificationPartie));
                 gestionnaireDePartieService.obtenirPartieEnCours(specificationPartieRecu.guidPartie).demarrerPartie();
                 client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieRecu);
             });

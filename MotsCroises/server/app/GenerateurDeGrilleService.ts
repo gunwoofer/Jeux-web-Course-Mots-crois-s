@@ -22,16 +22,13 @@ export class GenerateurDeGrilleService {
         let nEmplacement = 0;
         for (const mot of grille.mots) {
             const generateurDeMotApi = new GenerateurDeMotContrainteService();
-            generateurDeMotApi.demanderMotsADatamuse(mot.lettres).then((motAPI) => {
-                const emplacementsTries = this.trierEmplacements(grille.obtenirEmplacementsMot());
-                mot.indice.definitions = motAPI.indice.definitions;
-                mot.indice.id = motAPI.indice.id;
-                emplacementsTries[nEmplacement].GuidIndice = mot.indice.id;
-                grille.modifierEmplacementsMot(emplacementsTries);
-                nEmplacement++;
-            }, (erreur) => {
-                console.log('Erreur', erreur);
-            });
+            const motAPI: MotComplet = await generateurDeMotApi.demanderMotsADatamuse(mot.lettres);
+            const emplacementsTries = this.trierEmplacements(grille.obtenirEmplacementsMot());
+            mot.indice.definitions = motAPI.indice.definitions;
+            mot.indice.id = motAPI.indice.id;
+            emplacementsTries[nEmplacement].GuidIndice = mot.indice.id;
+            grille.modifierEmplacementsMot(emplacementsTries);
+            nEmplacement++;
         }
         return grille;
     }
