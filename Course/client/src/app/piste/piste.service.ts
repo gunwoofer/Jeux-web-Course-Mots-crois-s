@@ -7,6 +7,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
+import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 @Injectable()
 
@@ -43,9 +44,16 @@ export class PisteService {
                 const pistes = response.json().obj;
                 const pisteTemporaire: Piste[] = [];
                 for (const piste of pistes) {
-                    const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
+                    const pist = new Piste(piste.nom,
+                        piste.typeCourse,
+                        piste.description,
+                        piste.listepositions,
+                        piste.listeElementsDePiste,
+                        piste._id);
                     pist.modifieAttribut(piste.coteAppreciation, piste.nombreFoisJouee, piste.meilleursTemps, piste.vignette);
                     pist.calculerLaMoyenneDeVotes(piste.coteAppreciation);
+                    const elementDePiste = pist.listeElementsDePiste;
+                    console.log(elementDePiste);
                     pisteTemporaire.push(pist);
                 }
                 this.pistes = pisteTemporaire;
