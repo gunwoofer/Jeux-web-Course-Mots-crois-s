@@ -7,8 +7,6 @@ export class FlaqueDEau extends ElementDePiste {
     constructor(listePosition: THREE.Vector3[]) {
         super();
         this.position = this.genererPositionAleatoire(listePosition, false);
-        this.mesh = this.genererMesh();
-        this.mesh.position.set(this.position.x, this.position.y, this.position.z);
     }
 
     private genererMesh(): THREE.Mesh {

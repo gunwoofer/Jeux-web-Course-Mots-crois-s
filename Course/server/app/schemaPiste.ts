@@ -9,6 +9,7 @@ export const pisteSchema: Schema = new Schema({
   nombreFoisJouee: { type: Number, required: true },
   coteMoyenne: { type: Number, required: false },
   coteAppreciation: { type: [], required: false },
+  listeElementsDePiste: { type: [], required: false},
   meilleursTemps: { type: [], required: false },
   listepositions: { type: [], required: true },
 });

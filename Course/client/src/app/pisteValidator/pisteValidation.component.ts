@@ -1,5 +1,5 @@
 import { GestionElementsPiste } from './../elementsPiste/GestionElementsPiste';
-import { TypeElementPiste } from './../elementsPiste/ElementDePiste';
+import { TypeElementPiste, ElementDePiste } from './../elementsPiste/ElementDePiste';
 import { FabriquantElementDePiste } from './../elementsPiste/FabriquantElementDePiste';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
@@ -18,7 +18,7 @@ export class PisteValidationComponent {
 
     public gestionElementsPiste: GestionElementsPiste;
 
-    constructor(private pisteService: PisteService, private renderService: RenderService) { 
+    constructor(private pisteService: PisteService, private renderService: RenderService) {
         this.gestionElementsPiste = new GestionElementsPiste();
     }
 
@@ -50,7 +50,12 @@ export class PisteValidationComponent {
     }
 
     private creerPiste(form: NgForm, listePositions: THREE.Vector3[]): void {
-        const piste = new Piste(form.value.nomPiste, form.value.typeCourse, form.value.description, listePositions);
+        const piste = new Piste(form.value.nomPiste,
+            form.value.typeCourse,
+            form.value.description,
+            listePositions,
+            this.gestionElementsPiste.obtenirListeElement());
+        console.log(piste);
         this.pisteService.ajouterPiste(piste)
             .then(
             donnee => console.log(donnee)
@@ -68,7 +73,7 @@ export class PisteValidationComponent {
     public ajouterElementDePiste(typeElement): void {
         let type: TypeElementPiste;
         switch (typeElement.target.name) {
-            case 'nidDePoule': { type = TypeElementPiste.NidDePoule;  break; }
+            case 'nidDePoule': { type = TypeElementPiste.NidDePoule; break; }
             case 'flaqueDEau': { type = TypeElementPiste.FlaqueDEau; break; }
             case 'accelerateur': { type = TypeElementPiste.Accelerateur; break; }
         }
