@@ -1,5 +1,5 @@
 import { FabriquantElementDePiste } from './../elementsPiste/FabriquantElementDePiste';
-import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
+import { NOMBRE_DE_TOURS_PARTIE_DEFAUT } from './../constant';
 import { RatingService } from './../rating/rating.service';
 import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
@@ -17,7 +17,7 @@ export class PisteService {
     public pisteAEditer = new EventEmitter<Piste>();
     public pisteChoisie = new EventEmitter<Piste>();
     public tableauMeilleurTemps = new EventEmitter<Piste>();
-    public nombreDeTours = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public nombreDeTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
 
     constructor(private generateurPisteService: GenerateurPisteService, private http: Http, private ratingService: RatingService) {
 

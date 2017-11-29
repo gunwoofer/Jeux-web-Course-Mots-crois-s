@@ -4,13 +4,13 @@ import { LigneArrivee } from './LigneArrivee';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { Voiture } from '../voiture/Voiture';
-import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
-import { NotificationType } from '../../../../commun/observateur/NotificationType';
+import { NOMBRE_DE_TOURS_PARTIE_DEFAUT } from './../constant';
 import { EtatPartie } from './EtatPartie';
+import { NotificationType } from '../../../../commun/observateur/NotificationType';
 
 export class Partie implements Observateur, Sujet {
 
-    public static toursAComplete = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public static toursAComplete = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     public static tempsDepartMilisecondes = 0;
     public static aEteNotifie = false;
     public etatPartie: EtatPartie = EtatPartie.En_attente;
@@ -23,7 +23,7 @@ export class Partie implements Observateur, Sujet {
     constructor (pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number,
                  observateurs?: Observateur[], observateursPiloteJoueur?: Observateur[]) {
         this.pilotes = new Pilotes(pilotes);
-        Partie.toursAComplete = (toursAComplete !== undefined) ? toursAComplete : NOMBRE_DE_TOURS_PAR_DEFAULT;
+        Partie.toursAComplete = (toursAComplete !== undefined) ? toursAComplete : NOMBRE_DE_TOURS_PARTIE_DEFAUT;
         this.ligneArrivee = ligneArrivee;
         this.pilotes.observerVoitures(this);
         this.observateurs = (observateurs !== undefined) ? observateurs : [];

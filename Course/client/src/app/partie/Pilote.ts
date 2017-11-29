@@ -1,4 +1,4 @@
-import { NOMBRE_DE_TOURS_PAR_DEFAULT, PREMIER_TOUR } from './../constant';
+import { NOMBRE_DE_TOURS_PARTIE_DEFAUT, PREMIER_TOUR } from './../constant';
 import { Voiture } from '../voiture/Voiture';
 import { Partie } from '../partie/Partie';
 import { Observateur } from '../../../../commun/observateur/Observateur';
@@ -14,7 +14,7 @@ export class Pilote implements Sujet {
     public tempsMiliSecondsParTour: number[] = [];
     public tempsTourActuel: number;
     public tourCourant = PREMIER_TOUR;
-    public tourACompleter = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public tourACompleter = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     public position: number;
 
     private observateurs: Observateur[] = [];

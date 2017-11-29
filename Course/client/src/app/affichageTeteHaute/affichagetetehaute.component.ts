@@ -1,5 +1,7 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AffichageTeteHaute } from './AffichageTeteHaute';
+import { NOMBRE_ARRONDI_DECIMALE } from './../constant';
+import { Metrique } from './../../../../commun/metrique';
+import { Component, OnInit } from '@angular/core';
+import { AffichageTeteHaute } from './affichageTeteHaute';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { Sujet } from '../../../../commun/observateur/Sujet';
@@ -11,8 +13,8 @@ import { AffichageTeteHauteService } from './affichagetetehaute.service';
     styleUrls: ['./affichagetetehaute.component.css']
 })
 
-export class AffichageTeteHauteComponent implements OnInit, OnDestroy, Observateur {
-    // Valeurs affichées
+export class AffichageTeteHauteComponent implements OnInit, Observateur {
+    // Valeurs affichées a l'ecran
     public position: number;
     public nombrePilotes: number;
     public tourCourant: number;
@@ -20,11 +22,7 @@ export class AffichageTeteHauteComponent implements OnInit, OnDestroy, Observate
     public tempsTour: string;
     public tempsTotal: string;
 
-
-    private affichageTeteHauteService: AffichageTeteHauteService;
-
-    constructor(affichageTeteHauteService: AffichageTeteHauteService) {
-        this.affichageTeteHauteService = affichageTeteHauteService;
+    constructor(private affichageTeteHauteService: AffichageTeteHauteService) {
     }
 
     public ngOnInit(): void {
@@ -40,14 +38,8 @@ export class AffichageTeteHauteComponent implements OnInit, OnDestroy, Observate
             this.tourCourant = (affichageTeteHaute.tourCourant <= affichageTeteHaute.nombreTours) ?
                                                 affichageTeteHaute.tourCourant : this.tourCourant;
             this.nombreTours = affichageTeteHaute.nombreTours;
-
-            this.tempsTour = (Math.pow(10, -3) * affichageTeteHaute.tempsTour).toFixed(2);
-
-            this.tempsTotal = (Math.pow(10, -3) * affichageTeteHaute.tempsTotal).toFixed(2);
+            this.tempsTour = (Metrique.convertirEnSecondes(affichageTeteHaute.tempsTour)).toFixed(NOMBRE_ARRONDI_DECIMALE);
+            this.tempsTotal = (Metrique.convertirEnSecondes(affichageTeteHaute.tempsTotal)).toFixed(NOMBRE_ARRONDI_DECIMALE);
         }
     }
-
-    public ngOnDestroy(): void {
-    }
-
 }

@@ -1,8 +1,7 @@
-import { NOMBRE_DE_TOURS_PAR_DEFAULT, NOMBRE_DE_TOURS_PAR_MINIMAL } from './../constant';
+import { NOMBRE_DE_TOURS_PARTIE_DEFAUT, NOMBRE_DE_TOURS_PARTIE_MINIMAL } from './../constant';
 import { Piste } from './../piste/piste.model';
 import { PisteService } from '../piste/piste.service';
 import { Component, Input } from '@angular/core';
-
 
 @Component({
     selector: 'app-configurationpartie',
@@ -12,19 +11,20 @@ import { Component, Input } from '@angular/core';
 
 export class ConfigurationPartieComponent {
 
+    public nombreDesTours = NOMBRE_DE_TOURS_PARTIE_MINIMAL;
+
     @Input() private piste: Piste;
-    public nombreDesTours = NOMBRE_DE_TOURS_PAR_MINIMAL;
 
     constructor(private pisteService: PisteService) { }
 
     public augmenterNombreTour(): void {
-        if (this.nombreDesTours !== NOMBRE_DE_TOURS_PAR_DEFAULT) {
+        if (this.nombreDesTours !== NOMBRE_DE_TOURS_PARTIE_DEFAUT) {
             this.nombreDesTours++;
         }
     }
 
     public diminuerNombreTour(): void {
-        if (this.nombreDesTours !== NOMBRE_DE_TOURS_PAR_MINIMAL) {
+        if (this.nombreDesTours !== NOMBRE_DE_TOURS_PARTIE_MINIMAL) {
             this.nombreDesTours--;
         }
     }

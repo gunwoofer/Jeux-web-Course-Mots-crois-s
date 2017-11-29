@@ -6,16 +6,34 @@ export class ContraintesCircuitService {
 
   public calculerAngle(numeroPoint: number, points: any[], compteur: number): number {
     if (points.length > 1) {
-      const point1 = points[numeroPoint === 0 ? compteur - 1 : numeroPoint - 1];
-      const point2 = points[numeroPoint];
-      const point3 = points[numeroPoint + 1];
-      const premierSegment = new THREE.Vector2(point3.position.x - point2.position.x, point3.position.y - point2.position.y).normalize();
-      const precedentSegement = new THREE.Vector2(point2.position.x - point1.position.x, point2.position.y - point1.position.y).normalize();
-      const produitScalaire = (premierSegment.x) * (-precedentSegement.x) + (premierSegment.y) * (-precedentSegement.y);
-      const angle = Math.acos(produitScalaire);
-      return angle;
+      const vecteurCourant = new THREE.Vector2( this.positionXVecteurCourant(numeroPoint, points),
+                                                this.positionYVecteurCourant(numeroPoint, points)).normalize();
+      const vecteurPrecedent = new THREE.Vector2( this.positionXVecteurPrecedent(numeroPoint, points, compteur),
+                                                  this.positionYVecteurPrecedent(numeroPoint, points, compteur)).normalize();
+      return Math.acos(vecteurCourant.dot(vecteurPrecedent));
     }
+
     return NaN;
+  }
+
+  private positionXVecteurCourant(numeroPoint: number, points: any[]): number {
+    return points[numeroPoint + 1].position.x - points[numeroPoint].position.x;
+  }
+
+  private positionYVecteurCourant(numeroPoint: number, points: any[]): number {
+    return points[numeroPoint + 1].position.y - points[numeroPoint].position.y;
+  }
+
+  private positionXVecteurPrecedent(numeroPoint: number, points: any[], compteur: number): number {
+    return -(points[numeroPoint].position.x - points[this.indexVecteurPrecedent(numeroPoint, compteur)].position.x);
+  }
+
+  private positionYVecteurPrecedent(numeroPoint: number, points: any[], compteur: number): number {
+    return -(points[numeroPoint].position.y - points[this.indexVecteurPrecedent(numeroPoint, compteur)].position.y);
+  }
+
+  private indexVecteurPrecedent(numeroPoint: number,compteur: number): number {
+    return (numeroPoint === 0) ? compteur - 1 : numeroPoint - 1;
   }
 
   public estUnAngleMoins45(numeroPoint: number, points: any[], compteur: number): boolean {

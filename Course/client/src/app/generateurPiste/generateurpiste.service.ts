@@ -6,7 +6,7 @@ import { Rendu } from './renduObject';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import {
     FIN_PARTIE_URL, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
-    LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PAR_DEFAULT
+    LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PARTIE_DEFAUT
 } from './../constant';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { SkyboxService } from './../skybox/skybox.service';
@@ -65,7 +65,7 @@ export class GenerateurPisteService implements Observateur {
     public voituresIA: Voiture[] = [];
     public listeSkyboxJour: Array<THREE.Mesh>;
     public listeSkyboxNuit: Array<THREE.Mesh>;
-    public nombreTours = NOMBRE_DE_TOURS_PAR_DEFAULT;
+    public nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
 
     constructor(public objetService: ObjetService, public lumiereService: LumiereService,

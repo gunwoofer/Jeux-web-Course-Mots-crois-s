@@ -29,12 +29,13 @@ export const EMPLACEMENT_MUSIQUE = './../assets/musiques/';
 
 // Temps
 export const DUREE_STINGER_MILISECONDES = 3 * Math.pow(10, 3);
+export const NOMBRE_ARRONDI_DECIMALE = 2;
 
 // Parametres jeu
 export const FPS = 60;
 export const DELTA_ZOOM = .5;
-export const NOMBRE_DE_TOURS_PAR_DEFAULT = 3;
-export const NOMBRE_DE_TOURS_PAR_MINIMAL = 1;
+export const NOMBRE_DE_TOURS_PARTIE_DEFAUT = 3;
+export const NOMBRE_DE_TOURS_PARTIE_MINIMAL = 1;
 export const TABLEAU_POSITION = [[1, 1], [-1, 1], [1, -1], [-1, -1]];
 export const POINTS_MAXIMUM = 1000;
 export const DIFFERENCE_DISTANCE_PARCOURUE_RAISONNABLE = 100;

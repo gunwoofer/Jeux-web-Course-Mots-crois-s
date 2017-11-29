@@ -21,7 +21,7 @@ export class RenderService {
   public pisteAmodifie: Piste;
   public pointsLine;
   public id;
-  public points = [];
+  public points: THREE.Points[] = new Array();
   public dessinTermine = false;
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
