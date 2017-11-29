@@ -32,6 +32,10 @@ export class GestionElementsPiste implements Observateur {
         }
     }
 
+    public obtenirListeElement(): ElementDePiste[] {
+        return this.elementDePisteComposite.elementsDePiste;
+    }
+
     public notifier(sujet: Sujet, type: NotificationType): void {
         if (type === NotificationType.PisteOuverte) {
             this.elementDePisteComposite.retirerTous();

@@ -73,6 +73,6 @@ export class PisteValidationComponent {
             case 'accelerateur': { type = TypeElementPiste.Accelerateur; break; }
         }
         this.gestionElementsPiste.ajouterElementDePiste(this.renderService.obtenirPositions(), type);
-        this.renderService.afficherElementsDePiste(this.gestionElementsPiste.elementDePisteComposite.elementsDePiste);
+        this.renderService.afficherElementsDePiste(this.gestionElementsPiste.obtenirListeElement());
     }
 }
