@@ -1,3 +1,4 @@
+import { PREMIER_TOUR } from './../constant';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
@@ -5,16 +6,14 @@ import { NotificationType } from '../../../../commun/observateur/NotificationTyp
 export class AffichageTeteHaute implements Sujet {
     public position: number;
     public nombrePilotes: number;
-    public tourCourant: number;
     public nombreTours: number;
     public tempsTour: number;
     public tempsTotal: number;
 
-    constructor() {
-        this.tourCourant = 1;
-    }
+    private observateurs: Observateur[] = new Array();
 
-    private observateurs: Observateur[] = [];
+    constructor(public tourCourant = PREMIER_TOUR) {
+    }
 
     public ajouterObservateur(observateur: Observateur): void {
         this.observateurs.push(observateur);

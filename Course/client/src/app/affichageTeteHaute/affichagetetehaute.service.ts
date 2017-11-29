@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { Sujet } from '../../../../commun/observateur/Sujet';
-import { AffichageTeteHaute } from './AffichageTeteHaute';
+import { AffichageTeteHaute } from './affichageTeteHaute';
 import { Pilote } from '../partie/Pilote';
 
 @Injectable()
@@ -25,13 +25,9 @@ export class AffichageTeteHauteService implements Observateur {
             if (type === NotificationType.Deplacement) {
                 this.affichageTeteHaute.tempsTotal = Pilote.tempsTotal;
                 this.affichageTeteHaute.tempsTour = pilote.tempsTourActuel;
-            }
-
-            if (type === NotificationType.Nouvelle_position) {
+            } else if (type === NotificationType.Nouvelle_position) {
                 this.affichageTeteHaute.position = pilote.position;
-            }
-
-            if (type === NotificationType.Tour_termine) {
+            } else if (type === NotificationType.Tour_termine) {
                 this.affichageTeteHaute.tourCourant = pilote.tourCourant;
             }
         }
@@ -46,6 +42,7 @@ export class AffichageTeteHauteService implements Observateur {
         if (sujet instanceof Pilote) {
             return true;
         }
+
         return false;
     }
 }

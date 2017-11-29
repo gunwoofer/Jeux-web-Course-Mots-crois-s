@@ -29,6 +29,7 @@ export const EMPLACEMENT_MUSIQUE = './../assets/musiques/';
 
 // Temps
 export const DUREE_STINGER_MILISECONDES = 3 * Math.pow(10, 3);
+export const NOMBRE_ARRONDI_DECIMALE = 2;
 
 // Parametres jeu
 export const FPS = 60;
