@@ -39,7 +39,6 @@ export class Voiture implements sujet.Sujet {
     }
 
     public ignorerSortiepiste(): void {
-
         this.xPrecedent = this.obtenirVoiture3D().position.x;
         this.yPrecedemt = this.obtenirVoiture3D().position.y;
         this.x = this.obtenirVoiture3D().position.x;
