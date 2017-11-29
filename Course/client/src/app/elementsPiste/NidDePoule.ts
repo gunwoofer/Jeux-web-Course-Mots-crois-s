@@ -1,3 +1,4 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
@@ -37,7 +38,7 @@ export class NidDePoule extends ElementDePiste {
 
 
     public effetSurObstacle(voiture: Voiture): void {
-        this.deplacementService.reduireVitesseNidDePoule(voiture);
-        this.deplacementService.secousseNidDePoule(voiture);
+        DeplacementService.reduireVitesseNidDePoule(voiture);
+        DeplacementService.secousseNidDePoule(voiture);
     }
 }

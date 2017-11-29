@@ -102,12 +102,15 @@ export class GenerateurPisteService implements Observateur {
         for (const element of this.piste.obtenirElementsPiste()) {
             if (element instanceof FlaqueDEau) {
                 element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
               } else if (element instanceof NidDePoule) {
                 element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
               } else if (element instanceof Accelerateur) {
                 element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
               }
         }

@@ -13,12 +13,10 @@ export abstract class ElementDePiste {
     protected mesh: THREE.Mesh;
     public raycaster: THREE.Raycaster;
     public antirebond;
-    public deplacementService: DeplacementService;
     public typeElementDePiste: TypeElementPiste;
 
     constructor() {
         this.antirebond = false;
-        this.deplacementService = new DeplacementService();
     }
 
 

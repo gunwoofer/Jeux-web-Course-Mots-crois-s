@@ -1,3 +1,4 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
@@ -34,6 +35,6 @@ export class FlaqueDEau extends ElementDePiste {
             vecteurAvantGauche.y - vecteurArriereGauche.y,
             0
         );
-        this.deplacementService.aquaPlannageFlaqueDEau(voiture, vecteurVoiture);
+        DeplacementService.aquaPlannageFlaqueDEau(voiture, vecteurVoiture);
     }
 }

@@ -1,3 +1,4 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
@@ -32,7 +33,7 @@ export class Accelerateur extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        this.deplacementService.augmenterVitesseAccelerateur(voiture);
+        DeplacementService.augmenterVitesseAccelerateur(voiture);
     }
 
 }
