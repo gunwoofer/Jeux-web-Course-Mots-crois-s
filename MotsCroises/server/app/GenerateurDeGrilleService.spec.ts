@@ -1,9 +1,8 @@
 import { assert } from 'chai';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { Grille } from './Grille';
-import { Case, EtatCase } from '../../commun/Case';
+import { EtatCase } from '../../commun/Case';
 import { Niveau } from '../../commun/Niveau';
-import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
 
 describe('GenerateurDeGrilleService', () => {
     const generateurDeGrilleService = new GenerateurDeGrilleService();
