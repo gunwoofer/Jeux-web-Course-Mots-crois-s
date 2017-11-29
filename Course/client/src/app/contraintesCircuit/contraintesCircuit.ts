@@ -3,6 +3,24 @@ import { PI_SUR_4, ANGLE_45 } from '../constant';
 
 export class ContraintesCircuit {
 
+    public nombreAnglesMoins45(points: any[], compteur: number, dessinTermine: boolean): number {
+        let nbAnglesMoins45 = 0;
+
+        for (let i = 1; i < points.length - 1; i++) {
+            if (this.estUnAngleMoins45(i, points, compteur)) {
+                nbAnglesMoins45++;
+            }
+        }
+
+        if (dessinTermine) {
+            if (this.estUnAngleMoins45(0, points, compteur)) {
+                nbAnglesMoins45++;
+            }
+        }
+
+        return nbAnglesMoins45;
+    }
+
     public calculerAngle(numeroPoint: number, points: any[], compteur: number): number {
         if (points.length > 1) {
             const vecteurCourant = new THREE.Vector2( this.positionXVecteurCourant(numeroPoint, points),
@@ -108,20 +126,5 @@ export class ContraintesCircuit {
 
     private obtenirDeterminant(vecteurA: number[], vecteurB: number[]): number {
         return vecteurA[0] * vecteurB[1] - vecteurA[1] * vecteurB[0];
-    }
-
-    public nombreAnglesMoins45(points: any[], compteur: number, dessinTermine: boolean): number {
-        let nbAnglesMoins45 = 0;
-        for (let i = 1; i < points.length - 1; i++) {
-        if (this.estUnAngleMoins45(i, points, compteur)) {
-            nbAnglesMoins45++;
-        }
-        }
-        if (dessinTermine) {
-        if (this.estUnAngleMoins45(0, points, compteur)) {
-            nbAnglesMoins45++;
-        }
-        }
-        return nbAnglesMoins45;
     }
 }
