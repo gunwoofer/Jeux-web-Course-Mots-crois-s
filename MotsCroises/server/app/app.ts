@@ -12,7 +12,6 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
-import * as indexRoute from './routes/index';
 import { ConnexionTempsReelServer } from './ConnexionTempsReelServer';
 
 
@@ -75,18 +74,6 @@ export class Application {
     public routes() {
         let router: express.Router;
         router = express.Router();
-
-        // create routes
-        const index: indexRoute.Index = new indexRoute.Index();
-
-        // Routage pour les requêtes serveurs.
-        router.use('/grilles/persistence/grille/facile/async',
-            index.asyncObtenirGrilleFacile.bind(index.asyncObtenirGrilleFacile));
-        router.use('/grilles/persistence/grille/moyen/async',
-            index.asyncObtenirGrilleMoyen.bind(index.asyncObtenirGrilleMoyen));
-        router.use('/grilles/persistence/grille/difficile/async',
-            index.asyncObtenirGrilleDifficile.bind(index.asyncObtenirGrilleDifficile));
-        router.use('/grilles/persistence/grille/ajouter/15', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));
 
         // Socket IO
         const connexionTempsReelServer: ConnexionTempsReelServer = new ConnexionTempsReelServer(this.app);
