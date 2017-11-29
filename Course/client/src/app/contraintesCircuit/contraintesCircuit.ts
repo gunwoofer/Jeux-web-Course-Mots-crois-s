@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { PI_SUR_4 } from '../constant';
+import { PI_SUR_4, ANGLE_45 } from '../constant';
 
 export class ContraintesCircuit {
 
@@ -41,36 +41,12 @@ export class ContraintesCircuit {
             const angle = this.calculerAngle(numeroPoint, points, compteur);
 
             if (angle <= PI_SUR_4) {
-                points[numeroPoint].material.status = 'angle45';
+                points[numeroPoint].material.status = ANGLE_45;
 
                 return true;
             }
         }
 
-        return false;
-    }
-
-    private segmentsCoises(pointA, pointB, pointC, pointD, dessinTermine: boolean): boolean {
-        const vectAB = [pointB.position.x - pointA.position.x, pointB.position.y - pointA.position.y];
-        const vectAC = [pointC.position.x - pointA.position.x, pointC.position.y - pointA.position.y];
-        const vectAD = [pointD.position.x - pointA.position.x, pointD.position.y - pointA.position.y];
-        const vectCA = vectAC.map(function (x) { return x * -1; });
-        const vectCB = [pointB.position.x - pointC.position.x, pointB.position.y - pointC.position.y];
-        const vectCD = [pointD.position.x - pointC.position.x, pointD.position.y - pointC.position.y];
-        const determinantABAC = vectAB[0] * vectAC[1] - vectAB[1] * vectAC[0];
-        const determinantABAD = vectAB[0] * vectAD[1] - vectAB[1] * vectAD[0];
-        const determinantCDCB = vectCD[0] * vectCB[1] - vectCD[1] * vectCB[0];
-        const determinantCDCA = vectCD[0] * vectCA[1] - vectCD[1] * vectCA[0];
-        if (Math.sign(determinantABAC) === 0 || Math.sign(determinantCDCB) === 0) {
-        return false;
-        } else if (Math.sign(determinantABAC) !== Math.sign(determinantABAD) && Math.sign(determinantCDCB) !== Math.sign(determinantCDCA)) {
-        if (dessinTermine) {
-            if (vectAD[0] === 0 && vectAD[1] === 0) {
-            return false;
-            }
-        }
-        return true;
-        }
         return false;
     }
 
@@ -91,17 +67,47 @@ export class ContraintesCircuit {
     public nombreLignesCroisees(points: any[], dessinTermine: boolean): number {
         let nbSegmentsCroises = 0;
         for (let i = 0; i < points.length; i++) {
-        for (let j = i + 1; j < points.length - 1; j++) {
-            const pointA = points[i];
-            const pointB = points[i + 1];
-            const pointC = points[j];
-            const pointD = points[j + 1];
-            if (this.segmentsCoises(pointA, pointB, pointC, pointD, dessinTermine)) {
-            nbSegmentsCroises++;
+            for (let j = i + 1; j < points.length - 1; j++) {
+                if (this.segmentsCoises(i, j, points, dessinTermine)) {
+                    nbSegmentsCroises++;
+                }
             }
         }
-        }
         return nbSegmentsCroises;
+    }
+
+    private segmentsCoises(i: number, j: number, points: any[], dessinTermine: boolean): boolean {
+        const pointA = points[i];
+        const pointB = points[i + 1];
+        const pointC = points[j];
+        const pointD = points[j + 1];
+        const vectAB = [pointB.position.x - pointA.position.x, pointB.position.y - pointA.position.y];
+        const vectAC = [pointC.position.x - pointA.position.x, pointC.position.y - pointA.position.y];
+        const vectAD = [pointD.position.x - pointA.position.x, pointD.position.y - pointA.position.y];
+        const vectCA = vectAC.map(function (x) { return x * -1; });
+        const vectCB = [pointB.position.x - pointC.position.x, pointB.position.y - pointC.position.y];
+        const vectCD = [pointD.position.x - pointC.position.x, pointD.position.y - pointC.position.y];
+
+        if (this.obtenirSigneDuDeterminant(vectAB, vectAC) === 0 || this.obtenirSigneDuDeterminant(vectCD, vectCB) === 0) {
+            return false;
+        } else if ( this.obtenirSigneDuDeterminant(vectAB, vectAC) !== this.obtenirSigneDuDeterminant(vectAB, vectAD) &&
+                    this.obtenirSigneDuDeterminant(vectCD, vectCB) !== this.obtenirSigneDuDeterminant(vectCD, vectCA)) {
+            if ((dessinTermine) && (vectAD[0] === 0 && vectAD[1] === 0)) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    }
+
+    private obtenirSigneDuDeterminant(vecteurA: number[], vecteurB: number[]): number {
+        return Math.sign(this.obtenirDeterminant(vecteurA, vecteurB));
+    }
+
+    private obtenirDeterminant(vecteurA: number[], vecteurB: number[]): number {
+        return vecteurA[0] * vecteurB[1] - vecteurA[1] * vecteurB[0];
     }
 
     public nombreAnglesMoins45(points: any[], compteur: number, dessinTermine: boolean): number {
