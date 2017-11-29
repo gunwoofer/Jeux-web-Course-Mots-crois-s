@@ -2,7 +2,7 @@ import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import { FabriquantElementDePiste } from './FabriquantElementDePiste';
 
 export class ElementDePisteComposite {
-    private elementsDePiste: ElementDePiste[] = [];
+    public elementsDePiste: ElementDePiste[] = [];
 
     constructor(elementsDePiste?: ElementDePiste[] ) {
         if (elementsDePiste !== undefined) {

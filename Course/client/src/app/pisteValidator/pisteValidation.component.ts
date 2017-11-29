@@ -1,6 +1,6 @@
+import { GestionElementsPiste } from './../elementsPiste/GestionElementsPiste';
 import { TypeElementPiste } from './../elementsPiste/ElementDePiste';
 import { FabriquantElementDePiste } from './../elementsPiste/FabriquantElementDePiste';
-import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 
@@ -15,7 +15,12 @@ import { RenderService } from '../renderService/render.service';
 })
 
 export class PisteValidationComponent {
-    constructor(private pisteService: PisteService, private renderService: RenderService) { }
+
+    public gestionElementsPiste: GestionElementsPiste;
+
+    constructor(private pisteService: PisteService, private renderService: RenderService) { 
+        this.gestionElementsPiste = new GestionElementsPiste();
+    }
 
     @Input() public pisteAmodifier: Piste;
     public display: boolean;
@@ -62,14 +67,12 @@ export class PisteValidationComponent {
 
     public ajouterElementDePiste(typeElement): void {
         let type: TypeElementPiste;
-        let couleur: string;
         switch (typeElement.target.name) {
-            case 'nidDePoule': { type = TypeElementPiste.NidDePoule; couleur = '#ff0000'; break; }
-            case 'flaqueDEau': { type = TypeElementPiste.FlaqueDEau; couleur = '#0000ff'; break; }
-            case 'accelerateur': { type = TypeElementPiste.Accelerateur; couleur = '#f9d500'; break; }
+            case 'nidDePoule': { type = TypeElementPiste.NidDePoule;  break; }
+            case 'flaqueDEau': { type = TypeElementPiste.FlaqueDEau; break; }
+            case 'accelerateur': { type = TypeElementPiste.Accelerateur; break; }
         }
-        const element = FabriquantElementDePiste.creerNouvelleElementPiste(type,
-            this.renderService.obtenirPositions());
-        this.renderService.ajouterElementDePiste(element.position, couleur);
+        this.gestionElementsPiste.ajouterElementDePiste(this.renderService.obtenirPositions(), type);
+        this.renderService.afficherElementsDePiste(this.gestionElementsPiste.elementDePisteComposite.elementsDePiste);
     }
 }

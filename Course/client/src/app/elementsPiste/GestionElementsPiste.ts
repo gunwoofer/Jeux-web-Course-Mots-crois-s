@@ -12,21 +12,21 @@ import { FabriquantElementDePiste } from './FabriquantElementDePiste';
 export class GestionElementsPiste implements Observateur {
 
     private typeElementPiste: TypeElementPiste = TypeElementPiste.Accelerateur;
-    private elementDePisteComposite: ElementDePisteComposite = new ElementDePisteComposite();
+    public elementDePisteComposite: ElementDePisteComposite = new ElementDePisteComposite();
 
-    public ajouterElementDePiste(listePosition: THREE.Vector3[]): void {
-        if (this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste) >= 5) {
-            this.elementDePisteComposite.retirerTous(this.typeElementPiste);
+    public ajouterElementDePiste(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
+        if (this.elementDePisteComposite.obtenirNombreElements(typeElement) >= 5) {
+            this.elementDePisteComposite.retirerTous(typeElement);
         } else {
-            this.ajouterElementDePisteSelonContraintes(listePosition);
+            this.ajouterElementDePisteSelonContraintes(listePosition, typeElement);
         }
     }
 
-    private ajouterElementDePisteSelonContraintes(listePosition: THREE.Vector3[]): void {
-        while (this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste) < 5) {
-            this.elementDePisteComposite.ajouter(FabriquantElementDePiste.creerNouvelleElementPiste(this.typeElementPiste, listePosition));
+    private ajouterElementDePisteSelonContraintes(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
+        while (this.elementDePisteComposite.obtenirNombreElements(typeElement) < 5) {
+            this.elementDePisteComposite.ajouter(FabriquantElementDePiste.creerNouvelleElementPiste(typeElement, listePosition));
 
-            if (this.nombreElementsEstImpair()) {
+            if (this.nombreElementsEstImpair(typeElement)) {
                 break;
             }
         }
@@ -38,15 +38,16 @@ export class GestionElementsPiste implements Observateur {
         }
     }
 
-    private obtenirAleatoirementPositionSurPiste(): Vecteur {
-        return new Vecteur();
+
+    public nombreElementsEstImpair(typeElement: TypeElementPiste): boolean {
+        return (this.elementDePisteComposite.obtenirNombreElements(typeElement) % 2 !== 0) ? true : false;
     }
 
-    public nombreElementsEstImpair(): boolean {
-        return (this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste) % 2 !== 0) ? true : false;
+    public obtenirNombreElementsType(typeElement: TypeElementPiste): number {
+        return this.elementDePisteComposite.obtenirNombreElements(typeElement);
     }
 
-    public obtenirNombreElements(): number {
-        return this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste);
+    public obtenirNombreElement(): number {
+        return this.elementDePisteComposite.elementsDePiste.length;
     }
 }

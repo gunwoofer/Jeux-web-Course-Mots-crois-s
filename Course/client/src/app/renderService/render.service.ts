@@ -1,3 +1,6 @@
+import { Accelerateur } from './../elementsPiste/Accelerateur';
+import { NidDePoule } from './../elementsPiste/NidDePoule';
+import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
 
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
@@ -6,6 +9,7 @@ import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
 import { Piste } from '../piste/piste.model';
+import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 @Injectable()
 export class RenderService {
@@ -26,6 +30,7 @@ export class RenderService {
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
   private contraintesCircuitService = new ContraintesCircuitService();
+  private listePointElementPiste: THREE.Points[] = new Array();
 
   public initialize(container: HTMLDivElement): void {
     this.container = container;
@@ -190,9 +195,36 @@ export class RenderService {
     return vecteur;
   }
 
-  public ajouterElementDePiste(position: THREE.Vector3, couleur: string): void {
-    const point = this.facadePointService.creerPoint(position, couleur);
-    this.scene.add(point);
+  // public ajouterElementDePiste(position: THREE.Vector3, couleur: string): void {
+  //   const point = this.facadePointService.creerPoint(position, couleur);
+  //   this.scene.add(point);
+  // }
+
+  private viderElementsPiste(): void {
+    for (const point of this.listePointElementPiste) {
+      this.scene.remove(point);
+    }
+  }
+
+  public afficherElementsDePiste(listeElement: ElementDePiste[]): void {
+    this.viderElementsPiste();
+    let couleur: string;
+    let position: THREE.Vector3;
+
+
+    for (let i = 0; i < listeElement.length; i++) {
+      if (listeElement[i] instanceof FlaqueDEau) {
+        couleur = '#ff0000';
+      } else if (listeElement[i] instanceof NidDePoule) {
+        couleur = '#0000ff';
+      } else if (listeElement[i] instanceof Accelerateur) {
+        couleur = '#f9d500';
+      }
+      position = listeElement[i].position;
+      const point = this.facadePointService.creerPoint(position, couleur);
+      this.listePointElementPiste.push(point);
+      this.scene.add(point);
+    }
   }
 
   public dessinerPointDejaConnu(position: THREE.Vector3) {
