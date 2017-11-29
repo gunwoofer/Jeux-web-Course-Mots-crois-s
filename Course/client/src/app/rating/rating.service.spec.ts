@@ -3,7 +3,7 @@ import { RatingService } from './rating.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-
+import { ElementDePiste, TypeElementPiste } from '../elementsPiste/ElementDePiste';
 
 const listepositions: any[] =
 [{ z: 0, y: 24.003569616469644, x: 101.77079099777208 },
@@ -12,7 +12,10 @@ const listepositions: any[] =
 { z: 0, y: -43.28512553789595, x: 99.40978401780862 },
 { z: 0, y: 24.003569616469644, x: 101.77079099777208 }];
 
-const pisteMock = new Piste('piste1', 'amateur', 'piste izi', listepositions);
+
+const listeElement: ElementDePiste[] = new Array();
+
+const pisteMock = new Piste('piste1', 'amateur', 'piste izi', listepositions, listeElement);
 const rating = 5;
 
 describe('Rating service test', () => {

@@ -20,7 +20,7 @@ export class SortiePisteService {
         this.estSurLaPiste(voiture.obtenirVoiture3D());
         if (!this.estSurPiste) {
             this.ramenerVoitureDernierSegment(voiture);
-            this.deplacementService.reduireVitesseSortiePiste(voiture);
+            DeplacementService.reduireVitesseSortiePiste(voiture);
         }
     }
 
