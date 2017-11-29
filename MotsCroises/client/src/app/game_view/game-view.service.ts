@@ -86,7 +86,12 @@ export class GameViewService {
     const indices: IndiceMot[] = new Array();
     for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
       const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
-      const definition = indiceServeur.definitions[0];
+      let definition: string;
+      if (indiceServeur.definitions !== undefined) {
+        definition = indiceServeur.definitions[0];
+      } else {
+        definition = 'No definition.';
+      }
       indices.push(new IndiceMot(emplacementMot.obtenirGuidIndice(), emplacementMot.obtenirIndexFixe() + 1,
         definition, emplacementMot.obtenirGrandeur(), emplacementMot.obtenirPosition(),
         emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() + 1,
