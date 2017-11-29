@@ -1,3 +1,4 @@
+import { PointDeControle } from './../piste/pointDeControle.model';
 import { Rendu } from './renduObject';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import {
@@ -32,6 +33,7 @@ import { EtatPartie } from '../partie/EtatPartie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
+import { AxisHelper } from 'three';
 
 
 
@@ -56,6 +58,7 @@ export class GenerateurPisteService implements Observateur {
     public partie: Partie;
     public routeur: Router;
     public segment: Segment;
+    public pointeDeControle = new PointDeControle();
     public voituresIA: Voiture[] = [];
     public listeSkyboxJour: Array<THREE.Mesh>;
     public listeSkyboxNuit: Array<THREE.Mesh>;
@@ -86,6 +89,8 @@ export class GenerateurPisteService implements Observateur {
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.genererSurfaceHorsPiste();
+        this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
+        this.scene.add(new AxisHelper(100));
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
     }
@@ -109,11 +114,9 @@ export class GenerateurPisteService implements Observateur {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
         const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
             this.segment.premierSegment[3], this.segment.damierDeDepart);
-
         const pilotes: Pilote[] = [pilote];
-
         this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
-                                 [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
+            [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
         this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
     }
 
@@ -154,6 +157,8 @@ export class GenerateurPisteService implements Observateur {
 
     public miseAJourPositionVoiture(): void {
         if (this.voitureDuJoueur.voiture3D !== undefined) {
+            this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
+            this.voituresIA[0].modeAutonome();
             this.deplacementService.moteurDeplacement(this.voitureDuJoueur);
             this.renderMiseAJour();
         }
@@ -164,7 +169,6 @@ export class GenerateurPisteService implements Observateur {
             this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
             this.piste.gererElementDePiste([this.voitureDuJoueur]);
             this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
-
         }
     }
 
@@ -223,14 +227,15 @@ export class GenerateurPisteService implements Observateur {
         meshPrincipalVoiture = obj.getObjectByName('MainBody');
         if (joueur) {
             meshPrincipalVoiture.material.color.set('grey');
-            this.voitureDuJoueur = new Voiture(obj);
+            this.voitureDuJoueur = new Voiture(obj, this.piste);
             this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
             this.retroviseur = new Retroviseur(this.container, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
         } else {
             meshPrincipalVoiture.material.color.set('black');
-            this.voituresIA.push(new Voiture(obj));
+            this.voituresIA.push(new Voiture(obj, this.piste));
+            this.voituresIA[this.voituresIA.length - 1].ajouterIndicateursVoitureScene(this.scene);
             this.calculePositionVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1]);
         }
     }

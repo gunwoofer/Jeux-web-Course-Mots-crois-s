@@ -11,6 +11,7 @@ import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.comp
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
 import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 import { FinDePartieComponent } from './finDepartie/finDePartie.component';
+import {IaComponent} from "./iaComponent/ia.component";
 
 
 const APP_ROUTES: Routes = [
@@ -24,7 +25,9 @@ const APP_ROUTES: Routes = [
     { path: 'createurPiste', component: CreateurPisteComponent },
     { path: 'generationpiste', component: GenerateurPisteComponent },
     { path: 'resultatPartie', component: RatingComponent },
-    { path: 'finPartie', component: FinDePartieComponent }
+    { path: 'finPartie', component: FinDePartieComponent },
+    { path: 'test', component: IaComponent }
+
 ];
 
 @NgModule({
