@@ -1,12 +1,17 @@
 import { Voiture } from './../voiture/Voiture';
-import { ElementDePiste } from './ElementDePiste';
+import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 
 export class Accelerateur extends ElementDePiste {
 
-    constructor(listePosition: THREE.Vector3[]) {
+    constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
-        this.position = this.genererPositionAleatoire(listePosition, true);
+        this.typeElementDePiste = TypeElementPiste.Accelerateur;
+        if (position) {
+            this.position = position;
+        } else {
+            this.position = this.genererPositionAleatoire(listePosition, true);
+        }
     }
 
 

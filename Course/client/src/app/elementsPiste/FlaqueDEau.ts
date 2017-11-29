@@ -1,12 +1,17 @@
 import { Voiture } from './../voiture/Voiture';
-import { ElementDePiste } from './ElementDePiste';
+import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 
 export class FlaqueDEau extends ElementDePiste {
 
-    constructor(listePosition: THREE.Vector3[]) {
+    constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
-        this.position = this.genererPositionAleatoire(listePosition, false);
+        this.typeElementDePiste = TypeElementPiste.FlaqueDEau;
+        if (position) {
+            this.position = position;
+        } else {
+            this.position = this.genererPositionAleatoire(listePosition, true);
+        }
     }
 
     public genererMesh(): void {

@@ -14,6 +14,7 @@ export abstract class ElementDePiste {
     public raycaster: THREE.Raycaster;
     public antirebond;
     public deplacementService: DeplacementService;
+    public typeElementDePiste: TypeElementPiste;
 
     constructor() {
         this.antirebond = false;
