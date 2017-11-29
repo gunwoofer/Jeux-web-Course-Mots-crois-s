@@ -8,6 +8,9 @@ export const NOMBRE_SOMMETS_LARGEUR = 300;
 export const NOMBRE_SOMMETS_LONGUEUR = 300;
 export const POSITION_RELIEF_PAR_RAPPORT_Z = -5;
 
+// Mathématique
+export const PI_SUR_4 = 0.785398163;
+
 // Voiture & Deplacements
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 export const REDUCTION_VITESSE = 10;

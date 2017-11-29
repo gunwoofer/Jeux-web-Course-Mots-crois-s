@@ -7,7 +7,7 @@ import * as THREE from 'three';
 import { FacadeLigneService } from './../facadeLigne/facadeligne.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
-import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
+import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
 import { Piste } from '../piste/piste.model';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
@@ -21,7 +21,7 @@ export class RenderService {
   public pisteAmodifie: Piste;
   public pointsLine;
   public id;
-  public points: THREE.Points[] = new Array();
+  public points: any[] = new Array();
   public dessinTermine = false;
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
@@ -29,7 +29,7 @@ export class RenderService {
   public facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
-  private contraintesCircuitService = new ContraintesCircuitService();
+  private contraintesCircuit = new ContraintesCircuit();
   private listePointElementPiste: THREE.Points[] = new Array();
 
   public initialize(container: HTMLDivElement): void {
@@ -153,9 +153,9 @@ export class RenderService {
   }
 
   public actualiserContrainte(): void {
-    this.nbSegmentsCroises = this.contraintesCircuitService.nombreLignesCroisees(this.points, this.dessinTermine);
-    this.nbSegmentsTropProche = this.contraintesCircuitService.nombreSegmentsTropCourts(this.points);
-    this.nbAnglesPlusPetit45 = this.contraintesCircuitService.nombreAnglesMoins45(
+    this.nbSegmentsCroises = this.contraintesCircuit.nombreLignesCroisees(this.points, this.dessinTermine);
+    this.nbSegmentsTropProche = this.contraintesCircuit.nombreSegmentsTropCourts(this.points);
+    this.nbAnglesPlusPetit45 = this.contraintesCircuit.nombreAnglesMoins45(
       this.points, this.facadePointService.compteur, this.dessinTermine
     );
   }
