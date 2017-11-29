@@ -22,8 +22,7 @@ import { TableauScoreService } from '../tableauScore/tableauScoreService.service
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { EtatPartie } from '../partie/Partie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
-import {EffetSonoreService} from '../musique/effetSonore.service';
-import {EffetSonore, NOM_THEMATIQUE} from '../musique/effetSonore.model';
+import {EffetSonoreService} from '../effetSonore/effetSonore.service';
 
 export const LARGEUR_PISTE = 5;
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
@@ -109,9 +108,6 @@ export class GenerateurPisteService implements Observateur {
         this.partie = new Partie([pilote], ligneArrivee, this.nombreTours, [this.musiqueService.musique, this]);
         this.voitureDuJoueur.ajouterObservateur(this.partie);
         this.partie.ajouterRouteur(this.routeur);
-
-        this.effetSonoreServie.jouerNouvelEffetSonore(NOM_THEMATIQUE);
-
     }
 
     public genererSurfaceHorsPiste(): void {
