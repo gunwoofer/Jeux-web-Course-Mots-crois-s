@@ -9,12 +9,13 @@ export class FlaqueDEau extends ElementDePiste {
         this.position = this.genererPositionAleatoire(listePosition, false);
     }
 
-    private genererMesh(): THREE.Mesh {
+    public genererMesh(): void {
         const flaqueDEauGeometrie = new THREE.CircleGeometry(2, 7);
         const materiel = new THREE.MeshPhongMaterial({ color: 0x0000ff });
         const mesh = new THREE.Mesh(flaqueDEauGeometrie, materiel);
-        return mesh;
+        this.mesh = mesh;
     }
+
 
 
     // 4: arriere gauche 82: avant gauche

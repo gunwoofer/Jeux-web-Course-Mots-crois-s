@@ -11,7 +11,8 @@ export class NidDePoule extends ElementDePiste {
         this.position = this.genererPositionAleatoire(listePosition, false);
     }
 
-    private genererMesh(): THREE.Mesh {
+
+    public genererMesh(): void {
         let nidDePouleGeometrie = new THREE.CircleGeometry(1, 10);
 
         nidDePouleGeometrie = this.ajouterBruitGeometrie(nidDePouleGeometrie);
@@ -19,7 +20,7 @@ export class NidDePoule extends ElementDePiste {
         const materiel = new THREE.MeshPhongMaterial({ color: 0x000000 });
 
         const mesh = new THREE.Mesh(nidDePouleGeometrie, materiel);
-        return mesh;
+        this.mesh = mesh;
     }
 
     private ajouterBruitGeometrie(geometrie: THREE.CircleGeometry): THREE.CircleGeometry {
