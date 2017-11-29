@@ -5,15 +5,15 @@ import { Case, EtatCase } from '../../commun/Case';
 import { Niveau } from '../../commun/Niveau';
 import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
 
-describe('GenerateurDeGrilleService', () => {
-    /*it('Une grille est carre et fait dix cases de cote.', () => {
-        const generateurDeGrilleService = new GenerateurDeGrilleService();
-        generateurDeGrilleService.genererGrille(Niveau.facile).then((grille) => {
-            assert(grille.cases.obtenirHauteurCases() === 10);
-            assert(grille.cases.obtenirLongueurCases() === 10);
-        });
-    });
+describe('GenerateurDeGrilleVide', () => {
+    it('Une grille est carre et fait dix cases de cote.', () => {
+        const generateurDeGrilleVide = new GenerateurDeGrilleVide();
+        const grille = generateurDeGrilleVide.genereGrilleVide(Niveau.facile);
+        assert(grille.cases.obtenirHauteurCases() === 10);
+        assert(grille.cases.obtenirLongueurCases() === 10);
 
+    });
+    /*
     it('Chaque ligne et colonne contient un ou deux mots ecrits de gauche a droite et de haut en bas.', () => {
         const generateurDeGrilleService = new GenerateurDeGrilleService();
         generateurDeGrilleService.genererGrille(Niveau.facile).then((grille) => {
