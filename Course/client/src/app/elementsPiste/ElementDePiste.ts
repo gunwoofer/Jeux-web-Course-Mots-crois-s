@@ -1,5 +1,6 @@
 import { Voiture } from './../voiture/Voiture';
 import * as THREE from 'three';
+import { POSITION_OBSTACLE_EN_Z } from '../constant';
 
 export enum TypeElementPiste {
     Accelerateur,
@@ -9,15 +10,15 @@ export enum TypeElementPiste {
 
 export abstract class ElementDePiste {
     public position: THREE.Vector3;
-    protected mesh: THREE.Mesh;
     public raycaster: THREE.Raycaster;
     public antirebond;
     public typeElementDePiste: TypeElementPiste;
 
+    protected mesh: THREE.Mesh;
+
     constructor() {
         this.antirebond = false;
     }
-
 
     public abstract effetSurObstacle(voiture: Voiture): void;
 
@@ -35,21 +36,19 @@ export abstract class ElementDePiste {
         const pointDebut = segmentAleatoire[0];
         const pointFin = segmentAleatoire[1];
 
-        let x: number;
+        const x = (estUnAccelerateur) ? this.trouverXAleatoire(pointDebut.x, this.obtenirMoitieEntre2points(pointDebut.x, pointFin.x)) :
+                                        this.trouverXAleatoire(pointDebut.x, pointFin.x);
 
-        if (estUnAccelerateur) {
-            x = this.trouverXAleatoire(pointDebut.x, this.obtenirMoitieEntre2points(pointDebut.x, pointFin.x));
-        } else {
-            x = this.trouverXAleatoire(pointDebut.x, pointFin.x);
-        }
         const pente = this.calculerPenteDroite(pointDebut, pointFin);
         const y = pente * x + this.calculerOrdonneeALOrigine(pointDebut, pente);
-        return new THREE.Vector3(x, y, 0.01);
+
+        return new THREE.Vector3(x, y, POSITION_OBSTACLE_EN_Z);
     }
 
     private obtenirMoitieEntre2points(xDebut: number, xFin: number) {
         return (xDebut + (xFin - xDebut ) / 2);
     }
+
     private trouverXAleatoire(xDebut: number, xFin: number): number {
         return Math.random() * (Math.max(xDebut, xFin) - Math.min(xDebut, xFin)) + Math.min(xDebut, xFin);
     }
@@ -66,5 +65,4 @@ export abstract class ElementDePiste {
         const pointAleatoire = Math.round(Math.random() * (listePoints.length - 2));
         return [listePoints[pointAleatoire], listePoints[pointAleatoire + 1]];
     }
-
 }

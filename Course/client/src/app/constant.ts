@@ -76,6 +76,11 @@ export const LUMIERES = [
 export const PHARES = [
     'BrakeLightLS1', 'BrakeLightRS1', 'Lumière Avant Droite', 'Lumière Avant Gauche', 'Phare Droit', 'Phare Gauche'];
 
+// Obstacles
+export const CHEMIN_ACCES_ACCELERATEUR = '../../assets/textures/accelerateur.png';
+export const NIVEAU_CLARETE = 4;
+export const POSITION_OBSTACLE_EN_Z = 0.01;
+
 // Divers
 export const FORMAT_MP3 = '.mp3';
 export const DEBUT_STINGER = 8;
