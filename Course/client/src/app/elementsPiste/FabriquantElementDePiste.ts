@@ -3,7 +3,6 @@ import { TypeElementPiste, ElementDePiste} from './ElementDePiste';
 import { Accelerateur } from './Accelerateur';
 import { FlaqueDEau } from './FlaqueDEau';
 import { NidDePoule } from './NidDePoule';
-import { Vecteur } from '../../../../commun/Vecteur';
 import * as THREE from 'three';
 
 export class FabriquantElementDePiste {

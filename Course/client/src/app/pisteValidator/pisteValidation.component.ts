@@ -1,6 +1,5 @@
 import { GestionElementsPiste } from './../elementsPiste/GestionElementsPiste';
-import { TypeElementPiste, ElementDePiste } from './../elementsPiste/ElementDePiste';
-import { FabriquantElementDePiste } from './../elementsPiste/FabriquantElementDePiste';
+import { TypeElementPiste } from './../elementsPiste/ElementDePiste';
 import { NgForm } from '@angular/forms';
 import { Component, Input } from '@angular/core';
 

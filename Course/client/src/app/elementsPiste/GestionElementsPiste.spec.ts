@@ -1,7 +1,6 @@
 import { TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { GestionElementsPiste } from './GestionElementsPiste';
-import { generate } from 'rxjs/observable/generate';
 
 describe('GestionElementsPiste', () => {
   it('Il ne devrait pas avoir de nombre pair d\'elements de piste.', () => {

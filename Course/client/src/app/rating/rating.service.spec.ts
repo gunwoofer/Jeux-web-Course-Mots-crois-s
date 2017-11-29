@@ -3,7 +3,7 @@ import { RatingService } from './rating.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-import { ElementDePiste, TypeElementPiste } from '../elementsPiste/ElementDePiste';
+import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 const listepositions: any[] =
 [{ z: 0, y: 24.003569616469644, x: 101.77079099777208 },

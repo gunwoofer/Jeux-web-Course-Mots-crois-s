@@ -83,8 +83,7 @@ export class GenerateurPisteService implements Observateur {
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
         this.ajoutPisteAuPlan();
-        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste),
-                                                        this.deplacementService);
+        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
         this.ajoutZoneDepart();
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);

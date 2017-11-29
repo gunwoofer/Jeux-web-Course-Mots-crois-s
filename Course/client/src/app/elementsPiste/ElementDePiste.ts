@@ -1,4 +1,3 @@
-import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import * as THREE from 'three';
 

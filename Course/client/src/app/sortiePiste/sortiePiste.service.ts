@@ -12,7 +12,7 @@ export class SortiePisteService {
     private estSurPiste: boolean;
     private segmentOuReapparaitre: THREE.Mesh;
 
-    constructor(piste: THREE.Mesh[], private deplacementService: DeplacementService) {
+    constructor(piste: THREE.Mesh[]) {
         this.listeSegments = piste;
     }
 

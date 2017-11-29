@@ -1,17 +1,11 @@
 import { ElementDePisteComposite } from './ElementDePisteComposite';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
-import { FlaqueDEau } from './FlaqueDEau';
-import { Accelerateur } from './Accelerateur';
-import { NidDePoule } from './NidDePoule';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { Sujet } from '../../../../commun/observateur/Sujet';
-import { Vecteur } from '../../../../commun/Vecteur';
 import { FabriquantElementDePiste } from './FabriquantElementDePiste';
 
 export class GestionElementsPiste implements Observateur {
-
-    private typeElementPiste: TypeElementPiste = TypeElementPiste.Accelerateur;
     public elementDePisteComposite: ElementDePisteComposite = new ElementDePisteComposite();
 
     public ajouterElementDePiste(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
