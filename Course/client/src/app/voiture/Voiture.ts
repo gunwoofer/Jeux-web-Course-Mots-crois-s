@@ -1,9 +1,16 @@
+import { MoteurAutonome } from './moteurAutonome';
+import { Piste } from './../piste/piste.model';
+import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
+import { NotificationType } from '../../../../commun/observateur/NotificationType';
+import { Scene, Vector3 } from 'three';
 
-export const REDUCTION_VITESSE = 10;
+export const REDUCTION_VITESSE_SORTIE_PISTE = 10;
+export const REDUCTION_VITESSE_NID_DE_POULE = 4;
+
 
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
@@ -16,13 +23,40 @@ export class Voiture implements sujet.Sujet {
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
+    public modeAccelerateur = false;
+    public modeSecousse = false;
+    public modeAquaplannage = false;
+    public vecteurVoiture: THREE.Vector3;
+    public coteAleatoireAquaplannage: number;
+    private listePositions: THREE.Vector3[];
+    private moteurAutonome: MoteurAutonome;
 
-    constructor(voiture3D: THREE.Object3D, observateurs?: observateur.Observateur[]) {
+
+    constructor(voiture3D: THREE.Object3D, piste: Piste, observateurs?: observateur.Observateur[]) {
         this.voiture3D = voiture3D;
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
         this.observateurs = (observateurs !== undefined) ? observateurs : [];
-        this.vitesse = 0;
+        this.vitesse = VITESSE_INTIALE;
+        this.listePositions = piste.listepositions;
+        this.moteurAutonome = new MoteurAutonome(this.listePositions, this.voiture3D, piste.typeCourse);
+    }
+
+    public ajouterIndicateursVoitureScene(scene: THREE.Scene): void {
+        this.moteurAutonome.creerIndicateurDevant(scene);
+        this.moteurAutonome.creerIndicateurDirection(scene, this.listePositions);
+    }
+
+    public modeAutonome(): void {
+        this.moteurAutonome.dirigerVoiture(this.listePositions);
+    }
+
+    public obtenirRoueAvantGauche(): THREE.Object3D {
+        return this.voiture3D.children[21];
+    }
+
+    public obtenirRoueAvantDroite(): THREE.Object3D {
+        return this.voiture3D.children[25];
     }
 
     public calculerDistance(): void {
@@ -51,11 +85,21 @@ export class Voiture implements sujet.Sujet {
     }
 
     public distanceEntreDeuxPoints(x1: number, y1: number, x2: number, y2: number): number {
-        return Math.pow( Math.pow((x1 - x2), 2) + Math.pow( (y1 - y2), 2), 0.5);
+        return Math.pow(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2), 0.5);
     }
 
     public obtenirVoiture3D(): THREE.Object3D {
         return this.voiture3D;
+    }
+
+    public obtenirTailleVoiture(): THREE.Vector2 {
+
+        // https://stackoverflow.com/questions/33758313/get-size-of-object3d-in-three-js
+        const boite = new THREE.Box3().setFromObject(this.voiture3D);
+        const tailleX = Math.abs(boite.max.x - boite.min.x);
+        const tailleY = Math.abs(boite.max.y - boite.min.y);
+
+        return new THREE.Vector2(tailleX, tailleY);
     }
 
     public obtenirPointMilieu(): THREE.Vector3 {
@@ -80,11 +124,8 @@ export class Voiture implements sujet.Sujet {
 
     public notifierObservateurs(): void {
         for (const observateurCourant of this.observateurs) {
-            observateurCourant.notifier(this);
+            observateurCourant.notifier(this, NotificationType.Non_definie);
         }
     }
 
-    public reduireVitesseSortiePiste(): void {
-        this.vitesse /= REDUCTION_VITESSE;
-    }
 }

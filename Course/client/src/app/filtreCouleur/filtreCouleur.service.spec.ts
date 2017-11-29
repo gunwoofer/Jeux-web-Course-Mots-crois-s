@@ -1,5 +1,4 @@
 import { FiltreCouleurService } from './filtreCouleur.service';
-import { Voiture } from '../voiture/Voiture';
 import { TestBed, inject, async } from '@angular/core/testing';
 import * as THREE from 'three';
 
@@ -20,7 +19,7 @@ describe('FiltreService test', () => {
         filtreCouleurService = service;
     }));
 
-    it('cameraService devrait être créé', () => {
+    it('filtreCouleur devrait être créé', () => {
         expect(filtreCouleurService).toBeTruthy();
     });
 

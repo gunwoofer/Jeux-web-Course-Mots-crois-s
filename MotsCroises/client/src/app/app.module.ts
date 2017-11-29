@@ -3,9 +3,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
-import { CubeComponent } from './cube/cube.component';
 
-import { RenderService } from './cube/render.service';
 import { BasicService } from './basic.service';
 import {AppRoutingModule} from './app-routing.module';
 import {GameViewComponent} from './game_view/app.game-view.component';
@@ -23,7 +21,6 @@ import {AttentePartieComponent} from './attente_partie/app.attente-partie.compon
 @NgModule({
   declarations: [
     AppComponent,
-    CubeComponent,
     GameViewComponent,
     CanvasViewComponent,
     IndiceViewComponent,
@@ -40,7 +37,6 @@ import {AttentePartieComponent} from './attente_partie/app.attente-partie.compon
     FormsModule
   ],
   providers: [
-    RenderService,
     BasicService,
     GameViewService
   ],

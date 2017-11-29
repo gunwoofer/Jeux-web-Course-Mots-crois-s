@@ -1,25 +1,34 @@
 import * as express from 'express';
-import { GenerateurDeGrilleService } from '../GenerateurDeGrilleService';
 import { PersistenceGrillesService } from '../PersistenceGrillesService';
 import { Grille } from '../Grille';
 import { Niveau } from '../../../commun/Niveau';
+import { GenerateurDeGrilleService } from '../GenerateurDeGrilleService';
 
 module Route {
 
     export class Index {
 
+        public testGenerationGrille(req: express.Request, res: express.Response, next: express.NextFunction): void {
+            const generateurDeGrilleService = new GenerateurDeGrilleService();
+            generateurDeGrilleService.genererGrille(Niveau.facile).then((grille) => {
+                generateurDeGrilleService.affichageConsole(grille);
+            });
+        }
+
         public GenerationDeGrilleService(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-            const grille: Grille = generateur.genererGrilleMock(Niveau.facile);
-
-            res.send(JSON.stringify(grille));
+            generateur.genererGrille(Niveau.facile).then((grille) => {
+                res.send(JSON.stringify(grille));
+            });
         }
 
         public PersistenceGrillesService(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const generateur: GenerateurDeGrilleService = new GenerateurDeGrilleService();
             const persistenceGrilles: PersistenceGrillesService = new PersistenceGrillesService(generateur, res);
 
-            persistenceGrilles.insererPlusieursGrilles(generateur.obtenirGrillesBase(generateur));
+            generateur.obtenirGrillesBase().then((grilles) => {
+                persistenceGrilles.insererPlusieursGrilles(grilles);
+            });
         }
 
         public obtenirGrilleFacile(req: express.Request, res: express.Response, next: express.NextFunction): void {

@@ -24,13 +24,12 @@ export class FabriqueDeGrille {
         return vraieGrille;
     }
 
-
     private static creerInstanceAvecJSONMotComplet(jsonEnGrille: Grille): MotComplet[] {
         const vraiMotsComplet: MotComplet[] = new Array();
         let vraiMotComplet: MotComplet;
 
         for (const motCompletCourant of jsonEnGrille.mots) {
-            // Permet de surpasser l'encapsulation de l'objet (incomplet) MotComplet.
+            // Permet de surpasser l'encapsulation de l'objet incomplet MotComplet.
             const motCompletIncomplet: any = motCompletCourant;
 
             vraiMotComplet = new MotComplet(motCompletCourant.lettres, motCompletIncomplet.indice);
@@ -55,7 +54,7 @@ export class FabriqueDeGrille {
             vraieCaseFin = new Case(emplacementMotCourant.caseFin.numeroLigne,
                 emplacementMotCourant.caseFin.numeroColonne, emplacementMotCourant.caseFin.etat);
 
-            // Permet de surpasser l'encapsulation de l'objet (incomplet) EmplacementMot.
+            // Permet de surpasser l'encapsulation de l'objet incomplet EmplacementMot.
             const emplacementMotIncomplet: any = jsonEnGrille.emplacementMots[i];
 
             Object.assign(vraieCaseDebut, emplacementMotIncomplet.caseDebut as Case);

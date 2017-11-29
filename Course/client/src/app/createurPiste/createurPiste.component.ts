@@ -1,7 +1,6 @@
+import { EvenementService } from './../gestionnaireEvenement/gestionnaireEvenement.service';
 import { MusiqueService } from './../musique/musique.service';
 import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
-
-import { FacadeSourisService } from '../facadeSouris/facadesouris.service';
 import { RenderService } from '../renderService/render.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { PisteService } from '../piste/piste.service';
@@ -17,11 +16,11 @@ import { Piste } from './../piste/piste.model';
 export class CreateurPisteComponent implements OnInit {
 
   constructor(private renderService: RenderService,
-    private facadeSourisService: FacadeSourisService,
+    private evenementService: EvenementService,
     private pisteService: PisteService,
     private messageErreurService: MessageErreurService,
     private musiqueService: MusiqueService
-    ) {
+  ) {
   }
 
   private affiche: boolean;
@@ -52,24 +51,24 @@ export class CreateurPisteComponent implements OnInit {
   }
 
   public oncontextmenu(): boolean {
-    this.facadeSourisService.rightClick();
+    this.evenementService.rightClick();
     return false;
   }
 
   public onMouseMove(event): void {
-    this.facadeSourisService.onMouseMove(event);
+    this.evenementService.onMouseMove(event);
   }
 
   public onMouseClick(event): void {
-    this.facadeSourisService.onMouseClick(event);
+    this.evenementService.onMouseClick(event);
   }
 
   public onMouseDown(event): void {
-    this.facadeSourisService.onMouseDown(event);
+    this.evenementService.onMouseDown(event);
   }
 
   public onMouseUp(event): boolean {
-    this.facadeSourisService.onMouseUp(event);
+    this.evenementService.onMouseUp(event);
     return false;
   }
 

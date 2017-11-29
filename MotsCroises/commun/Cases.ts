@@ -20,6 +20,14 @@ export class Cases {
         this.cases = cases;
     }
 
+    public viderCases(): void {
+        for (const ligneCourante of this.obtenirCases()) {
+            for (const caseCourante of ligneCourante) {
+                caseCourante.viderCase();
+            }
+        }
+    }
+
     public obtenirCase(numeroLigne: number, numeroColonne: number): Case {
         for(let ligneCase of this.cases) {
             for(let caseCourante of ligneCase) {
@@ -28,7 +36,6 @@ export class Cases {
                 }
             }
         }
-
         return undefined;
     }
 
@@ -38,10 +45,6 @@ export class Cases {
 
     public obtenirCases(): Case[][] {
         return this.cases;
-    }
-
-    public changerEtatCase(etatCase: EtatCase, numeroLigne: number, numeroColonne: number): void {
-        this.cases[numeroLigne][numeroColonne].etat = etatCase;
     }
 
     public remplirCase(lettre: string, numeroLigne: number, numeroColonne: number): void {
@@ -118,6 +121,33 @@ export class Cases {
         }
 
         return caseCourante;
+    }
+    
+    public calculerPointsContraintes(): void {
+        let caseCourante: Case;
+        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
+            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
+                caseCourante = this.obtenirCase(i, j);
+                caseCourante.remettrePointsContraintesAZero();
+                this.calculerPointsContraintesDeLaCase(caseCourante,
+                    caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne());
+            }
+        }
+    }
+
+    public obtenirLongueurCases(): number {
+        return DIMENSION_LIGNE_COLONNE;
+    }
+
+    public obtenirHauteurCases(): number {
+        let nbrCasesY = 0;
+        for (const casesDeLaLigne of this.obtenirCases()) {
+            if (nbrCasesY !== 0 && nbrCasesY !== casesDeLaLigne.length) {
+                return -1;
+            }
+            nbrCasesY = casesDeLaLigne.length;
+        }
+        return nbrCasesY;
     }
 
     private peutAccueillirLettre(caseAVerifier: Case): boolean {

@@ -1,3 +1,4 @@
+import { DeplacementService } from './generateurPiste/deplacement.service';
 import { PlacementService } from './objetService/placementVoiture.service';
 import { RatingComponent } from './rating/rating.component';
 import { TableauScoreService } from './tableauScore/tableauScoreService.service';
@@ -27,7 +28,7 @@ import { ModificationMotDePasseComponent } from './accueil/admin/modificationMot
 import { RenderService } from './renderService/render.service';
 import { PisteService } from './piste/piste.service';
 import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
-import { FacadeSourisService } from './facadeSouris/facadesouris.service';
+import { EvenementService } from './gestionnaireEvenement/gestionnaireEvenement.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeligne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
@@ -36,14 +37,19 @@ import { UtilisateurService } from './accueil/utilisateur.service';
 import { MusiqueService } from './musique/musique.service';
 import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
 import { ObjetService } from './objetService/objet.service';
-import { CameraService } from './cameraService/cameraService.service';
+import { GestionnaireDeVue } from './gestionnaireDeVue/gestionnaireDeVue.service';
 import { RatingService } from './rating/rating.service';
 import { SkyboxService } from './skybox/skybox.service';
 import {EffetSonoreService} from './effetSonore/effetSonore.service';
 
+import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehaute.service';
+
 
 import { APP_BASE_HREF } from '@angular/common';
 import { AppRoutingModule } from './app.routing';
+import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichagetetehaute.component';
+import {IaComponent} from './iaComponent/ia.component';
+import {IaRenderService} from './iaComponent/iaRender.service';
 
 
 
@@ -64,7 +70,9 @@ import { AppRoutingModule } from './app.routing';
     ModificationMotDePasseComponent,
     ConfigurationPartieComponent,
     FinDePartieComponent,
-    RatingComponent
+    RatingComponent,
+    AffichageTeteHauteComponent,
+    IaComponent
   ],
   imports: [
     BrowserModule,
@@ -74,23 +82,26 @@ import { AppRoutingModule } from './app.routing';
   ],
   providers: [
     RenderService,
+    IaRenderService,
     PisteService,
     FacadeCoordonneesService,
-    FacadeSourisService,
+    EvenementService,
     FacadePointService,
     FacadeLigneService,
     MessageErreurService,
     GenerateurPisteService,
+    DeplacementService,
     MusiqueService,
     UtilisateurService,
     FiltreCouleurService,
     ObjetService,
     LumiereService,
     TableauScoreService,
-    CameraService,
+    GestionnaireDeVue,
     RatingService,
     SkyboxService,
     PlacementService,
+    AffichageTeteHauteService,
     EffetSonoreService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],

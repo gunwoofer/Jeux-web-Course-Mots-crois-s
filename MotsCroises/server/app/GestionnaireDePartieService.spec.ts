@@ -4,12 +4,12 @@ import { Case } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Grille } from './Grille';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import { PersistenceGrillesService } from './PersistenceGrillesService';
 import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
 import { SpecificationPartie } from '../../commun/SpecificationPartie';
 import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
+import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 
 export const maxDelaiRetourRequeteMS = 10000;
 
@@ -83,7 +83,7 @@ describe('GestionnaireDePartieService', () => {
         persistenceGrillesService.asyncObtenirGrillePersistante(Niveau.facile)
             .then((grilleDepart: Grille) => {
                 guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-                const emplacementsMot: EmplacementMot[] = grilleDepart.emplacementsHorizontaux();
+                const emplacementsMot: EmplacementMot[] = grilleDepart.emplacementsMots.emplacementsHorizontaux();
                 const emplacementMot: EmplacementMot = emplacementsMot[0];
                 const caseDebut: Case = emplacementMot.obtenirCaseDebut();
                 const caseFin: Case = emplacementMot.obtenirCaseFin();
@@ -109,24 +109,21 @@ describe('GestionnaireDePartieService', () => {
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
-
-        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-        const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
-        const emplacementMot: EmplacementMot = emplacementsMot[0];
-        const caseDebut: Case = emplacementMot.obtenirCaseDebut();
-        const caseFin: Case = emplacementMot.obtenirCaseFin();
-        let motAVerifier = '';
-        const casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
-            emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-
-        for (const caseCourante of casesEmplacementMot) {
-            motAVerifier += caseCourante.obtenirLettre();
-        }
-
-        assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
-        done();
-
+        generateurDeGrilleService.genererGrille(Niveau.difficile).then((grilleDepart) => {
+            guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+            const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
+            const emplacementMot: EmplacementMot = emplacementsMot[0];
+            const caseDebut: Case = emplacementMot.obtenirCaseDebut();
+            const caseFin: Case = emplacementMot.obtenirCaseFin();
+            let motAVerifier = '';
+            const casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+                emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
+            for (const caseCourante of casesEmplacementMot) {
+                motAVerifier += caseCourante.obtenirLettre();
+            }
+            assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
+            done();
+        });
     }).timeout(maxDelaiRetourRequeteMS);
 
     it('Un mot ne peut pas être trouvé deux fois.', (done) => {
@@ -135,24 +132,22 @@ describe('GestionnaireDePartieService', () => {
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
-
-        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-        const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
-        const emplacementMot: EmplacementMot = emplacementsMot[0];
-        const caseDebut: Case = emplacementMot.obtenirCaseDebut();
-        const caseFin: Case = emplacementMot.obtenirCaseFin();
-        let motAVerifier = '';
-        const casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
-            emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-
-        for (const caseCourante of casesEmplacementMot) {
-            motAVerifier += caseCourante.obtenirLettre();
-        }
-        gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid());
-        assert(!gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
-        done();
-
+        generateurDeGrilleService.genererGrille(Niveau.difficile).then((grilleDepart) => {
+            guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+            const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
+            const emplacementMot: EmplacementMot = emplacementsMot[0];
+            const caseDebut: Case = emplacementMot.obtenirCaseDebut();
+            const caseFin: Case = emplacementMot.obtenirCaseFin();
+            let motAVerifier = '';
+            const casesEmplacementMot: Case[] = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+                emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
+            for (const caseCourante of casesEmplacementMot) {
+                motAVerifier += caseCourante.obtenirLettre();
+            }
+            gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid());
+            assert(!gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
+            done();
+        });
     }).timeout(maxDelaiRetourRequeteMS);
 
 
@@ -163,41 +158,36 @@ describe('GestionnaireDePartieService', () => {
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
+        generateurDeGrilleService.genererGrille(Niveau.difficile).then((grilleDepart) => {
+            guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+            const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
+            let casesEmplacementMot: Case[];
+            let emplacementMot: EmplacementMot;
+            let caseDebut: Case;
+            let caseFin: Case;
+            let longueurMot: number;
+            let motAVerifier = '';
+            // Le « -1 » est pour qu'il ne manque qu'un mot à trouver.
+            for (let i = 0; i < (emplacementsMot.length - 1); i++) {
+                motAVerifier = '';
+                emplacementMot = emplacementsMot[i];
+                caseDebut = emplacementMot.obtenirCaseDebut();
+                caseFin = emplacementMot.obtenirCaseFin();
+                longueurMot = emplacementMot.obtenirGrandeur();
+                casesEmplacementMot = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+                    emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
 
-        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-        const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
+                for (const caseCourante of casesEmplacementMot) {
+                    motAVerifier += caseCourante.obtenirLettre();
+                }
 
-        let casesEmplacementMot: Case[];
-        let emplacementMot: EmplacementMot;
-        let caseDebut: Case;
-        let caseFin: Case;
-        let longueurMot: number;
-        let motAVerifier = '';
+                assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
 
-        // Le « -1 » est pour qu'il ne manque qu'un mot à trouver.
-        for (let i = 0; i < (emplacementsMot.length - 1); i++) {
-            motAVerifier = '';
-            emplacementMot = emplacementsMot[i];
-            caseDebut = emplacementMot.obtenirCaseDebut();
-            caseFin = emplacementMot.obtenirCaseFin();
-            longueurMot = emplacementMot.obtenirGrandeur();
-
-            casesEmplacementMot = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
-                emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-
-            for (const caseCourante of casesEmplacementMot) {
-                motAVerifier += caseCourante.obtenirLettre();
             }
+            assert(!gestionniareDePartieService.voirSiPartieTermine(guidPartie));
 
-            assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
-
-        }
-
-        assert(!gestionniareDePartieService.voirSiPartieTermine(guidPartie));
-
-        done();
-
+            done();
+        });
     }).timeout(maxDelaiRetourRequeteMS);
 
     it('Une partie solo en cours se termine lorsque tous les mots sont trouvés.', (done) => {
@@ -206,40 +196,31 @@ describe('GestionnaireDePartieService', () => {
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
-
-        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-        const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
-
-        let casesEmplacementMot: Case[];
-        let emplacementMot: EmplacementMot;
-        let caseDebut: Case;
-        let caseFin: Case;
-        let longueurMot: number;
-        let motAVerifier = '';
-
-        for (let i = 0; i < (emplacementsMot.length); i++) {
-            motAVerifier = '';
-            emplacementMot = emplacementsMot[i];
-            caseDebut = emplacementMot.obtenirCaseDebut();
-            caseFin = emplacementMot.obtenirCaseFin();
-            longueurMot = emplacementMot.obtenirGrandeur();
-
-            casesEmplacementMot = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
-                emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-
-            for (const caseCourante of casesEmplacementMot) {
-                motAVerifier += caseCourante.obtenirLettre();
+        generateurDeGrilleService.genererGrille(Niveau.difficile).then((grilleDepart) => {
+            guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+            const emplacementsMot: EmplacementMot[] = grilleDepart.obtenirEmplacementsMot();
+            let casesEmplacementMot: Case[];
+            let emplacementMot: EmplacementMot;
+            let caseDebut: Case;
+            let caseFin: Case;
+            let longueurMot: number;
+            let motAVerifier = '';
+            for (let i = 0; i < (emplacementsMot.length); i++) {
+                motAVerifier = '';
+                emplacementMot = emplacementsMot[i];
+                caseDebut = emplacementMot.obtenirCaseDebut();
+                caseFin = emplacementMot.obtenirCaseFin();
+                longueurMot = emplacementMot.obtenirGrandeur();
+                casesEmplacementMot = grilleDepart.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
+                    emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
+                for (const caseCourante of casesEmplacementMot) {
+                    motAVerifier += caseCourante.obtenirLettre();
+                }
+                assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
             }
-
-            assert(gestionniareDePartieService.estLeMot(caseDebut, caseFin, motAVerifier, guidPartie, joueur.obtenirGuid()));
-
-        }
-
-        assert(gestionniareDePartieService.voirSiPartieTermine(guidPartie));
-
-        done();
-
+            assert(gestionniareDePartieService.voirSiPartieTermine(guidPartie));
+            done();
+        });
     }).timeout(maxDelaiRetourRequeteMS);
 
     it('Il est possible d\'obtenir les parties en cours', () => {
@@ -248,16 +229,12 @@ describe('GestionnaireDePartieService', () => {
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionniareDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         let guidPartie = '';
-        const grilleDepart: Grille = generateurDeGrilleService.genererGrille(Niveau.difficile);
-
-        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-        guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
-
-        gestionniareDePartieService.obtenirPartieEnCours(guidPartie).demarrerPartie();
-
-        assert(gestionniareDePartieService.obtenirPartiesEnAttente().length === 2);
+        generateurDeGrilleService.genererGrille(Niveau.difficile).then((grilleDepart) => {
+            guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+            guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+            guidPartie = gestionniareDePartieService.creerPartie(joueur, typePartie, grilleDepart, Niveau.facile);
+            gestionniareDePartieService.obtenirPartieEnCours(guidPartie).demarrerPartie();
+            assert(gestionniareDePartieService.obtenirPartiesEnAttente().length === 2);
+        });
     });
-
-
 });

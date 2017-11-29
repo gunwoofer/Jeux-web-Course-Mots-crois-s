@@ -1,35 +1,35 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { Voiture } from './../voiture/Voiture';
+import * as THREE from 'three';
 
-
+export enum TypeElementPiste {
+    Accelerateur,
+    FlaqueDEau,
+    NidDePoule
+}
 
 export abstract class ElementDePiste {
-    private x: number;
-    private y: number;
-    private z: number;
-    private geometrie: THREE.Geometry;
-    private materiel: THREE.Material;
-    private mesh: THREE.Mesh;
+    protected position: THREE.Vector3;
+    protected mesh: THREE.Mesh;
+    protected deplacementService: DeplacementService;
+    public raycaster: THREE.Raycaster;
+    public antirebond;
 
-
-    constructor(x: number, y: number, z: number) {
-        this.x = x;
-        this.y = y;
-        this.z = z;
+    constructor() {
+        this.antirebond = false;
+        this.deplacementService = new DeplacementService();
     }
 
-    public abstract effetSurObstacle(): void;
+
+    public abstract effetSurObstacle(voiture: Voiture): void;
+
+    public genererRayCaster(vecteur: THREE.Vector3): void {
+        const positionFlaqueDEau = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
+        this.raycaster = new THREE.Raycaster(positionFlaqueDEau, vecteur);
+    }
 
     public obtenirMesh(): THREE.Mesh {
         return this.mesh;
     }
 
-    public genererPositionAleatoire(listeSegments: THREE.Mesh[]): THREE.Vector3 {
-        // Prendre aleatoirement des segments
-        // Pour chaque segment aleatoirement choisi faire :
-        // this.genererPointAleatoireSegment(segmentaleatoire);
-        return;
-    }
-
-    private genererPointAleatoireSegment(segment: THREE.Mesh): THREE.Vector3 {
-        return;
-    }
 }

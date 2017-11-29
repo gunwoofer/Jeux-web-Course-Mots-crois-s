@@ -2,183 +2,54 @@ import { FabriqueDeGrille } from './FabriqueDeGrille';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
-import { grandeurMotMinimum } from './GenerateurDeGrilleService';
 import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
 import { Position } from '../../commun/Position';
 import { MotsComplet } from './MotsComplet';
-import { EtatGrille } from './EtatGrille';
+import { EmplacementsMots } from '../../commun/EmplacementsMots';
+
 export const DIMENSION_LIGNE_COLONNE = 10;
-export const contientDejaLeMot = 'Deja le mot';
+
 export class Grille {
     public mots: MotComplet[] = new Array();
     public motsComplet: MotsComplet = new MotsComplet();
     public emplacementMots: EmplacementMot[] = new Array();
+    public emplacementsMots: EmplacementsMots = new EmplacementsMots();
     public cases: Cases = new Cases();
-    private etat: EtatGrille;
-    private niveau: Niveau;
+    public niveau: Niveau;
     private nombreMotsSurLigne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
     private nombreMotsSurColonne: number[] = new Array(DIMENSION_LIGNE_COLONNE);
 
     public constructor(niveau: Niveau, etatCaseInitial: EtatCase = EtatCase.noir) {
         this.niveau = niveau;
+
+        this.viderGrille(etatCaseInitial);
+    }
+
+    private viderGrille(etatCaseInitial: EtatCase): void {
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             this.nombreMotsSurLigne[i] = 0;
 
             for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                const caseBlanche = new Case(i, j, etatCaseInitial);
+                const caseNoir = new Case(i, j, etatCaseInitial);
                 this.nombreMotsSurColonne[j] = 0;
-                this.cases.ajouterCase(caseBlanche, i, j);
+                this.cases.ajouterCase(caseNoir, i, j);
             }
         }
-    }
-
-    public obtenirManipulateurCases(): Cases {
-        return this.cases;
     }
 
     public obtenirManipulateurCasesSansLettres(): Cases {
-
         const stringigfyGrille = JSON.stringify(this);
         const grilleCopier: Grille = FabriqueDeGrille.creerInstanceAvecJSON(stringigfyGrille);
 
-        for (const ligneCourante of grilleCopier.cases.obtenirCases()) {
-            for (const caseCourante of ligneCourante) {
-                if (caseCourante.obtenirLettre() !== '') {
-                    caseCourante.remplirCase('');
-                }
-            }
-        }
+        grilleCopier.cases.viderCases();
 
         return grilleCopier.cases;
     }
 
-    public obtenirNiveau(): Niveau {
-        return this.niveau;
-    }
-
-    public estComplete(): boolean {
-        for (let i = 0; i < 10; i++) {
-            if (((this.obtenirNombreMotsSurLigne(i) !== 1) && (this.obtenirNombreMotsSurLigne(i) !== 2))
-                || ((this.obtenirNombreMotsSurColonne(i) !== 1) && (this.obtenirNombreMotsSurColonne(i) !== 2))) {
-                return false;
-            }
-        }
-        this.etat = EtatGrille.complet;
-        return true;
-    }
-
-    public validerMot(): boolean {
-        return true;
-    }
-
-    public obtenirCases(): Case[][] {
-        return this.cases.obtenirCases();
-    }
-
-    public obtenirCase(numeroLigne: number, numeroColonne: number): Case {
-        if (numeroLigne < 0 || numeroColonne < 0 || numeroLigne >= DIMENSION_LIGNE_COLONNE || numeroColonne >= DIMENSION_LIGNE_COLONNE) {
-            return null;
-        }
-        return this.cases.obtenirCase(numeroLigne, numeroColonne);
-    }
-
-    public obtenirMot(): MotComplet[] {
-        return this.mots;
-    }
-
-    public obtenirMotParticulier(i: number) {
-        return this.mots[i];
-    }
-
-    public changerEtatCase(etatCase: EtatCase, numeroLigne: number, numeroColonne: number): void {
-
-        this.cases.changerEtatCase(etatCase, numeroLigne, numeroColonne);
-
-    }
-
     public genererEmplacementsMot() {
-        this.genererEmplacementsMotLigne();
-        this.genererEmplacementsMotColonne();
-    }
-
-    public estEgale(emplacement1: EmplacementMot, emplacement2: EmplacementMot): boolean {
-        const casesEmplacementMot1: Case[] = this.obtenirCasesSelonCaseDebut(emplacement1.obtenirCaseDebut(),
-            emplacement1.obtenirPosition(), emplacement1.obtenirGrandeur());
-        const casesEmplacementMot2: Case[] = this.obtenirCasesSelonCaseDebut(emplacement1.obtenirCaseDebut(),
-            emplacement1.obtenirPosition(), emplacement1.obtenirGrandeur());
-        if (emplacement1.obtenirGrandeur() !== emplacement2.obtenirGrandeur()) {
-            return false;
-        }
-        for (let i = 0; i < emplacement2.obtenirGrandeur(); i++) {
-            if ((casesEmplacementMot2[i].obtenirNumeroLigne() !== casesEmplacementMot1[i].obtenirNumeroLigne())
-                || (casesEmplacementMot2[i].obtenirNumeroColonne() !== casesEmplacementMot1[i].obtenirNumeroColonne())) {
-                return false;
-            }
-        }
-        return true;
-    }
-
-    private genererEmplacementsMotLigne(): void {
-        let caseCourante: Case;
-        let caseDebut: Case;
-        let caseFin: Case;
-        let casesEmplacementMot: Case[] = new Array();
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                caseCourante = this.cases.obtenirCase(i, j).copieCase();
-                if ((caseCourante.obtenirEtat() === EtatCase.vide) && caseDebut === undefined) {
-                    caseDebut = caseCourante.copieCase();
-                }
-                if (caseDebut !== undefined) {
-                    casesEmplacementMot.push(caseCourante);
-                }
-                if (((j + 1 < DIMENSION_LIGNE_COLONNE) && (this.cases.obtenirCase(i, j + 1).obtenirEtat() !== EtatCase.vide)) ||
-                    (j + 1 === DIMENSION_LIGNE_COLONNE)) {
-                    caseFin = caseCourante.copieCase();
-
-                    if (casesEmplacementMot.length >= grandeurMotMinimum) {
-                        this.emplacementMots.push(new EmplacementMot(caseDebut, caseFin));
-                    }
-                    caseFin = undefined;
-                    caseDebut = undefined;
-                    casesEmplacementMot = new Array();
-                    j++;
-                }
-
-            }
-        }
-    }
-
-    private genererEmplacementsMotColonne(): void {
-        let caseCourante: Case;
-        let caseDebut: Case;
-        let caseFin: Case;
-        let casesEmplacementMot: Case[] = new Array();
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                caseCourante = this.cases.obtenirCase(j, i);
-                if ((caseCourante.obtenirEtat() === EtatCase.vide) && caseDebut === undefined) {
-                    caseDebut = caseCourante;
-                    casesEmplacementMot.push(caseDebut);
-                } else if (caseDebut !== undefined) {
-                    casesEmplacementMot.push(caseCourante);
-                }
-                if ((j + 1 < DIMENSION_LIGNE_COLONNE) && (this.cases.obtenirCase(j + 1, i).obtenirEtat() !== EtatCase.vide) ||
-                    (j + 1 === DIMENSION_LIGNE_COLONNE)) {
-                    caseFin = caseCourante;
-
-                    if (casesEmplacementMot.length >= grandeurMotMinimum) {
-                        this.emplacementMots.push(new EmplacementMot(caseDebut, caseFin));
-                    }
-                    caseFin = undefined;
-                    caseDebut = undefined;
-                    casesEmplacementMot = new Array();
-                    j++;
-                }
-
-            }
-        }
+        this.emplacementsMots.genererEmplacementsSelonPosition(this.cases, Position.Ligne);
+        this.emplacementsMots.genererEmplacementsSelonPosition(this.cases, Position.Colonne);
     }
 
     public ajouterMotEmplacement(mot: MotComplet, emplacement: EmplacementMot): void {
@@ -190,7 +61,7 @@ export class Grille {
         const numeroColonneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroColonne();
         const numeroColonneFin: number = emplacement.obtenirCaseFin().obtenirNumeroColonne();
         const casesEmplacementMot: Case[] = this.obtenirCasesSelonCaseDebut(emplacement.obtenirCaseDebut(),
-            emplacement.obtenirPosition(), emplacement.obtenirGrandeur());
+                                                                            emplacement.obtenirPosition(), emplacement.obtenirGrandeur());
 
         for (const caseCourante of casesEmplacementMot) {
             const ligne: number = caseCourante.obtenirNumeroLigne();
@@ -238,32 +109,21 @@ export class Grille {
         }
     }
 
-    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
-        return this.cases.obtenirCaseSelonPosition(position, indexFixe, index);
-    }
-
     public obtenirNombreMotsSurLigne(ligne: number): number {
-
-        if (ligne >= DIMENSION_LIGNE_COLONNE) {
-            return -1;
-        }
         return this.nombreMotsSurLigne[ligne];
     }
 
     public obtenirNombreMotsSurColonne(ligne: number): number {
-
-        if (ligne >= DIMENSION_LIGNE_COLONNE) {
-            return -1;
-        }
         return this.nombreMotsSurColonne[ligne];
     }
 
     public obtenirEmplacementsMot(): EmplacementMot[] {
-        return this.emplacementMots;
+        return this.emplacementsMots.emplacementMots;
     }
 
     public modifierEmplacementsMot(emplacementsMot: EmplacementMot[]) {
         this.emplacementMots = emplacementsMot;
+        this.emplacementsMots.emplacementMots = emplacementsMot;
     }
 
     public dansLaLimiteDuMot(caseCourante: number, debutNumeroColonne: number, finNumeroColonne: number): boolean {
@@ -273,86 +133,11 @@ export class Grille {
         return false;
     }
 
-    public obtenirLongueurCases(): number {
-        return DIMENSION_LIGNE_COLONNE;
-    }
-
-    public obtenirHauteurCases(): number {
-        let nbrCasesY = 0;
-        for (const casesDeLaLigne of this.cases.obtenirCases()) {
-            if (nbrCasesY !== 0 && nbrCasesY !== casesDeLaLigne.length) {
-                return -1;
-            }
-            nbrCasesY = casesDeLaLigne.length;
-        }
-        return nbrCasesY;
-    }
-
-    public verifierMot(motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
-        let casesEmplacementMot: Case[] = new Array();
-        for (const emplacementMot of this.emplacementMots) {
-            casesEmplacementMot = this.cases.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
-                emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-            if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin) &&
-                this.cases.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
-                emplacementMot.estTrouve();
-                return true;
-            }
-        }
-        return false;
-    }
-
     public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
         return this.cases.obtenirCasesSelonCaseDebut(caseDebut, direction, grandeur);
     }
 
-    public obtenirEmplacementMot(caseDebut: Case, caseFin: Case): EmplacementMot {
-        for (const emplacementMot of this.emplacementMots) {
-            if (this.estLeBonEmplacementMot(emplacementMot, caseDebut, caseFin)) {
-                return emplacementMot;
-            }
-        }
-        return undefined;
-    }
-
-    public ObtenirEmplacementMotSelonEmplacementMot(emplacementMot: EmplacementMot) {
-        for (const emplacement of this.emplacementMots) {
-            if (emplacement.estPareilQue(emplacementMot)) {
-                return emplacement;
-            }
-        }
-    }
-
-    private estLeBonEmplacementMot(emplacementMot: EmplacementMot, caseDebut: Case, caseFin: Case): boolean {
-        if ((emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
-        && (emplacementMot.obtenirCaseFin().obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())) {
-            if ((emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())
-            && (emplacementMot.obtenirCaseFin().obtenirNumeroColonne() === caseFin.obtenirNumeroColonne())) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public calculerPointsContraintes(): void {
-        let caseCourante: Case;
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                caseCourante = this.obtenirCase(i, j);
-                caseCourante.remettrePointsContraintesAZero();
-                this.cases.calculerPointsContraintesDeLaCase(caseCourante,
-                    caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne());
-            }
-        }
-    }
-
-    public emplacementsHorizontaux(): EmplacementMot[] {
-        const emplacementsHorizontaux: EmplacementMot[] = new Array();
-        for (let i = 0; i < this.emplacementMots.length; i++) {
-            if (this.emplacementMots[i].estHorizontal()) {
-                emplacementsHorizontaux.push(this.emplacementMots[i]);
-            }
-        }
-        return emplacementsHorizontaux;
+    public verifierMot(motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
+        return this.emplacementsMots.verifierMot(this.cases, motAVerifier, caseDebut, caseFin);
     }
 }

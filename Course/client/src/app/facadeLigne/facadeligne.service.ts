@@ -1,15 +1,16 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
+import { POINTS_MAXIMUM } from './../constant';
+
 @Injectable()
 
 export class FacadeLigneService {
-    private POINTS_MAXIMUM = 1000;
 
     public creerLignePoints(): THREE.Line {
         const geometrie = new THREE.BufferGeometry();
-        const positions = new Float32Array(this.POINTS_MAXIMUM * 3);
-        const colors = new Float32Array(this.POINTS_MAXIMUM * 3);
+        const positions = new Float32Array(POINTS_MAXIMUM * 3);
+        const colors = new Float32Array(POINTS_MAXIMUM * 3);
         geometrie.addAttribute('position', new THREE.BufferAttribute(positions, 3));
         geometrie.addAttribute('color', new THREE.BufferAttribute(colors, 3));
         geometrie.setDrawRange(0, 0);

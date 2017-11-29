@@ -1,5 +1,7 @@
 import { Case, EtatCase } from './Case';
 import { Position } from './Position';
+import { Grille } from '../server/app/Grille';
+import { TAILLE_GRILLE } from './constantes/GrilleConstantes';
 
 export enum EtatEmplacementMot {
     Masque,
@@ -158,5 +160,15 @@ export class EmplacementMot {
         
         return false;
     } 
-
+    
+    public estLeBonEmplacementMot(caseDebut: Case, caseFin: Case): boolean {
+        if ((this.obtenirCaseDebut().obtenirNumeroLigne() === caseDebut.obtenirNumeroLigne())
+        && (this.obtenirCaseFin().obtenirNumeroLigne() === caseFin.obtenirNumeroLigne())) {
+            if ((this.obtenirCaseDebut().obtenirNumeroColonne() === caseDebut.obtenirNumeroColonne())
+            && (this.obtenirCaseFin().obtenirNumeroColonne() === caseFin.obtenirNumeroColonne())) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

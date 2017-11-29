@@ -1,8 +1,6 @@
+import { DISTANCE_POSITIONNEMENT_PARALLELE, DISTANCE_POSITIONNEMENT_ORTHOGONALE } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-
-export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
-export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
 
 @Injectable()
 export class PlacementService {
