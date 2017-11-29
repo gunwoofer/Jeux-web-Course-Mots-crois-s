@@ -15,15 +15,28 @@ describe('GenerateurDeGrilleService', () => {
         this.timeout(30000);
     });
 
-    it('Chaque ligne et colonne contient un ou deux mots ecrits de gauche a droite et de haut en bas.', () => {
+    it('Chaque ligne et colonne contient un ou deux mots ecrits de gauche à droite et de haut en bas.', () => {
         for (let i = 0; i < 10; i++) {
             assert((grille.obtenirNombreMotsSurLigne(i) === 1) || (grille.obtenirNombreMotsSurLigne(i) === 2));
             assert((grille.obtenirNombreMotsSurColonne(i) === 1) || (grille.obtenirNombreMotsSurColonne(i) === 2));
         }
     });
 
-    it('Une grille ne dois pas contenir deux fois le même mot.', () => {
-        assert(!grille.motsComplet.contientMotDuplique());
+    it('Une grille ne doit pas contenir deux fois le même mot.', () => {
+        const mots = grille.mots;
+        let estGrilleValide = true;
+        for (const motAChercher of mots) {
+            let nMotSimilaire = 0;
+            for (const motCourant of mots) {
+                if (motAChercher.obtenirLettres() === motCourant.obtenirLettres()) {
+                    nMotSimilaire++;
+                }
+                if (nMotSimilaire > 1) {
+                    estGrilleValide = false;
+                }
+            }
+        }
+        assert(estGrilleValide);
     });
 
     it('Les accents, tremas et cedilles sont ignores.', () => {
