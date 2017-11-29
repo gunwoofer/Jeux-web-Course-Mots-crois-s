@@ -1,3 +1,6 @@
+import { Accelerateur } from './../elementsPiste/Accelerateur';
+import { NidDePoule } from './../elementsPiste/NidDePoule';
+import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
 import { PointDeControle } from './../piste/pointDeControle.model';
 import { Rendu } from './renduObject';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
@@ -83,8 +86,7 @@ export class GenerateurPisteService implements Observateur {
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
         this.ajoutPisteAuPlan();
-        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste),
-                                                        this.deplacementService);
+        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
         this.ajoutZoneDepart();
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
@@ -102,7 +104,19 @@ export class GenerateurPisteService implements Observateur {
 
     public ajouterElementDePisteScene(): void {
         for (const element of this.piste.obtenirElementsPiste()) {
-            this.scene.add(element.obtenirMesh());
+            if (element instanceof FlaqueDEau) {
+                element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
+                this.scene.add(element.obtenirMesh());
+              } else if (element instanceof NidDePoule) {
+                element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
+                this.scene.add(element.obtenirMesh());
+              } else if (element instanceof Accelerateur) {
+                element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
+                this.scene.add(element.obtenirMesh());
+              }
         }
     }
 

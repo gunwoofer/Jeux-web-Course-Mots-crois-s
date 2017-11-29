@@ -23,7 +23,7 @@ export class ListePisteComponent implements OnInit {
     if (this.utilisateurService.isAdmin) {
       this.estUnAdmin = true;
     }
-    this.pisteService.retournerListePiste().then((pistes: Piste[]) => this.listePistes = pistes);
+    this.pisteService.retournerListePiste().then((pistes: Piste[]) => {this.listePistes = pistes; console.log(pistes); });
     if (!this.musiqueService.musique.thematique) {
       this.musiqueService.musique.arreterMusique();
       this.musiqueService.musique.lancerMusiqueThematique();

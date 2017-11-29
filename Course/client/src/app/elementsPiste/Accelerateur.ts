@@ -1,18 +1,22 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
-import { ElementDePiste } from './ElementDePiste';
+import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 
 export class Accelerateur extends ElementDePiste {
 
-    constructor(position: THREE.Vector3) {
+    constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
-        this.position = position;
-        this.mesh = this.genererMesh();
-        this.mesh.position.set(this.position.x, this.position.y, this.position.z);
-
+        this.typeElementDePiste = TypeElementPiste.Accelerateur;
+        if (position) {
+            this.position = position;
+        } else {
+            this.position = this.genererPositionAleatoire(listePosition, true);
+        }
     }
 
-    private genererMesh(): THREE.Mesh {
+
+    public genererMesh(): void {
         const accelerateurGeometrie = new THREE.PlaneGeometry(3, 2);
         const materiel = new THREE.MeshPhongMaterial();
         const loader = new THREE.TextureLoader();
@@ -25,11 +29,11 @@ export class Accelerateur extends ElementDePiste {
             materiel.needsUpdate = true;
         });
         const mesh = new THREE.Mesh(accelerateurGeometrie, materiel);
-        return mesh;
+        this.mesh = mesh;
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        this.deplacementService.augmenterVitesseAccelerateur(voiture);
+        DeplacementService.augmenterVitesseAccelerateur(voiture);
     }
 
 }

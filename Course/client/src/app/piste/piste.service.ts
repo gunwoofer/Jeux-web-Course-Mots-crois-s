@@ -1,3 +1,4 @@
+import { FabriquantElementDePiste } from './../elementsPiste/FabriquantElementDePiste';
 import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
 import { RatingService } from './../rating/rating.service';
 import { Http, Response } from '@angular/http';
@@ -7,6 +8,7 @@ import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
 import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
+import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 @Injectable()
 
@@ -43,9 +45,20 @@ export class PisteService {
                 const pistes = response.json().obj;
                 const pisteTemporaire: Piste[] = [];
                 for (const piste of pistes) {
-                    const pist = new Piste(piste.nom, piste.typeCourse, piste.description, piste.listepositions, piste._id);
+                    const listeElements: ElementDePiste[] = new Array();
+                    for (let i = 0; i < piste.listeElementsDePiste.length; i++) {
+                        listeElements.push(FabriquantElementDePiste.rehydrater(piste.listeElementsDePiste[i], piste.listepositions));
+                    }
+                    const pist = new Piste(piste.nom,
+                        piste.typeCourse,
+                        piste.description,
+                        piste.listepositions,
+                        listeElements,
+                        piste._id);
                     pist.modifieAttribut(piste.coteAppreciation, piste.nombreFoisJouee, piste.meilleursTemps, piste.vignette);
                     pist.calculerLaMoyenneDeVotes(piste.coteAppreciation);
+                    const elementDePiste = pist.listeElementsDePiste;
+                    console.log(elementDePiste);
                     pisteTemporaire.push(pist);
                 }
                 this.pistes = pisteTemporaire;

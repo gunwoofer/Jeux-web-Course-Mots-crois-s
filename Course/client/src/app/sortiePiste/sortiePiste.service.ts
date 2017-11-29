@@ -12,7 +12,7 @@ export class SortiePisteService {
     private estSurPiste: boolean;
     private segmentOuReapparaitre: THREE.Mesh;
 
-    constructor(piste: THREE.Mesh[], private deplacementService: DeplacementService) {
+    constructor(piste: THREE.Mesh[]) {
         this.listeSegments = piste;
     }
 
@@ -20,7 +20,7 @@ export class SortiePisteService {
         this.estSurLaPiste(voiture.obtenirVoiture3D());
         if (!this.estSurPiste) {
             this.ramenerVoitureDernierSegment(voiture);
-            this.deplacementService.reduireVitesseSortiePiste(voiture);
+            DeplacementService.reduireVitesseSortiePiste(voiture);
         }
     }
 

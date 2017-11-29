@@ -1,22 +1,27 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
-import { ElementDePiste } from './ElementDePiste';
+import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 
 export class FlaqueDEau extends ElementDePiste {
 
-    constructor(position: THREE.Vector3) {
+    constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
-        this.position = position;
-        this.mesh = this.genererMesh();
-        this.mesh.position.set(this.position.x, this.position.y, this.position.z);
+        this.typeElementDePiste = TypeElementPiste.FlaqueDEau;
+        if (position) {
+            this.position = position;
+        } else {
+            this.position = this.genererPositionAleatoire(listePosition, true);
+        }
     }
 
-    private genererMesh(): THREE.Mesh {
+    public genererMesh(): void {
         const flaqueDEauGeometrie = new THREE.CircleGeometry(2, 7);
         const materiel = new THREE.MeshPhongMaterial({ color: 0x0000ff });
         const mesh = new THREE.Mesh(flaqueDEauGeometrie, materiel);
-        return mesh;
+        this.mesh = mesh;
     }
+
 
 
     // 4: arriere gauche 82: avant gauche
@@ -30,6 +35,6 @@ export class FlaqueDEau extends ElementDePiste {
             vecteurAvantGauche.y - vecteurArriereGauche.y,
             0
         );
-        this.deplacementService.aquaPlannageFlaqueDEau(voiture, vecteurVoiture);
+        DeplacementService.aquaPlannageFlaqueDEau(voiture, vecteurVoiture);
     }
 }

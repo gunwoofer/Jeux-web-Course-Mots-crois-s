@@ -16,9 +16,60 @@ export class DeplacementService {
         this.aDroite = false;
     }
 
+    private static effetAquaplannage(voiture: Voiture, coteAleatoire: number): void {
+        voiture.voiture3D.position.x += voiture.vecteurVoiture.x * voiture.vitesse;
+        voiture.voiture3D.position.y += voiture.vecteurVoiture.y * voiture.vitesse;
+        voiture.voiture3D.rotateY(voiture.vitesse * - coteAleatoire * 0.10);
+    }
+
+    public static reduireVitesseSortiePiste(voiture: Voiture): void {
+        voiture.vitesse /= REDUCTION_VITESSE_SORTIE_PISTE;
+    }
+
+    public static reduireVitesseNidDePoule(voiture: Voiture): void {
+        voiture.vitesse /= REDUCTION_VITESSE_NID_DE_POULE;
+    }
+
+    public static secousseNidDePoule(voiture: Voiture): void {
+        voiture.modeSecousse = true;
+        for (let i = 0; i < NOMBRE_SECOUSSES_NID_DE_POULE; i++) {
+            setTimeout(() => {
+                this.secousseAlternative(i, voiture);
+            }, i * 100);
+        }
+        setTimeout(() => {
+            voiture.modeSecousse = false;
+        }, NOMBRE_SECOUSSES_NID_DE_POULE * 100);
+    }
+
+    private static secousseAlternative(i: number, voiture: Voiture): void {
+        if (i % 2 === 0) {
+            voiture.obtenirVoiture3D().rotateX(0.2);
+        } else {
+            voiture.obtenirVoiture3D().rotateX(-0.2);
+        }
+    }
+
+    public static augmenterVitesseAccelerateur(voiture: Voiture): void {
+        voiture.modeAccelerateur = true;
+        setTimeout(() => {
+            voiture.modeAccelerateur = false;
+            voiture.vitesse = VITESSE_MAX;
+        }, DUREE_ACCELERATEUR);
+    }
+
+    public static aquaPlannageFlaqueDEau(voiture: Voiture, vecteurVoiture: THREE.Vector3): void {
+        voiture.vecteurVoiture = vecteurVoiture.normalize();
+        voiture.coteAleatoireAquaplannage = (Math.random() < 0.5) ? -1 : 1;
+        voiture.modeAquaplannage = true;
+        setTimeout(() => {
+            voiture.modeAquaplannage = false;
+        }, 200);
+    }
+
     public moteurDeplacement(voiture: Voiture): void {
         if (voiture.modeAquaplannage) {
-            this.effetAquaplannage(voiture, voiture.coteAleatoireAquaplannage);
+            DeplacementService.effetAquaplannage(voiture, voiture.coteAleatoireAquaplannage);
         } else {
             if (this.enAvant || voiture.modeAccelerateur) {
                 this.avancer(voiture);
@@ -65,56 +116,6 @@ export class DeplacementService {
         voiture.voiture3D.rotateY(-ROTATION);
     }
 
-    private effetAquaplannage(voiture: Voiture, coteAleatoire: number): void {
-        voiture.voiture3D.position.x += voiture.vecteurVoiture.x * voiture.vitesse;
-        voiture.voiture3D.position.y += voiture.vecteurVoiture.y * voiture.vitesse;
-        voiture.voiture3D.rotateY(voiture.vitesse * - coteAleatoire * 0.10);
-    }
-
-    public reduireVitesseSortiePiste(voiture: Voiture): void {
-        voiture.vitesse /= REDUCTION_VITESSE_SORTIE_PISTE;
-    }
-
-    public reduireVitesseNidDePoule(voiture: Voiture): void {
-        voiture.vitesse /= REDUCTION_VITESSE_NID_DE_POULE;
-    }
-
-    public secousseNidDePoule(voiture: Voiture): void {
-        voiture.modeSecousse = true;
-        for (let i = 0; i < NOMBRE_SECOUSSES_NID_DE_POULE; i++) {
-            setTimeout(() => {
-                this.secousseAlternative(i, voiture);
-            }, i * 100);
-        }
-        setTimeout(() => {
-            voiture.modeSecousse = false;
-        }, NOMBRE_SECOUSSES_NID_DE_POULE * 100);
-    }
-
-    private secousseAlternative(i: number, voiture: Voiture): void {
-        if (i % 2 === 0) {
-            voiture.obtenirVoiture3D().rotateX(0.2);
-        } else {
-            voiture.obtenirVoiture3D().rotateX(-0.2);
-        }
-    }
-
-    public augmenterVitesseAccelerateur(voiture: Voiture): void {
-        voiture.modeAccelerateur = true;
-        setTimeout(() => {
-            voiture.modeAccelerateur = false;
-            voiture.vitesse = VITESSE_MAX;
-        }, DUREE_ACCELERATEUR);
-    }
-
-    public aquaPlannageFlaqueDEau(voiture: Voiture, vecteurVoiture: THREE.Vector3): void {
-        voiture.vecteurVoiture = vecteurVoiture.normalize();
-        voiture.coteAleatoireAquaplannage = (Math.random() < 0.5) ? -1 : 1;
-        voiture.modeAquaplannage = true;
-        setTimeout(() => {
-            voiture.modeAquaplannage = false;
-        }, 200);
-    }
 
     public touchePesee(event): void {
         if (event.key === AVANCER) { this.enAvant = true; }
