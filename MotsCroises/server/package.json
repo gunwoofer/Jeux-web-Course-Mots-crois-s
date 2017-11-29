@@ -6,7 +6,7 @@
   "scripts": {
     "start": "tsc && concurrently --kill-others \"tsc -w \" \"nodemon out/server/app/www.js\" ",
     "lint": "tslint app/**/*.ts app/*.ts --force -t verbose",
-    "test": "tsc && concurrently \"tsc -w\" \"mocha -r ts-node/register app/*.spec.ts\" ",
+    "test": "tsc && concurrently \"tsc \" \"mocha -r ts-node/register app/*.spec.ts \" ",
     "test-once": "tsc && karma start karma.conf.js --single-run || npm run-script coverage",
     "coverage": "remap-istanbul -i coverage/coverage-final.json -o coverage -t html",
     "tsc": "tsc",

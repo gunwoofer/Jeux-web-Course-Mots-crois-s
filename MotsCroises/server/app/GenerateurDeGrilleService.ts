@@ -149,12 +149,10 @@ export class GenerateurDeGrilleService {
                 grille.ajouterMotEmplacement(mot, emplacement);
             }
         }
-        console.log('Grille terminée !');
         return grille;
     }
 
     public genererGrilleMotSync(niveau: Niveau): Grille {
-        console.log('Debut de la generation de grille...');
         let grille: Grille;
         while (true) {
             const grilleVide = this.generateurDeGrilleVide.genereGrilleVide(niveau);
