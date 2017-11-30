@@ -95,7 +95,7 @@ export class RenderService {
     if (!this.dessinTermine) {
       this.scene.add(point);
     }
-    this.facadeLigne.ajouterPointLine(point.position, this.facadePointService.compteur, this.pointsLine, this.points);
+    this.facadeLigne.ajouterLignePoints(point.position, this.facadePointService.compteur, this.pointsLine, this.points);
     this.points.push(point);
     this.facadePointService.compteur++;
   }
@@ -105,7 +105,7 @@ export class RenderService {
     this.scene.remove(this.points[this.points.length - 1]);
     this.points.pop();
     this.actualiserDonnees();
-    this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
+    this.facadeLigne.retirerAncienlignePoints(this.facadePointService.compteur, this.pointsLine, this.points);
     if (this.facadePointService.compteur >= 1) {
       this.facadePointService.compteur--;
     }
@@ -170,7 +170,7 @@ export class RenderService {
 
   public viderScene(): void {
     for (let i = 0; i < this.points.length; i++) {
-      this.facadeLigne.retirerAncienPointLine(this.facadePointService.compteur, this.pointsLine, this.points);
+      this.facadeLigne.retirerAncienlignePoints(this.facadePointService.compteur, this.pointsLine, this.points);
       this.scene.remove(this.points[i]);
       this.facadePointService.compteur--;
     }
