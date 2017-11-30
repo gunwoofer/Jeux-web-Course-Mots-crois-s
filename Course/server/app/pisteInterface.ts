@@ -6,6 +6,7 @@ export interface Piste {
     nombreFoisJouee: number;
     coteMoyenne: number;
     coteAppreciation: any[];
+    listeElementsDePiste: any[];
     meilleursTemps: any[];
     listepositions: any[];
 }

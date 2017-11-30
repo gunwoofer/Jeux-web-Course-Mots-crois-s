@@ -4,7 +4,6 @@ import { HttpModule } from '@angular/http';
 import { RouterModule } from '@angular/router';
 import { AppComponent } from './app.component';
 
-import { BasicService } from './basic.service';
 import {AppRoutingModule} from './app-routing.module';
 import {GameViewComponent} from './game_view/app.game-view.component';
 import {CanvasViewComponent} from './canvas/app.canvas-view.component';
@@ -37,7 +36,6 @@ import {AttentePartieComponent} from './attente_partie/app.attente-partie.compon
     FormsModule
   ],
   providers: [
-    BasicService,
     GameViewService
   ],
   bootstrap: [AppComponent]

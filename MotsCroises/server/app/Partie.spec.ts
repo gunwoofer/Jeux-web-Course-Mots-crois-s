@@ -1,4 +1,4 @@
-import { assert } from 'chai';
+/*import { assert } from 'chai';
 import { Joueur } from '../../commun/Joueur';
 import { Grille } from './Grille';
 import { GestionnaireDePartieService } from './GestionnaireDePartieService';
@@ -11,7 +11,7 @@ import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 
 const DELAI_MAXIMUM_MILISECONDES = 5 * Math.pow(10, 3);
 
-/*describe('Partie', () => {
+describe('Partie', () => {
     it('Le serveur conserve les mots sélectionnés des joueurs.', () => {
         const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();

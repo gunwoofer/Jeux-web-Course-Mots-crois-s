@@ -8,6 +8,10 @@ export const NOMBRE_SOMMETS_LARGEUR = 300;
 export const NOMBRE_SOMMETS_LONGUEUR = 300;
 export const POSITION_RELIEF_PAR_RAPPORT_Z = -5;
 
+// Mathématique
+export const PI_SUR_4 = 0.785398163;
+export const ANGLE_45 = 'angle45';
+
 // Voiture & Deplacements
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
 export const REDUCTION_VITESSE = 10;
@@ -20,6 +24,8 @@ export const VITESSE_MIN = 0.05;
 export const VITESSE_MODE_ACCELERATEUR = 1.5;
 export const DUREE_ACCELERATEUR = 1500;
 export const NOMBRE_SECOUSSES_NID_DE_POULE = 4;
+export const VOITURE_VECTEUR_AVANT_GAUCHE = 82;
+export const VOITURE_VECTEUR_ARRIERE_GAUCHE = 4;
 
 // Emplacements
 export const FIN_PARTIE_URL = '/resultatPartie';
@@ -29,12 +35,13 @@ export const EMPLACEMENT_MUSIQUE = './../assets/musiques/';
 
 // Temps
 export const DUREE_STINGER_MILISECONDES = 3 * Math.pow(10, 3);
+export const NOMBRE_ARRONDI_DECIMALE = 2;
 
 // Parametres jeu
 export const FPS = 60;
 export const DELTA_ZOOM = .5;
-export const NOMBRE_DE_TOURS_PAR_DEFAULT = 3;
-export const NOMBRE_DE_TOURS_PAR_MINIMAL = 1;
+export const NOMBRE_DE_TOURS_PARTIE_DEFAUT = 3;
+export const NOMBRE_DE_TOURS_PARTIE_MINIMAL = 1;
 export const TABLEAU_POSITION = [[1, 1], [-1, 1], [1, -1], [-1, -1]];
 export const POINTS_MAXIMUM = 1000;
 export const DIFFERENCE_DISTANCE_PARCOURUE_RAISONNABLE = 100;
@@ -71,6 +78,16 @@ export const LUMIERES = [
 export const PHARES = [
     'BrakeLightLS1', 'BrakeLightRS1', 'Lumière Avant Droite', 'Lumière Avant Gauche', 'Phare Droit', 'Phare Gauche'];
 
+// Obstacles
+export const CHEMIN_ACCES_ACCELERATEUR = '../../assets/textures/accelerateur.png';
+export const NIVEAU_CLARETE = 4;
+export const POSITION_OBSTACLE_EN_Z = 0.01;
+export const HEX_BLEU = 0x0000ff;
+export const HEX_NOIR = 0x000000;
+export const RADIAN_FLAQUE_EAU = 2;
+export const SEGMENTS_FLAQUE_EAU = 7;
+export const MAXIMUM_OBSTACLES_PAR_TYPE = 5;
+
 // Divers
 export const FORMAT_MP3 = '.mp3';
 export const DEBUT_STINGER = 8;
@@ -85,5 +102,17 @@ export const REAJUSTEMENT_SKYBOX = 0.2;
 export const DIMENSION_CUBE = 1500;
 export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
 export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
+
+export const URL_INSCRIPTION = 'http://localhost:3000/inscription';
+export const URL_ADMINISTRATION = 'http://localhost:3000/admin';
+export const URL_MOT_DE_PASSSE_OUBLIE = 'http://localhost:3000/motDePasseOublie';
+export const URL_MODIFIER_MOT_DE_PASSE = 'http://localhost:3000/ModifierPass';
+export const MESSAGE_ERREUR = 'Une erreur est arrivé';
+
+
+export const LISTE_PISTE = '/listePiste';
+export const INSCRIPTION = '/inscription';
+export const ADMINISTRATION = '/admin';
+export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
 
 

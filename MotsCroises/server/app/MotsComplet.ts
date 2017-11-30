@@ -20,23 +20,6 @@ export class MotsComplet {
         return tableauIndices;
     }
 
-    public contientMotDuplique(): boolean {
-        for (const motAChercher of this.mots) {
-            let compteur = 0;
-            const lettresAChercher: string = motAChercher.obtenirLettres();
-            for (const motCourant of this.mots) {
-                if (lettresAChercher === motCourant.obtenirLettres()) {
-                    compteur++;
-                }
-                if (compteur > 1) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
     public contientDejaLeMot(mot: MotComplet): boolean {
         for (const motCourant of this.mots) {
             if (motCourant.obtenirLettres() === mot.obtenirLettres()) {

@@ -2,7 +2,7 @@ import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import { FabriquantElementDePiste } from './FabriquantElementDePiste';
 
 export class ElementDePisteComposite {
-    private elementsDePiste: ElementDePiste[] = [];
+    public elementsDePiste: ElementDePiste[] = [];
 
     constructor(elementsDePiste?: ElementDePiste[] ) {
         if (elementsDePiste !== undefined) {
@@ -29,9 +29,8 @@ export class ElementDePisteComposite {
             this.elementsDePiste = new Array();
         } else {
             const elementsASupprime: ElementDePiste[] = [];
+
             for (const elementCourant of this.elementsDePiste) {
-                console.log('ELEMENTS LENGTH DEBUT i : ' + this.elementsDePiste.length);
-                console.log('SPLICE ELEMENT TYPE : ' + type );
                 if (FabriquantElementDePiste.estDeType(type, elementCourant)) {
                     elementsASupprime.push(elementCourant);
                 }
@@ -41,7 +40,6 @@ export class ElementDePisteComposite {
                 for (let noElement = 0; noElement < this.elementsDePiste.length; noElement++) {
                     if (elementCourantASupprime === this.elementsDePiste[noElement]) {
                         this.elementsDePiste.splice(noElement, 1);
-                        console.log('SPLICE : ' + noElement);
                     }
                 }
             }
@@ -65,5 +63,4 @@ export class ElementDePisteComposite {
 
         return compteur;
     }
-
 }

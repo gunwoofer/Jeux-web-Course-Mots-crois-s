@@ -1,5 +1,5 @@
 import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
-import { RechercheMots } from './mots/RechercheMots';
+import { RechercheMots } from './RechercheMots';
 import { EmplacementMot } from './../../commun/EmplacementMot';
 import { Contrainte } from './Contrainte';
 import { EtatCase } from './../../commun/Case';
@@ -31,22 +31,6 @@ export class GenerateurDeGrilleService {
             nEmplacement++;
         }
         return grille;
-    }
-
-    public affichageConsole(grille: Grille): void {
-        for (let i = 0; i < 10; i++) {
-            let ligne: string;
-            ligne = '';
-            for (let j = 0; j < 10; j++) {
-                const caseGrille: Case = grille.cases.obtenirCase(i, j);
-                if (caseGrille.obtenirLettre() === '') {
-                    ligne += '*';
-                } else {
-                    ligne += caseGrille.obtenirLettre();
-                }
-            }
-            console.log(ligne);
-        }
     }
 
     public async obtenirGrillesBase(): Promise<Grille[]> {
@@ -95,25 +79,6 @@ export class GenerateurDeGrilleService {
         return emplacementsTries;
     }
 
-    private async remplirGrille(niveau: Niveau, grille: Grille): Promise<Grille> {
-        const emplacements: EmplacementMot[] = this.trierEmplacements(grille.obtenirEmplacementsMot());
-        for (const emplacement of emplacements) {
-            const tailleMot = emplacement.obtenirGrandeur();
-            const contraintes = this.genererTableauContraintes(grille, emplacement);
-            const chaineMot =  RechercheMots.rechercherMot(tailleMot, contraintes);
-            if (chaineMot === undefined) {
-                return Promise.reject('Mot impossible !');
-            } else {
-                let mot: MotComplet;
-                mot = new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION));
-                grille.ajouterMotEmplacement(mot, emplacement);
-                this.affichageConsole(grille);
-            }
-        }
-        console.log('Grille terminée !');
-        return Promise.resolve(grille);
-    }
-
     private genererTableauContraintes(grille: Grille, emplacement: EmplacementMot): Contrainte[] {
         const tableauContraintes: Contrainte[] = new Array();
         const ligneDepart: number = emplacement.obtenirCaseDebut().obtenirNumeroLigne();
@@ -149,12 +114,10 @@ export class GenerateurDeGrilleService {
                 grille.ajouterMotEmplacement(mot, emplacement);
             }
         }
-        console.log('Grille terminée !');
         return grille;
     }
 
     public genererGrilleMotSync(niveau: Niveau): Grille {
-        console.log('Debut de la generation de grille...');
         let grille: Grille;
         while (true) {
             const grilleVide = this.generateurDeGrilleVide.genereGrilleVide(niveau);

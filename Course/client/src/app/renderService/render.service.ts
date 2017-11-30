@@ -1,11 +1,15 @@
+import { Accelerateur } from './../elementsPiste/Accelerateur';
+import { NidDePoule } from './../elementsPiste/NidDePoule';
+import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
 
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { FacadeLigneService } from './../facadeLigne/facadeligne.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
-import { ContraintesCircuitService } from '../contraintesCircuit/contraintesCircuit.service';
+import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
 import { Piste } from '../piste/piste.model';
+import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 @Injectable()
 export class RenderService {
@@ -17,7 +21,7 @@ export class RenderService {
   public pisteAmodifie: Piste;
   public pointsLine;
   public id;
-  public points = [];
+  public points: any[] = new Array();
   public dessinTermine = false;
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
@@ -25,7 +29,8 @@ export class RenderService {
   public facadePointService = new FacadePointService();
   private facadeCoordonneesService = new FacadeCoordonneesService();
   public facadeLigne = new FacadeLigneService();
-  private contraintesCircuitService = new ContraintesCircuitService();
+  private contraintesCircuit = new ContraintesCircuit();
+  private listePointElementPiste: THREE.Points[] = new Array();
 
   public initialize(container: HTMLDivElement): void {
     this.container = container;
@@ -148,9 +153,9 @@ export class RenderService {
   }
 
   public actualiserContrainte(): void {
-    this.nbSegmentsCroises = this.contraintesCircuitService.nombreLignesCroisees(this.points, this.dessinTermine);
-    this.nbSegmentsTropProche = this.contraintesCircuitService.nombreSegmentsTropCourts(this.points);
-    this.nbAnglesPlusPetit45 = this.contraintesCircuitService.nombreAnglesMoins45(
+    this.nbSegmentsCroises = this.contraintesCircuit.nombreLignesCroisees(this.points, this.dessinTermine);
+    this.nbSegmentsTropProche = this.contraintesCircuit.nombreSegmentsTropCourts(this.points);
+    this.nbAnglesPlusPetit45 = this.contraintesCircuit.nombreAnglesMoins45(
       this.points, this.facadePointService.compteur, this.dessinTermine
     );
   }
@@ -188,6 +193,38 @@ export class RenderService {
       vecteur.push(new THREE.Vector3(point.position.x, point.position.y, point.position.z));
     }
     return vecteur;
+  }
+
+  // public ajouterElementDePiste(position: THREE.Vector3, couleur: string): void {
+  //   const point = this.facadePointService.creerPoint(position, couleur);
+  //   this.scene.add(point);
+  // }
+
+  private viderElementsPiste(): void {
+    for (const point of this.listePointElementPiste) {
+      this.scene.remove(point);
+    }
+  }
+
+  public afficherElementsDePiste(listeElement: ElementDePiste[]): void {
+    this.viderElementsPiste();
+    let couleur: string;
+    let position: THREE.Vector3;
+
+
+    for (let i = 0; i < listeElement.length; i++) {
+      if (listeElement[i] instanceof FlaqueDEau) {
+        couleur = '#ff0000';
+      } else if (listeElement[i] instanceof NidDePoule) {
+        couleur = '#0000ff';
+      } else if (listeElement[i] instanceof Accelerateur) {
+        couleur = '#f9d500';
+      }
+      position = listeElement[i].position;
+      const point = this.facadePointService.creerPoint(position, couleur);
+      this.listePointElementPiste.push(point);
+      this.scene.add(point);
+    }
   }
 
   public dessinerPointDejaConnu(position: THREE.Vector3) {

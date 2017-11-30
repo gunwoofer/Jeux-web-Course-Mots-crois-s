@@ -1,15 +1,15 @@
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import {GestionnaireDePartieService} from './GestionnaireDePartieService';
-import {SpecificationPartie} from '../../commun/SpecificationPartie';
-import {RequisPourMotAVerifier} from '../../commun/requis/RequisPourMotAVerifier';
-import {RequisPourSelectionnerMot} from '../../commun/requis/RequisPourSelectionnerMot';
-import {RequisPourObtenirTempsRestant} from '../../commun/requis/RequisPourObtenirTempsRestant';
-import {DescripteurEvenementTempsReel} from './DescripteurEvenementTempsReel';
-import {RequisPourMotsTrouve} from '../../commun/requis/RequisPourMotsTrouve';
-import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDemandeListePartieEnAttente';
+import { GestionnaireDePartieService } from './GestionnaireDePartieService';
+import { SpecificationPartie } from '../../commun/SpecificationPartie';
+import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
+import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelectionnerMot';
+import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
+import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
+import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
+import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
 import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
-import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
-import {RequisPourModifierTempsRestant} from '../../commun/requis/RequisPourModifierTempsRestant';
+import { RequisPourJoindrePartieMultijoueur } from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
+import { RequisPourModifierTempsRestant } from '../../commun/requis/RequisPourModifierTempsRestant';
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
 import * as express from 'express';
 

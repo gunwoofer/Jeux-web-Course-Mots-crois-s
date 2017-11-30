@@ -1,35 +1,48 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
-import { ElementDePiste } from './ElementDePiste';
+import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
+import { HEX_BLEU, RADIAN_FLAQUE_EAU, SEGMENTS_FLAQUE_EAU,
+    VOITURE_VECTEUR_ARRIERE_GAUCHE, VOITURE_VECTEUR_AVANT_GAUCHE } from '../constant';
 
 export class FlaqueDEau extends ElementDePiste {
 
-    constructor(position: THREE.Vector3) {
+    constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
-        this.position = position;
-        this.mesh = this.genererMesh();
-        this.mesh.position.set(this.position.x, this.position.y, this.position.z);
+
+        this.typeElementDePiste = TypeElementPiste.FlaqueDEau;
+        this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
     }
 
-    private genererMesh(): THREE.Mesh {
-        const flaqueDEauGeometrie = new THREE.CircleGeometry(2, 7);
-        const materiel = new THREE.MeshPhongMaterial({ color: 0x0000ff });
+    public genererMesh(): void {
+        const flaqueDEauGeometrie = new THREE.CircleGeometry(RADIAN_FLAQUE_EAU, SEGMENTS_FLAQUE_EAU);
+        const materiel = new THREE.MeshPhongMaterial({ color: HEX_BLEU });
         const mesh = new THREE.Mesh(flaqueDEauGeometrie, materiel);
-        return mesh;
+
+        this.mesh = mesh;
     }
 
-
-    // 4: arriere gauche 82: avant gauche
     public effetSurObstacle(voiture: Voiture): void {
         const vecteurAvantGauche = new THREE.Vector3();
         const vecteurArriereGauche = new THREE.Vector3();
-        vecteurAvantGauche.setFromMatrixPosition(voiture.voiture3D.children[82].matrixWorld);
-        vecteurArriereGauche.setFromMatrixPosition(voiture.voiture3D.children[4].matrixWorld);
-        const vecteurVoiture = new THREE.Vector3(
-            vecteurAvantGauche.x - vecteurArriereGauche.x,
-            vecteurAvantGauche.y - vecteurArriereGauche.y,
+
+        vecteurAvantGauche.setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_AVANT_GAUCHE].matrixWorld);
+        vecteurArriereGauche.setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_ARRIERE_GAUCHE].matrixWorld);
+
+        const vecteurVoiture = new THREE.Vector3 (
+            this.obtenirMilieuVoitureX(vecteurAvantGauche, vecteurArriereGauche),
+            this.obtenirMilieuVoitureY(vecteurAvantGauche, vecteurArriereGauche),
             0
         );
-        this.deplacementService.aquaPlannageFlaqueDEau(voiture, vecteurVoiture);
+
+        DeplacementService.aquaPlannageFlaqueDEau(voiture, vecteurVoiture);
+    }
+
+    private obtenirMilieuVoitureX(vecteurAvantGauche: THREE.Vector3, vecteurArriereGauche: THREE.Vector3): number {
+        return vecteurAvantGauche.x - vecteurArriereGauche.x;
+    }
+
+    private obtenirMilieuVoitureY(vecteurAvantGauche: THREE.Vector3, vecteurArriereGauche: THREE.Vector3): number {
+        return vecteurAvantGauche.y - vecteurArriereGauche.y;
     }
 }

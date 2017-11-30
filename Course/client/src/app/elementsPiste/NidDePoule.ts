@@ -1,27 +1,26 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
-import { ElementDePiste } from './ElementDePiste';
+import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
+import { HEX_NOIR } from '../constant';
 
 
 export class NidDePoule extends ElementDePiste {
 
 
-    constructor(position: THREE.Vector3) {
+    constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
-        this.position = position;
-        this.mesh = this.genererMesh();
-        this.mesh.position.set(this.position.x, this.position.y, this.position.z);
+
+        this.typeElementDePiste = TypeElementPiste.NidDePoule;
+        this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
     }
 
-    private genererMesh(): THREE.Mesh {
-        let nidDePouleGeometrie = new THREE.CircleGeometry(1, 10);
 
-        nidDePouleGeometrie = this.ajouterBruitGeometrie(nidDePouleGeometrie);
+    public genererMesh(): void {
+        const nidDePouleGeometrie = this.ajouterBruitGeometrie( new THREE.CircleGeometry(1, 10) );
+        const materiel = new THREE.MeshPhongMaterial({ color: HEX_NOIR });
 
-        const materiel = new THREE.MeshPhongMaterial({ color: 0x000000 });
-
-        const mesh = new THREE.Mesh(nidDePouleGeometrie, materiel);
-        return mesh;
+        this.mesh = new THREE.Mesh(nidDePouleGeometrie, materiel);
     }
 
     private ajouterBruitGeometrie(geometrie: THREE.CircleGeometry): THREE.CircleGeometry {
@@ -33,7 +32,7 @@ export class NidDePoule extends ElementDePiste {
 
 
     public effetSurObstacle(voiture: Voiture): void {
-        this.deplacementService.reduireVitesseNidDePoule(voiture);
-        this.deplacementService.secousseNidDePoule(voiture);
+        DeplacementService.reduireVitesseNidDePoule(voiture);
+        DeplacementService.secousseNidDePoule(voiture);
     }
 }

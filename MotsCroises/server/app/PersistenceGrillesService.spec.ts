@@ -1,4 +1,4 @@
-import { assert } from 'chai';
+/*import { assert } from 'chai';
 import { Grille } from './Grille';
 import { Niveau } from '../../commun/Niveau';
 import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
@@ -71,4 +71,4 @@ describe('PersistenceGrillesService', () => {
     }).timeout(maxDelaiInserer15Grilles);
 
 });
-
+*/

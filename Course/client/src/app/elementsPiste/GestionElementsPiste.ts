@@ -1,36 +1,34 @@
 import { ElementDePisteComposite } from './ElementDePisteComposite';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
-import { FlaqueDEau } from './FlaqueDEau';
-import { Accelerateur } from './Accelerateur';
-import { NidDePoule } from './NidDePoule';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { Sujet } from '../../../../commun/observateur/Sujet';
-import { Vecteur } from '../../../../commun/Vecteur';
 import { FabriquantElementDePiste } from './FabriquantElementDePiste';
+import { MAXIMUM_OBSTACLES_PAR_TYPE } from '../constant';
 
 export class GestionElementsPiste implements Observateur {
+    public elementDePisteComposite: ElementDePisteComposite = new ElementDePisteComposite();
 
-    private typeElementPiste: TypeElementPiste = TypeElementPiste.Accelerateur;
-    private elementDePisteComposite: ElementDePisteComposite = new ElementDePisteComposite();
-
-    public ajouterElementDePiste(): void {
-        if (this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste) >= 5) {
-            this.elementDePisteComposite.retirerTous(this.typeElementPiste);
+    public ajouterElementDePiste(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
+        if (this.elementDePisteComposite.obtenirNombreElements(typeElement) >= MAXIMUM_OBSTACLES_PAR_TYPE) {
+            this.elementDePisteComposite.retirerTous(typeElement);
         } else {
-            this.ajouterElementDePisteSelonContraintes();
+            this.ajouterElementDePisteSelonContraintes(listePosition, typeElement);
         }
     }
 
-    private ajouterElementDePisteSelonContraintes(): void {
-        while (this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste) < 5) {
-            const position: Vecteur = this.obtenirAleatoirementPositionSurPiste();
-            this.elementDePisteComposite.ajouter(FabriquantElementDePiste.creerNouvelleElementPiste(this.typeElementPiste, position));
+    private ajouterElementDePisteSelonContraintes(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
+        while (this.elementDePisteComposite.obtenirNombreElements(typeElement) < MAXIMUM_OBSTACLES_PAR_TYPE) {
+            this.elementDePisteComposite.ajouter(FabriquantElementDePiste.creerNouvelleElementPiste(typeElement, listePosition));
 
-            if (this.nombreElementsEstImpair()) {
+            if (this.nombreElementsEstImpair(typeElement)) {
                 break;
             }
         }
+    }
+
+    public obtenirListeElement(): ElementDePiste[] {
+        return this.elementDePisteComposite.elementsDePiste;
     }
 
     public notifier(sujet: Sujet, type: NotificationType): void {
@@ -39,15 +37,16 @@ export class GestionElementsPiste implements Observateur {
         }
     }
 
-    private obtenirAleatoirementPositionSurPiste(): Vecteur {
-        return new Vecteur();
+
+    public nombreElementsEstImpair(typeElement: TypeElementPiste): boolean {
+        return (this.elementDePisteComposite.obtenirNombreElements(typeElement) % 2 !== 0) ? true : false;
     }
 
-    public nombreElementsEstImpair(): boolean {
-        return (this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste) % 2 !== 0) ? true : false;
+    public obtenirNombreElementsType(typeElement: TypeElementPiste): number {
+        return this.elementDePisteComposite.obtenirNombreElements(typeElement);
     }
 
-    public obtenirNombreElements(): number {
-        return this.elementDePisteComposite.obtenirNombreElements(this.typeElementPiste);
+    public obtenirNombreElement(): number {
+        return this.elementDePisteComposite.elementsDePiste.length;
     }
 }

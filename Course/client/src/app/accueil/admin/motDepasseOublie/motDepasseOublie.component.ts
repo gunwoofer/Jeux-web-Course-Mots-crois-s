@@ -1,3 +1,4 @@
+import { ADMINISTRATION } from './../../../constant';
 import { UtilisateurService } from '../../utilisateur.service';
 import { NgForm } from '@angular/forms/src/directives';
 import { Router } from '@angular/router';
@@ -14,12 +15,12 @@ export class MotDepasseOublieComponent {
     public soummetre(form: NgForm): void {
         const email = form.value.email;
         this.utilisateurService.recupererMotDePasse(email)
-            .then(donne => {
-                if (donne.motDePasse) {
-                    alert(donne.motDePasse);
-                    this.router.navigateByUrl('/admin');
+            .then(donnee => {
+                if (donnee.motDePasse) {
+                    alert(donnee.motDePasse);
+                    this.router.navigateByUrl(ADMINISTRATION);
                 } else {
-                    alert(donne.error.message);
+                    alert(donnee.error.message);
                 }
             });
     }
