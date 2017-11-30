@@ -49,6 +49,12 @@ export const DISTANCE_RAISONNABLE_PRES_LIGNE_ARRIVEE = 100;
 export const LARGEUR_RETROVISEUR = 300;
 export const HAUTEUR_RETROVISEUR = 100;
 export const NOMBRE_JOUEURS = 4;
+export const OFFSET_VUE_DESSUS = 50;
+export const CAMERA_OFFSET_X = -5;
+export const CAMERA_OFFSET_Y = 2;
+export const CAMERA_OFFSET_Z = 0;
+export const VALEUR_MAX_ZOOM = 5;
+export const VALEUR_MIN_ZOOM = 1;
 
 // Touches
 export const MODE_JOUR_NUIT = 'n';
