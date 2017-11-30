@@ -13,7 +13,6 @@ import { PisteValidationComponent } from './pisteValidator/pisteValidation.compo
 import { PisteComponent } from './piste/piste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
 import { TableauScoreComponent } from './tableauScore/tableauScore.component';
-import { CourseComponent } from './course/course.component';
 import { AccueilComponent } from './accueil/accueil.component';
 import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
 import { InscriptionComponent } from './accueil/admin/inscription/inscription.component';
@@ -57,7 +56,6 @@ import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehau
     PisteValidationComponent,
     PisteComponent,
     ListePisteComponent,
-    CourseComponent,
     TableauScoreComponent,
     GenerateurPisteComponent,
     AccueilComponent,

@@ -36,7 +36,7 @@ export class CalculateurNombreOngle {
         return false;
     }
 
-    private calculerAngle(numeroPoint: number, points: any[], compteur: number): number {
+    public calculerAngle(numeroPoint: number, points: any[], compteur: number): number {
         if (points.length > 1) {
             return Math.acos(this.creationVecteurCourant(numeroPoint, points, compteur)
                 .dot(this.creationVecteurPrecedent(numeroPoint, points, compteur)));
