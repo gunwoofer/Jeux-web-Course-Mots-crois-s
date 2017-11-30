@@ -13,7 +13,6 @@ import { CreateurPisteComponent } from '../createurPiste/createurPiste.component
 import { PisteValidationComponent } from '../pisteValidator/pisteValidation.component';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
-import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { RenderService } from './render.service';
 import { PisteService } from '../piste/piste.service';

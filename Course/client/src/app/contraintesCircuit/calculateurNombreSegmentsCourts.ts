@@ -1,5 +1,4 @@
 import { LARGEUR_PISTE_EDITEUR } from './../constant';
-import * as THREE from 'three';
 
 export class CalculateurNombreSegmentsCourts {
 
