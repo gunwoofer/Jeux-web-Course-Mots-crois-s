@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { listeErreurCouleur, PointsFacade } from '../pointsFacade';
+import { ORIGINE } from '../constant';
 
 export const SIZE_POINT = 5;
 export const CERCLE_RADIUS = 100;
@@ -24,7 +25,7 @@ export class FacadePointService {
       });
       const point = new THREE.Points(geometrie, materiel);
       point.position.copy(coordonnees);
-      point.position.z = 0;
+      point.position.z = ORIGINE;
       point.geometry.computeBoundingSphere();
       point.geometry.boundingSphere.radius = CERCLE_RADIUS;
       point.name = '' + this.compteur;
@@ -39,13 +40,13 @@ export class FacadePointService {
     }
 
     public restaurerStatusPoints(points: PointsFacade[]): void {
-        for (let i = 1; i < points.length; i++) {
-            points[i].status = 'normal';
+        for (let point = 1; point < points.length; point++) {
+            points[point].status = 'normal';
         }
     }
 
     public viderListeDesPoints(points: PointsFacade[]): void {
-        for (let i = points.length - 1; i >= 0; i--) {
+        for (let point = points.length - 1; point >= 0; point--) {
             points.pop();
         }
     }
