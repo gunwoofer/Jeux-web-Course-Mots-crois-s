@@ -1,5 +1,5 @@
 import * as THREE from 'three';
-import { PI_SUR_4, ANGLE_45 } from '../constant';
+import { PI_SUR_4 } from '../constant';
 import { PointsFacade } from '../pointsFacade';
 
 export class CalculateurNombreOngle {

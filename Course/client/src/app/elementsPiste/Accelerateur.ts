@@ -8,8 +8,6 @@ import { Texture } from 'three';
 
 export class Accelerateur extends ElementDePiste {
 
-    private modeAffichage: number;
-
     constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
         this.typeElementDePiste = TypeElementPiste.Accelerateur;

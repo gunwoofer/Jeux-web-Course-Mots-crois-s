@@ -1,8 +1,6 @@
 import { CalculateurNombreLigneCroise } from './calculateurNombreLigneCroise';
 import { CalculateurNombreSegmentsCourts } from './calculateurNombreSegmentsCourts';
 import { CalculateurNombreOngle } from './calculateurNombreAngle';
-import * as THREE from 'three';
-import { Points } from 'three';
 import { PointsFacade } from '../pointsFacade';
 
 export class ContraintesCircuit {
