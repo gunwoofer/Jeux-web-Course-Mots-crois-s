@@ -1,12 +1,11 @@
 import { MoteurAutonome } from './moteurAutonome';
 import { Piste } from './../piste/piste.model';
-import { REDUCTION_VITESSE, VITESSE_INTIALE } from './../constant';
+import { VITESSE_INTIALE } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
 import * as sujet from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
-import { Scene, Vector3 } from 'three';
 
 export const REDUCTION_VITESSE_SORTIE_PISTE = 10;
 export const REDUCTION_VITESSE_NID_DE_POULE = 4;
