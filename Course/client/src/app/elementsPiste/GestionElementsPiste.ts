@@ -4,12 +4,13 @@ import { Observateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { FabriquantElementDePiste } from './FabriquantElementDePiste';
+import { MAXIMUM_OBSTACLES_PAR_TYPE } from '../constant';
 
 export class GestionElementsPiste implements Observateur {
     public elementDePisteComposite: ElementDePisteComposite = new ElementDePisteComposite();
 
     public ajouterElementDePiste(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
-        if (this.elementDePisteComposite.obtenirNombreElements(typeElement) >= 5) {
+        if (this.elementDePisteComposite.obtenirNombreElements(typeElement) >= MAXIMUM_OBSTACLES_PAR_TYPE) {
             this.elementDePisteComposite.retirerTous(typeElement);
         } else {
             this.ajouterElementDePisteSelonContraintes(listePosition, typeElement);
@@ -17,7 +18,7 @@ export class GestionElementsPiste implements Observateur {
     }
 
     private ajouterElementDePisteSelonContraintes(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
-        while (this.elementDePisteComposite.obtenirNombreElements(typeElement) < 5) {
+        while (this.elementDePisteComposite.obtenirNombreElements(typeElement) < MAXIMUM_OBSTACLES_PAR_TYPE) {
             this.elementDePisteComposite.ajouter(FabriquantElementDePiste.creerNouvelleElementPiste(typeElement, listePosition));
 
             if (this.nombreElementsEstImpair(typeElement)) {

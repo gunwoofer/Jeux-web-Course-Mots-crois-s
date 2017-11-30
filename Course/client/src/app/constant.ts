@@ -10,6 +10,7 @@ export const POSITION_RELIEF_PAR_RAPPORT_Z = -5;
 
 // Mathématique
 export const PI_SUR_4 = 0.785398163;
+export const ANGLE_45 = 'angle45';
 
 // Voiture & Deplacements
 export const EMPLACEMENT_VOITURE = '../../assets/modeles/lamborghini/lamborghini-aventador-pbribl.json';
@@ -23,6 +24,8 @@ export const VITESSE_MIN = 0.05;
 export const VITESSE_MODE_ACCELERATEUR = 1.5;
 export const DUREE_ACCELERATEUR = 1500;
 export const NOMBRE_SECOUSSES_NID_DE_POULE = 4;
+export const VOITURE_VECTEUR_AVANT_GAUCHE = 82;
+export const VOITURE_VECTEUR_ARRIERE_GAUCHE = 4;
 
 // Emplacements
 export const FIN_PARTIE_URL = '/resultatPartie';
@@ -74,6 +77,16 @@ export const LUMIERES = [
 ];
 export const PHARES = [
     'BrakeLightLS1', 'BrakeLightRS1', 'Lumière Avant Droite', 'Lumière Avant Gauche', 'Phare Droit', 'Phare Gauche'];
+
+// Obstacles
+export const CHEMIN_ACCES_ACCELERATEUR = '../../assets/textures/accelerateur.png';
+export const NIVEAU_CLARETE = 4;
+export const POSITION_OBSTACLE_EN_Z = 0.01;
+export const HEX_BLEU = 0x0000ff;
+export const HEX_NOIR = 0x000000;
+export const RADIAN_FLAQUE_EAU = 2;
+export const SEGMENTS_FLAQUE_EAU = 7;
+export const MAXIMUM_OBSTACLES_PAR_TYPE = 5;
 
 // Divers
 export const FORMAT_MP3 = '.mp3';
