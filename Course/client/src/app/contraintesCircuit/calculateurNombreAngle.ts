@@ -43,12 +43,12 @@ export class CalculateurNombreOngle {
         return NaN;
     }
 
-    public creationVecteurCourant(numeroPoint: number, points: PointsFacade[], compteur?: number): THREE.Vector2 {
+    private creationVecteurCourant(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
         return new THREE.Vector2(this.positionXVecteurCourant(numeroPoint, points),
             this.positionYVecteurCourant(numeroPoint, points)).normalize();
     }
 
-    public creationVecteurPrecedent(numeroPoint: number, points: PointsFacade[], compteur?: number): THREE.Vector2 {
+    private creationVecteurPrecedent(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
         return new THREE.Vector2(this.positionXVecteurPrecedent(numeroPoint, points, compteur),
             this.positionYVecteurPrecedent(numeroPoint, points, compteur)).normalize();
     }

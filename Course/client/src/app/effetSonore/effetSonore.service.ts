@@ -1,9 +1,10 @@
-import {Injectable} from '@angular/core';
-import {EffetSonore} from './effetSonore.model';
+import { Injectable } from '@angular/core';
+import { EffetSonore } from './effetSonore.model';
 
 @Injectable()
+
 export class EffetSonoreService {
-  public effetSonoreTableau: EffetSonore [];
+  public effetSonoreTableau: EffetSonore[];
 
   constructor() {
     this.effetSonoreTableau = new Array<EffetSonore>();
