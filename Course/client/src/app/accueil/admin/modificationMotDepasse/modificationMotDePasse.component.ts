@@ -11,19 +11,20 @@ import { Component } from '@angular/core';
     styleUrls: ['./modificationMotDePasse.component.css']
 })
 export class ModificationMotDePasseComponent {
+
     constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
     public soummetre(form: NgForm): void {
         const modificationForm = new ModificationForm(form.value.email, form.value.motDePasse, form.value.NmotDePasse);
 
         this.utilisateurService.modifierMotDePasse(modificationForm)
-            .then(donnee => {
-                if (donnee.message) {
-                    alert(donnee.message);
-                    this.router.navigateByUrl(ADMINISTRATION);
-                } else {
-                    alert(donnee.error.message);
-                }
-            });
+                                .then(donnee => {
+                                    if (donnee.message) {
+                                        alert(donnee.message);
+                                        this.router.navigateByUrl(ADMINISTRATION);
+                                    } else {
+                                        alert(donnee.error.message);
+                                    }
+                                });
     }
 }

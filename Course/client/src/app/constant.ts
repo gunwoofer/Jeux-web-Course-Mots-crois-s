@@ -114,6 +114,9 @@ export const MESSAGE_ERREUR = 'Une erreur est arrivé';
 export const COMPOSANTE_R_POINT_EDITEUR = 0.55;
 export const COMPOSANTE_G_POINT_EDITEUR = 0.91;
 export const COMPOSANTE_B_POINT_EDITEUR = 0.64;
+export const COULEUR_CIEL = 0xfd720f;
+export const COULEUR_TERRE = 0xffffff;
+export const COULEUR_PHARE = 0xffffff;
 
 
 export const LISTE_PISTE = '/listePiste';

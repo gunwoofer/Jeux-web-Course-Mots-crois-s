@@ -20,7 +20,6 @@ export class FacadeCoordonneesService {
         event.preventDefault();
 
         const rectangle = renderer.domElement.getBoundingClientRect();
-        const vector = new THREE.Vector2();
 
         return new THREE.Vector2(
             ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1,

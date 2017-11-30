@@ -2,8 +2,10 @@ import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
-import { HEX_BLEU, RADIAN_FLAQUE_EAU, SEGMENTS_FLAQUE_EAU,
-    VOITURE_VECTEUR_ARRIERE_GAUCHE, VOITURE_VECTEUR_AVANT_GAUCHE } from '../constant';
+import {
+    HEX_BLEU, RADIAN_FLAQUE_EAU, SEGMENTS_FLAQUE_EAU,
+    VOITURE_VECTEUR_ARRIERE_GAUCHE, VOITURE_VECTEUR_AVANT_GAUCHE
+} from '../constant';
 
 export class FlaqueDEau extends ElementDePiste {
 
@@ -23,19 +25,24 @@ export class FlaqueDEau extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        const vecteurAvantGauche = new THREE.Vector3();
-        const vecteurArriereGauche = new THREE.Vector3();
+        DeplacementService.aquaPlannageFlaqueDEau(voiture, this.vecteurVoiture(voiture));
+    }
 
-        vecteurAvantGauche.setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_AVANT_GAUCHE].matrixWorld);
-        vecteurArriereGauche.setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_ARRIERE_GAUCHE].matrixWorld);
-
-        const vecteurVoiture = new THREE.Vector3 (
-            this.obtenirMilieuVoitureX(vecteurAvantGauche, vecteurArriereGauche),
-            this.obtenirMilieuVoitureY(vecteurAvantGauche, vecteurArriereGauche),
-            0
+    private vecteurVoiture(voiture: Voiture): THREE.Vector3 {
+        return new THREE.Vector3(
+            this.obtenirMilieuVoitureX(this.vecteurAvantGauche(voiture), this.vecteurArriereGauche(voiture)),
+            this.obtenirMilieuVoitureY(this.vecteurAvantGauche(voiture), this.vecteurArriereGauche(voiture))
         );
+    }
 
-        DeplacementService.aquaPlannageFlaqueDEau(voiture, vecteurVoiture);
+    private vecteurAvantGauche(voiture: Voiture): THREE.Vector3 {
+        return new THREE.Vector3()
+            .setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_AVANT_GAUCHE].matrixWorld);
+    }
+
+    private vecteurArriereGauche(voiture: Voiture): THREE.Vector3 {
+        return new THREE.Vector3()
+            .setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_ARRIERE_GAUCHE].matrixWorld);
     }
 
     private obtenirMilieuVoitureX(vecteurAvantGauche: THREE.Vector3, vecteurArriereGauche: THREE.Vector3): number {

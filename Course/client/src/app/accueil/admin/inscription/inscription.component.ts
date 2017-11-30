@@ -2,7 +2,6 @@ import { ADMINISTRATION } from './../../../constant';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Component } from '@angular/core';
-
 import { UtilisateurService } from './../../utilisateur.service';
 import { Administrateur } from './../admin.model';
 
@@ -21,11 +20,10 @@ export class InscriptionComponent {
     const admin = new Administrateur(form.value.email, form.value.motDePasse, form.value.userName, form.value.nom, form.value.prenom);
 
     this.utilisateurService.sInscrire(admin)
-      .then(donnee => { this.afficherSucces = donnee ? true : false; });
+                            .then(donnee => { this.afficherSucces = donnee ? true : false; });
   }
 
   public changeRoutage(): void {
     this.router.navigateByUrl(ADMINISTRATION);
   }
-
 }
