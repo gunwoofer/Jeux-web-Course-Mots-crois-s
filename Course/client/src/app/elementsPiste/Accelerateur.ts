@@ -1,4 +1,4 @@
-import { LARGEUR_ACCELERATEUR, LONGUEUR_ACCELERATEUR, REPETITION_TEXTURE } from './../constant';
+import { LARGEUR_ACCELERATEUR, LONGUEUR_ACCELERATEUR, REPETITION_TEXTURE_ACCELERATEUR } from './../constant';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
@@ -33,7 +33,7 @@ export class Accelerateur extends ElementDePiste {
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.anisotropy = NIVEAU_CLARETE;
-            texture.repeat.set(REPETITION_TEXTURE, REPETITION_TEXTURE);
+            texture.repeat.set(REPETITION_TEXTURE_ACCELERATEUR, REPETITION_TEXTURE_ACCELERATEUR);
             materiel.map = texture;
             materiel.needsUpdate = true;
         });

@@ -31,6 +31,7 @@ export const VOITURE_VECTEUR_ARRIERE_GAUCHE = 4;
 export const FIN_PARTIE_URL = '/resultatPartie';
 export const ARBRE_PATH = '../../assets/objects/arbre/tree.json';
 export const ARBRE_TEXTURE = '../../assets/objects/arbre/tree.jpg';
+export const SURFACE_HORS_PISTE_TEXTURE = '../../assets/textures/texturerock.jpg';
 export const EMPLACEMENT_MUSIQUE = './../assets/musiques/';
 
 // Temps
@@ -125,7 +126,7 @@ export const COMPOSANTE_B_POINT_EDITEUR = 0.64;
 export const COULEUR_CIEL = 0xfd720f;
 export const COULEUR_TERRE = 0xffffff;
 export const COULEUR_PHARE = 0xffffff;
-
+export const COULEUR_ROUGE = 'red';
 
 // Routage
 export const LISTE_PISTE = '/listePiste';
@@ -133,8 +134,10 @@ export const INSCRIPTION = '/inscription';
 export const ADMINISTRATION = '/admin';
 export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
 export const GENERATION_PISTE = '/generationpiste';
+export const RESULTAT_PARTIE = '/resultatPartie';
 
 export const LARGEUR_PISTE_EDITEUR = 10;
-export const REPETITION_TEXTURE = 1;
+export const REPETITION_TEXTURE_ACCELERATEUR = 1;
+export const REPETITION_TEXTURE_SURFACE_HORS_PISTE = 10;
 
 

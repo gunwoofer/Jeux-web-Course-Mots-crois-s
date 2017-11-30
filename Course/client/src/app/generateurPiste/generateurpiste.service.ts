@@ -90,9 +90,9 @@ export class GenerateurPisteService implements Observateur {
         this.ajoutZoneDepart();
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
-        this.genererSurfaceHorsPiste();
+        this.scene.add(new SurfaceHorsPiste(LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE,
+            this.segment.chargerSegmentsDePiste(this.piste)).terrain);
         this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
-        this.scene.add(new AxisHelper(100));
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
     }
@@ -132,14 +132,6 @@ export class GenerateurPisteService implements Observateur {
         this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
             [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
         this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
-    }
-
-    public genererSurfaceHorsPiste(): void {
-        this.surfaceHorsPisteService = new SurfaceHorsPiste(LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE,
-            this.segment.chargerSegmentsDePiste(this.piste));
-        const terrain = this.surfaceHorsPisteService.genererTerrain();
-        terrain.position.z -= 1;
-        this.scene.add(terrain);
     }
 
     public ajouterPiste(piste: Piste): void {
