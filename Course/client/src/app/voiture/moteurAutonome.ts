@@ -94,7 +94,7 @@ export class MoteurAutonome {
     }
 
     public miseAjourPositionCubeDevant(): void {
-        const angleOrientationCube = this.engine.getWorldRotation().z;
+        // const angleOrientationCube = this.engine.getWorldRotation().z;
         const vecteurDirection = new THREE.Vector3()
             .subVectors(this.engine.localToWorld(new THREE.Vector3(1, 0, 0)), this.engine.position).normalize();
         if (new THREE.Vector3().copy(this.directionIndicateurDevant).dot(vecteurDirection) < COEFFICIENT_ACTUALISATION_DIRECTION) {

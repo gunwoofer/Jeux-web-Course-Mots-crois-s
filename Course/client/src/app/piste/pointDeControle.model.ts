@@ -1,5 +1,3 @@
-import { ACCELERATION, ROTATION } from './../constant';
-import { Voiture } from './../voiture/Voiture';
 import * as THREE from 'three';
 import { Piste } from './piste.model';
 
@@ -32,13 +30,5 @@ export class PointDeControle {
         const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
         const cube = new THREE.Mesh(geometry, material);
         return cube;
-    }
-
-    public faireBougerVoiture(piste: Piste, voiture: Voiture): void {
-        // if (voiture.voiture3D.position.distanceTo(piste.listepositions[1]) > 0) {
-        //     voiture.vitesse += 0.02;
-        //     voiture.voiture3D.translateX(voiture.vitesse);
-        // }
-        voiture.voiture3D.getWorldDirection();
     }
 }
