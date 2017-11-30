@@ -34,7 +34,7 @@ export class FacadePointService {
     public actualiserCouleurPoints(points: any[]): void {
         for (const point of points) {
             point.material.color.set(listeErreurCouleur[point.status]);
-            point.material.size = 5;
+            point.material.size = SIZE_POINT;
         }
     }
 
