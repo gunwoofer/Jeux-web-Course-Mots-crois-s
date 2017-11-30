@@ -4,9 +4,7 @@ import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { HEX_NOIR } from '../constant';
 
-
 export class NidDePoule extends ElementDePiste {
-
 
     constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
@@ -14,7 +12,6 @@ export class NidDePoule extends ElementDePiste {
         this.typeElementDePiste = TypeElementPiste.NidDePoule;
         this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
     }
-
 
     public genererMesh(): void {
         const nidDePouleGeometrie = this.ajouterBruitGeometrie( new THREE.CircleGeometry(1, 10) );
@@ -29,7 +26,6 @@ export class NidDePoule extends ElementDePiste {
         }
         return geometrie;
     }
-
 
     public effetSurObstacle(voiture: Voiture): void {
         DeplacementService.reduireVitesseNidDePoule(voiture);

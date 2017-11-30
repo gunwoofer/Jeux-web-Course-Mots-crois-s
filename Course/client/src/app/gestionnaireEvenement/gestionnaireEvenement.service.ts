@@ -26,14 +26,14 @@ export class EvenementService {
   private facadeCoordonneesService = new FacadeCoordonneesService();
   private facadePointService = new FacadePointService();
 
-  public onMouseDown(event): void {
+  public onMouseDown(event: MouseEvent): void {
     this.tempsMouseDown = new Date().getTime();
     if (this.pointHover) {
       this.modeGlissement = true;
     }
   }
 
-  public onMouseClick(event): void {
+  public onMouseClick(event: MouseEvent): void {
     if (!this.modeGlissement || this.dureeClick < 500 && this.objetGlisse && this.objetGlisse.name === '0') {
       this.renderService.dessinerPoint(event);
     }
@@ -45,7 +45,7 @@ export class EvenementService {
     this.modeGlissement = false;
   }
 
-  public onMouseUp(event): void {
+  public onMouseUp(event: MouseEvent): void {
     this.tempsMouseUp = new Date().getTime();
     this.dureeClick = this.tempsMouseUp - this.tempsMouseDown;
     if (event.button === 0) {
@@ -55,7 +55,7 @@ export class EvenementService {
     }
   }
 
-  public onMouseMove(event): void {
+  public onMouseMove(event: MouseEvent): void {
     const rayCaster = new THREE.Raycaster();
     this.facadeCoordonneesService.miseAJourMouse(event, this.renderService.renderer);
     let intersects;
