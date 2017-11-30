@@ -1,3 +1,4 @@
+import { CalculateurNombreOngle } from './../contraintesCircuit/calculateurNombreAngle';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
@@ -8,8 +9,6 @@ import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing'
 
 import { CreateurPisteComponent } from '../createurPiste/createurPiste.component';
 import { PisteValidationComponent } from '../pisteValidator/pisteValidation.component';
-
-import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
 import { FacadeLigneService } from '../facadeLigne/facadeligne.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { RenderService } from './render.service';
@@ -26,7 +25,7 @@ import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement
 
 describe('RenderService test', () => {
 
-    const contraintesCircuit = new ContraintesCircuit();
+    const calculateurNombreOngle = new CalculateurNombreOngle();
     const messageErreurService = new MessageErreurService();
     const facadeligne = new FacadeLigneService();
     let fixture: ComponentFixture<CreateurPisteComponent>;
@@ -227,7 +226,7 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 2; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        const angle = contraintesCircuit.calculerAngle(1, renderService.points, renderService.facadePointService.compteur);
+        const angle = calculateurNombreOngle.calculerAngle(1, renderService.points, renderService.facadePointService.compteur);
         expect(angle).toBeLessThanOrEqual(0.785398163);
         expect(renderService.nbAnglesPlusPetit45).toEqual(1);
     });
