@@ -1,5 +1,4 @@
-
-import { Points, Material } from 'three';
+import { Points } from 'three';
 
 export const listeErreurCouleur = {
     normal: 'green',

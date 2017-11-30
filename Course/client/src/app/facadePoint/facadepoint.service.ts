@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { listeErreurCouleur, PointsFacade } from '../pointsFacade';
-import { ORIGINE } from '../constant';
 
 export const SIZE_POINT = 5;
 export const CERCLE_RADIUS = 100;
