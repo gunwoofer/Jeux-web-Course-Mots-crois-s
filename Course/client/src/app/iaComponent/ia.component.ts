@@ -1,16 +1,15 @@
 import { AfterViewInit, Component, ElementRef, Input, ViewChild, HostListener } from '@angular/core';
-import {RenderService} from './render.service';
+import {IaRenderService} from './iaRender.service';
 
 @Component({
-  moduleId: module.id,
-  selector: 'app-cube-component',
-  templateUrl: './cube.component.html',
-  styleUrls: ['./cube.component.css']
+  selector: 'app-ia-component',
+  templateUrl: './ia.component.html',
+  styleUrls: ['./ia.component.css']
 })
 
-export class CubeComponent implements AfterViewInit {
+export class IaComponent implements AfterViewInit {
 
-  constructor(private renderService: RenderService) {
+  constructor(private renderService: IaRenderService) {
   }
 
   private get container(): HTMLDivElement {

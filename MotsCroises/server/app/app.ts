@@ -79,12 +79,17 @@ export class Application {
         // create routes
         const index: indexRoute.Index = new indexRoute.Index();
 
+        // Affichage console de la grille (Pour les tests)
+        router.get('/test', index.testGenerationGrille.bind(index.testGenerationGrille));
+
         // Generation d'une grille
         router.get('/GenerationDeGrilleService', index.GenerationDeGrilleService.bind(index.GenerationDeGrilleService));
 
         // Routage pour les requêtes serveurs.
-        router.use('/grilles/persistence/grille/facile/async', index.asyncObtenirGrilleFacile.bind(index.asyncObtenirGrilleFacile));
-        router.use('/grilles/persistence/grille/moyen/async', index.asyncObtenirGrilleMoyen.bind(index.asyncObtenirGrilleMoyen));
+        router.use('/grilles/persistence/grille/facile/async',
+            index.asyncObtenirGrilleFacile.bind(index.asyncObtenirGrilleFacile));
+        router.use('/grilles/persistence/grille/moyen/async',
+            index.asyncObtenirGrilleMoyen.bind(index.asyncObtenirGrilleMoyen));
         router.use('/grilles/persistence/grille/difficile/async',
             index.asyncObtenirGrilleDifficile.bind(index.asyncObtenirGrilleDifficile));
         router.use('/grilles/persistence/grille/ajouter/15', index.PersistenceGrillesService.bind(index.PersistenceGrillesService));

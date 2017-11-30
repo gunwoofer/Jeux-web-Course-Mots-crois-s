@@ -1,7 +1,6 @@
+import { NOMBRE_DE_TOURS_PAR_DEFAULT, NOMBRE_DE_TOURS_PAR_MINIMAL } from './../constant';
 import { Piste } from './../piste/piste.model';
 import { PisteService } from '../piste/piste.service';
-import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
-import { Router } from '@angular/router';
 import { Component, Input } from '@angular/core';
 
 
@@ -14,19 +13,18 @@ import { Component, Input } from '@angular/core';
 export class ConfigurationPartieComponent {
 
     @Input() private piste: Piste;
-    private nombreDesTours = 1;
+    public nombreDesTours = NOMBRE_DE_TOURS_PAR_MINIMAL;
 
-    constructor(private router: Router, private tableauScoreService: TableauScoreService,
-        private pisteService: PisteService) { }
+    constructor(private pisteService: PisteService) { }
 
     public augmenterNombreTour(): void {
-        if (this.nombreDesTours !== 3) {
+        if (this.nombreDesTours !== NOMBRE_DE_TOURS_PAR_DEFAULT) {
             this.nombreDesTours++;
         }
     }
 
     public diminuerNombreTour(): void {
-        if (this.nombreDesTours !== 1) {
+        if (this.nombreDesTours !== NOMBRE_DE_TOURS_PAR_MINIMAL) {
             this.nombreDesTours--;
         }
     }

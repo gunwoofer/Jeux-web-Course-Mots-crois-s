@@ -1,5 +1,5 @@
-import { ObjetService, LUMIERES } from './objet.service';
-import { Voiture } from '../voiture/Voiture';
+import { LumiereService } from './../lumiere/lumiere.service';
+import { ObjetService } from './objet.service';
 import { TestBed, inject, async } from '@angular/core/testing';
 import * as THREE from 'three';
 
@@ -9,7 +9,7 @@ describe('ObjetService test', () => {
     let objetService: ObjetService;
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            providers: [ObjetService],
+            providers: [ObjetService, LumiereService],
             declarations: [],
             imports: []
         })
@@ -20,7 +20,7 @@ describe('ObjetService test', () => {
         objetService = service;
     }));
 
-    it('cameraService devrait être créé', () => {
+    it('objetService devrait être créé', () => {
         expect(objetService).toBeTruthy();
     });
 
@@ -31,14 +31,6 @@ describe('ObjetService test', () => {
         const arbreTexture = '../../assets/objects/arbre/tree.jpg';
         objet = objetService.chargerArbre(arbrePath, arbreTexture, chiffre);
         expect(objet).toBeTruthy();
-    });
-
-    it('creation des phares', () => {
-        const chiffre = 1000;
-        const nom = 'phare';
-        const objet = objetService.creerPhare(nom, 1000);
-        expect(objet).toBeTruthy();
-        expect(objet.name).toEqual(nom);
     });
 
     it('ajout des phares sur un objet', () => {

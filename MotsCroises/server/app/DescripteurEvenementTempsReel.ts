@@ -9,7 +9,6 @@ import {RequisPourSelectionnerMot} from '../../commun/requis/RequisPourSelection
 import {SpecificationGrille} from './../../commun/SpecificationGrille';
 import {Indice} from './Indice';
 import {GestionnaireDePartieService} from './GestionnaireDePartieService';
-import {GenerateurDeGrilleService} from './GenerateurDeGrilleService';
 import {RequisPourObtenirTempsRestant} from '../../commun/requis/RequisPourObtenirTempsRestant';
 import {RequisPourMotsTrouve} from '../../commun/requis/RequisPourMotsTrouve';
 import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDemandeListePartieEnAttente';
@@ -17,6 +16,7 @@ import {VuePartieEnCours} from '../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {EtatPartie} from '../../commun/EtatPartie';
 import {RequisPourModifierTempsRestant} from '../../commun/requis/RequisPourModifierTempsRestant';
+import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 
 export class DescripteurEvenementTempsReel {
     public Quitter(client: SocketIO.Socket, io: any): void {
@@ -31,30 +31,35 @@ export class DescripteurEvenementTempsReel {
     }
 
     public creerPartieSolo(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-                           generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
+                            generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
         let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
 
-        specificationPartieRecu = this.preparerNouvellePartie(gestionnaireDePartieService,
-            generateurDeGrilleService, specificationPartieRecu);
+        this.preparerNouvellePartie(gestionnaireDePartieService,
+            generateurDeGrilleService, specificationPartieRecu).then((specificationPartie) => {
+                specificationPartieRecu = specificationPartie;
+                // La partie solo peut être démarré dès sa création.
+                gestionnaireDePartieService.obtenirPartieEnCours(specificationPartieRecu.guidPartie).demarrerPartie();
+                client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieRecu);
+            });
 
-        // La partie solo peut être démarré dès sa création.
-        gestionnaireDePartieService.obtenirPartieEnCours(specificationPartieRecu.guidPartie).demarrerPartie();
 
-        client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieRecu);
     }
 
     public creerPartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-                                  generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
+                                  generateurDeGrilleService: GenerateurDeGrilleService,
+                                  specificationPartie: SpecificationPartie): void {
         let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
 
-        specificationPartieRecu = this.preparerNouvellePartie(gestionnaireDePartieService,
-            generateurDeGrilleService, specificationPartieRecu);
-
-        client.emit(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, specificationPartieRecu);
+        this.preparerNouvellePartie(gestionnaireDePartieService,
+            generateurDeGrilleService, specificationPartieRecu).then((specificationPartie) => {
+                specificationPartieRecu = specificationPartie;
+                client.emit(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, specificationPartieRecu);
+            });
     }
 
     public joindrePartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-            generateurDeGrilleService: GenerateurDeGrilleService, requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur,
+                                    generateurDeGrilleService: GenerateurDeGrilleService,
+                                    requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur,
             clients: SocketIO.Socket[]): void {
         requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
         const partieEnAttente: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourJoindrePartieMultijoueur.guidPartie);
@@ -85,11 +90,12 @@ export class DescripteurEvenementTempsReel {
     }
 
 
-    public preparerNouvellePartie(gestionnaireDePartieService: GestionnaireDePartieService,
-            generateurDeGrilleService: GenerateurDeGrilleService, specificationPartieRecu: SpecificationPartie): SpecificationPartie {
-        const grille: Grille = generateurDeGrilleService.genererGrilleMock(specificationPartieRecu.niveau);
+    public async preparerNouvellePartie(gestionnaireDePartieService: GestionnaireDePartieService,
+                                        generateurDeGrilleService: GenerateurDeGrilleService,
+                                        specificationPartieRecu: SpecificationPartie): Promise<SpecificationPartie> {
+        const grille: Grille = await generateurDeGrilleService.genererGrille(specificationPartieRecu.niveau);
         const guidPartie = gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
-            specificationPartieRecu.typePartie, grille, grille.obtenirNiveau());
+            specificationPartieRecu.typePartie, grille, grille.niveau);
         let tableauIndices: Indice[] = new Array();
 
         tableauIndices = grille.motsComplet.recupererIndices();

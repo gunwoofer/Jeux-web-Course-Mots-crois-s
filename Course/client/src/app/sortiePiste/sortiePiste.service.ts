@@ -1,3 +1,5 @@
+import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { ORIGINE, ORIENTATION_Z } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
@@ -10,7 +12,7 @@ export class SortiePisteService {
     private estSurPiste: boolean;
     private segmentOuReapparaitre: THREE.Mesh;
 
-    constructor(piste: THREE.Mesh[]) {
+    constructor(piste: THREE.Mesh[], private deplacementService: DeplacementService) {
         this.listeSegments = piste;
     }
 
@@ -18,14 +20,14 @@ export class SortiePisteService {
         this.estSurLaPiste(voiture.obtenirVoiture3D());
         if (!this.estSurPiste) {
             this.ramenerVoitureDernierSegment(voiture);
-            voiture.reduireVitesseSortiePiste();
+            this.deplacementService.reduireVitesseSortiePiste(voiture);
         }
     }
 
     public ramenerVoitureDernierSegment(voiture: Voiture): void {
         voiture.obtenirVoiture3D().position.x = this.trouverMilieuSegment(this.segmentOuReapparaitre).x;
         voiture.obtenirVoiture3D().position.y = this.trouverMilieuSegment(this.segmentOuReapparaitre).y;
-        voiture.obtenirVoiture3D().position.z = 0;
+        voiture.obtenirVoiture3D().position.z = ORIGINE;
         voiture.ignorerSortiepiste();
     }
 
@@ -40,9 +42,9 @@ export class SortiePisteService {
     }
 
     public genererRayCaster(voiture: THREE.Object3D): void {
-        const directionVersLeBas = new THREE.Vector3(0, 0, -1);
+        const directionVersLeBas = new THREE.Vector3(ORIGINE, ORIGINE, ORIENTATION_Z);
         // Le raycaster part au dessus de la piste
-        voiture.position.z = 0;
+        voiture.position.z = ORIGINE;
         this.rayCaster = new THREE.Raycaster(voiture.position, directionVersLeBas);
     }
 

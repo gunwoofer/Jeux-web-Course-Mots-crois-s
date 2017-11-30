@@ -1,11 +1,10 @@
+import { NOMBRE_JOUEURS } from './../constant';
 import { TraitementDonneTableau } from './traitementDonneTableau';
 import { Http, Response } from '@angular/http';
 import { Score } from './score.model';
 import { Piste } from '../piste/piste.model';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
-
 
 @Injectable()
 
@@ -13,10 +12,33 @@ export class TableauScoreService {
 
     public piste: Piste;
     public debut = 0;
-    public temps: string;
-    public traitementDonneeTableau= new TraitementDonneTableau();
+    public temps: number;
+    public finPartie: boolean;
+    public tempsFinPartie: Score[];
+    public traitementDonneeTableau = new TraitementDonneTableau();
 
-    constructor(private http: Http) { }
+    constructor(private http: Http) {
+        this.finPartie = false;
+        this.tempsFinPartie = [];
+    }
+
+    public produireTableauResultat(): Score[] {
+        if (!this.temps) { return; }
+        for (let i = 0; i < NOMBRE_JOUEURS; i++) {
+            this.gestionTempsFinPartie(i, this.temps);
+        }
+        return this.tempsFinPartie;
+    }
+
+    public gestionTempsFinPartie(indice: number, temps: number): void {
+        if (indice === 0) {
+            this.tempsFinPartie.push(new Score('Joueur' + indice++, Math.floor(temps).toString(), indice++));
+        } else {
+            const number = Math.random() * (30 - indice) + 30;
+            temps = temps + number;
+            this.tempsFinPartie.push(new Score('Joueur' + indice++, Math.floor(temps).toString(), indice++));
+        }
+    }
 
     public ajouterTemps(score: Score): void {
         this.piste.meilleursTemps.push(score);

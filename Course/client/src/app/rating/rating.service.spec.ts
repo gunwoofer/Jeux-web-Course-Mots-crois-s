@@ -1,5 +1,4 @@
 import { Piste } from './../piste/piste.model';
-import { mockPistes } from '../piste/pistes.mock';
 import { RatingService } from './rating.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';

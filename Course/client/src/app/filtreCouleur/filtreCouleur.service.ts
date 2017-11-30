@@ -5,7 +5,6 @@ import * as THREE from 'three';
 
 @Injectable()
 export class FiltreCouleurService {
-    private container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
     public renderer: THREE.WebGLRenderer;
     public plane: THREE.Mesh;

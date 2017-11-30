@@ -1,10 +1,9 @@
+import { NOMBRE_DE_TOURS_PAR_DEFAULT } from './../constant';
 import { RatingService } from './../rating/rating.service';
-import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
 import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
-import { NOMBRE_DE_TOURS_PAR_DEFAULT } from '../partie/Partie';
 import 'rxjs/Rx';
 
 import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
@@ -18,13 +17,12 @@ export class PisteService {
     public tableauMeilleurTemps = new EventEmitter<Piste>();
     public nombreDeTours = NOMBRE_DE_TOURS_PAR_DEFAULT;
 
-    constructor(generateurPisteService: GenerateurPisteService, private http: Http,
-        private tableauScoreService: TableauScoreService, private ratingService: RatingService) {
+    constructor(private generateurPisteService: GenerateurPisteService, private http: Http, private ratingService: RatingService) {
 
         this.pisteChoisie.subscribe(
             (piste: Piste) => {
-                generateurPisteService.ajouterPiste(piste);
-                ratingService.piste = piste;
+                this.generateurPisteService.ajouterPiste(piste);
+                this.ratingService.piste = piste;
             }
         );
     }

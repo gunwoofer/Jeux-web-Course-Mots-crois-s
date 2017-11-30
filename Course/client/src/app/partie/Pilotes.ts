@@ -1,12 +1,17 @@
 import { Pilote } from './Pilote';
 import { Voiture } from '../voiture/Voiture';
 import { Observateur } from '../../../../commun/observateur/Observateur';
+import { Partie } from './Partie';  // À utilisez qu'en lecture. Sinon, risque d'une dépendance circulaire.
 
 export class Pilotes {
-    private pilotes: Pilote[];
+    private pilotes: Pilote[] = new Array();
 
     constructor(pilotes?: Pilote[]) {
         this.pilotes = (pilotes !== undefined) ? pilotes : [];
+    }
+
+    public obtenirNombrePilotes(): number {
+        return 2;
     }
 
     public ajouterPilote(pilote: Pilote): void {
@@ -31,9 +36,17 @@ export class Pilotes {
         }
     }
 
-    public observerVoiture(observateur: Observateur): void {
+    public observerVoitures(observateur: Observateur): void {
         for (const piloteCourant of this.pilotes) {
             piloteCourant.observerVoiture(observateur);
+        }
+    }
+
+    public observerPiloteJoueur(observateur: Observateur): void {
+        for (const piloteCourant of this.pilotes) {
+            if (piloteCourant.estJoueurPrincipal()) {
+                piloteCourant.ajouterObservateur(observateur);
+            }
         }
     }
 
@@ -43,7 +56,12 @@ export class Pilotes {
                 return piloteCourant.aParcourueUneDistanceRaisonnable();
             }
         }
-
         return false;
+    }
+
+    public mettreAJourTemps(): void {
+        for (const piloteCourant of this.pilotes) {
+            piloteCourant.mettreAJourTemps(Date.now() - Partie.tempsDepartMilisecondes);
+        }
     }
 }

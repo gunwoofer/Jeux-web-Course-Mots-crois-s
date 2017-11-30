@@ -68,8 +68,6 @@ export class Application {
 
     const bd: BdImplementation = new BdImplementation();
     bd.connect(configuration.baseDeDonneesUrlLocal);
-    //bd.connect(configuration.baseDeDonneesUrlExterne);
-
 
   }
 

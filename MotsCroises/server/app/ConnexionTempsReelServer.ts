@@ -1,5 +1,5 @@
+import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
 import {GestionnaireDePartieService} from './GestionnaireDePartieService';
-import {GenerateurDeGrilleService} from './GenerateurDeGrilleService';
 import {SpecificationPartie} from '../../commun/SpecificationPartie';
 import {RequisPourMotAVerifier} from '../../commun/requis/RequisPourMotAVerifier';
 import {RequisPourSelectionnerMot} from '../../commun/requis/RequisPourSelectionnerMot';
