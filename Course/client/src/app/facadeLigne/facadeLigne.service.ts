@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { POINTS_MAXIMUM } from './../constant';
+import { POINTS_MAXIMUM, COMPOSANTE_R_POINT_EDITEUR, COMPOSANTE_G_POINT_EDITEUR, COMPOSANTE_B_POINT_EDITEUR } from './../constant';
 
 @Injectable()
 export class FacadeLigneService {
@@ -16,19 +16,9 @@ export class FacadeLigneService {
         return new THREE.Line(geometrie, materiel);
     }
 
-    public modificationdecouleur(position, pointsLine: any, points: any[]): void {
-        const couleurListe = pointsLine.geometry.attributes.color.array;
-        if (points.length < 2) {
-            couleurListe[position * 3] = 0.55;
-            couleurListe[position * 3 + 1] = 0.91;
-            couleurListe[position * 3 + 2] = 0.64;
-        }
-        pointsLine.geometry.attributes.color.needsUpdate = true;
-    }
-
     public modifierPointLine(positionTableauPoints, positionPoint, pointsLine: any, points: any[]): void {
         const pointsLinePosition = pointsLine.geometry.attributes.position.array;
-        this.modificationdecouleur(positionTableauPoints, pointsLine, points);
+        this.modificationDeCouleur(positionTableauPoints, pointsLine, points);
         pointsLinePosition[positionTableauPoints * 3] = positionPoint.x;
         pointsLinePosition[positionTableauPoints * 3 + 1] = positionPoint.y;
         pointsLinePosition[positionTableauPoints * 3 + 2] = positionPoint.z;
@@ -46,14 +36,26 @@ export class FacadeLigneService {
     }
 
     public obtenirLigneDeDepart(pointsLine: any): number[] {
-        const positions = [];
+        const positions = new Array();
+
         if (pointsLine.geometry.attributes.position.array.length > 0) {
             for (let i = 0; i < 6; i++) {
-            positions[i] = pointsLine.geometry.attributes.position.array[i];
+              positions[i] = pointsLine.geometry.attributes.position.array[i];
             }
             return positions;
         } else {
             return null;
         }
+
+    }
+
+    private modificationDeCouleur(position, pointsLine: any, points: any[]): void {
+        const couleurListe = pointsLine.geometry.attributes.color.array;
+        if (points.length < 2) {
+            couleurListe[position * 3] = COMPOSANTE_R_POINT_EDITEUR;
+            couleurListe[position * 3 + 1] = COMPOSANTE_G_POINT_EDITEUR;
+            couleurListe[position * 3 + 2] = COMPOSANTE_B_POINT_EDITEUR;
+        }
+        pointsLine.geometry.attributes.color.needsUpdate = true;
     }
 }

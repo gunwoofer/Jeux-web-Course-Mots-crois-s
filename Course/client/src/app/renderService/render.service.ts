@@ -4,7 +4,7 @@ import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
 
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { FacadeLigneService } from './../facadeLigne/facadeligne.service';
+import { FacadeLigneService } from './../facadeLigne/facadeLigne.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';

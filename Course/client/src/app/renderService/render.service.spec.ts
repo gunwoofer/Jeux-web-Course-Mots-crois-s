@@ -10,7 +10,7 @@ import { CreateurPisteComponent } from '../createurPiste/createurPiste.component
 import { PisteValidationComponent } from '../pisteValidator/pisteValidation.component';
 
 import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
-import { FacadeLigneService } from '../facadeLigne/facadeligne.service';
+import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { RenderService } from './render.service';
 import { PisteService } from '../piste/piste.service';
