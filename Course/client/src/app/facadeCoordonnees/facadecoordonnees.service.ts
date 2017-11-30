@@ -8,9 +8,9 @@ export class FacadeCoordonneesService {
 
     public obtenirIntersection( event, scene: THREE.Scene, camera: THREE.Camera,
                                 renderer: THREE.WebGLRenderer): THREE.Intersection {
-        const rayCaster = new THREE.Raycaster();
 
         this.mouse = this.obtenirCoordonnees(event, renderer);
+        const rayCaster = new THREE.Raycaster();
         rayCaster.setFromCamera(this.mouse, camera);
 
         return rayCaster.intersectObjects(scene.children)[0];
@@ -22,10 +22,10 @@ export class FacadeCoordonneesService {
         const rectangle = renderer.domElement.getBoundingClientRect();
         const vector = new THREE.Vector2();
 
-        vector.x = ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1;
-        vector.y = -((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1;
-
-        return new THREE.Vector2(vector.x, vector.y);
+        return new THREE.Vector2(
+            ((event.clientX - rectangle.left) / (rectangle.right - rectangle.left)) * 2 - 1,
+            -((event.clientY - rectangle.top) / (rectangle.bottom - rectangle.top)) * 2 + 1
+        );
     }
 
     public miseAJourMouse(event: MouseEvent, renderer: THREE.WebGLRenderer): void {
