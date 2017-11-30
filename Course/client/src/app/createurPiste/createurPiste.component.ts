@@ -45,19 +45,19 @@ export class CreateurPisteComponent implements OnInit {
         this.musiqueService.musique.lancerMusiqueEditeur();
     }
 
-    public sourisDeplacement(event): void {
+    public sourisDeplacement(event: MouseEvent): void {
         this.evenementService.onMouseMove(event);
     }
 
-    public sourisClique(event): void {
+    public sourisClique(event: MouseEvent): void {
         this.evenementService.onMouseClick(event);
     }
 
-    public sourisBas(event): void {
+    public sourisBas(event: MouseEvent): void {
         this.evenementService.onMouseDown(event);
     }
 
-    public sourisRelache(event): boolean {
+    public sourisRelache(event: MouseEvent): boolean {
         this.evenementService.onMouseUp(event);
         return false;
     }

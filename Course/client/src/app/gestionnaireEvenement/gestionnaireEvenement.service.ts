@@ -14,7 +14,8 @@ import { FacadePointService } from '../facadePoint/facadepoint.service';
 export class EvenementService {
   constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService,
     private gestionnaireDeVue: GestionnaireDeVue, private lumiereService: LumiereService, private skyboxService: SkyboxService,
-    private filtreCouleurService: FiltreCouleurService) { }
+    private filtreCouleurService: FiltreCouleurService, private facadeCoordonneesService: FacadeCoordonneesService,
+    private facadePointService: FacadePointService) {}
 
   private tempsMouseDown;
   private tempsMouseUp;
@@ -23,17 +24,14 @@ export class EvenementService {
   private pointHover;
   private objetGlisse;
 
-  private facadeCoordonneesService = new FacadeCoordonneesService();
-  private facadePointService = new FacadePointService();
-
-  public onMouseDown(event): void {
+  public onMouseDown(event: MouseEvent): void {
     this.tempsMouseDown = new Date().getTime();
     if (this.pointHover) {
       this.modeGlissement = true;
     }
   }
 
-  public onMouseClick(event): void {
+  public onMouseClick(event: MouseEvent): void {
     if (!this.modeGlissement || this.dureeClick < 500 && this.objetGlisse && this.objetGlisse.name === '0') {
       this.renderService.dessinerPoint(event);
     }
@@ -45,7 +43,7 @@ export class EvenementService {
     this.modeGlissement = false;
   }
 
-  public onMouseUp(event): void {
+  public onMouseUp(event: MouseEvent): void {
     this.tempsMouseUp = new Date().getTime();
     this.dureeClick = this.tempsMouseUp - this.tempsMouseDown;
     if (event.button === 0) {
@@ -55,7 +53,7 @@ export class EvenementService {
     }
   }
 
-  public onMouseMove(event): void {
+  public onMouseMove(event: MouseEvent): void {
     const rayCaster = new THREE.Raycaster();
     this.facadeCoordonneesService.miseAJourMouse(event, this.renderService.renderer);
     let intersects;
@@ -75,30 +73,6 @@ export class EvenementService {
         }
       }
     }
-  }
-
-  private dragPoint(position: any): void {
-    this.objetGlisse.position.copy(position);
-    const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
-    this.renderService.facadeLigne.modifierPointLine(
-      objetGlisseNumber, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.points
-    );
-    if (objetGlisseNumber === 0 && this.renderService.dessinTermine) {
-      this.renderService.points[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
-      this.renderService.facadeLigne.modifierPointLine(
-        this.renderService.facadePointService.compteur - 1,
-        this.objetGlisse.position,
-        this.renderService.pointsLine,
-        this.renderService.points
-      );
-    }
-  }
-
-  private hoverPoint(point): void {
-    this.pointHover = true;
-    this.objetGlisse = point;
-    point.material.color.set(0x0000ff);
-    point.material.size = 11;
   }
 
   public gestionEvenement(event): void {
@@ -128,5 +102,29 @@ export class EvenementService {
 
   public touchePesee(event): void {
     this.generateurPisteService.deplacementService.touchePesee(event);
+  }
+
+  private dragPoint(position: any): void {
+    this.objetGlisse.position.copy(position);
+    const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
+    this.renderService.facadeLigne.modifierPointLine(
+      objetGlisseNumber, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.points
+    );
+    if (objetGlisseNumber === 0 && this.renderService.dessinTermine) {
+      this.renderService.points[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
+      this.renderService.facadeLigne.modifierPointLine(
+        this.renderService.facadePointService.compteur - 1,
+        this.objetGlisse.position,
+        this.renderService.pointsLine,
+        this.renderService.points
+      );
+    }
+  }
+
+  private hoverPoint(point): void {
+    this.pointHover = true;
+    this.objetGlisse = point;
+    point.material.color.set(0x0000ff);
+    point.material.size = 11;
   }
 }

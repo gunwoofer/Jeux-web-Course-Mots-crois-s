@@ -1,4 +1,6 @@
 import { CalculateurNombreOngle } from './../contraintesCircuit/calculateurNombreAngle';
+import { FacadePointService } from './../facadePoint/facadepoint.service';
+import { FacadeCoordonneesService } from './../facadeCoordonnees/facadecoordonnees.service';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
@@ -9,7 +11,9 @@ import { TestBed, inject, ComponentFixture, async } from '@angular/core/testing'
 
 import { CreateurPisteComponent } from '../createurPiste/createurPiste.component';
 import { PisteValidationComponent } from '../pisteValidator/pisteValidation.component';
-import { FacadeLigneService } from '../facadeLigne/facadeligne.service';
+import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
+
+import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { RenderService } from './render.service';
 import { PisteService } from '../piste/piste.service';
@@ -22,7 +26,6 @@ import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
-
 describe('RenderService test', () => {
 
     const calculateurNombreOngle = new CalculateurNombreOngle();
@@ -39,7 +42,8 @@ describe('RenderService test', () => {
             providers: [RenderService, EvenementService, PisteService, AffichageTeteHauteService,
                 GenerateurPisteService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
-                FiltreCouleurService, GestionnaireDeVue, TableauScoreService],
+                FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
+                FacadePointService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],
             imports: [FormsModule, HttpModule]
         })

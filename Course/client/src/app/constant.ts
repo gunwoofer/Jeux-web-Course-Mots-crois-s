@@ -87,6 +87,8 @@ export const HEX_NOIR = 0x000000;
 export const RADIAN_FLAQUE_EAU = 2;
 export const SEGMENTS_FLAQUE_EAU = 7;
 export const MAXIMUM_OBSTACLES_PAR_TYPE = 5;
+export const LARGEUR_ACCELERATEUR = 3;
+export const LONGUEUR_ACCELERATEUR = 2;
 
 // Divers
 export const FORMAT_MP3 = '.mp3';
@@ -108,6 +110,10 @@ export const URL_ADMINISTRATION = 'http://localhost:3000/admin';
 export const URL_MOT_DE_PASSSE_OUBLIE = 'http://localhost:3000/motDePasseOublie';
 export const URL_MODIFIER_MOT_DE_PASSE = 'http://localhost:3000/ModifierPass';
 export const MESSAGE_ERREUR = 'Une erreur est arrivé';
+// Couleurs
+export const COMPOSANTE_R_POINT_EDITEUR = 0.55;
+export const COMPOSANTE_G_POINT_EDITEUR = 0.91;
+export const COMPOSANTE_B_POINT_EDITEUR = 0.64;
 
 
 export const LISTE_PISTE = '/listePiste';
