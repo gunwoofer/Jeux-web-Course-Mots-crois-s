@@ -36,7 +36,6 @@ import { EtatPartie } from '../partie/EtatPartie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
-import { AxisHelper } from 'three';
 
 
 
