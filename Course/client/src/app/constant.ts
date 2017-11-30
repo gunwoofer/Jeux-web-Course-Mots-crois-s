@@ -105,6 +105,8 @@ export const DIMENSION_CUBE = 1500;
 export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
 export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
 
+
+// URL
 export const URL_INSCRIPTION = 'http://localhost:3000/inscription';
 export const URL_ADMINISTRATION = 'http://localhost:3000/admin';
 export const URL_MOT_DE_PASSSE_OUBLIE = 'http://localhost:3000/motDePasseOublie';
@@ -119,10 +121,12 @@ export const COULEUR_TERRE = 0xffffff;
 export const COULEUR_PHARE = 0xffffff;
 
 
+// Routage
 export const LISTE_PISTE = '/listePiste';
 export const INSCRIPTION = '/inscription';
 export const ADMINISTRATION = '/admin';
 export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
+export const GENERATION_PISTE = '/generationpiste';
 
 export const LARGEUR_PISTE_EDITEUR = 10;
 export const REPETITION_TEXTURE = 1;
