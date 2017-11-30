@@ -1,17 +1,24 @@
-import { PHARES } from './../constant';
+import { PHARES, COULEUR_CIEL, COULEUR_TERRE, COULEUR_PHARE } from './../constant';
 import { Injectable } from '@angular/core';
 import { HemisphereLight, DirectionalLight, PointLight, SpotLight, ImageUtils, Scene } from 'three';
 import { Voiture } from '../voiture/Voiture';
 
+const scalaire = 30;
+const intensitéLumierePoint = 0.5;
+const distanceLumierePoint = 5;
+const intensitéLumiereSpot = 2;
+const angleLumiereSpot = 0.5;
+const distanceLumiereSpot = 80;
+const intensitée = 1;
+const hex = 0xffffff;
+const intensité = 0.6;
+
 @Injectable()
 export class LumiereService {
 
-    private couleurCiel = 0xfd720f;
-    private couleurTerre = 0xffffff;
-    private couleurLumierePhare = 0xffffff;
-    private intensité = 0.6;
-    private hex = 0xffffff;
-    private intensitée = 1;
+    public lumiereHemisphere: HemisphereLight;
+    public lumiereDirectionnelle: DirectionalLight;
+
     private hemiCoulour = { h: 0.6, s: 0.75, l: 0.5 };
     private hemiCoulourTerre = { h: 0.095, s: 0.5, l: 0.5 };
     private directionCoulour = { h: 0.1, s: 1, l: 0.95 };
@@ -20,33 +27,10 @@ export class LumiereService {
     private lumierPointPosition = { x: 2.7, y: 1, z: 0.6 };
     private lumierSpotPosition = { x: 3, y: 1.5, z: 0.6 };
     private lumierSpotTargetPosition = { x: 6, y: 0.5, z: 1 };
-    private intensitéLumierePoint = 0.5;
-    private distanceLumierePoint = 5;
-    private intensitéLumiereSpot = 2;
-    private angleLumiereSpot = 0.5;
-    private distanceLumiereSpot = 80;
-    private scalaire = 30;
-    public lumiereHemisphere: HemisphereLight;
-    public lumiereDirectionnelle: DirectionalLight;
 
     constructor() {
         this.creeLumierDirectionnel();
         this.creeLumiereHemisphere();
-    }
-
-    public creeLumiereHemisphere(): void {
-        this.lumiereHemisphere = new HemisphereLight(this.couleurCiel, this.couleurTerre, this.intensité);
-        this.lumiereHemisphere.color.setHSL(this.hemiCoulour.h, this.hemiCoulour.s, this.hemiCoulour.l);
-        this.lumiereHemisphere.groundColor.setHSL(this.hemiCoulourTerre.h, this.hemiCoulourTerre.s, this.hemiCoulourTerre.l);
-        this.lumiereHemisphere.position.set(this.lumierHemiPosition.x, this.lumierHemiPosition.y, this.lumierHemiPosition.z);
-    }
-
-    public creeLumierDirectionnel(): void {
-        this.lumiereDirectionnelle = new DirectionalLight(this.hex, this.intensitée);
-        this.lumiereDirectionnelle.color.setHSL(this.directionCoulour.h, this.directionCoulour.s, this.directionCoulour.l);
-        this.lumiereDirectionnelle.position.set(this.lumierDirePosition.x, this.lumierDirePosition.y, this.lumierDirePosition.z);
-        this.lumiereDirectionnelle.position.multiplyScalar(this.scalaire);
-        this.lumiereDirectionnelle.castShadow = true;
     }
 
     public ajouterLumierScene(scene: Scene): void {
@@ -68,7 +52,7 @@ export class LumiereService {
     }
 
     public creerPhare(nom: string, cote: number): PointLight {
-        const phare = new PointLight(this.couleurLumierePhare, this.intensitéLumierePoint, this.distanceLumierePoint);
+        const phare = new PointLight(COULEUR_PHARE, intensitéLumierePoint, distanceLumierePoint);
         phare.name = nom;
         phare.position.set(this.lumierPointPosition.x, this.lumierPointPosition.y, cote * this.lumierPointPosition.z);
         phare.rotation.set(Math.PI, Math.PI, -Math.PI);
@@ -76,13 +60,28 @@ export class LumiereService {
     }
 
     public creerLumiereAvant(nom: string, cote: number): SpotLight {
-        const lumiereAvant = new SpotLight(this.couleurLumierePhare, this.intensitéLumiereSpot);
+        const lumiereAvant = new SpotLight(COULEUR_PHARE, intensitéLumiereSpot);
         lumiereAvant.name = nom;
         lumiereAvant.position.set(this.lumierSpotPosition.x, this.lumierSpotPosition.y, cote * this.lumierSpotPosition.z);
-        lumiereAvant.angle = this.angleLumiereSpot;
+        lumiereAvant.angle = angleLumiereSpot;
         lumiereAvant.target.position.set(this.lumierSpotTargetPosition.x, this.lumierSpotTargetPosition.y,
             cote * this.lumierSpotTargetPosition.z);
-        lumiereAvant.distance = this.distanceLumiereSpot;
+        lumiereAvant.distance = distanceLumiereSpot;
         return lumiereAvant;
+    }
+
+    private creeLumiereHemisphere(): void {
+        this.lumiereHemisphere = new HemisphereLight(COULEUR_CIEL, COULEUR_TERRE, intensité);
+        this.lumiereHemisphere.color.setHSL(this.hemiCoulour.h, this.hemiCoulour.s, this.hemiCoulour.l);
+        this.lumiereHemisphere.groundColor.setHSL(this.hemiCoulourTerre.h, this.hemiCoulourTerre.s, this.hemiCoulourTerre.l);
+        this.lumiereHemisphere.position.set(this.lumierHemiPosition.x, this.lumierHemiPosition.y, this.lumierHemiPosition.z);
+    }
+
+    private creeLumierDirectionnel(): void {
+        this.lumiereDirectionnelle = new DirectionalLight(hex, intensitée);
+        this.lumiereDirectionnelle.color.setHSL(this.directionCoulour.h, this.directionCoulour.s, this.directionCoulour.l);
+        this.lumiereDirectionnelle.position.set(this.lumierDirePosition.x, this.lumierDirePosition.y, this.lumierDirePosition.z);
+        this.lumiereDirectionnelle.position.multiplyScalar(scalaire);
+        this.lumiereDirectionnelle.castShadow = true;
     }
 }
