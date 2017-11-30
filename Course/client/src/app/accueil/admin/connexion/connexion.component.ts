@@ -25,7 +25,6 @@ export class ConnexionComponent implements OnInit {
 
     this.utilisateurService.seConnecter(admin)
       .then(donne => {
-
         if (donne.message) {
           alert(donne.message);
           this.utilisateurService.isAdmin = true;
@@ -33,7 +32,6 @@ export class ConnexionComponent implements OnInit {
         } else {
           alert(donne.error.message);
         }
-
       });
   }
 

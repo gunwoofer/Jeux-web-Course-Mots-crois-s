@@ -18,14 +18,12 @@ export class ModificationMotDePasseComponent {
 
         this.utilisateurService.modifierMotDePasse(modificationForm)
             .then(donnee => {
-
                 if (donnee.message) {
                     alert(donnee.message);
                     this.router.navigateByUrl(ADMINISTRATION);
                 } else {
                     alert(donnee.error.message);
                 }
-
             });
     }
 }

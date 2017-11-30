@@ -1,4 +1,3 @@
-
 import { Injectable } from '@angular/core';
 import { Observateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
