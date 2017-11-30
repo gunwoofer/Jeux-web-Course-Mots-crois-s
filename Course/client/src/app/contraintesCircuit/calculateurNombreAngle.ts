@@ -1,10 +1,10 @@
 import * as THREE from 'three';
 import { PI_SUR_4, ANGLE_45 } from '../constant';
-
+import { PointsFacade } from '../pointsFacade';
 
 export class CalculateurNombreOngle {
 
-    public nombreAnglesMoins45(points: any[], compteur: number, dessinTermine: boolean): number {
+    public nombreAnglesMoins45(points: PointsFacade[], compteur: number, dessinTermine: boolean): number {
         let nbAnglesMoins45 = 0;
 
         for (let i = 1; i < points.length - 1; i++) {
@@ -22,13 +22,11 @@ export class CalculateurNombreOngle {
         return nbAnglesMoins45;
     }
 
-    private estUnAngleMoins45(numeroPoint: number, points: any[], compteur: number): boolean {
+    private estUnAngleMoins45(numeroPoint: number, points: PointsFacade[], compteur: number): boolean {
         if (points.length > 1) {
             const angle = this.calculerAngle(numeroPoint, points, compteur);
 
             if (angle <= PI_SUR_4) {
-                points[numeroPoint].material.status = ANGLE_45;
-
                 return true;
             }
         }
@@ -36,7 +34,7 @@ export class CalculateurNombreOngle {
         return false;
     }
 
-    public calculerAngle(numeroPoint: number, points: any[], compteur: number): number {
+    public calculerAngle(numeroPoint: number, points: PointsFacade[], compteur: number): number {
         if (points.length > 1) {
             return Math.acos(this.creationVecteurCourant(numeroPoint, points, compteur)
                 .dot(this.creationVecteurPrecedent(numeroPoint, points, compteur)));
@@ -45,29 +43,29 @@ export class CalculateurNombreOngle {
         return NaN;
     }
 
-    public creationVecteurCourant(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
+    public creationVecteurCourant(numeroPoint: number, points: PointsFacade[], compteur?: number): THREE.Vector2 {
         return new THREE.Vector2(this.positionXVecteurCourant(numeroPoint, points),
             this.positionYVecteurCourant(numeroPoint, points)).normalize();
     }
 
-    public creationVecteurPrecedent(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
+    public creationVecteurPrecedent(numeroPoint: number, points: PointsFacade[], compteur?: number): THREE.Vector2 {
         return new THREE.Vector2(this.positionXVecteurPrecedent(numeroPoint, points, compteur),
             this.positionYVecteurPrecedent(numeroPoint, points, compteur)).normalize();
     }
 
-    private positionXVecteurCourant(numeroPoint: number, points: any[]): number {
+    private positionXVecteurCourant(numeroPoint: number, points: PointsFacade[]): number {
         return points[numeroPoint + 1].position.x - points[numeroPoint].position.x;
     }
 
-    private positionYVecteurCourant(numeroPoint: number, points: any[]): number {
+    private positionYVecteurCourant(numeroPoint: number, points: PointsFacade[]): number {
         return points[numeroPoint + 1].position.y - points[numeroPoint].position.y;
     }
 
-    private positionXVecteurPrecedent(numeroPoint: number, points: any[], compteur: number): number {
+    private positionXVecteurPrecedent(numeroPoint: number, points: PointsFacade[], compteur: number): number {
         return -(points[numeroPoint].position.x - points[this.indexVecteurPrecedent(numeroPoint, compteur)].position.x);
     }
 
-    private positionYVecteurPrecedent(numeroPoint: number, points: any[], compteur: number): number {
+    private positionYVecteurPrecedent(numeroPoint: number, points: PointsFacade[], compteur: number): number {
         return -(points[numeroPoint].position.y - points[this.indexVecteurPrecedent(numeroPoint, compteur)].position.y);
     }
 

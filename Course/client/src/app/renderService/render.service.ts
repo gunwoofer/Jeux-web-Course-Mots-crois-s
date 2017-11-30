@@ -10,6 +10,8 @@ import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees
 import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
 import { Piste } from '../piste/piste.model';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
+import { Points } from 'three';
+import { PointsFacade } from '../pointsFacade';
 
 @Injectable()
 export class RenderService {
@@ -21,7 +23,7 @@ export class RenderService {
   public pisteAmodifie: Piste;
   public pointsLine;
   public id;
-  public points: any[] = new Array();
+  public points: PointsFacade[] = new Array();
   public dessinTermine = false;
   public nbSegmentsCroises = 0;
   public nbAnglesPlusPetit45 = 0;
@@ -89,7 +91,7 @@ export class RenderService {
     return this.container.clientWidth / this.container.clientHeight;
   }
 
-  public ajouterPoint(point: THREE.Points): void {
+  public ajouterPoint(point: PointsFacade): void {
     if (!this.dessinTermine) {
       this.scene.add(point);
     }
