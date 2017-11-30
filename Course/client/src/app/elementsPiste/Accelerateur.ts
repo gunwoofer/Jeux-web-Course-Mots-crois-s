@@ -1,3 +1,4 @@
+import { LARGEUR_ACCELERATEUR, LONGUEUR_ACCELERATEUR } from './../constant';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
@@ -14,7 +15,6 @@ export class Accelerateur extends ElementDePiste {
     }
 
     public genererMesh(): void {
-        const accelerateurGeometrie = new THREE.PlaneGeometry(3, 2);
         const materiel = new THREE.MeshPhongMaterial();
         const loader = new THREE.TextureLoader();
 
@@ -26,7 +26,7 @@ export class Accelerateur extends ElementDePiste {
             materiel.map = texture;
             materiel.needsUpdate = true;
         });
-
+        const accelerateurGeometrie = new THREE.PlaneGeometry(LARGEUR_ACCELERATEUR, LONGUEUR_ACCELERATEUR);
         this.mesh = new THREE.Mesh(accelerateurGeometrie, materiel);
     }
 

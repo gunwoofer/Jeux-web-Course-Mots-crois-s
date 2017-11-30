@@ -24,6 +24,7 @@ export class NidDePoule extends ElementDePiste {
         for (let i = 1; i < 10; i++) {
             geometrie.vertices[i].x = Math.random() * 1.5;
         }
+
         return geometrie;
     }
 

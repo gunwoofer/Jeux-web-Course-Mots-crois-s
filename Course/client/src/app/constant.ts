@@ -87,6 +87,8 @@ export const HEX_NOIR = 0x000000;
 export const RADIAN_FLAQUE_EAU = 2;
 export const SEGMENTS_FLAQUE_EAU = 7;
 export const MAXIMUM_OBSTACLES_PAR_TYPE = 5;
+export const LARGEUR_ACCELERATEUR = 3;
+export const LONGUEUR_ACCELERATEUR = 2;
 
 // Divers
 export const FORMAT_MP3 = '.mp3';
