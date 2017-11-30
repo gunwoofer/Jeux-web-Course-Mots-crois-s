@@ -1,3 +1,4 @@
+import { ADMINISTRATION } from './../../../constant';
 import { ModificationForm } from './modificationModel';
 import { UtilisateurService } from '../../utilisateur.service';
 import { NgForm } from '@angular/forms/src/directives';
@@ -15,13 +16,13 @@ export class ModificationMotDePasseComponent {
     public soummetre(form: NgForm): void {
         const modificationForm = new ModificationForm(form.value.email, form.value.motDePasse, form.value.NmotDePasse);
         this.utilisateurService.modifierMotDePasse(modificationForm)
-            .then(donne => {
-                if (donne.message) {
-                  alert(donne.message);
-                  this.router.navigateByUrl('/admin');
+            .then(donnee => {
+                if (donnee.message) {
+                    alert(donnee.message);
+                    this.router.navigateByUrl(ADMINISTRATION);
                 } else {
-                  alert(donne.error.message);
+                    alert(donnee.error.message);
                 }
-              });
+            });
     }
 }

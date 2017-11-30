@@ -39,7 +39,6 @@ module Administrateur {
                 if (err) {
                     return res.status(500).json({
                         message: 'une erreur est survenue',
-                        error: err,
                     });
                 }
                 if (!admin) {
@@ -48,7 +47,7 @@ module Administrateur {
                     });
                 }
                 res.status(200).json({
-                    motDePasse: 'votre mot de passe est: ' + admin.motDePasse,
+                    message: 'votre mot de passe est: ' + admin.motDePasse,
                 });
             });
         };

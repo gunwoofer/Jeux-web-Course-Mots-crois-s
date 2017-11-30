@@ -3,6 +3,7 @@ import { UtilisateurService } from './../../utilisateur.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Component, OnInit } from '@angular/core';
+import { LISTE_PISTE, MOT_DE_PASSE_OUBLIE } from '../../../constant';
 
 @Component({
   selector: 'app-connexion',
@@ -26,7 +27,7 @@ export class ConnexionComponent implements OnInit {
         if (donne.message) {
           alert(donne.message);
           this.utilisateurService.isAdmin = true;
-          this.router.navigateByUrl('/listePiste');
+          this.router.navigateByUrl(LISTE_PISTE);
         } else {
           alert(donne.error.message);
         }
@@ -34,11 +35,11 @@ export class ConnexionComponent implements OnInit {
   }
 
   public sinscrire(): void {
-    this.router.navigateByUrl('/inscription');
+    this.router.navigateByUrl(LISTE_PISTE);
   }
 
   public motDepasseOublie(): void {
-    this.router.navigateByUrl('/motDePasseOublie');
+    this.router.navigateByUrl(MOT_DE_PASSE_OUBLIE);
   }
 
   public ngOnInit(): void {

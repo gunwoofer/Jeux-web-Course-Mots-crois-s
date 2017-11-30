@@ -1,3 +1,4 @@
+import { LISTE_PISTE, ADMINISTRATION } from './../constant';
 import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
@@ -8,13 +9,13 @@ import { Component } from '@angular/core';
 })
 export class AccueilComponent {
 
-  constructor(private router: Router) {}
+  constructor(private router: Router) { }
 
   public clickerAdmin(): void {
-    this.router.navigateByUrl('/admin');
+    this.router.navigateByUrl(ADMINISTRATION);
   }
 
   public clickerJoueur(): void {
-    this.router.navigateByUrl('/listePiste');
+    this.router.navigateByUrl(LISTE_PISTE);
   }
 }

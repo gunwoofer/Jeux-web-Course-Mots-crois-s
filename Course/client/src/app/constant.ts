@@ -90,4 +90,16 @@ export const DIMENSION_CUBE = 1500;
 export const DISTANCE_POSITIONNEMENT_ORTHOGONALE = 3;
 export const DISTANCE_POSITIONNEMENT_PARALLELE = 5;
 
+export const URL_INSCRIPTION = 'http://localhost:3000/inscription';
+export const URL_ADMINISTRATION = 'http://localhost:3000/admin';
+export const URL_MOT_DE_PASSSE_OUBLIE = 'http://localhost:3000/motDePasseOublie';
+export const URL_MODIFIER_MOT_DE_PASSE = 'http://localhost:3000/ModifierPass';
+export const MESSAGE_ERREUR = 'Une erreur est arrivé';
+
+
+export const LISTE_PISTE = '/listePiste';
+export const INSCRIPTION = '/inscription';
+export const ADMINISTRATION = '/admin';
+export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
+
 
