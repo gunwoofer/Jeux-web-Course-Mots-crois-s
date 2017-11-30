@@ -1,3 +1,5 @@
+import { FacadePointService } from './../facadePoint/facadepoint.service';
+import { FacadeCoordonneesService } from './../facadeCoordonnees/facadecoordonnees.service';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
@@ -23,7 +25,6 @@ import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
-
 describe('RenderService test', () => {
 
     const contraintesCircuit = new ContraintesCircuit();
@@ -40,7 +41,8 @@ describe('RenderService test', () => {
             providers: [RenderService, EvenementService, PisteService, AffichageTeteHauteService,
                 GenerateurPisteService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
-                FiltreCouleurService, GestionnaireDeVue, TableauScoreService],
+                FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
+                FacadePointService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],
             imports: [FormsModule, HttpModule]
         })
