@@ -2,6 +2,7 @@ import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
+import { HEX_NOIR } from '../constant';
 
 
 export class NidDePoule extends ElementDePiste {
@@ -9,24 +10,17 @@ export class NidDePoule extends ElementDePiste {
 
     constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
+
         this.typeElementDePiste = TypeElementPiste.NidDePoule;
-        if (position) {
-            this.position = position;
-        } else {
-            this.position = this.genererPositionAleatoire(listePosition, true);
-        }
+        this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
     }
 
 
     public genererMesh(): void {
-        let nidDePouleGeometrie = new THREE.CircleGeometry(1, 10);
+        const nidDePouleGeometrie = this.ajouterBruitGeometrie( new THREE.CircleGeometry(1, 10) );
+        const materiel = new THREE.MeshPhongMaterial({ color: HEX_NOIR });
 
-        nidDePouleGeometrie = this.ajouterBruitGeometrie(nidDePouleGeometrie);
-
-        const materiel = new THREE.MeshPhongMaterial({ color: 0x000000 });
-
-        const mesh = new THREE.Mesh(nidDePouleGeometrie, materiel);
-        this.mesh = mesh;
+        this.mesh = new THREE.Mesh(nidDePouleGeometrie, materiel);
     }
 
     private ajouterBruitGeometrie(geometrie: THREE.CircleGeometry): THREE.CircleGeometry {
