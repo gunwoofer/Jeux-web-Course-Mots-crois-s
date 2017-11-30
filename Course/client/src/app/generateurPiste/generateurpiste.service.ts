@@ -85,7 +85,7 @@ export class GenerateurPisteService implements Observateur {
         this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
-        this.ajoutPisteAuPlan();
+        this.segment.mettreSegmentsSurScene(this.piste, this.scene);
         this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
         this.ajoutZoneDepart();
         this.chargementDesVoitures();
@@ -186,13 +186,6 @@ export class GenerateurPisteService implements Observateur {
 
     public getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
-    }
-
-    public ajoutPisteAuPlan(): void {
-        const segmentsPiste = this.segment.chargerSegmentsDePiste(this.piste);
-        for (let i = 0; i < segmentsPiste.length; i++) {
-            this.scene.add(segmentsPiste[i]);
-        }
     }
 
     public ajoutZoneDepart(): void {

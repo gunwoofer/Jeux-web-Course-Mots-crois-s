@@ -13,6 +13,12 @@ export class Segment {
     public premierSegment = new Array<THREE.Vector3>();
     public damierDeDepart: THREE.Mesh;
 
+    public mettreSegmentsSurScene(piste: Piste, scene: THREE.Scene): void {
+        for (let segment = 0; segment < this.chargerSegmentsDePiste(piste).length; segment++) {
+            scene.add(this.chargerSegmentsDePiste(piste)[segment]);
+        }
+    }
+
     public chargerSegmentsDePiste(piste: Piste): THREE.Mesh[] {
         const segmentsPisteVisuel: THREE.Mesh[] = new Array();
         for (let i = 0; i < piste.listepositions.length - 1; i++) {
