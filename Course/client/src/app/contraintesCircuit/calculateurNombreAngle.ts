@@ -36,7 +36,7 @@ export class CalculateurNombreOngle {
         return false;
     }
 
-    public calculerAngle(numeroPoint: number, points: any[], compteur: number): number {
+    private calculerAngle(numeroPoint: number, points: any[], compteur: number): number {
         if (points.length > 1) {
             return Math.acos(this.creationVecteurCourant(numeroPoint, points, compteur)
                 .dot(this.creationVecteurPrecedent(numeroPoint, points, compteur)));
@@ -45,12 +45,12 @@ export class CalculateurNombreOngle {
         return NaN;
     }
 
-    public creationVecteurCourant(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
+    private creationVecteurCourant(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
         return new THREE.Vector2(this.positionXVecteurCourant(numeroPoint, points),
             this.positionYVecteurCourant(numeroPoint, points)).normalize();
     }
 
-    public creationVecteurPrecedent(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
+    private creationVecteurPrecedent(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
         return new THREE.Vector2(this.positionXVecteurPrecedent(numeroPoint, points, compteur),
             this.positionYVecteurPrecedent(numeroPoint, points, compteur)).normalize();
     }
