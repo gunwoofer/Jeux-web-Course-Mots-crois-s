@@ -1,5 +1,5 @@
 
-import { TypeElementPiste, ElementDePiste} from './ElementDePiste';
+import { TypeElementPiste, ElementDePiste } from './ElementDePiste';
 import { Accelerateur } from './Accelerateur';
 import { FlaqueDEau } from './FlaqueDEau';
 import { NidDePoule } from './NidDePoule';
@@ -12,15 +12,30 @@ export class FabriquantElementDePiste {
         let vraiElementDePiste: ElementDePiste;
 
         vraiElementDePiste = FabriquantElementDePiste.creerNouvelleElementPiste(source.typeElementDePiste, listePosition,
-                                                                                source.position);
+            source.position);
 
         Object.assign(vraiElementDePiste, sourceElementDePiste);
 
         return vraiElementDePiste;
     }
 
-    public static creerNouvelleElementPiste(  typeElementPiste: TypeElementPiste, listePosition: THREE.Vector3[],
-                                            position?: THREE.Vector3): ElementDePiste {
+    public static creerNouvelleElementPiste(typeElementPiste: TypeElementPiste, listePosition: THREE.Vector3[],
+        position?: THREE.Vector3): ElementDePiste {
+        return FabriquantElementDePiste.creationElement(typeElementPiste, listePosition, position);
+    }
+
+    public static estDeType(type: TypeElementPiste, elementAVerifier: ElementDePiste): boolean {
+        if (type === TypeElementPiste.Accelerateur && elementAVerifier instanceof Accelerateur ||
+            type === TypeElementPiste.FlaqueDEau && elementAVerifier instanceof FlaqueDEau ||
+            type === TypeElementPiste.NidDePoule && elementAVerifier instanceof NidDePoule) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public static creationElement(typeElementPiste: TypeElementPiste, listePosition: THREE.Vector3[],
+        position?: THREE.Vector3): ElementDePiste {
         if (typeElementPiste === TypeElementPiste.Accelerateur) {
             return new Accelerateur(listePosition, position);
         }
@@ -32,15 +47,5 @@ export class FabriquantElementDePiste {
         if (typeElementPiste === TypeElementPiste.NidDePoule) {
             return new NidDePoule(listePosition, position);
         }
-    }
-
-    public static estDeType(type: TypeElementPiste, elementAVerifier: ElementDePiste): boolean {
-        if (type === TypeElementPiste.Accelerateur && elementAVerifier instanceof Accelerateur ||
-            type === TypeElementPiste.FlaqueDEau && elementAVerifier instanceof FlaqueDEau ||
-            type === TypeElementPiste.NidDePoule && elementAVerifier instanceof NidDePoule) {
-            return true;
-        }
-
-        return false;
     }
 }
