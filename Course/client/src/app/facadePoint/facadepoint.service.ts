@@ -25,7 +25,7 @@ export class FacadePointService {
       });
       const point = new THREE.Points(geometrie, materiel);
       point.position.copy(coordonnees);
-      point.position.z = ORIGINE;
+      point.position.z = 0;
       point.geometry.computeBoundingSphere();
       point.geometry.boundingSphere.radius = CERCLE_RADIUS;
       point.name = '' + this.compteur;
