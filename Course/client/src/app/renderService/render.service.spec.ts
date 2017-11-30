@@ -101,7 +101,7 @@ describe('RenderService test', () => {
         });
         const compteur = 0;
         evenementService.onMouseClick(fakeClickEvent);
-        const pointListe = renderService.points;
+        const pointListe = <any> renderService.points;
         const typeObjet = pointListe[compteur].isPoints;
         expect(typeObjet).toEqual(true);
     });
@@ -245,9 +245,9 @@ describe('RenderService test', () => {
             });
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        expect(renderService.points[0].material.color.getHex()).toEqual(0x800080);
         for (let i = 1; i <= 4; i++) {
-            expect(renderService.points[i].material.color.getHex()).toEqual(0x008000);
+            const pointCourant: any = renderService.points[i];
+            expect(pointCourant.material.color.getHex()).toEqual(0x008000);
         }
     });
 
