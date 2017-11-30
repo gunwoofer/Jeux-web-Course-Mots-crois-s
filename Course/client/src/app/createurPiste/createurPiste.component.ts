@@ -15,12 +15,12 @@ import { Piste } from './../piste/piste.model';
 
 export class CreateurPisteComponent implements OnInit {
 
-    public pisteAmodifier: Piste;
+    public pisteAModifier: Piste;
     public message;
 
-    private affiche: boolean;
     @ViewChild('container')
     private containerRef: ElementRef;
+    private affiche: boolean;
 
     constructor(private renderService: RenderService,
                 private evenementService: EvenementService,
@@ -45,41 +45,42 @@ export class CreateurPisteComponent implements OnInit {
         this.musiqueService.musique.lancerMusiqueEditeur();
     }
 
-    public onMouseMove(event): void {
-    this.evenementService.onMouseMove(event);
+    public sourisDeplacement(event): void {
+        this.evenementService.onMouseMove(event);
     }
 
-    public onMouseClick(event): void {
-    this.evenementService.onMouseClick(event);
+    public sourisClique(event): void {
+        this.evenementService.onMouseClick(event);
     }
 
-    public onMouseDown(event): void {
-    this.evenementService.onMouseDown(event);
+    public sourisBas(event): void {
+        this.evenementService.onMouseDown(event);
     }
 
-    public onMouseUp(event): boolean {
-    this.evenementService.onMouseUp(event);
-    return false;
+    public sourisRelache(event): boolean {
+        this.evenementService.onMouseUp(event);
+        return false;
     }
 
     public estValide(): boolean {
-    this.pisteAmodifier = this.renderService.pisteAmodifie;
-    return this.affiche = this.renderService.retourneEtatDessin();
+        this.pisteAModifier = this.renderService.pisteAmodifie;
+        return this.affiche = this.renderService.retourneEtatDessin();
     }
 
     public erreursCircuit(): boolean {
-    if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
-        this.renderService.nbSegmentsTropProche,
-        this.renderService.nbSegmentsCroises)) {
-        this.message = this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
-        this.renderService.nbSegmentsTropProche,
-        this.renderService.nbSegmentsCroises);
-        return true;
-    } else {
+        if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
+            this.renderService.nbSegmentsTropProche,
+            this.renderService.nbSegmentsCroises)) {
+            this.message = this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
+            this.renderService.nbSegmentsTropProche,
+            this.renderService.nbSegmentsCroises);
+
+            return true;
+        }
+
         return false;
     }
-    }
-  
+
     // Nom spécifique à la librairie. Ne pas changer sinon l'événement n'est pas détecté.
     public oncontextmenu(): boolean {
         this.evenementService.rightClick();
