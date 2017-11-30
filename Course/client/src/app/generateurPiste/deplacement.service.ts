@@ -4,6 +4,8 @@ import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_
 
 import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
 
+const SECOUSSE_X = 0.2;
+
 @Injectable()
 export class DeplacementService {
     public enAvant: boolean;

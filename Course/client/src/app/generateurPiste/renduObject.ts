@@ -1,5 +1,7 @@
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 
+const POSITION_X = 0;
+const POSITION_Y = 0;
 
 export class Rendu {
 
@@ -23,8 +25,8 @@ export class Rendu {
             renderer.setScissor(parametre.coinX, parametre.coinY,
                 parametre.largeur, parametre.hauteur);
         } else if (parametre instanceof HTMLDivElement) {
-            renderer.setViewport(0, 0, parametre.clientWidth, parametre.clientHeight);
-            renderer.setScissor(0, 0, parametre.clientWidth, parametre.clientHeight);
+            renderer.setViewport(POSITION_X, POSITION_Y, parametre.clientWidth, parametre.clientHeight);
+            renderer.setScissor(POSITION_X, POSITION_Y, parametre.clientWidth, parametre.clientHeight);
         }
     }
 
