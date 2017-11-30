@@ -107,12 +107,12 @@ export class EvenementService {
   private dragPoint(position: any): void {
     this.objetGlisse.position.copy(position);
     const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
-    this.renderService.facadeLigne.modifierPointLine(
+    this.renderService.facadeLigne.modifierLignePoints(
       objetGlisseNumber, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.points
     );
     if (objetGlisseNumber === 0 && this.renderService.dessinTermine) {
       this.renderService.points[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
-      this.renderService.facadeLigne.modifierPointLine(
+      this.renderService.facadeLigne.modifierLignePoints(
         this.renderService.facadePointService.compteur - 1,
         this.objetGlisse.position,
         this.renderService.pointsLine,
