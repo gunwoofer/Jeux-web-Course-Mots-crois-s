@@ -11,11 +11,11 @@ export class AccueilComponent {
 
   constructor(private router: Router) { }
 
-  public clickerAdmin(): void {
+  public cliquerAdmin(): void {
     this.router.navigateByUrl(ADMINISTRATION);
   }
 
-  public clickerJoueur(): void {
+  public cliquerJoueur(): void {
     this.router.navigateByUrl(LISTE_PISTE);
   }
 }
