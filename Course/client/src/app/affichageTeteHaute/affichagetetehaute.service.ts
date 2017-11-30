@@ -7,6 +7,7 @@ import { AffichageTeteHaute } from './affichageTeteHaute';
 import { Pilote } from '../partie/Pilote';
 
 @Injectable()
+
 export class AffichageTeteHauteService implements Observateur {
     public affichageTeteHaute: AffichageTeteHaute = new AffichageTeteHaute();
     private notifierVue = false;
@@ -19,17 +20,9 @@ export class AffichageTeteHauteService implements Observateur {
 
     public notifier(sujet: Sujet, type: NotificationType): void {
         if (this.estUnPilote(sujet)) {
-            const pilote: Pilote = <Pilote> sujet;
+            const pilote: Pilote = <Pilote>sujet;
             this.notifierVue = true;
-
-            if (type === NotificationType.Deplacement) {
-                this.affichageTeteHaute.tempsTotal = Pilote.tempsTotal;
-                this.affichageTeteHaute.tempsTour = pilote.tempsTourActuel;
-            } else if (type === NotificationType.Nouvelle_position) {
-                this.affichageTeteHaute.position = pilote.position;
-            } else if (type === NotificationType.Tour_termine) {
-                this.affichageTeteHaute.tourCourant = pilote.tourCourant;
-            }
+            this.miseAJourNotification(type, pilote);
         }
 
         if (this.notifierVue) {
@@ -44,5 +37,16 @@ export class AffichageTeteHauteService implements Observateur {
         }
 
         return false;
+    }
+
+    public miseAJourNotification(type: NotificationType, pilote: Pilote): void {
+        if (type === NotificationType.Deplacement) {
+            this.affichageTeteHaute.tempsTotal = Pilote.tempsTotal;
+            this.affichageTeteHaute.tempsTour = pilote.tempsTourActuel;
+        } else if (type === NotificationType.Nouvelle_position) {
+            this.affichageTeteHaute.position = pilote.position;
+        } else if (type === NotificationType.Tour_termine) {
+            this.affichageTeteHaute.tourCourant = pilote.tourCourant;
+        }
     }
 }

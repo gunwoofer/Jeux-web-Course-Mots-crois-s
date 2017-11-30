@@ -15,14 +15,17 @@ export class ModificationMotDePasseComponent {
 
     public soummetre(form: NgForm): void {
         const modificationForm = new ModificationForm(form.value.email, form.value.motDePasse, form.value.NmotDePasse);
+
         this.utilisateurService.modifierMotDePasse(modificationForm)
             .then(donnee => {
+
                 if (donnee.message) {
                     alert(donnee.message);
                     this.router.navigateByUrl(ADMINISTRATION);
                 } else {
                     alert(donnee.error.message);
                 }
+
             });
     }
 }

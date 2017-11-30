@@ -22,8 +22,10 @@ export class ConnexionComponent implements OnInit {
 
   public soummetre(form: NgForm): void {
     const admin = new Administrateur(form.value.email, form.value.motDePasse);
+
     this.utilisateurService.seConnecter(admin)
       .then(donne => {
+
         if (donne.message) {
           alert(donne.message);
           this.utilisateurService.isAdmin = true;
@@ -31,6 +33,7 @@ export class ConnexionComponent implements OnInit {
         } else {
           alert(donne.error.message);
         }
+
       });
   }
 
