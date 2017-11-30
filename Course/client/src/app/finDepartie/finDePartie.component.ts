@@ -10,7 +10,6 @@ import { Component } from '@angular/core';
 
 export class FinDePartieComponent {
 
-
     constructor(private router: Router) { }
 
     public jouerUneNouvellePartie(): void {

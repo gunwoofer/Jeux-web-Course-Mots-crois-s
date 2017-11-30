@@ -23,6 +23,4 @@ export class Retroviseur {
         this.camera.position.y = 2;
         this.camera.rotateY(Math.PI / 2);
     }
-
-
 }
