@@ -13,21 +13,21 @@ import { PisteService } from './../piste/piste.service';
 })
 
 export class ListePisteComponent implements OnInit {
-  public listePistes: Piste[] = [];
-  public estUnAdmin: boolean;
+    public listePistes: Piste[] = new Array();
+    public estUnAdmin: boolean;
 
-  constructor(private pisteService: PisteService, private musiqueService: MusiqueService,
-    private utilisateurService: UtilisateurService) { }
+    constructor(private pisteService: PisteService, private musiqueService: MusiqueService,
+        private utilisateurService: UtilisateurService) { }
 
-  public ngOnInit(): void {
-    if (this.utilisateurService.isAdmin) {
-      this.estUnAdmin = true;
+    public ngOnInit(): void {
+        if (this.utilisateurService.isAdmin) {
+            this.estUnAdmin = true;
+        }
+            this.pisteService.retournerListePiste().then((pistes: Piste[]) => {this.listePistes = pistes; });
+        if (!this.musiqueService.musique.thematique) {
+            this.musiqueService.musique.arreterMusique();
+            this.musiqueService.musique.lancerMusiqueThematique();
+        }
     }
-    this.pisteService.retournerListePiste().then((pistes: Piste[]) => {this.listePistes = pistes; console.log(pistes); });
-    if (!this.musiqueService.musique.thematique) {
-      this.musiqueService.musique.arreterMusique();
-      this.musiqueService.musique.lancerMusiqueThematique();
-    }
-  }
 }
 

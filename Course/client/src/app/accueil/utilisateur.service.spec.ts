@@ -40,7 +40,7 @@ describe('utilisateurService test', () => {
             (connection: MockConnection) => connection.mockRespond(response)
         );
         return service.sInscrire(admin).then(data => {
-            expect(data).toEqual('administrateur sest enregistre');
+            expect(<any>data).toEqual('administrateur sest enregistre');
         });
     }));
 
@@ -54,8 +54,8 @@ describe('utilisateurService test', () => {
             (connection: MockConnection) => connection.mockRespond(baseResponse)
         );
         return service.nombreAdmin().then(data => {
-            expect(data).toEqual(nombreAdmin);
-            expect(data).toEqual(1);
+            expect(<any>data).toEqual(nombreAdmin);
+            expect(<any>data).toEqual(1);
         });
     }));
 
@@ -68,7 +68,7 @@ describe('utilisateurService test', () => {
             (connection: MockConnection) => connection.mockRespond(baseResponse)
         );
         return service.recupererMotDePasse(mockAdmin.email).then(data => {
-            expect(data).toEqual(mockListAdmin[0].motDePasse);
+            expect(<any>data).toEqual(mockListAdmin[0].motDePasse);
         });
     }));
 
@@ -82,8 +82,8 @@ describe('utilisateurService test', () => {
             (connection: MockConnection) => connection.mockRespond(response)
         );
         return service.modifierMotDePasse(mockForm).then(data => {
-            expect(data).toEqual('Le mot de passe a été modifié');
-            expect(data).toEqual(message);
+            expect(<any>data).toEqual('Le mot de passe a été modifié');
+            expect(<any>data).toEqual(message);
         });
     }));
 
@@ -97,8 +97,8 @@ describe('utilisateurService test', () => {
             (connection: MockConnection) => connection.mockRespond(response)
         );
         return service.modifierMotDePasse(mockForm).then(data => {
-            expect(data).toEqual('connexion est approuve');
-            expect(data).toEqual(message);
+            expect(<any>data).toEqual('connexion est approuve');
+            expect(<any>data).toEqual(message);
         });
     }));
 

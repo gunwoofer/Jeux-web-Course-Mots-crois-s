@@ -31,11 +31,7 @@ export class AffichageTeteHauteService implements Observateur {
     }
 
     private estUnPilote(sujet: Sujet): boolean {
-        if (sujet instanceof Pilote) {
-            return true;
-        }
-
-        return false;
+        return (sujet instanceof Pilote) ? true : false;
     }
 
     public miseAJourNotification(type: NotificationType, pilote: Pilote): void {

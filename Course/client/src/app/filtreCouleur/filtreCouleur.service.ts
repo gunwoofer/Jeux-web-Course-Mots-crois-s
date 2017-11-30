@@ -2,6 +2,7 @@ import { filtreCouleur, nomFiltre } from './matriceProblemeVue';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
+const min = 0;
 
 @Injectable()
 export class FiltreCouleurService {
@@ -14,8 +15,6 @@ export class FiltreCouleurService {
     private objectColor: any[] = new Array();
     private objectWithMaterial: any[] = new Array();
     private taille = nomFiltre.length - 1;
-    private min = 0;
-    private un = 1;
     private filtreApplique = true;
 
 
@@ -59,7 +58,7 @@ export class FiltreCouleurService {
     }
 
     private randomFiltre(): string {
-        const indice = Math.floor(Math.random() * (this.taille - this.min + this.un) + this.min);
+        const indice = Math.floor(Math.random() * (this.taille - min + 1) + min);
         return nomFiltre[indice];
     }
 

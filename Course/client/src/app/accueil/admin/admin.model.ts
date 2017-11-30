@@ -5,5 +5,4 @@ export class Administrateur {
         public nomUtilisateur?: string,
         public nom?: string,
         public prenom?: string) { }
-
 }
