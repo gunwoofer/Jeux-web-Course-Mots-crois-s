@@ -12,12 +12,6 @@ export class GestionnaireDeVue {
     private cameraOfssetZ = 0;
     private etatRetroviseur = true;
 
-    public vueMiseAjour(camera: PerspectiveCamera, voiture: Voiture): void {
-        camera.lookAt(voiture.obtenirVoiture3D().position);
-        camera.updateMatrix();
-        camera.updateProjectionMatrix();
-    }
-
     public changerEtatRetroviseur(): void {
         this.etatRetroviseur = !this.etatRetroviseur;
     }
@@ -55,5 +49,11 @@ export class GestionnaireDeVue {
         if (event.key === ZOOM_ARRIERE && camera.zoom > 1) {
             camera.zoom -= DELTA_ZOOM;
         }
+    }
+
+    private vueMiseAjour(camera: PerspectiveCamera, voiture: Voiture): void {
+        camera.lookAt(voiture.obtenirVoiture3D().position);
+        camera.updateMatrix();
+        camera.updateProjectionMatrix();
     }
 }

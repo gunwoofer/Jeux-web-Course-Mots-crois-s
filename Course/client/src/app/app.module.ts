@@ -32,7 +32,7 @@ import { PisteService } from './piste/piste.service';
 import { FacadeCoordonneesService } from './facadeCoordonnees/facadecoordonnees.service';
 import { EvenementService } from './gestionnaireEvenement/gestionnaireEvenement.service';
 import { FacadePointService } from './facadePoint/facadepoint.service';
-import { FacadeLigneService } from './facadeLigne/facadeligne.service';
+import { FacadeLigneService } from './facadeLigne/facadeLigne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
 import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
 import { UtilisateurService } from './accueil/utilisateur.service';
