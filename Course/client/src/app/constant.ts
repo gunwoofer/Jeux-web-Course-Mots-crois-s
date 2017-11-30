@@ -122,5 +122,6 @@ export const ADMINISTRATION = '/admin';
 export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
 
 export const LARGEUR_PISTE_EDITEUR = 10;
+export const REPETITION_TEXTURE = 1;
 
 
