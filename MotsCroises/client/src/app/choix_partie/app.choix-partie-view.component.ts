@@ -26,7 +26,6 @@ export class ChoixPartieViewComponent {
 
   }
 
-
   public ajouterTypePartie(typePartie: TypePartie): void {
     this.typePartie = typePartie;
   }
