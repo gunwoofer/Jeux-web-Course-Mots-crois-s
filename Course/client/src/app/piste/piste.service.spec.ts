@@ -1,3 +1,4 @@
+import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
@@ -21,7 +22,7 @@ describe('pisteService test', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                PisteService, GestionnaireDeVue, MusiqueService,
+                PisteService, GestionnaireDeVue, MusiqueService, SortiePisteService,
                 GenerateurPisteService, FiltreCouleurService, AffichageTeteHauteService,
                 ObjetService, LumiereService, TableauScoreService, DeplacementService,
                 MockBackend, SkyboxService, RatingService, PlacementService,

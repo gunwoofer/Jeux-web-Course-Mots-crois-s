@@ -15,7 +15,7 @@ export class EvenementService {
   constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService,
     private gestionnaireDeVue: GestionnaireDeVue, private lumiereService: LumiereService, private skyboxService: SkyboxService,
     private filtreCouleurService: FiltreCouleurService, private facadeCoordonneesService: FacadeCoordonneesService,
-    private facadePointService: FacadePointService) {}
+    private facadePointService: FacadePointService) { }
 
   private tempsMouseDown;
   private tempsMouseUp;
@@ -80,8 +80,7 @@ export class EvenementService {
       this.generateurPisteService.logiquePhares();
       this.lumiereService.modeJourNuit(event, this.generateurPisteService.scene);
       this.generateurPisteService.jour = !this.generateurPisteService.jour;
-      this.skyboxService.alternerSkybox(this.generateurPisteService.jour,
-        this.generateurPisteService.camera, this.generateurPisteService.listeSkyboxJour, this.generateurPisteService.listeSkyboxNuit);
+      this.skyboxService.alternerSkybox(this.generateurPisteService.jour, this.generateurPisteService.camera);
     } else if (event.key === MODE_FILTRE_COULEUR) {
       this.filtreCouleurService.mettreFiltre(event, this.generateurPisteService.scene);
     } else if (event.key === ZOOM_AVANT || event.key === ZOOM_ARRIERE) {
@@ -91,7 +90,7 @@ export class EvenementService {
     } else if (event.key === ALLUMER_PHARES) {
       this.generateurPisteService.phares = !this.generateurPisteService.phares;
       this.lumiereService.alternerPhares(this.generateurPisteService.voitureDuJoueur);
-    }else if (event.key === RETROVISEUR) {
+    } else if (event.key === RETROVISEUR) {
       this.gestionnaireDeVue.changerEtatRetroviseur();
     }
   }

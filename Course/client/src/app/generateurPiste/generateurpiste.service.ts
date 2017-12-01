@@ -50,38 +50,30 @@ export class GenerateurPisteService implements Observateur {
     public voitureDuJoueur: Voiture;
     public jour = true;
     public phares = false;
-    public sortiePisteService: SortiePisteService;
 
     public piste: Piste;
     public elementPiste: ElementDePiste;
     public arbres = new THREE.Object3D();
-    public surfaceHorsPisteService: SurfaceHorsPiste;
     public partie: Partie;
     public routeur: Router;
     public segment: Segment;
     public pointeDeControle = new PointDeControle();
     public voituresIA: Voiture[] = [];
-    public listeSkyboxJour: Array<THREE.Mesh>;
-    public listeSkyboxNuit: Array<THREE.Mesh>;
     public nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
 
-    constructor(public objetService: ObjetService, public lumiereService: LumiereService,
+    constructor(public objetService: ObjetService, public lumiereService: LumiereService, public sortiePisteService: SortiePisteService,
         public filtreCouleurService: FiltreCouleurService, public gestionnaireDeVue: GestionnaireDeVue,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
         public skyboxService: SkyboxService, public placementService: PlacementService,
         public affichageTeteHauteService: AffichageTeteHauteService, public deplacementService: DeplacementService) {
         this.segment = new Segment();
-        this.sortiePisteService = new SortiePisteService();
-        this.listeSkyboxJour = new Array<THREE.Mesh>();
-        this.listeSkyboxNuit = new Array<THREE.Mesh>();
     }
 
     public initialisation(container: HTMLDivElement): void {
         this.container = container;
         this.creerScene();
-        this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
-        this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
+        this.skyboxService.ajouterSkybox(this.camera);
         this.objetService.ajouterArbreScene(this.scene);
         this.segment.ajouterPisteAuPlan(this.piste, this.scene);
         this.chargementDesVoitures();
