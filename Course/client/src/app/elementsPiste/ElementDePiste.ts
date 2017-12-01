@@ -1,3 +1,4 @@
+import { FonctionMaths } from './../fonctionMathematiques';
 import { Voiture } from './../voiture/Voiture';
 import * as THREE from 'three';
 import { POSITION_OBSTACLE_EN_Z } from '../constant';
@@ -36,29 +37,14 @@ export abstract class ElementDePiste {
         const pointDebut = segmentAleatoire[0];
         const pointFin = segmentAleatoire[1];
 
-        const x = (estUnAccelerateur) ? this.trouverXAleatoire(pointDebut.x, this.obtenirMoitieEntre2points(pointDebut.x, pointFin.x)) :
-                                        this.trouverXAleatoire(pointDebut.x, pointFin.x);
+        const x = (estUnAccelerateur) ? FonctionMaths.trouverXAleatoire(pointDebut.x,
+                                        FonctionMaths.obtenirMoitieEntre2points(pointDebut.x, pointFin.x))
+                                    : FonctionMaths.trouverXAleatoire(pointDebut.x, pointFin.x);
 
-        const pente = this.calculerPenteDroite(pointDebut, pointFin);
-        const y = pente * x + this.calculerOrdonneeALOrigine(pointDebut, pente);
+        const pente = FonctionMaths.calculerPenteDroite(pointDebut, pointFin);
+        const y = pente * x + FonctionMaths.calculerOrdonneeALOrigine(pointDebut, pente);
 
         return new THREE.Vector3(x, y, POSITION_OBSTACLE_EN_Z);
-    }
-
-    private obtenirMoitieEntre2points(xDebut: number, xFin: number) {
-        return (xDebut + (xFin - xDebut ) / 2);
-    }
-
-    private trouverXAleatoire(xDebut: number, xFin: number): number {
-        return Math.random() * (Math.max(xDebut, xFin) - Math.min(xDebut, xFin)) + Math.min(xDebut, xFin);
-    }
-
-    private calculerPenteDroite(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
-        return ((pointFin.y - pointDebut.y) / (pointFin.x - pointDebut.x));
-    }
-
-    private calculerOrdonneeALOrigine(pointDebut: THREE.Vector3, pente: number): number {
-        return (pointDebut.y - pente * pointDebut.x);
     }
 
     private genererSegmentAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3[] {

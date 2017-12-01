@@ -1,6 +1,8 @@
 const EMPLACEMENT_MUSIQUE = '../../assets/effetsSonores/';
 const FORMAT_MP3 = '.mp3';
 export const NOM_MOTEUR = 'moteur1';
+export const NOM_BOOST = 'boost';
+export const NOM_OBSTACLE = 'obstacle';
 
 
 export class EffetSonore {

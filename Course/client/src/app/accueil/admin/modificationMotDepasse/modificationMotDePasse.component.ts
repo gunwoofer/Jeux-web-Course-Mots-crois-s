@@ -15,9 +15,7 @@ export class ModificationMotDePasseComponent {
     constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
     public soummetre(form: NgForm): void {
-        const modificationForm = new ModificationForm(form.value.email, form.value.motDePasse, form.value.NmotDePasse);
-
-        this.utilisateurService.modifierMotDePasse(modificationForm)
+        this.utilisateurService.modifierMotDePasse(new ModificationForm(form))
                                 .then(donnee => {
                                     if (donnee.message) {
                                         alert(donnee.message);
