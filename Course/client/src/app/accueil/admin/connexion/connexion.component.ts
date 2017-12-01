@@ -13,7 +13,7 @@ import { LISTE_PISTE, MOT_DE_PASSE_OUBLIE, URL_INSCRIPTION, INSCRIPTION } from '
 export class ConnexionComponent implements OnInit {
 
     // Voir utilisation dans connexion.component.html
-    public nbAdmin: number;
+    public nombreAdmin: number;
 
     constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
@@ -24,7 +24,7 @@ export class ConnexionComponent implements OnInit {
                                 .then(reponse => {
                                     if (reponse.message) {
                                         alert(reponse.message);
-                                        this.utilisateurService.isAdmin = true;
+                                        this.utilisateurService.estAdmin = true;
                                         this.router.navigateByUrl(LISTE_PISTE);
                                     } else {
                                         alert(reponse.error.message);
@@ -41,6 +41,6 @@ export class ConnexionComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.utilisateurService.nombreAdmin().then(reponse => this.nbAdmin = reponse.objet);
+        this.utilisateurService.nombreDAdmin().then(reponse => this.nombreAdmin = reponse.objet);
     }
 }

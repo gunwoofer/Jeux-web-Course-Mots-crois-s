@@ -14,9 +14,7 @@ export class MotDepasseOublieComponent {
     constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
     public soummetre(form: NgForm): void {
-        const email = form.value.email;
-
-        this.utilisateurService.recupererMotDePasse(email)
+        this.utilisateurService.recupererMotDePasse(form.value.email)
                                 .then(reponse => {
                                     if (reponse.motDePasse) {
                                         alert(reponse.motDePasse);

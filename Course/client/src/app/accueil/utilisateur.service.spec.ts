@@ -53,7 +53,7 @@ describe('utilisateurService test', () => {
         backend.connections.subscribe(
             (connection: MockConnection) => connection.mockRespond(baseResponse)
         );
-        return service.nombreAdmin().then(data => {
+        return service.nombreDAdmin().then(data => {
             expect(<any>data).toEqual(nombreAdmin);
             expect(<any>data).toEqual(1);
         });

@@ -14,8 +14,8 @@ import 'rxjs/Rx';
 @Injectable()
 export class UtilisateurService {
 
-    public isAdmin: boolean;
-    public nbAdmin: number;
+    public estAdmin: boolean;
+    public nombreAdmin: number;
 
     constructor(private http: Http) { }
 
@@ -26,7 +26,7 @@ export class UtilisateurService {
                         .catch(this.gererErreur);
     }
 
-    public nombreAdmin(): Promise<objetJson> {
+    public nombreDAdmin(): Promise<objetJson> {
         return this.http.get(URL_ADMINISTRATION)
             .toPromise()
             .then((reponse: Response) => reponse.json())
