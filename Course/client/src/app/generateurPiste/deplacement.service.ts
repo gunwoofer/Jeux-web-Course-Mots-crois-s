@@ -1,8 +1,11 @@
 import { Injectable } from '@angular/core';
-import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX,
+import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX, VITESSE_INTIALE,
     VITESSE_MODE_ACCELERATEUR, DUREE_ACCELERATEUR, NOMBRE_SECOUSSES_NID_DE_POULE } from './../constant';
 
 import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
+
+const SECOUSSE_X = 0.2;
+const TEMPS_AQUA_PLANNAGE = 200;
 
 @Injectable()
 export class DeplacementService {
@@ -32,21 +35,21 @@ export class DeplacementService {
 
     public static secousseNidDePoule(voiture: Voiture): void {
         voiture.modeSecousse = true;
-        for (let i = 0; i < NOMBRE_SECOUSSES_NID_DE_POULE; i++) {
+        for (let secousse = 0; secousse < NOMBRE_SECOUSSES_NID_DE_POULE; secousse++) {
             setTimeout(() => {
-                this.secousseAlternative(i, voiture);
-            }, i * 100);
+                this.secousseAlternative(secousse, voiture);
+            }, secousse * 100);
         }
         setTimeout(() => {
             voiture.modeSecousse = false;
         }, NOMBRE_SECOUSSES_NID_DE_POULE * 100);
     }
 
-    private static secousseAlternative(i: number, voiture: Voiture): void {
-        if (i % 2 === 0) {
-            voiture.obtenirVoiture3D().rotateX(0.2);
+    private static secousseAlternative(secousse: number, voiture: Voiture): void {
+        if (secousse % 2 === 0) {
+            voiture.obtenirVoiture3D().rotateX(SECOUSSE_X);
         } else {
-            voiture.obtenirVoiture3D().rotateX(-0.2);
+            voiture.obtenirVoiture3D().rotateX(-SECOUSSE_X);
         }
     }
 
@@ -64,7 +67,7 @@ export class DeplacementService {
         voiture.modeAquaplannage = true;
         setTimeout(() => {
             voiture.modeAquaplannage = false;
-        }, 200);
+        }, TEMPS_AQUA_PLANNAGE);
     }
 
     public moteurDeplacement(voiture: Voiture): void {
@@ -104,7 +107,7 @@ export class DeplacementService {
             voiture.vitesse -= DECELERATION;
             voiture.voiture3D.translateX(voiture.vitesse);
         } else {
-            voiture.vitesse = 0;
+            voiture.vitesse = VITESSE_INTIALE;
         }
     }
 

@@ -20,8 +20,8 @@ export class Partie implements Observateur, Sujet {
     private pilotes: Pilotes;
     private ligneArrivee: LigneArrivee;
 
-    constructor (pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number,
-                 observateurs?: Observateur[], observateursPiloteJoueur?: Observateur[]) {
+    constructor(pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number,
+        observateurs?: Observateur[], observateursPiloteJoueur?: Observateur[]) {
         this.pilotes = new Pilotes(pilotes);
         Partie.toursAComplete = (toursAComplete !== undefined) ? toursAComplete : NOMBRE_DE_TOURS_PARTIE_DEFAUT;
         this.ligneArrivee = ligneArrivee;
@@ -59,22 +59,28 @@ export class Partie implements Observateur, Sujet {
 
     public notifier(sujet: Sujet, type: NotificationType): void {
         if (!Partie.aEteNotifie) {
-            const voitureCourante: Voiture = <Voiture> sujet;
+            const voitureCourante: Voiture = <Voiture>sujet;
             this.notifierObservateurs(NotificationType.Deplacement);
             this.pilotes.mettreAJourTemps();
+            this.verificationLigneArrive(voitureCourante);
+        }
+    }
 
-            if (this.ligneArrivee.aFranchitLigne(voitureCourante)) {
-                if (this.pilotes.aParcourueUneDistanceRaisonnable(voitureCourante)) {
-                    Partie.aEteNotifie = true;
-                    this.pilotes.incrementerTour(voitureCourante, Date.now() - Partie.tempsDepartMilisecondes);
-                    this.notifierObservateurs(NotificationType.Tour_termine);
-
-                    if (this.pilotes.aTermine()) {
-                        this.etatPartie = EtatPartie.Termine;
-                        this.notifierObservateurs(NotificationType.Non_definie);
-                    }
-                }
+    public verificationLigneArrive(voiture: Voiture): void {
+        if (this.ligneArrivee.aFranchitLigne(voiture)) {
+            if (this.pilotes.aParcourueUneDistanceRaisonnable(voiture)) {
+                Partie.aEteNotifie = true;
+                this.pilotes.incrementerTour(voiture, Date.now() - Partie.tempsDepartMilisecondes);
+                this.notifierObservateurs(NotificationType.Tour_termine);
+                this.verificationPilotes(voiture);
             }
+        }
+    }
+
+    public verificationPilotes(voiture: Voiture): void {
+        if (this.pilotes.aTermine()) {
+            this.etatPartie = EtatPartie.Termine;
+            this.notifierObservateurs(NotificationType.Non_definie);
         }
     }
 

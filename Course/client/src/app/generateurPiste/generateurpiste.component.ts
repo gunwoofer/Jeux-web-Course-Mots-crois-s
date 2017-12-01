@@ -1,3 +1,4 @@
+import { RESULTAT_PARTIE } from '../constant';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './generateurpiste.service';
 import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
@@ -58,6 +59,6 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
     }
 
     public allerTableauDeResultats(): void {
-        this.router.navigateByUrl('/resultatPartie');
+        this.router.navigateByUrl(RESULTAT_PARTIE);
     }
 }

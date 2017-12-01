@@ -36,7 +36,6 @@ import { EtatPartie } from '../partie/EtatPartie';
 import { Sujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
-import { AxisHelper } from 'three';
 
 
 
@@ -81,18 +80,16 @@ export class GenerateurPisteService implements Observateur {
     public initialisation(container: HTMLDivElement): void {
         this.container = container;
         this.creerScene();
-        this.scene.add(this.camera);
         this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
-        this.ajoutPisteAuPlan();
+        this.segment.ajouterPisteAuPlan(this.piste, this.scene);
         this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
-        this.ajoutZoneDepart();
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
-        this.genererSurfaceHorsPiste();
+        this.scene.add(new SurfaceHorsPiste(LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE,
+            this.segment.chargerSegmentsDePiste(this.piste)).terrain);
         this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
-        this.scene.add(new AxisHelper(100));
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
     }
@@ -134,14 +131,6 @@ export class GenerateurPisteService implements Observateur {
         this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
     }
 
-    public genererSurfaceHorsPiste(): void {
-        this.surfaceHorsPisteService = new SurfaceHorsPiste(LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE,
-            this.segment.chargerSegmentsDePiste(this.piste));
-        const terrain = this.surfaceHorsPisteService.genererTerrain();
-        terrain.position.z -= 1;
-        this.scene.add(terrain);
-    }
-
     public ajouterPiste(piste: Piste): void {
         this.piste = piste;
     }
@@ -149,6 +138,7 @@ export class GenerateurPisteService implements Observateur {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
+        this.scene.add(this.camera);
     }
 
     public commencerMoteurDeJeu(): void {
@@ -194,18 +184,6 @@ export class GenerateurPisteService implements Observateur {
 
     public getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
-    }
-
-    public ajoutPisteAuPlan(): void {
-        const segmentsPiste = this.segment.chargerSegmentsDePiste(this.piste);
-        for (let i = 0; i < segmentsPiste.length; i++) {
-            this.scene.add(segmentsPiste[i]);
-        }
-    }
-
-    public ajoutZoneDepart(): void {
-        this.scene.add(this.segment.ajoutDamier(this.piste));
-        this.scene.add(this.segment.ajoutLigneDepart(this.piste));
     }
 
     public toucheRelachee(event): void {

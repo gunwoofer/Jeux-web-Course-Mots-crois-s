@@ -23,6 +23,7 @@ export class RatingComponent implements OnInit {
 
     public ngOnInit(): void {
         this.affichage = true;
+
         if (!this.musiqueService.musique.thematique) {
             this.musiqueService.musique.arreterMusique();
             this.musiqueService.musique.lancerMusiqueThematique();
@@ -45,7 +46,7 @@ export class RatingComponent implements OnInit {
         this.veutVoter = true;
     }
 
-    public changementDeroutage(): void {
+    private changementDeroutage(): void {
         this.router.navigateByUrl('/finPartie');
         this.tableauScoreSevice.finPartie = false;
     }

@@ -93,7 +93,7 @@ export class Piste {
                     somme += +chiffre;
                 }
             }
-            this.coteMoyenne = Math.abs(somme / nombreElement);
+            this.coteMoyenne = Math.floor(somme / nombreElement);
         }
     }
 }
