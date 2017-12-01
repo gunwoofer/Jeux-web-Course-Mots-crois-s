@@ -76,6 +76,12 @@ export const NOM_THEMATIQUE = 'Get The New World';
 export const NOM_EDITEUR = 'Sims - Building Mode 3';
 export const NOM_COURSE = 'The Legend of Zelda Ocarina of Time - Gerudo Valley';
 export const NOM_STINGER = 'Zelda - Ocarina of Time - Treasure Chest 1';
+export const NOM_ARBRE = 'Prunus_americana_01';
+export const LUMIERE_AVANT_DROITE = 'Lumière Avant Droite';
+export const LUMIERE_AVANT_GAUCHE = 'Lumière Avant Gauche';
+export const PHARE_GAUCHE = 'Phare Gauche';
+export const PHARE_DROITE = 'Phare Droit';
+export const NOM_VOITURE = 'Voiture';
 
 // Lumieres
 export const LUMIERES = [
@@ -142,5 +148,7 @@ export const LARGEUR_PISTE_EDITEUR = 10;
 export const REPETITION_TEXTURE_ACCELERATEUR = 1;
 export const REPETITION_TEXTURE_SURFACE_HORS_PISTE = 10;
 
+export const NOMBRE_ARBRE_CREE = 10;
+export const NOMS_OBJET_A_ENLEVER = ['Plane', 'Null'];
 
 
