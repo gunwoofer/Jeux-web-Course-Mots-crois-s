@@ -28,7 +28,6 @@ import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement
 describe('RenderService test', () => {
 
     const messageErreurService = new MessageErreurService();
-    const facadeligne = new FacadeLigneService();
     let fixture: ComponentFixture<CreateurPisteComponent>;
     let renderService: RenderService;
     let evenementService: EvenementService;
@@ -270,7 +269,7 @@ describe('RenderService test', () => {
         expect(premierSegmentCouleurG).toBeCloseTo(0.91);
         expect(premierSegmentCouleurB).toBeCloseTo(0.64);
         for (let i = 0; i < 6; i++) {
-            expect(facadeligne.obtenirLigneDeDepart(renderService.pointsLine)[i]).toEqual(vecteurLignes[i]);
+            expect(FacadeLigneService.obtenirLigneDeDepart(renderService.pointsLine)[i]).toEqual(vecteurLignes[i]);
         }
         expect(renderService.facadePointService.compteur - 1).toEqual(4);
     });
