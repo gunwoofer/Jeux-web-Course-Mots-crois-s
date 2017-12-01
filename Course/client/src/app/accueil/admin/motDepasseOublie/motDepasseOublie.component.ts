@@ -17,12 +17,12 @@ export class MotDepasseOublieComponent {
         const email = form.value.email;
 
         this.utilisateurService.recupererMotDePasse(email)
-                                .then(donnee => {
-                                    if (donnee.motDePasse) {
-                                        alert(donnee.motDePasse);
+                                .then(reponse => {
+                                    if (reponse.motDePasse) {
+                                        alert(reponse.motDePasse);
                                         this.router.navigateByUrl(ADMINISTRATION);
                                     } else {
-                                        alert(donnee.message);
+                                        alert(reponse.message);
                                     }
                                 });
 

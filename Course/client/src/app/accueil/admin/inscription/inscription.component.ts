@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Component } from '@angular/core';
 import { UtilisateurService } from './../../utilisateur.service';
-import { Administrateur } from './../admin.model';
+import { Administrateur } from './../admin';
 
 @Component({
   selector: 'app-inscription',
@@ -17,9 +17,7 @@ export class InscriptionComponent {
   public afficherSucces: boolean;
 
   public soummetre(form: NgForm): void {
-    const admin = new Administrateur(form.value.email, form.value.motDePasse, form.value.userName, form.value.nom, form.value.prenom);
-
-    this.utilisateurService.sInscrire(admin)
+    this.utilisateurService.sInscrire(new Administrateur(form))
                             .then(donnee => { this.afficherSucces = donnee ? true : false; });
   }
 

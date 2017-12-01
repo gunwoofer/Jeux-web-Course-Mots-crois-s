@@ -32,6 +32,8 @@ export const FIN_PARTIE_URL = '/resultatPartie';
 export const ARBRE_PATH = '../../assets/objects/arbre/tree.json';
 export const ARBRE_TEXTURE = '../../assets/objects/arbre/tree.jpg';
 export const SURFACE_HORS_PISTE_TEXTURE = '../../assets/textures/texturerock.jpg';
+export const JOUR_TEXTURE = '../../assets/textures/day.jpeg';
+export const NUIT_TEXTURE = '../../assets/textures/night.jpg';
 export const EMPLACEMENT_MUSIQUE = './../assets/musiques/';
 
 // Temps
@@ -74,6 +76,12 @@ export const NOM_THEMATIQUE = 'Get The New World';
 export const NOM_EDITEUR = 'Sims - Building Mode 3';
 export const NOM_COURSE = 'The Legend of Zelda Ocarina of Time - Gerudo Valley';
 export const NOM_STINGER = 'Zelda - Ocarina of Time - Treasure Chest 1';
+export const NOM_ARBRE = 'Prunus_americana_01';
+export const LUMIERE_AVANT_DROITE = 'Lumière Avant Droite';
+export const LUMIERE_AVANT_GAUCHE = 'Lumière Avant Gauche';
+export const PHARE_GAUCHE = 'Phare Gauche';
+export const PHARE_DROITE = 'Phare Droit';
+export const NOM_VOITURE = 'Voiture';
 
 // Lumieres
 export const LUMIERES = [
@@ -139,5 +147,8 @@ export const RESULTAT_PARTIE = '/resultatPartie';
 export const LARGEUR_PISTE_EDITEUR = 10;
 export const REPETITION_TEXTURE_ACCELERATEUR = 1;
 export const REPETITION_TEXTURE_SURFACE_HORS_PISTE = 10;
+
+export const NOMBRE_ARBRE_CREE = 10;
+export const NOMS_OBJET_A_ENLEVER = ['Plane', 'Null'];
 
 
