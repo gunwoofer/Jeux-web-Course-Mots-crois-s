@@ -1,5 +1,5 @@
-import { Case } from './../../commun/Case';
-import { EtatCase } from '../../commun/Case';
+import { Position } from './../../commun/Position';
+import { EtatCase } from './../../commun/Case';
 import { Grille, DIMENSION_LIGNE_COLONNE } from './Grille';
 import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 import { Niveau } from '../../commun/Niveau';
@@ -8,13 +8,10 @@ const MAX_CONTRAINTES = 1;
 const MAX_ESSAIS = 1000;
 
 export class GenerateurDeGrilleVide {
-
     public genereGrilleVide(niveau: Niveau): Grille {
         let grilleVide = new Grille(niveau);
         try {
-            grilleVide = this.genererEmplacementsMotsLigne(grilleVide);
-            grilleVide = this.genererEmplacementsMotsColonne(grilleVide);
-            // grilleVide = this.rechercheMotDeuxLettres(grilleVide);
+            grilleVide = this.genererEmplacementsColonneEtLigne(grilleVide);
         } catch (e) {
             grilleVide = this.genereGrilleVide(niveau);
         }
@@ -22,36 +19,31 @@ export class GenerateurDeGrilleVide {
         return grilleVide;
     }
 
-    public affichageConsole(grille: Grille): void {
-        let nombrePleine = 0;
-        for (let i = 0; i < 10; i++) {
-            let ligne: string;
-            ligne = '';
-            for (let j = 0; j < 10; j++) {
-                const caseGrille: Case = grille.cases.obtenirCase(i, j);
-                if (caseGrille.etat === EtatCase.noir) {
-                    ligne += '#';
-                } else {
-                    ligne += '.';
-                }
-                if (caseGrille.etat === EtatCase.pleine) {
-                    nombrePleine++;
-                }
-            }
-            console.log(ligne);
-        }
+    private genererEmplacementsColonneEtLigne(grilleVide: Grille): Grille {
+        grilleVide = this.genererEmplacementsMots(grilleVide, Position.Ligne);
+        grilleVide = this.genererEmplacementsMots(grilleVide, Position.Colonne);
+        return grilleVide;
     }
 
-    public genererEmplacementsMotsLigne(grilleVide: Grille): Grille {
+    public genererEmplacementsMots(grilleVide: Grille, position: Position): Grille {
         let nEssais = 0;
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             const tailleMot = this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grilleConstantes.grandeurMotMaximum);
             const debutEmplacementMot = this.nombreAleatoireEntreXEtY(0, DIMENSION_LIGNE_COLONNE - tailleMot);
-            if (this.testContraintesMotAuDessus(grilleVide, debutEmplacementMot, tailleMot, i)) {
-                grilleVide = this.creerEmplacementMotLigne(i, grilleVide, debutEmplacementMot, tailleMot);
+            if (position === Position.Ligne) {
+                if (this.testContraintesMotAuDessus(grilleVide, debutEmplacementMot, tailleMot, i)) {
+                    grilleVide = this.creerEmplacementMot(i, grilleVide, debutEmplacementMot, tailleMot, position);
+                } else {
+                    nEssais++;
+                    i--;
+                }
             } else {
-                nEssais++;
-                i--;
+                if (this.testContraintesMotAGauche(grilleVide, debutEmplacementMot, tailleMot, i)) {
+                    grilleVide = this.creerEmplacementMot(i, grilleVide, debutEmplacementMot, tailleMot, position);
+                } else {
+                    nEssais++;
+                    i--;
+                }
             }
             if (nEssais > MAX_ESSAIS) {
                 throw new Error ('Generer Emplacement de Mot Ligne impossible');
@@ -77,26 +69,12 @@ export class GenerateurDeGrilleVide {
         return true;
     }
 
-    public creerEmplacementMotLigne(posLigne: number, grilleVide: Grille, posDepart: number, tailleMot: number): Grille {
+    public creerEmplacementMot(positionFixe: number, grilleVide: Grille, posDepart: number, tailleMot: number, position: Position): Grille {
         for (let i = posDepart; i < tailleMot + posDepart; i++) {
-            grilleVide.cases.obtenirCase(posLigne, i).etat = EtatCase.vide;
-        }
-        return grilleVide;
-    }
-
-    public genererEmplacementsMotsColonne(grilleVide: Grille): Grille {
-        let nEssais = 0;
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            const tailleMot = this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grilleConstantes.grandeurMotMaximum);
-            const debutEmplacementMot = this.nombreAleatoireEntreXEtY(0, DIMENSION_LIGNE_COLONNE - tailleMot);
-            if (this.testContraintesMotAGauche(grilleVide, debutEmplacementMot, tailleMot, i)) {
-                grilleVide = this.creerEmplacementMotColonne(i, grilleVide, debutEmplacementMot, tailleMot);
+            if (position === Position.Ligne) {
+                grilleVide.cases.obtenirCase(positionFixe, i).etat = EtatCase.vide;
             } else {
-                nEssais++;
-                i--;
-            }
-            if (nEssais > MAX_ESSAIS) {
-                throw new Error ('Generer Emplacement de Mot Colonne impossible');
+                grilleVide.cases.obtenirCase(i, positionFixe).etat = EtatCase.vide;
             }
         }
         return grilleVide;
@@ -117,40 +95,6 @@ export class GenerateurDeGrilleVide {
             return false;
         }
         return true;
-    }
-
-    public creerEmplacementMotColonne(posColonne: number, grilleVide: Grille, posDepart: number, tailleMot: number): Grille {
-        for (let i = posDepart; i < tailleMot + posDepart; i++) {
-            grilleVide.cases.obtenirCase(i, posColonne).etat = EtatCase.vide;
-        }
-        return grilleVide;
-    }
-
-    public rechercheMotDeuxLettres(grilleVide: Grille): Grille {
-        const tailleEchantillon = 4;
-        for (let ligne = 0; ligne < DIMENSION_LIGNE_COLONNE; ligne++) {
-            for (let colonne = 0; colonne < DIMENSION_LIGNE_COLONNE; colonne++) {
-                if (colonne <= DIMENSION_LIGNE_COLONNE - tailleEchantillon) {
-                    if (grilleVide.cases.obtenirCase(ligne, colonne).obtenirEtat() === EtatCase.noir &&
-                    grilleVide.cases.obtenirCase(ligne, colonne + 1).etat === EtatCase.vide &&
-                    grilleVide.cases.obtenirCase(ligne, colonne + 2).etat === EtatCase.vide &&
-                    grilleVide.cases.obtenirCase(ligne, colonne + 3).etat === EtatCase.noir) {
-                        grilleVide.cases.obtenirCase(ligne, colonne + 1).etat = EtatCase.noir;
-                        grilleVide.cases.obtenirCase(ligne, colonne + 2).etat = EtatCase.noir;
-                    }
-                }
-                if (ligne <= DIMENSION_LIGNE_COLONNE - tailleEchantillon) {
-                    if (grilleVide.cases.obtenirCase(ligne, colonne).obtenirEtat() === EtatCase.noir &&
-                    grilleVide.cases.obtenirCase(ligne + 1, colonne).etat === EtatCase.vide &&
-                    grilleVide.cases.obtenirCase(ligne + 2, colonne).etat === EtatCase.vide &&
-                    grilleVide.cases.obtenirCase(ligne + 3, colonne).etat === EtatCase.noir) {
-                        grilleVide.cases.obtenirCase(ligne + 1, colonne).etat = EtatCase.noir;
-                        grilleVide.cases.obtenirCase(ligne + 2, colonne).etat = EtatCase.noir;
-                    }
-                }
-            }
-        }
-        return grilleVide;
     }
 
     private nombreAleatoireEntreXEtY(min: number, max: number): number {

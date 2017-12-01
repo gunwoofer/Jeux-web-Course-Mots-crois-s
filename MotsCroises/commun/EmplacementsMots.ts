@@ -1,3 +1,4 @@
+import { RequisPourMotAVerifier } from './requis/RequisPourMotAVerifier';
 import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';
 import { Cases } from './Cases';
@@ -35,13 +36,14 @@ export class EmplacementsMots {
         return undefined;
     }
     
-    public verifierMot(cases: Cases, motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
+    public verifierMot(cases: Cases, requisPourMotAVerifier: RequisPourMotAVerifier): boolean {
         let casesEmplacementMot: Case[] = new Array();
         for (const emplacementMot of this.emplacementMots) {
             casesEmplacementMot = cases.obtenirCasesSelonCaseDebut(emplacementMot.obtenirCaseDebut(),
                 emplacementMot.obtenirPosition(), emplacementMot.obtenirGrandeur());
-            if (emplacementMot.estLeBonEmplacementMot(caseDebut, caseFin) &&
-                cases.obtenirMotDesCases(casesEmplacementMot) === motAVerifier && !emplacementMot.aEteTrouve()) {
+            if (emplacementMot.estLeBonEmplacementMot(requisPourMotAVerifier.emplacementMot.obtenirCaseDebut(), 
+                                                        requisPourMotAVerifier.emplacementMot.obtenirCaseFin()) &&
+                cases.obtenirMotDesCases(casesEmplacementMot) === requisPourMotAVerifier.motAVerifier && !emplacementMot.aEteTrouve()) {
                 emplacementMot.estTrouve();
                 return true;
             }

@@ -1,3 +1,4 @@
+import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
 import { FabriqueDeGrille } from './FabriqueDeGrille';
 import { MotComplet } from './MotComplet';
 import { Case, EtatCase } from '../../commun/Case';
@@ -137,7 +138,7 @@ export class Grille {
         return this.cases.obtenirCasesSelonCaseDebut(caseDebut, direction, grandeur);
     }
 
-    public verifierMot(motAVerifier: string, caseDebut: Case, caseFin: Case): boolean {
-        return this.emplacementsMots.verifierMot(this.cases, motAVerifier, caseDebut, caseFin);
+    public verifierMot(requisPourMotAVerifier: RequisPourMotAVerifier): boolean {
+        return this.emplacementsMots.verifierMot(this.cases, requisPourMotAVerifier);
     }
 }

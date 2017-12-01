@@ -36,13 +36,12 @@ export class ConnexionTempsReelServer {
     }
 
     private miseEnPlaceRequetesClient(client: SocketIO.Socket, self: ConnexionTempsReelServer): void {
-
         this.clientSockets.push(client);
 
         // Requêtes générales
         client.on(requetes.REQUETE_SERVEUR_ENVOYER, (messageClient: string) =>
-            self.descripteurEvenementTempsReel.Envoyer(messageClient, client));
-        client.on(requetes.REQUETE_SERVEUR_QUITTER, () => self.descripteurEvenementTempsReel.Quitter(client, self.io));
+            self.descripteurEvenementTempsReel.envoyer(messageClient, client));
+        client.on(requetes.REQUETE_SERVEUR_QUITTER, () => self.descripteurEvenementTempsReel.quitter(client, self.io));
 
         // Requêtes mode classique un joueur.
         client.on(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
@@ -90,6 +89,6 @@ export class ConnexionTempsReelServer {
 
         client.on(requetes.REQUETE_SERVER_OBTENIR_MOTS_COMPLETS_CHEAT_MODE,
             (requisPourMotComplet: RequisPourMotsComplets) =>
-            self.descripteurEvenementTempsReel.obtenirMotsComplets(client, self.gestionnaireDePartieService, requisPourMotComplet));
+                self.descripteurEvenementTempsReel.obtenirMotsComplets(client, self.gestionnaireDePartieService, requisPourMotComplet));
     }
 }
