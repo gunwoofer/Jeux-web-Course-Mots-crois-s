@@ -2,7 +2,6 @@ import { Piste } from './piste/piste.model';
 import { Score } from './tableauScore/score.model';
 import { ModificationForm } from './accueil/admin/modificationMotDepasse/modificationModel';
 import { Administrateur } from './accueil/admin/admin';
-import { NgForm } from '@angular/forms/src/directives/ng_form';
 import { ElementDePiste } from './elementsPiste/ElementDePiste';
 
 export const mockAdmin = new Administrateur();

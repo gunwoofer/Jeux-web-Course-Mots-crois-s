@@ -1,6 +1,6 @@
 import { MoteurAutonome } from './moteurAutonome';
 import { Piste } from './../piste/piste.model';
-import { VITESSE_INTIALE } from './../constant';
+import { VITESSE_INTIALE, VOITURE_VECTEUR_AVANT_GAUCHE, VOITURE_VECTEUR_ARRIERE_GAUCHE } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
@@ -30,6 +30,30 @@ export class Voiture implements sujet.Sujet {
     private listePositions: THREE.Vector3[];
     private moteurAutonome: MoteurAutonome;
 
+    public static vecteurVoiture(voiture: Voiture): THREE.Vector3 {
+        return new THREE.Vector3(
+            this.obtenirMilieuVoitureX(this.vecteurAvantGauche(voiture), this.vecteurArriereGauche(voiture)),
+            this.obtenirMilieuVoitureY(this.vecteurAvantGauche(voiture), this.vecteurArriereGauche(voiture))
+        );
+    }
+
+    private static vecteurAvantGauche(voiture: Voiture): THREE.Vector3 {
+        return new THREE.Vector3()
+            .setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_AVANT_GAUCHE].matrixWorld);
+    }
+
+    private static vecteurArriereGauche(voiture: Voiture): THREE.Vector3 {
+        return new THREE.Vector3()
+            .setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_ARRIERE_GAUCHE].matrixWorld);
+    }
+
+    private static obtenirMilieuVoitureX(vecteurAvantGauche: THREE.Vector3, vecteurArriereGauche: THREE.Vector3): number {
+        return vecteurAvantGauche.x - vecteurArriereGauche.x;
+    }
+
+    private static obtenirMilieuVoitureY(vecteurAvantGauche: THREE.Vector3, vecteurArriereGauche: THREE.Vector3): number {
+        return vecteurAvantGauche.y - vecteurArriereGauche.y;
+    }
 
     constructor(voiture3D: THREE.Object3D, piste: Piste, observateurs?: observateur.Observateur[]) {
         this.voiture3D = voiture3D;

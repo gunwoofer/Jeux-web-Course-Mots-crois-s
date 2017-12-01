@@ -19,6 +19,10 @@ export class Pilote implements Sujet {
 
     private observateurs: Observateur[] = [];
 
+    public static estUnPilote(sujet: Sujet): boolean {
+        return (sujet instanceof Pilote) ? true : false;
+    }
+
     constructor(voiture: Voiture, estJoueur: boolean) {
         this.voiture = voiture;
         this.estJoueur = estJoueur;

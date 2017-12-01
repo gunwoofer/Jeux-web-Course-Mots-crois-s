@@ -12,15 +12,14 @@ import { Piste } from './../piste/piste.model';
   templateUrl: './createurPiste.component.html',
   styleUrls: ['./createurPiste.component.css']
 })
-
 export class CreateurPisteComponent implements OnInit {
 
+    // public, car il est utilisé dans le html.
     public pisteAModifier: Piste;
     public message;
 
     @ViewChild('container')
     private containerRef: ElementRef;
-    private affiche: boolean;
 
     constructor(private renderService: RenderService,
                 private evenementService: EvenementService,
@@ -64,7 +63,7 @@ export class CreateurPisteComponent implements OnInit {
 
     public estValide(): boolean {
         this.pisteAModifier = this.renderService.pisteAmodifie;
-        return this.affiche = this.renderService.retourneEtatDessin();
+        return this.renderService.retourneEtatDessin();
     }
 
     public erreursCircuit(): boolean {
@@ -72,9 +71,8 @@ export class CreateurPisteComponent implements OnInit {
             this.renderService.nbSegmentsTropProche,
             this.renderService.nbSegmentsCroises)) {
             this.message = this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
-            this.renderService.nbSegmentsTropProche,
-            this.renderService.nbSegmentsCroises);
-
+                                                                            this.renderService.nbSegmentsTropProche,
+                                                                            this.renderService.nbSegmentsCroises);
             return true;
         }
 
@@ -84,6 +82,7 @@ export class CreateurPisteComponent implements OnInit {
     // Nom spécifique à la librairie. Ne pas changer sinon l'événement n'est pas détecté.
     public oncontextmenu(): boolean {
         this.evenementService.rightClick();
+
         return false;
     }
 }

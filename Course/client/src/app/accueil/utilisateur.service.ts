@@ -9,7 +9,6 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { objetJson } from '../../../../commun/objetJson';
 import { PromesseErreur } from '../../../../commun/promesseErreur';
-import 'rxjs/Rx';
 
 @Injectable()
 export class UtilisateurService {

@@ -1,5 +1,4 @@
-import { VITESSE_MIN, ROTATION } from './../constant';
-import { skyBoxJour, skyBoxNuit } from './listeSkybox';
+import { VITESSE_MIN, ROTATION, SKYBOX_JOUR, SKYBOX_NUIT, NOM_SKYBOX } from './../constant';
 import { Skybox } from './skybox.model';
 import { Voiture } from './../voiture/Voiture';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
@@ -9,15 +8,19 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SkyboxService {
     private skybox: Skybox;
+    private deplacementService: DeplacementService;
 
-    constructor () { this.skybox = new Skybox(); }
+    constructor() {
+        this.skybox = new Skybox();
+        this.deplacementService = new DeplacementService();
+    }
 
-    public rotationSkybox(deplacement: DeplacementService, voitureDuJoueur: Voiture, camera: THREE.PerspectiveCamera): void {
-        if (deplacement.aDroite && voitureDuJoueur.vitesse > VITESSE_MIN) {
-            camera.getObjectByName('Skybox').rotateY(ROTATION);
+    public rotationSkybox(voitureDuJoueur: Voiture, camera: THREE.PerspectiveCamera): void {
+        if (this.deplacementService.aDroite && voitureDuJoueur.vitesse > VITESSE_MIN) {
+            camera.getObjectByName(NOM_SKYBOX).rotateY(ROTATION);
         }
-        if (deplacement.aGauche && voitureDuJoueur.vitesse > VITESSE_MIN) {
-            camera.getObjectByName('Skybox').rotateY(-ROTATION);
+        if (this.deplacementService.aGauche && voitureDuJoueur.vitesse > VITESSE_MIN) {
+            camera.getObjectByName(NOM_SKYBOX).rotateY(-ROTATION);
         }
     }
 
@@ -27,14 +30,14 @@ export class SkyboxService {
     }
 
     private genererToutesLesSkyboxJour(listeSkyboxJour: Array<THREE.Mesh>): void {
-        for (let i = 0; i < skyBoxJour.length; i++) {
-            listeSkyboxJour.push(this.skybox.creerSkybox(skyBoxJour[i]));
+        for (let i = 0; i < SKYBOX_JOUR.length; i++) {
+            listeSkyboxJour.push(this.skybox.creerSkybox(SKYBOX_JOUR[i]));
         }
     }
 
     private genererToutesLesSkyboxNuit(listeSkyboxNuit: Array<THREE.Mesh>): void {
-        for (let i = 0; i < skyBoxNuit.length; i++) {
-            listeSkyboxNuit.push(this.skybox.creerSkybox(skyBoxNuit[i]));
+        for (let i = 0; i < SKYBOX_NUIT.length; i++) {
+            listeSkyboxNuit.push(this.skybox.creerSkybox(SKYBOX_NUIT[i]));
         }
     }
 

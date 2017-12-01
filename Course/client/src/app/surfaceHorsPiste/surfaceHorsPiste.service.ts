@@ -9,9 +9,7 @@ import * as THREE from 'three';
 @Injectable()
 export class SurfaceHorsPiste {
 
-    constructor() { }
-
-    public static  genererTerrain(segmentsPiste: THREE.Mesh[]): THREE.Mesh {
+    public static genererTerrain(segmentsPiste: THREE.Mesh[]): THREE.Mesh {
         const terrain = new THREE.Mesh(this.generationGeometrie(segmentsPiste), this.generationMaterial());
         terrain.position.z -= 1;
         return terrain;
@@ -51,7 +49,7 @@ export class SurfaceHorsPiste {
         return materiel;
     }
 
-    private static estSurLaPiste(sommet: THREE.Vector3 , segmentsPiste: THREE.Mesh[]): boolean {
+    private static estSurLaPiste(sommet: THREE.Vector3, segmentsPiste: THREE.Mesh[]): boolean {
         for (const segment of segmentsPiste) {
             if (this.genererRayCasterVersLeBas(sommet).intersectObject(segment).length !== 0) {
                 return true;
