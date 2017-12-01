@@ -23,7 +23,7 @@ import { DeplacementService } from './deplacement.service';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import {ElementDePiste} from './../elementsPiste/ElementDePiste';
+import { ElementDePiste } from './../elementsPiste/ElementDePiste';
 
 import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
@@ -66,11 +66,9 @@ export class GenerateurPisteService implements Observateur {
         public filtreCouleurService: FiltreCouleurService, public gestionnaireDeVue: GestionnaireDeVue,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
         public skyboxService: SkyboxService, public placementService: PlacementService,
-        public affichageTeteHauteService: AffichageTeteHauteService, public sortiePisteService: SortiePisteService,
+        public affichageTeteHauteService: AffichageTeteHauteService,
         public deplacementService: DeplacementService) {
         this.segment = new Segment();
-        this.listeSkyboxJour = new Array<THREE.Mesh>();
-        this.listeSkyboxNuit = new Array<THREE.Mesh>();
     }
 
     public initialisation(container: HTMLDivElement): void {
@@ -98,15 +96,15 @@ export class GenerateurPisteService implements Observateur {
                 element.genererMesh();
                 element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
-              } else if (element instanceof NidDePoule) {
+            } else if (element instanceof NidDePoule) {
                 element.genererMesh();
                 element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
-              } else if (element instanceof Accelerateur) {
+            } else if (element instanceof Accelerateur) {
                 element.genererMesh();
                 element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
-              }
+            }
         }
     }
 
