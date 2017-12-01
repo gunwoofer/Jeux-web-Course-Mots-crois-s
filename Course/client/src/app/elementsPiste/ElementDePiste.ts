@@ -1,5 +1,5 @@
 import { Voiture } from './../voiture/Voiture';
-import * as THREE from 'three';;
+import * as THREE from 'three';
 
 export enum TypeElementPiste {
     Accelerateur,

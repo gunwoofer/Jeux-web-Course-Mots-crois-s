@@ -1,12 +1,10 @@
 import { NOM_OBSTACLE, EffetSonore } from './../effetSonore/effetSonore';
-import { EffetSonoreService } from './../effetSonore/effetSonore.service';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import {
     HEX_BLEU, RADIAN_FLAQUE_EAU, SEGMENTS_FLAQUE_EAU,
-    VOITURE_VECTEUR_ARRIERE_GAUCHE, VOITURE_VECTEUR_AVANT_GAUCHE
 } from '../constant';
 import { Piste } from '../piste/piste.model';
 
