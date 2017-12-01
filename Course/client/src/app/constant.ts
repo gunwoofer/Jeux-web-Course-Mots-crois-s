@@ -84,6 +84,7 @@ export const LUMIERE_AVANT_GAUCHE = 'Lumière Avant Gauche';
 export const PHARE_GAUCHE = 'Phare Gauche';
 export const PHARE_DROITE = 'Phare Droit';
 export const NOM_VOITURE = 'Voiture';
+export const NOM_SKYBOX = 'Skybox';
 
 // Lumieres
 export const LUMIERES = [

@@ -1,4 +1,4 @@
-import { REAJUSTEMENT_SKYBOX, DIMENSION_CUBE, ORIENTATIONS_SKYBOX, FORMAT_IMAGE, FACE_SKYBOX } from './../constant';
+import { REAJUSTEMENT_SKYBOX, DIMENSION_CUBE, ORIENTATIONS_SKYBOX, FORMAT_IMAGE, FACE_SKYBOX, NOM_SKYBOX } from './../constant';
 import * as THREE from 'three';
 
 export class Skybox {
@@ -24,6 +24,7 @@ export class Skybox {
         const skybox = new THREE.Mesh(
             new THREE.CubeGeometry(DIMENSION_CUBE, DIMENSION_CUBE, DIMENSION_CUBE),
             new THREE.MultiMaterial(this.chargerTexture(emplacement)));
+        skybox.name = NOM_SKYBOX;
         skybox.rotateX(REAJUSTEMENT_SKYBOX);
         return skybox;
     }

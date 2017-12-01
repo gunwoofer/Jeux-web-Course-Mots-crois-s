@@ -1,4 +1,4 @@
-import { VITESSE_MIN, ROTATION, SKYBOX_JOUR, SKYBOX_NUIT } from './../constant';
+import { VITESSE_MIN, ROTATION, SKYBOX_JOUR, SKYBOX_NUIT, NOM_SKYBOX } from './../constant';
 import { Skybox } from './skybox.model';
 import { Voiture } from './../voiture/Voiture';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
@@ -8,15 +8,19 @@ import { Injectable } from '@angular/core';
 @Injectable()
 export class SkyboxService {
     private skybox: Skybox;
+    private deplacementService: DeplacementService;
 
-    constructor() { this.skybox = new Skybox(); }
+    constructor() {
+        this.skybox = new Skybox();
+        this.deplacementService = new DeplacementService();
+    }
 
-    public rotationSkybox(deplacement: DeplacementService, voitureDuJoueur: Voiture, camera: THREE.PerspectiveCamera): void {
-        if (deplacement.aDroite && voitureDuJoueur.vitesse > VITESSE_MIN) {
-            camera.getObjectByName('Skybox').rotateY(ROTATION);
+    public rotationSkybox(voitureDuJoueur: Voiture, camera: THREE.PerspectiveCamera): void {
+        if (this.deplacementService.aDroite && voitureDuJoueur.vitesse > VITESSE_MIN) {
+            camera.getObjectByName(NOM_SKYBOX).rotateY(ROTATION);
         }
-        if (deplacement.aGauche && voitureDuJoueur.vitesse > VITESSE_MIN) {
-            camera.getObjectByName('Skybox').rotateY(-ROTATION);
+        if (this.deplacementService.aGauche && voitureDuJoueur.vitesse > VITESSE_MIN) {
+            camera.getObjectByName(NOM_SKYBOX).rotateY(-ROTATION);
         }
     }
 
