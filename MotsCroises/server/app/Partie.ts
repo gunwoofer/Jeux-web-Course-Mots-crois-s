@@ -1,3 +1,4 @@
+import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
 import {Joueur} from '../../commun/Joueur';
 import {Grille} from './Grille';
 import {Case} from '../../commun/Case';
@@ -72,14 +73,15 @@ export class Partie {
         return false;
     }
 
-    public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidJoueur: string): boolean {
+    public estLeMot(requisPourMotAVerifier: RequisPourMotAVerifier): boolean {
         let joueur: Joueur;
-        const emplacementMotAChercher: EmplacementMot = this.grille.emplacementsMots.obtenirEmplacementMot(caseDebut, caseFin);
+        const emplacementMotAChercher: EmplacementMot = this.grille.emplacementsMots.obtenirEmplacementMot(
+                                                                            requisPourMotAVerifier.emplacementMot.obtenirCaseDebut(),
+                                                                            requisPourMotAVerifier.emplacementMot.obtenirCaseFin());
+        if (this.grille.verifierMot(requisPourMotAVerifier)) {
+            joueur = this.obtenirJoueur(requisPourMotAVerifier.guidJoueur);
 
-        if (this.grille.verifierMot(motAVerifier, caseDebut, caseFin)) {
-            joueur = this.obtenirJoueur(guidJoueur);
-
-            joueur.aTrouveMot(emplacementMotAChercher, motAVerifier);
+            joueur.aTrouveMot(emplacementMotAChercher, requisPourMotAVerifier.motAVerifier);
 
             return true;
         }

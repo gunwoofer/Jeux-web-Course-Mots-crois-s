@@ -89,18 +89,13 @@ export class DescripteurEvenementTempsReel {
     public verifierMot(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
                        requisPourMotAVerifier: RequisPourMotAVerifier, clients: SocketIO.Socket[]): void {
         requisPourMotAVerifier = RequisPourMotAVerifier.rehydrater(requisPourMotAVerifier);
-        const estLeMot = gestionnaireDePartieService.estLeMot(requisPourMotAVerifier.emplacementMot.obtenirCaseDebut(),
-            requisPourMotAVerifier.emplacementMot.obtenirCaseFin(), requisPourMotAVerifier.motAVerifier,
-            requisPourMotAVerifier.guidPartie, requisPourMotAVerifier.guidJoueur);
-
+        const estLeMot = gestionnaireDePartieService.estLeMot(requisPourMotAVerifier);
         if (estLeMot) {
             requisPourMotAVerifier.validerMot();
         }
-
         for (const clientCourant of clients) {
             clientCourant.emit(requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, requisPourMotAVerifier);
         }
-
         if (estLeMot) {
             const partieTermine = gestionnaireDePartieService.voirSiPartieTermine(requisPourMotAVerifier.guidPartie);
             if (partieTermine) {
@@ -111,14 +106,10 @@ export class DescripteurEvenementTempsReel {
 
     public changerEmplacementMotSelectionner(client: SocketIO.Socket, gestionnairePartieService: GestionnaireDePartieService,
                                              clientSocket: SocketIO.Socket[], requisPourSelectionnerMot: RequisPourSelectionnerMot): void {
-
         requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
-
-        const partieEnCours: Partie = gestionnairePartieService.obtenirPartieEnCours(requisPourSelectionnerMot.guidPartie);
-
-        partieEnCours.changerSelectionMot(requisPourSelectionnerMot.guidJoueur, requisPourSelectionnerMot.emplacementMot);
+        gestionnairePartieService.obtenirPartieEnCours(requisPourSelectionnerMot.guidPartie)
+                                    .changerSelectionMot(requisPourSelectionnerMot.guidJoueur, requisPourSelectionnerMot.emplacementMot);
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
-
         for (const socketCourante of clientSocket) {
             if (this.estUnAdversaire(client, socketCourante)) {
                 socketCourante.emit(requetes.REQUETE_CLIENT_ADVERSAIRE_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);

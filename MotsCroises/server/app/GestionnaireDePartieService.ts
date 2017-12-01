@@ -1,3 +1,4 @@
+import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
 import { Partie } from './Partie';
 import { Grille } from './Grille';
 import { Case } from '../../commun/Case';
@@ -36,13 +37,10 @@ export class GestionnaireDePartieService {
         return partiesEnCours;
     }
 
-    public estLeMot(caseDebut: Case, caseFin: Case, motAVerifier: string, guidPartie: string, guidJoueur: string): boolean {
-        const partieAVerifier: Partie = this.obtenirPartieEnCours(guidPartie);
-
-        if (partieAVerifier.estLeMot(caseDebut, caseFin, motAVerifier, guidJoueur)) {
+    public estLeMot(requisPourMotAVerifier: RequisPourMotAVerifier): boolean {
+        if (this.obtenirPartieEnCours(requisPourMotAVerifier.guidPartie).estLeMot(requisPourMotAVerifier)) {
             return true;
         }
-
         return false;
     }
 
