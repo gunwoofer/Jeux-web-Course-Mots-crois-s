@@ -1,4 +1,4 @@
-import { Administrateur } from './../admin.model';
+import { Administrateur } from './../admin';
 import { UtilisateurService } from './../../utilisateur.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';

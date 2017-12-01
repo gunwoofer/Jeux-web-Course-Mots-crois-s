@@ -4,7 +4,7 @@ import {
 } from './../constant';
 import { ModificationForm } from './admin/modificationMotDepasse/modificationModel';
 import { Http, Response } from '@angular/http';
-import { Administrateur } from './admin/admin.model';
+import { Administrateur } from './admin/admin';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { objetJson } from '../../../../commun/objetJson';

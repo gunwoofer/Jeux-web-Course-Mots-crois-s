@@ -11,8 +11,8 @@ export class Administrateur {
     constructor (form?: NgForm) {
         if (form !== undefined) {
             this.email = form.value.email;
-            this.motDePasse = form.value.email;
-            this.nomUtilisateur = form.value.email;
+            this.motDePasse = form.value.motDePasse;
+            this.nomUtilisateur = form.value.nomUtilisateur;
             this.nom = form.value.nom;
             this.prenom = form.value.prenom;
         } else {
