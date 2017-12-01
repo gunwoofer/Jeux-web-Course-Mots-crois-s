@@ -10,6 +10,11 @@ export class EffetSonore {
     private enEcoute: boolean;
     public thematique: boolean;
 
+
+    public static jouerUnEffetSonore(NOM_EFFET_SONORE: string, loop: boolean = false): void {
+        new EffetSonore().lancerEffetSonore(NOM_EFFET_SONORE, loop);
+    }
+
     constructor() {
         this.enEcoute = false;
         this.thematique = false;

@@ -1,4 +1,4 @@
-import { NOM_OBSTACLE } from './../effetSonore/effetSonore.model';
+import { NOM_OBSTACLE, EffetSonore } from './../effetSonore/effetSonore';
 import { EffetSonoreService } from './../effetSonore/effetSonore.service';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
@@ -28,7 +28,7 @@ export class FlaqueDEau extends ElementDePiste {
 
     public effetSurObstacle(voiture: Voiture): void {
         DeplacementService.aquaPlannageFlaqueDEau(voiture, this.vecteurVoiture(voiture));
-        EffetSonoreService.jouerUnEffetSonore(NOM_OBSTACLE);
+        EffetSonore.jouerUnEffetSonore(NOM_OBSTACLE);
     }
 
     private vecteurVoiture(voiture: Voiture): THREE.Vector3 {
