@@ -1,4 +1,4 @@
-import { PHARES, COULEUR_CIEL, COULEUR_TERRE, COULEUR_PHARE } from './../constant';
+import { PHARES, COULEUR_CIEL, COULEUR_TERRE, COULEUR_PHARE, JOUR_TEXTURE, NUIT_TEXTURE } from './../constant';
 import { Injectable } from '@angular/core';
 import { HemisphereLight, DirectionalLight, PointLight, SpotLight, ImageUtils, Scene } from 'three';
 import { Voiture } from '../voiture/Voiture';
@@ -40,14 +40,14 @@ export class LumiereService {
 
     public modeJourNuit(event, scene: Scene): void {
         this.lumiereDirectionnelle.visible = !this.lumiereDirectionnelle.visible;
-        scene.background = this.lumiereDirectionnelle.visible ? ImageUtils.loadTexture('../../assets/textures/day.jpeg') :
-            ImageUtils.loadTexture('../../assets/textures/night.jpg');
+        scene.background = this.lumiereDirectionnelle.visible ? ImageUtils.loadTexture(JOUR_TEXTURE) :
+            ImageUtils.loadTexture(NUIT_TEXTURE);
     }
 
     public alternerPhares(voiture: Voiture): void {
-        for (let i = 0; i < PHARES.length; i++) {
-            const phareVisible = voiture.voiture3D.getObjectByName(PHARES[i]).visible;
-            voiture.voiture3D.getObjectByName(PHARES[i]).visible = !phareVisible;
+        for (let phare = 0; phare < PHARES.length; phare++) {
+            const phareVisible = voiture.voiture3D.getObjectByName(PHARES[phare]).visible;
+            voiture.voiture3D.getObjectByName(PHARES[phare]).visible = !phareVisible;
         }
     }
 

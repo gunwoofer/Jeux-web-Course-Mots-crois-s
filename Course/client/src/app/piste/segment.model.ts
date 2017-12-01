@@ -13,7 +13,13 @@ export class Segment {
     public premierSegment = new Array<THREE.Vector3>();
     public damierDeDepart: THREE.Mesh;
 
-    public mettreSegmentsSurScene(piste: Piste, scene: THREE.Scene): void {
+    public ajouterPisteAuPlan(piste: Piste, scene: THREE.Scene): void {
+        this.mettreSegmentsSurScene(piste, scene);
+        scene.add(this.ajoutDamier(piste));
+        scene.add(this.ajoutLigneDepart(piste));
+    }
+
+    private mettreSegmentsSurScene(piste: Piste, scene: THREE.Scene): void {
         for (let segment = 0; segment < this.chargerSegmentsDePiste(piste).length; segment++) {
             scene.add(this.chargerSegmentsDePiste(piste)[segment]);
         }
@@ -27,7 +33,7 @@ export class Segment {
         return segmentsPisteVisuel;
     }
 
-    public constructionSegmentDePiste(piste: Piste, segmentsPisteVisuel: THREE.Mesh[], indice: number): void {
+    private constructionSegmentDePiste(piste: Piste, segmentsPisteVisuel: THREE.Mesh[], indice: number): void {
         let facteurA = 1;
         let facteurB = 1;
         const geometrie = new THREE.PlaneGeometry(DIMENSION_PLAN, DIMENSION_PLAN);
@@ -51,7 +57,7 @@ export class Segment {
         segmentsPisteVisuel.push(new THREE.Mesh(geometrie, materiel));
     }
 
-    public manipulationPremierSegment(geometrie: THREE.PlaneGeometry, facteurA: number, facteurB: number): void {
+    private manipulationPremierSegment(geometrie: THREE.PlaneGeometry, facteurA: number, facteurB: number): void {
         for (let j = 0; j < COTÉS; j++) {
             this.premierSegment[j] = new THREE.Vector3();
             this.premierSegment[j].copy(geometrie.vertices[j]);
@@ -63,7 +69,7 @@ export class Segment {
             point.x - facteurA * LARGEUR_PISTE, point.y - facteurB * LARGEUR_PISTE, HAUTEUR_DEPART);
     }
 
-    public chargerTexture(): THREE.Texture {
+    private chargerTexture(): THREE.Texture {
         const loader = new THREE.TextureLoader();
         const texture = loader.load('../../assets/textures/asphalt.JPG', (txt) => {
             txt.wrapS = THREE.RepeatWrapping;
@@ -74,12 +80,12 @@ export class Segment {
         return texture;
     }
 
-    public manipulationMaterial(texture: THREE.Texture, materiel: THREE.MeshStandardMaterial): void {
+    private manipulationMaterial(texture: THREE.Texture, materiel: THREE.MeshStandardMaterial): void {
         materiel.map = texture;
         materiel.needsUpdate = true;
     }
 
-    public manipulationGeometrie(geometrie: THREE.PlaneGeometry, piste: Piste, indice: number, facteurA: number, facteurB: number): void {
+    private manipulationGeometrie(geometrie: THREE.PlaneGeometry, piste: Piste, indice: number, facteurA: number, facteurB: number): void {
         geometrie.vertices[0] = new THREE.Vector3(
             piste.listepositions[indice].x + facteurA * LARGEUR_PISTE, piste.listepositions[indice].y + facteurB * LARGEUR_PISTE, 0);
         geometrie.vertices[1] = new THREE.Vector3(
@@ -99,13 +105,13 @@ export class Segment {
         return new THREE.Mesh(patch, materielDisque);
     }
 
-    public calculPointMilieu(sommets: THREE.Vector3[]): THREE.Vector3 {
+    private calculPointMilieu(sommets: THREE.Vector3[]): THREE.Vector3 {
         const centreSegmentX = ((sommets[0].x + sommets[2].x) / 2 + (sommets[1].x + sommets[3].x) / 2) / 2;
         const centreSegmentY = ((sommets[0].y + sommets[2].y) / 2 + (sommets[1].y + sommets[3].y) / 2) / 2;
         return new THREE.Vector3(centreSegmentX, centreSegmentY, 0);
     }
 
-    public ajoutDamier(piste: Piste): THREE.Mesh {
+    private ajoutDamier(piste: Piste): THREE.Mesh {
         const geometrieZoneDepart = new THREE.PlaneGeometry(DIMENSION_PLAN, DIMENSION_PLAN);
         const loaderZoneDepart = new THREE.TextureLoader();
         const materielZoneDepart = new THREE.MeshStandardMaterial();
@@ -118,7 +124,7 @@ export class Segment {
         return this.damierDeDepart;
     }
 
-    public ajoutLigneDepart(piste: Piste): THREE.Line {
+    private ajoutLigneDepart(piste: Piste): THREE.Line {
         const materialLigneDepart = new THREE.LineBasicMaterial({ color: 0XFF0000 });
         const geometryLigneDepart = new THREE.Geometry();
         geometryLigneDepart.vertices.push(
