@@ -5,7 +5,7 @@ import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { HEX_NOIR } from '../constant';
-
+import { Piste } from '../piste/piste.model';
 
 export const RAYON = 1;
 export const NOMBRE_DIVISION_CERCLE = 10;
@@ -16,7 +16,7 @@ export class NidDePoule extends ElementDePiste {
         super();
 
         this.typeElementDePiste = TypeElementPiste.NidDePoule;
-        this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
+        this.position = (position) ? position : Piste.genererPositionAleatoire(listePosition, true);
     }
 
     public genererMesh(): void {

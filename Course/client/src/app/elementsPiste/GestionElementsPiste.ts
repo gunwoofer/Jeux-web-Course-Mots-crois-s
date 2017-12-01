@@ -37,7 +37,6 @@ export class GestionElementsPiste implements Observateur {
         }
     }
 
-
     public nombreElementsEstImpair(typeElement: TypeElementPiste): boolean {
         return (this.elementDePisteComposite.obtenirNombreElements(typeElement) % 2 !== 0) ? true : false;
     }
