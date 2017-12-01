@@ -30,8 +30,8 @@ export class GestionnaireDeVue {
     }
 
     public vueTroisiemePersonne(camera: PerspectiveCamera, voiture: Voiture): void {
-        let relativeCameraOffset = new Vector3(CAMERA_OFFSET_X, CAMERA_OFFSET_Y, CAMERA_OFFSET_Z);
-        relativeCameraOffset = relativeCameraOffset.applyMatrix4(voiture.obtenirVoiture3D().matrixWorld);
+        const relativeCameraOffset = new Vector3(CAMERA_OFFSET_X, CAMERA_OFFSET_Y, CAMERA_OFFSET_Z)
+                                    .applyMatrix4(voiture.obtenirVoiture3D().matrixWorld);
         camera.position.set(relativeCameraOffset.x, relativeCameraOffset.y, relativeCameraOffset.z);
         camera.up = new Vector3(ORIGINE, ORIGINE, ORIGINE + 1);
     }

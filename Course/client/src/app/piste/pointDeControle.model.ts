@@ -11,7 +11,7 @@ export class PointDeControle {
         }
     }
 
-    public creationPointDeControle(piste: Piste): THREE.Mesh[] {
+    private creationPointDeControle(piste: Piste): THREE.Mesh[] {
         const checkPoint: THREE.Mesh[] = [];
         for (let i = 0; i < piste.listepositions.length - 1; i++) {
             this.ajoutPointDeControle(piste, i, checkPoint);
@@ -19,15 +19,15 @@ export class PointDeControle {
         return checkPoint;
     }
 
-    public ajoutPointDeControle(piste: Piste, indice: number, vecteur: THREE.Mesh[]): void {
+    private ajoutPointDeControle(piste: Piste, indice: number, vecteur: THREE.Mesh[]): void {
         const cube = this.constructionDeCube();
         cube.position.set(piste.listepositions[indice].x, piste.listepositions[indice].y, 0);
         vecteur.push(cube);
     }
 
-    public constructionDeCube(): THREE.Mesh {
+    private constructionDeCube(): THREE.Mesh {
         const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, visible: false });
         const cube = new THREE.Mesh(geometry, material);
         return cube;
     }
