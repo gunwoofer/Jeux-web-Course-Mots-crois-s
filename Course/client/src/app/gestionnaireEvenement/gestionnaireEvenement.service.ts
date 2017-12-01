@@ -55,10 +55,10 @@ export class EvenementService {
 
   public onMouseMove(event: MouseEvent): void {
     const rayCaster = new THREE.Raycaster();
-    this.facadeCoordonneesService.miseAJourMouse(event, this.renderService.renderer);
+    this.facadeCoordonneesService.souris.mettreAJourVecteurSouris(event, this.renderService.renderer);
     let intersects;
     this.renderService.scene.updateMatrixWorld(true);
-    rayCaster.setFromCamera(this.facadeCoordonneesService.mouse, this.renderService.camera);
+    rayCaster.setFromCamera(this.facadeCoordonneesService.souris.vecteurSouris, this.renderService.camera);
     intersects = rayCaster.intersectObjects(this.renderService.scene.children);
     if (this.modeGlissement) {
       this.dragPoint(intersects[0].point);
