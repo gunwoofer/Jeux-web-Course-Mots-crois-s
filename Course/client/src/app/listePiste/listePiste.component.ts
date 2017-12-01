@@ -7,9 +7,9 @@ import { PisteService } from './../piste/piste.service';
 
 
 @Component({
-  selector: 'app-listepiste-component',
-  templateUrl: './listePiste.component.html',
-  styleUrls: ['./listePiste.component.css']
+    selector: 'app-listepiste-component',
+    templateUrl: './listePiste.component.html',
+    styleUrls: ['./listePiste.component.css']
 })
 
 export class ListePisteComponent implements OnInit {
@@ -23,7 +23,8 @@ export class ListePisteComponent implements OnInit {
         if (this.utilisateurService.isAdmin) {
             this.estUnAdmin = true;
         }
-            this.pisteService.retournerListePiste().then((pistes: Piste[]) => {this.listePistes = pistes; });
+        this.pisteService.retournerListePiste().then((pistes: Piste[]) => { this.listePistes = pistes; });
+
         if (!this.musiqueService.musique.thematique) {
             this.musiqueService.musique.arreterMusique();
             this.musiqueService.musique.lancerMusiqueThematique();
