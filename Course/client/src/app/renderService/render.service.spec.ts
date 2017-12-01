@@ -27,7 +27,6 @@ import { GenerateurPisteService } from './../generateurPiste/generateurpiste.ser
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 describe('RenderService test', () => {
 
-    const calculateurNombreOngle = new CalculateurNombreOngle();
     const messageErreurService = new MessageErreurService();
     const facadeligne = new FacadeLigneService();
     let fixture: ComponentFixture<CreateurPisteComponent>;
@@ -229,7 +228,7 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 2; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        const angle = calculateurNombreOngle.calculerAngle(1, renderService.points, renderService.facadePointService.compteur);
+        const angle = CalculateurNombreOngle.calculerAngle(1, renderService.points, renderService.facadePointService.compteur);
         expect(angle).toBeLessThanOrEqual(0.785398163);
         expect(renderService.nbAnglesPlusPetit45).toEqual(1);
     });
