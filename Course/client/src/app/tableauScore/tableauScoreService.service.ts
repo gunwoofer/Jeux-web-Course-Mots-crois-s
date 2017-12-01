@@ -1,4 +1,4 @@
-import { NOMBRE_JOUEURS } from './../constant';
+import { NOMBRE_JOUEURS, FIN_PARTIE_URL } from './../constant';
 import { TraitementDonneTableau } from './traitementDonneTableau';
 import { Http, Response } from '@angular/http';
 import { Score } from './score.model';
@@ -24,8 +24,8 @@ export class TableauScoreService {
 
     public produireTableauResultat(): Score[] {
         if (!this.temps) { return; }
-        for (let i = 0; i < NOMBRE_JOUEURS; i++) {
-            this.gestionTempsFinPartie(i, this.temps);
+        for (let joueur = 0; joueur < NOMBRE_JOUEURS; joueur++) {
+            this.gestionTempsFinPartie(joueur, this.temps);
         }
         return this.tempsFinPartie;
     }
@@ -50,7 +50,7 @@ export class TableauScoreService {
 
     public mettreAjourTableauMeilleurTemps(score: Score): Promise<any> {
         this.ajouterTemps(score);
-        return this.http.patch('http://localhost:3000/finPartie' + this.piste.id, this.piste)
+        return this.http.patch(FIN_PARTIE_URL + this.piste.id, this.piste)
             .toPromise()
             .then((reponse: Response) => reponse.json())
             .catch(this.gererErreur);
