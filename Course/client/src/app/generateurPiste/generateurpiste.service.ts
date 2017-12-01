@@ -153,7 +153,7 @@ export class GenerateurPisteService implements Observateur {
                 this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
             }
             this.miseAJourPositionVoiture();
-            this.skyboxService.rotationSkybox(this.deplacementService, this.voitureDuJoueur, this.camera);
+            this.skyboxService.rotationSkybox(this.voitureDuJoueur, this.camera);
         }, 1000 / FPS);
     }
 
