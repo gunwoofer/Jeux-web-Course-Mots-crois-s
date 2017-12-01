@@ -5,8 +5,7 @@ import { PointDeControle } from './../piste/pointDeControle.model';
 import { Rendu } from './renduObject';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import {
-    RESULTAT_PARTIE, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
-    LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PARTIE_DEFAUT
+    RESULTAT_PARTIE, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION, NOMBRE_DE_TOURS_PARTIE_DEFAUT
 } from './../constant';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { SkyboxService } from './../skybox/skybox.service';
@@ -73,6 +72,7 @@ export class GenerateurPisteService implements Observateur {
         public skyboxService: SkyboxService, public placementService: PlacementService,
         public affichageTeteHauteService: AffichageTeteHauteService, public deplacementService: DeplacementService) {
         this.segment = new Segment();
+        this.sortiePisteService = new SortiePisteService();
         this.listeSkyboxJour = new Array<THREE.Mesh>();
         this.listeSkyboxNuit = new Array<THREE.Mesh>();
     }
@@ -84,7 +84,6 @@ export class GenerateurPisteService implements Observateur {
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
         this.segment.ajouterPisteAuPlan(this.piste, this.scene);
-        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.scene.add(SurfaceHorsPiste.genererTerrain(this.segment.chargerSegmentsDePiste(this.piste)));
@@ -169,7 +168,7 @@ export class GenerateurPisteService implements Observateur {
 
     public renderMiseAJour(): void {
         if (this.voitureDuJoueur !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
+            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur, this.segment.chargerSegmentsDePiste(this.piste));
             this.piste.gererElementDePiste([this.voitureDuJoueur]);
             this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
         }

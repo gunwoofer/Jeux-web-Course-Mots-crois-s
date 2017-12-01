@@ -109,6 +109,7 @@ export const LONGUEUR_ACCELERATEUR = 2;
 
 // Divers
 export const FORMAT_MP3 = '.mp3';
+export const FORMAT_IMAGE = '.png';
 export const DEBUT_STINGER = 8;
 export const DUREE_STINGER = 12;
 export const PREMIER_TOUR = 1;
@@ -154,5 +155,21 @@ export const REPETITION_TEXTURE_SURFACE_HORS_PISTE = 10;
 
 export const NOMBRE_ARBRE_CREE = 10;
 export const NOMS_OBJET_A_ENLEVER = ['Plane', 'Null'];
+
+// liste Skybox
+export const SKYBOX_JOUR = [
+    '../../assets/textures/Skybox/interstellar/',
+    '../../assets/textures/Skybox/sand/',
+    '../../assets/textures/Skybox/storm/',
+    '../../assets/textures/Skybox/sunset/'
+
+];
+
+export const SKYBOX_NUIT = [
+    '../../assets/textures/Skybox/space/',
+    '../../assets/textures/Skybox/moon/'];
+
+export const ORIENTATIONS_SKYBOX = ['front', 'back', 'top', 'bottom', 'right', 'left'];
+export const FACE_SKYBOX = 6;
 
 

@@ -57,7 +57,6 @@ export class PisteService {
                         piste._id);
                     pist.modifieAttribut(piste.coteAppreciation, piste.nombreFoisJouee, piste.meilleursTemps, piste.vignette);
                     pist.calculerLaMoyenneDeVotes(piste.coteAppreciation);
-                    const elementDePiste = pist.listeElementsDePiste;
                     pisteTemporaire.push(pist);
                 }
                 this.pistes = pisteTemporaire;
