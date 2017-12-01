@@ -108,7 +108,7 @@ export class DescripteurEvenementTempsReel {
                                              clientSocket: SocketIO.Socket[], requisPourSelectionnerMot: RequisPourSelectionnerMot): void {
         requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
         gestionnairePartieService.obtenirPartieEnCours(requisPourSelectionnerMot.guidPartie)
-                                    .changerSelectionMot(requisPourSelectionnerMot.guidJoueur, requisPourSelectionnerMot.emplacementMot);
+                                 .changerSelectionMot(requisPourSelectionnerMot.guidJoueur, requisPourSelectionnerMot.emplacementMot);
         client.emit(requetes.REQUETE_CLIENT_RAPPEL_CHANGER_EMPLACEMENT_MOT_SELECTIONNER, requisPourSelectionnerMot);
         for (const socketCourante of clientSocket) {
             if (this.estUnAdversaire(client, socketCourante)) {
@@ -121,9 +121,7 @@ export class DescripteurEvenementTempsReel {
                                requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant, clients: SocketIO.Socket[]): void {
         requisPourObtenirTempsRestant.tempsRestant = gestionnaireDePartieService
             .obtenirPartieEnCours(requisPourObtenirTempsRestant.guidPartie).obtenirTempsRestantMilisecondes();
-
         client.emit(requetes.REQUETE_CLIENT_OBTENIR_TEMPS_RESTANT_RAPPEL, requisPourObtenirTempsRestant);
-
         if (requisPourObtenirTempsRestant.tempsRestant === undefined) {
             this.verifierEtAvertirSiPartieTermine(gestionnaireDePartieService, requisPourObtenirTempsRestant.guidPartie, clients);
         }
@@ -131,42 +129,35 @@ export class DescripteurEvenementTempsReel {
 
     public modifierTempsRestant(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
                                requisPourModifierTempsRestant: RequisPourModifierTempsRestant, clients: SocketIO.Socket[]): void {
-        gestionnaireDePartieService
-            .obtenirPartieEnCours(requisPourModifierTempsRestant.guidPartie).demarrerPartie(requisPourModifierTempsRestant.tempsRestant);
-        const requisPourObtenirTempsRestant = new RequisPourObtenirTempsRestant(requisPourModifierTempsRestant.guidPartie);
-        this.obtenirTempsRestant(client, gestionnaireDePartieService, requisPourObtenirTempsRestant, clients);
+        gestionnaireDePartieService.obtenirPartieEnCours(requisPourModifierTempsRestant.guidPartie)
+                                    .demarrerPartie(requisPourModifierTempsRestant.tempsRestant);
+        this.obtenirTempsRestant(client, gestionnaireDePartieService,
+                                new RequisPourObtenirTempsRestant(requisPourModifierTempsRestant.guidPartie), clients);
     }
 
     public obtenirMotsTrouve(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
                              requisPourMotsTrouve: RequisPourMotsTrouve, clients: SocketIO.Socket[]): void {
-        const partie: Partie = gestionnaireDePartieService.obtenirPartieEnCours(requisPourMotsTrouve.guidPartie);
-
-        requisPourMotsTrouve.motsTrouveSelonJoueur = partie.obtenirMotsTrouve();
-
+        requisPourMotsTrouve.motsTrouveSelonJoueur = gestionnaireDePartieService.obtenirPartieEnCours(requisPourMotsTrouve.guidPartie)
+                                                                                .obtenirMotsTrouve();
         client.emit(requetes.REQUETE_CLIENT_OBTENIR_MOTS_TROUVE_RAPPEL, requisPourMotsTrouve);
     }
 
     public obtenirDemandeListePartiesEnCours(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
                                              requisDemandeListePartieEnAttente: RequisDemandeListePartieEnAttente): void {
-
-        const parties: Partie[] = gestionnaireDePartieService.obtenirPartiesEnAttente();
         let vuePartieCourante: VuePartieEnCours;
-
-        for (const partieCourante of parties) {
+        for (const partieCourante of gestionnaireDePartieService.obtenirPartiesEnAttente()) {
             vuePartieCourante = new VuePartieEnCours();
             vuePartieCourante.guidPartie = partieCourante.obtenirPartieGuid();
             vuePartieCourante.niveau = partieCourante.obtenirNiveauGrille();
             vuePartieCourante.nomJoueurHote = partieCourante.obtenirJoueurHote().obtenirNomJoueur();
             requisDemandeListePartieEnAttente.listePartie.push(vuePartieCourante);
         }
-
         client.emit(requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL, requisDemandeListePartieEnAttente);
     }
 
     private verifierEtAvertirSiPartieTermine(gestionnaireDePartieService: GestionnaireDePartieService,
                                              guidPartie: string, clients: SocketIO.Socket[]) {
         const partieTermine = gestionnaireDePartieService.voirSiPartieTermine(guidPartie);
-
         if (partieTermine) {
             for (const clientCourant of clients) {
                 clientCourant.emit(requetes.REQUETE_CLIENT_PARTIE_TERMINE, partieTermine);
@@ -180,8 +171,7 @@ export class DescripteurEvenementTempsReel {
                 .obtenirGrille().mots;
         requisPourMotsComplets = RequisPourMotsComplets.rehydrater(requisPourMotsComplets);
         requisPourMotsComplets.remplirListeMotComplets(listeMots);
-
-         client.emit(requetes.REQUETE_CLIENT_RAPPEL_OBTENIR_MOTS_COMPLETS_CHEAT_MODE, requisPourMotsComplets);
+        client.emit(requetes.REQUETE_CLIENT_RAPPEL_OBTENIR_MOTS_COMPLETS_CHEAT_MODE, requisPourMotsComplets);
     }
 
     private estUnAdversaire(clientEmetteur: SocketIO.Socket, clientCourant: SocketIO.Socket): boolean {
