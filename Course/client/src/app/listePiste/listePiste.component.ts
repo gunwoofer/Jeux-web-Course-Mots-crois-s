@@ -20,7 +20,7 @@ export class ListePisteComponent implements OnInit {
         private utilisateurService: UtilisateurService) { }
 
     public ngOnInit(): void {
-        if (this.utilisateurService.isAdmin) {
+        if (this.utilisateurService.estAdmin) {
             this.estUnAdmin = true;
         }
         this.pisteService.retournerListePiste().then((pistes: Piste[]) => { this.listePistes = pistes; });

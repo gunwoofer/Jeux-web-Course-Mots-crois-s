@@ -4,7 +4,7 @@ import {
 } from './../constant';
 import { ModificationForm } from './admin/modificationMotDepasse/modificationModel';
 import { Http, Response } from '@angular/http';
-import { Administrateur } from './admin/admin.model';
+import { Administrateur } from './admin/admin';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import { objetJson } from '../../../../commun/objetJson';
@@ -14,8 +14,8 @@ import 'rxjs/Rx';
 @Injectable()
 export class UtilisateurService {
 
-    public isAdmin: boolean;
-    public nbAdmin: number;
+    public estAdmin: boolean;
+    public nombreAdmin: number;
 
     constructor(private http: Http) { }
 
@@ -26,7 +26,7 @@ export class UtilisateurService {
                         .catch(this.gererErreur);
     }
 
-    public nombreAdmin(): Promise<objetJson> {
+    public nombreDAdmin(): Promise<objetJson> {
         return this.http.get(URL_ADMINISTRATION)
             .toPromise()
             .then((reponse: Response) => reponse.json())

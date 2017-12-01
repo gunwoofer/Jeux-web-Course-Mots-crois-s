@@ -10,6 +10,10 @@ export class EffetSonoreService {
     this.effetSonoreTableau = new Array<EffetSonore>();
   }
 
+  public static jouerUnEffetSonore(NOM_EFFET_SONORE: string, loop: boolean = false): void {
+    new EffetSonore().lancerEffetSonore(NOM_EFFET_SONORE, loop);
+  }
+
   public jouerNouvelEffetSonore(NOM_EFFET_SONORE: string, loop: boolean = false): void {
     const nouvelEffetSonore = new EffetSonore();
     this.effetSonoreTableau.push(nouvelEffetSonore);
