@@ -9,18 +9,10 @@ export class FabriqueDeGrille {
     public static creerInstanceAvecJSON(jsonGrille: string): Grille {
         const jsonEnGrille = (JSON.parse(jsonGrille) as Grille);
         const vraieGrille: Grille = new Grille(Niveau.facile);
-
-        Object.assign(vraieGrille, jsonEnGrille);
-
-        const vraiEmplacementsMot: EmplacementMot[] = this.creerInstanceAvecJSONEmplacementMots(jsonEnGrille);
-        const vraiCases: Cases = this.creerInstanceAvecJSONCases(jsonEnGrille);
-        const vraiMotsComplet: MotComplet[] = this.creerInstanceAvecJSONMotComplet(jsonEnGrille);
-
-        vraieGrille.cases = vraiCases;
-        vraieGrille.modifierEmplacementsMot(vraiEmplacementsMot);
-        vraieGrille.mots = vraiMotsComplet;
-
-
+        Object.assign(new Grille(Niveau.facile), jsonEnGrille);
+        vraieGrille.cases = this.creerInstanceAvecJSONCases(jsonEnGrille);
+        vraieGrille.modifierEmplacementsMot(this.creerInstanceAvecJSONEmplacementMots(jsonEnGrille));
+        vraieGrille.mots = this.creerInstanceAvecJSONMotComplet(jsonEnGrille);
         return vraieGrille;
     }
 

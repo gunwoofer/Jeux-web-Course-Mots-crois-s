@@ -33,25 +33,7 @@ export class GenerateurDeGrilleService {
         return grille;
     }
 
-    public async obtenirGrillesBase(): Promise<Grille[]> {
-        const grillesFacileObtenue: Grille[] = await this.obtenirGrilles(Niveau.facile);
-        const grillesMoyenObtenue: Grille[] = await this.obtenirGrilles(Niveau.moyen);
-        const grillesDifficileObtenue: Grille[] = await this.obtenirGrilles(Niveau.difficile);
-
-        return grillesFacileObtenue.concat(grillesMoyenObtenue).concat(grillesDifficileObtenue);
-    }
-
-    private async obtenirGrilles(niveau: Niveau): Promise<Grille[]> {
-        const grilles: Grille[] = new Array();
-        for (let i = 0; i < NOMBRE_DE_GRILLE; i++) {
-            const grilleAAjouter = await this.genererGrille(niveau);
-            grilles.push(grilleAAjouter);
-        }
-        return grilles;
-    }
-
     private trierEmplacements(emplacements: EmplacementMot[]): EmplacementMot[] {
-        let emplacementsTries: EmplacementMot[] = new Array();
         const emplacementsLignes: EmplacementMot[] = new Array();
         const emplacementsColonnes: EmplacementMot[] = new Array();
         for (const emplacement of emplacements) {
@@ -61,6 +43,7 @@ export class GenerateurDeGrilleService {
                 emplacementsLignes.push(emplacement);
             }
         }
+        let emplacementsTries: EmplacementMot[] = new Array();
         const tailleMinimumTableau = Math.min(emplacementsColonnes.length, emplacementsLignes.length);
         for (let i = 0; i < tailleMinimumTableau; i++) {
             emplacementsTries.push(emplacementsLignes[i]);
