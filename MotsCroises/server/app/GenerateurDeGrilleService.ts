@@ -29,9 +29,11 @@ export class GenerateurDeGrilleService {
 
     private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
         const emplacements: EmplacementMot[] = GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot());
+        const motsDeLaGrille: string[] = new Array();
         for (const emplacement of emplacements) {
             const chaineMot =  RechercheMots.rechercherMot(emplacement.obtenirGrandeur(),
                                 GestionnaireParametresGrilleService.genererTableauContraintes(grille, emplacement));
+            motsDeLaGrille.push(chaineMot);
             if (chaineMot === undefined) {
                 return undefined;
             } else {
@@ -39,7 +41,25 @@ export class GenerateurDeGrilleService {
                 grille.ajouterMotEmplacement(new MotComplet(chaineMot, new Indice(PAS_DE_DEFINITION)), emplacement);
             }
         }
+        if (this.contientUnDoublon(motsDeLaGrille)) {
+            return undefined;
+        }
         return grille;
+    }
+
+    private contientUnDoublon(motsDeLaGrille: string[]): boolean {
+        for (const motAComparer of motsDeLaGrille) {
+            let nMotsSimilaires = 0;
+            for (const motGrille of motsDeLaGrille) {
+                if (motAComparer === motGrille) {
+                    nMotsSimilaires++;
+                }
+            }
+            if (nMotsSimilaires > 1) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public genererGrilleMotSync(niveau: Niveau): Grille {
