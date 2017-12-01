@@ -27,6 +27,9 @@ export const NOMBRE_SECOUSSES_NID_DE_POULE = 4;
 export const VOITURE_VECTEUR_AVANT_GAUCHE = 82;
 export const VOITURE_VECTEUR_ARRIERE_GAUCHE = 4;
 
+// Intelligence Artificielle
+export const VITESSE_IA = 0.5;
+
 // Emplacements
 export const ARBRE_PATH = '../../assets/objects/arbre/tree.json';
 export const ARBRE_TEXTURE = '../../assets/objects/arbre/tree.jpg';
