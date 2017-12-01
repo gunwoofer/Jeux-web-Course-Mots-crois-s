@@ -50,7 +50,6 @@ export class GenerateurPisteService implements Observateur {
     public voitureDuJoueur: Voiture;
     public jour = true;
     public phares = false;
-    public sortiePisteService: SortiePisteService;
 
     public piste: Piste;
     public elementPiste: ElementDePiste;
@@ -70,9 +69,9 @@ export class GenerateurPisteService implements Observateur {
         public filtreCouleurService: FiltreCouleurService, public gestionnaireDeVue: GestionnaireDeVue,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
         public skyboxService: SkyboxService, public placementService: PlacementService,
-        public affichageTeteHauteService: AffichageTeteHauteService, public deplacementService: DeplacementService) {
+        public affichageTeteHauteService: AffichageTeteHauteService, public sortiePisteService: SortiePisteService,
+        public deplacementService: DeplacementService) {
         this.segment = new Segment();
-        this.sortiePisteService = new SortiePisteService();
         this.listeSkyboxJour = new Array<THREE.Mesh>();
         this.listeSkyboxNuit = new Array<THREE.Mesh>();
     }
@@ -153,7 +152,7 @@ export class GenerateurPisteService implements Observateur {
                 this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
             }
             this.miseAJourPositionVoiture();
-            this.skyboxService.rotationSkybox(this.deplacementService, this.voitureDuJoueur, this.camera);
+            this.skyboxService.rotationSkybox(this.voitureDuJoueur, this.camera);
         }, 1000 / FPS);
     }
 

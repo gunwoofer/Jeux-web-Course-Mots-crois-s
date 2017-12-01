@@ -1,3 +1,4 @@
+import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
@@ -25,7 +26,7 @@ describe('pisteService test', () => {
                 GenerateurPisteService, FiltreCouleurService, AffichageTeteHauteService,
                 ObjetService, LumiereService, TableauScoreService, DeplacementService,
                 MockBackend, SkyboxService, RatingService, PlacementService,
-                BaseRequestOptions,
+                BaseRequestOptions, SortiePisteService,
                 {
                     provide: Http,
                     useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {

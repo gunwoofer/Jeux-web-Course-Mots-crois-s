@@ -1,3 +1,4 @@
+import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { CalculateurNombreOngle } from './../contraintesCircuit/calculateurNombreAngle';
 import { FacadePointService } from './../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from './../facadeCoordonnees/facadecoordonnees.service';
@@ -40,7 +41,7 @@ describe('RenderService test', () => {
                 GenerateurPisteService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
-                FacadePointService],
+                FacadePointService, SortiePisteService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],
             imports: [FormsModule, HttpModule]
         })

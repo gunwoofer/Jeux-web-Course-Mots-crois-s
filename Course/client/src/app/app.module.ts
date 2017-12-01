@@ -1,3 +1,4 @@
+import { SortiePisteService } from './sortiePiste/sortiePiste.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -96,6 +97,7 @@ import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehau
     PlacementService,
     EffetSonoreService,
     AffichageTeteHauteService,
+    SortiePisteService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
