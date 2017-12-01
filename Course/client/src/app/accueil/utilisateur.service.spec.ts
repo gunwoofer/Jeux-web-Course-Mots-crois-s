@@ -61,14 +61,14 @@ describe('utilisateurService test', () => {
 
     it('retourne mot De passe', inject([UtilisateurService, MockBackend], (service: UtilisateurService, backend: MockBackend) => {
         const reponse = new ResponseOptions({
-            body: JSON.stringify(mockAdmin.motDePasse)
+            body: JSON.stringify(mockAdmin.obtenirMotDePasse())
         });
         const baseResponse = new Response(reponse);
         backend.connections.subscribe(
             (connection: MockConnection) => connection.mockRespond(baseResponse)
         );
-        return service.recupererMotDePasse(mockAdmin.email).then(data => {
-            expect(<any>data).toEqual(mockListAdmin[0].motDePasse);
+        return service.recupererMotDePasse(mockAdmin.obtenirEmail()).then(data => {
+            expect(<any>data).toEqual(mockListAdmin[0].obtenirMotDePasse());
         });
     }));
 

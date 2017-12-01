@@ -3,7 +3,7 @@ import { UtilisateurService } from './../../utilisateur.service';
 import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Component, OnInit } from '@angular/core';
-import { LISTE_PISTE, MOT_DE_PASSE_OUBLIE } from '../../../constant';
+import { LISTE_PISTE, MOT_DE_PASSE_OUBLIE, URL_INSCRIPTION, INSCRIPTION } from '../../../constant';
 
 @Component({
   selector: 'app-connexion',
@@ -12,31 +12,28 @@ import { LISTE_PISTE, MOT_DE_PASSE_OUBLIE } from '../../../constant';
 })
 export class ConnexionComponent implements OnInit {
 
+    // Voir utilisation dans connexion.component.html
     public nbAdmin: number;
 
     constructor(private router: Router, private utilisateurService: UtilisateurService) { }
 
-    public revenirEnArrier(): void {
-        this.router.navigateByUrl('/accueil');
-    }
-
     public soummetre(form: NgForm): void {
-        const admin = new Administrateur(form.value.email, form.value.motDePasse);
+        const admin = new Administrateur(form);
 
         this.utilisateurService.seConnecter(admin)
-                                .then(donne => {
-                                    if (donne.message) {
-                                        alert(donne.message);
+                                .then(reponse => {
+                                    if (reponse.message) {
+                                        alert(reponse.message);
                                         this.utilisateurService.isAdmin = true;
                                         this.router.navigateByUrl(LISTE_PISTE);
                                     } else {
-                                        alert(donne.error.message);
+                                        alert(reponse.error.message);
                                     }
                                 });
     }
 
     public sinscrire(): void {
-        this.router.navigateByUrl(LISTE_PISTE);
+        this.router.navigateByUrl(INSCRIPTION);
     }
 
     public motDepasseOublie(): void {
@@ -44,6 +41,6 @@ export class ConnexionComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        this.utilisateurService.nombreAdmin().then(donne => this.nbAdmin = donne.objet);
+        this.utilisateurService.nombreAdmin().then(reponse => this.nbAdmin = reponse.objet);
     }
 }
