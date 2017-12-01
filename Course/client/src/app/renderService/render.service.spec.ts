@@ -26,6 +26,7 @@ import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
+import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
 describe('RenderService test', () => {
 
     const messageErreurService = new MessageErreurService();
@@ -39,7 +40,7 @@ describe('RenderService test', () => {
         TestBed.configureTestingModule({
             providers: [RenderService, EvenementService, PisteService, AffichageTeteHauteService,
                 GenerateurPisteService, MessageErreurService, RatingService, DeplacementService,
-                MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
+                MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService, SortiePisteService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
                 FacadePointService, SortiePisteService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],

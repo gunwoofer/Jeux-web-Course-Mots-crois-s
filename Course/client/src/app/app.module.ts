@@ -46,6 +46,7 @@ import {EffetSonoreService} from './effetSonore/effetSonore.service';
 import { DeplacementService } from './generateurPiste/deplacement.service';
 import { PlacementService } from './objetService/placementVoiture.service';
 import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehaute.service';
+import { SortiePisteService } from './sortiePiste/sortiePiste.service';
 
 
 

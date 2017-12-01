@@ -7,12 +7,17 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SkyboxService {
-    private skybox: Skybox;
-    private deplacementService: DeplacementService;
 
-    constructor() {
+    private skybox: Skybox;
+    private listeSkyboxJour: THREE.Mesh[];
+    private listeSkyboxNuit: THREE.Mesh[];
+
+
+    constructor(private deplacementService: DeplacementService) {
         this.skybox = new Skybox();
-        this.deplacementService = new DeplacementService();
+        this.listeSkyboxJour = new Array<THREE.Mesh>();
+        this.listeSkyboxNuit = new Array<THREE.Mesh>();
+        this.chargerLesSkybox();
     }
 
     public rotationSkybox(voitureDuJoueur: Voiture, camera: THREE.PerspectiveCamera): void {
@@ -24,38 +29,37 @@ export class SkyboxService {
         }
     }
 
-    public chargerLesSkybox(listeSkyboxJour: Array<THREE.Mesh>, listeSkyboxNuit: Array<THREE.Mesh>): void {
-        this.genererToutesLesSkyboxJour(listeSkyboxJour);
-        this.genererToutesLesSkyboxNuit(listeSkyboxNuit);
+    public ajouterSkybox(camera: THREE.PerspectiveCamera): void {
+        camera.add(this.listeSkyboxJour[this.skybox.emplacementAleatoire(this.listeSkyboxJour.length)]);
     }
 
-    private genererToutesLesSkyboxJour(listeSkyboxJour: Array<THREE.Mesh>): void {
+    public chargerLesSkybox(): void {
+        this.genererToutesLesSkyboxJour();
+        this.genererToutesLesSkyboxNuit();
+    }
+
+    private genererToutesLesSkyboxJour(): void {
         for (let i = 0; i < SKYBOX_JOUR.length; i++) {
-            listeSkyboxJour.push(this.skybox.creerSkybox(SKYBOX_JOUR[i]));
+            this.listeSkyboxJour.push(this.skybox.creerSkybox(SKYBOX_JOUR[i]));
         }
     }
 
-    private genererToutesLesSkyboxNuit(listeSkyboxNuit: Array<THREE.Mesh>): void {
+    private genererToutesLesSkyboxNuit(): void {
         for (let i = 0; i < SKYBOX_NUIT.length; i++) {
-            listeSkyboxNuit.push(this.skybox.creerSkybox(SKYBOX_NUIT[i]));
+            this.listeSkyboxNuit.push(this.skybox.creerSkybox(SKYBOX_NUIT[i]));
         }
     }
 
-    public ajouterSkybox(camera: THREE.PerspectiveCamera, listeSkybox: Array<THREE.Mesh>): void {
-        camera.add(listeSkybox[this.skybox.emplacementAleatoire(listeSkybox.length)]);
-    }
-
-    public changerSkybox(camera: THREE.PerspectiveCamera, listeSkybox: Array<THREE.Mesh>): void {
-        camera.remove(camera.getObjectByName('Skybox'));
-        camera.add(listeSkybox[this.skybox.emplacementAleatoire(listeSkybox.length)]);
-    }
-
-    public alternerSkybox(jour: boolean, camera: THREE.PerspectiveCamera,
-        listeSkyboxJour: Array<THREE.Mesh>, listeSkyboxNuit: Array<THREE.Mesh>): void {
+    public alternerSkybox(jour: boolean, camera: THREE.PerspectiveCamera): void {
         if (!jour) {
-            this.changerSkybox(camera, listeSkyboxNuit);
+            this.changerSkybox(camera, this.listeSkyboxNuit);
         } else {
-            this.changerSkybox(camera, listeSkyboxJour);
+            this.changerSkybox(camera, this.listeSkyboxJour);
         }
+    }
+
+    private changerSkybox(camera: THREE.PerspectiveCamera, listeSkybox: Array<THREE.Mesh>): void {
+        camera.remove(camera.getObjectByName(NOM_SKYBOX));
+        camera.add(listeSkybox[this.skybox.emplacementAleatoire(listeSkybox.length)]);
     }
 }
