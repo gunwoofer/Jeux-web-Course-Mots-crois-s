@@ -1,7 +1,5 @@
-import { FonctionMaths } from './../fonctionMathematiques';
 import { Voiture } from './../voiture/Voiture';
-import * as THREE from 'three';
-import { POSITION_OBSTACLE_EN_Z } from '../constant';
+import * as THREE from 'three';;
 
 export enum TypeElementPiste {
     Accelerateur,

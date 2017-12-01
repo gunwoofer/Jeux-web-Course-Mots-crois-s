@@ -1,4 +1,3 @@
-import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { CalculateurNombreOngle } from './../contraintesCircuit/calculateurNombreAngle';
 import { FacadePointService } from './../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from './../facadeCoordonnees/facadecoordonnees.service';

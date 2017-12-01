@@ -62,11 +62,11 @@ export class GenerateurPisteService implements Observateur {
     public nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
 
-    constructor(public objetService: ObjetService, public lumiereService: LumiereService, public sortiePisteService: SortiePisteService,
+    constructor(public objetService: ObjetService, public lumiereService: LumiereService,
         public filtreCouleurService: FiltreCouleurService, public gestionnaireDeVue: GestionnaireDeVue,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
         public skyboxService: SkyboxService, public placementService: PlacementService,
-        public affichageTeteHauteService: AffichageTeteHauteService,
+        public affichageTeteHauteService: AffichageTeteHauteService, public sortiePisteService: SortiePisteService,
         public deplacementService: DeplacementService) {
         this.segment = new Segment();
     }
