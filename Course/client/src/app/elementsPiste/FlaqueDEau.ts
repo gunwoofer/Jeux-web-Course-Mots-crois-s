@@ -8,6 +8,7 @@ import {
     HEX_BLEU, RADIAN_FLAQUE_EAU, SEGMENTS_FLAQUE_EAU,
     VOITURE_VECTEUR_ARRIERE_GAUCHE, VOITURE_VECTEUR_AVANT_GAUCHE
 } from '../constant';
+import { Piste } from '../piste/piste.model';
 
 export class FlaqueDEau extends ElementDePiste {
 
@@ -15,7 +16,7 @@ export class FlaqueDEau extends ElementDePiste {
         super();
 
         this.typeElementDePiste = TypeElementPiste.FlaqueDEau;
-        this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
+        this.position = (position) ? position : Piste.genererPositionAleatoire(listePosition, true);
     }
 
     public genererMesh(): void {
@@ -27,32 +28,7 @@ export class FlaqueDEau extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        DeplacementService.aquaPlannageFlaqueDEau(voiture, this.vecteurVoiture(voiture));
+        DeplacementService.aquaPlannageFlaqueDEau(voiture, Voiture.vecteurVoiture(voiture));
         EffetSonore.jouerUnEffetSonore(NOM_OBSTACLE);
-    }
-
-    private vecteurVoiture(voiture: Voiture): THREE.Vector3 {
-        return new THREE.Vector3(
-            this.obtenirMilieuVoitureX(this.vecteurAvantGauche(voiture), this.vecteurArriereGauche(voiture)),
-            this.obtenirMilieuVoitureY(this.vecteurAvantGauche(voiture), this.vecteurArriereGauche(voiture))
-        );
-    }
-
-    private vecteurAvantGauche(voiture: Voiture): THREE.Vector3 {
-        return new THREE.Vector3()
-            .setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_AVANT_GAUCHE].matrixWorld);
-    }
-
-    private vecteurArriereGauche(voiture: Voiture): THREE.Vector3 {
-        return new THREE.Vector3()
-            .setFromMatrixPosition(voiture.voiture3D.children[VOITURE_VECTEUR_ARRIERE_GAUCHE].matrixWorld);
-    }
-
-    private obtenirMilieuVoitureX(vecteurAvantGauche: THREE.Vector3, vecteurArriereGauche: THREE.Vector3): number {
-        return vecteurAvantGauche.x - vecteurArriereGauche.x;
-    }
-
-    private obtenirMilieuVoitureY(vecteurAvantGauche: THREE.Vector3, vecteurArriereGauche: THREE.Vector3): number {
-        return vecteurAvantGauche.y - vecteurArriereGauche.y;
     }
 }
