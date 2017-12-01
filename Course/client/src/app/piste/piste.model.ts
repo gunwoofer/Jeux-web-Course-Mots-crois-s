@@ -3,6 +3,8 @@ import { Score } from './../tableauScore/score.model';
 import * as THREE from 'three';
 import { NgForm } from '@angular/forms';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
+import { FonctionMaths } from '../fonctionMathematiques';
+import { POSITION_OBSTACLE_EN_Z } from '../constant';
 
 export class Piste {
     public static longueurPiste = 0;
@@ -12,6 +14,26 @@ export class Piste {
     public meilleursTemps: Score[] = [];
     public coteMoyenne: number;
     public vignette: string;
+
+    public static genererPositionAleatoire(listePosition: THREE.Vector3[], estUnAccelerateur: boolean): THREE.Vector3 {
+        const segmentAleatoire = this.genererSegmentAleatoire(listePosition);
+        const pointDebut = segmentAleatoire[0];
+        const pointFin = segmentAleatoire[1];
+
+        const x = (estUnAccelerateur) ? FonctionMaths.trouverXAleatoire(pointDebut.x,
+                                        FonctionMaths.obtenirMoitieEntre2points(pointDebut.x, pointFin.x))
+                                    : FonctionMaths.trouverXAleatoire(pointDebut.x, pointFin.x);
+
+        const pente = FonctionMaths.calculerPenteDroite(pointDebut, pointFin);
+        const y = pente * x + FonctionMaths.calculerOrdonneeALOrigine(pointDebut, pente);
+
+        return new THREE.Vector3(x, y, POSITION_OBSTACLE_EN_Z);
+    }
+
+    private static genererSegmentAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3[] {
+        const pointAleatoire = Math.round(Math.random() * (listePoints.length - 2));
+        return [listePoints[pointAleatoire], listePoints[pointAleatoire + 1]];
+    }
 
     constructor(public nom: string,
         public typeCourse: string,

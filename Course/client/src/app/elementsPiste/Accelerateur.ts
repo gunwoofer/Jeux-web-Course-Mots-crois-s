@@ -7,13 +7,14 @@ import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { CHEMIN_ACCES_ACCELERATEUR, NIVEAU_CLARETE } from '../constant';
 import { Texture } from 'three';
+import { Piste } from '../piste/piste.model';
 
 export class Accelerateur extends ElementDePiste {
 
     constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
         this.typeElementDePiste = TypeElementPiste.Accelerateur;
-        this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
+        this.position = (position) ? position : Piste.genererPositionAleatoire(listePosition, true);
     }
 
     public genererMesh(): void {
