@@ -6,9 +6,8 @@ import { AffichageTeteHaute } from './affichageTeteHaute';
 import { Pilote } from '../partie/Pilote';
 
 @Injectable()
-
 export class AffichageTeteHauteService implements Observateur {
-    public affichageTeteHaute: AffichageTeteHaute = new AffichageTeteHaute();
+    private affichageTeteHaute: AffichageTeteHaute = new AffichageTeteHaute();
     private notifierVue = false;
 
     public mettreAJourAffichage(nombrePilotes: number, nombreTours: number): void {
@@ -17,8 +16,12 @@ export class AffichageTeteHauteService implements Observateur {
         this.affichageTeteHaute.notifierObservateurs(NotificationType.MettreAJourAffichageTeteHaute);
     }
 
+    public ajouterObservateur(observateur: Observateur): void {
+        this.affichageTeteHaute.ajouterObservateur(observateur);
+    }
+
     public notifier(sujet: Sujet, type: NotificationType): void {
-        if (this.estUnPilote(sujet)) {
+        if (Pilote.estUnPilote(sujet)) {
             const pilote: Pilote = <Pilote>sujet;
             this.notifierVue = true;
             this.miseAJourNotification(type, pilote);
@@ -28,10 +31,6 @@ export class AffichageTeteHauteService implements Observateur {
             this.affichageTeteHaute.notifierObservateurs(NotificationType.MettreAJourAffichageTeteHaute);
             this.notifierVue = false;
         }
-    }
-
-    private estUnPilote(sujet: Sujet): boolean {
-        return (sujet instanceof Pilote) ? true : false;
     }
 
     public miseAJourNotification(type: NotificationType, pilote: Pilote): void {

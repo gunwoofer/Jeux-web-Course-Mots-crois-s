@@ -12,7 +12,6 @@ import { AffichageTeteHauteService } from './affichagetetehaute.service';
     templateUrl: './affichagetetehaute.component.html',
     styleUrls: ['./affichagetetehaute.component.css']
 })
-
 export class AffichageTeteHauteComponent implements OnInit, Observateur {
     // Valeurs affichées a l'ecran
     public position: number;
@@ -26,7 +25,7 @@ export class AffichageTeteHauteComponent implements OnInit, Observateur {
     }
 
     public ngOnInit(): void {
-        this.affichageTeteHauteService.affichageTeteHaute.ajouterObservateur(this);
+        this.affichageTeteHauteService.ajouterObservateur(this);
     }
 
     public notifier(sujet: Sujet, type: NotificationType): void {

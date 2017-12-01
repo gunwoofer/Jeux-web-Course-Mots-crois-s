@@ -1,4 +1,4 @@
-import { NOM_BOOST } from './../effetSonore/effetSonore.model';
+import { NOM_BOOST, EffetSonore } from './../effetSonore/effetSonore';
 import { EffetSonoreService } from './../effetSonore/effetSonore.service';
 import { LARGEUR_ACCELERATEUR, LONGUEUR_ACCELERATEUR, REPETITION_TEXTURE_ACCELERATEUR } from './../constant';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
@@ -23,7 +23,7 @@ export class Accelerateur extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        EffetSonoreService.jouerUnEffetSonore(NOM_BOOST);
+        EffetSonore.jouerUnEffetSonore(NOM_BOOST);
         DeplacementService.augmenterVitesseAccelerateur(voiture);
     }
 
