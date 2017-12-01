@@ -32,24 +32,18 @@ export class DescripteurEvenementTempsReel {
 
     public creerPartieSolo(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
                             generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
-        // let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
         this.preparerNouvellePartie(gestionnaireDePartieService,
             generateurDeGrilleService, SpecificationPartie.rehydrater(specificationPartie)).then((specificationPartieNouvellePartie) => {
-                // specificationPartieRecu = specificationPartieNouvellePartie;
-                // La partie solo peut être démarré dès sa création.
                 gestionnaireDePartieService.obtenirPartieEnCours(specificationPartieNouvellePartie.guidPartie).demarrerPartie();
                 client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieNouvellePartie);
             });
     }
 
     public creerPartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
-                                  generateurDeGrilleService: GenerateurDeGrilleService,
-                                  specificationPartie: SpecificationPartie): void {
-        let specificationPartieRecu: SpecificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+                                  generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
         this.preparerNouvellePartie(gestionnaireDePartieService,
-            generateurDeGrilleService, specificationPartieRecu).then((specificationPartieNouvellePartie) => {
-                specificationPartieRecu = specificationPartieNouvellePartie;
-                client.emit(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, specificationPartieRecu);
+            generateurDeGrilleService, SpecificationPartie.rehydrater(specificationPartie)).then((specificationPartieNouvellePartie) => {
+                client.emit(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, specificationPartieNouvellePartie);
             });
     }
 
@@ -84,12 +78,9 @@ export class DescripteurEvenementTempsReel {
                                         generateurDeGrilleService: GenerateurDeGrilleService,
                                         specificationPartieRecu: SpecificationPartie): Promise<SpecificationPartie> {
         const grille: Grille = await generateurDeGrilleService.genererGrille(specificationPartieRecu.niveau);
-        const guidPartie = gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
+        specificationPartieRecu.indices = grille.motsComplet.recupererIndices();
+        specificationPartieRecu.guidPartie = gestionnaireDePartieService.creerPartie(specificationPartieRecu.joueur,
             specificationPartieRecu.typePartie, grille, grille.niveau);
-        let tableauIndices: Indice[] = new Array();
-        tableauIndices = grille.motsComplet.recupererIndices();
-        specificationPartieRecu.indices = tableauIndices;
-        specificationPartieRecu.guidPartie = guidPartie;
         specificationPartieRecu.specificationGrilleEnCours = new SpecificationGrille(
             grille.obtenirManipulateurCasesSansLettres(), grille.obtenirEmplacementsMot());
         return specificationPartieRecu;
