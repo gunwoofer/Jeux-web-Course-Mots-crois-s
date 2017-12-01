@@ -3,7 +3,7 @@ import { ORIGINE, ORIENTATION_Z } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-
+import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
 
 @Injectable()
 export class SortiePisteService {
@@ -17,7 +17,7 @@ export class SortiePisteService {
     public gererSortiePiste(voiture: Voiture, listeSegments: THREE.Mesh[]): void {
         if (!this.estSurLaPiste(voiture.obtenirVoiture3D(), listeSegments)) {
             this.ramenerVoitureDernierSegment(voiture);
-            DeplacementService.reduireVitesseSortiePiste(voiture);
+            DeplacementVoiture.reduireVitesseSortiePiste(voiture);
         }
     }
 

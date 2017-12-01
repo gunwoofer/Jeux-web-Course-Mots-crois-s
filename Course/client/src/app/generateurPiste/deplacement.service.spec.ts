@@ -1,3 +1,4 @@
+import { DeplacementVoiture } from './deplacementVoiture';
 import { mockPistes } from './../piste/pistes.mock';
 import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
 import { DeplacementService } from './deplacement.service';
@@ -45,7 +46,7 @@ describe('Deplacement de la voiture du joueur', () => {
         const tableauPiste = mockPistes;
         const voitureTest = new Voiture(new THREE.Object3D, tableauPiste[0]);
         voitureTest.vitesse = 0.5;
-        DeplacementService.reduireVitesseSortiePiste(voitureTest);
+        DeplacementVoiture.reduireVitesseSortiePiste(voitureTest);
         expect(voitureTest.vitesse).toEqual(0.5 / REDUCTION_VITESSE_SORTIE_PISTE);
     });
 
@@ -54,7 +55,7 @@ describe('Deplacement de la voiture du joueur', () => {
         const tableauPiste = mockPistes;
         const voitureTest = new Voiture(new THREE.Object3D, tableauPiste[0]);
         voitureTest.vitesse = 0.5;
-        DeplacementService.reduireVitesseNidDePoule(voitureTest);
+        DeplacementVoiture.reduireVitesseNidDePoule(voitureTest);
         expect(voitureTest.vitesse).toEqual(0.5 / REDUCTION_VITESSE_NID_DE_POULE);
     });
 
