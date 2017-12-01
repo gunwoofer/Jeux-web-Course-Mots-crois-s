@@ -18,7 +18,7 @@ export class Rendu {
         renderer.render(scene, camera);
     }
 
-    public verifierElement(parametre: any, renderer: THREE.WebGLRenderer): void {
+    private verifierElement(parametre: any, renderer: THREE.WebGLRenderer): void {
         if (parametre instanceof Retroviseur) {
             renderer.setViewport(parametre.coinX, parametre.coinY,
                 parametre.largeur, parametre.hauteur);

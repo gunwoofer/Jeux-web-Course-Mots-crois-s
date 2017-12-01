@@ -35,6 +35,7 @@ export class EvenementService {
     if (!this.modeGlissement || this.dureeClick < 500 && this.objetGlisse && this.objetGlisse.name === '0') {
       this.renderService.dessinerPoint(event);
     }
+
     this.modeGlissement = false;
   }
 
