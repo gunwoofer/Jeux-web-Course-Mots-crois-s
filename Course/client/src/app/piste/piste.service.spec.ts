@@ -22,7 +22,7 @@ describe('pisteService test', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
-                PisteService, GestionnaireDeVue, MusiqueService,
+                PisteService, GestionnaireDeVue, MusiqueService, SortiePisteService,
                 GenerateurPisteService, FiltreCouleurService, AffichageTeteHauteService,
                 ObjetService, LumiereService, TableauScoreService, DeplacementService,
                 MockBackend, SkyboxService, RatingService, PlacementService,

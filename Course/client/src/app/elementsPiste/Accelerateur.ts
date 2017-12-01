@@ -1,5 +1,4 @@
 import { NOM_BOOST, EffetSonore } from './../effetSonore/effetSonore';
-import { EffetSonoreService } from './../effetSonore/effetSonore.service';
 import { LARGEUR_ACCELERATEUR, LONGUEUR_ACCELERATEUR, REPETITION_TEXTURE_ACCELERATEUR } from './../constant';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';

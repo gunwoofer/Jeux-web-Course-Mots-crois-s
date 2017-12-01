@@ -16,4 +16,22 @@ export class FonctionMaths {
     public static calculerOrdonneeALOrigine(pointDebut: THREE.Vector3, pente: number): number {
         return (pointDebut.y - pente * pointDebut.x);
     }
+
+    public static calculerDistanceSegmentPoint(vecteurDebutSegment: THREE.Vector3, vecteurFinSegment: THREE.Vector3,
+                                               vecteurPoint: THREE.Vector3): number {
+        // Trouver AB
+        const abx: number = vecteurDebutSegment.x - vecteurFinSegment.x;
+        const aby: number = vecteurDebutSegment.y - vecteurFinSegment.y;
+
+        // Trouver AV
+        const avx: number = vecteurPoint.x - vecteurDebutSegment.x;
+        const avy: number = vecteurPoint.y - vecteurDebutSegment.y;
+
+        // Produit vectoriel AV ^ AB
+        const avabx: number = avx * aby - avy * abx;
+        const avaby: number = avy * abx - avx * aby;
+
+        // NORME AV ^ AB
+        return Math.pow(Math.pow(avabx, 2) + Math.pow(avaby, 2), 0.5);
+    }
 }
