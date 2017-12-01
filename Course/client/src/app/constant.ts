@@ -28,7 +28,6 @@ export const VOITURE_VECTEUR_AVANT_GAUCHE = 82;
 export const VOITURE_VECTEUR_ARRIERE_GAUCHE = 4;
 
 // Emplacements
-export const FIN_PARTIE_URL = '/resultatPartie';
 export const ARBRE_PATH = '../../assets/objects/arbre/tree.json';
 export const ARBRE_TEXTURE = '../../assets/objects/arbre/tree.jpg';
 export const SURFACE_HORS_PISTE_TEXTURE = '../../assets/textures/texturerock.jpg';
@@ -126,6 +125,7 @@ export const URL_INSCRIPTION = 'http://localhost:3000/inscription';
 export const URL_ADMINISTRATION = 'http://localhost:3000/admin';
 export const URL_MOT_DE_PASSSE_OUBLIE = 'http://localhost:3000/motDePasseOublie';
 export const URL_MODIFIER_MOT_DE_PASSE = 'http://localhost:3000/ModifierPass';
+export const FIN_PARTIE_URL = 'http://localhost:3000/finPartie';
 export const MESSAGE_ERREUR = 'Une erreur est arrivé';
 // Couleurs
 export const COMPOSANTE_R_POINT_EDITEUR = 0.55;
@@ -143,6 +143,7 @@ export const ADMINISTRATION = '/admin';
 export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
 export const GENERATION_PISTE = '/generationpiste';
 export const RESULTAT_PARTIE = '/resultatPartie';
+
 
 export const LARGEUR_PISTE_EDITEUR = 10;
 export const REPETITION_TEXTURE_ACCELERATEUR = 1;

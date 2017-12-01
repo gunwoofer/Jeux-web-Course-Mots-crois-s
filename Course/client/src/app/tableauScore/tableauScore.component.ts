@@ -31,7 +31,6 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
         }
         if (this.tableauScoreService.temps) {
             this.meilleurTemps = Math.floor(this.tableauScoreService.temps).toString();
-            this.afficher = true;
         }
     }
 

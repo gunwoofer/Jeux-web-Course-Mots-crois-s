@@ -1,4 +1,4 @@
-import { pisteMock, scoreMock } from './mockTableau';
+import { scoreMock, pisteMock } from './../mocks';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';

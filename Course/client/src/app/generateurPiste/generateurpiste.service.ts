@@ -5,7 +5,7 @@ import { PointDeControle } from './../piste/pointDeControle.model';
 import { Rendu } from './renduObject';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import {
-    FIN_PARTIE_URL, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
+    RESULTAT_PARTIE, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
     LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PARTIE_DEFAUT
 } from './../constant';
 import { PlacementService } from './../objetService/placementVoiture.service';
@@ -87,8 +87,7 @@ export class GenerateurPisteService implements Observateur {
         this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
-        this.scene.add(new SurfaceHorsPiste(LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE,
-            this.segment.chargerSegmentsDePiste(this.piste)).terrain);
+        this.scene.add(SurfaceHorsPiste.genererTerrain(this.segment.chargerSegmentsDePiste(this.piste)));
         this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
@@ -261,7 +260,7 @@ export class GenerateurPisteService implements Observateur {
     public voirPageFinPartie(): void {
         this.tableauScoreService.temps = (Pilote.tempsTotal / 1000);
         this.tableauScoreService.finPartie = true;
-        this.routeur.navigateByUrl(FIN_PARTIE_URL);
+        this.routeur.navigateByUrl(RESULTAT_PARTIE);
     }
 
 }
