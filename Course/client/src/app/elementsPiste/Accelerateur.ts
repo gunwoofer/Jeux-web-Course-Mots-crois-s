@@ -7,6 +7,7 @@ import * as THREE from 'three';
 import { CHEMIN_ACCES_ACCELERATEUR, NIVEAU_CLARETE } from '../constant';
 import { Texture } from 'three';
 import { Piste } from '../piste/piste.model';
+import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
 
 export class Accelerateur extends ElementDePiste {
 
@@ -24,7 +25,7 @@ export class Accelerateur extends ElementDePiste {
 
     public effetSurObstacle(voiture: Voiture): void {
         EffetSonore.jouerUnEffetSonore(NOM_BOOST);
-        DeplacementService.augmenterVitesseAccelerateur(voiture);
+        DeplacementVoiture.augmenterVitesseAccelerateur(voiture);
     }
 
     public genererMaterial(): THREE.MeshPhongMaterial {
