@@ -80,13 +80,11 @@ export class GenerateurPisteService implements Observateur {
     public initialisation(container: HTMLDivElement): void {
         this.container = container;
         this.creerScene();
-        this.scene.add(this.camera);
         this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
         this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
         this.objetService.ajouterArbreScene(this.scene);
-        this.segment.mettreSegmentsSurScene(this.piste, this.scene);
+        this.segment.ajouterPisteAuPlan(this.piste, this.scene);
         this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
-        this.ajoutZoneDepart();
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
         this.scene.add(new SurfaceHorsPiste(LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE,
@@ -140,6 +138,7 @@ export class GenerateurPisteService implements Observateur {
     public creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
+        this.scene.add(this.camera);
     }
 
     public commencerMoteurDeJeu(): void {
@@ -185,11 +184,6 @@ export class GenerateurPisteService implements Observateur {
 
     public getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
-    }
-
-    public ajoutZoneDepart(): void {
-        this.scene.add(this.segment.ajoutDamier(this.piste));
-        this.scene.add(this.segment.ajoutLigneDepart(this.piste));
     }
 
     public toucheRelachee(event): void {
