@@ -6,6 +6,7 @@ export enum DifficulteDefinition {
     DefinitionAlternative
 }
 
+
 export class Indice {
     private difficulteDefinition: DifficulteDefinition;
     public definitions: string[] = new Array();
