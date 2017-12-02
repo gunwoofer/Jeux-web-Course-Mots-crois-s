@@ -7,12 +7,12 @@ import { Router } from '@angular/router';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 
 @Component({
-    selector: 'app-generateurpiste-component',
-    templateUrl: './generateurpiste.component.html',
-    styleUrls: ['./generateurpiste.component.css'],
+    selector: 'app-jeudecourse-component',
+    templateUrl: './jeudecourse.component.html',
+    styleUrls: ['./jeudecourse.component.css'],
 })
 
-export class GenerateurPisteComponent implements AfterViewInit, OnInit {
+export class JeuDeCourseComponent implements AfterViewInit, OnInit {
 
     @ViewChild('container')
     private containerRef: ElementRef;

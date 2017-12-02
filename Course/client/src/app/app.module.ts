@@ -14,7 +14,7 @@ import { PisteComponent } from './piste/piste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
 import { TableauScoreComponent } from './tableauScore/tableauScore.component';
 import { AccueilComponent } from './accueil/accueil.component';
-import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
+import { JeuDeCourseComponent } from './jeudecourse/jeudecourse.component';
 import { InscriptionComponent } from './accueil/admin/inscription/inscription.component';
 import { ConnexionComponent } from './accueil/admin/connexion/connexion.component';
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
@@ -33,7 +33,7 @@ import { EvenementService } from './gestionnaireEvenement/gestionnaireEvenement.
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeLigne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
-import { JeuDeCourseService } from './generateurPiste/jeudecourse.service';
+import { JeuDeCourseService } from './jeudecourse/jeudecourse.service';
 import { UtilisateurService } from './accueil/utilisateur.service';
 import { MusiqueService } from './musique/musique.service';
 import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
@@ -42,7 +42,7 @@ import { GestionnaireDeVue } from './gestionnaireDeVue/gestionnaireDeVue.service
 import { RatingService } from './rating/rating.service';
 import { SkyboxService } from './skybox/skybox.service';
 import {EffetSonoreService} from './effetSonore/effetSonore.service';
-import { DeplacementService } from './generateurPiste/deplacement.service';
+import { DeplacementService } from './deplacement/deplacement.service';
 import { PlacementService } from './objetService/placementVoiture.service';
 import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehaute.service';
 import { SortiePisteService } from './sortiePiste/sortiePiste.service';
@@ -58,7 +58,7 @@ import { SortiePisteService } from './sortiePiste/sortiePiste.service';
     PisteComponent,
     ListePisteComponent,
     TableauScoreComponent,
-    GenerateurPisteComponent,
+    JeuDeCourseComponent,
     AccueilComponent,
     ConnexionComponent,
     InscriptionComponent,

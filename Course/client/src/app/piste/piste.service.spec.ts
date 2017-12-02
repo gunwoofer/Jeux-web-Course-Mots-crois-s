@@ -1,5 +1,5 @@
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
-import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { DeplacementService } from './../deplacement/deplacement.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
@@ -15,7 +15,7 @@ import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from 
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { mockPistes } from './pistes.mock';
-import { JeuDeCourseService } from '../generateurPiste/jeudecourse.service';
+import { JeuDeCourseService } from '../jeudecourse/jeudecourse.service';
 import { PisteService } from './piste.service';
 
 describe('pisteService test', () => {

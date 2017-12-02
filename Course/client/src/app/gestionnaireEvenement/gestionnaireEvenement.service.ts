@@ -2,7 +2,7 @@ import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.serv
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { LumiereService } from './../lumiere/lumiere.service';
-import { JeuDeCourseService } from './../generateurPiste/jeudecourse.service';
+import { JeuDeCourseService } from './../jeudecourse/jeudecourse.service';
 import { MODE_JOUR_NUIT, MODE_FILTRE_COULEUR, ZOOM_AVANT, ZOOM_ARRIERE, CHANGER_VUE, ALLUMER_PHARES, RETROVISEUR } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';

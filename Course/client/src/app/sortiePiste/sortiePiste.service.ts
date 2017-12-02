@@ -1,9 +1,9 @@
-import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { DeplacementService } from './../deplacement/deplacement.service';
 import { ORIGINE, ORIENTATION_Z } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
+import { DeplacementVoiture } from '../deplacement/deplacementVoiture';
 
 @Injectable()
 export class SortiePisteService {

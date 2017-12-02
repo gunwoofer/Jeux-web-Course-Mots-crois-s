@@ -1,11 +1,11 @@
 import { EffetSonore, NOM_OBSTACLE } from '../effetSonore/effetSonore';
-import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { DeplacementService } from './../deplacement/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { HEX_NOIR } from '../constant';
 import { Piste } from '../piste/piste.model';
-import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
+import { DeplacementVoiture } from '../deplacement/deplacementVoiture';
 
 export const RAYON = 1;
 export const NOMBRE_DIVISION_CERCLE = 10;

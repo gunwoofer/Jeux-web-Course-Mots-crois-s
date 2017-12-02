@@ -1,7 +1,7 @@
 import { CalculateurNombreOngle } from './../contraintesCircuit/calculateurNombreAngle';
 import { FacadePointService } from './../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from './../facadeCoordonnees/facadecoordonnees.service';
-import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { DeplacementService } from './../deplacement/deplacement.service';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { LumiereService } from './../lumiere/lumiere.service';
@@ -23,7 +23,7 @@ import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.serv
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
-import { JeuDeCourseService } from './../generateurPiste/jeudecourse.service';
+import { JeuDeCourseService } from './../jeudecourse/jeudecourse.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
 describe('RenderService test', () => {

@@ -19,7 +19,7 @@ import { ObjetService } from '../objetService/objet.service';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { MusiqueService } from '../musique/musique.service';
 
-import { DeplacementService } from './deplacement.service';
+import { DeplacementService } from '../deplacement/deplacement.service';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
