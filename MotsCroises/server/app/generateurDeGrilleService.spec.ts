@@ -4,7 +4,7 @@ import { Grille } from './grille';
 import { EtatCase } from '../../commun/Case';
 import { Niveau } from '../../commun/Niveau';
 
-const maxDelaiGenerationGrille = 35000;
+const maxDelaiGenerationGrille = 60000;
 
 describe('GenerateurDeGrilleService', () => {
     const generateurDeGrilleService = new GenerateurDeGrilleService();

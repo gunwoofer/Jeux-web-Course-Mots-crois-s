@@ -1,28 +1,35 @@
-/*import { assert } from 'chai';
+import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
+import { assert } from 'chai';
 import { Joueur } from '../../commun/Joueur';
-import { Grille } from './Grille';
-import { GestionnaireDePartieService } from './GestionnaireDePartieService';
+import { Grille } from './grille';
+import { GestionnaireDePartieService } from './gestionnaireDePartieService';
 import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
 import { EmplacementMot } from '../../commun/EmplacementMot';
-import { Partie } from './Partie';
+import { Partie } from './partie';
 import { Case } from '../../commun/Case';
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
+import { GenerateurDeGrilleService } from './generateurDeGrilleService';
 
 const DELAI_MAXIMUM_MILISECONDES = 5 * Math.pow(10, 3);
+const maxDelaiGenerationGrille = 60000;
 
 describe('Partie', () => {
-    it('Le serveur conserve les mots sélectionnés des joueurs.', () => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-        const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
+    const generateurDeGrilleService = new GenerateurDeGrilleService();
+    let grille: Grille;
 
+    before(function () {
+        console.log('Generation de la grille en cours...');
+        grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
+        this.timeout(maxDelaiGenerationGrille);
+    });
+
+    it('Le serveur conserve les mots sélectionnés des joueurs.', () => {
+        const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
 
         let emplacementMotSelectionnerParJoueur1: EmplacementMot = grille.emplacementsMots.emplacementMots[0];
         let emplacementMotSelectionnerParJoueur2: EmplacementMot = grille.emplacementsMots.emplacementMots[1];
-
 
         const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
             grille, Niveau.facile, joueur2);
@@ -52,39 +59,12 @@ describe('Partie', () => {
         assert(grille.emplacementsMots.emplacementMots[2].estSelectionnerNombreDeJoueurs() === 2);
     });
 
-    it('Le serveur conserve un compteur pour les joueurs.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
-        const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
-
-        const joueur1: Joueur = new Joueur();
-        const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
-
-
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
-            grille, Niveau.facile, joueur2);
-        const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
-        partieEnCours.demarrerPartie();
-
-        const tempsPartieMilisecondes1: number = partieEnCours.obtenirTempsRestantMilisecondes();
-        setTimeout((premiertemps: number) => {
-            const tempsPartieMilisecondes2: number = partieEnCours.obtenirTempsRestantMilisecondes();
-            assert((tempsPartieMilisecondes2 - tempsPartieMilisecondes1) > 0);
-            done();
-
-        }, 1 * Math.pow(10, 3), tempsPartieMilisecondes1);
-
-    }).timeout(DELAI_MAXIMUM_MILISECONDES);
-
     it('Le serveur indique que la partie est terminé quand le compteur est échoué.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
         const tempsAlloueMilisecondes: number = 1 * Math.pow(10, 3);
-
 
         const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
             grille, Niveau.facile, joueur2);
@@ -101,12 +81,10 @@ describe('Partie', () => {
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
     it('Le serveur indique que la partie n\'est pas terminé quand le compteur n\'est pas échoué.', (done) => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
         const tempsAlloueMilisecondes: number = 1 * Math.pow(10, 3);
 
 
@@ -125,12 +103,10 @@ describe('Partie', () => {
     }).timeout(DELAI_MAXIMUM_MILISECONDES);
 
     it('Il est possible d\'obtenir une liste des mots trouvés par chaque joueur.', () => {
-        const generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
         const joueur1: Joueur = new Joueur();
         const joueur2: Joueur = new Joueur();
-        const grille: Grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
 
         const emplacementMotTrouveJoueur1: EmplacementMot = grille.emplacementsMots.emplacementMots[0];
         const emplacementMotTrouveJoueur2: EmplacementMot = grille.emplacementsMots.emplacementMots[1];
@@ -151,8 +127,11 @@ describe('Partie', () => {
             motAVerifierJoueur1 += caseCourante.obtenirLettre();
         }
 
-        partieEnCours.estLeMot(emplacementMotTrouveJoueur1.obtenirCaseDebut(), emplacementMotTrouveJoueur1.obtenirCaseFin(),
-            motAVerifierJoueur1, joueur1.obtenirGuid());
+        const requisMotVerifier1 = new RequisPourMotAVerifier(emplacementMotTrouveJoueur1,
+                                                            motAVerifierJoueur1,
+                                                            joueur1.obtenirGuid(),
+                                                            guidPartie);
+        partieEnCours.estLeMot(requisMotVerifier1);
 
         // Trouve mot emplacement 2, joueur 2
         casesEmplacementMot = grille.obtenirCasesSelonCaseDebut(emplacementMotTrouveJoueur2.obtenirCaseDebut(),
@@ -162,12 +141,15 @@ describe('Partie', () => {
             motAVerifierJoueur2 += caseCourante.obtenirLettre();
         }
 
-        partieEnCours.estLeMot(emplacementMotTrouveJoueur2.obtenirCaseDebut(), emplacementMotTrouveJoueur2.obtenirCaseFin(),
-            motAVerifierJoueur2, joueur2.obtenirGuid());
+        const requisMotVerifier2 = new RequisPourMotAVerifier(emplacementMotTrouveJoueur2,
+                                                            motAVerifierJoueur2,
+                                                            joueur2.obtenirGuid(),
+                                                            guidPartie);
+        partieEnCours.estLeMot(requisMotVerifier2);
 
         const listeMotsTrouve: Object = partieEnCours.obtenirMotsTrouve();
         assert(listeMotsTrouve[joueur1.obtenirGuid()][0] === motAVerifierJoueur1);
         assert(listeMotsTrouve[joueur2.obtenirGuid()][0] === motAVerifierJoueur2);
 
     });
-});*/
+});
