@@ -1,9 +1,9 @@
-import { MotComplet } from './MotComplet';
+import { MotComplet } from './motComplet';
 import { Case } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
-import { Grille } from './Grille';
+import { Grille } from './grille';
 
 export class FabriqueDeGrille {
     public static creerInstanceAvecJSON(jsonGrille: string): Grille {

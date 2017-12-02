@@ -1,10 +1,10 @@
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import { GestionnaireDePartieService } from './GestionnaireDePartieService';
+import { GenerateurDeGrilleService } from './generateurDeGrilleService';
+import { GestionnaireDePartieService } from './gestionnaireDePartieService';
 import { SpecificationPartie } from '../../commun/SpecificationPartie';
 import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
 import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelectionnerMot';
 import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
-import { DescripteurEvenementTempsReel } from './DescripteurEvenementTempsReel';
+import { DescripteurEvenementTempsReel } from './descripteurEvenementTempsReel';
 import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
 import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
 import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';

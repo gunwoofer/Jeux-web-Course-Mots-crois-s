@@ -1,4 +1,4 @@
-import { Indice } from './Indice';
+import { Indice } from './indice';
 
 export enum Rarete {
     commun,

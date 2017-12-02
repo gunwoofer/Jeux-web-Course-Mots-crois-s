@@ -1,12 +1,12 @@
 import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
-import { FabriqueDeGrille } from './FabriqueDeGrille';
-import { MotComplet } from './MotComplet';
+import { FabriqueDeGrille } from './fabriqueDeGrille';
+import { MotComplet } from './motComplet';
 import { Case, EtatCase } from '../../commun/Case';
 import { EmplacementMot } from '../../commun/EmplacementMot';
 import { Cases } from '../../commun/Cases';
 import { Niveau } from '../../commun/Niveau';
 import { Position } from '../../commun/Position';
-import { MotsComplet } from './MotsComplet';
+import { MotsComplet } from './motsComplet';
 import { EmplacementsMots } from '../../commun/EmplacementsMots';
 
 export const DIMENSION_LIGNE_COLONNE = 10;

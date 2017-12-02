@@ -1,6 +1,6 @@
 import { Position } from './../../commun/Position';
 import { EtatCase } from './../../commun/Case';
-import { Grille, DIMENSION_LIGNE_COLONNE } from './Grille';
+import { Grille, DIMENSION_LIGNE_COLONNE } from './grille';
 import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 import { Niveau } from '../../commun/Niveau';
 

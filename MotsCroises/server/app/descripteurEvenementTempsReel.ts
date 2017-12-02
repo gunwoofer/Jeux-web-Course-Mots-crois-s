@@ -1,13 +1,13 @@
-import { MotComplet } from './MotComplet';
+import { MotComplet } from './motComplet';
 import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
 import * as requetes from '../../commun/constantes/RequetesTempsReel';
-import {Grille} from './Grille';
-import {Partie} from './Partie';
+import {Grille} from './grille';
+import {Partie} from './partie';
 import {SpecificationPartie} from '../../commun/SpecificationPartie';
 import {RequisPourMotAVerifier} from '../../commun/requis/RequisPourMotAVerifier';
 import {RequisPourSelectionnerMot} from '../../commun/requis/RequisPourSelectionnerMot';
 import {SpecificationGrille} from './../../commun/SpecificationGrille';
-import {GestionnaireDePartieService} from './GestionnaireDePartieService';
+import {GestionnaireDePartieService} from './gestionnaireDePartieService';
 import {RequisPourObtenirTempsRestant} from '../../commun/requis/RequisPourObtenirTempsRestant';
 import {RequisPourMotsTrouve} from '../../commun/requis/RequisPourMotsTrouve';
 import {RequisDemandeListePartieEnAttente} from '../../commun/requis/RequisDemandeListePartieEnAttente';
@@ -15,7 +15,7 @@ import {VuePartieEnCours} from '../../commun/VuePartieEnCours';
 import {RequisPourJoindrePartieMultijoueur} from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
 import {EtatPartie} from '../../commun/EtatPartie';
 import {RequisPourModifierTempsRestant} from '../../commun/requis/RequisPourModifierTempsRestant';
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
+import { GenerateurDeGrilleService } from './generateurDeGrilleService';
 
 export class DescripteurEvenementTempsReel {
     public quitter(client: SocketIO.Socket, io: any): void {

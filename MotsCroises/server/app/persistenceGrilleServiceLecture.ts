@@ -1,7 +1,7 @@
-import { nomTableauGrilles, PersistenceGrillesService } from './PersistenceGrillesService';
+import { nomTableauGrilles, PersistenceGrillesService } from './persistenceGrillesService';
 import { Niveau } from '../../commun/Niveau';
-import { Grille } from './Grille';
-import { FabriqueDeGrille } from './FabriqueDeGrille';
+import { Grille } from './grille';
+import { FabriqueDeGrille } from './fabriqueDeGrille';
 
 export class PersistenceGrilleServiceLecture {
 

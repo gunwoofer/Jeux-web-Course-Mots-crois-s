@@ -1,11 +1,11 @@
 import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
 import {Joueur} from '../../commun/Joueur';
-import {Grille} from './Grille';
+import {Grille} from './grille';
 import {Guid} from '../../commun/Guid';
 import {TypePartie} from '../../commun/TypePartie';
 import {EmplacementMot} from '../../commun/EmplacementMot';
 import {Niveau} from '../../commun/Niveau';
-import {Indice} from './Indice';
+import {Indice} from './indice';
 
 export const LIMITE_JOUEURS = 2;
 export const TEMPS_PARTIE_MINUTES = 5;

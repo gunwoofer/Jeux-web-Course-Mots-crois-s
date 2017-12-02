@@ -1,5 +1,5 @@
-import { MotComplet } from './MotComplet';
-import { Indice } from './Indice';
+import { MotComplet } from './motComplet';
+import { Indice } from './indice';
 import { Cases } from '../../commun/Cases';
 import { Case } from '../../commun/Case';
 import { Position } from '../../commun/Position';
