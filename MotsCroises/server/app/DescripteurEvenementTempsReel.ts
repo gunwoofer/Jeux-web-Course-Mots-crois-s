@@ -7,7 +7,6 @@ import {SpecificationPartie} from '../../commun/SpecificationPartie';
 import {RequisPourMotAVerifier} from '../../commun/requis/RequisPourMotAVerifier';
 import {RequisPourSelectionnerMot} from '../../commun/requis/RequisPourSelectionnerMot';
 import {SpecificationGrille} from './../../commun/SpecificationGrille';
-import {Indice} from './Indice';
 import {GestionnaireDePartieService} from './GestionnaireDePartieService';
 import {RequisPourObtenirTempsRestant} from '../../commun/requis/RequisPourObtenirTempsRestant';
 import {RequisPourMotsTrouve} from '../../commun/requis/RequisPourMotsTrouve';

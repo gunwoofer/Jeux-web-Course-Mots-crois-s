@@ -1,7 +1,6 @@
 import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
 import {Joueur} from '../../commun/Joueur';
 import {Grille} from './Grille';
-import {Case} from '../../commun/Case';
 import {Guid} from '../../commun/Guid';
 import {TypePartie} from '../../commun/TypePartie';
 import {EmplacementMot} from '../../commun/EmplacementMot';

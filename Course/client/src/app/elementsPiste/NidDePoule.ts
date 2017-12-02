@@ -1,4 +1,4 @@
-import { EffetSonoreService } from './../effetSonore/effetSonore.service';
+import { EffetSonore, NOM_OBSTACLE } from '../effetSonore/effetSonore';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
