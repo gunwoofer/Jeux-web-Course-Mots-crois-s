@@ -79,37 +79,6 @@ export class Grille {
         }
     }
 
-    public ajouterMot(mot: MotComplet, numeroLigneDepart: number,
-        numeroColonneDepart: number, numeroLigneFin: number, numeroColonneFin: number): void {
-
-        this.mots.push(mot);
-        this.motsComplet.ajouterMot(mot);
-        let positionDansLeMot = 0;
-
-        if (numeroLigneDepart === numeroLigneFin) {
-            for (const caseCourante of this.cases.obtenirLigneCases(numeroLigneDepart)) {
-                if (this.dansLaLimiteDuMot(caseCourante.obtenirNumeroColonne(),
-                    numeroColonneDepart, numeroColonneFin) && mot.estUneLettreValide(positionDansLeMot)) {
-                    caseCourante.remplirCase(mot.obtenirLettreSimplifie(positionDansLeMot));
-                    positionDansLeMot++;
-                }
-            }
-
-            this.nombreMotsSurLigne[numeroLigneDepart]++;
-        } else if (numeroColonneDepart === numeroColonneFin) {
-            let lettreSimplifie: string;
-            for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-                if (this.dansLaLimiteDuMot(i, numeroLigneDepart, numeroLigneFin) && mot.estUneLettreValide(positionDansLeMot)) {
-                    lettreSimplifie = mot.obtenirLettreSimplifie(positionDansLeMot);
-                    this.cases.remplirCase(lettreSimplifie, i, numeroColonneDepart);
-                    positionDansLeMot++;
-                }
-            }
-
-            this.nombreMotsSurColonne[numeroColonneDepart]++;
-        }
-    }
-
     public obtenirNombreMotsSurLigne(ligne: number): number {
         return this.nombreMotsSurLigne[ligne];
     }
@@ -125,13 +94,6 @@ export class Grille {
     public modifierEmplacementsMot(emplacementsMot: EmplacementMot[]) {
         this.emplacementMots = emplacementsMot;
         this.emplacementsMots.emplacementMots = emplacementsMot;
-    }
-
-    public dansLaLimiteDuMot(caseCourante: number, debutNumeroColonne: number, finNumeroColonne: number): boolean {
-        if (caseCourante >= debutNumeroColonne && caseCourante <= finNumeroColonne) {
-            return true;
-        }
-        return false;
     }
 
     public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
