@@ -39,33 +39,42 @@ import { AffichageTeteHauteService } from '../affichageTeteHaute/affichageteteha
 @Injectable()
 export class JeuDeCourseService implements Observateur {
 
-    public container: HTMLDivElement;
-    public camera: THREE.PerspectiveCamera;
-    public renderer: THREE.WebGLRenderer;
-    public renduObject = new Rendu();
-    public scene: THREE.Scene;
     public voitureDuJoueur: Voiture;
     public jour = true;
     public phares = false;
 
-    public piste: Piste;
-    public elementPiste: ElementDePiste;
-    public arbres = new THREE.Object3D();
-    public partie: Partie;
-    public routeur: Router;
-    public segment: Segment;
-    public pointeDeControle = new PointDeControle();
-    public voituresIA: Voiture[] = [];
-    public nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
+    private container: HTMLDivElement;
+    private camera: THREE.PerspectiveCamera;
+    private renderer: THREE.WebGLRenderer;
+    private renduObject = new Rendu();
+    private scene: THREE.Scene;
+    private piste: Piste;
+    private partie: Partie;
+    private routeur: Router;
+    private segment: Segment = new Segment();
+    private pointeDeControle = new PointDeControle();
+    private voituresIA: Voiture[] = [];
+    private nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
 
-    constructor(public objetService: ObjetService, public lumiereService: LumiereService,
-        public filtreCouleurService: FiltreCouleurService, public gestionnaireDeVue: GestionnaireDeVue,
-        public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
-        public skyboxService: SkyboxService, public placementService: PlacementService,
-        public affichageTeteHauteService: AffichageTeteHauteService, public sortiePisteService: SortiePisteService,
-        public deplacementService: DeplacementService) {
-        this.segment = new Segment();
+    constructor(private objetService: ObjetService,
+                private lumiereService: LumiereService,
+                private gestionnaireDeVue: GestionnaireDeVue,
+                private musiqueService: MusiqueService,
+                private tableauScoreService: TableauScoreService,
+                private skyboxService: SkyboxService,
+                private placementService: PlacementService,
+                private affichageTeteHauteService: AffichageTeteHauteService,
+                private sortiePisteService: SortiePisteService,
+                private deplacementService: DeplacementService) {
+    }
+
+    public obtenirScene(): THREE.Scene {
+        return this.scene;
+    }
+
+    public obtenirCamera(): THREE.PerspectiveCamera {
+        return this.camera;
     }
 
     public initialisation(container: HTMLDivElement): void {
@@ -82,107 +91,7 @@ export class JeuDeCourseService implements Observateur {
         this.commencerMoteurDeJeu();
     }
 
-    public configurerTours(nombreTours: number): void {
-        this.nombreTours = nombreTours;
-        Partie.toursAComplete = this.nombreTours;
-    }
-
-    public ajouterElementDePisteScene(): void {
-        for (const element of this.piste.obtenirElementsPiste()) {
-            if (element instanceof FlaqueDEau) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            } else if (element instanceof NidDePoule) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            } else if (element instanceof Accelerateur) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            }
-        }
-    }
-
-    public ajouterRouter(routeur: Router): void {
-        this.routeur = routeur;
-    }
-
-    public preparerPartie(): void {
-        const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
-        const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
-            this.segment.premierSegment[3], this.segment.damierDeDepart);
-        const pilotes: Pilote[] = [pilote];
-        this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
-            [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
-        this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
-    }
-
-    public ajouterPiste(piste: Piste): void {
-        this.piste = piste;
-    }
-
-    public creerScene(): void {
-        this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
-        this.scene.add(this.camera);
-    }
-
-    public commencerMoteurDeJeu(): void {
-        this.renderer = new THREE.WebGLRenderer();
-        this.renduObject.commencerRendu(this.renderer, this.container);
-        this.moteurDeJeu();
-    }
-
-    public moteurDeJeu(): void {
-        setTimeout(() => {
-            requestAnimationFrame(() => this.moteurDeJeu());
-            this.renduObject.ajusterCadre(this.renderer, this.container, this.camera, this.scene);
-            if (this.gestionnaireDeVue.obtenirEtatRetroviseur()) {
-                this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
-            }
-            this.miseAJourPositionVoiture();
-            this.skyboxService.rotationSkybox(this.voitureDuJoueur, this.camera);
-        }, 1000 / FPS);
-    }
-
-    public miseAJourPositionVoiture(): void {
-        if (this.voitureDuJoueur.voiture3D !== undefined) {
-            this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
-            this.voituresIA[0].modeAutonome();
-            this.deplacementService.moteurDeplacement(this.voitureDuJoueur);
-            this.renderMiseAJour();
-        }
-    }
-
-    public renderMiseAJour(): void {
-        if (this.voitureDuJoueur !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur, this.segment.chargerSegmentsDePiste(this.piste));
-            this.piste.gererElementDePiste([this.voitureDuJoueur]);
-            this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
-        }
-    }
-
-    public onResize(): void {
-        this.camera.aspect = this.getAspectRatio();
-        this.camera.updateProjectionMatrix();
-        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
-    }
-
-    public getAspectRatio(): number {
-        return this.container.clientWidth / this.container.clientHeight;
-    }
-
-    public toucheRelachee(event): void {
-        this.deplacementService.toucheRelachee(event);
-    }
-
-    public touchePesee(event): void {
-        this.deplacementService.touchePesee(event);
-    }
-
-    public chargementDesVoitures(): void {
+    private chargementDesVoitures(): void {
         const nombreAleatoire = Math.round(Math.random() * 3);
         this.chargerVoiture(TABLEAU_POSITION[nombreAleatoire][0], TABLEAU_POSITION[nombreAleatoire][1], true);
         TABLEAU_POSITION.splice(nombreAleatoire, 1);
@@ -220,10 +129,102 @@ export class JeuDeCourseService implements Observateur {
         }
     }
 
+    private preparerPartie(): void {
+        const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
+        const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
+            this.segment.premierSegment[3], this.segment.damierDeDepart);
+        const pilotes: Pilote[] = [pilote];
+        this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
+            [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
+        this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
+    }
+    
+    private creerScene(): void {
+        this.scene = new THREE.Scene();
+        this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
+        this.scene.add(this.camera);
+    }
+
+    private ajouterElementDePisteScene(): void {
+        for (const element of this.piste.obtenirElementsPiste()) {
+            if (element instanceof FlaqueDEau) {
+                element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
+                this.scene.add(element.obtenirMesh());
+            } else if (element instanceof NidDePoule) {
+                element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
+                this.scene.add(element.obtenirMesh());
+            } else if (element instanceof Accelerateur) {
+                element.genererMesh();
+                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
+                this.scene.add(element.obtenirMesh());
+            }
+        }
+    }
+
+    private commencerMoteurDeJeu(): void {
+        this.renderer = new THREE.WebGLRenderer();
+        this.renduObject.commencerRendu(this.renderer, this.container);
+        this.moteurDeJeu();
+    }
+
+    private moteurDeJeu(): void {
+        setTimeout(() => {
+            requestAnimationFrame(() => this.moteurDeJeu());
+            this.renduObject.ajusterCadre(this.renderer, this.container, this.camera, this.scene);
+            if (this.gestionnaireDeVue.obtenirEtatRetroviseur()) {
+                this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
+            }
+            this.miseAJourPositionVoiture();
+            this.skyboxService.rotationSkybox(this.voitureDuJoueur, this.camera);
+        }, 1000 / FPS);
+    }
+
+    private miseAJourPositionVoiture(): void {
+        if (this.voitureDuJoueur.voiture3D !== undefined) {
+            this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
+            this.voituresIA[0].modeAutonome();
+            this.deplacementService.moteurDeplacement(this.voitureDuJoueur);
+            this.renderMiseAJour();
+        }
+    }
+
+    private renderMiseAJour(): void {
+        if (this.voitureDuJoueur !== undefined) {
+            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur, this.segment.chargerSegmentsDePiste(this.piste));
+            this.piste.gererElementDePiste([this.voitureDuJoueur]);
+            this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
+        }
+    }
+
     public calculePositionVoiture(cadranX: number, cadranY: number, voiture: Voiture) {
         voiture.voiture3D.position.set(
             this.placementService.calculPositionVoiture(cadranX, cadranY, this.segment.premierSegment).x,
             this.placementService.calculPositionVoiture(cadranX, cadranY, this.segment.premierSegment).y, 0);
+    }
+
+    public configurerTours(nombreTours: number): void {
+        this.nombreTours = nombreTours;
+        Partie.toursAComplete = this.nombreTours;
+    }
+
+    public ajouterRouter(routeur: Router): void {
+        this.routeur = routeur;
+    }
+
+    public ajouterPiste(piste: Piste): void {
+        this.piste = piste;
+    }
+
+    public onResize(): void {
+        this.camera.aspect = this.getAspectRatio();
+        this.camera.updateProjectionMatrix();
+        this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
+    }
+
+    private getAspectRatio(): number {
+        return this.container.clientWidth / this.container.clientHeight;
     }
 
     public logiquePhares(): void {
@@ -246,10 +247,9 @@ export class JeuDeCourseService implements Observateur {
         }
     }
 
-    public voirPageFinPartie(): void {
+    private voirPageFinPartie(): void {
         this.tableauScoreService.temps = (Pilote.tempsTotal / 1000);
         this.tableauScoreService.finPartie = true;
         this.routeur.navigateByUrl(RESULTAT_PARTIE);
     }
-
 }
