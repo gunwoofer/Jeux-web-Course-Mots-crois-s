@@ -4,6 +4,8 @@ import { Grille } from './grille';
 import { EtatCase } from '../../commun/Case';
 import { Niveau } from '../../commun/Niveau';
 
+const maxDelaiGenerationGrille = 35000;
+
 describe('GenerateurDeGrilleService', () => {
     const generateurDeGrilleService = new GenerateurDeGrilleService();
     let grille: Grille;
@@ -12,7 +14,7 @@ describe('GenerateurDeGrilleService', () => {
         console.log('Generation de la grille en cours...');
         grille = generateurDeGrilleService.genererGrilleMotSync(Niveau.facile);
         // Generation de la grille en moins de 30 secondes
-        this.timeout(30000);
+        this.timeout(maxDelaiGenerationGrille);
     });
 
     it('Chaque ligne et colonne contient un ou deux mots ecrits de gauche à droite et de haut en bas.', () => {
