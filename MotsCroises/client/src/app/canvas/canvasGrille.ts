@@ -10,7 +10,7 @@ export class CanvasGrille {
     private hauteurCase: number;
     private margeEffacement: number;
     private nbCases = 11;
-    private couleurNoire = '#AA3EF0';
+    private couleurNoire = '#000000';
     private couleurJoueur = '#2baa87';
     private policeLettres = '35px Arial';
     private ligneActuelle: number;

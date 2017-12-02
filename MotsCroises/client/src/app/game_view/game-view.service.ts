@@ -4,7 +4,7 @@ import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
 import {IndiceMot} from '../indice/indiceMot';
 import {ConnexionTempsReelClient} from '../connestion_temps_reel/ConnexionTempsReelClient';
-import {COULEUR_BLEUE, Joueur} from '../../../../commun/Joueur';
+import {COULEUR_BLEUE, COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur} from '../../../../commun/Joueur';
 import {Niveau} from '../../../../commun/Niveau';
 import {TypePartie} from '../../../../commun/TypePartie';
 import {RequisPourMotAVerifier} from '../../../../commun/requis/RequisPourMotAVerifier';
@@ -30,7 +30,6 @@ export class GameViewService {
     private indiceSelectionne = new Subject<IndiceMot>();
     private indiceAdversaireSelectionne = new Subject<IndiceMot>();
     private motEcrit = new Subject<string>();
-    private partieGeneree: SpecificationPartie;
     private indiceAdversaire: IndiceMot;
     private niveauPartie: Niveau;
     private typePartie: TypePartie;
@@ -53,8 +52,8 @@ export class GameViewService {
     public connexionTempsReelClient: ConnexionTempsReelClient;
     public specificationPartie: SpecificationPartie;
     public requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
-    public joueur: Joueur = new Joueur();
-    public joueur2: Joueur = new Joueur(COULEUR_BLEUE, '');
+    public joueur: Joueur = new Joueur(COULEUR_JOUEUR1);
+    public joueur2: Joueur = new Joueur(COULEUR_JOUEUR2, '');
     public modificationTempsServeurEnCours = false;
 
     private changementDeRouteSubject = new Subject<number>();
@@ -63,19 +62,17 @@ export class GameViewService {
     constructor() {
     }
 
-
-    public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie): void {
-        this.partieGeneree = specificationPartie;
-        this.MAJIndices(this.partieGeneree);
+    public initialiserConnexion(): void {
+        this.connexionTempsReelClient = new ConnexionTempsReelClient();
     }
 
     public getPartie(): SpecificationPartie {
-        return this.partieGeneree;
+        return this.specificationPartie;
     }
 
-    private MAJIndices(specificationPartie: SpecificationPartie): void {
+    private MAJIndices(): void {
         const indices: IndiceMot[] = new Array();
-        for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
+        for (const emplacementMot of this.specificationPartie.specificationGrilleEnCours.emplacementMots) {
             const indiceServeur: Indice = this.trouverIndiceAvecGuid(emplacementMot.obtenirGuidIndice());
             let definition: string;
             if (indiceServeur.definitions !== undefined) {
@@ -89,7 +86,7 @@ export class GameViewService {
     }
 
     private trouverIndiceAvecGuid(guid: string): Indice {
-        for (const indiceServeur of this.partieGeneree.indices) {
+        for (const indiceServeur of this.specificationPartie.indices) {
             if (indiceServeur.id === guid) {
                 return indiceServeur;
             }
@@ -107,7 +104,7 @@ export class GameViewService {
     }
 
     private trouverEmplacementMotAvecGuid(guid: string): EmplacementMot {
-        for (const emplacementMot of this.partieGeneree.specificationGrilleEnCours.emplacementMots) {
+        for (const emplacementMot of this.specificationPartie.specificationGrilleEnCours.emplacementMots) {
             if (emplacementMot.obtenirGuidIndice() === guid) {
                 return emplacementMot;
             }
@@ -120,9 +117,6 @@ export class GameViewService {
         this.demanderVerificationMot(this.emplacementMot, motAtester);
     }
 
-    public initialiserConnexion(): void {
-        this.connexionTempsReelClient = new ConnexionTempsReelClient();
-    }
 
     public demanderPartie(niveau: Niveau, typePartie: TypePartie, nbJoueursPartie: number): void {
         this.nbJoueursPartie = nbJoueursPartie;
@@ -148,6 +142,24 @@ export class GameViewService {
         }
         this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
     }
+
+    public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
+        console.log('partie récuperee', specificationPartie);
+        self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
+        self.MAJIndices();
+        self.partieCreeeRedirection();
+    }
+
+    public partieCreeeRedirection() {
+        if (this.nbJoueursPartie === 0) {
+            // this.afficherPartie(this.typePartie, this.niveauPartie, this.nbJoueursPartie);
+            this.changementDeRouteSubject.next(ROUTE_PARTIE_CREE);
+        } else {
+            this.changementDeRouteSubject.next(ROUTE_ATTENTE_PARTIE);
+        }
+    }
+
+    //************* Multijoueur ici*************** ////
 
     public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
         this.listeVuePartie = listeVuePartie;
@@ -195,8 +207,8 @@ export class GameViewService {
         self.requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
         self.indiceAdversaire = self.trouverIndiceMotAvecGuid(requisPourSelectionnerMot.emplacementMot.GuidIndice);
         self.mettreAJourSelectionAdversaire(self.indiceAdversaire);
-
     }
+
 
     public rappelRejoindrePartieMultijoueur(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur
         , self: GameViewService): void {
@@ -217,37 +229,24 @@ export class GameViewService {
         }
     }
 
-    public recommencerPartie() {
-        this.demanderPartieServer();
-    }
-
-    public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
-        console.log('partie récuperee', specificationPartie);
-        self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-        self.mettreAJourGrilleGeneree(self.specificationPartie);
-        self.partieCreeeRedirection();
-    }
-
-    public partieCreeeRedirection() {
-        if (this.nbJoueursPartie === 0) {
-            // this.afficherPartie(this.typePartie, this.niveauPartie, this.nbJoueursPartie);
-            this.changementDeRouteSubject.next(ROUTE_PARTIE_CREE);
-        } else {
-            this.changementDeRouteSubject.next(ROUTE_ATTENTE_PARTIE);
-        }
-    }
 
     public demarrerPartieMultijoueur(specificationPartie: SpecificationPartie, self: GameViewService): void {
         self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-        self.mettreAJourGrilleGeneree(self.specificationPartie);
+        self.MAJIndices();
         self.nbJoueursPartie = 1;
         self.ecouterRetourMot();
         self.changementDeRouteSubject.next(ROUTE_PARTIE_CREE);
         self.ecouterChangementSelectionMotAdversaire();
     }
 
+    // ************* Route partie, recommencer partie, verification Mot *************** ////
+
     public obtenirRoutePartie(): string {
         return '/partie/' + this.specificationPartie.typePartie + '/' + this.specificationPartie.niveau + '/' + this.nbJoueursPartie;
+    }
+
+    public recommencerPartie() {
+        this.demanderPartieServer();
     }
 
     public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
@@ -268,7 +267,7 @@ export class GameViewService {
                 indiceMotTrouve.modifierCouleurMot(self.joueur.obtenirCouleur());
             } else {
                 self.joueur2.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
-                indiceMotTrouve.modifierCouleurMot(COULEUR_BLEUE);
+                indiceMotTrouve.modifierCouleurMot(self.joueur2.obtenirCouleur());
             }
             indiceMotTrouve.motTrouve = requisPourMotAVerifier.motAVerifier;
             self.motTrouve.next();
@@ -288,14 +287,6 @@ export class GameViewService {
         if (partieTermineeBoolean) {
             this.partieTeminee.next();
             alert('Le temps imparti est écoulé, fin de la partie');
-        }
-    }
-
-    private afficherPartie(typePartie: TypePartie, niveauPartie: Niveau, nbJoueursPartie) {
-        if (this.nbJoueursPartie === 1) {
-            this.demanderNomJoueur();
-        } else {
-            this.changementDeRouteSubject.next(ROUTE_PARTIE_CREE);
         }
     }
 

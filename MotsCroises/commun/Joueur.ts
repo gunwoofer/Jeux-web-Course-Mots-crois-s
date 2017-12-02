@@ -5,6 +5,8 @@ export const NOM_JOUEUR_HOTE_DEFAULT = 'joueurHote';
 
 export const COULEUR_NOIRE = "#000000";
 export const COULEUR_BLEUE = "#3333DD";
+export const COULEUR_JOUEUR2 = "#3333DD";
+export const COULEUR_JOUEUR1 = "#dd5b60";
 
 
 export class Joueur {
@@ -16,7 +18,7 @@ export class Joueur {
     private motsDeTrouve: string[] = [];
     private nomJoueur: string;
 
-    constructor(couleur: string = COULEUR_NOIRE, nomJoueur: string = NOM_JOUEUR_HOTE_DEFAULT) {
+    constructor(couleur: string = COULEUR_JOUEUR2, nomJoueur: string = NOM_JOUEUR_HOTE_DEFAULT) {
         this.couleur = couleur;
         this.nomJoueur = nomJoueur;
     }
