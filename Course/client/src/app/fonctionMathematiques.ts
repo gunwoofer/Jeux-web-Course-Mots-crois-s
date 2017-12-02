@@ -34,4 +34,13 @@ export class FonctionMaths {
         // NORME AV ^ AB
         return Math.pow(Math.pow(avabx, 2) + Math.pow(avaby, 2), 0.5);
     }
+
+    public static calculerMilieuRectangle(rectangle: THREE.Mesh): THREE.Vector3 {
+        rectangle.geometry.computeBoundingBox();
+        return new THREE.Vector3(
+            (rectangle.geometry.boundingBox.max.x + rectangle.geometry.boundingBox.min.x) / 2,
+            (rectangle.geometry.boundingBox.max.y + rectangle.geometry.boundingBox.min.y) / 2,
+            (rectangle.geometry.boundingBox.max.z + rectangle.geometry.boundingBox.min.z) / 2
+        );
+    }
 }

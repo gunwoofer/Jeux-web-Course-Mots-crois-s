@@ -7,10 +7,15 @@ import * as THREE from 'three';
 
 
 @Injectable()
-export class SurfaceHorsPiste {
+export abstract class SurfaceHorsPiste {
 
     public static genererTerrain(segmentsPiste: THREE.Mesh[]): THREE.Mesh {
-        const terrain = new THREE.Mesh(this.generationGeometrie(segmentsPiste), this.generationMaterial());
+        let terrain = new THREE.Mesh(this.generationGeometrie(segmentsPiste), this.generationMaterial());
+        terrain = this.fixerTerrainSousPiste(terrain);
+        return terrain;
+    }
+
+    private static fixerTerrainSousPiste(terrain: THREE.Mesh): THREE.Mesh {
         terrain.position.z -= 1;
         return terrain;
     }
