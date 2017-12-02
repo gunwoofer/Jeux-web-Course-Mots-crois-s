@@ -25,11 +25,10 @@ import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
 import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
+import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
 describe('RenderService test', () => {
 
-    const calculateurNombreOngle = new CalculateurNombreOngle();
     const messageErreurService = new MessageErreurService();
-    const facadeligne = new FacadeLigneService();
     let fixture: ComponentFixture<CreateurPisteComponent>;
     let renderService: RenderService;
     let evenementService: EvenementService;
@@ -40,9 +39,9 @@ describe('RenderService test', () => {
         TestBed.configureTestingModule({
             providers: [RenderService, EvenementService, PisteService, AffichageTeteHauteService,
                 GenerateurPisteService, MessageErreurService, RatingService, DeplacementService,
-                MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService,
+                MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService, SortiePisteService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
-                FacadePointService],
+                FacadePointService, SortiePisteService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],
             imports: [FormsModule, HttpModule]
         })
@@ -229,7 +228,7 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 2; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        const angle = calculateurNombreOngle.calculerAngle(1, renderService.points, renderService.facadePointService.compteur);
+        const angle = CalculateurNombreOngle.calculerAngle(1, renderService.points, renderService.facadePointService.compteur);
         expect(angle).toBeLessThanOrEqual(0.785398163);
         expect(renderService.nbAnglesPlusPetit45).toEqual(1);
     });
@@ -271,7 +270,7 @@ describe('RenderService test', () => {
         expect(premierSegmentCouleurG).toBeCloseTo(0.91);
         expect(premierSegmentCouleurB).toBeCloseTo(0.64);
         for (let i = 0; i < 6; i++) {
-            expect(facadeligne.obtenirLigneDeDepart(renderService.pointsLine)[i]).toEqual(vecteurLignes[i]);
+            expect(FacadeLigneService.obtenirLigneDeDepart(renderService.pointsLine)[i]).toEqual(vecteurLignes[i]);
         }
         expect(renderService.facadePointService.compteur - 1).toEqual(4);
     });

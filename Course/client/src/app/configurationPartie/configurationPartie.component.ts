@@ -8,9 +8,9 @@ import { Component, Input } from '@angular/core';
     templateUrl: './configurationPartie.component.html',
     styleUrls: ['./configurationPartie.component.css']
 })
-
 export class ConfigurationPartieComponent {
 
+    // public, car il est utilisé dans le html.
     public nombreDesTours = NOMBRE_DE_TOURS_PARTIE_MINIMAL;
 
     @Input() private piste: Piste;

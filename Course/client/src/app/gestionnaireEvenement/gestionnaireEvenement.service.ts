@@ -9,13 +9,13 @@ import * as THREE from 'three';
 import { RenderService } from '../renderService/render.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
+import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 @Injectable()
 export class EvenementService {
   constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService,
     private gestionnaireDeVue: GestionnaireDeVue, private lumiereService: LumiereService, private skyboxService: SkyboxService,
-    private filtreCouleurService: FiltreCouleurService, private facadeCoordonneesService: FacadeCoordonneesService,
-    private facadePointService: FacadePointService) {}
+    private filtreCouleurService: FiltreCouleurService, private facadeCoordonneesService: FacadeCoordonneesService) {}
 
   private tempsMouseDown;
   private tempsMouseUp;
@@ -35,6 +35,7 @@ export class EvenementService {
     if (!this.modeGlissement || this.dureeClick < 500 && this.objetGlisse && this.objetGlisse.name === '0') {
       this.renderService.dessinerPoint(event);
     }
+
     this.modeGlissement = false;
   }
 
@@ -55,16 +56,16 @@ export class EvenementService {
 
   public onMouseMove(event: MouseEvent): void {
     const rayCaster = new THREE.Raycaster();
-    this.facadeCoordonneesService.miseAJourMouse(event, this.renderService.renderer);
+    this.facadeCoordonneesService.souris.mettreAJourVecteurSouris(event, this.renderService.renderer);
     let intersects;
     this.renderService.scene.updateMatrixWorld(true);
-    rayCaster.setFromCamera(this.facadeCoordonneesService.mouse, this.renderService.camera);
+    rayCaster.setFromCamera(this.facadeCoordonneesService.souris.vecteurSouris, this.renderService.camera);
     intersects = rayCaster.intersectObjects(this.renderService.scene.children);
     if (this.modeGlissement) {
       this.dragPoint(intersects[0].point);
     } else {
       if (intersects.length > 0) {
-        this.facadePointService.actualiserCouleurPoints(this.renderService.points);
+        FacadePointService.actualiserCouleurPoints(this.renderService.points);
         this.pointHover = false;
         for (const objet of intersects) {
           if (objet.object.type === 'Points') {
@@ -80,8 +81,7 @@ export class EvenementService {
       this.generateurPisteService.logiquePhares();
       this.lumiereService.modeJourNuit(event, this.generateurPisteService.scene);
       this.generateurPisteService.jour = !this.generateurPisteService.jour;
-      this.skyboxService.alternerSkybox(this.generateurPisteService.jour,
-        this.generateurPisteService.camera, this.generateurPisteService.listeSkyboxJour, this.generateurPisteService.listeSkyboxNuit);
+      this.skyboxService.alternerSkybox(this.generateurPisteService.jour, this.generateurPisteService.camera);
     } else if (event.key === MODE_FILTRE_COULEUR) {
       this.filtreCouleurService.mettreFiltre(event, this.generateurPisteService.scene);
     } else if (event.key === ZOOM_AVANT || event.key === ZOOM_ARRIERE) {
@@ -91,7 +91,7 @@ export class EvenementService {
     } else if (event.key === ALLUMER_PHARES) {
       this.generateurPisteService.phares = !this.generateurPisteService.phares;
       this.lumiereService.alternerPhares(this.generateurPisteService.voitureDuJoueur);
-    }else if (event.key === RETROVISEUR) {
+    } else if (event.key === RETROVISEUR) {
       this.gestionnaireDeVue.changerEtatRetroviseur();
     }
   }
@@ -107,12 +107,12 @@ export class EvenementService {
   private dragPoint(position: any): void {
     this.objetGlisse.position.copy(position);
     const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
-    this.renderService.facadeLigne.modifierLignePoints(
+    FacadeLigneService.modifierLignePoints(
       objetGlisseNumber, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.points
     );
     if (objetGlisseNumber === 0 && this.renderService.dessinTermine) {
       this.renderService.points[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
-      this.renderService.facadeLigne.modifierLignePoints(
+        FacadeLigneService.modifierLignePoints(
         this.renderService.facadePointService.compteur - 1,
         this.objetGlisse.position,
         this.renderService.pointsLine,

@@ -3,71 +3,58 @@ import { ORIGINE, ORIENTATION_Z } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-
+import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
 
 @Injectable()
 export class SortiePisteService {
-    private rayCaster: THREE.Raycaster;
-    private listeSegments: THREE.Mesh[];
-    private estSurPiste: boolean;
+
     private segmentOuReapparaitre: THREE.Mesh;
 
-    constructor(piste: THREE.Mesh[]) {
-        this.listeSegments = piste;
+    constructor() {
+        this.segmentOuReapparaitre = new THREE.Mesh();
     }
 
-    public gererSortiePiste(voiture: Voiture): void {
-        this.estSurLaPiste(voiture.obtenirVoiture3D());
-        if (!this.estSurPiste) {
+    public gererSortiePiste(voiture: Voiture, listeSegments: THREE.Mesh[]): void {
+        if (!this.estSurLaPiste(voiture.obtenirVoiture3D(), listeSegments)) {
             this.ramenerVoitureDernierSegment(voiture);
-            DeplacementService.reduireVitesseSortiePiste(voiture);
+            DeplacementVoiture.reduireVitesseSortiePiste(voiture);
         }
     }
 
-    public ramenerVoitureDernierSegment(voiture: Voiture): void {
+    private ramenerVoitureDernierSegment(voiture: Voiture): void {
         voiture.obtenirVoiture3D().position.x = this.trouverMilieuSegment(this.segmentOuReapparaitre).x;
         voiture.obtenirVoiture3D().position.y = this.trouverMilieuSegment(this.segmentOuReapparaitre).y;
         voiture.obtenirVoiture3D().position.z = ORIGINE;
         voiture.ignorerSortiepiste();
     }
 
-    public estSurLaPiste(voiture: THREE.Object3D): boolean {
-        this.genererRayCaster(voiture);
-        this.trouverPointsIntersection();
-        if (this.estSurPiste) {
-            return true;
-        } else {
-            return false;
-        }
-    }
 
-    public genererRayCaster(voiture: THREE.Object3D): void {
-        const directionVersLeBas = new THREE.Vector3(ORIGINE, ORIGINE, ORIENTATION_Z);
-        // Le raycaster part au dessus de la piste
+    private genererRayCaster(voiture: THREE.Object3D): THREE.Raycaster {
         voiture.position.z = ORIGINE;
-        this.rayCaster = new THREE.Raycaster(voiture.position, directionVersLeBas);
+        return new THREE.Raycaster(voiture.position,
+            new THREE.Vector3(ORIGINE, ORIGINE, ORIENTATION_Z));
     }
 
-    public trouverPointsIntersection(): void {
-        for (const segment of this.listeSegments) {
-            if (this.rayCaster.intersectObject(segment).length !== 0) {
-                this.estSurPiste = true;
+    private estSurLaPiste(voiture: THREE.Object3D, listeSegments: THREE.Mesh[]): boolean {
+        for (const segment of listeSegments) {
+            if (this.genererRayCaster(voiture).intersectObject(segment).length !== 0) {
                 this.segmentOuReapparaitre = segment;
-                return;
+                return true;
             }
         }
-        this.estSurPiste = false;
-        return;
+        return false;
     }
 
-    public trouverMilieuSegment(segment: THREE.Mesh): THREE.Vector3 {
-        const milieu = new THREE.Vector3();
-        const geometry = segment.geometry;
-        geometry.computeBoundingBox();
-        milieu.x = (geometry.boundingBox.max.x + geometry.boundingBox.min.x) / 2;
-        milieu.y = (geometry.boundingBox.max.y + geometry.boundingBox.min.y) / 2;
-        milieu.z = (geometry.boundingBox.max.z + geometry.boundingBox.min.z) / 2;
-        segment.localToWorld(milieu);
-        return milieu;
+    private trouverMilieuSegment(segment: THREE.Mesh): THREE.Vector3 {
+        return segment.localToWorld(this.calculerMilieuSegment(segment));
+    }
+
+    private calculerMilieuSegment(segment: THREE.Mesh): THREE.Vector3 {
+        segment.geometry.computeBoundingBox();
+        return new THREE.Vector3(
+            (segment.geometry.boundingBox.max.x + segment.geometry.boundingBox.min.x) / 2,
+            (segment.geometry.boundingBox.max.y + segment.geometry.boundingBox.min.y) / 2,
+            (segment.geometry.boundingBox.max.z + segment.geometry.boundingBox.min.z) / 2
+        );
     }
 }

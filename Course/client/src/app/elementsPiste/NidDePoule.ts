@@ -1,11 +1,11 @@
-import { EffetSonoreService } from './../effetSonore/effetSonore.service';
-import { NOM_OBSTACLE } from './../effetSonore/effetSonore.model';
+import { EffetSonore, NOM_OBSTACLE } from '../effetSonore/effetSonore';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { HEX_NOIR } from '../constant';
-
+import { Piste } from '../piste/piste.model';
+import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
 
 export const RAYON = 1;
 export const NOMBRE_DIVISION_CERCLE = 10;
@@ -16,7 +16,7 @@ export class NidDePoule extends ElementDePiste {
         super();
 
         this.typeElementDePiste = TypeElementPiste.NidDePoule;
-        this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
+        this.position = (position) ? position : Piste.genererPositionAleatoire(listePosition, true);
     }
 
     public genererMesh(): void {
@@ -29,9 +29,9 @@ export class NidDePoule extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        EffetSonoreService.jouerUnEffetSonore(NOM_OBSTACLE);
-        DeplacementService.reduireVitesseNidDePoule(voiture);
-        DeplacementService.secousseNidDePoule(voiture);
+        EffetSonore.jouerUnEffetSonore(NOM_OBSTACLE);
+        DeplacementVoiture.reduireVitesseNidDePoule(voiture);
+        DeplacementVoiture.secousseNidDePoule(voiture);
     }
 
     public genererFissure(geometrie: THREE.CircleGeometry): THREE.CircleGeometry {

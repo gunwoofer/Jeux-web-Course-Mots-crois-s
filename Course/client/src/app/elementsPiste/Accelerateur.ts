@@ -1,5 +1,4 @@
-import { NOM_BOOST } from './../effetSonore/effetSonore.model';
-import { EffetSonoreService } from './../effetSonore/effetSonore.service';
+import { NOM_BOOST, EffetSonore } from './../effetSonore/effetSonore';
 import { LARGEUR_ACCELERATEUR, LONGUEUR_ACCELERATEUR, REPETITION_TEXTURE_ACCELERATEUR } from './../constant';
 import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
@@ -7,13 +6,15 @@ import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { CHEMIN_ACCES_ACCELERATEUR, NIVEAU_CLARETE } from '../constant';
 import { Texture } from 'three';
+import { Piste } from '../piste/piste.model';
+import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
 
 export class Accelerateur extends ElementDePiste {
 
     constructor(listePosition: THREE.Vector3[], position?: THREE.Vector3) {
         super();
         this.typeElementDePiste = TypeElementPiste.Accelerateur;
-        this.position = (position) ? position : this.genererPositionAleatoire(listePosition, true);
+        this.position = (position) ? position : Piste.genererPositionAleatoire(listePosition, true);
     }
 
     public genererMesh(): void {
@@ -23,8 +24,8 @@ export class Accelerateur extends ElementDePiste {
     }
 
     public effetSurObstacle(voiture: Voiture): void {
-        EffetSonoreService.jouerUnEffetSonore(NOM_BOOST);
-        DeplacementService.augmenterVitesseAccelerateur(voiture);
+        EffetSonore.jouerUnEffetSonore(NOM_BOOST);
+        DeplacementVoiture.augmenterVitesseAccelerateur(voiture);
     }
 
     public genererMaterial(): THREE.MeshPhongMaterial {

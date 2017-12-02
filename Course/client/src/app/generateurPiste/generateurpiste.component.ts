@@ -19,9 +19,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
 
     constructor(private generateurPisteService: GenerateurPisteService,
         private pisteService: PisteService, private evenementService: EvenementService,
-        private musiqueService: MusiqueService,
-        private router: Router
-    ) {
+        private musiqueService: MusiqueService, private router: Router) {
         generateurPisteService.ajouterRouter(router);
         generateurPisteService.configurerTours(this.pisteService.nombreDeTours);
     }

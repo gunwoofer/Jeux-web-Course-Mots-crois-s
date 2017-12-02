@@ -5,8 +5,7 @@ import { PointDeControle } from './../piste/pointDeControle.model';
 import { Rendu } from './renduObject';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import {
-    FIN_PARTIE_URL, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION,
-    LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE, NOMBRE_DE_TOURS_PARTIE_DEFAUT
+    RESULTAT_PARTIE, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES, FPS, TABLEAU_POSITION, NOMBRE_DE_TOURS_PARTIE_DEFAUT
 } from './../constant';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { SkyboxService } from './../skybox/skybox.service';
@@ -24,7 +23,7 @@ import { DeplacementService } from './deplacement.service';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import {ElementDePiste} from './../elementsPiste/ElementDePiste';
+import { ElementDePiste } from './../elementsPiste/ElementDePiste';
 
 import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
@@ -51,19 +50,15 @@ export class GenerateurPisteService implements Observateur {
     public voitureDuJoueur: Voiture;
     public jour = true;
     public phares = false;
-    public sortiePisteService: SortiePisteService;
 
     public piste: Piste;
     public elementPiste: ElementDePiste;
     public arbres = new THREE.Object3D();
-    public surfaceHorsPisteService: SurfaceHorsPiste;
     public partie: Partie;
     public routeur: Router;
     public segment: Segment;
     public pointeDeControle = new PointDeControle();
     public voituresIA: Voiture[] = [];
-    public listeSkyboxJour: Array<THREE.Mesh>;
-    public listeSkyboxNuit: Array<THREE.Mesh>;
     public nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
 
@@ -71,24 +66,20 @@ export class GenerateurPisteService implements Observateur {
         public filtreCouleurService: FiltreCouleurService, public gestionnaireDeVue: GestionnaireDeVue,
         public musiqueService: MusiqueService, public tableauScoreService: TableauScoreService,
         public skyboxService: SkyboxService, public placementService: PlacementService,
-        public affichageTeteHauteService: AffichageTeteHauteService, public deplacementService: DeplacementService) {
+        public affichageTeteHauteService: AffichageTeteHauteService, public sortiePisteService: SortiePisteService,
+        public deplacementService: DeplacementService) {
         this.segment = new Segment();
-        this.listeSkyboxJour = new Array<THREE.Mesh>();
-        this.listeSkyboxNuit = new Array<THREE.Mesh>();
     }
 
     public initialisation(container: HTMLDivElement): void {
         this.container = container;
         this.creerScene();
-        this.skyboxService.chargerLesSkybox(this.listeSkyboxJour, this.listeSkyboxNuit);
-        this.skyboxService.ajouterSkybox(this.camera, this.listeSkyboxJour);
+        this.skyboxService.ajouterSkybox(this.camera);
         this.objetService.ajouterArbreScene(this.scene);
         this.segment.ajouterPisteAuPlan(this.piste, this.scene);
-        this.sortiePisteService = new SortiePisteService(this.segment.chargerSegmentsDePiste(this.piste));
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
-        this.scene.add(new SurfaceHorsPiste(LONGUEUR_SURFACE_HORS_PISTE, LARGEUR_SURFACE_HORS_PISTE,
-            this.segment.chargerSegmentsDePiste(this.piste)).terrain);
+        this.scene.add(SurfaceHorsPiste.genererTerrain(this.segment.chargerSegmentsDePiste(this.piste)));
         this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
@@ -105,15 +96,15 @@ export class GenerateurPisteService implements Observateur {
                 element.genererMesh();
                 element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
-              } else if (element instanceof NidDePoule) {
+            } else if (element instanceof NidDePoule) {
                 element.genererMesh();
                 element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
-              } else if (element instanceof Accelerateur) {
+            } else if (element instanceof Accelerateur) {
                 element.genererMesh();
                 element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
                 this.scene.add(element.obtenirMesh());
-              }
+            }
         }
     }
 
@@ -155,7 +146,7 @@ export class GenerateurPisteService implements Observateur {
                 this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
             }
             this.miseAJourPositionVoiture();
-            this.skyboxService.rotationSkybox(this.deplacementService, this.voitureDuJoueur, this.camera);
+            this.skyboxService.rotationSkybox(this.voitureDuJoueur, this.camera);
         }, 1000 / FPS);
     }
 
@@ -170,7 +161,7 @@ export class GenerateurPisteService implements Observateur {
 
     public renderMiseAJour(): void {
         if (this.voitureDuJoueur !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur);
+            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur, this.segment.chargerSegmentsDePiste(this.piste));
             this.piste.gererElementDePiste([this.voitureDuJoueur]);
             this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
         }
@@ -261,7 +252,7 @@ export class GenerateurPisteService implements Observateur {
     public voirPageFinPartie(): void {
         this.tableauScoreService.temps = (Pilote.tempsTotal / 1000);
         this.tableauScoreService.finPartie = true;
-        this.routeur.navigateByUrl(FIN_PARTIE_URL);
+        this.routeur.navigateByUrl(RESULTAT_PARTIE);
     }
 
 }

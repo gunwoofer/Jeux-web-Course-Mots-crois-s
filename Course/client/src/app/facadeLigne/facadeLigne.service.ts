@@ -8,17 +8,16 @@ const DEBUT_DESSIN = 0;
 const NOMBRE_SOMMET_DEBUT_BUFFER = 6;
 
 @Injectable()
-
 export class FacadeLigneService {
 
-    public creerLignePoints(): THREE.Line {
+    public static creerLignePoints(): THREE.Line {
         const geometrie = new THREE.BufferGeometry();
         const materiel = new THREE.LineBasicMaterial({ vertexColors: THREE.VertexColors });
         this.modificationGeometrie(geometrie);
         return new THREE.Line(geometrie, materiel);
     }
 
-    private modificationGeometrie(geometrie: THREE.BufferGeometry): void {
+    private static modificationGeometrie(geometrie: THREE.BufferGeometry): void {
         geometrie.addAttribute('position',
             new THREE.BufferAttribute(new Float32Array(POINTS_MAXIMUM * FACTEUR_MULTIPLICATION), FACTEUR_MULTIPLICATION));
         geometrie.addAttribute('color',
@@ -27,7 +26,7 @@ export class FacadeLigneService {
 
     }
 
-    public modifierLignePoints(positionTableauPoints: number,
+    public static modifierLignePoints(positionTableauPoints: number,
                                positionPoint: THREE.Vector3,
                                lignePoints: any,
                                points: PointsFacade[]): void {
@@ -39,22 +38,23 @@ export class FacadeLigneService {
         lignePoints.geometry.attributes.position.needsUpdate = true;
     }
 
-    public ajouterLignePoints(positionNouveauPoint: THREE.Vector3, compteur: number, lignePoints: any, points: PointsFacade[]): void {
+    public static ajouterLignePoints(   positionNouveauPoint: THREE.Vector3, compteur: number,
+                                        lignePoints: any, points: PointsFacade[]): void {
         this.modifierLignePoints(compteur, positionNouveauPoint, lignePoints, points);
         lignePoints.geometry.setDrawRange(DEBUT_DESSIN, compteur + 1);
     }
 
-    public retirerAncienlignePoints(compteur: number, lignePoints: any, points: PointsFacade[]): void {
+    public static retirerAncienlignePoints(compteur: number, lignePoints: any, points: PointsFacade[]): void {
         this.modifierLignePoints(compteur - 1, new THREE.Vector3(), lignePoints, points);
         lignePoints.geometry.setDrawRange(DEBUT_DESSIN, compteur - 1);
     }
 
-    public obtenirLigneDeDepart(lignePoints: any): number[] {
+    public static obtenirLigneDeDepart(lignePoints: any): number[] {
         const positions = lignePoints.geometry.attributes.position.array.length > 0 ? this.positionLigneDeDepart(lignePoints) : null;
         return positions;
     }
 
-    public positionLigneDeDepart(lignePoints: any): number[] {
+    public static positionLigneDeDepart(lignePoints: any): number[] {
         const positions = new Array();
         for (let sommet = 0; sommet < NOMBRE_SOMMET_DEBUT_BUFFER; sommet++) {
             positions[sommet] = lignePoints.geometry.attributes.position.array[sommet];
@@ -62,7 +62,7 @@ export class FacadeLigneService {
         return positions;
     }
 
-    private modificationDeCouleur(position: number, lignePoints: any, points: PointsFacade[]): void {
+    private static modificationDeCouleur(position: number, lignePoints: any, points: PointsFacade[]): void {
         const couleurListe = lignePoints.geometry.attributes.color.array;
         if (points.length < 2) {
             couleurListe[position * FACTEUR_MULTIPLICATION] = COMPOSANTE_R_POINT_EDITEUR;

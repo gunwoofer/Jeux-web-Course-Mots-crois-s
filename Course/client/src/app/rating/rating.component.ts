@@ -23,7 +23,6 @@ export class RatingComponent implements OnInit {
 
     public ngOnInit(): void {
         this.affichage = true;
-
         if (!this.musiqueService.musique.thematique) {
             this.musiqueService.musique.arreterMusique();
             this.musiqueService.musique.lancerMusiqueThematique();

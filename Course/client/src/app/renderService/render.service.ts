@@ -1,10 +1,8 @@
 import { Accelerateur } from './../elementsPiste/Accelerateur';
 import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
-
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { FacadeLigneService } from './../facadeLigne/facadeLigne.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
@@ -12,6 +10,7 @@ import { Piste } from '../piste/piste.model';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 import { Points } from 'three';
 import { PointsFacade } from '../pointsFacade';
+import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 
 @Injectable()
@@ -28,7 +27,6 @@ export class RenderService {
     public nbSegmentsCroises = 0;
     public nbAnglesPlusPetit45 = 0;
     public nbSegmentsTropProche = 0;
-    public facadeLigne = new FacadeLigneService();
 
     private contraintesCircuit = new ContraintesCircuit();
     private listePointElementPiste: THREE.Points[] = new Array();
@@ -70,7 +68,7 @@ export class RenderService {
     }
 
     public initialisationLigne(): void {
-        this.pointsLine = this.facadeLigne.creerLignePoints();
+        this.pointsLine = FacadeLigneService.creerLignePoints();
         this.scene.add(this.pointsLine);
     }
 
@@ -101,7 +99,7 @@ export class RenderService {
         if (!this.dessinTermine) {
             this.scene.add(point);
         }
-        this.facadeLigne.ajouterLignePoints(point.position, this.facadePointService.compteur, this.pointsLine, this.points);
+        FacadeLigneService.ajouterLignePoints(point.position, this.facadePointService.compteur, this.pointsLine, this.points);
         this.points.push(point);
         this.facadePointService.compteur++;
     }
@@ -111,7 +109,7 @@ export class RenderService {
         this.scene.remove(this.points[this.points.length - 1]);
         this.points.pop();
         this.actualiserDonnees();
-        this.facadeLigne.retirerAncienlignePoints(this.facadePointService.compteur, this.pointsLine, this.points);
+        FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur, this.pointsLine, this.points);
         if (this.facadePointService.compteur >= 1) {
             this.facadePointService.compteur--;
         }
@@ -170,14 +168,14 @@ export class RenderService {
     }
 
     public actualiserDonnees(): void {
-        this.facadePointService.restaurerStatusPoints(this.points);
+        FacadePointService.restaurerStatusPoints(this.points);
         this.actualiserContrainte();
-        this.facadePointService.actualiserCouleurPoints(this.points);
+        FacadePointService.actualiserCouleurPoints(this.points);
     }
 
     public viderScene(): void {
         for (let i = 0; i < this.points.length; i++) {
-            this.facadeLigne.retirerAncienlignePoints(this.facadePointService.compteur, this.pointsLine, this.points);
+            FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur, this.pointsLine, this.points);
             this.scene.remove(this.points[i]);
             this.facadePointService.compteur--;
         }
@@ -186,7 +184,7 @@ export class RenderService {
     public reinitialiserScene(): void {
         this.viderScene();
         this.viderElementsPiste();
-        this.facadePointService.viderListeDesPoints(this.points);
+        FacadePointService.viderListeDesPoints(this.points);
         this.dessinTermine = false;
     }
 
