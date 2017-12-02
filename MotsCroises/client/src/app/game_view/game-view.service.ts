@@ -63,14 +63,6 @@ export class GameViewService {
     constructor() {
     }
 
-    public activerModificationTempsServeur(): void {
-        this.modificationTempsServeurEnCours = true;
-        this.modificationTemps.next();
-    }
-
-    public desactiverModificationTempsServeur(): void {
-        this.modificationTempsServeurEnCours = false;
-    }
 
     public mettreAJourGrilleGeneree(specificationPartie: SpecificationPartie): void {
         this.partieGeneree = specificationPartie;
@@ -91,7 +83,7 @@ export class GameViewService {
             } else {
                 definition = 'No definition.';
             }
-            indices.push(new IndiceMot(this.emplacementMot, definition));
+            indices.push(new IndiceMot(emplacementMot, definition));
         }
         this.indices = indices;
     }
@@ -137,13 +129,7 @@ export class GameViewService {
         this.niveauPartie = niveau;
         this.typePartie = typePartie;
         this.specificationPartie = new SpecificationPartie(niveau, this.joueur, typePartie);
-        if (this.nbJoueursPartie === 0) {
-            this.demanderPartieServer();
-        } else {
-            if (this.demanderNomJoueur()) {
-                this.demanderPartieServer();
-            }
-        }
+        this.demanderPartieServer();
     }
 
     public demanderPartieServer() {
@@ -152,11 +138,12 @@ export class GameViewService {
                 this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
                     this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
                 break;
-
             case 1 :
-                this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR,
-                    this.specificationPartie, requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, this.recupererPartie, this);
-                this.ecouterRetourRejoindrePartieMultijoueur();
+                if (this.demanderNomJoueur()) {
+                    this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR,
+                        this.specificationPartie, requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, this.recupererPartie, this);
+                    this.ecouterRetourRejoindrePartieMultijoueur();
+                }
                 break;
         }
         this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
@@ -164,7 +151,6 @@ export class GameViewService {
 
     public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
         this.listeVuePartie = listeVuePartie;
-
         this.connexionTempsReelClient.envoyerRecevoirRequete<RequisDemandeListePartieEnAttente>(
             requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
             this.requisDemandeListePartieEnCours, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL,
@@ -236,6 +222,7 @@ export class GameViewService {
     }
 
     public recupererPartie(specificationPartie: SpecificationPartie, self: GameViewService): void {
+        console.log('partie récuperee', specificationPartie);
         self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
         self.mettreAJourGrilleGeneree(self.specificationPartie);
         self.partieCreeeRedirection();
@@ -243,7 +230,8 @@ export class GameViewService {
 
     public partieCreeeRedirection() {
         if (this.nbJoueursPartie === 0) {
-            this.afficherPartie(this.typePartie, this.niveauPartie, this.nbJoueursPartie);
+            // this.afficherPartie(this.typePartie, this.niveauPartie, this.nbJoueursPartie);
+            this.changementDeRouteSubject.next(ROUTE_PARTIE_CREE);
         } else {
             this.changementDeRouteSubject.next(ROUTE_ATTENTE_PARTIE);
         }
@@ -350,6 +338,22 @@ export class GameViewService {
 
     public mettreAJourSelectionAdversaire(indice: IndiceMot) {
         this.indiceAdversaireSelectionne.next(indice);
+    }
+
+
+
+
+
+
+
+
+    public activerModificationTempsServeur(): void {
+        this.modificationTempsServeurEnCours = true;
+        this.modificationTemps.next();
+    }
+
+    public desactiverModificationTempsServeur(): void {
+        this.modificationTempsServeurEnCours = false;
     }
 
     public modifierTempsServeur(tempsVoulu: number) {
