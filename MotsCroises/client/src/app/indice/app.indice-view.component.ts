@@ -4,35 +4,36 @@ import {IndiceMot} from './indiceMot';
 
 
 @Component({
-  selector: 'app-indice-view-component',
-  templateUrl: './indice-view.component.html',
-  styleUrls: ['./indice-view.component.css'],
+    selector: 'app-indice-view-component',
+    templateUrl: './indice-view.component.html',
+    styleUrls: ['./indice-view.component.css'],
 })
 export class IndiceViewComponent implements OnInit {
-  public indices: IndiceMot[];
-  public selectedIndice: IndiceMot;
-  constructor(private gameViewService: GameViewService) {
-  }
+    public indices: IndiceMot[];
+    public selectedIndice: IndiceMot;
 
-  public onSelect(indice: IndiceMot, event: Event): void {
-    event.stopPropagation();
-    if (indice.motTrouve) {
-      return;
+    constructor(private gameViewService: GameViewService) {
     }
-    this.selectedIndice = indice;
-    this.gameViewService.desactiverModificationTempsServeur();
-    this.gameViewService.afficherSelectionIndice(indice);
-  }
 
-  public annulerSelectionIndice() {
-    this.selectedIndice = null;
-    this.gameViewService.afficherSelectionIndice(null);
-  }
+    public onSelect(indice: IndiceMot, event: Event): void {
+        event.stopPropagation();
+        if (indice.motTrouve) {
+            return;
+        }
+        this.selectedIndice = indice;
+        this.gameViewService.desactiverModificationTempsServeur();
+        this.gameViewService.afficherSelectionIndice(indice);
+    }
 
-  public ngOnInit(): void {
-    this.indices = [];
-    this.indices = this.gameViewService.indices;
-  }
+    public annulerSelectionIndice() {
+        this.selectedIndice = null;
+        this.gameViewService.afficherSelectionIndice(null);
+    }
+
+    public ngOnInit(): void {
+        this.indices = [];
+        this.indices = this.gameViewService.indices;
+    }
 
 }
 

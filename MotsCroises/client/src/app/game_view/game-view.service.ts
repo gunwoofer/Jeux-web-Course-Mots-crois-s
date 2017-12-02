@@ -1,9 +1,9 @@
-import {RequisPourMotsComplets} from './../../../../commun/requis/RequisPourMotsComplets';
+import {RequisPourMotsComplets} from '../../../../commun/requis/RequisPourMotsComplets';
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
 import {IndiceMot} from '../indice/indiceMot';
-import {ConnexionTempsReelClient} from '../ConnexionTempsReelClient';
+import {ConnexionTempsReelClient} from '../connestion_temps_reel/ConnexionTempsReelClient';
 import {COULEUR_BLEUE, Joueur} from '../../../../commun/Joueur';
 import {Niveau} from '../../../../commun/Niveau';
 import {TypePartie} from '../../../../commun/TypePartie';
@@ -163,21 +163,7 @@ export class GameViewService {
         this.ecouterRetourRejoindrePartieMultijoueur();
         break;
     }
-
     this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
-  }
-
-  public demanderTempsPartie(): void {
-    this.requisPourObtenirTempsRestant = new RequisPourObtenirTempsRestant(this.specificationPartie.guidPartie);
-    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourObtenirTempsRestant>(
-      requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT,
-      this.requisPourObtenirTempsRestant, requetes.REQUETE_CLIENT_OBTENIR_TEMPS_RESTANT_RAPPEL,
-      this.mettreAJourTempsPartie, this);
-  }
-
-  public mettreAJourTempsPartie(requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant,
-                                self: GameViewService): void {
-    self.modifierTempsRestant.next(requisPourObtenirTempsRestant.tempsRestant);
   }
 
   public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
@@ -374,5 +360,18 @@ export class GameViewService {
     const requisPourModifierTempsRestant = new RequisPourModifierTempsRestant(this.specificationPartie.guidPartie, tempsVoulu);
     this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourModifierTempsRestant>(requetes.REQUETE_SERVEUR_MODIFIER_TEMPS_RESTANT,
       requisPourModifierTempsRestant, requetes.REQUETE_CLIENT_MODIFIER_TEMPS_RESTANT_RAPPEL, this.mettreAJourTempsPartie, this);
+  }
+
+  public demanderTempsPartie(): void {
+    this.requisPourObtenirTempsRestant = new RequisPourObtenirTempsRestant(this.specificationPartie.guidPartie);
+    this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourObtenirTempsRestant>(
+      requetes.REQUETE_SERVEUR_OBTENIR_TEMPS_RESTANT,
+      this.requisPourObtenirTempsRestant, requetes.REQUETE_CLIENT_OBTENIR_TEMPS_RESTANT_RAPPEL,
+      this.mettreAJourTempsPartie, this);
+  }
+
+  public mettreAJourTempsPartie(requisPourObtenirTempsRestant: RequisPourObtenirTempsRestant,
+                                self: GameViewService): void {
+    self.modifierTempsRestant.next(requisPourObtenirTempsRestant.tempsRestant);
   }
 }

@@ -1,10 +1,10 @@
 import { ConnexionTempsReelClient } from './ConnexionTempsReelClient';
-import * as requetes from '../../../commun/constantes/RequetesTempsReel';
-import { SpecificationPartie } from '../../../commun/SpecificationPartie';
-import { Niveau } from '../../../commun/Niveau';
-import { Joueur } from '../../../commun/Joueur';
-import { TypePartie } from '../../../commun/TypePartie';
-import { RequisPourMotAVerifier } from '../../../commun/requis/RequisPourMotAVerifier';
+import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
+import { SpecificationPartie } from '../../../../commun/SpecificationPartie';
+import { Niveau } from '../../../../commun/Niveau';
+import { Joueur } from '../../../../commun/Joueur';
+import { TypePartie } from '../../../../commun/TypePartie';
+import { RequisPourMotAVerifier } from '../../../../commun/requis/RequisPourMotAVerifier';
 
 describe('ConnexionTempsReel', () => {
 
