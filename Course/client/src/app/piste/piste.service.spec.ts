@@ -15,7 +15,7 @@ import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from 
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { mockPistes } from './pistes.mock';
-import { JeuDeCourseService } from '../jeudecourse/jeudecourse.service';
+import { JeuDeCourseService } from '../jeuDeCourse/jeudecourse.service';
 import { PisteService } from './piste.service';
 
 describe('pisteService test', () => {

@@ -7,7 +7,7 @@ import { ListePisteComponent } from './listePiste/listePiste.component';
 import { ConnexionComponent } from './accueil/admin/connexion/connexion.component';
 import { InscriptionComponent } from './accueil/admin/inscription/inscription.component';
 import { AccueilComponent } from './accueil/accueil.component';
-import { JeuDeCourseComponent } from './jeudecourse/jeudecourse.component';
+import { JeuDeCourseComponent } from './jeuDeCourse/jeudecourse.component';
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
 import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 import { FinDePartieComponent } from './finDepartie/finDePartie.component';

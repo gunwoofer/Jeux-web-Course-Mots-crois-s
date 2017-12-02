@@ -23,7 +23,7 @@ import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.serv
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
-import { JeuDeCourseService } from './../jeudecourse/jeudecourse.service';
+import { JeuDeCourseService } from './../jeuDeCourse/jeudecourse.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
 describe('RenderService test', () => {

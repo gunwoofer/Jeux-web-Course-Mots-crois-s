@@ -7,7 +7,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
-import { JeuDeCourseService } from '../jeudecourse/jeudecourse.service';
+import { JeuDeCourseService } from '../jeuDeCourse/jeudecourse.service';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 @Injectable()

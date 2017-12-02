@@ -1,4 +1,4 @@
-import { JeuDeCourseComponent } from './jeudecourse/jeudecourse.component';
+import { JeuDeCourseComponent } from './jeuDeCourse/jeudecourse.component';
 import { CreateurPisteComponent } from './createurPiste/createurPiste.component';
 import { ListePisteComponent } from './listePiste/listePiste.component';
 import { Routes } from '@angular/router';
