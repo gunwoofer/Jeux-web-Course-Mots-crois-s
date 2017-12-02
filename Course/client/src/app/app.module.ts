@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { HttpModule } from '@angular/http';
 import { AppRoutingModule } from './app.routing';
 import { APP_BASE_HREF } from '@angular/common';
+import { CollisionService } from './voiture/collision.service';
 
 
 import { RatingComponent } from './rating/rating.component';
@@ -97,6 +98,7 @@ import { SortiePisteService } from './sortiePiste/sortiePiste.service';
     PlacementService,
     EffetSonoreService,
     AffichageTeteHauteService,
+    CollisionService,
     SortiePisteService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
