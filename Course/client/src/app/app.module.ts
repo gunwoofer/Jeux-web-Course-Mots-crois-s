@@ -33,7 +33,7 @@ import { EvenementService } from './gestionnaireEvenement/gestionnaireEvenement.
 import { FacadePointService } from './facadePoint/facadepoint.service';
 import { FacadeLigneService } from './facadeLigne/facadeLigne.service';
 import { MessageErreurService } from './messageErreurs/messageerreur.service';
-import { GenerateurPisteService } from './generateurPiste/generateurpiste.service';
+import { JeuDeCourseService } from './generateurPiste/jeudecourse.service';
 import { UtilisateurService } from './accueil/utilisateur.service';
 import { MusiqueService } from './musique/musique.service';
 import { FiltreCouleurService } from './filtreCouleur/filtreCouleur.service';
@@ -83,7 +83,7 @@ import { SortiePisteService } from './sortiePiste/sortiePiste.service';
     FacadePointService,
     FacadeLigneService,
     MessageErreurService,
-    GenerateurPisteService,
+    JeuDeCourseService,
     DeplacementService,
     MusiqueService,
     UtilisateurService,

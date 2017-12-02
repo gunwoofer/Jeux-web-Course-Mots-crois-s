@@ -2,7 +2,7 @@ import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.serv
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { LumiereService } from './../lumiere/lumiere.service';
-import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
+import { JeuDeCourseService } from './../generateurPiste/jeudecourse.service';
 import { MODE_JOUR_NUIT, MODE_FILTRE_COULEUR, ZOOM_AVANT, ZOOM_ARRIERE, CHANGER_VUE, ALLUMER_PHARES, RETROVISEUR } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
@@ -13,7 +13,7 @@ import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 @Injectable()
 export class EvenementService {
-  constructor(private renderService: RenderService, private generateurPisteService: GenerateurPisteService,
+  constructor(private renderService: RenderService, private jeuDeCourseService: JeuDeCourseService,
     private gestionnaireDeVue: GestionnaireDeVue, private lumiereService: LumiereService, private skyboxService: SkyboxService,
     private filtreCouleurService: FiltreCouleurService, private facadeCoordonneesService: FacadeCoordonneesService) {}
 
@@ -78,30 +78,30 @@ export class EvenementService {
 
   public gestionEvenement(event): void {
     if (event.key === MODE_JOUR_NUIT) {
-      this.generateurPisteService.logiquePhares();
-      this.lumiereService.modeJourNuit(event, this.generateurPisteService.scene);
-      this.generateurPisteService.jour = !this.generateurPisteService.jour;
-      this.skyboxService.alternerSkybox(this.generateurPisteService.jour, this.generateurPisteService.camera);
+      this.jeuDeCourseService.logiquePhares();
+      this.lumiereService.modeJourNuit(event, this.jeuDeCourseService.scene);
+      this.jeuDeCourseService.jour = !this.jeuDeCourseService.jour;
+      this.skyboxService.alternerSkybox(this.jeuDeCourseService.jour, this.jeuDeCourseService.camera);
     } else if (event.key === MODE_FILTRE_COULEUR) {
-      this.filtreCouleurService.mettreFiltre(event, this.generateurPisteService.scene);
+      this.filtreCouleurService.mettreFiltre(event, this.jeuDeCourseService.scene);
     } else if (event.key === ZOOM_AVANT || event.key === ZOOM_ARRIERE) {
-      this.gestionnaireDeVue.zoom(event, this.generateurPisteService.camera);
+      this.gestionnaireDeVue.zoom(event, this.jeuDeCourseService.camera);
     } else if (event.key === CHANGER_VUE) {
-      this.generateurPisteService.voitureDuJoueur.vueDessusTroisieme = !this.generateurPisteService.voitureDuJoueur.vueDessusTroisieme;
+      this.jeuDeCourseService.voitureDuJoueur.vueDessusTroisieme = !this.jeuDeCourseService.voitureDuJoueur.vueDessusTroisieme;
     } else if (event.key === ALLUMER_PHARES) {
-      this.generateurPisteService.phares = !this.generateurPisteService.phares;
-      this.lumiereService.alternerPhares(this.generateurPisteService.voitureDuJoueur);
+      this.jeuDeCourseService.phares = !this.jeuDeCourseService.phares;
+      this.lumiereService.alternerPhares(this.jeuDeCourseService.voitureDuJoueur);
     } else if (event.key === RETROVISEUR) {
       this.gestionnaireDeVue.changerEtatRetroviseur();
     }
   }
 
   public toucheRelachee(event): void {
-    this.generateurPisteService.deplacementService.toucheRelachee(event);
+    this.jeuDeCourseService.deplacementService.toucheRelachee(event);
   }
 
   public touchePesee(event): void {
-    this.generateurPisteService.deplacementService.touchePesee(event);
+    this.jeuDeCourseService.deplacementService.touchePesee(event);
   }
 
   private dragPoint(position: any): void {

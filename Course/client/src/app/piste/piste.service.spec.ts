@@ -15,7 +15,7 @@ import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from 
 import { MockBackend, MockConnection } from '@angular/http/testing';
 
 import { mockPistes } from './pistes.mock';
-import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
+import { JeuDeCourseService } from '../generateurPiste/jeudecourse.service';
 import { PisteService } from './piste.service';
 
 describe('pisteService test', () => {
@@ -23,7 +23,7 @@ describe('pisteService test', () => {
         TestBed.configureTestingModule({
             providers: [
                 PisteService, GestionnaireDeVue, MusiqueService, SortiePisteService,
-                GenerateurPisteService, FiltreCouleurService, AffichageTeteHauteService,
+                JeuDeCourseService, FiltreCouleurService, AffichageTeteHauteService,
                 ObjetService, LumiereService, TableauScoreService, DeplacementService,
                 MockBackend, SkyboxService, RatingService, PlacementService,
                 BaseRequestOptions, SortiePisteService,

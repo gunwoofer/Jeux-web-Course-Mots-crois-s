@@ -7,7 +7,7 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
-import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
+import { JeuDeCourseService } from '../generateurPiste/jeudecourse.service';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 @Injectable()
@@ -19,11 +19,11 @@ export class PisteService {
     public tableauMeilleurTemps = new EventEmitter<Piste>();
     public nombreDeTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
 
-    constructor(private generateurPisteService: GenerateurPisteService, private http: Http, private ratingService: RatingService) {
+    constructor(private jeuDeCourseService: JeuDeCourseService, private http: Http, private ratingService: RatingService) {
 
         this.pisteChoisie.subscribe(
             (piste: Piste) => {
-                this.generateurPisteService.ajouterPiste(piste);
+                this.jeuDeCourseService.ajouterPiste(piste);
                 this.ratingService.piste = piste;
             }
         );

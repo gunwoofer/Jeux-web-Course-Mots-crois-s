@@ -1,6 +1,6 @@
 import { RESULTAT_PARTIE } from '../constant';
 import { MusiqueService } from './../musique/musique.service';
-import { GenerateurPisteService } from './generateurpiste.service';
+import { JeuDeCourseService } from './jeudecourse.service';
 import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
 import { Router } from '@angular/router';
@@ -17,11 +17,11 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
     @ViewChild('container')
     private containerRef: ElementRef;
 
-    constructor(private generateurPisteService: GenerateurPisteService,
+    constructor(private jeuDeCourseService: JeuDeCourseService,
         private pisteService: PisteService, private evenementService: EvenementService,
         private musiqueService: MusiqueService, private router: Router) {
-        generateurPisteService.ajouterRouter(router);
-        generateurPisteService.configurerTours(this.pisteService.nombreDeTours);
+        jeuDeCourseService.ajouterRouter(router);
+        jeuDeCourseService.configurerTours(this.pisteService.nombreDeTours);
     }
 
     public ngOnInit(): void {
@@ -29,7 +29,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
     }
 
     public ngAfterViewInit(): void {
-        this.generateurPisteService.initialisation(this.container);
+        this.jeuDeCourseService.initialisation(this.container);
     }
 
     public get container(): HTMLDivElement {
@@ -38,7 +38,7 @@ export class GenerateurPisteComponent implements AfterViewInit, OnInit {
 
     @HostListener('window:resize', ['$event'])
     public onResize(): void {
-        this.generateurPisteService.onResize();
+        this.jeuDeCourseService.onResize();
     }
 
     @HostListener('document:keypress', ['$event'])

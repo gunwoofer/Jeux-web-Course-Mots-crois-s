@@ -23,7 +23,7 @@ import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.serv
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { ObjetService } from '../objetService/objet.service';
 import { MusiqueService } from './../musique/musique.service';
-import { GenerateurPisteService } from './../generateurPiste/generateurpiste.service';
+import { JeuDeCourseService } from './../generateurPiste/jeudecourse.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
 describe('RenderService test', () => {
@@ -38,7 +38,7 @@ describe('RenderService test', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             providers: [RenderService, EvenementService, PisteService, AffichageTeteHauteService,
-                GenerateurPisteService, MessageErreurService, RatingService, DeplacementService,
+                JeuDeCourseService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService, SortiePisteService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
                 FacadePointService, SortiePisteService],

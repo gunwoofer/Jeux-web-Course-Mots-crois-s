@@ -36,11 +36,8 @@ import { Sujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 
-
-
-
 @Injectable()
-export class GenerateurPisteService implements Observateur {
+export class JeuDeCourseService implements Observateur {
 
     public container: HTMLDivElement;
     public camera: THREE.PerspectiveCamera;
