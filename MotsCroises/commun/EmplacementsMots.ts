@@ -2,7 +2,7 @@ import { RequisPourMotAVerifier } from './requis/RequisPourMotAVerifier';
 import { EmplacementMot } from './EmplacementMot';
 import { Case, EtatCase } from './Case';
 import { Cases } from './Cases';
-import { DIMENSION_LIGNE_COLONNE } from '../server/app/Grille';
+import { DIMENSION_LIGNE_COLONNE } from '../server/app/grille';
 import { Position } from './Position';
 import { grandeurMotMinimum } from './constantes/GrilleConstantes';
 
