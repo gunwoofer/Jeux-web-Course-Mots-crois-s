@@ -191,9 +191,12 @@ export class JeuDeCourseService implements Observateur {
             if (this.toutesLesVoitures.length < 2) {
                 this.chargementVoituresPourCollision();
             }
-           if (this.voitureDuJoueur !== undefined) {
-                this.collisionService.analyserCollision(this.toutesLesVoitures);
-           }
+            for (const voiture of this.toutesLesVoitures){
+                if (this.voitureDuJoueur !== undefined) {
+                setTimeout('', 5000);
+                }
+            }
+            this.collisionService.analyserCollision(this.toutesLesVoitures);
         }, 1000 / FPS);
     }
 
