@@ -1,6 +1,6 @@
 import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
-import { Partie } from './Partie';
-import { Grille } from './Grille';
+import { Partie } from './partie';
+import { Grille } from './grille';
 import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
 import { Joueur } from '../../commun/Joueur';

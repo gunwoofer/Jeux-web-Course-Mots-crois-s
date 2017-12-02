@@ -1,4 +1,4 @@
-import { Indice } from './../server/app/Indice';
+import { Indice } from './../server/app/indice';
 
 import { Niveau } from './Niveau';
 import { Joueur } from './Joueur';

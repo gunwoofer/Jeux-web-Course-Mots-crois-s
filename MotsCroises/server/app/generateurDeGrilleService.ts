@@ -1,12 +1,12 @@
 import { GestionnaireParametresGrilleService } from './gestionnaireParametresGrilleService';
-import { GenerateurDeMotContrainteService } from './GenerateurDeMotContrainteService';
-import { RechercheMots } from './RechercheMots';
+import { GenerateurDeMotContrainteService } from './generateurDeMotContrainteService';
+import { RechercheMots } from './rechercheMots';
 import { EmplacementMot } from './../../commun/EmplacementMot';
-import { Grille } from './Grille';
+import { Grille } from './grille';
 import { Niveau } from '../../commun/Niveau';
-import { MotComplet } from './MotComplet';
-import { GenerateurDeGrilleVide } from './GenerateurDeGrilleVide';
-import { Indice } from './Indice';
+import { MotComplet } from './motComplet';
+import { GenerateurDeGrilleVide } from './generateurDeGrilleVide';
+import { Indice } from './indice';
 
 export const NOMBRE_DE_GRILLE = 5;
 export const PAS_DE_DEFINITION = ['Indice 1', 'Indice 2', 'Indice 3'];

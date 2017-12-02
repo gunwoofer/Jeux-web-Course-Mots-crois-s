@@ -1,6 +1,6 @@
-import { MotComplet } from './MotComplet';
-import { Indice } from './Indice';
-import { MotDataMuse } from './MotDataMuse';
+import { MotComplet } from './motComplet';
+import { Indice } from './indice';
+import { MotDataMuse } from './motDataMuse';
 
 const datamuse = require('datamuse');
 

@@ -1,6 +1,6 @@
 import { assert } from 'chai';
-import { RechercheMots } from './RechercheMots';
-import { Contrainte } from './Contrainte';
+import { RechercheMots } from './rechercheMots';
+import { Contrainte } from './contrainte';
 
 describe('RechercheMots', () => {
 

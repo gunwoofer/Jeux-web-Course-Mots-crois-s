@@ -1,10 +1,10 @@
-import { PersistenceGrilleServiceLecture } from './PersistenceGrilleServiceLecture';
+import { PersistenceGrilleServiceLecture } from './persistenceGrilleServiceLecture';
 import { Guid } from '../../commun/Guid';
-import { Grille } from './Grille';
+import { Grille } from './grille';
 import * as express from 'express';
-import { BDImplementation } from './BDImplementation';
-import { GenerateurDeGrilleService } from './GenerateurDeGrilleService';
-import * as Configuration from './Configuration';
+import { BDImplementation } from './bDImplementation';
+import { GenerateurDeGrilleService } from './generateurDeGrilleService';
+import * as Configuration from './configuration';
 import { Niveau } from '../../commun/Niveau';
 
 
