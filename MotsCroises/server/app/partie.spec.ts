@@ -59,27 +59,6 @@ describe('Partie', () => {
         assert(grille.emplacementsMots.emplacementMots[2].estSelectionnerNombreDeJoueurs() === 2);
     });
 
-    it('Le serveur conserve un compteur pour les joueurs.', (done) => {
-        const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
-
-        const joueur1: Joueur = new Joueur();
-        const joueur2: Joueur = new Joueur();
-
-        const guidPartie: string = gestionnaireDePartieService.creerPartie(joueur1, TypePartie.classique_a_deux,
-            grille, Niveau.facile, joueur2);
-        const partieEnCours: Partie = gestionnaireDePartieService.obtenirPartieEnCours(guidPartie);
-        partieEnCours.demarrerPartie();
-
-        const tempsPartieMilisecondes1: number = partieEnCours.obtenirTempsRestantMilisecondes();
-        setTimeout((premiertemps: number) => {
-            const tempsPartieMilisecondes2: number = partieEnCours.obtenirTempsRestantMilisecondes();
-            assert((tempsPartieMilisecondes2 - tempsPartieMilisecondes1) > 0);
-            done();
-
-        }, 1 * Math.pow(10, 3), tempsPartieMilisecondes1);
-
-    }).timeout(DELAI_MAXIMUM_MILISECONDES);
-
     it('Le serveur indique que la partie est terminé quand le compteur est échoué.', (done) => {
         const gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
 
