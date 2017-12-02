@@ -9,7 +9,7 @@ import {Niveau} from '../../../../commun/Niveau';
 import {TypePartie} from '../../../../commun/TypePartie';
 import {RequisPourMotAVerifier} from '../../../../commun/requis/RequisPourMotAVerifier';
 import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
-import {Indice} from '../../../../server/app/Indice';
+import {Indice} from '../../../../server/app/indice';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
 import {Router} from '@angular/router';
 import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/RequisDemandeListePartieEnAttente';
