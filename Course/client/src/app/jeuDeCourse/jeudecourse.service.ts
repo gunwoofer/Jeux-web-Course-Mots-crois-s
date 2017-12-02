@@ -193,7 +193,7 @@ export class JeuDeCourseService implements Observateur {
             }
             for (const voiture of this.toutesLesVoitures){
                 if (voiture !== undefined) {
-                setTimeout('', 5000);
+                    setTimeout('', 10000);
                 }
             }
             this.collisionService.analyserCollision(this.toutesLesVoitures);

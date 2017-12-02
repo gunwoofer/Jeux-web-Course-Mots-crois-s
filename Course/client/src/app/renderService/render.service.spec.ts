@@ -1,3 +1,4 @@
+import { CollisionService } from './../voiture/collision.service';
 import { CalculateurNombreOngle } from './../contraintesCircuit/calculateurNombreAngle';
 import { FacadePointService } from './../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from './../facadeCoordonnees/facadecoordonnees.service';
@@ -41,7 +42,7 @@ describe('RenderService test', () => {
                 JeuDeCourseService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService, SortiePisteService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
-                FacadePointService, SortiePisteService],
+                FacadePointService, SortiePisteService, CollisionService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],
             imports: [FormsModule, HttpModule]
         })
@@ -485,4 +486,3 @@ describe('RenderService test', () => {
         expect(renderService.retourneEtatDessin()).toBeFalsy();
     });
 });
-

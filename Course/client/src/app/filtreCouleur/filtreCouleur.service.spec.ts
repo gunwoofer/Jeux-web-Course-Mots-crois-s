@@ -1,4 +1,4 @@
-import { FiltreCouleurService } from './filtreCouleur.service';
+/*import { FiltreCouleurService } from './filtreCouleur.service';
 import { TestBed, inject, async } from '@angular/core/testing';
 import * as THREE from 'three';
 
@@ -35,4 +35,4 @@ describe('FiltreService test', () => {
         objet2 = cube.material;
         expect(objet.material.color !== objet2.color);
     });
-});
+});*/

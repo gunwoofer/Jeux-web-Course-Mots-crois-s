@@ -78,7 +78,6 @@ export class Voiture implements sujet.Sujet {
         this.moteurAutonome.creerIndicateurDirection(scene, this.listePositions);
     }
 
-    
     public obtenirPositionDevantVoiture(droitFalseGaucheTrue: boolean): THREE.Vector3 {
         const positionAvant = new THREE.Vector3();
         switch (droitFalseGaucheTrue) {
