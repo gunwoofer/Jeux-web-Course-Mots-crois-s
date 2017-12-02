@@ -10,7 +10,7 @@ import { GenerateurDeGrilleService } from './generateurDeGrilleService';
 import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
 
 const maxDelaiRetourRequeteMS = 10000;
-const maxDelaiGenerationGrille = 35000;
+const maxDelaiGenerationGrille = 60000;
 
 describe('GestionnaireDePartieService', () => {
     const generateurDeGrilleService = new GenerateurDeGrilleService();
