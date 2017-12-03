@@ -42,6 +42,15 @@ export class GestionElementsPiste implements Observateur {
         return this.elementDePisteComposite.elementsDePiste.length;
     }
 
+    public changerPositionType(typeElement: TypeElementPiste, listePosition: THREE.Vector3[]): void {
+        for (let i = 0; i < this.obtenirNombreElement(); i++) {
+            if (this.obtenirListeElement()[i].typeElementDePiste === typeElement) {
+                this.obtenirListeElement().splice(i, 1);
+                this.ajouterElementDePisteSelonContraintes(listePosition, typeElement);
+            }
+        }
+    }
+
     private ajouterElementDePisteSelonContraintes(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
         while (this.elementDePisteComposite.obtenirNombreElements(typeElement) < MAXIMUM_OBSTACLES_PAR_TYPE) {
             let elementAAjouter;
