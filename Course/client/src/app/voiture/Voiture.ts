@@ -10,7 +10,7 @@ import { NotificationType } from '../../../../commun/observateur/NotificationTyp
 
 export const REDUCTION_VITESSE_SORTIE_PISTE = 10;
 export const REDUCTION_VITESSE_NID_DE_POULE = 4;
-
+const vecVersLeBas = new THREE.Vector3(0, 0, -1);
 
 export class Voiture implements sujet.Sujet {
     public voiture3D: THREE.Object3D;
@@ -32,7 +32,6 @@ export class Voiture implements sujet.Sujet {
     private moteurAutonome: MoteurAutonome;
     public raycasterCollisionDroit = new THREE.Raycaster;
     public raycasterCollisionGauche = new THREE.Raycaster;
-    public vecteurZ = new THREE.Vector3(0, 0, -1);
     public guid: string;
 
 
@@ -106,15 +105,15 @@ export class Voiture implements sujet.Sujet {
 
     public genererRayCasterCollision(): void {
         if (this.peutObtenirObjetVoiture()) {
-            this.raycasterCollisionDroit = new THREE.Raycaster(this.obtenirPositionDevantVoiture(false), this.vecteurZ);
-            this.raycasterCollisionGauche = new THREE.Raycaster(this.obtenirPositionDevantVoiture(true), this.vecteurZ);
+            this.raycasterCollisionDroit = new THREE.Raycaster(this.obtenirPositionDevantVoiture(false), vecVersLeBas);
+            this.raycasterCollisionGauche = new THREE.Raycaster(this.obtenirPositionDevantVoiture(true), vecVersLeBas);
         }
     }
 
     public actualiserPositionRayCasterCollision(): void {
         if (this.peutObtenirObjetVoiture()) {
-            this.raycasterCollisionDroit.set(this.obtenirPositionDevantVoiture(false), this.vecteurZ);
-            this.raycasterCollisionGauche.set(this.obtenirPositionDevantVoiture(true), this.vecteurZ);
+            this.raycasterCollisionDroit.set(this.obtenirPositionDevantVoiture(false), vecVersLeBas);
+            this.raycasterCollisionGauche.set(this.obtenirPositionDevantVoiture(true), vecVersLeBas);
         }
     }
 
