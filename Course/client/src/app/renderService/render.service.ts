@@ -20,8 +20,6 @@ export class RenderService {
 
     private camera: THREE.PerspectiveCamera;
     private renderer: THREE.WebGLRenderer;
-
-    private listePointElementPiste: THREE.Points[] = new Array();
     private facadeCoordonneesService = new FacadeCoordonneesService();
     private plane: THREE.Mesh;
     private container: HTMLDivElement;
@@ -134,7 +132,7 @@ export class RenderService {
 
     public reinitialiserScene(): void {
         this.viderScene();
-        this.viderElementsPiste();
+        this.createurPisteService.viderElementsPiste(this.scene);
         FacadePointService.viderListeDesPoints(this.createurPisteService.points);
         this.createurPisteService.dessinTermine = false;
     }
@@ -146,41 +144,6 @@ export class RenderService {
                 this.actualiserDonnees();
                 this.render();
             }
-        }
-    }
-
-    public obtenirPositions(): THREE.Vector3[] {
-        const vecteur: THREE.Vector3[] = new Array();
-
-        for (const point of this.createurPisteService.points) {
-            vecteur.push(new THREE.Vector3(point.position.x, point.position.y, point.position.z));
-        }
-
-        return vecteur;
-    }
-
-    public afficherElementsDePiste(listeElement: ElementDePiste[]): void {
-        this.viderElementsPiste();
-        let couleur: string;
-
-        for (const element of listeElement) {
-            if (element instanceof FlaqueDEau) {
-                couleur = '#ff0000';
-            } else if (element instanceof NidDePoule) {
-                couleur = '#0000ff';
-            } else if (element instanceof Accelerateur) {
-                couleur = '#f9d500';
-            }
-
-            const point = this.facadePointService.creerPoint(element.position, couleur);
-            this.scene.add(point);
-            this.listePointElementPiste.push(point);
-        }
-    }
-
-    private viderElementsPiste(): void {
-        for (const point of this.listePointElementPiste) {
-            this.scene.remove(point);
         }
     }
 }
