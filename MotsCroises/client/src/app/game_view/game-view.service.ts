@@ -347,7 +347,7 @@ export class GameViewService {
 
   public recevoirMotsComplets(requisPourMotsComplets: RequisPourMotsComplets, self: GameViewService) {
     for (let i = 0; i < self.indices.length; i++) {
-      self.indices[i].definition = requisPourMotsComplets.listeMotComplet[i].lettres;
+      self.indices[i].definition = requisPourMotsComplets.listeMotComplet[i].obtenirLettres();
     }
   }
 
