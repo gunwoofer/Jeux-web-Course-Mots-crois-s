@@ -2,7 +2,7 @@ import { CreateurPisteService } from './createurPiste.service';
 import { EvenementService } from './../gestionnaireEvenement/gestionnaireEvenement.service';
 import { MusiqueService } from './../musique/musique.service';
 import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
-import { RenderService } from '../renderService/render.service';
+import { MoteurEditeurPiste } from '../moteurEditeurPiste/render.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { PisteService } from '../piste/piste.service';
 import { Piste } from './../piste/piste.model';
@@ -22,7 +22,7 @@ export class CreateurPisteComponent implements OnInit {
     @ViewChild('container')
     private containerRef: ElementRef;
 
-    constructor(private renderService: RenderService,
+    constructor(private renderService: MoteurEditeurPiste,
                 private evenementService: EvenementService,
                 private pisteService: PisteService,
                 private messageErreurService: MessageErreurService,
