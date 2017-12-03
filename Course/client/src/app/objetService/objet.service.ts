@@ -1,3 +1,4 @@
+import { FonctionMaths } from './../fonctionMathematiques';
 import { LumiereService } from '../lumiere/lumiere.service';
 import {
     LUMIERES, ARBRE_PATH, ARBRE_TEXTURE, WIDTH,
@@ -11,32 +12,22 @@ import { Object3D } from 'three';
 @Injectable()
 export class ObjetService {
 
-    private objetArbre: THREE.Object3D;
 
-    constructor(private lumiereService: LumiereService) {
-        this.objetArbre = this.chargerArbre(ARBRE_PATH, ARBRE_TEXTURE, WIDTH);
+    public static ajouterArbreScene(scene: THREE.Scene): void {
+        scene.add(this.chargerArbre(ARBRE_PATH, ARBRE_TEXTURE, WIDTH));
     }
 
-    public random(min, max): number {
-        return Math.floor(Math.random() * (max - min + 1) + min);
-    }
-
-    public genereRandomPosition(vecteur: THREE.Vector3, chiffre: number): void {
-        vecteur.x = this.random(-chiffre / 10, chiffre / 10);
-        vecteur.z = this.random(-chiffre / 10, chiffre / 10);
-        vecteur.y = 0;
-    }
-
-    public chargerArbre(path: string, texture: string, chiffre: number): THREE.Object3D {
+    public static chargerArbre(path: string, texture: string, chiffre: number): THREE.Object3D {
         const loader = new THREE.ObjectLoader();
         const groupe = new THREE.Object3D();
         loader.load(path, (obj: Object3D) => {
             let arbre: any; let instance: any;
             arbre = obj.getObjectByName(NOM_ARBRE);
             arbre.material.map = new THREE.TextureLoader().load(texture);
+
             for (let i = 0; i < NOMBRE_ARBRE_CREE; i++) {
                 instance = arbre.clone();
-                this.genereRandomPosition(instance.position, chiffre);
+                FonctionMaths.genererPositionAleatoire(instance.position, chiffre);
                 groupe.add(instance);
             }
         });
@@ -44,8 +35,7 @@ export class ObjetService {
         return groupe;
     }
 
-    public ajouterArbreScene(scene: THREE.Scene): void {
-        scene.add(this.objetArbre);
+    constructor(private lumiereService: LumiereService) {
     }
 
     public enleverObjet(object: THREE.Object3D): void {

@@ -6,11 +6,19 @@ import { FlaqueDEau } from '../elementsPiste/FlaqueDEau';
 import { NidDePoule } from '../elementsPiste/NidDePoule';
 import { Accelerateur } from '../elementsPiste/Accelerateur';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
+import { ObjetService } from '../objetService/objet.service';
 
 @Injectable()
 export class MondeDuJeuService {
     public piste: Piste;
     public segment: Segment = new Segment();
+
+    public chargerMonde3D(scene: THREE.Scene): void {
+        ObjetService.ajouterArbreScene(scene);
+        this.segment.ajouterPisteAuPlan(this.piste, scene);
+        this.genererTerrain(scene);
+        this.ajouterElementDePisteScene(scene);
+    }
 
     public ajouterPiste(piste: Piste): void {
         this.piste = piste;

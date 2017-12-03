@@ -52,4 +52,14 @@ export class FonctionMaths {
         }
         return false;
     }
+
+    public static genererPositionAleatoire(vecteur: THREE.Vector3, chiffre: number): void {
+        vecteur.x = this.nombreAleatoire(-chiffre / 10, chiffre / 10);
+        vecteur.z = this.nombreAleatoire(-chiffre / 10, chiffre / 10);
+        vecteur.y = 0;
+    }
+
+    public static nombreAleatoire(min, max): number {
+        return Math.floor(Math.random() * (max - min + 1) + min);
+    }
 }

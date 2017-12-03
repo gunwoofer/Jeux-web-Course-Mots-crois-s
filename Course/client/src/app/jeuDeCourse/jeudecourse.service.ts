@@ -84,13 +84,10 @@ export class JeuDeCourseService implements Observateur {
         this.container = container;
         this.creerScene();
         this.skyboxService.ajouterSkybox(this.camera);
-        this.objetService.ajouterArbreScene(this.scene);
-        this.mondeDuJeuService.segment.ajouterPisteAuPlan(this.mondeDuJeuService.piste, this.scene);
+        this.mondeDuJeuService.chargerMonde3D(this.scene);
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
-        this.mondeDuJeuService.genererTerrain(this.scene);
         this.pointeDeControle.ajouterPointDeControleScene(this.mondeDuJeuService.piste, this.scene);
-        this.mondeDuJeuService.ajouterElementDePisteScene(this.scene);
         this.commencerMoteurDeJeu();
     }
 
