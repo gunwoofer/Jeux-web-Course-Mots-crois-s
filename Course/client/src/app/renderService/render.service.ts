@@ -17,7 +17,7 @@ import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 export class RenderService {
 
     public scene: THREE.Scene;
-    public pointsLine: Line;
+    public pointsLine;
     public nbSegmentsCroises = 0;
     public nbAnglesPlusPetit45 = 0;
     public nbSegmentsTropProche = 0;

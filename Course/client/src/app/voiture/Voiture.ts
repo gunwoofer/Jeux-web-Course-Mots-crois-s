@@ -83,7 +83,7 @@ export class Voiture implements sujet.Sujet {
         switch (droitFalseGaucheTrue) {
             case false:
             positionAvant.setFromMatrixPosition(
-             this.voiture3D.getObjectByName('Phare Droit').matrixWorld);
+                                    this.voiture3D.getObjectByName('Phare Droit').matrixWorld);
             break;
             case true:
              positionAvant.setFromMatrixPosition(
@@ -94,19 +94,28 @@ export class Voiture implements sujet.Sujet {
         return new THREE.Vector3(positionAvant.x, positionAvant.y, positionAvant.z + 1);
     }
 
+    public peutObtenirObjetVoiture(): boolean {
+        return (this.voiture3D.getObjectByName('Phare Gauche') === undefined ||
+                this.voiture3D.getObjectByName('Phare Droit') === undefined) ? false : true;
+    }
+
     public obtenirDirectionVoitureNormalisee(): THREE.Vector3 {
         return new THREE.Vector3()
         .subVectors(this.voiture3D.localToWorld(new THREE.Vector3(1, 0, 0)), this.voiture3D.position).normalize();
     }
 
     public genererRayCasterCollision(): void {
-        this.raycasterCollisionDroit = new THREE.Raycaster(this.obtenirPositionDevantVoiture(false), this.vecteurZ);
-        this.raycasterCollisionGauche = new THREE.Raycaster(this.obtenirPositionDevantVoiture(true), this.vecteurZ);
+        if (this.peutObtenirObjetVoiture()) {
+            this.raycasterCollisionDroit = new THREE.Raycaster(this.obtenirPositionDevantVoiture(false), this.vecteurZ);
+            this.raycasterCollisionGauche = new THREE.Raycaster(this.obtenirPositionDevantVoiture(true), this.vecteurZ);
+        }
     }
 
     public actualiserPositionRayCasterCollision(): void {
-         this.raycasterCollisionDroit.set(this.obtenirPositionDevantVoiture(false), this.vecteurZ);
-         this.raycasterCollisionGauche.set(this.obtenirPositionDevantVoiture(true), this.vecteurZ);
+        if (this.peutObtenirObjetVoiture()) {
+            this.raycasterCollisionDroit.set(this.obtenirPositionDevantVoiture(false), this.vecteurZ);
+            this.raycasterCollisionGauche.set(this.obtenirPositionDevantVoiture(true), this.vecteurZ);
+        }
     }
 
     public reactionVoitureQuiCauseImpact(): void {
