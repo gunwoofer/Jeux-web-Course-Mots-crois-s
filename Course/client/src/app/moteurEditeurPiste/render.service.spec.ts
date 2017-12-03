@@ -16,7 +16,7 @@ import { PisteValidationComponent } from '../pisteValidator/pisteValidation.comp
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
-import { MoteurEditeurPiste } from './render.service';
+import { MoteurEditeurPiste } from './moteurediteurpiste.service';
 import { PisteService } from '../piste/piste.service';
 import { RatingService } from './../rating/rating.service';
 import { SkyboxService } from './../skybox/skybox.service';

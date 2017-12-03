@@ -25,7 +25,7 @@ import { ConfigurationPartieComponent } from './configurationPartie/configuratio
 import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichagetetehaute.component';
 
 
-import { MoteurEditeurPiste } from './moteurEditeurPiste/render.service';
+import { MoteurEditeurPiste } from './moteurEditeurPiste/moteurediteurpiste.service';
 import { TableauScoreService } from './tableauScore/tableauScoreService.service';
 import { LumiereService } from './lumiere/lumiere.service';
 import { PisteService } from './piste/piste.service';

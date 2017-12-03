@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
-import { MoteurEditeurPiste } from '../moteurEditeurPiste/render.service';
+import { MoteurEditeurPiste } from '../moteurEditeurPiste/moteurediteurpiste.service';
 
 @Component({
     selector: 'app-pistevalidator-component',

@@ -2,7 +2,7 @@ import { CreateurPisteService } from './createurPiste.service';
 import { EvenementService } from './../gestionnaireEvenement/gestionnaireEvenement.service';
 import { MusiqueService } from './../musique/musique.service';
 import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
-import { MoteurEditeurPiste } from '../moteurEditeurPiste/render.service';
+import { MoteurEditeurPiste } from '../moteurEditeurPiste/moteurediteurpiste.service';
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
 import { PisteService } from '../piste/piste.service';
 import { Piste } from './../piste/piste.model';
