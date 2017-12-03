@@ -41,7 +41,10 @@ export class EvenementService {
 
   public onMouseClick(event: MouseEvent): void {
     if (!this.modeGlissement || this.dureeClick < 500 && this.objetGlisse && this.objetGlisse.name === '0') {
-      this.renderService.dessinerPoint(event);
+        this.createurPisteService.dessinerPoint(event, this.renderService.scene,
+                                            this.renderService.obtenirCamera(), this.renderService.obtenirRenderer());
+        this.renderService.actualiserDonnees();
+        this.renderService.render();
     }
 
     this.modeGlissement = false;
@@ -73,7 +76,7 @@ export class EvenementService {
       this.dragPoint(intersects[0].point);
     } else {
       if (intersects.length > 0) {
-        FacadePointService.actualiserCouleurPoints(this.renderService.obtenirPoints());
+        FacadePointService.actualiserCouleurPoints(this.createurPisteService.obtenirPoints());
         this.pointHover = false;
         for (const objet of intersects) {
           if (objet.object.type === 'Points') {
@@ -116,15 +119,16 @@ export class EvenementService {
     this.objetGlisse.position.copy(position);
     const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
     FacadeLigneService.modifierLignePoints(
-      objetGlisseNumber, this.objetGlisse.position, this.createurPisteService.pointsLine, this.renderService.obtenirPoints()
+      objetGlisseNumber, this.objetGlisse.position, this.createurPisteService.pointsLine, this.createurPisteService.obtenirPoints()
     );
-    if (objetGlisseNumber === 0 && this.renderService.obtenirDessinTermine()) {
-      this.renderService.obtenirPoints()[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
+    if (objetGlisseNumber === 0 && this.createurPisteService.obtenirDessinTermine()) {
+      this.createurPisteService.obtenirPoints()[
+            this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
         FacadeLigneService.modifierLignePoints(
         this.renderService.facadePointService.compteur - 1,
         this.objetGlisse.position,
         this.createurPisteService.pointsLine,
-        this.renderService.obtenirPoints()
+        this.createurPisteService.obtenirPoints()
       );
     }
   }

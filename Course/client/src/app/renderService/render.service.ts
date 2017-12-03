@@ -20,8 +20,6 @@ export class RenderService {
 
     private camera: THREE.PerspectiveCamera;
     private renderer: THREE.WebGLRenderer;
-    private points: PointsFacade[] = new Array();
-    private dessinTermine = false;
 
     private listePointElementPiste: THREE.Points[] = new Array();
     private facadeCoordonneesService = new FacadeCoordonneesService();
@@ -37,14 +35,6 @@ export class RenderService {
 
     public obtenirRenderer(): THREE.WebGLRenderer {
         return this.renderer;
-    }
-
-    public obtenirPoints(): PointsFacade[] {
-        return this.points;
-    }
-
-    public obtenirDessinTermine(): boolean {
-        return this.dessinTermine;
     }
 
     public initialize(container: HTMLDivElement): void {
@@ -106,83 +96,38 @@ export class RenderService {
         return this.container.clientWidth / this.container.clientHeight;
     }
 
-    public ajouterPoint(point: PointsFacade): void {
-        if (!this.dessinTermine) {
-            this.scene.add(point);
-        }
-        FacadeLigneService.ajouterLignePoints(point.position, this.facadePointService.compteur, 
-                                                this.createurPisteService.pointsLine, this.points);
-        this.points.push(point);
-        this.facadePointService.compteur++;
-    }
-
     public supprimerPoint(): void {
-        this.dessinTermine = false;
-        this.scene.remove(this.points[this.points.length - 1]);
-        this.points.pop();
+        this.createurPisteService.dessinTermine = false;
+        this.scene.remove(this.createurPisteService.points[this.createurPisteService.points.length - 1]);
+        this.createurPisteService.points.pop();
         this.actualiserDonnees();
-        FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur, this.createurPisteService.pointsLine, this.points);
+        FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur,
+                                                    this.createurPisteService.pointsLine, this.createurPisteService.points);
         if (this.facadePointService.compteur >= 1) {
             this.facadePointService.compteur--;
-        }
-    }
-
-    public dessinerPoint(event): void {
-        let objet, point;
-
-        if (!this.dessinTermine) {
-            objet = this.facadeCoordonneesService.obtenirIntersection(event, this.scene, this.camera, this.renderer);
-            point = this.facadePointService.creerPoint(objet.point, 'black');
-            if (this.points.length === 0) {
-                point.material.status = 'premier';
-            } else {
-                try {
-                    this.dessinerDernierPoint(point);
-                } catch (e) {
-                    alert(e.message);
-                        return;
-                }
-            }
-            this.ajouterPoint(point);
-            this.actualiserDonnees();
-            this.render();
-        } else {
-            return;
-        }
-    }
-
-    public dessinerDernierPoint(point): void {
-        const distance = point.position.distanceTo(this.points[0].position);
-        if (distance >= 0 && distance < 3) {
-            if (this.points.length > 2) {
-                point.position.copy(this.points[0].position);
-                this.dessinTermine = true;
-            } else {
-                throw new Error('une piste a trois points minimum');
-            }
         }
     }
 
     public retourneEtatDessin(): boolean {
         if (this.createurPisteService.nbAnglesPlusPetit45 + this.createurPisteService.nbSegmentsCroises + 
                 this.createurPisteService.nbSegmentsTropProche === 0) {
-            return this.dessinTermine;
+            return this.createurPisteService.dessinTermine;
         } else {
             return false;
         }
     }
 
     public actualiserDonnees(): void {
-        FacadePointService.restaurerStatusPoints(this.points);
-        this.createurPisteService.actualiserContrainte(this.points, this.dessinTermine);
-        FacadePointService.actualiserCouleurPoints(this.points);
+        FacadePointService.restaurerStatusPoints(this.createurPisteService.points);
+        this.createurPisteService.actualiserContrainte(this.createurPisteService.points, this.createurPisteService.dessinTermine);
+        FacadePointService.actualiserCouleurPoints(this.createurPisteService.points);
     }
 
     public viderScene(): void {
-        for (let i = 0; i < this.points.length; i++) {
-            FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur, 
-                                                        this.createurPisteService.pointsLine, this.points);
-            this.scene.remove(this.points[i]);
+        for (let i = 0; i < this.createurPisteService.points.length; i++) {
+            FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur,
+                                                        this.createurPisteService.pointsLine, this.createurPisteService.points);
+            this.scene.remove(this.createurPisteService.points[i]);
             this.facadePointService.compteur--;
         }
     }
@@ -190,20 +135,24 @@ export class RenderService {
     public reinitialiserScene(): void {
         this.viderScene();
         this.viderElementsPiste();
-        FacadePointService.viderListeDesPoints(this.points);
-        this.dessinTermine = false;
+        FacadePointService.viderListeDesPoints(this.createurPisteService.points);
+        this.createurPisteService.dessinTermine = false;
     }
 
     public chargerPiste(position: any): void {
         for (let i = 0; i < position.length; i++) {
-            this.dessinerPointDejaConnu(position[i]);
+            this.createurPisteService.dessinerPointDejaConnu(position[i], this.scene);
+            if (!this.createurPisteService.dessinTermine) {
+                this.actualiserDonnees();
+                this.render();
+            }
         }
     }
 
     public obtenirPositions(): THREE.Vector3[] {
         const vecteur: THREE.Vector3[] = new Array();
 
-        for (const point of this.points) {
+        for (const point of this.createurPisteService.points) {
             vecteur.push(new THREE.Vector3(point.position.x, point.position.y, point.position.z));
         }
 
@@ -226,31 +175,6 @@ export class RenderService {
             const point = this.facadePointService.creerPoint(element.position, couleur);
             this.scene.add(point);
             this.listePointElementPiste.push(point);
-        }
-    }
-
-    public dessinerPointDejaConnu(position: THREE.Vector3): void {
-        let point;
-
-        if (!this.dessinTermine) {
-            point = this.facadePointService.creerPoint(position, 'black');
-
-            if (this.points.length === 0) {
-                point.material.status = 'premier';
-            } else {
-                try {
-                this.dessinerDernierPoint(point);
-                } catch (e) {
-                    alert(e.message);
-                    return;
-                }
-            }
-
-            this.ajouterPoint(point);
-            this.actualiserDonnees();
-            this.render();
-        } else {
-            return;
         }
     }
 

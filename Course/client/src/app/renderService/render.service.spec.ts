@@ -91,7 +91,7 @@ describe('RenderService test', () => {
             view: window,
         });
         evenementService.onMouseClick(fakeClickEvent);
-        const longueurVecteurPoints = renderService.obtenirPoints().length;
+        const longueurVecteurPoints = createurPisteService.obtenirPoints().length;
         const longueurVecteurScene = renderService.scene.children.length;
         expect(longueurVecteurPoints).toEqual(1);
         expect(longueurVecteurScene).toEqual(3);
@@ -105,7 +105,7 @@ describe('RenderService test', () => {
         });
         const compteur = 0;
         evenementService.onMouseClick(fakeClickEvent);
-        const pointListe = <any> renderService.obtenirPoints();
+        const pointListe = <any> createurPisteService.obtenirPoints();
         const typeObjet = pointListe[compteur].isPoints;
         expect(typeObjet).toEqual(true);
     });
@@ -121,7 +121,7 @@ describe('RenderService test', () => {
             });
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        const longueurVecteurPoints = renderService.obtenirPoints().length;
+        const longueurVecteurPoints = createurPisteService.obtenirPoints().length;
         const longueurVecteurScene = renderService.scene.children.length;
         const vecteurLignes = createurPisteService.pointsLine.geometry.attributes.position.array;
         const longueurVecteurLignes = vecteurLignes.length;
@@ -163,11 +163,11 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 3; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        const longueurVecteurPoints = renderService.obtenirPoints().length;
-        const premierPointX = renderService.obtenirPoints()[0].position.x;
-        const dernierPointX = renderService.obtenirPoints()[longueurVecteurPoints - 1].position.x;
-        const premierPointY = renderService.obtenirPoints()[0].position.y;
-        const dernierPointY = renderService.obtenirPoints()[longueurVecteurPoints - 1].position.y;
+        const longueurVecteurPoints = createurPisteService.obtenirPoints().length;
+        const premierPointX = createurPisteService.obtenirPoints()[0].position.x;
+        const dernierPointX = createurPisteService.obtenirPoints()[longueurVecteurPoints - 1].position.x;
+        const premierPointY = createurPisteService.obtenirPoints()[0].position.y;
+        const dernierPointY = createurPisteService.obtenirPoints()[longueurVecteurPoints - 1].position.y;
         expect(longueurVecteurPoints).toEqual(4);
         expect(premierPointX).toEqual(dernierPointX);
         expect(premierPointY).toEqual(dernierPointY);
@@ -198,14 +198,14 @@ describe('RenderService test', () => {
         evenementService.onMouseClick(fakeClickEventArray[0]);
         evenementService.onMouseClick(fakeClickEventArray[1]);
         evenementService.onMouseClick(fakeClickEventArray[2]);
-        const premierPointX = renderService.obtenirPoints()[0].position.x;
-        const premierPointY = renderService.obtenirPoints()[0].position.y;
-        expect(renderService.obtenirPoints().length).toEqual(3);
+        const premierPointX = createurPisteService.obtenirPoints()[0].position.x;
+        const premierPointY = createurPisteService.obtenirPoints()[0].position.y;
+        expect(createurPisteService.obtenirPoints().length).toEqual(3);
         evenementService.rightClick();
-        expect(renderService.obtenirPoints().length).toEqual(2);
-        expect(premierPointX).toEqual(renderService.obtenirPoints()[0].position.x);
-        expect(premierPointY).toEqual(renderService.obtenirPoints()[0].position.y);
-        expect(renderService.obtenirPoints()[2]).toBeUndefined();
+        expect(createurPisteService.obtenirPoints().length).toEqual(2);
+        expect(premierPointX).toEqual(createurPisteService.obtenirPoints()[0].position.x);
+        expect(premierPointY).toEqual(createurPisteService.obtenirPoints()[0].position.y);
+        expect(createurPisteService.obtenirPoints()[2]).toBeUndefined();
     });
 
     it('Il ne peut y avoir un angle de 45 degres ou moins.', () => {
@@ -233,7 +233,7 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 2; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        const angle = CalculateurNombreOngle.calculerAngle(1, renderService.obtenirPoints(), renderService.facadePointService.compteur);
+        const angle = CalculateurNombreOngle.calculerAngle(1, createurPisteService.obtenirPoints(), renderService.facadePointService.compteur);
         expect(angle).toBeLessThanOrEqual(0.785398163);
         expect(createurPisteService.nbAnglesPlusPetit45).toEqual(1);
     });
@@ -250,7 +250,7 @@ describe('RenderService test', () => {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         for (let i = 1; i <= 4; i++) {
-            const pointCourant: any = renderService.obtenirPoints()[i];
+            const pointCourant: any = createurPisteService.obtenirPoints()[i];
             expect(pointCourant.material.color.getHex()).toEqual(0x008000);
         }
     });
@@ -312,8 +312,8 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 3; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        expect(renderService.obtenirDessinTermine()).toBeTruthy();
-        expect(renderService.obtenirPoints().length).toBeGreaterThan(2);
+        expect(createurPisteService.obtenirDessinTermine()).toBeTruthy();
+        expect(createurPisteService.obtenirPoints().length).toBeGreaterThan(2);
     });
 
     it('Test de la méthode afficherMessageErreurs', () => {
