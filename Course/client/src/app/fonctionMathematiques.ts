@@ -6,7 +6,8 @@ export class FonctionMaths {
     }
 
     public static trouverXAleatoire(xDebut: number, xFin: number): number {
-        return Math.random() * (Math.max(xDebut, xFin) - Math.min(xDebut, xFin)) + Math.min(xDebut, xFin);
+        // return Math.random() * (Math.max(xDebut, xFin) - Math.min(xDebut, xFin)) + Math.min(xDebut, xFin);
+        return Math.random() * (xFin - xDebut) + xDebut;
     }
 
     public static calculerPenteDroite(pointDebut: THREE.Vector3, pointFin: THREE.Vector3): number {
@@ -42,5 +43,13 @@ export class FonctionMaths {
             (rectangle.geometry.boundingBox.max.y + rectangle.geometry.boundingBox.min.y) / 2,
             (rectangle.geometry.boundingBox.max.z + rectangle.geometry.boundingBox.min.z) / 2
         );
+    }
+
+    public static DeuxPositionTropProche(position1: THREE.Vector3, position2: THREE.Vector3, distanceMin: number): boolean {
+        if ((Math.abs(position1.x - position2.x) < distanceMin)
+         && (Math.abs(position1.y - position2.y) < distanceMin)) {
+            return true;
+        }
+        return false;
     }
 }
