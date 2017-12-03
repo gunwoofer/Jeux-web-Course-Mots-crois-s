@@ -114,19 +114,6 @@ export class EmplacementMot {
         return false;
     }
 
-    public copieEmplacement(): EmplacementMot {
-        
-       let newEmplacement = new EmplacementMot(this.caseDebut.copieCase(), this.caseFin.copieCase());
-       for(let i = 0; i < this.motsImpossible.length; i++) {
-           newEmplacement.motsImpossible[i] = this.motsImpossible[i];
-       }
-       newEmplacement.grandeur = this.grandeur;
-       newEmplacement.position = this.position;
-
-       
-       return newEmplacement;
-    }
-
     public obtenirPosition(): Position {
         return this.position;
     }
