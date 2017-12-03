@@ -27,15 +27,15 @@ export class MoteurAutonome {
         this.indiceCheckPointAAteindre = 1;
         this.engine = objet;
         this.definirNiveau(niveau);
-        this.miseAjourDirectionDestination(listePositions);
+        this.miseAJourDirectionDestination(listePositions);
     }
 
     public dirigerVoiture(listePositions: THREE.Vector3[]): void {
         this.avancerVoiture();
-        this.miseAjourDirectionDestination(listePositions);
-        this.miseAjourPositionCubeDirectionDestination();
-        this.miseAjourPositionCubeDevant();
-        this.faireTournerVoiture(this.obtenirSensRotationVoiture());
+        this.miseAJourDirectionDestination(listePositions);
+        this.miseAJourPositionCubeDirectionDestination();
+        this.miseAJourPositionCubeDevant();
+        this.tournerVoiture(this.obtenirSensRotationVoiture());
         this.repetition(listePositions);
     }
 
@@ -51,7 +51,7 @@ export class MoteurAutonome {
                                                   .creerIndicateurVoiture(new THREE.Vector3()
                                                                           .copy(this.engine.position)
                                                                           .add(this.directionDestination));
-        this.miseAjourDirectionDestination(listePositions);
+        this.miseAJourDirectionDestination(listePositions);
         scene.add(this.indicateurDirectionDestination);
     }
 
@@ -70,7 +70,7 @@ export class MoteurAutonome {
         }
     }
 
-    private faireTournerVoiture(sens: number): void {
+    private tournerVoiture(sens: number): void {
         this.engine.rotateY(ANGLEROTATION * sens * Math.min(this.valeurProdVectoriel, 3));
     }
 
@@ -78,7 +78,7 @@ export class MoteurAutonome {
         this.engine.translateX(VITESSE_IA);
     }
 
-    private miseAjourDirectionDestination(listePositions: THREE.Vector3[]): void {
+    private miseAJourDirectionDestination(listePositions: THREE.Vector3[]): void {
         this.directionDestination = new THREE.Vector3()
                                     .copy(listePositions[this.indiceCheckPointAAteindre])
                                     .add(new THREE.Vector3()
@@ -86,7 +86,7 @@ export class MoteurAutonome {
                                         .negate()).normalize();
     }
 
-    private miseAjourPositionCubeDirectionDestination(): void {
+    private miseAJourPositionCubeDirectionDestination(): void {
         const positionIndicDirection = new THREE.Vector3().addVectors(this.engine.position,
                                                                       new THREE.Vector3()
                                                                           .copy(this.directionDestination)
@@ -95,7 +95,7 @@ export class MoteurAutonome {
                                            .set(positionIndicDirection.x, positionIndicDirection.y, positionIndicDirection.z);
     }
 
-    private miseAjourPositionCubeDevant(): void {
+    private miseAJourPositionCubeDevant(): void {
         const vecteurDirection = new THREE.Vector3()
             .subVectors(this.engine.localToWorld(new THREE.Vector3(1, 0, 0)), this.engine.position).normalize();
 
