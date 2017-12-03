@@ -72,7 +72,7 @@ export class MoteurEditeurPiste {
     }
 
     public startRenderingLoop(): void {
-        this.renderer = new THREE.WebGLRenderer();
+        this.renderer = new THREE.WebGLRenderer({ preserveDrawingBuffer: true });
         this.renderer.setPixelRatio(devicePixelRatio);
         this.renderer.setSize(this.container.clientWidth, this.container.clientHeight);
         this.container.appendChild(this.renderer.domElement);
