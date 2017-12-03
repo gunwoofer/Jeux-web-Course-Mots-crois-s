@@ -1,3 +1,4 @@
+import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { FabriquantElementDePiste } from './../elementsPiste/FabriquantElementDePiste';
 import { NOMBRE_DE_TOURS_PARTIE_DEFAUT } from './../constant';
 import { RatingService } from './../rating/rating.service';
@@ -7,7 +8,6 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
-import { JeuDeCourseService } from '../jeuDeCourse/jeudecourse.service';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 @Injectable()
@@ -19,11 +19,13 @@ export class PisteService {
     public tableauMeilleurTemps = new EventEmitter<Piste>();
     public nombreDeTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
 
-    constructor(private jeuDeCourseService: JeuDeCourseService, private http: Http, private ratingService: RatingService) {
+    constructor(private mondeDuJeuService: MondeDuJeuService,
+                private http: Http,
+                private ratingService: RatingService) {
 
         this.pisteChoisie.subscribe(
             (piste: Piste) => {
-                this.jeuDeCourseService.ajouterPiste(piste);
+                this.mondeDuJeuService.ajouterPiste(piste);
                 this.ratingService.piste = piste;
             }
         );

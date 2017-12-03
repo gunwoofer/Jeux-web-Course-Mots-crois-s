@@ -1,3 +1,4 @@
+import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { Accelerateur } from './../elementsPiste/Accelerateur';
 import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
@@ -49,7 +50,6 @@ export class JeuDeCourseService implements Observateur {
     private renderer: THREE.WebGLRenderer;
     private renduObject = new Rendu();
     private scene: THREE.Scene;
-    private piste: Piste;
     private partie: Partie;
     private routeur: Router;
     private segment: Segment = new Segment();
@@ -69,7 +69,8 @@ export class JeuDeCourseService implements Observateur {
                 private affichageTeteHauteService: AffichageTeteHauteService,
                 private sortiePisteService: SortiePisteService,
                 public collisionService: CollisionService,
-                private deplacementService: DeplacementService) {
+                private deplacementService: DeplacementService,
+                private mondeDuJeuService: MondeDuJeuService) {
     }
 
     public obtenirScene(): THREE.Scene {
@@ -85,11 +86,11 @@ export class JeuDeCourseService implements Observateur {
         this.creerScene();
         this.skyboxService.ajouterSkybox(this.camera);
         this.objetService.ajouterArbreScene(this.scene);
-        this.segment.ajouterPisteAuPlan(this.piste, this.scene);
+        this.segment.ajouterPisteAuPlan(this.mondeDuJeuService.piste, this.scene);
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
-        this.scene.add(SurfaceHorsPiste.genererTerrain(this.segment.chargerSegmentsDePiste(this.piste)));
-        this.pointeDeControle.ajouterPointDeControleScene(this.piste, this.scene);
+        this.scene.add(SurfaceHorsPiste.genererTerrain(this.segment.chargerSegmentsDePiste(this.mondeDuJeuService.piste)));
+        this.pointeDeControle.ajouterPointDeControleScene(this.mondeDuJeuService.piste, this.scene);
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
     }
@@ -126,14 +127,14 @@ export class JeuDeCourseService implements Observateur {
         meshPrincipalVoiture = obj.getObjectByName('MainBody');
         if (joueur) {
             meshPrincipalVoiture.material.color.set('grey');
-            this.voitureDuJoueur = new Voiture(obj, this.piste);
+            this.voitureDuJoueur = new Voiture(obj, this.mondeDuJeuService.piste);
             this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
             this.retroviseur = new Retroviseur(this.container, this.voitureDuJoueur);
             this.preparerPartie();
             this.partie.demarrerPartie();
         } else {
             meshPrincipalVoiture.material.color.set('black');
-            this.voituresIA.push(new Voiture(obj, this.piste));
+            this.voituresIA.push(new Voiture(obj, this.mondeDuJeuService.piste));
             this.voituresIA[this.voituresIA.length - 1].ajouterIndicateursVoitureScene(this.scene);
             this.calculePositionVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1]);
         }
@@ -156,7 +157,7 @@ export class JeuDeCourseService implements Observateur {
     }
 
     private ajouterElementDePisteScene(): void {
-        for (const element of this.piste.obtenirElementsPiste()) {
+        for (const element of this.mondeDuJeuService.piste.obtenirElementsPiste()) {
             if (element instanceof FlaqueDEau) {
                 element.genererMesh();
                 element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
@@ -211,8 +212,9 @@ export class JeuDeCourseService implements Observateur {
 
     private renderMiseAJour(): void {
         if (this.voitureDuJoueur !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur, this.segment.chargerSegmentsDePiste(this.piste));
-            this.piste.gererElementDePiste([this.voitureDuJoueur]);
+            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur,
+                                                        this.segment.chargerSegmentsDePiste(this.mondeDuJeuService.piste));
+            this.mondeDuJeuService.piste.gererElementDePiste([this.voitureDuJoueur]);
             this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
         }
     }
@@ -230,10 +232,6 @@ export class JeuDeCourseService implements Observateur {
 
     public ajouterRouter(routeur: Router): void {
         this.routeur = routeur;
-    }
-
-    public ajouterPiste(piste: Piste): void {
-        this.piste = piste;
     }
 
     public onResize(): void {

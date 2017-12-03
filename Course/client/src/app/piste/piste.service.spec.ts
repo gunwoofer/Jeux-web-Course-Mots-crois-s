@@ -18,6 +18,7 @@ import { MockBackend, MockConnection } from '@angular/http/testing';
 import { mockPistes } from './pistes.mock';
 import { JeuDeCourseService } from '../jeuDeCourse/jeudecourse.service';
 import { PisteService } from './piste.service';
+import { MondeDuJeuService } from '../mondedujeu/mondedujeu.service';
 
 describe('pisteService test', () => {
     beforeEach(() => {
@@ -27,7 +28,7 @@ describe('pisteService test', () => {
                 JeuDeCourseService, FiltreCouleurService, AffichageTeteHauteService,
                 ObjetService, LumiereService, TableauScoreService, DeplacementService,
                 MockBackend, SkyboxService, RatingService, PlacementService, CollisionService,
-                BaseRequestOptions, SortiePisteService,
+                BaseRequestOptions, SortiePisteService, MondeDuJeuService,
                 {
                     provide: Http,
                     useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {
