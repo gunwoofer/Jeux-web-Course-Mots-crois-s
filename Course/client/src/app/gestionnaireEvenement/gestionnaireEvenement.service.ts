@@ -8,7 +8,7 @@ import { JeuDeCourseService } from './../jeuDeCourse/jeudecourse.service';
 import { MODE_JOUR_NUIT, MODE_FILTRE_COULEUR, ZOOM_AVANT, ZOOM_ARRIERE, CHANGER_VUE, ALLUMER_PHARES, RETROVISEUR } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { MoteurEditeurPiste } from '../moteurEditeurPiste/render.service';
+import { MoteurEditeurPiste } from '../moteurEditeurPiste/moteurediteurpiste.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
