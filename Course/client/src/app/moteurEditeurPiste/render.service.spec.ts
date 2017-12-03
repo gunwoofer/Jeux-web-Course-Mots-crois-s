@@ -16,7 +16,7 @@ import { PisteValidationComponent } from '../pisteValidator/pisteValidation.comp
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 import { MessageErreurService } from '../messageErreurs/messageerreur.service';
-import { RenderService } from './render.service';
+import { MoteurEditeurPiste } from './render.service';
 import { PisteService } from '../piste/piste.service';
 import { RatingService } from './../rating/rating.service';
 import { SkyboxService } from './../skybox/skybox.service';
@@ -28,11 +28,11 @@ import { MusiqueService } from './../musique/musique.service';
 import { JeuDeCourseService } from './../jeuDeCourse/jeudecourse.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
-describe('RenderService test', () => {
+describe('MoteurEditeurPiste test', () => {
 
     const messageErreurService = new MessageErreurService();
     let fixture: ComponentFixture<CreateurPisteComponent>;
-    let renderService: RenderService;
+    let renderService: MoteurEditeurPiste;
     let createurPisteService: CreateurPisteService;
     let evenementService: EvenementService;
     let fakeClickEvent: MouseEvent;
@@ -40,7 +40,7 @@ describe('RenderService test', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            providers: [RenderService, EvenementService, PisteService, AffichageTeteHauteService,
+            providers: [MoteurEditeurPiste, EvenementService, PisteService, AffichageTeteHauteService,
                 JeuDeCourseService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService, SortiePisteService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
@@ -51,7 +51,7 @@ describe('RenderService test', () => {
             .compileComponents();
     }));
 
-    beforeEach(inject([RenderService, EvenementService, CreateurPisteService], (service: RenderService, souris: EvenementService, 
+    beforeEach(inject([MoteurEditeurPiste, EvenementService, CreateurPisteService], (service: MoteurEditeurPiste, souris: EvenementService, 
                                                             createurpiste: CreateurPisteService) => {
         renderService = service;
         evenementService = souris;

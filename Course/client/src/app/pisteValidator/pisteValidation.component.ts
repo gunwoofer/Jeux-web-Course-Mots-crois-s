@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
 
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
-import { RenderService } from '../renderService/render.service';
+import { MoteurEditeurPiste } from '../moteurEditeurPiste/render.service';
 
 @Component({
     selector: 'app-pistevalidator-component',
@@ -19,7 +19,7 @@ export class PisteValidationComponent {
     public gestionElementsPiste: GestionElementsPiste;
 
     constructor(private pisteService: PisteService,
-                private renderService: RenderService,
+                private renderService: MoteurEditeurPiste,
                 private createurPisteService: CreateurPisteService) {
         this.gestionElementsPiste = new GestionElementsPiste();
     }

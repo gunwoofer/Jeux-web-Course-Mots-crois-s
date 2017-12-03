@@ -25,7 +25,7 @@ import { ConfigurationPartieComponent } from './configurationPartie/configuratio
 import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichagetetehaute.component';
 
 
-import { RenderService } from './renderService/render.service';
+import { MoteurEditeurPiste } from './moteurEditeurPiste/render.service';
 import { TableauScoreService } from './tableauScore/tableauScoreService.service';
 import { LumiereService } from './lumiere/lumiere.service';
 import { PisteService } from './piste/piste.service';
@@ -78,7 +78,7 @@ import { CreateurPisteService } from './createurPiste/createurPiste.service';
     AppRoutingModule
   ],
   providers: [
-    RenderService,
+    MoteurEditeurPiste,
     PisteService,
     FacadeCoordonneesService,
     EvenementService,

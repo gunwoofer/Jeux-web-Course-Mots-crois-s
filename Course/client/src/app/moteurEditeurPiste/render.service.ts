@@ -14,7 +14,7 @@ import { Points, Line } from 'three';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 @Injectable()
-export class RenderService {
+export class MoteurEditeurPiste {
 
     public scene: THREE.Scene;
 
