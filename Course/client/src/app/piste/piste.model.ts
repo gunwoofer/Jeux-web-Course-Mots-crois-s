@@ -21,8 +21,8 @@ export class Piste {
         const pointFin = segmentAleatoire[1];
 
         const x = (estUnAccelerateur) ? FonctionMaths.trouverXAleatoire(pointDebut.x,
-                                        FonctionMaths.obtenirMoitieEntre2points(pointDebut.x, pointFin.x))
-                                    : FonctionMaths.trouverXAleatoire(pointDebut.x, pointFin.x);
+                                                                        FonctionMaths.obtenirMoitieEntre2points(pointDebut.x, pointFin.x))
+                                      : FonctionMaths.trouverXAleatoire(pointDebut.x, pointFin.x);
 
         const pente = FonctionMaths.calculerPenteDroite(pointDebut, pointFin);
         const y = pente * x + FonctionMaths.calculerOrdonneeALOrigine(pointDebut, pente);
@@ -31,7 +31,7 @@ export class Piste {
     }
 
     private static genererSegmentAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3[] {
-        const pointAleatoire = Math.round(Math.random() * (listePoints.length - 2));
+        const pointAleatoire = Math.floor(Math.random() * (listePoints.length - 2)) + 1;
         return [listePoints[pointAleatoire], listePoints[pointAleatoire + 1]];
     }
 
