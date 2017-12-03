@@ -52,14 +52,12 @@ export class JeuDeCourseService implements Observateur {
     private scene: THREE.Scene;
     private partie: Partie;
     private routeur: Router;
-    private pointeDeControle = new PointDeControle();
     private voituresIA: Voiture[] = [];
     private nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
     public toutesLesVoitures: Voiture[] = [];
 
     constructor(private objetService: ObjetService,
-                private lumiereService: LumiereService,
                 private gestionnaireDeVue: GestionnaireDeVue,
                 private musiqueService: MusiqueService,
                 private tableauScoreService: TableauScoreService,
@@ -86,8 +84,7 @@ export class JeuDeCourseService implements Observateur {
         this.skyboxService.ajouterSkybox(this.camera);
         this.mondeDuJeuService.chargerMonde3D(this.scene);
         this.chargementDesVoitures();
-        this.lumiereService.ajouterLumierScene(this.scene);
-        this.pointeDeControle.ajouterPointDeControleScene(this.mondeDuJeuService.piste, this.scene);
+        LumiereService.ajouterLumierScene(this.scene);
         this.commencerMoteurDeJeu();
     }
 
@@ -227,10 +224,10 @@ export class JeuDeCourseService implements Observateur {
     public logiquePhares(): void {
         if (!this.phares && this.jour) {
             this.phares = !this.phares;
-            this.lumiereService.alternerPhares(this.voitureDuJoueur);
+            LumiereService.alternerPhares(this.voitureDuJoueur);
         } else if (this.phares && !this.jour) {
             this.phares = !this.phares;
-            this.lumiereService.alternerPhares(this.voitureDuJoueur);
+            LumiereService.alternerPhares(this.voitureDuJoueur);
         }
     }
 

@@ -23,29 +23,31 @@ describe('LumiereService test', () => {
         expect(lumiereService).toBeTruthy();
     });
 
-    it('les lumieres hemispehere et directionnele sont créees', () => {
-        expect(lumiereService.lumiereDirectionnelle).toBeTruthy();
-        expect(lumiereService.lumiereHemisphere).toBeTruthy();
-    });
-
     it('les lumieres hemispehere et directionnele sont ajoutés a la scene', () => {
         const scene = new THREE.Scene();
-        lumiereService.ajouterLumierScene(scene);
+        LumiereService.ajouterLumierScene(scene);
         expect(scene.children.length).toEqual(2);
     });
 
     it('l alternance jour et nuit seffectue', () => {
         const scene = new THREE.Scene();
-        lumiereService.modeJourNuit(event, scene);
-        expect(lumiereService.lumiereDirectionnelle.visible).toEqual(false);
-        lumiereService.modeJourNuit(event, scene);
-        expect(lumiereService.lumiereDirectionnelle.visible).toEqual(true);
+        LumiereService.ajouterLumierScene(scene);
+        const lumiereDirectionnelle = scene.getChildByName('lumiereDirectionnelle');
+        expect(lumiereDirectionnelle.visible).toEqual(true);
+        LumiereService.modeJourNuit(event, scene);
+        expect(lumiereDirectionnelle.visible).toEqual(false);
     });
 
     it('creation des phares', () => {
         const nom = 'phare';
-        const objet = lumiereService.creerPhare(nom, 1000);
+        const objet = LumiereService.creerPhare(nom, 1000);
         expect(objet).toBeTruthy();
         expect(objet.name).toEqual(nom);
+    });
+
+    it('ajout des phares sur un objet', () => {
+        const objet = new THREE.Object3D();
+        LumiereService.ajouterPhares(objet);
+        expect(objet.children.length).toEqual(6);
     });
 });

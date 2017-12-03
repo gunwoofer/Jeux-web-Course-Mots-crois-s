@@ -4,7 +4,6 @@ import { DeplacementService } from './../deplacement/deplacement.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
-import { LumiereService } from './../lumiere/lumiere.service';
 import { RatingService } from './../rating/rating.service';
 import { SkyboxService } from '../skybox/skybox.service';
 import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
@@ -26,7 +25,7 @@ describe('pisteService test', () => {
             providers: [
                 PisteService, GestionnaireDeVue, MusiqueService, SortiePisteService,
                 JeuDeCourseService, FiltreCouleurService, AffichageTeteHauteService,
-                ObjetService, LumiereService, TableauScoreService, DeplacementService,
+                ObjetService, TableauScoreService, DeplacementService,
                 MockBackend, SkyboxService, RatingService, PlacementService, CollisionService,
                 BaseRequestOptions, SortiePisteService, MondeDuJeuService,
                 {

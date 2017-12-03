@@ -35,9 +35,6 @@ export class ObjetService {
         return groupe;
     }
 
-    constructor(private lumiereService: LumiereService) {
-    }
-
     public enleverObjet(object: THREE.Object3D): void {
         for (let nom = 0; nom < NOMS_OBJET_A_ENLEVER.length; nom++) {
             object.remove(object.getObjectByName(NOMS_OBJET_A_ENLEVER[nom]));
@@ -51,14 +48,14 @@ export class ObjetService {
     }
 
     public ajouterPhares(objet: THREE.Object3D): void {
-        const lumiereDroite = this.lumiereService.creerLumiereAvant(LUMIERE_AVANT_DROITE, 1);
+        const lumiereDroite = LumiereService.creerLumiereAvant(LUMIERE_AVANT_DROITE, 1);
         objet.add(lumiereDroite);
         objet.add(lumiereDroite.target);
-        const lumiereGauche = this.lumiereService.creerLumiereAvant(LUMIERE_AVANT_GAUCHE, -1);
+        const lumiereGauche = LumiereService.creerLumiereAvant(LUMIERE_AVANT_GAUCHE, -1);
         objet.add(lumiereGauche);
         objet.add(lumiereGauche.target);
-        objet.add(this.lumiereService.creerPhare(PHARE_DROITE, 1));
-        objet.add(this.lumiereService.creerPhare(PHARE_GAUCHE, -1));
+        objet.add(LumiereService.creerPhare(PHARE_DROITE, 1));
+        objet.add(LumiereService.creerPhare(PHARE_GAUCHE, -1));
     }
 
     public vecteurAngle(vecteur: THREE.Vector3, vecteur2: THREE.Vector3): THREE.Vector2 {

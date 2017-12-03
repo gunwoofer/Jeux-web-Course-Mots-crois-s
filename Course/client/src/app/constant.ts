@@ -96,6 +96,25 @@ export const LUMIERES = [
 export const PHARES = [
     'BrakeLightLS1', 'BrakeLightRS1', 'Lumière Avant Droite', 'Lumière Avant Gauche', 'Phare Droit', 'Phare Gauche'];
 
+export const SCALAIRE = 30;
+export const INTENSITE_LUMIERE_POINT = 0.5;
+export const DISTANCE_LUMIERE_POINT = 5;
+export const INTENSITE_LUMIERE_SPOT = 2;
+export const ANGLE_LUMIERE_SPOT = 0.5;
+export const DISTANCE_LUMIERE_SPOT = 80;
+export const INTENSITEE = 1;
+export const HEX = 0xffffff;
+export const INTENSITE = 0.6;
+
+export const HEMISPHERE_COULEUR = { h: 0.6, s: 0.75, l: 0.5 };
+export const HEMISPHERE_COULEURTERRE = { h: 0.095, s: 0.5, l: 0.5 };
+export const DIRECTION_COULEUR = { h: 0.1, s: 1, l: 0.95 };
+export const LUMIERE_HEMISPHERE_POSITION = { x: 0, y: 500, z: 0 };
+export const LUMIERE_DIRECITON_POSITION = { x: -1, y: 0.75, z: 1 };
+export const LUMIERE_POINT_POSITION = { x: 2.7, y: 1, z: 0.6 };
+export const LIMIERE_SPOT_POSITION = { x: 3, y: 1.5, z: 0.6 };
+export const LIMIERE_SPOT_TARGET_POSITION = { x: 6, y: 0.5, z: 1 };
+
 // Obstacles
 export const CHEMIN_ACCES_ACCELERATEUR = '../../assets/textures/accelerateur.png';
 export const NIVEAU_CLARETE = 4;
