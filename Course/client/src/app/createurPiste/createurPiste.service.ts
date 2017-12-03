@@ -109,11 +109,11 @@ export class CreateurPisteService {
 
         for (const element of listeElement) {
             if (element instanceof FlaqueDEau) {
-                couleur = '#ff0000';
-            } else if (element instanceof NidDePoule) {
                 couleur = '#0000ff';
+            } else if (element instanceof NidDePoule) {
+                couleur = '#000000';
             } else if (element instanceof Accelerateur) {
-                couleur = '#f9d500';
+                couleur = '#ffa500';
             }
 
             const point = this.facadePointService.creerPoint(element.position, couleur);

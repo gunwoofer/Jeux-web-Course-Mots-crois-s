@@ -44,25 +44,25 @@ export class PisteValidationComponent {
     }
 
     public ajouterElementDePiste(typeElement): void {
-        let type: TypeElementPiste;
-        switch (typeElement.target.name) {
-            case 'nidDePoule': { type = TypeElementPiste.NidDePoule; break; }
-            case 'flaqueDEau': { type = TypeElementPiste.FlaqueDEau; break; }
-            case 'accelerateur': { type = TypeElementPiste.Accelerateur; break; }
-        }
+        const type = this.detecterTypeElement(typeElement);
         this.gestionElementsPiste.ajouterElementDePiste(this.createurPisteService.obtenirPositions(), type);
         this.createurPisteService.afficherElementsDePiste(this.gestionElementsPiste.obtenirListeElement(), this.renderService.scene);
     }
 
     public repositionnerElements(typeElement): void {
-        let type: TypeElementPiste;
-        switch (typeElement.target.name) {
-            case 'nidDePouleRep': { type = TypeElementPiste.NidDePoule; break; }
-            case 'flaqueRep': { type = TypeElementPiste.FlaqueDEau; break; }
-            case 'accelerateurRep': { type = TypeElementPiste.Accelerateur; break; }
-        }
+        const type = this.detecterTypeElement(typeElement);
         this.gestionElementsPiste.changerPositionType(type, this.createurPisteService.obtenirPositions());
         this.createurPisteService.afficherElementsDePiste(this.gestionElementsPiste.obtenirListeElement(), this.renderService.scene);
+    }
+
+    private detecterTypeElement(typeElementHtml): TypeElementPiste {
+        let type: TypeElementPiste;
+        switch (typeElementHtml.target.name) {
+            case 'nidDePoule': { type = TypeElementPiste.NidDePoule; break; }
+            case 'flaque': { type = TypeElementPiste.FlaqueDEau; break; }
+            case 'accelerateur': { type = TypeElementPiste.Accelerateur; break; }
+        }
+        return type;
     }
 
     private modification(piste: Piste, form: NgForm, listePositions: THREE.Vector3[]): void {
