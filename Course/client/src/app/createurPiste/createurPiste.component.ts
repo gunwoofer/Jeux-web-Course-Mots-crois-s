@@ -1,3 +1,4 @@
+import { CreateurPisteService } from './createurPiste.service';
 import { EvenementService } from './../gestionnaireEvenement/gestionnaireEvenement.service';
 import { MusiqueService } from './../musique/musique.service';
 import { Component, ElementRef, HostListener, ViewChild, OnInit } from '@angular/core';
@@ -25,7 +26,8 @@ export class CreateurPisteComponent implements OnInit {
                 private evenementService: EvenementService,
                 private pisteService: PisteService,
                 private messageErreurService: MessageErreurService,
-                private musiqueService: MusiqueService
+                private musiqueService: MusiqueService,
+                private createurPisteService: CreateurPisteService
                 ) { }
 
     public get container(): HTMLDivElement {
@@ -39,7 +41,7 @@ export class CreateurPisteComponent implements OnInit {
 
     public ngOnInit(): void {
         this.renderService.initialize(this.container);
-        this.pisteService.pisteAEditer.subscribe( (piste: Piste) => this.renderService.pisteAmodifie = piste );
+        this.pisteService.pisteAEditer.subscribe( (piste: Piste) => this.createurPisteService.pisteAmodifie = piste );
         this.musiqueService.musique.arreterMusique();
         this.musiqueService.musique.lancerMusiqueEditeur();
     }
@@ -62,7 +64,7 @@ export class CreateurPisteComponent implements OnInit {
     }
 
     public estValide(): boolean {
-        this.pisteAModifier = this.renderService.pisteAmodifie;
+        this.pisteAModifier = this.createurPisteService.pisteAmodifie;
         return this.renderService.retourneEtatDessin();
     }
 
