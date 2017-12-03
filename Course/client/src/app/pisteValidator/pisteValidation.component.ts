@@ -31,10 +31,11 @@ export class PisteValidationComponent {
     public onSubmit(form: NgForm): void {
         const listepositions: THREE.Vector3[] = [];
         Object.assign(listepositions, this.createurPisteService.obtenirPositions());
+        const urlVignette = this.renderService.obtenirRenderer().domElement.toDataURL('image/png');
         if (this.pisteAmodifier) {
-            this.modification(this.pisteAmodifier, form, listepositions);
+            this.modification(this.pisteAmodifier, form, listepositions, urlVignette);
         } else {
-            this.creerPiste(form, listepositions);
+            this.creerPiste(form, listepositions, urlVignette);
         }
         this.renderService.reinitialiserScene();
         form.resetForm();
@@ -43,20 +44,21 @@ export class PisteValidationComponent {
         this.display = !this.display;
     }
 
-    private modification(piste: Piste, form: NgForm, listePositions: THREE.Vector3[]): void {
+    private modification(piste: Piste, form: NgForm, listePositions: THREE.Vector3[], urlVignette: string): void {
         if (piste.nom === form.value.nomPiste) {
             this.modifierPiste(piste, form, listePositions);
         } else {
-            this.creerPiste(form, listePositions);
+            this.creerPiste(form, listePositions, urlVignette);
         }
     }
 
-    private creerPiste(form: NgForm, listePositions: THREE.Vector3[]): void {
+    private creerPiste(form: NgForm, listePositions: THREE.Vector3[], urlVignette: string): void {
         const piste = new Piste(form.value.nomPiste,
             form.value.typeCourse,
             form.value.description,
             listePositions,
             this.gestionElementsPiste.obtenirListeElement());
+        piste.vignette = urlVignette;
         console.log(piste);
         this.pisteService.ajouterPiste(piste)
             .then(
