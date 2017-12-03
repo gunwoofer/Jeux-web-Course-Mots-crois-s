@@ -89,7 +89,7 @@ export class JeuDeCourseService implements Observateur {
         this.segment.ajouterPisteAuPlan(this.mondeDuJeuService.piste, this.scene);
         this.chargementDesVoitures();
         this.lumiereService.ajouterLumierScene(this.scene);
-        this.scene.add(SurfaceHorsPiste.genererTerrain(this.segment.chargerSegmentsDePiste(this.mondeDuJeuService.piste)));
+        this.mondeDuJeuService.genererTerrain(this.scene, this.segment);
         this.pointeDeControle.ajouterPointDeControleScene(this.mondeDuJeuService.piste, this.scene);
         this.ajouterElementDePisteScene();
         this.commencerMoteurDeJeu();
