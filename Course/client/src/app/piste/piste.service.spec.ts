@@ -1,3 +1,4 @@
+import { CollisionService } from './../voiture/collision.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { DeplacementService } from './../deplacement/deplacement.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
@@ -25,7 +26,7 @@ describe('pisteService test', () => {
                 PisteService, GestionnaireDeVue, MusiqueService, SortiePisteService,
                 JeuDeCourseService, FiltreCouleurService, AffichageTeteHauteService,
                 ObjetService, LumiereService, TableauScoreService, DeplacementService,
-                MockBackend, SkyboxService, RatingService, PlacementService,
+                MockBackend, SkyboxService, RatingService, PlacementService, CollisionService,
                 BaseRequestOptions, SortiePisteService,
                 {
                     provide: Http,

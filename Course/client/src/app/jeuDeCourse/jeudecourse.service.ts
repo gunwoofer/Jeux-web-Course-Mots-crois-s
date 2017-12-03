@@ -2,6 +2,7 @@ import { Accelerateur } from './../elementsPiste/Accelerateur';
 import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
 import { PointDeControle } from './../piste/pointDeControle.model';
+import { CollisionService } from './../voiture/collision.service';
 import { Rendu } from './renduObject';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import {
@@ -56,6 +57,7 @@ export class JeuDeCourseService implements Observateur {
     private voituresIA: Voiture[] = [];
     private nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
+    public toutesLesVoitures: Voiture[] = [];
 
     constructor(private objetService: ObjetService,
                 private lumiereService: LumiereService,
@@ -66,6 +68,7 @@ export class JeuDeCourseService implements Observateur {
                 private placementService: PlacementService,
                 private affichageTeteHauteService: AffichageTeteHauteService,
                 private sortiePisteService: SortiePisteService,
+                public collisionService: CollisionService,
                 private deplacementService: DeplacementService) {
     }
 
@@ -111,6 +114,13 @@ export class JeuDeCourseService implements Observateur {
         });
     }
 
+    public chargementVoituresPourCollision() {
+        for (let i = 0 ; i < this.voituresIA.length; i++) {
+            this.toutesLesVoitures.push(this.voituresIA[i]);
+        }
+        this.toutesLesVoitures.push(this.voitureDuJoueur);
+    }
+
     public configurationVoiturePiste(cadranX: number, cadranY: number, obj: THREE.Object3D, joueur: boolean): void {
         let meshPrincipalVoiture: any;
         meshPrincipalVoiture = obj.getObjectByName('MainBody');
@@ -138,7 +148,7 @@ export class JeuDeCourseService implements Observateur {
             [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
         this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
     }
-    
+
     private creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
@@ -178,6 +188,15 @@ export class JeuDeCourseService implements Observateur {
             }
             this.miseAJourPositionVoiture();
             this.skyboxService.rotationSkybox(this.voitureDuJoueur, this.camera);
+            if (this.toutesLesVoitures.length < 2) {
+                this.chargementVoituresPourCollision();
+            }
+            for (const voiture of this.toutesLesVoitures){
+                if (voiture !== undefined) {
+                    setTimeout('', 10000);
+                }
+            }
+            this.collisionService.analyserCollision(this.toutesLesVoitures);
         }, 1000 / FPS);
     }
 

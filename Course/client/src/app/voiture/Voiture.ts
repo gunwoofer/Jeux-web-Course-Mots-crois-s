@@ -1,5 +1,6 @@
 import { MoteurAutonome } from './moteurAutonome';
 import { Piste } from './../piste/piste.model';
+import { Guid } from './../../../../commun/Guid';
 import { VITESSE_INTIALE, VOITURE_VECTEUR_AVANT_GAUCHE, VOITURE_VECTEUR_ARRIERE_GAUCHE } from './../constant';
 
 import * as THREE from 'three';
@@ -29,6 +30,11 @@ export class Voiture implements sujet.Sujet {
     public coteAleatoireAquaplannage: number;
     private listePositions: THREE.Vector3[];
     private moteurAutonome: MoteurAutonome;
+    public raycasterCollisionDroit = new THREE.Raycaster;
+    public raycasterCollisionGauche = new THREE.Raycaster;
+    public vecteurZ = new THREE.Vector3(0, 0, -1);
+    public guid: string;
+
 
     public static vecteurVoiture(voiture: Voiture): THREE.Vector3 {
         return new THREE.Vector3(
@@ -63,11 +69,55 @@ export class Voiture implements sujet.Sujet {
         this.vitesse = VITESSE_INTIALE;
         this.listePositions = piste.listepositions;
         this.moteurAutonome = new MoteurAutonome(this.listePositions, this.voiture3D, piste.typeCourse);
+        this.guid = Guid.generateGUID();
+        this.genererRayCasterCollision();
     }
 
     public ajouterIndicateursVoitureScene(scene: THREE.Scene): void {
         this.moteurAutonome.creerIndicateurDevant(scene);
         this.moteurAutonome.creerIndicateurDirection(scene, this.listePositions);
+    }
+
+    public obtenirPositionDevantVoiture(droitFalseGaucheTrue: boolean): THREE.Vector3 {
+        const positionAvant = new THREE.Vector3();
+        switch (droitFalseGaucheTrue) {
+            case false:
+            positionAvant.setFromMatrixPosition(
+             this.voiture3D.getObjectByName('Phare Droit').matrixWorld);
+            break;
+            case true:
+             positionAvant.setFromMatrixPosition(
+
+            this.voiture3D.getObjectByName('Phare Gauche').matrixWorld);
+            break;
+        }
+        return new THREE.Vector3(positionAvant.x, positionAvant.y, positionAvant.z + 1);
+    }
+
+    public obtenirDirectionVoitureNormalisee(): THREE.Vector3 {
+        return new THREE.Vector3()
+        .subVectors(this.voiture3D.localToWorld(new THREE.Vector3(1, 0, 0)), this.voiture3D.position).normalize();
+    }
+
+    public genererRayCasterCollision(): void {
+        this.raycasterCollisionDroit = new THREE.Raycaster(this.obtenirPositionDevantVoiture(false), this.vecteurZ);
+        this.raycasterCollisionGauche = new THREE.Raycaster(this.obtenirPositionDevantVoiture(true), this.vecteurZ);
+    }
+
+    public actualiserPositionRayCasterCollision(): void {
+         this.raycasterCollisionDroit.set(this.obtenirPositionDevantVoiture(false), this.vecteurZ);
+         this.raycasterCollisionGauche.set(this.obtenirPositionDevantVoiture(true), this.vecteurZ);
+    }
+
+    public reactionVoitureQuiCauseImpact(): void {
+        if (this.vitesse > 0.3) {
+            this.vitesse -= 0.3;
+        }
+    }
+
+    public reactionDeVoitureQuiRecoitImpact(voiture: Voiture): void {
+        this.voiture3D.position.add
+        (new THREE.Vector3().copy(voiture.obtenirDirectionVoitureNormalisee()).multiplyScalar(3 * voiture.vitesse));
     }
 
     public modeAutonome(): void {
