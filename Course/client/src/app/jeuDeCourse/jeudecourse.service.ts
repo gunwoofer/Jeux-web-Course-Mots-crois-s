@@ -90,7 +90,7 @@ export class JeuDeCourseService implements Observateur {
         this.lumiereService.ajouterLumierScene(this.scene);
         this.mondeDuJeuService.genererTerrain(this.scene);
         this.pointeDeControle.ajouterPointDeControleScene(this.mondeDuJeuService.piste, this.scene);
-        this.ajouterElementDePisteScene();
+        this.mondeDuJeuService.ajouterElementDePisteScene(this.scene);
         this.commencerMoteurDeJeu();
     }
 
@@ -154,24 +154,6 @@ export class JeuDeCourseService implements Observateur {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
         this.scene.add(this.camera);
-    }
-
-    private ajouterElementDePisteScene(): void {
-        for (const element of this.mondeDuJeuService.piste.obtenirElementsPiste()) {
-            if (element instanceof FlaqueDEau) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            } else if (element instanceof NidDePoule) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            } else if (element instanceof Accelerateur) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            }
-        }
     }
 
     private commencerMoteurDeJeu(): void {
