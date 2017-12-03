@@ -52,15 +52,12 @@ export class JeuDeCourseService implements Observateur {
     private scene: THREE.Scene;
     private partie: Partie;
     private routeur: Router;
-    private segment: Segment = new Segment();
-    private pointeDeControle = new PointDeControle();
     private voituresIA: Voiture[] = [];
     private nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
     public toutesLesVoitures: Voiture[] = [];
 
     constructor(private objetService: ObjetService,
-                private lumiereService: LumiereService,
                 private gestionnaireDeVue: GestionnaireDeVue,
                 private musiqueService: MusiqueService,
                 private tableauScoreService: TableauScoreService,
@@ -85,13 +82,9 @@ export class JeuDeCourseService implements Observateur {
         this.container = container;
         this.creerScene();
         this.skyboxService.ajouterSkybox(this.camera);
-        this.objetService.ajouterArbreScene(this.scene);
-        this.segment.ajouterPisteAuPlan(this.mondeDuJeuService.piste, this.scene);
+        this.mondeDuJeuService.chargerMonde3D(this.scene);
         this.chargementDesVoitures();
-        this.lumiereService.ajouterLumierScene(this.scene);
-        this.scene.add(SurfaceHorsPiste.genererTerrain(this.segment.chargerSegmentsDePiste(this.mondeDuJeuService.piste)));
-        this.pointeDeControle.ajouterPointDeControleScene(this.mondeDuJeuService.piste, this.scene);
-        this.ajouterElementDePisteScene();
+        LumiereService.ajouterLumierScene(this.scene);
         this.commencerMoteurDeJeu();
     }
 
@@ -105,11 +98,12 @@ export class JeuDeCourseService implements Observateur {
     }
 
     public chargerVoiture(cadranX: number, cadranY: number, joueur: boolean): void {
-        this.placementService.calculPositionCentreZoneDepart(this.segment.premierSegment);
-        this.placementService.obtenirVecteursSensPiste(this.segment.premierSegment);
+        this.placementService.calculPositionCentreZoneDepart(this.mondeDuJeuService.segment.premierSegment);
+        this.placementService.obtenirVecteursSensPiste(this.mondeDuJeuService.segment.premierSegment);
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
-            this.objetService.manipulationObjetVoiture(this.segment.premierSegment[1], this.segment.premierSegment[0], obj);
+            this.objetService.manipulationObjetVoiture(this.mondeDuJeuService.segment.premierSegment[1],
+                                                        this.mondeDuJeuService.segment.premierSegment[0], obj);
             this.configurationVoiturePiste(cadranX, cadranY, obj, joueur);
             this.scene.add(obj);
         });
@@ -142,8 +136,8 @@ export class JeuDeCourseService implements Observateur {
 
     private preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
-        const ligneArrivee: LigneArrivee = new LigneArrivee(this.segment.premierSegment[1],
-            this.segment.premierSegment[3], this.segment.damierDeDepart);
+        const ligneArrivee: LigneArrivee = new LigneArrivee(this.mondeDuJeuService.segment.premierSegment[1],
+            this.mondeDuJeuService.segment.premierSegment[3], this.mondeDuJeuService.segment.damierDeDepart);
         const pilotes: Pilote[] = [pilote];
         this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
             [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
@@ -154,24 +148,6 @@ export class JeuDeCourseService implements Observateur {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
         this.scene.add(this.camera);
-    }
-
-    private ajouterElementDePisteScene(): void {
-        for (const element of this.mondeDuJeuService.piste.obtenirElementsPiste()) {
-            if (element instanceof FlaqueDEau) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            } else if (element instanceof NidDePoule) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            } else if (element instanceof Accelerateur) {
-                element.genererMesh();
-                element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-                this.scene.add(element.obtenirMesh());
-            }
-        }
     }
 
     private commencerMoteurDeJeu(): void {
@@ -213,7 +189,8 @@ export class JeuDeCourseService implements Observateur {
     private renderMiseAJour(): void {
         if (this.voitureDuJoueur !== undefined) {
             this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur,
-                                                        this.segment.chargerSegmentsDePiste(this.mondeDuJeuService.piste));
+                                                    this.mondeDuJeuService.segment
+                                                        .chargerSegmentsDePiste(this.mondeDuJeuService.piste));
             this.mondeDuJeuService.piste.gererElementDePiste([this.voitureDuJoueur]);
             this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
         }
@@ -221,8 +198,8 @@ export class JeuDeCourseService implements Observateur {
 
     public calculePositionVoiture(cadranX: number, cadranY: number, voiture: Voiture) {
         voiture.voiture3D.position.set(
-            this.placementService.calculPositionVoiture(cadranX, cadranY, this.segment.premierSegment).x,
-            this.placementService.calculPositionVoiture(cadranX, cadranY, this.segment.premierSegment).y, 0);
+            this.placementService.calculPositionVoiture(cadranX, cadranY, this.mondeDuJeuService.segment.premierSegment).x,
+            this.placementService.calculPositionVoiture(cadranX, cadranY, this.mondeDuJeuService.segment.premierSegment).y, 0);
     }
 
     public configurerTours(nombreTours: number): void {
@@ -247,10 +224,10 @@ export class JeuDeCourseService implements Observateur {
     public logiquePhares(): void {
         if (!this.phares && this.jour) {
             this.phares = !this.phares;
-            this.lumiereService.alternerPhares(this.voitureDuJoueur);
+            LumiereService.alternerPhares(this.voitureDuJoueur);
         } else if (this.phares && !this.jour) {
             this.phares = !this.phares;
-            this.lumiereService.alternerPhares(this.voitureDuJoueur);
+            LumiereService.alternerPhares(this.voitureDuJoueur);
         }
     }
 

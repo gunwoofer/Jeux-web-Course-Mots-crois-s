@@ -18,7 +18,6 @@ export class EvenementService {
   constructor(  private renderService: MoteurEditeurPiste,
                 private jeuDeCourseService: JeuDeCourseService,
                 private gestionnaireDeVue: GestionnaireDeVue,
-                private lumiereService: LumiereService,
                 private skyboxService: SkyboxService,
                 private filtreCouleurService: FiltreCouleurService,
                 private facadeCoordonneesService: FacadeCoordonneesService,
@@ -90,7 +89,7 @@ export class EvenementService {
   public gestionEvenement(event): void {
     if (event.key === MODE_JOUR_NUIT) {
       this.jeuDeCourseService.logiquePhares();
-      this.lumiereService.modeJourNuit(event, this.jeuDeCourseService.obtenirScene());
+      LumiereService.modeJourNuit(event, this.jeuDeCourseService.obtenirScene());
       this.jeuDeCourseService.jour = !this.jeuDeCourseService.jour;
       this.skyboxService.alternerSkybox(this.jeuDeCourseService.jour, this.jeuDeCourseService.obtenirCamera());
     } else if (event.key === MODE_FILTRE_COULEUR) {
@@ -101,7 +100,7 @@ export class EvenementService {
       this.jeuDeCourseService.voitureDuJoueur.vueDessusTroisieme = !this.jeuDeCourseService.voitureDuJoueur.vueDessusTroisieme;
     } else if (event.key === ALLUMER_PHARES) {
       this.jeuDeCourseService.phares = !this.jeuDeCourseService.phares;
-      this.lumiereService.alternerPhares(this.jeuDeCourseService.voitureDuJoueur);
+      LumiereService.alternerPhares(this.jeuDeCourseService.voitureDuJoueur);
     } else if (event.key === RETROVISEUR) {
       this.gestionnaireDeVue.changerEtatRetroviseur();
     }

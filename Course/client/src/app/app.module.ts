@@ -49,6 +49,7 @@ import { PlacementService } from './objetService/placementVoiture.service';
 import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehaute.service';
 import { SortiePisteService } from './sortiePiste/sortiePiste.service';
 import { CreateurPisteService } from './createurPiste/createurPiste.service';
+import { GestionVoitureService } from './voiture/gestionvoiture.service';
 
 
 
@@ -104,6 +105,7 @@ import { CreateurPisteService } from './createurPiste/createurPiste.service';
     SortiePisteService,
     CreateurPisteService,
     MondeDuJeuService,
+    GestionVoitureService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

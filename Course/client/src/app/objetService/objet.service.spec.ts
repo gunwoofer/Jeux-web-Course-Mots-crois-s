@@ -29,7 +29,7 @@ describe('ObjetService test', () => {
         let objet = new THREE.Object3D();
         const arbrePath = '../../assets/objects/arbre/tree.json';
         const arbreTexture = '../../assets/objects/arbre/tree.jpg';
-        objet = objetService.chargerArbre(arbrePath, arbreTexture, chiffre);
+        objet = ObjetService.chargerArbre(arbrePath, arbreTexture, chiffre);
         expect(objet).toBeTruthy();
     });
 
