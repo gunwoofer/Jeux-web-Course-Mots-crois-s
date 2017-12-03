@@ -1,3 +1,4 @@
+import { GestionPartieService } from './../voiture/gestionPartie.service';
 import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { Accelerateur } from './../elementsPiste/Accelerateur';
 import { NidDePoule } from './../elementsPiste/NidDePoule';
@@ -39,7 +40,7 @@ import { NotificationType } from '../../../../commun/observateur/NotificationTyp
 import { AffichageTeteHauteService } from '../affichageTeteHaute/affichagetetehaute.service';
 
 @Injectable()
-export class JeuDeCourseService implements Observateur {
+export class JeuDeCourseService {
 
     public voitureDuJoueur: Voiture;
 
@@ -65,6 +66,7 @@ export class JeuDeCourseService implements Observateur {
                 private sortiePisteService: SortiePisteService,
                 public collisionService: CollisionService,
                 private deplacementService: DeplacementService,
+                private gestionPartieService: GestionPartieService,
                 private mondeDuJeuService: MondeDuJeuService) {
     }
 
@@ -80,11 +82,11 @@ export class JeuDeCourseService implements Observateur {
         this.container = container;
         this.creerScene();
         this.mondeDuJeuService.chargerMonde3D(this.scene, this.camera);
-        this.chargementDesVoitures();
+        this.gestionPartieService.chargementDesVoitures(this.scene,this.container);
         this.commencerMoteurDeJeu();
     }
 
-    private chargementDesVoitures(): void {
+    /*private chargementDesVoitures(): void {
         const nombreAleatoire = Math.round(Math.random() * 3);
         this.chargerVoiture(TABLEAU_POSITION[nombreAleatoire][0], TABLEAU_POSITION[nombreAleatoire][1], true);
         TABLEAU_POSITION.splice(nombreAleatoire, 1);
@@ -103,16 +105,16 @@ export class JeuDeCourseService implements Observateur {
             this.configurationVoiturePiste(cadranX, cadranY, obj, joueur);
             this.scene.add(obj);
         });
-    }
+    }*/
 
     public chargementVoituresPourCollision() {
-        for (let i = 0 ; i < this.voituresIA.length; i++) {
-            this.toutesLesVoitures.push(this.voituresIA[i]);
+        for (let i = 0 ; i < this.gestionPartieService.voituresIA.length; i++) {
+            this.toutesLesVoitures.push(this.gestionPartieService.voituresIA[i]);
         }
-        this.toutesLesVoitures.push(this.voitureDuJoueur);
+        this.toutesLesVoitures.push(this.gestionPartieService.voitureDuJoueur);
     }
 
-    public configurationVoiturePiste(cadranX: number, cadranY: number, obj: THREE.Object3D, joueur: boolean): void {
+    /*public configurationVoiturePiste(cadranX: number, cadranY: number, obj: THREE.Object3D, joueur: boolean): void {
         let meshPrincipalVoiture: any;
         meshPrincipalVoiture = obj.getObjectByName('MainBody');
         if (joueur) {
@@ -138,7 +140,7 @@ export class JeuDeCourseService implements Observateur {
         this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
             [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
         this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
-    }
+    }*/
 
     private creerScene(): void {
         this.scene = new THREE.Scene();
@@ -157,10 +159,11 @@ export class JeuDeCourseService implements Observateur {
             requestAnimationFrame(() => this.moteurDeJeu());
             this.renduObject.ajusterCadre(this.renderer, this.container, this.camera, this.scene);
             if (this.gestionnaireDeVue.obtenirEtatRetroviseur()) {
-                this.renduObject.ajusterCadre(this.renderer, this.retroviseur, this.retroviseur.camera, this.scene);
+                this.renduObject.ajusterCadre(this.renderer, this.gestionPartieService.retroviseur, 
+                    this.gestionPartieService.retroviseur.camera, this.scene);
             }
             this.miseAJourPositionVoiture();
-            this.skyboxService.rotationSkybox(this.voitureDuJoueur, this.camera);
+            this.skyboxService.rotationSkybox(this.gestionPartieService.voitureDuJoueur, this.camera);
             if (this.toutesLesVoitures.length < 2) {
                 this.chargementVoituresPourCollision();
             }
@@ -174,25 +177,25 @@ export class JeuDeCourseService implements Observateur {
     }
 
     private miseAJourPositionVoiture(): void {
-        if (this.voitureDuJoueur.voiture3D !== undefined) {
-            this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
-            this.voituresIA[0].modeAutonome();
-            this.deplacementService.moteurDeplacement(this.voitureDuJoueur);
+        if (this.gestionPartieService.voitureDuJoueur.voiture3D !== undefined) {
+            this.gestionnaireDeVue.changementDeVue(this.camera, this.gestionPartieService.voitureDuJoueur);
+            this.gestionPartieService.voituresIA[0].modeAutonome();
+            this.deplacementService.moteurDeplacement(this.gestionPartieService.voitureDuJoueur);
             this.renderMiseAJour();
         }
     }
 
     private renderMiseAJour(): void {
-        if (this.voitureDuJoueur !== undefined) {
-            this.sortiePisteService.gererSortiePiste(this.voitureDuJoueur,
+        if (this.gestionPartieService.voitureDuJoueur !== undefined) {
+            this.sortiePisteService.gererSortiePiste(this.gestionPartieService.voitureDuJoueur,
                                                     this.mondeDuJeuService.segment
                                                         .chargerSegmentsDePiste(this.mondeDuJeuService.piste));
-            this.mondeDuJeuService.piste.gererElementDePiste([this.voitureDuJoueur]);
-            this.gestionnaireDeVue.changementDeVue(this.camera, this.voitureDuJoueur);
+            this.mondeDuJeuService.piste.gererElementDePiste([this.gestionPartieService.voitureDuJoueur]);
+            this.gestionnaireDeVue.changementDeVue(this.camera, this.gestionPartieService.voitureDuJoueur);
         }
     }
 
-    public calculePositionVoiture(cadranX: number, cadranY: number, voiture: Voiture) {
+    /*public calculePositionVoiture(cadranX: number, cadranY: number, voiture: Voiture) {
         voiture.voiture3D.position.set(
             this.placementService.calculPositionVoiture(cadranX, cadranY, this.mondeDuJeuService.segment.premierSegment).x,
             this.placementService.calculPositionVoiture(cadranX, cadranY, this.mondeDuJeuService.segment.premierSegment).y, 0);
@@ -201,7 +204,7 @@ export class JeuDeCourseService implements Observateur {
     public configurerTours(nombreTours: number): void {
         this.nombreTours = nombreTours;
         Partie.toursAComplete = this.nombreTours;
-    }
+    }*/
 
     public ajouterRouter(routeur: Router): void {
         this.routeur = routeur;
@@ -217,7 +220,7 @@ export class JeuDeCourseService implements Observateur {
         return this.container.clientWidth / this.container.clientHeight;
     }
 
-    public notifier(sujet: Sujet, type: NotificationType): void {
+    /*public notifier(sujet: Sujet, type: NotificationType): void {
         if (type === NotificationType.Non_definie) {
             if (this.partie.etatPartie === EtatPartie.Termine) {
                 setTimeout(() => {
@@ -231,5 +234,5 @@ export class JeuDeCourseService implements Observateur {
         this.tableauScoreService.temps = (Pilote.tempsTotal / 1000);
         this.tableauScoreService.finPartie = true;
         this.routeur.navigateByUrl(RESULTAT_PARTIE);
-    }
+    }*/
 }

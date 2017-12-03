@@ -1,3 +1,4 @@
+import { GestionPartieService } from './../voiture/gestionPartie.service';
 import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { DeplacementService } from './../deplacement/deplacement.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
@@ -12,7 +13,7 @@ import { MoteurEditeurPiste } from '../moteurEditeurPiste/render.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
-import { GestionVoitureService } from '../voiture/gestionvoiture.service';
+
 
 @Injectable()
 export class EvenementService {
@@ -24,7 +25,7 @@ export class EvenementService {
                 private facadeCoordonneesService: FacadeCoordonneesService,
                 private deplacementService: DeplacementService,
                 private createurPisteService: CreateurPisteService,
-                private gestionVoitureService: GestionVoitureService) {}
+                public gestionPartieService: GestionPartieService) {}
 
   private tempsMouseDown;
   private tempsMouseUp;
@@ -90,7 +91,7 @@ export class EvenementService {
 
   public gestionEvenement(event): void {
     if (event.key === MODE_JOUR_NUIT) {
-      this.gestionVoitureService.logiquePhares(this.jeuDeCourseService.voitureDuJoueur);
+      this.gestionPartieService.logiquePhares(this.gestionPartieService.voitureDuJoueur);
       LumiereService.modeJourNuit(event, this.jeuDeCourseService.obtenirScene());
       LumiereService.jour = !LumiereService.jour;
       this.skyboxService.alternerSkybox(LumiereService.jour, this.jeuDeCourseService.obtenirCamera());
@@ -99,7 +100,7 @@ export class EvenementService {
     } else if (event.key === ZOOM_AVANT || event.key === ZOOM_ARRIERE) {
       this.gestionnaireDeVue.zoom(event, this.jeuDeCourseService.obtenirCamera());
     } else if (event.key === CHANGER_VUE) {
-      this.jeuDeCourseService.voitureDuJoueur.vueDessusTroisieme = !this.jeuDeCourseService.voitureDuJoueur.vueDessusTroisieme;
+      this.gestionPartieService.voitureDuJoueur.vueDessusTroisieme = !this.gestionPartieService.voitureDuJoueur.vueDessusTroisieme;
     } else if (event.key === ALLUMER_PHARES) {
       LumiereService.phares = !LumiereService.phares;
       LumiereService.alternerPhares(this.jeuDeCourseService.voitureDuJoueur);
