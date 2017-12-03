@@ -1,3 +1,4 @@
+import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { DeplacementService } from './../deplacement/deplacement.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
@@ -21,7 +22,8 @@ export class EvenementService {
                 private skyboxService: SkyboxService,
                 private filtreCouleurService: FiltreCouleurService,
                 private facadeCoordonneesService: FacadeCoordonneesService,
-                private deplacementService: DeplacementService) {}
+                private deplacementService: DeplacementService,
+                private createurPisteService: CreateurPisteService) {}
 
   private tempsMouseDown;
   private tempsMouseUp;
@@ -114,14 +116,14 @@ export class EvenementService {
     this.objetGlisse.position.copy(position);
     const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
     FacadeLigneService.modifierLignePoints(
-      objetGlisseNumber, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.obtenirPoints()
+      objetGlisseNumber, this.objetGlisse.position, this.createurPisteService.pointsLine, this.renderService.obtenirPoints()
     );
     if (objetGlisseNumber === 0 && this.renderService.obtenirDessinTermine()) {
       this.renderService.obtenirPoints()[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
         FacadeLigneService.modifierLignePoints(
         this.renderService.facadePointService.compteur - 1,
         this.objetGlisse.position,
-        this.renderService.pointsLine,
+        this.createurPisteService.pointsLine,
         this.renderService.obtenirPoints()
       );
     }

@@ -1,3 +1,4 @@
+import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { CollisionService } from './../voiture/collision.service';
 import { CalculateurNombreOngle } from './../contraintesCircuit/calculateurNombreAngle';
 import { FacadePointService } from './../facadePoint/facadepoint.service';
@@ -27,12 +28,12 @@ import { MusiqueService } from './../musique/musique.service';
 import { JeuDeCourseService } from './../jeuDeCourse/jeudecourse.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
-import { CreateurPisteService } from '../createurPiste/createurPiste.service';
 describe('RenderService test', () => {
 
     const messageErreurService = new MessageErreurService();
     let fixture: ComponentFixture<CreateurPisteComponent>;
     let renderService: RenderService;
+    let createurPisteService: CreateurPisteService;
     let evenementService: EvenementService;
     let fakeClickEvent: MouseEvent;
     const fakeClickEventArray: MouseEvent[] = [];
@@ -50,9 +51,11 @@ describe('RenderService test', () => {
             .compileComponents();
     }));
 
-    beforeEach(inject([RenderService, EvenementService], (service: RenderService, souris: EvenementService) => {
+    beforeEach(inject([RenderService, EvenementService, CreateurPisteService], (service: RenderService, souris: EvenementService, 
+                                                            createurpiste: CreateurPisteService) => {
         renderService = service;
         evenementService = souris;
+        createurPisteService = createurpiste;
         fixture = TestBed.createComponent(CreateurPisteComponent);
         fixture.detectChanges();
     }));
@@ -120,7 +123,7 @@ describe('RenderService test', () => {
         }
         const longueurVecteurPoints = renderService.obtenirPoints().length;
         const longueurVecteurScene = renderService.scene.children.length;
-        const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
+        const vecteurLignes = createurPisteService.pointsLine.geometry.attributes.position.array;
         const longueurVecteurLignes = vecteurLignes.length;
         expect(longueurVecteurPoints).toEqual(2);
         expect(longueurVecteurScene).toEqual(4);
@@ -232,7 +235,7 @@ describe('RenderService test', () => {
         }
         const angle = CalculateurNombreOngle.calculerAngle(1, renderService.obtenirPoints(), renderService.facadePointService.compteur);
         expect(angle).toBeLessThanOrEqual(0.785398163);
-        expect(renderService.nbAnglesPlusPetit45).toEqual(1);
+        expect(createurPisteService.nbAnglesPlusPetit45).toEqual(1);
     });
 
     it('Le premier point devra être identifié avec un contour particulier.', () => {
@@ -263,8 +266,8 @@ describe('RenderService test', () => {
             });
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        const vecteurLignes = renderService.pointsLine.geometry.attributes.position.array;
-        const vecteurCouleurs = renderService.pointsLine.geometry.attributes.color.array;
+        const vecteurLignes = createurPisteService.pointsLine.geometry.attributes.position.array;
+        const vecteurCouleurs = createurPisteService.pointsLine.geometry.attributes.color.array;
         const premierSegmentCouleurR = vecteurCouleurs[0];
         const premierSegmentCouleurG = vecteurCouleurs[1];
         const premierSegmentCouleurB = vecteurCouleurs[2];
@@ -272,7 +275,7 @@ describe('RenderService test', () => {
         expect(premierSegmentCouleurG).toBeCloseTo(0.91);
         expect(premierSegmentCouleurB).toBeCloseTo(0.64);
         for (let i = 0; i < 6; i++) {
-            expect(FacadeLigneService.obtenirLigneDeDepart(renderService.pointsLine)[i]).toEqual(vecteurLignes[i]);
+            expect(FacadeLigneService.obtenirLigneDeDepart(createurPisteService.pointsLine)[i]).toEqual(vecteurLignes[i]);
         }
         expect(renderService.facadePointService.compteur - 1).toEqual(4);
     });
@@ -338,12 +341,12 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 2; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        expect(renderService.nbAnglesPlusPetit45).toEqual(1);
+        expect(createurPisteService.nbAnglesPlusPetit45).toEqual(1);
         expect(
             messageErreurService.afficherMessageErreurs(
-                renderService.nbAnglesPlusPetit45,
-                renderService.nbSegmentsTropProche,
-                renderService.nbSegmentsCroises
+                createurPisteService.nbAnglesPlusPetit45,
+                createurPisteService.nbSegmentsTropProche,
+                createurPisteService.nbSegmentsCroises
             )).toEqual('Angle(s) inférieurs à 45° => 1 ; ');
     });
 
@@ -379,12 +382,12 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 3; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        expect(renderService.nbAnglesPlusPetit45).toEqual(2);
+        expect(createurPisteService.nbAnglesPlusPetit45).toEqual(2);
         expect(
             messageErreurService.afficherMessageErreurs(
-                renderService.nbAnglesPlusPetit45,
-                renderService.nbSegmentsTropProche,
-                renderService.nbSegmentsCroises
+                createurPisteService.nbAnglesPlusPetit45,
+                createurPisteService.nbSegmentsTropProche,
+                createurPisteService.nbSegmentsCroises
             )).toEqual('Angle(s) inférieurs à 45° => 2 ; ');
         expect(renderService.retourneEtatDessin()).toBeFalsy();
     });
@@ -428,12 +431,12 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 4; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        expect(renderService.nbSegmentsCroises).toEqual(1);
+        expect(createurPisteService.nbSegmentsCroises).toEqual(1);
         expect(
             messageErreurService.afficherMessageErreurs(
-                renderService.nbAnglesPlusPetit45,
-                renderService.nbSegmentsTropProche,
-                renderService.nbSegmentsCroises
+                createurPisteService.nbAnglesPlusPetit45,
+                createurPisteService.nbSegmentsTropProche,
+                createurPisteService.nbSegmentsCroises
             )).toEqual('Segment(s) croisé(s) => 1 ; ');
         expect(renderService.retourneEtatDessin()).toBeFalsy();
     });
@@ -477,12 +480,12 @@ describe('RenderService test', () => {
         for (let i = 0; i <= 4; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        expect(renderService.nbSegmentsTropProche).toEqual(1);
+        expect(createurPisteService.nbSegmentsTropProche).toEqual(1);
         expect(
             messageErreurService.afficherMessageErreurs(
-                renderService.nbAnglesPlusPetit45,
-                renderService.nbSegmentsTropProche,
-                renderService.nbSegmentsCroises
+                createurPisteService.nbAnglesPlusPetit45,
+                createurPisteService.nbSegmentsTropProche,
+                createurPisteService.nbSegmentsCroises
             )).toEqual('Segment(s) trop proche(s) => 1 ; ');
         expect(renderService.retourneEtatDessin()).toBeFalsy();
     });
