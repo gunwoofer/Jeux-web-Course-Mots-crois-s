@@ -51,18 +51,15 @@ export class FabriqueDeGrille {
 
     private static creerInstanceAvecJSONCases(jsonEnGrille: any): Cases {
         const cases: Cases = new Cases();
-        let vraieCase: Case;
-
         for (let i = 0; i < jsonEnGrille.cases.cases.length; i++) {
             for (let j = 0; j < jsonEnGrille.cases.cases[i].length; j++) {
-                vraieCase = new Case(jsonEnGrille.cases.cases[i][j].numeroLigne,
+                const vraieCase = new Case(jsonEnGrille.cases.cases[i][j].numeroLigne,
                     jsonEnGrille.cases.cases[i][j].numeroColonne, jsonEnGrille.cases.cases[i][j].etat);
                 Object.assign(vraieCase, jsonEnGrille.cases.cases[i][j] as Case);
 
                 cases.ajouterCase(vraieCase, vraieCase.obtenirNumeroLigne(), vraieCase.obtenirNumeroColonne());
             }
         }
-
         return cases;
     }
 }
