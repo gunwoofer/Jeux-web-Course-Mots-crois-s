@@ -13,26 +13,21 @@ export class GestionnaireDePartieService {
 
     public creerPartie(joueur: Joueur, typePartie: TypePartie, grilleDepart: Grille, niveau: Niveau, joueur2?: Joueur ): string {
         const joueurs: Joueur[] = [joueur];
-
         if (joueur2 !== undefined) {
             joueurs.push(joueur2);
         }
-
         const partie: Partie = new Partie(grilleDepart, joueurs, typePartie);
         this.parties.push(partie);
-
         return partie.obtenirPartieGuid();
     }
 
     public obtenirPartiesEnAttente(): Partie[] {
         const partiesEnCours: Partie[] = [];
-
         for (const partieCourante of this.parties) {
             if (!partieCourante.estDebute()) {
                 partiesEnCours.push(partieCourante);
             }
         }
-
         return partiesEnCours;
     }
 
@@ -49,21 +44,17 @@ export class GestionnaireDePartieService {
                 return partie;
             }
         }
-
         throw new Error(AUCUNE_PARTIE_CORREPSONDANT_GUID);
     }
 
     public voirSiPartieTermine(guidPartie: string): boolean {
         const partieEnCours: Partie = this.obtenirPartieEnCours(guidPartie);
-
         if (partieEnCours.estMultijoueur() && partieEnCours.partieEstTermineAvecCompteur()) {
             return true;
         }
-
         if (partieEnCours.partieEstTermine()) {
             return true;
         }
-
         return false;
     }
 }
