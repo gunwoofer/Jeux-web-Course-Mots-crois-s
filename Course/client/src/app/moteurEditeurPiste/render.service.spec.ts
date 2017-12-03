@@ -29,6 +29,7 @@ import { MusiqueService } from './../musique/musique.service';
 import { JeuDeCourseService } from './../jeuDeCourse/jeudecourse.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
+import { GestionVoitureService } from '../voiture/gestionvoiture.service';
 describe('MoteurEditeurPiste test', () => {
 
     const messageErreurService = new MessageErreurService();
@@ -41,7 +42,7 @@ describe('MoteurEditeurPiste test', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            providers: [MoteurEditeurPiste, EvenementService, PisteService, AffichageTeteHauteService,
+            providers: [GestionVoitureService, MoteurEditeurPiste, EvenementService, PisteService, AffichageTeteHauteService,
                 JeuDeCourseService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService, SortiePisteService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,

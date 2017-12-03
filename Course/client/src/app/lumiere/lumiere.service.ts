@@ -12,6 +12,9 @@ import { NUIT_TEXTURE, JOUR_TEXTURE, PHARES, COULEUR_PHARE,
 @Injectable()
 export class LumiereService {
 
+    public static jour = true;
+    public static phares = false;
+
     public static ajouterPhares(objet: THREE.Object3D): void {
         const lumiereDroite = this.creerLumiereAvant(LUMIERE_AVANT_DROITE, 1);
         objet.add(lumiereDroite);

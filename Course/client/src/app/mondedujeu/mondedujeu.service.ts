@@ -8,6 +8,7 @@ import { Accelerateur } from '../elementsPiste/Accelerateur';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 import { ObjetService } from '../objetService/objet.service';
 import { PointDeControle } from '../piste/pointDeControle.model';
+import { LumiereService } from '../lumiere/lumiere.service';
 
 @Injectable()
 export class MondeDuJeuService {
@@ -20,6 +21,7 @@ export class MondeDuJeuService {
         this.genererTerrain(scene);
         this.ajouterElementDePisteScene(scene);
         PointDeControle.ajouterPointDeControleScene(this.piste, scene);
+        LumiereService.ajouterLumierScene(scene);
     }
 
     public ajouterPiste(piste: Piste): void {

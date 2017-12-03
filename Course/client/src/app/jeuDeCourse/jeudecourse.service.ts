@@ -42,8 +42,6 @@ import { AffichageTeteHauteService } from '../affichageTeteHaute/affichageteteha
 export class JeuDeCourseService implements Observateur {
 
     public voitureDuJoueur: Voiture;
-    public jour = true;
-    public phares = false;
 
     private container: HTMLDivElement;
     private camera: THREE.PerspectiveCamera;
@@ -84,7 +82,6 @@ export class JeuDeCourseService implements Observateur {
         this.skyboxService.ajouterSkybox(this.camera);
         this.mondeDuJeuService.chargerMonde3D(this.scene);
         this.chargementDesVoitures();
-        LumiereService.ajouterLumierScene(this.scene);
         this.commencerMoteurDeJeu();
     }
 
@@ -219,16 +216,6 @@ export class JeuDeCourseService implements Observateur {
 
     private getAspectRatio(): number {
         return this.container.clientWidth / this.container.clientHeight;
-    }
-
-    public logiquePhares(): void {
-        if (!this.phares && this.jour) {
-            this.phares = !this.phares;
-            LumiereService.alternerPhares(this.voitureDuJoueur);
-        } else if (this.phares && !this.jour) {
-            this.phares = !this.phares;
-            LumiereService.alternerPhares(this.voitureDuJoueur);
-        }
     }
 
     public notifier(sujet: Sujet, type: NotificationType): void {
