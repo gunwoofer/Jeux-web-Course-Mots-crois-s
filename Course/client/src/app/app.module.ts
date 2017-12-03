@@ -1,3 +1,4 @@
+import { MondeDuJeuService } from './mondedujeu/mondedujeu.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
@@ -102,6 +103,7 @@ import { CreateurPisteService } from './createurPiste/createurPiste.service';
     CollisionService,
     SortiePisteService,
     CreateurPisteService,
+    MondeDuJeuService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

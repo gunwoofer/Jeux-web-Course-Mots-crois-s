@@ -1,3 +1,4 @@
+import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { CollisionService } from './../voiture/collision.service';
 import { CalculateurNombreOngle } from './../contraintesCircuit/calculateurNombreAngle';
@@ -44,14 +45,14 @@ describe('MoteurEditeurPiste test', () => {
                 JeuDeCourseService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService, SortiePisteService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
-                FacadePointService, SortiePisteService, CollisionService, CreateurPisteService],
+                FacadePointService, SortiePisteService, CollisionService, CreateurPisteService, MondeDuJeuService],
             declarations: [CreateurPisteComponent, PisteValidationComponent],
             imports: [FormsModule, HttpModule]
         })
             .compileComponents();
     }));
 
-    beforeEach(inject([MoteurEditeurPiste, EvenementService, CreateurPisteService], (service: MoteurEditeurPiste, souris: EvenementService, 
+    beforeEach(inject([MoteurEditeurPiste, EvenementService, CreateurPisteService], (service: MoteurEditeurPiste, souris: EvenementService,
                                                             createurpiste: CreateurPisteService) => {
         renderService = service;
         evenementService = souris;
@@ -233,7 +234,8 @@ describe('MoteurEditeurPiste test', () => {
         for (let i = 0; i <= 2; i++) {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
-        const angle = CalculateurNombreOngle.calculerAngle(1, createurPisteService.obtenirPoints(), renderService.facadePointService.compteur);
+        const angle = CalculateurNombreOngle.calculerAngle(1,
+                                                createurPisteService.obtenirPoints(), renderService.facadePointService.compteur);
         expect(angle).toBeLessThanOrEqual(0.785398163);
         expect(createurPisteService.nbAnglesPlusPetit45).toEqual(1);
     });
