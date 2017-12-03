@@ -28,9 +28,8 @@ export class GenerateurDeGrilleService {
     }
 
     private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
-        const emplacements: EmplacementMot[] = GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot());
         const motsDeLaGrille: string[] = new Array();
-        for (const emplacement of emplacements) {
+        for (const emplacement of GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot())) {
             const chaineMot =  RechercheMots.rechercherMot(emplacement.obtenirGrandeur(),
                                 GestionnaireParametresGrilleService.genererTableauContraintes(grille, emplacement));
             motsDeLaGrille.push(chaineMot);
