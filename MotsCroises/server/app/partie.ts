@@ -31,7 +31,6 @@ export class Partie {
         if (this.debutDePartie === undefined) {
             return false;
         }
-
         return true;
     }
 
@@ -128,18 +127,6 @@ export class Partie {
         if (this.joueurs.length <= LIMITE_JOUEURS) {
             this.joueurs.push(joueur);
         }
-    }
-
-    public obtenirAdversaire(guidJoueur: string): Joueur[] {
-        const adversaires: Joueur[] = new Array();
-
-        for (const joueurCourant of this.joueurs) {
-            if (joueurCourant.obtenirGuid() !== guidJoueur) {
-                adversaires.push(joueurCourant);
-            }
-        }
-
-        return adversaires;
     }
 
     public partieEstTermine(): boolean {

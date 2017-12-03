@@ -4,9 +4,7 @@ import { MotDataMuse } from './motDataMuse';
 
 const datamuse = require('datamuse');
 
-export const aucunMotObtenuDeDataMuse = 'Aucune mot n\'a été reccueilli de l\'API datamuse.';
-export const aucunMotDansTableauCommun = 'Aucune mot se trouve dans le tableau commun des mots reccueillis.';
-export const aucunMotDansTableauNonCommun = 'Aucune mot se trouve dans le tableau non commun des mots reccueillis.';
+export const aucunMotObtenuDeDataMuse = 'Aucun mot n\'a été reccueilli de l\'API datamuse.';
 
 export class GenerateurDeMotContrainteService {
 
