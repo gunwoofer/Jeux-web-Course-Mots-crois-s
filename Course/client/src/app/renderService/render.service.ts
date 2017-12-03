@@ -1,3 +1,4 @@
+import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { PointsFacade } from './../pointsFacade';
 import { Accelerateur } from './../elementsPiste/Accelerateur';
 import { NidDePoule } from './../elementsPiste/NidDePoule';
@@ -12,12 +13,10 @@ import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 import { Points, Line } from 'three';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
-
 @Injectable()
 export class RenderService {
 
     public scene: THREE.Scene;
-    public pisteAmodifie: Piste;
     public pointsLine: Line;
     public nbSegmentsCroises = 0;
     public nbAnglesPlusPetit45 = 0;
@@ -34,7 +33,8 @@ export class RenderService {
     private plane: THREE.Mesh;
     private container: HTMLDivElement;
 
-    constructor(public facadePointService: FacadePointService) {}
+    constructor(public facadePointService: FacadePointService,
+                private createurPisteService: CreateurPisteService) {}
 
     public obtenirCamera(): THREE.PerspectiveCamera {
         return this.camera;
@@ -58,8 +58,8 @@ export class RenderService {
         this.creerPlan();
         this.initialisationLigne();
 
-        if (this.pisteAmodifie) {
-            this.chargerPiste(this.pisteAmodifie.listepositions);
+        if (this.createurPisteService.pisteAmodifie) {
+            this.chargerPiste(this.createurPisteService.pisteAmodifie.listepositions);
         }
 
         this.startRenderingLoop();
