@@ -1,3 +1,4 @@
+import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { GestionElementsPiste } from './../elementsPiste/GestionElementsPiste';
 import { TypeElementPiste } from './../elementsPiste/ElementDePiste';
 import { NgForm } from '@angular/forms';
@@ -17,7 +18,9 @@ export class PisteValidationComponent {
 
     public gestionElementsPiste: GestionElementsPiste;
 
-    constructor(private pisteService: PisteService, private renderService: RenderService) {
+    constructor(private pisteService: PisteService,
+                private renderService: RenderService,
+                private createurPisteService: CreateurPisteService) {
         this.gestionElementsPiste = new GestionElementsPiste();
     }
 
@@ -27,7 +30,7 @@ export class PisteValidationComponent {
 
     public onSubmit(form: NgForm): void {
         const listepositions: THREE.Vector3[] = [];
-        Object.assign(listepositions, this.renderService.obtenirPositions());
+        Object.assign(listepositions, this.createurPisteService.obtenirPositions());
         if (this.pisteAmodifier) {
             this.modification(this.pisteAmodifier, form, listepositions);
         } else {
@@ -76,7 +79,7 @@ export class PisteValidationComponent {
             case 'flaqueDEau': { type = TypeElementPiste.FlaqueDEau; break; }
             case 'accelerateur': { type = TypeElementPiste.Accelerateur; break; }
         }
-        this.gestionElementsPiste.ajouterElementDePiste(this.renderService.obtenirPositions(), type);
-        this.renderService.afficherElementsDePiste(this.gestionElementsPiste.obtenirListeElement());
+        this.gestionElementsPiste.ajouterElementDePiste(this.createurPisteService.obtenirPositions(), type);
+        this.createurPisteService.afficherElementsDePiste(this.gestionElementsPiste.obtenirListeElement(), this.renderService.scene);
     }
 }
