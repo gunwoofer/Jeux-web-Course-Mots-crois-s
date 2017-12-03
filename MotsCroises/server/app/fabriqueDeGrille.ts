@@ -24,7 +24,7 @@ export class FabriqueDeGrille {
             // Permet de surpasser l'encapsulation de l'objet incomplet MotComplet.
             const motCompletIncomplet: any = motCompletCourant;
 
-            vraiMotComplet = new MotComplet(motCompletCourant.lettres, motCompletIncomplet.indice);
+            vraiMotComplet = new MotComplet(motCompletCourant.obtenirLettres(), motCompletIncomplet.indice);
             Object.assign(vraiMotComplet, motCompletCourant);
             vraiMotsComplet.push(vraiMotComplet);
         }

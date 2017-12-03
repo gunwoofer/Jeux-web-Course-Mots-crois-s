@@ -11,7 +11,7 @@ describe('GenerateurDeMotContrainteService', () => {
         const monGenerateurDeMot = new GenerateurDeMotContrainteService();
 
         monGenerateurDeMot.demanderMotsADatamuse(mot).then((motAPI) => {
-            assert(motAPI.obtenirIndice().obtenirDefinition(Niveau.facile) !== '');
+            assert(motAPI.indice.obtenirDefinition(Niveau.facile) !== '');
             done();
         })
         .catch((erreur) => {

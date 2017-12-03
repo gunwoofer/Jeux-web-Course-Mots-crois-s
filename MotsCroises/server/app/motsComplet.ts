@@ -15,7 +15,7 @@ export class MotsComplet {
     public recupererIndices(): Indice[] {
         const tableauIndices: Indice[] = new Array();
         for (const mot of this.mots) {
-            tableauIndices.push(mot.obtenirIndice());
+            tableauIndices.push(mot.indice);
         }
         return tableauIndices;
     }
