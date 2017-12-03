@@ -21,7 +21,7 @@ export class FabriqueDeGrille {
         for (const motCompletCourant of jsonEnGrille.mots) {
             // Permet de surpasser l'encapsulation de l'objet incomplet MotComplet.
             const motCompletIncomplet: any = motCompletCourant;
-            const vraiMotComplet = new MotComplet(motCompletCourant.obtenirLettres(), motCompletIncomplet.indice);
+            const vraiMotComplet = new MotComplet('', motCompletIncomplet.indice);
             Object.assign(vraiMotComplet, motCompletCourant);
             vraiMotsComplet.push(vraiMotComplet);
         }

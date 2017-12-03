@@ -30,7 +30,7 @@ describe('GenerateurDeGrilleService', () => {
         for (const motAChercher of mots) {
             let nMotSimilaire = 0;
             for (const motCourant of mots) {
-                if (motAChercher.obtenirLettres() === motCourant.obtenirLettres()) {
+                if (motAChercher.lettres === motCourant.lettres) {
                     nMotSimilaire++;
                 }
                 if (nMotSimilaire > 1) {

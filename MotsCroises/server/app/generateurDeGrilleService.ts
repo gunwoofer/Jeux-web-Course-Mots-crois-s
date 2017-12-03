@@ -1,7 +1,6 @@
 import { GestionnaireParametresGrilleService } from './gestionnaireParametresGrilleService';
 import { GenerateurDeMotContrainteService } from './generateurDeMotContrainteService';
 import { RechercheMots } from './rechercheMots';
-import { EmplacementMot } from './../../commun/EmplacementMot';
 import { Grille } from './grille';
 import { Niveau } from '../../commun/Niveau';
 import { MotComplet } from './motComplet';
@@ -16,7 +15,7 @@ export class GenerateurDeGrilleService {
         const grille = this.genererGrilleMotSync(niveau);
         let nEmplacement = 0;
         for (const mot of grille.mots) {
-            const motAPI: MotComplet = await new GenerateurDeMotContrainteService().demanderMotsADatamuse(mot.obtenirLettres());
+            const motAPI: MotComplet = await new GenerateurDeMotContrainteService().demanderMotsADatamuse(mot.lettres);
             const emplacementsTries = GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot());
             mot.indice.definitions = motAPI.indice.definitions;
             mot.indice.id = motAPI.indice.id;

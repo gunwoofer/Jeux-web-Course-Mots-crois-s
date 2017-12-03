@@ -22,7 +22,7 @@ export class MotsComplet {
 
     public contientDejaLeMot(mot: MotComplet): boolean {
         for (const motCourant of this.mots) {
-            if (motCourant.obtenirLettres() === mot.obtenirLettres()) {
+            if (motCourant.lettres === mot.lettres) {
                 return true;
             }
         }
