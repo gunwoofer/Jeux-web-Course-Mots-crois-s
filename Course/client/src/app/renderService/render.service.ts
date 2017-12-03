@@ -17,17 +17,12 @@ import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 export class RenderService {
 
     public scene: THREE.Scene;
-    public pointsLine;
-    public nbSegmentsCroises = 0;
-    public nbAnglesPlusPetit45 = 0;
-    public nbSegmentsTropProche = 0;
 
     private camera: THREE.PerspectiveCamera;
     private renderer: THREE.WebGLRenderer;
     private points: PointsFacade[] = new Array();
     private dessinTermine = false;
 
-    private contraintesCircuit = new ContraintesCircuit();
     private listePointElementPiste: THREE.Points[] = new Array();
     private facadeCoordonneesService = new FacadeCoordonneesService();
     private plane: THREE.Mesh;
@@ -56,7 +51,7 @@ export class RenderService {
         this.container = container;
         this.scene = this.creerScene();
         this.creerPlan();
-        this.initialisationLigne();
+        this.ajouterLigneALaScene();
 
         if (this.createurPisteService.pisteAmodifie) {
             this.chargerPiste(this.createurPisteService.pisteAmodifie.listepositions);
@@ -83,9 +78,9 @@ export class RenderService {
         this.scene.add(this.plane);
     }
 
-    public initialisationLigne(): void {
-        this.pointsLine = FacadeLigneService.creerLignePoints();
-        this.scene.add(this.pointsLine);
+    public ajouterLigneALaScene(): void {
+        this.createurPisteService.initialisationLigne();
+        this.scene.add(this.createurPisteService.pointsLine);
     }
 
     public startRenderingLoop(): void {
@@ -115,7 +110,8 @@ export class RenderService {
         if (!this.dessinTermine) {
             this.scene.add(point);
         }
-        FacadeLigneService.ajouterLignePoints(point.position, this.facadePointService.compteur, this.pointsLine, this.points);
+        FacadeLigneService.ajouterLignePoints(point.position, this.facadePointService.compteur, 
+                                                this.createurPisteService.pointsLine, this.points);
         this.points.push(point);
         this.facadePointService.compteur++;
     }
@@ -125,7 +121,7 @@ export class RenderService {
         this.scene.remove(this.points[this.points.length - 1]);
         this.points.pop();
         this.actualiserDonnees();
-        FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur, this.pointsLine, this.points);
+        FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur, this.createurPisteService.pointsLine, this.points);
         if (this.facadePointService.compteur >= 1) {
             this.facadePointService.compteur--;
         }
@@ -168,30 +164,24 @@ export class RenderService {
     }
 
     public retourneEtatDessin(): boolean {
-        if (this.nbAnglesPlusPetit45 + this.nbSegmentsCroises + this.nbSegmentsTropProche === 0) {
+        if (this.createurPisteService.nbAnglesPlusPetit45 + this.createurPisteService.nbSegmentsCroises + 
+                this.createurPisteService.nbSegmentsTropProche === 0) {
             return this.dessinTermine;
         } else {
             return false;
         }
     }
 
-    public actualiserContrainte(): void {
-        this.nbSegmentsCroises = this.contraintesCircuit.nombreLignesCroisees(this.points, this.dessinTermine);
-        this.nbSegmentsTropProche = this.contraintesCircuit.nombreSegmentsTropCourts(this.points);
-        this.nbAnglesPlusPetit45 = this.contraintesCircuit.nombreAnglesMoins45(
-            this.points, this.facadePointService.compteur, this.dessinTermine
-        );
-    }
-
     public actualiserDonnees(): void {
         FacadePointService.restaurerStatusPoints(this.points);
-        this.actualiserContrainte();
+        this.createurPisteService.actualiserContrainte(this.points, this.dessinTermine);
         FacadePointService.actualiserCouleurPoints(this.points);
     }
 
     public viderScene(): void {
         for (let i = 0; i < this.points.length; i++) {
-            FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur, this.pointsLine, this.points);
+            FacadeLigneService.retirerAncienlignePoints(this.facadePointService.compteur, 
+                                                        this.createurPisteService.pointsLine, this.points);
             this.scene.remove(this.points[i]);
             this.facadePointService.compteur--;
         }

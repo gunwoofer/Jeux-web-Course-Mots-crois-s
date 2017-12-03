@@ -69,12 +69,12 @@ export class CreateurPisteComponent implements OnInit {
     }
 
     public erreursCircuit(): boolean {
-        if (this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
-            this.renderService.nbSegmentsTropProche,
-            this.renderService.nbSegmentsCroises)) {
-            this.message = this.messageErreurService.afficherMessageErreurs(this.renderService.nbAnglesPlusPetit45,
-                                                                            this.renderService.nbSegmentsTropProche,
-                                                                            this.renderService.nbSegmentsCroises);
+        if (this.messageErreurService.afficherMessageErreurs(this.createurPisteService.nbAnglesPlusPetit45,
+            this.createurPisteService.nbSegmentsTropProche,
+            this.createurPisteService.nbSegmentsCroises)) {
+            this.message = this.messageErreurService.afficherMessageErreurs(this.createurPisteService.nbAnglesPlusPetit45,
+                                                                            this.createurPisteService.nbSegmentsTropProche,
+                                                                            this.createurPisteService.nbSegmentsCroises);
             return true;
         }
 
