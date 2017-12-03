@@ -1,4 +1,4 @@
-import { ConnexionTempsReelClient } from './ConnexionTempsReelClient';
+import { ConnexionTempsReelClient } from './connexionTempsReelClient';
 import * as requetes from '../../../commun/constantes/RequetesTempsReel';
 import { SpecificationPartie } from '../../../commun/SpecificationPartie';
 import { Niveau } from '../../../commun/Niveau';

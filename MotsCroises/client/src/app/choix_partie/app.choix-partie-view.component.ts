@@ -21,6 +21,7 @@ export class ChoixPartieViewComponent {
   public niveauValue: string[] = ['facile', 'moyen', 'difficile'];
   public typePartieValue: string[] = ['classique', 'dynamique'];
   public nbJoueursValue: string[] = ['1 joueur', '2 joueurs'];
+  public messageChargement = '';
 
   constructor(private router: Router, private gameViewService: GameViewService) {
 
@@ -40,6 +41,7 @@ export class ChoixPartieViewComponent {
 
   public demanderCreationPartie() {
       this.gameViewService.demanderPartie(this.niveauPartie, this.typePartie, this.nbJoueursPartie);
+      this.messageChargement = 'Chargement de la grille en cours...';
   }
 
   public joindrePartieEnAttente() {

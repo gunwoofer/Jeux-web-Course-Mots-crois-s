@@ -16,7 +16,6 @@ import {FormsModule} from '@angular/forms';
 import {TrouverPartieComponent} from './trouver_partie/app.trouver-partie.component';
 import {AttentePartieComponent} from './attente_partie/app.attente-partie.component';
 
-
 @NgModule({
   declarations: [
     AppComponent,

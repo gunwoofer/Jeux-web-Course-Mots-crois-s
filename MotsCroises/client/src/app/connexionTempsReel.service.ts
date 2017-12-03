@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core';
-import {ConnexionTempsReelClient} from './ConnexionTempsReelClient';
+import {ConnexionTempsReelClient} from './connexionTempsReelClient';
 import {Joueur} from '../../../commun/Joueur';
 import {Niveau} from '../../../commun/Niveau';
 import {TypePartie} from '../../../commun/TypePartie';
