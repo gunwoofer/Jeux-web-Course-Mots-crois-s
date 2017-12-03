@@ -1,7 +1,7 @@
 import { Indice } from './indice';
 
 export class MotComplet {
-    private lettres: string;
+    public lettres: string;
     public indice: Indice;
 
     public constructor(lettres: string, indice: Indice) {
@@ -14,9 +14,5 @@ export class MotComplet {
             return this.lettres[position].normalize('NFD').replace(/[\u0300-\u036f]/g, '');
         }
         return '';
-    }
-
-    public obtenirLettres(): string {
-        return this.lettres;
     }
 }

@@ -174,15 +174,6 @@ export class Voiture implements sujet.Sujet {
         return this.voiture3D;
     }
 
-    public obtenirTailleVoiture(): THREE.Vector2 {
-
-        // https://stackoverflow.com/questions/33758313/get-size-of-object3d-in-three-js
-        const boite = new THREE.Box3().setFromObject(this.voiture3D);
-        const tailleX = Math.abs(boite.max.x - boite.min.x);
-        const tailleY = Math.abs(boite.max.y - boite.min.y);
-
-        return new THREE.Vector2(tailleX, tailleY);
-    }
 
     public obtenirPointMilieu(): THREE.Vector3 {
         return this.pointMilieu;

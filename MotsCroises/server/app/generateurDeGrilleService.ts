@@ -1,7 +1,6 @@
 import { GestionnaireParametresGrilleService } from './gestionnaireParametresGrilleService';
 import { GenerateurDeMotContrainteService } from './generateurDeMotContrainteService';
 import { RechercheMots } from './rechercheMots';
-import { EmplacementMot } from './../../commun/EmplacementMot';
 import { Grille } from './grille';
 import { Niveau } from '../../commun/Niveau';
 import { MotComplet } from './motComplet';
@@ -16,7 +15,7 @@ export class GenerateurDeGrilleService {
         const grille = this.genererGrilleMotSync(niveau);
         let nEmplacement = 0;
         for (const mot of grille.mots) {
-            const motAPI: MotComplet = await new GenerateurDeMotContrainteService().demanderMotsADatamuse(mot.obtenirLettres());
+            const motAPI: MotComplet = await new GenerateurDeMotContrainteService().demanderMotsADatamuse(mot.lettres);
             const emplacementsTries = GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot());
             mot.indice.definitions = motAPI.indice.definitions;
             mot.indice.id = motAPI.indice.id;
@@ -28,9 +27,8 @@ export class GenerateurDeGrilleService {
     }
 
     private remplirGrilleSync(niveau: Niveau, grille: Grille): Grille {
-        const emplacements: EmplacementMot[] = GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot());
         const motsDeLaGrille: string[] = new Array();
-        for (const emplacement of emplacements) {
+        for (const emplacement of GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot())) {
             const chaineMot =  RechercheMots.rechercherMot(emplacement.obtenirGrandeur(),
                                 GestionnaireParametresGrilleService.genererTableauContraintes(grille, emplacement));
             motsDeLaGrille.push(chaineMot);

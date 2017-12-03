@@ -32,16 +32,21 @@ export class CollisionService {
         this.mettreAJourRaycasterSurChaqueVoiture(voitures);
         for (const voitureQuiCauseImpact of voitures) {
             autresVoitures = this.obtenirAutresVoitures(voitureQuiCauseImpact, voitures);
-           for (const voitureQuiRecoitImpact of autresVoitures) {
-               if (voitureQuiCauseImpact.raycasterCollisionDroit
-                .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0
-                 || voitureQuiCauseImpact.raycasterCollisionDroit
-                 .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
-                 voitureQuiRecoitImpact.reactionDeVoitureQuiRecoitImpact(voitureQuiCauseImpact);
-                 voitureQuiCauseImpact.reactionVoitureQuiCauseImpact();
-                }
-            }
+            this.creerReactionsCollisions(autresVoitures, voitureQuiCauseImpact);
+
         }
+    }
+
+    public creerReactionsCollisions(autresVoitures: Voiture[], voitureQuiCauseImpact: Voiture): void {
+        for (const voitureQuiRecoitImpact of autresVoitures) {
+            if (voitureQuiCauseImpact.raycasterCollisionDroit
+             .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0
+              || voitureQuiCauseImpact.raycasterCollisionDroit
+              .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
+              voitureQuiRecoitImpact.reactionDeVoitureQuiRecoitImpact(voitureQuiCauseImpact);
+              voitureQuiCauseImpact.reactionVoitureQuiCauseImpact();
+             }
+         }
     }
 
 

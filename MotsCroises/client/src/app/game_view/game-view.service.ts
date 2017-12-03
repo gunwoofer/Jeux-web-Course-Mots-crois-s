@@ -3,7 +3,7 @@ import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
 import {IndiceMot} from '../indice/indiceMot';
-import {ConnexionTempsReelClient} from '../ConnexionTempsReelClient';
+import {ConnexionTempsReelClient} from '../connexionTempsReelClient';
 import {COULEUR_BLEUE, Joueur} from '../../../../commun/Joueur';
 import {Niveau} from '../../../../commun/Niveau';
 import {TypePartie} from '../../../../commun/TypePartie';

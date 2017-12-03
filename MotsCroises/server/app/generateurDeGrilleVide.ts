@@ -1,5 +1,5 @@
 import { Position } from './../../commun/Position';
-import { EtatCase } from './../../commun/Case';
+import { EtatCase, Case } from './../../commun/Case';
 import { Grille, DIMENSION_LIGNE_COLONNE } from './grille';
 import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
 import { Niveau } from '../../commun/Niveau';
@@ -30,43 +30,17 @@ export class GenerateurDeGrilleVide {
         for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
             const tailleMot = this.nombreAleatoireEntreXEtY(grilleConstantes.grandeurMotMinimum, grilleConstantes.grandeurMotMaximum);
             const debutEmplacementMot = this.nombreAleatoireEntreXEtY(0, DIMENSION_LIGNE_COLONNE - tailleMot);
-            if (position === Position.Ligne) {
-                if (this.testContraintesMotAuDessus(grilleVide, debutEmplacementMot, tailleMot, i)) {
-                    grilleVide = this.creerEmplacementMot(i, grilleVide, debutEmplacementMot, tailleMot, position);
-                } else {
-                    nEssais++;
-                    i--;
-                }
+            if (this.testContraintesMotProche(grilleVide, debutEmplacementMot, tailleMot, i, position)) {
+                grilleVide = this.creerEmplacementMot(i, grilleVide, debutEmplacementMot, tailleMot, position);
             } else {
-                if (this.testContraintesMotAGauche(grilleVide, debutEmplacementMot, tailleMot, i)) {
-                    grilleVide = this.creerEmplacementMot(i, grilleVide, debutEmplacementMot, tailleMot, position);
-                } else {
-                    nEssais++;
-                    i--;
-                }
+                nEssais++;
+                i--;
             }
             if (nEssais > MAX_ESSAIS) {
                 throw new Error ('Generer Emplacement de Mot Ligne impossible');
             }
         }
         return grilleVide;
-    }
-
-    private testContraintesMotAuDessus(grilleVide: Grille, positionMot: number, tailleMot: number, ligne: number): boolean {
-        let nombreCasesOccupeesAuDessus = 0;
-        if (ligne === 0) {
-            return true;
-        }
-        for (let i = positionMot; i < positionMot + tailleMot; i++) {
-            const caseDessus = grilleVide.cases.obtenirCase(ligne - 1, i);
-            if (caseDessus.etat === EtatCase.vide) {
-                nombreCasesOccupeesAuDessus++;
-            }
-        }
-        if (nombreCasesOccupeesAuDessus > MAX_CONTRAINTES) {
-            return false;
-        }
-        return true;
     }
 
     public creerEmplacementMot(positionFixe: number, grilleVide: Grille, posDepart: number, tailleMot: number, position: Position): Grille {
@@ -80,20 +54,20 @@ export class GenerateurDeGrilleVide {
         return grilleVide;
     }
 
-    private testContraintesMotAGauche(grilleVide: Grille, positionMot: number, tailleMot: number, colonne: number): boolean {
-        let nombreCasesOccupeesAGauche = 0;
-        if (colonne === 0) {
-            return true;
-        }
+    private testContraintesMotProche(grilleVide: Grille, positionMot: number, tailleMot: number,
+                                    positionFixe: number, position: Position): boolean {
+        let nombreCasesOccupeesProche = 0;
+        if (positionFixe === 0) { return true; }
         for (let i = positionMot; i < positionMot + tailleMot; i++) {
-            const caseGauche = grilleVide.cases.obtenirCase(i, colonne - 1);
-            if (caseGauche.etat === EtatCase.vide) {
-                nombreCasesOccupeesAGauche++;
+            let caseProche: Case;
+            if (position === Position.Colonne) {
+                caseProche = grilleVide.cases.obtenirCase(i, positionFixe - 1);
+            } else {
+                caseProche = grilleVide.cases.obtenirCase(positionFixe - 1, i);
             }
+            if (caseProche.etat === EtatCase.vide) { nombreCasesOccupeesProche++; }
         }
-        if (nombreCasesOccupeesAGauche > MAX_CONTRAINTES) {
-            return false;
-        }
+        if (nombreCasesOccupeesProche > MAX_CONTRAINTES) { return false; }
         return true;
     }
 
