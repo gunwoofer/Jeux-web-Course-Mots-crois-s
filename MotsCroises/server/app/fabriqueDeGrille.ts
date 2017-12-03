@@ -30,21 +30,18 @@ export class FabriqueDeGrille {
 
     private static creerInstanceAvecJSONEmplacementMots(jsonEnGrille: Grille): EmplacementMot[] {
         const vraiEmplacementsMot: EmplacementMot[] = new Array();
-        let vraieEmplacementMot: EmplacementMot;
-        let vraieCaseDebut: Case;
-        let vraieCaseFin: Case;
         let emplacementMotCourant: any;
         for (let i = 0; i < jsonEnGrille.emplacementMots.length; i++) {
             emplacementMotCourant = jsonEnGrille.emplacementMots[i];
-            vraieCaseDebut = new Case(emplacementMotCourant.caseDebut.numeroLigne,
+            const vraieCaseDebut = new Case(emplacementMotCourant.caseDebut.numeroLigne,
                 emplacementMotCourant.caseDebut.numeroColonne, emplacementMotCourant.caseDebut.etat);
-            vraieCaseFin = new Case(emplacementMotCourant.caseFin.numeroLigne,
+            const vraieCaseFin = new Case(emplacementMotCourant.caseFin.numeroLigne,
                 emplacementMotCourant.caseFin.numeroColonne, emplacementMotCourant.caseFin.etat);
             // Permet de surpasser l'encapsulation de l'objet incomplet EmplacementMot.
             const emplacementMotIncomplet: any = jsonEnGrille.emplacementMots[i];
             Object.assign(vraieCaseDebut, emplacementMotIncomplet.caseDebut as Case);
             Object.assign(vraieCaseFin, emplacementMotIncomplet.caseFin as Case);
-            vraieEmplacementMot = new EmplacementMot(vraieCaseDebut, vraieCaseFin);
+            const vraieEmplacementMot = new EmplacementMot(vraieCaseDebut, vraieCaseFin);
             Object.assign(vraieEmplacementMot, emplacementMotCourant as EmplacementMot);
             vraieEmplacementMot.modifierCaseDebutFin(vraieCaseDebut, vraieCaseFin);
             vraiEmplacementsMot.push(vraieEmplacementMot);
