@@ -5,7 +5,6 @@ import { Niveau } from '../../commun/Niveau';
 import { TypePartie } from '../../commun/TypePartie';
 import { Joueur } from '../../commun/Joueur';
 
-export const NOMBRE_GRILLES_PARTIE_DYNAMIQUE = 5;
 export const AUCUNE_PARTIE_CORREPSONDANT_GUID = 'Aucune partie correspondant au GUID n\'a été trouvé';
 
 export class GestionnaireDePartieService {

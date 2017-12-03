@@ -7,7 +7,6 @@ const datamuse = require('datamuse');
 export const aucunMotObtenuDeDataMuse = 'Aucun mot n\'a été reccueilli de l\'API datamuse.';
 
 export class GenerateurDeMotContrainteService {
-
     public demanderMotsADatamuse(contrainte: string): Promise<MotComplet> {
         return new Promise((resolve: any, reject: any) => {
             datamuse.request('words?sp=' + contrainte + '&md=df').then((motsDataMuse: MotDataMuse[]) => {
