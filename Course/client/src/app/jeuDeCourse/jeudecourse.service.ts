@@ -79,8 +79,7 @@ export class JeuDeCourseService implements Observateur {
     public initialisation(container: HTMLDivElement): void {
         this.container = container;
         this.creerScene();
-        this.skyboxService.ajouterSkybox(this.camera);
-        this.mondeDuJeuService.chargerMonde3D(this.scene);
+        this.mondeDuJeuService.chargerMonde3D(this.scene, this.camera);
         this.chargementDesVoitures();
         this.commencerMoteurDeJeu();
     }

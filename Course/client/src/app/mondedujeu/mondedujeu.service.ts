@@ -1,3 +1,4 @@
+import { SkyboxService } from './../skybox/skybox.service';
 import { Injectable } from '@angular/core';
 import { Piste } from '../piste/piste.model';
 import { SurfaceHorsPiste } from '../surfaceHorsPiste/surfaceHorsPiste.service';
@@ -15,7 +16,10 @@ export class MondeDuJeuService {
     public piste: Piste;
     public segment: Segment = new Segment();
 
-    public chargerMonde3D(scene: THREE.Scene): void {
+    constructor(private skyboxService: SkyboxService) { }
+
+    public chargerMonde3D(scene: THREE.Scene, camera: THREE.PerspectiveCamera): void {
+        this.skyboxService.ajouterSkybox(camera);
         ObjetService.ajouterArbreScene(scene);
         this.segment.ajouterPisteAuPlan(this.piste, scene);
         this.genererTerrain(scene);
