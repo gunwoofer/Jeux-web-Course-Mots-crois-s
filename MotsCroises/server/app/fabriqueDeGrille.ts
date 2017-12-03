@@ -18,17 +18,13 @@ export class FabriqueDeGrille {
 
     private static creerInstanceAvecJSONMotComplet(jsonEnGrille: Grille): MotComplet[] {
         const vraiMotsComplet: MotComplet[] = new Array();
-        let vraiMotComplet: MotComplet;
-
         for (const motCompletCourant of jsonEnGrille.mots) {
             // Permet de surpasser l'encapsulation de l'objet incomplet MotComplet.
             const motCompletIncomplet: any = motCompletCourant;
-
-            vraiMotComplet = new MotComplet(motCompletCourant.obtenirLettres(), motCompletIncomplet.indice);
+            const vraiMotComplet = new MotComplet(motCompletCourant.obtenirLettres(), motCompletIncomplet.indice);
             Object.assign(vraiMotComplet, motCompletCourant);
             vraiMotsComplet.push(vraiMotComplet);
         }
-
         return vraiMotsComplet;
     }
 
@@ -38,30 +34,21 @@ export class FabriqueDeGrille {
         let vraieCaseDebut: Case;
         let vraieCaseFin: Case;
         let emplacementMotCourant: any;
-
         for (let i = 0; i < jsonEnGrille.emplacementMots.length; i++) {
             emplacementMotCourant = jsonEnGrille.emplacementMots[i];
             vraieCaseDebut = new Case(emplacementMotCourant.caseDebut.numeroLigne,
                 emplacementMotCourant.caseDebut.numeroColonne, emplacementMotCourant.caseDebut.etat);
             vraieCaseFin = new Case(emplacementMotCourant.caseFin.numeroLigne,
                 emplacementMotCourant.caseFin.numeroColonne, emplacementMotCourant.caseFin.etat);
-
             // Permet de surpasser l'encapsulation de l'objet incomplet EmplacementMot.
             const emplacementMotIncomplet: any = jsonEnGrille.emplacementMots[i];
-
             Object.assign(vraieCaseDebut, emplacementMotIncomplet.caseDebut as Case);
             Object.assign(vraieCaseFin, emplacementMotIncomplet.caseFin as Case);
-
             vraieEmplacementMot = new EmplacementMot(vraieCaseDebut, vraieCaseFin);
-
             Object.assign(vraieEmplacementMot, emplacementMotCourant as EmplacementMot);
-
             vraieEmplacementMot.modifierCaseDebutFin(vraieCaseDebut, vraieCaseFin);
-
-
             vraiEmplacementsMot.push(vraieEmplacementMot);
         }
-
         return vraiEmplacementsMot;
     }
 

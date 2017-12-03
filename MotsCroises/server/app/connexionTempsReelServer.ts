@@ -21,7 +21,6 @@ export class ConnexionTempsReelServer {
     private gestionnaireDePartieService: GestionnaireDePartieService = new GestionnaireDePartieService();
     private generateurDeGrilleService: GenerateurDeGrilleService = new GenerateurDeGrilleService();
     private descripteurEvenementTempsReel: DescripteurEvenementTempsReel = new DescripteurEvenementTempsReel();
-
     private clientSockets: SocketIO.Socket[] = new Array();
 
     constructor(app: express.Application) {
