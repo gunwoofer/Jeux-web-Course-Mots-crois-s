@@ -62,16 +62,16 @@ export class EvenementService {
 
   public onMouseMove(event: MouseEvent): void {
     const rayCaster = new THREE.Raycaster();
-    this.facadeCoordonneesService.souris.mettreAJourVecteurSouris(event, this.renderService.renderer);
+    this.facadeCoordonneesService.souris.mettreAJourVecteurSouris(event, this.renderService.obtenirRenderer());
     let intersects;
     this.renderService.scene.updateMatrixWorld(true);
-    rayCaster.setFromCamera(this.facadeCoordonneesService.souris.vecteurSouris, this.renderService.camera);
+    rayCaster.setFromCamera(this.facadeCoordonneesService.souris.vecteurSouris, this.renderService.obtenirCamera());
     intersects = rayCaster.intersectObjects(this.renderService.scene.children);
     if (this.modeGlissement) {
       this.dragPoint(intersects[0].point);
     } else {
       if (intersects.length > 0) {
-        FacadePointService.actualiserCouleurPoints(this.renderService.points);
+        FacadePointService.actualiserCouleurPoints(this.renderService.obtenirPoints());
         this.pointHover = false;
         for (const objet of intersects) {
           if (objet.object.type === 'Points') {
@@ -114,15 +114,15 @@ export class EvenementService {
     this.objetGlisse.position.copy(position);
     const objetGlisseNumber = parseInt(this.objetGlisse.name, 10);
     FacadeLigneService.modifierLignePoints(
-      objetGlisseNumber, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.points
+      objetGlisseNumber, this.objetGlisse.position, this.renderService.pointsLine, this.renderService.obtenirPoints()
     );
-    if (objetGlisseNumber === 0 && this.renderService.dessinTermine) {
-      this.renderService.points[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
+    if (objetGlisseNumber === 0 && this.renderService.obtenirDessinTermine()) {
+      this.renderService.obtenirPoints()[this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
         FacadeLigneService.modifierLignePoints(
         this.renderService.facadePointService.compteur - 1,
         this.objetGlisse.position,
         this.renderService.pointsLine,
-        this.renderService.points
+        this.renderService.obtenirPoints()
       );
     }
   }

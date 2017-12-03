@@ -1,3 +1,4 @@
+import { PointsFacade } from './../pointsFacade';
 import { Accelerateur } from './../elementsPiste/Accelerateur';
 import { NidDePoule } from './../elementsPiste/NidDePoule';
 import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
@@ -8,25 +9,24 @@ import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees
 import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
 import { Piste } from '../piste/piste.model';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
-import { Points } from 'three';
-import { PointsFacade } from '../pointsFacade';
+import { Points, Line } from 'three';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 
 @Injectable()
 export class RenderService {
 
-    public camera: THREE.PerspectiveCamera;
-    public renderer: THREE.WebGLRenderer;
     public scene: THREE.Scene;
     public pisteAmodifie: Piste;
-    public pointsLine;
-    public id;
-    public points: PointsFacade[] = new Array();
-    public dessinTermine = false;
+    public pointsLine: Line;
     public nbSegmentsCroises = 0;
     public nbAnglesPlusPetit45 = 0;
     public nbSegmentsTropProche = 0;
+
+    private camera: THREE.PerspectiveCamera;
+    private renderer: THREE.WebGLRenderer;
+    private points: PointsFacade[] = new Array();
+    private dessinTermine = false;
 
     private contraintesCircuit = new ContraintesCircuit();
     private listePointElementPiste: THREE.Points[] = new Array();
@@ -35,6 +35,22 @@ export class RenderService {
     private container: HTMLDivElement;
 
     constructor(public facadePointService: FacadePointService) {}
+
+    public obtenirCamera(): THREE.PerspectiveCamera {
+        return this.camera;
+    }
+
+    public obtenirRenderer(): THREE.WebGLRenderer {
+        return this.renderer;
+    }
+
+    public obtenirPoints(): PointsFacade[] {
+        return this.points;
+    }
+
+    public obtenirDessinTermine(): boolean {
+        return this.dessinTermine;
+    }
 
     public initialize(container: HTMLDivElement): void {
         this.container = container;
