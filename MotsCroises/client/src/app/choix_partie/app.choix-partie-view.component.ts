@@ -47,5 +47,4 @@ export class ChoixPartieViewComponent {
   public joindrePartieEnAttente() {
     this.router.navigate(['trouverPartie']);
   }
-
 }
