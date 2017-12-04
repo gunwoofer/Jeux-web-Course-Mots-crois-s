@@ -1,3 +1,4 @@
+import { PisteModel } from './../pisteModel';
 import * as express from 'express';
 import { modelDePiste } from '../pisteModel';
 
@@ -8,7 +9,7 @@ module Route {
 
         public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const piste = new modelDePiste(req.body);
-            piste.save((err, resultat) => {
+            piste.save((err: any, resultat: PisteModel) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'une erreur est survenue lors de la sauvegarde',
@@ -23,7 +24,7 @@ module Route {
         }
 
         public retournerPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            modelDePiste.find((err, pistes) => {
+            modelDePiste.find((err: any, pistes: PisteModel[]) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'Une erreur est survenue',
@@ -38,14 +39,14 @@ module Route {
         }
 
         public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            modelDePiste.findById(req.params.id, (err, piste) => {
+            modelDePiste.findById(req.params.id, (err: any, piste: PisteModel) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'Une erreur est survenue',
                         error: err
                     });
                 }
-                piste.remove((error: any, resultat: any) => {
+                piste.remove((error: any, resultat: PisteModel) => {
                     if (err) {
                         return res.status(500).json({
                             title: 'une erreur est survenue lors de la sauvegarde',
@@ -62,7 +63,7 @@ module Route {
         }
 
         public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            modelDePiste.findById(req.params.id, (err, piste) => {
+            modelDePiste.findById(req.params.id, (err: any, piste: PisteModel) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'Une erreur est survenue',
@@ -89,7 +90,7 @@ module Route {
         }
 
         public modifierTableauPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            modelDePiste.findById(req.params.id, (err, piste) => {
+            modelDePiste.findById(req.params.id, (err: any, piste: PisteModel) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'Une erreur est survenue',
@@ -97,7 +98,7 @@ module Route {
                     });
                 }
                 piste.meilleursTemps = req.body.meilleursTemps;
-                piste.save((error: any, resultat: any) => {
+                piste.save((error: any, resultat: PisteModel) => {
                     if (err) {
                         return res.status(500).json({
                             title: 'une erreur est survenue lors de la modification',
@@ -114,7 +115,7 @@ module Route {
         }
 
         public modifierRating(req: express.Request, res: express.Response, next: express.NextFunction): void {
-            modelDePiste.findById(req.params.id, (err, piste) => {
+            modelDePiste.findById(req.params.id, (err: any, piste: PisteModel) => {
                 if (err) {
                     return res.status(500).json({
                         title: 'Une erreur est survenue',
@@ -123,7 +124,7 @@ module Route {
                 }
                 piste.coteAppreciation = req.body.coteAppreciation;
                 piste.listeElementsDePiste = req.body.listeElementsDePiste;
-                piste.save((error: any, resultat: any) => {
+                piste.save((error: any, resultat: PisteModel) => {
                     if (err) {
                         return res.status(500).json({
                             title: 'une erreur est survenue lors de la modification',
