@@ -2,7 +2,7 @@ import { GestionnaireParametresGrilleService } from './gestionnaireParametresGri
 import { GenerateurDeMotContrainteService } from './generateurDeMotContrainteService';
 import { RechercheMots } from './rechercheMots';
 import { Grille } from './grille';
-import { Niveau } from '../../commun/Niveau';
+import { Niveau } from '../../commun/niveau';
 import { MotComplet } from './motComplet';
 import { GenerateurDeGrilleVide } from './generateurDeGrilleVide';
 import { Indice } from './indice';

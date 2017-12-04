@@ -1,10 +1,10 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
 import {GameViewService} from '../game_view/game-view.service';
-import {Joueur} from '../../../../commun/Joueur';
+import {Joueur} from '../../../../commun/joueur';
 import {TimerService} from '../game_view/timer.service';
 import {IndiceService} from '../game_view/indice.service';
-import {TypePartie} from '../../../../commun/TypePartie';
-import {Niveau} from '../../../../commun/Niveau';
+import {TypePartie} from '../../../../commun/typePartie';
+import {Niveau} from '../../../../commun/niveau';
 
 
 @Component({

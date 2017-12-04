@@ -1,4 +1,4 @@
-import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
+import {SpecificationPartie} from '../../../../commun/specificationPartie';
 import {GameViewService} from '../game_view/game-view.service';
 import {IndiceMot} from '../indice/indiceMot';
 import {ElementRef} from '@angular/core';

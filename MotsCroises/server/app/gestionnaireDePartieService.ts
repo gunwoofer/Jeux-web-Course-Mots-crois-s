@@ -1,9 +1,9 @@
-import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
+import { RequisPourMotAVerifier } from '../../commun/requis/requisPourMotAVerifier';
 import { Partie } from './partie';
 import { Grille } from './grille';
-import { Niveau } from '../../commun/Niveau';
-import { TypePartie } from '../../commun/TypePartie';
-import { Joueur } from '../../commun/Joueur';
+import { Niveau } from '../../commun/niveau';
+import { TypePartie } from '../../commun/typePartie';
+import { Joueur } from '../../commun/joueur';
 
 export const AUCUNE_PARTIE_CORREPSONDANT_GUID = 'Aucune partie correspondant au GUID n\'a été trouvé';
 

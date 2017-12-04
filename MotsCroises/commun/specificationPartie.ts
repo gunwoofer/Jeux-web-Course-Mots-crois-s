@@ -1,10 +1,10 @@
 import { Indice } from './../server/app/indice';
 
-import { Niveau } from './Niveau';
-import { Joueur } from './Joueur';
-import { TypePartie } from './TypePartie';
-import { EtatPartie } from './EtatPartie';
-import { SpecificationGrille } from './SpecificationGrille';
+import { Niveau } from './niveau';
+import { Joueur } from './joueur';
+import { TypePartie } from './typePartie';
+import { EtatPartie } from './etatPartie';
+import { SpecificationGrille } from './specificationGrille';
 
 export class SpecificationPartie {
     public niveau: Niveau;

@@ -1,13 +1,13 @@
 import { assert } from 'chai';
-import { Joueur } from '../../commun/Joueur';
-import { Case } from '../../commun/Case';
-import { EmplacementMot } from '../../commun/EmplacementMot';
+import { Joueur } from '../../commun/joueur';
+import { Case } from '../../commun/case';
+import { EmplacementMot } from '../../commun/emplacementMot';
 import { Grille } from './grille';
 import { GestionnaireDePartieService } from './gestionnaireDePartieService';
-import { Niveau } from '../../commun/Niveau';
-import { TypePartie } from '../../commun/TypePartie';
+import { Niveau } from '../../commun/niveau';
+import { TypePartie } from '../../commun/typePartie';
 import { GenerateurDeGrilleService } from './generateurDeGrilleService';
-import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
+import { RequisPourMotAVerifier } from '../../commun/requis/requisPourMotAVerifier';
 
 const maxDelaiRetourRequeteMS = 10000;
 const maxDelaiGenerationGrille = 60000;

@@ -1,20 +1,20 @@
 import { MotComplet } from './motComplet';
-import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
-import * as requetes from '../../commun/constantes/RequetesTempsReel';
+import { RequisPourMotsComplets } from '../../commun/requis/requisPourMotsComplets';
+import * as requetes from '../../commun/constantes/requetesTempsReel';
 import { Grille } from './grille';
 import { Partie } from './partie';
-import { SpecificationPartie } from '../../commun/SpecificationPartie';
-import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
-import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelectionnerMot';
-import { SpecificationGrille } from './../../commun/SpecificationGrille';
+import { SpecificationPartie } from '../../commun/specificationPartie';
+import { RequisPourMotAVerifier } from '../../commun/requis/requisPourMotAVerifier';
+import { RequisPourSelectionnerMot } from '../../commun/requis/requisPourSelectionnerMot';
+import { SpecificationGrille } from '../../commun/specificationGrille';
 import { GestionnaireDePartieService } from './gestionnaireDePartieService';
-import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
-import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
-import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
-import { VuePartieEnCours } from '../../commun/VuePartieEnCours';
-import { RequisPourJoindrePartieMultijoueur } from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
-import { EtatPartie } from '../../commun/EtatPartie';
-import { RequisPourModifierTempsRestant } from '../../commun/requis/RequisPourModifierTempsRestant';
+import { RequisPourObtenirTempsRestant } from '../../commun/requis/requisPourObtenirTempsRestant';
+import { RequisPourMotsTrouve } from '../../commun/requis/requisPourMotsTrouve';
+import { RequisDemandeListePartieEnAttente } from '../../commun/requis/requisDemandeListePartieEnAttente';
+import { VuePartieEnCours } from '../../commun/vuePartieEnCours';
+import { RequisPourJoindrePartieMultijoueur } from '../../commun/requis/requisPourJoindrePartieMultijoueur';
+import { EtatPartie } from '../../commun/etatPartie';
+import { RequisPourModifierTempsRestant } from '../../commun/requis/requisPourModifierTempsRestant';
 import { GenerateurDeGrilleService } from './generateurDeGrilleService';
 
 export class DescripteurEvenementTempsReel {

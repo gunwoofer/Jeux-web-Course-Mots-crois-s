@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import {RequisPourModifierTempsRestant} from '../../../../commun/requis/RequisPourModifierTempsRestant';
-import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/RequisPourObtenirTempsRestant';
+import {RequisPourModifierTempsRestant} from '../../../../commun/requis/requisPourModifierTempsRestant';
+import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/requisPourObtenirTempsRestant';
 import {GameViewService} from './game-view.service';
-import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
+import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 
 
 @Injectable()

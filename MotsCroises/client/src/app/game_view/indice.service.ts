@@ -1,11 +1,11 @@
 import {Injectable} from '@angular/core';
 import {GameViewService} from './game-view.service';
 import {IndiceMot} from '../indice/indiceMot';
-import {RequisPourMotsComplets} from '../../../../commun/requis/RequisPourMotsComplets';
-import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
+import {RequisPourMotsComplets} from '../../../../commun/requis/requisPourMotsComplets';
+import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 import {Subject} from 'rxjs/Subject';
-import {RequisPourSelectionnerMot} from '../../../../commun/requis/RequisPourSelectionnerMot';
-import {EmplacementMot} from '../../../../commun/EmplacementMot';
+import {RequisPourSelectionnerMot} from '../../../../commun/requis/requisPourSelectionnerMot';
+import {EmplacementMot} from '../../../../commun/emplacementMot';
 import {Indice} from '../../../../server/app/indice';
 
 const PAS_DE_DEFINITION = 'No definition';

@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
-import {Niveau} from '../../../../commun/Niveau';
-import {TypePartie} from '../../../../commun/TypePartie';
+import {Niveau} from '../../../../commun/niveau';
+import {TypePartie} from '../../../../commun/typePartie';
 import {Router} from '@angular/router';
 import {ChoixPartieService} from './choix-partie.service';
 

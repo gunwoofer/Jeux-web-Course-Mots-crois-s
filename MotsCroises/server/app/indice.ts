@@ -1,5 +1,5 @@
-import { Guid } from '../../commun/Guid';
-import {Niveau} from '../../commun/Niveau';
+import { Guid } from '../../commun/guid';
+import {Niveau} from '../../commun/niveau';
 
 export enum DifficulteDefinition {
     PremiereDefinition,

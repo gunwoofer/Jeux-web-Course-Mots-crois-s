@@ -6,54 +6,54 @@ import {IndiceService} from '../game_view/indice.service';
 
 
 @Component({
-  selector: 'app-canvas-view-component',
-  templateUrl: './canvas-view.component.html',
-  styleUrls: ['./canvas-view.component.css'],
+    selector: 'app-canvas-view-component',
+    templateUrl: './canvas-view.component.html',
+    styleUrls: ['./canvas-view.component.css'],
 })
 
 export class CanvasViewComponent implements AfterViewInit {
-  private   canvasGrille: CanvasGrille;
+    private canvasGrille: CanvasGrille;
 
-  constructor(private gameViewService: GameViewService,
-              private timerService: TimerService,
-              private indiceService: IndiceService) {
-    this.souscrireEvenementIndices();
-  }
-
-  @ViewChild('canvasjeu')
-  private containerRef: ElementRef;
-
-  @HostListener('document:keyup', ['$event'])
-  public onKeyUp(ev: KeyboardEvent) {
-    this.canvasGrille.actionToucheAppuyee(ev);
-  }
-
-  public ngAfterViewInit(): void {
-    this.canvasGrille = new CanvasGrille(this.gameViewService, this.containerRef, this.indiceService, this.timerService);
-  }
-
-  public motTrouveActualiser(): void {
-    if (this.canvasGrille) {
-      this.canvasGrille.motTrouveRafraichirCanvas();
+    constructor(private gameViewService: GameViewService,
+                private timerService: TimerService,
+                private indiceService: IndiceService) {
+        this.souscrireEvenementIndices();
     }
-  }
 
-  private souscrireEvenementIndices() {
-    this.indiceService.indiceSelectionne$.subscribe(indice => {
-      if (!indice) {
-        this.canvasGrille.initialise();
-        this.canvasGrille.miseAJourIndice(null);
-        return;
-      }
-      this.canvasGrille.miseAJourIndice(indice);
-    });
-    this.indiceService.indiceAdversaireSelectionne$.subscribe(indice => {
-      if (!indice) {
-        this.canvasGrille.initialise();
-        return;
-      }
-      this.canvasGrille.miseAJourIndiceAdversaire(indice);
-    });
-  }
+    @ViewChild('canvasjeu')
+    private containerRef: ElementRef;
+
+    @HostListener('document:keyup', ['$event'])
+    public onKeyUp(ev: KeyboardEvent) {
+        this.canvasGrille.actionToucheAppuyee(ev);
+    }
+
+    public ngAfterViewInit(): void {
+        this.canvasGrille = new CanvasGrille(this.gameViewService, this.containerRef, this.indiceService, this.timerService);
+    }
+
+    public motTrouveActualiser(): void {
+        if (this.canvasGrille) {
+            this.canvasGrille.motTrouveRafraichirCanvas();
+        }
+    }
+
+    private souscrireEvenementIndices() {
+        this.indiceService.indiceSelectionne$.subscribe(indice => {
+            if (!indice) {
+                this.canvasGrille.initialise();
+                this.canvasGrille.miseAJourIndice(null);
+                return;
+            }
+            this.canvasGrille.miseAJourIndice(indice);
+        });
+        this.indiceService.indiceAdversaireSelectionne$.subscribe(indice => {
+            if (!indice) {
+                this.canvasGrille.initialise();
+                return;
+            }
+            this.canvasGrille.miseAJourIndiceAdversaire(indice);
+        });
+    }
 
 }

@@ -1,5 +1,5 @@
-import {Guid} from './Guid';
-import {EmplacementMot} from './EmplacementMot';
+import {Guid} from './guid';
+import {EmplacementMot} from './emplacementMot';
 
 export const NOM_JOUEUR_HOTE_DEFAULT = 'joueurHote';
 

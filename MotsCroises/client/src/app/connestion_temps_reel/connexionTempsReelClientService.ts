@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {ConnexionTempsReelClient} from './ConnexionTempsReelClient';
-import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
+import {ConnexionTempsReelClient} from './connexionTempsReelClient';
+import {SpecificationPartie} from '../../../../commun/specificationPartie';
 import {ChoixPartieService} from '../choix_partie/choix-partie.service';
 import {GameViewService} from '../game_view/game-view.service';
-import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
+import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 
 
 @Injectable()

@@ -1,9 +1,9 @@
 import {Component, OnInit} from '@angular/core';
 import {GameViewService} from '../game_view/game-view.service';
-import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
-import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
-import {Niveau} from '../../../../commun/Niveau';
-import { Joueur } from '../../../../commun/Joueur';
+import {VuePartieEnCours} from '../../../../commun/vuePartieEnCours';
+import {EnumUtilitaires} from '../../../../commun/enumUtilitaires';
+import {Niveau} from '../../../../commun/niveau';
+import { Joueur } from '../../../../commun/joueur';
 import {ChoixPartieService} from '../choix_partie/choix-partie.service';
 
 

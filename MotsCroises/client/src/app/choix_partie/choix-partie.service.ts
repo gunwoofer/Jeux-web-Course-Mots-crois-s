@@ -1,16 +1,16 @@
 import {Injectable} from '@angular/core';
-import {Niveau} from '../../../../commun/Niveau';
-import {TypePartie} from '../../../../commun/TypePartie';
-import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import {ConnexionTempsReelClient} from '../connestion_temps_reel/ConnexionTempsReelClient';
+import {Niveau} from '../../../../commun/niveau';
+import {TypePartie} from '../../../../commun/typePartie';
+import {SpecificationPartie} from '../../../../commun/specificationPartie';
+import {ConnexionTempsReelClient} from '../connestion_temps_reel/connexionTempsReelClient';
 import {ATTENTE_PARTIE} from '../app.component';
 import {Subject} from 'rxjs/Subject';
-import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
-import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/RequisDemandeListePartieEnAttente';
-import {COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur} from '../../../../commun/Joueur';
-import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/RequisPourJoindrePartieMultijoueur';
-import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
-import {ConnexionTempsReelClientService} from '../connestion_temps_reel/ConnexionTempsReelClientService';
+import {VuePartieEnCours} from '../../../../commun/vuePartieEnCours';
+import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/requisDemandeListePartieEnAttente';
+import {COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur} from '../../../../commun/joueur';
+import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/requisPourJoindrePartieMultijoueur';
+import * as requetes from '../../../../commun/constantes/requetesTempsReel';
+import {ConnexionTempsReelClientService} from '../connestion_temps_reel/connexionTempsReelClientService';
 
 
 /**

@@ -1,13 +1,13 @@
 import {Injectable} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
-import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
+import {SpecificationPartie} from '../../../../commun/specificationPartie';
 import {IndiceMot} from '../indice/indiceMot';
-import {ConnexionTempsReelClient} from '../connestion_temps_reel/ConnexionTempsReelClient';
-import {COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur} from '../../../../commun/Joueur';
-import {RequisPourMotAVerifier} from '../../../../commun/requis/RequisPourMotAVerifier';
-import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
-import {EmplacementMot} from '../../../../commun/EmplacementMot';
-import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
+import {ConnexionTempsReelClient} from '../connestion_temps_reel/connexionTempsReelClient';
+import {COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur} from '../../../../commun/joueur';
+import {RequisPourMotAVerifier} from '../../../../commun/requis/requisPourMotAVerifier';
+import * as requetes from '../../../../commun/constantes/requetesTempsReel';
+import {EmplacementMot} from '../../../../commun/emplacementMot';
+import {VuePartieEnCours} from '../../../../commun/vuePartieEnCours';
 
 const TOUS_LES_MOTS_ONT_ETE_TROUVES = 'tous les mots ont été trouvés, partie terminée';
 const TEMPS_ECOULE = 'Le temps imparti est écoulé, fin de la partie';

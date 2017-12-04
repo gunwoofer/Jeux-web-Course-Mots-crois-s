@@ -1,5 +1,5 @@
-import {Niveau} from '../../../../commun/Niveau';
-import {TypePartie} from '../../../../commun/TypePartie';
+import {Niveau} from '../../../../commun/niveau';
+import {TypePartie} from '../../../../commun/typePartie';
 import {GameViewService} from './game-view.service';
 import {inject, TestBed} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';

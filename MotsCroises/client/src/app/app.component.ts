@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SpecificationPartie} from '../../../commun/SpecificationPartie';
+import {SpecificationPartie} from '../../../commun/specificationPartie';
 import {GameViewService} from './game_view/game-view.service';
 import {Router} from '@angular/router';
 import {ChoixPartieService} from './choix_partie/choix-partie.service';

@@ -1,5 +1,5 @@
 import * as socket from 'socket.io-client';
-import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
+import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 
 export const URL_SOCKETIO_SERVER = 'http://localhost:3001';
 export const MESSAGE_CONFIRMATION_DECONNEXION_SERVER = 'client_deconnecte';

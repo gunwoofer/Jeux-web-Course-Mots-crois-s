@@ -1,8 +1,8 @@
-import { Case } from './../../commun/Case';
+import { Case } from '../../commun/case';
 import { assert } from 'chai';
 import { Grille } from './grille';
 import { GenerateurDeGrilleVide } from './generateurDeGrilleVide';
-import { Niveau } from '../../commun/Niveau';
+import { Niveau } from '../../commun/niveau';
 
 describe('GenerateurDeGrilleVide', () => {
     it('Une grille est carre et fait dix cases de cote.', () => {

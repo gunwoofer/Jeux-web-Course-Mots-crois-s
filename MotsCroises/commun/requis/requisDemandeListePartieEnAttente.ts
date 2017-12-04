@@ -1,4 +1,4 @@
-import { VuePartieEnCours } from '../VuePartieEnCours';
+import { VuePartieEnCours } from '../vuePartieEnCours';
 
 export class RequisDemandeListePartieEnAttente {
     public listePartie: VuePartieEnCours[] = [];

@@ -1,10 +1,10 @@
-import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
-import {Joueur} from '../../commun/Joueur';
+import { RequisPourMotAVerifier } from '../../commun/requis/requisPourMotAVerifier';
+import {Joueur} from '../../commun/joueur';
 import {Grille} from './grille';
-import {Guid} from '../../commun/Guid';
-import {TypePartie} from '../../commun/TypePartie';
-import {EmplacementMot} from '../../commun/EmplacementMot';
-import {Niveau} from '../../commun/Niveau';
+import {Guid} from '../../commun/guid';
+import {TypePartie} from '../../commun/typePartie';
+import {EmplacementMot} from '../../commun/emplacementMot';
+import {Niveau} from '../../commun/niveau';
 import {Indice} from './indice';
 
 export const LIMITE_JOUEURS = 2;

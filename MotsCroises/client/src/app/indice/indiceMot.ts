@@ -1,7 +1,7 @@
 /**
  * Classe d'indice coté client
  */
-import {EmplacementMot} from '../../../../commun/EmplacementMot';
+import {EmplacementMot} from '../../../../commun/emplacementMot';
 
 export class IndiceMot {
     public indexFixe: number;
