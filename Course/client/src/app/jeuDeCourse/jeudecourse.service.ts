@@ -31,7 +31,7 @@ export class JeuDeCourseService {
 
     private creerScene(): void {
         this.scene = new THREE.Scene();
-        this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
+        this.camera = new THREE.PerspectiveCamera(FOV, this.getAspectRatio(), PRES, LOIN);
         this.scene.add(this.camera);
     }
 

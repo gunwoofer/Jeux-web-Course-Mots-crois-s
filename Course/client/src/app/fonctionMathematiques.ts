@@ -70,4 +70,8 @@ export class FonctionMaths {
     public static caseAleatoireTableauPosition(): number {
         return Math.round(Math.random() * 3);
     }
+
+    public static emplacementAleatoireSkyBox(range: number): number {
+        return Math.floor(Math.random() * range + 1) - 1;
+    }
 }
