@@ -15,7 +15,6 @@ import { TypePartie  } from '../../../../commun/typePartie';
 
 export class AttentePartieComponent {
     public nomJoueur = '';
-    public partieSelectionne: VuePartieEnCours;
     public specificationPartie: SpecificationPartie;
     public niveauPartie: string;
     public difficultePartie: string;
@@ -29,9 +28,5 @@ export class AttentePartieComponent {
         this.specificationPartie = this.choixPartieService.specificationPartie;
         this.niveauPartie = Niveau[this.specificationPartie.niveau];
         this.difficultePartie = TypePartie[this.specificationPartie.typePartie];
-    }
-
-    public deuxJoueursPresents() {
-        return (this.gameViewService.joueur2.obtenirNomJoueur().length === 0);
     }
 }
