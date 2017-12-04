@@ -37,6 +37,9 @@ export const SURFACE_HORS_PISTE_TEXTURE = '../../assets/textures/texturerock.jpg
 export const JOUR_TEXTURE = '../../assets/textures/day.jpeg';
 export const NUIT_TEXTURE = '../../assets/textures/night.jpg';
 export const EMPLACEMENT_MUSIQUE = './../assets/musiques/';
+export const DAMIER_DEPART_TEXTURE = '../../assets/textures/ligne_depart.jpg';
+export const ZONE_DEPART_TEXTURE = '../../assets/textures/asphalt.JPG';
+export const LIGNE_DEPART_COULEUR = 0XFF0000;
 
 // Temps
 export const DUREE_STINGER_MILISECONDES = 3 * Math.pow(10, 3);
@@ -199,5 +202,10 @@ export const FLAQUE = 'flaque';
 export const ACCELERATEUR = 'accelerateur';
 
 export const IMAGE_PNG = 'image/png';
+
+
+// SEGMENT MODEL 
+export const ANISOTROPY = 4;
+export const REPETITION_TEXTURE_ZONE_DEPART = 10;
 
 
