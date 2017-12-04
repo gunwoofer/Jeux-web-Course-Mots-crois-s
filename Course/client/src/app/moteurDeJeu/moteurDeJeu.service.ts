@@ -30,12 +30,12 @@ export class MoteurDeJeuService {
         this.moteurDeJeu(renderer, camera, container, scene);
     }
 
-    public chargerJeu(scene: THREE.Scene, camera: THREE.PerspectiveCamera, container: HTMLDivElement): void {
+    private chargerJeu(scene: THREE.Scene, camera: THREE.PerspectiveCamera, container: HTMLDivElement): void {
         this.mondeDuJeuService.chargerMonde3D(scene, camera);
         this.gestionPartieService.chargementDesVoitures(scene, container);
     }
 
-    public moteurDeJeu(renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera,
+    private moteurDeJeu(renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera,
         container: HTMLDivElement, scene: THREE.Scene): void {
         setTimeout(() => {
             requestAnimationFrame(() => this.moteurDeJeu(renderer, camera, container, scene));

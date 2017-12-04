@@ -32,11 +32,11 @@ export class MondeDuJeuService {
         this.piste = piste;
     }
 
-    public genererTerrain(scene: THREE.Scene ) {
+    private genererTerrain(scene: THREE.Scene ) {
         scene.add(SurfaceHorsPiste.genererTerrain(this.segment.chargerSegmentsDePiste(this.piste)));
     }
 
-    public ajouterElementDePisteScene(scene: THREE.Scene): void {
+    private ajouterElementDePisteScene(scene: THREE.Scene): void {
         for (const element of this.piste.obtenirElementsPiste()) {
             this.preparerEtAjouterElementDePisteAScene(scene, element);
         }

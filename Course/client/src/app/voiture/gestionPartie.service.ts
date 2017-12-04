@@ -40,17 +40,6 @@ export class GestionPartieService implements Observateur {
         private mondeDuJeuService: MondeDuJeuService, private musiqueService: MusiqueService,
         private affichageTeteHauteService: AffichageTeteHauteService) { }
 
-    private preparerPartie(): void {
-        const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
-        const ligneArrivee: LigneArrivee = new LigneArrivee(this.mondeDuJeuService.segment.premierSegment[1],
-            this.mondeDuJeuService.segment.premierSegment[3], this.mondeDuJeuService.segment.damierDeDepart);
-        const pilotes: Pilote[] = [pilote];
-        this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
-            [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
-        this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
-        Partie.toursAComplete = this.nombreTours;
-    }
-
     public chargementDesVoitures(scene: THREE.Scene, container: HTMLDivElement): void {
         const nombreAleatoire = FonctionMaths.caseAleatoireTableauPosition();
         this.chargerVoitureJoueur(TABLEAU_POSITION[nombreAleatoire][0], TABLEAU_POSITION[nombreAleatoire][1], scene, container);
@@ -60,20 +49,20 @@ export class GestionPartieService implements Observateur {
         }
     }
 
-    public chargerVoitureJoueur(cadranX: number, cadranY: number, scene: THREE.Scene, container: HTMLDivElement): void {
+    private chargerVoitureJoueur(cadranX: number, cadranY: number, scene: THREE.Scene, container: HTMLDivElement): void {
         new THREE.ObjectLoader().load(EMPLACEMENT_VOITURE, (obj: THREE.Object3D) => {
             this.configurationVoitureJoueur(cadranX, cadranY, obj, container);
             scene.add(obj);
         });
     }
 
-    public chargerVoitureJoueurVirtuel(cadranX: number, cadranY: number, scene: THREE.Scene): void {
+    private chargerVoitureJoueurVirtuel(cadranX: number, cadranY: number, scene: THREE.Scene): void {
         new THREE.ObjectLoader().load(EMPLACEMENT_VOITURE, (obj: THREE.Object3D) => {
             this.configurationVoitureJoueurVirtuel(cadranX, cadranY, obj, scene);
         });
     }
 
-    public configurationVoitureJoueur(cadranX: number, cadranY: number, objet: THREE.Object3D, container: HTMLDivElement): void {
+    private configurationVoitureJoueur(cadranX: number, cadranY: number, objet: THREE.Object3D, container: HTMLDivElement): void {
         ObjetService.manipulationObjetVoiture(this.mondeDuJeuService.segment, objet, COULEUR_VOITURE_JOUEUR);
         this.voitureDuJoueur = new Voiture(objet, this.mondeDuJeuService.piste);
         ObjetService.calculePositionObjetVoiture(cadranX, cadranY, this.voitureDuJoueur, this.mondeDuJeuService.segment);
@@ -82,13 +71,24 @@ export class GestionPartieService implements Observateur {
         this.partie.demarrerPartie();
     }
 
-    public configurationVoitureJoueurVirtuel(cadranX: number, cadranY: number, objet: THREE.Object3D, scene: THREE.Scene): void {
+    private configurationVoitureJoueurVirtuel(cadranX: number, cadranY: number, objet: THREE.Object3D, scene: THREE.Scene): void {
         ObjetService.manipulationObjetVoiture(this.mondeDuJeuService.segment, objet, COULEUR_VOITURE_JOUEUR_VIRTUEL);
         this.voituresIA.push(new Voiture(objet, this.mondeDuJeuService.piste));
         this.voituresIA[this.voituresIA.length - 1].ajouterIndicateursVoitureScene(scene);
         ObjetService.calculePositionObjetVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1],
             this.mondeDuJeuService.segment);
         scene.add(objet);
+    }
+
+    private preparerPartie(): void {
+        const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
+        const ligneArrivee: LigneArrivee = new LigneArrivee(this.mondeDuJeuService.segment.premierSegment[1],
+            this.mondeDuJeuService.segment.premierSegment[3], this.mondeDuJeuService.segment.damierDeDepart);
+        const pilotes: Pilote[] = [pilote];
+        this.partie = new Partie(pilotes, ligneArrivee, this.nombreTours,
+            [this.musiqueService.musique, this], [this.affichageTeteHauteService]);
+        this.affichageTeteHauteService.mettreAJourAffichage(pilotes.length, this.nombreTours);
+        Partie.toursAComplete = this.nombreTours;
     }
 
     public notifier(sujet: Sujet, type: NotificationType): void {
