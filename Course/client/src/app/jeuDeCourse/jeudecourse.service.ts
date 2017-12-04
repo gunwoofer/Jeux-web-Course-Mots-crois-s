@@ -1,8 +1,4 @@
 import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
-import { Accelerateur } from './../elementsPiste/Accelerateur';
-import { NidDePoule } from './../elementsPiste/NidDePoule';
-import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
-import { PointDeControle } from './../piste/pointDeControle.model';
 import { CollisionService } from './../voiture/collision.service';
 import { Rendu } from './renduObject';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
@@ -12,22 +8,15 @@ import {
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { SkyboxService } from './../skybox/skybox.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
-import { Segment } from './../piste/segment.model';
-import { SurfaceHorsPiste } from './../surfaceHorsPiste/surfaceHorsPiste.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
-import { FiltreCouleurService } from '../filtreCouleur/filtreCouleur.service';
 import { LumiereService } from '../lumiere/lumiere.service';
 import { ObjetService } from '../objetService/objet.service';
 import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
 import { MusiqueService } from '../musique/musique.service';
-
 import { DeplacementService } from '../deplacement/deplacement.service';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import { ElementDePiste } from './../elementsPiste/ElementDePiste';
-
-import { Piste } from '../piste/piste.model';
 import { Partie } from '../partie/Partie';
 import { Pilote } from '../partie/Pilote';
 import { LigneArrivee } from '../partie/LigneArrivee';

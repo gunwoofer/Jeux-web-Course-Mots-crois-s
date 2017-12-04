@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AVANCER, GAUCHE, DROITE, ROTATION, ACCELERATION, DECELERATION, VITESSE_MIN, VITESSE_MAX, VITESSE_INTIALE,
-    VITESSE_MODE_ACCELERATEUR, DUREE_ACCELERATEUR, NOMBRE_SECOUSSES_NID_DE_POULE } from './../constant';
+import { AVANCER, GAUCHE, DROITE, VITESSE_MIN } from './../constant';
 import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
 import { DeplacementVoiture } from './deplacementVoiture';
 
