@@ -44,7 +44,6 @@ export class JeuDeCourseService implements Observateur {
     private voituresIA: Voiture[] = [];
     private nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     private retroviseur: Retroviseur;
-    public toutesLesVoitures: Voiture[] = [];
 
     constructor(private objetService: ObjetService,
                 private gestionnaireDeVue: GestionnaireDeVue,
@@ -98,13 +97,6 @@ export class JeuDeCourseService implements Observateur {
         });
     }
 
-    public chargementVoituresPourCollision() {
-        for (let i = 0 ; i < this.voituresIA.length; i++) {
-            this.toutesLesVoitures.push(this.voituresIA[i]);
-        }
-        this.toutesLesVoitures.push(this.voitureDuJoueur);
-    }
-
     public configurationVoiturePiste(cadranX: number, cadranY: number, obj: THREE.Object3D, joueur: boolean): void {
         let meshPrincipalVoiture: any;
         meshPrincipalVoiture = obj.getObjectByName('MainBody');
@@ -154,10 +146,7 @@ export class JeuDeCourseService implements Observateur {
             }
             this.miseAJourPositionVoiture();
             this.skyboxService.rotationSkybox(this.voitureDuJoueur, this.camera);
-            if (this.toutesLesVoitures.length < 2) {
-                this.chargementVoituresPourCollision();
-            }
-            this.collisionService.analyserCollision(this.toutesLesVoitures);
+            this.collisionService.analyserCollision(this.voitureDuJoueur, this.voituresIA);
         }, 1000 / FPS);
     }
 

@@ -5,29 +5,37 @@ import { Voiture } from '../voiture/Voiture';
 @Injectable()
 export class CollisionService {
 
-    public analyserCollision(voitures: Voiture[]): void  {
+    public analyserCollision(voitureDuJoueur: Voiture, voituresIA: Voiture[]): void  {
+        const voitures = this.chargementVoituresPourCollision(voitureDuJoueur, voituresIA);
         if (voitures.length === 0) {
             return;
         }
-        let autresVoitures: Voiture[];
         this.mettreAJourRaycasterSurChaqueVoiture(voitures);
-        for (const voitureQuiCauseImpact of voitures) {
-            autresVoitures = this.obtenirAutresVoitures(voitureQuiCauseImpact, voitures);
-            this.creerReactionsCollisions(autresVoitures, voitureQuiCauseImpact);
 
+        for (const voitureQuiCauseImpact of voitures) {
+            const autresVoitures = this.obtenirAutresVoitures(voitureQuiCauseImpact, voitures);
+            this.creerReactionsCollisions(autresVoitures, voitureQuiCauseImpact);
         }
     }
 
     private creerReactionsCollisions(autresVoitures: Voiture[], voitureQuiCauseImpact: Voiture): void {
         for (const voitureQuiRecoitImpact of autresVoitures) {
-            if (voitureQuiCauseImpact.raycasterCollisionDroit
-             .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0
-              || voitureQuiCauseImpact.raycasterCollisionDroit
-              .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
-              voitureQuiRecoitImpact.reactionDeVoitureQuiRecoitImpact(voitureQuiCauseImpact);
-              voitureQuiCauseImpact.reactionVoitureQuiCauseImpact();
-             }
-         }
+            if (voitureQuiCauseImpact.raycasterCollisionDroit.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0
+            || voitureQuiCauseImpact.raycasterCollisionDroit
+            .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
+                voitureQuiRecoitImpact.reactionDeVoitureQuiRecoitImpact(voitureQuiCauseImpact);
+                voitureQuiCauseImpact.reactionVoitureQuiCauseImpact();
+            }
+        }
+    }
+
+    private chargementVoituresPourCollision(voiture: Voiture, voitures: Voiture[]): Voiture[] {
+        const toutesLesVoitures: Voiture[] = new Array();
+        toutesLesVoitures.push(voiture);
+        for (const voitureActuelle of voitures) {
+            toutesLesVoitures.push(voitureActuelle);
+        }
+        return toutesLesVoitures;
     }
 
     private obtenirAutresVoitures(voitureActuelle: Voiture, voitures: Voiture[]): Voiture[] {
@@ -47,6 +55,4 @@ export class CollisionService {
             }
         }
     }
-
-
 }
