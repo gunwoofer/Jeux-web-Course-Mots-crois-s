@@ -2,9 +2,8 @@ import { Voiture } from '../voiture/Voiture';
 import { LumiereService } from './../lumiere/lumiere.service';
 import { FonctionMaths } from './../fonctionMathematiques';
 import {
-    LUMIERES, ARBRE_PATH, ARBRE_TEXTURE, WIDTH,
-    NOM_ARBRE, NOMBRE_ARBRE_CREE, NOMS_OBJET_A_ENLEVER,
-    LUMIERE_AVANT_DROITE, LUMIERE_AVANT_GAUCHE, PHARE_GAUCHE, PHARE_DROITE, NOM_VOITURE
+    ARBRE_PATH, ARBRE_TEXTURE, WIDTH,
+    NOM_ARBRE, NOMBRE_ARBRE_CREE, NOMS_OBJET_A_ENLEVER, NOM_VOITURE
 } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
