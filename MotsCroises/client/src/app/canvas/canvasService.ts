@@ -5,7 +5,7 @@ import {ElementRef} from '@angular/core';
 import {TimerService} from '../game_view/timer.service';
 import {IndiceService} from '../game_view/indice.service';
 
-export class CanvasGrille {
+export class CanvasService {
     private canvas: any;
     private ctxCanvas: any;
     private largeurCase: number;
@@ -260,7 +260,7 @@ export class CanvasGrille {
     public dessinerCaseNoiresGrilleObtenueServeur(): void {
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
-                if (this.specificationPartie.specificationGrilleEnCours.cases.obtenirCase(i,j).obtenirEtat() === 2) {
+                if (this.specificationPartie.specificationGrilleEnCours.cases.obtenirCase(i, j).obtenirEtat() === 2) {
                     this.dessinerRectangleNoir(j + 1, i + 1);
                 }
             }
@@ -271,7 +271,7 @@ export class CanvasGrille {
         for (let i = 0; i < 10; i++) {
             for (let j = 0; j < 10; j++) {
                 this.ecrireLettreDansCase(
-                    this.specificationPartie.specificationGrilleEnCours.cases.obtenirCase(i,j).obtenirLettre(),
+                    this.specificationPartie.specificationGrilleEnCours.cases.obtenirCase(i, j).obtenirLettre(),
                     j + 1, i + 1, this.couleurJ1
                 );
             }
