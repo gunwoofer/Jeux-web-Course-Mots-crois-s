@@ -1,3 +1,4 @@
+import { CollisionService } from '../voiture/collision.service';
 import { GestionnnairePartieService } from './../gestionnairePartie/gestionPartie.service';
 import { SkyboxService } from '../skybox/skybox.service';
 import { Rendu } from './../jeuDeCourse/renduObject';
@@ -18,7 +19,7 @@ export class MoteurDeJeuService {
 
     constructor(private gestionnnairePartieService: GestionnnairePartieService, private gestionnaireDeVue: GestionnaireDeVue,
         private deplacementService: DeplacementService, private sortiePisteService: SortiePisteService,
-        private mondeDuJeuService: MondeDuJeuService, private skyboxService: SkyboxService) {
+        private mondeDuJeuService: MondeDuJeuService, private skyboxService: SkyboxService, private collisionService: CollisionService) {
         this.renduObject = new Rendu();
     }
 
@@ -46,6 +47,8 @@ export class MoteurDeJeuService {
             }
             this.miseAJourPositionVoiture(camera);
             this.skyboxService.rotationSkybox(this.gestionnnairePartieService.voitureDuJoueur, camera);
+            this.collisionService.analyserCollision(this.gestionnnairePartieService.voitureDuJoueur,
+                this.gestionnnairePartieService.voituresIA);
         }, 1000 / FPS);
     }
 
