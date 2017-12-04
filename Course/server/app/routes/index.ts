@@ -121,6 +121,7 @@ module Route {
                     });
                 }
                 piste.coteAppreciation = req.body.coteAppreciation;
+                piste.listeElementsDePiste = req.body.listeElementsDePiste;
                 piste.save((error: any, resultat: any) => {
                     if (err) {
                         return res.status(500).json({

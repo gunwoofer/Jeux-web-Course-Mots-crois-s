@@ -15,7 +15,7 @@ import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { ObjetService } from './../objetService/objet.service';
 import {
     TABLEAU_POSITION, EMPLACEMENT_VOITURE, NOMBRE_DE_TOURS_PARTIE_DEFAUT, DUREE_STINGER_MILISECONDES,
-    RESULTAT_PARTIE, MILLE, COULEUR_VOITURE_JOUEUR_VIRTUEL, COULEUR_VOITURE_JOUEUR
+    RESULTAT_PARTIE, MILLE, COULEUR_VOITURE_JOUEUR_VIRTUEL, COULEUR_VOITURE_JOUEUR, NOMBRE_DE_TOURS_PARTIE_MINIMAL
 } from './../constant';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { Injectable, EventEmitter } from '@angular/core';
@@ -33,7 +33,7 @@ export class GestionnnairePartieService implements Observateur {
     public voituresIA: Voiture[] = [];
     public partie: Partie;
     public retroviseur: Retroviseur;
-    public nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
+    public nombreTours = NOMBRE_DE_TOURS_PARTIE_MINIMAL;
 
 
     constructor(private objetService: ObjetService, private tableauScoreService: TableauScoreService,

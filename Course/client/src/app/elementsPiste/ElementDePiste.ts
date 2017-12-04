@@ -13,7 +13,7 @@ export abstract class ElementDePiste {
     public antirebond = false;
     public typeElementDePiste: TypeElementPiste;
 
-    protected mesh: THREE.Mesh;
+    public mesh: THREE.Mesh;
 
     public abstract effetSurObstacle(voiture: Voiture): void;
     public abstract genererMesh(): void;
@@ -21,9 +21,5 @@ export abstract class ElementDePiste {
     public genererRayCaster(vecteur: THREE.Vector3): void {
         const position = new THREE.Vector3(this.position.x, this.position.y, this.position.z);
         this.raycaster = new THREE.Raycaster(position, vecteur);
-    }
-
-    public obtenirMesh(): THREE.Mesh {
-        return this.mesh;
     }
 }

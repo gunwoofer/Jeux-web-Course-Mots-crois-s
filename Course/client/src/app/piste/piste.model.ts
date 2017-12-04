@@ -51,8 +51,8 @@ export class Piste {
     public gererElementDePiste(listeVoitures: Voiture[]): void {
         for (const voiture of listeVoitures) {
             for (const element of this.listeElementsDePiste) {
-                if (voiture.raycasterCollisionDroit.intersectObject(element.obtenirMesh(), true).length !== 0
-                    || voiture.raycasterCollisionGauche.intersectObject(element.obtenirMesh(), true).length !== 0 ) {
+                if (voiture.raycasterCollisionDroit.intersectObject(element.mesh, true).length !== 0
+                    || voiture.raycasterCollisionGauche.intersectObject(element.mesh, true).length !== 0 ) {
                     if (!element.antirebond) {
                         element.effetSurObstacle(voiture);
                         element.antirebond = true;
@@ -61,6 +61,12 @@ export class Piste {
                     element.antirebond = false;
                 }
             }
+        }
+    }
+
+    public supprimerMesh(): void {
+        for(const elementDePiste of this.listeElementsDePiste) {
+            elementDePiste.mesh = null;
         }
     }
 
