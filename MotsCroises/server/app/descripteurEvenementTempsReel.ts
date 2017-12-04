@@ -35,7 +35,7 @@ export class DescripteurEvenementTempsReel {
             generateurDeGrilleService, SpecificationPartie.rehydrater(specificationPartie)).then((specificationPartieNouvellePartie) => {
                 gestionnaireDePartieService.obtenirPartieEnCours(specificationPartieNouvellePartie.guidPartie).demarrerPartie();
                 client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieNouvellePartie);
-            });
+        });
     }
 
     public creerPartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,

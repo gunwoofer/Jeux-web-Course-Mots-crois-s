@@ -7,29 +7,30 @@
       <div>
         <h2>Type de partie :</h2>
         <div *ngFor="let typePartie of types;">
-          <input type="radio" name="choixType" (click)="ajouterTypePartie(typePartie)" value={typePartie} required>
+          <input type="radio" name="choixType" (click)="ajouterTypePartie(typePartie)" value={typePartie} [checked]="typePartie === 0" required>
           {{typePartieValue[typePartie]}}
         </div>
       </div>
       <div>
         <h2>Niveau de difficulté :</h2>
         <div *ngFor="let niveauPartie of niveaux;">
-          <input type="radio" name="choixNiveau" (click)="ajouterNiveauPartie(niveauPartie)" value={niveauPartie} required>
+          <input type="radio" name="choixNiveau" (click)="ajouterNiveauPartie(niveauPartie)" value={niveauPartie} [checked]="niveauPartie === 0" required>
           {{niveauValue[niveauPartie]}}
         </div>
       </div>
       <div>
         <h2>Nombre de joueurs :</h2>
         <div *ngFor="let nbJoueur of nbJoueurs;">
-          <input type="radio" name="choixJoueurs" (click)="ajouterNbJoueursPartie(nbJoueur)" value={nbJoueur} required>
+          <input type="radio" name="choixJoueurs" (click)="ajouterNbJoueursPartie(nbJoueur)" value={nbJoueur} [checked]="nbJoueur === 0" required>
           {{nbJoueursValue[nbJoueur]}}
         </div>
       </div>
     </div>
-    <button>Creer partie</button>
+    <button [disabled]="partieEnRecherche">Creer partie</button>
   </form>
-  <button (click)="joindrePartieEnAttente()">Joindre une partie en attente</button>
-  <h2>{{messageChargement}}</h2>
+  <button (click)="joindrePartieEnAttente()" [disabled]="partieEnRecherche">Joindre une partie en attente</button>
+
+    <div class="chargement" [hidden]="!partieEnRecherche">Partie en recherche </div>
 </div>
 
 

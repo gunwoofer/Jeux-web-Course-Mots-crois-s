@@ -15,6 +15,10 @@ import {FinPartieComponent} from './fin_partie/fin-partie.component';
 import {FormsModule} from '@angular/forms';
 import {TrouverPartieComponent} from './trouver_partie/app.trouver-partie.component';
 import {AttentePartieComponent} from './attente_partie/app.attente-partie.component';
+import {ChoixPartieService} from './choix_partie/choix-partie.service';
+import {ConnexionTempsReelClientService} from './connestion_temps_reel/ConnexionTempsReelClientService';
+import {TimerService} from './game_view/timer.service';
+import {IndiceService} from './game_view/indice.service';
 
 @NgModule({
   declarations: [
@@ -35,7 +39,11 @@ import {AttentePartieComponent} from './attente_partie/app.attente-partie.compon
     FormsModule
   ],
   providers: [
-    GameViewService
+    GameViewService,
+      ChoixPartieService,
+      ConnexionTempsReelClientService,
+      TimerService,
+      IndiceService
   ],
   bootstrap: [AppComponent]
 })

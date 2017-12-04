@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
 import {GameViewService} from '../game_view/game-view.service';
 import {CanvasGrille} from './canvasGrille';
+import {TimerService} from '../game_view/timer.service';
+import {IndiceService} from '../game_view/indice.service';
 
 
 @Component({
@@ -12,7 +14,9 @@ import {CanvasGrille} from './canvasGrille';
 export class CanvasViewComponent implements AfterViewInit {
   private   canvasGrille: CanvasGrille;
 
-  constructor(private gameViewService: GameViewService) {
+  constructor(private gameViewService: GameViewService,
+              private timerService: TimerService,
+              private indiceService: IndiceService) {
     this.souscrireEvenementIndices();
   }
 
@@ -25,7 +29,7 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   public ngAfterViewInit(): void {
-    this.canvasGrille = new CanvasGrille(this.gameViewService, this.containerRef);
+    this.canvasGrille = new CanvasGrille(this.gameViewService, this.containerRef, this.indiceService, this.timerService);
   }
 
   public motTrouveActualiser(): void {
@@ -35,7 +39,7 @@ export class CanvasViewComponent implements AfterViewInit {
   }
 
   private souscrireEvenementIndices() {
-    this.gameViewService.indiceSelectionne$.subscribe(indice => {
+    this.indiceService.indiceSelectionne$.subscribe(indice => {
       if (!indice) {
         this.canvasGrille.initialise();
         this.canvasGrille.miseAJourIndice(null);
@@ -43,7 +47,7 @@ export class CanvasViewComponent implements AfterViewInit {
       }
       this.canvasGrille.miseAJourIndice(indice);
     });
-    this.gameViewService.indiceAdversaireSelectionne$.subscribe(indice => {
+    this.indiceService.indiceAdversaireSelectionne$.subscribe(indice => {
       if (!indice) {
         this.canvasGrille.initialise();
         return;

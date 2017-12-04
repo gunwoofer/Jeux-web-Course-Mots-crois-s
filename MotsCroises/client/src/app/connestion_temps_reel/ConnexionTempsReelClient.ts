@@ -1,6 +1,5 @@
-
 import * as socket from 'socket.io-client';
-import * as requetes from '../../../commun/constantes/RequetesTempsReel';
+import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 
 export const URL_SOCKETIO_SERVER = 'http://localhost:3001';
 export const MESSAGE_CONFIRMATION_DECONNEXION_SERVER = 'client_deconnecte';
@@ -11,11 +10,11 @@ export class ConnexionTempsReelClient {
     private connexionSocket: SocketIOClient.Socket;
 
     public envoyerRecevoirRequete<T>(nomRequeteAEnvoyer: string, valeurEnvoye: T,
-        nomRequeteAEcouter: string, callback: any, self: Object) {
+                                     nomRequeteAEcouter: string, callback: any, self: Object) {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
-          if ( !this.connexionSocket.hasListeners(nomRequeteAEcouter)) {
-            this.connexionSocket.on(nomRequeteAEcouter, (resultat: T) => callback(resultat, self));
-          }
+            if (!this.connexionSocket.hasListeners(nomRequeteAEcouter)) {
+                this.connexionSocket.on(nomRequeteAEcouter, (resultat: T) => callback(resultat, self));
+            }
             this.connexionSocket.emit(nomRequeteAEnvoyer, valeurEnvoye);
         });
     }
@@ -26,11 +25,11 @@ export class ConnexionTempsReelClient {
         });
     }
 
-  public ecouterRequete<T>(nomRequete: string, callback: any, self: Object): void {
-    this.preparerRequete().then((peutPoursuivre: boolean) => {
-      this.connexionSocket.on(nomRequete, (resultat: T) => callback(resultat, self));
-    });
-  }
+    public ecouterRequete<T>(nomRequete: string, callback: any, self: Object): void {
+        this.preparerRequete().then((peutPoursuivre: boolean) => {
+            this.connexionSocket.on(nomRequete, (resultat: T) => callback(resultat, self));
+        });
+    }
 
     public envoyerRequete(nomRequete: string, valeurEnvoye: Object) {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
