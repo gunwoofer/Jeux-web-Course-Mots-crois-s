@@ -1,5 +1,4 @@
 import { MoteurDeJeuService } from './moteurDeJeu/moteurDeJeu.service';
-import { GestionPartieService } from './voiture/gestionPartie.service';
 import { MondeDuJeuService } from './mondedujeu/mondedujeu.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -50,6 +49,7 @@ import { PlacementService } from './objetService/placementVoiture.service';
 import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehaute.service';
 import { SortiePisteService } from './sortiePiste/sortiePiste.service';
 import { CreateurPisteService } from './createurPiste/createurPiste.service';
+import { GestionnnairePartieService } from './gestionnairePartie/gestionPartie.service';
 
 
 
@@ -105,7 +105,7 @@ import { CreateurPisteService } from './createurPiste/createurPiste.service';
     SortiePisteService,
     CreateurPisteService,
     MondeDuJeuService,
-    GestionPartieService,
+    GestionnnairePartieService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]

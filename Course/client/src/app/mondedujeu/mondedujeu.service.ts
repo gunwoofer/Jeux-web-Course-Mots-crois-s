@@ -2,7 +2,7 @@ import { SkyboxService } from './../skybox/skybox.service';
 import { Injectable } from '@angular/core';
 import { Piste } from '../piste/piste.model';
 import { SurfaceHorsPiste } from '../surfaceHorsPiste/surfaceHorsPiste.service';
-import { Segment } from '../piste/segment.model';;
+import { Segment } from '../piste/segment.model';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 import { ObjetService } from '../objetService/objet.service';
 import { PointDeControle } from '../piste/pointDeControle.model';

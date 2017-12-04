@@ -33,10 +33,4 @@ describe('ObjetService test', () => {
         expect(objet).toBeTruthy();
     });
 
-    it('ajout des phares sur un objet', () => {
-        const objet = new THREE.Object3D();
-        objetService.ajouterPhares(objet);
-        expect(objet.children.length).toEqual(6);
-    });
-
 });

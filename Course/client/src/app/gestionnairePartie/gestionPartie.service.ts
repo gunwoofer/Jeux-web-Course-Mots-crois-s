@@ -21,12 +21,12 @@ import {
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { Injectable } from '@angular/core';
 import { LumiereService } from '../lumiere/lumiere.service';
-import { Voiture } from './Voiture';
 import * as THREE from 'three';
+import { Voiture } from '../voiture/Voiture';
 
 @Injectable()
 
-export class GestionPartieService implements Observateur {
+export class GestionnnairePartieService implements Observateur {
 
 
     public voitureDuJoueur: Voiture;
