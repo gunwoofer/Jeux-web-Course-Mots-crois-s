@@ -1,4 +1,4 @@
-import { NID_DE_POULE, FLAQUE, ACCELERATEUR, IMAGE_PNG } from './../constant';
+import { NID_DE_POULE, FLAQUE, ACCELERATEUR, IMAGE_PNG, LISTE_PISTE, ACCUEIL } from './../constant';
 import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { GestionElementsPiste } from './../elementsPiste/GestionElementsPiste';
 import { TypeElementPiste } from './../elementsPiste/ElementDePiste';
@@ -8,6 +8,7 @@ import { Component, Input } from '@angular/core';
 import { Piste } from '../piste/piste.model';
 import { PisteService } from './../piste/piste.service';
 import { MoteurEditeurPiste } from '../moteurEditeurPiste/moteurediteurpiste.service';
+import { Router } from '@angular/router';
 
 @Component({
     selector: 'app-pistevalidator-component',
@@ -16,13 +17,15 @@ import { MoteurEditeurPiste } from '../moteurEditeurPiste/moteurediteurpiste.ser
 })
 
 export class PisteValidationComponent {
+    public static promuAdmin = false;
 
     public gestionElementsPiste: GestionElementsPiste;
-
     constructor(private pisteService: PisteService,
         private renderService: MoteurEditeurPiste,
-        private createurPisteService: CreateurPisteService) {
+        private createurPisteService: CreateurPisteService,
+        private routeur: Router) {
         this.gestionElementsPiste = new GestionElementsPiste();
+        PisteValidationComponent.promuAdmin = true;
     }
 
     @Input() public pisteAmodifier: Piste;
@@ -39,6 +42,8 @@ export class PisteValidationComponent {
         }
         this.renderService.reinitialiserScene();
         form.resetForm();
+        PisteValidationComponent.promuAdmin = false;
+        this.routeur.navigateByUrl(ACCUEIL);
     }
     public onClick(): void {
         this.display = !this.display;

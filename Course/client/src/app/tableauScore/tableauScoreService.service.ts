@@ -24,7 +24,6 @@ export class TableauScoreService {
     }
 
     public produireTableauResultat(): Score[] {
-        if (!this.temps) { return; }
 
         for (let joueur = 0; joueur < NOMBRE_JOUEURS; joueur++) {
             this.gestionTempsFinPartie(joueur, this.temps);
@@ -35,6 +34,7 @@ export class TableauScoreService {
 
     public mettreAjourTableauMeilleurTemps(score: Score): Promise<any> {
         this.ajouterTemps(score);
+        this.piste.supprimerMesh();
         return this.http.patch(FIN_PARTIE_URL + this.piste.id, this.piste)
                         .toPromise()
                         .then((reponse: Response) => reponse.json())
