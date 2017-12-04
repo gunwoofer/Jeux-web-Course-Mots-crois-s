@@ -12,17 +12,20 @@ import { MoteurEditeurPiste } from '../moteurEditeurPiste/moteurediteurpiste.ser
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
+import { GestionnnairePartieService } from '../gestionnairePartie/gestionPartie.service';
+
 
 @Injectable()
 export class EvenementService {
-  constructor(  private renderService: MoteurEditeurPiste,
-                private jeuDeCourseService: JeuDeCourseService,
-                private gestionnaireDeVue: GestionnaireDeVue,
-                private skyboxService: SkyboxService,
-                private filtreCouleurService: FiltreCouleurService,
-                private facadeCoordonneesService: FacadeCoordonneesService,
-                private deplacementService: DeplacementService,
-                private createurPisteService: CreateurPisteService) {}
+  constructor(private renderService: MoteurEditeurPiste,
+    private jeuDeCourseService: JeuDeCourseService,
+    private gestionnaireDeVue: GestionnaireDeVue,
+    private skyboxService: SkyboxService,
+    private filtreCouleurService: FiltreCouleurService,
+    private facadeCoordonneesService: FacadeCoordonneesService,
+    private deplacementService: DeplacementService,
+    private createurPisteService: CreateurPisteService,
+    public gestionnnairePartieService: GestionnnairePartieService) { }
 
   private tempsMouseDown;
   private tempsMouseUp;
@@ -40,10 +43,10 @@ export class EvenementService {
 
   public onMouseClick(event: MouseEvent): void {
     if (!this.modeGlissement || this.dureeClick < 500 && this.objetGlisse && this.objetGlisse.name === '0') {
-        this.createurPisteService.dessinerPoint(event, this.renderService.scene,
-                                            this.renderService.obtenirCamera(), this.renderService.obtenirRenderer());
-        this.renderService.actualiserDonnees();
-        this.renderService.render();
+      this.createurPisteService.dessinerPoint(event, this.renderService.scene,
+        this.renderService.obtenirCamera(), this.renderService.obtenirRenderer());
+      this.renderService.actualiserDonnees();
+      this.renderService.render();
     }
 
     this.modeGlissement = false;
@@ -88,19 +91,20 @@ export class EvenementService {
 
   public gestionEvenement(event): void {
     if (event.key === MODE_JOUR_NUIT) {
-      this.jeuDeCourseService.logiquePhares();
+      LumiereService.logiquePhares(this.gestionnnairePartieService.voitureDuJoueur);
       LumiereService.modeJourNuit(event, this.jeuDeCourseService.obtenirScene());
-      this.jeuDeCourseService.jour = !this.jeuDeCourseService.jour;
-      this.skyboxService.alternerSkybox(this.jeuDeCourseService.jour, this.jeuDeCourseService.obtenirCamera());
+      LumiereService.jour = !LumiereService.jour;
+      this.skyboxService.alternerSkybox(LumiereService.jour, this.jeuDeCourseService.obtenirCamera());
     } else if (event.key === MODE_FILTRE_COULEUR) {
       this.filtreCouleurService.mettreFiltre(event, this.jeuDeCourseService.obtenirScene());
     } else if (event.key === ZOOM_AVANT || event.key === ZOOM_ARRIERE) {
       this.gestionnaireDeVue.zoom(event, this.jeuDeCourseService.obtenirCamera());
     } else if (event.key === CHANGER_VUE) {
-      this.jeuDeCourseService.voitureDuJoueur.vueDessusTroisieme = !this.jeuDeCourseService.voitureDuJoueur.vueDessusTroisieme;
+      this.gestionnnairePartieService.voitureDuJoueur.vueDessusTroisieme =
+        !this.gestionnnairePartieService.voitureDuJoueur.vueDessusTroisieme;
     } else if (event.key === ALLUMER_PHARES) {
-      this.jeuDeCourseService.phares = !this.jeuDeCourseService.phares;
-      LumiereService.alternerPhares(this.jeuDeCourseService.voitureDuJoueur);
+      LumiereService.phares = !LumiereService.phares;
+      LumiereService.alternerPhares(this.gestionnnairePartieService.voitureDuJoueur);
     } else if (event.key === RETROVISEUR) {
       this.gestionnaireDeVue.changerEtatRetroviseur();
     }
@@ -122,8 +126,8 @@ export class EvenementService {
     );
     if (objetGlisseNumber === 0 && this.createurPisteService.obtenirDessinTermine()) {
       this.createurPisteService.obtenirPoints()[
-            this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
-        FacadeLigneService.modifierLignePoints(
+        this.renderService.facadePointService.compteur - 1].position.copy(this.objetGlisse.position);
+      FacadeLigneService.modifierLignePoints(
         this.renderService.facadePointService.compteur - 1,
         this.objetGlisse.position,
         this.createurPisteService.pointsLine,

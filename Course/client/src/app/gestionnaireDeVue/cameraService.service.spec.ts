@@ -1,5 +1,4 @@
-import { mockPistes } from './../piste/pistes.mock';
-
+import { mockPistes } from './../mocks';
 import { Voiture } from '../voiture/Voiture';
 import { GestionnaireDeVue } from './gestionnaireDeVue.service';
 import { TestBed, inject, async } from '@angular/core/testing';

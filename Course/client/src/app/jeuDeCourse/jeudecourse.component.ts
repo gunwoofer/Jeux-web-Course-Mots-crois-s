@@ -21,7 +21,7 @@ export class JeuDeCourseComponent implements AfterViewInit, OnInit {
         private pisteService: PisteService, private evenementService: EvenementService,
         private musiqueService: MusiqueService, private router: Router) {
         jeuDeCourseService.ajouterRouter(router);
-        jeuDeCourseService.configurerTours(this.pisteService.nombreDeTours);
+        //jeuDeCourseService.configurerTours(this.pisteService.nombreDeTours);
     }
 
     public ngOnInit(): void {

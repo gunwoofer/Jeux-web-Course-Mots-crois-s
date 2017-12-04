@@ -2,7 +2,7 @@ import * as THREE from 'three';
 
 export class FonctionMaths {
     public static obtenirMoitieEntre2points(xDebut: number, xFin: number) {
-        return (xDebut + (xFin - xDebut ) / 2);
+        return (xDebut + (xFin - xDebut) / 2);
     }
 
     public static trouverXAleatoire(xDebut: number, xFin: number): number {
@@ -19,7 +19,7 @@ export class FonctionMaths {
     }
 
     public static calculerDistanceSegmentPoint(vecteurDebutSegment: THREE.Vector3, vecteurFinSegment: THREE.Vector3,
-                                               vecteurPoint: THREE.Vector3): number {
+        vecteurPoint: THREE.Vector3): number {
         // Trouver AB
         const abx: number = vecteurDebutSegment.x - vecteurFinSegment.x;
         const aby: number = vecteurDebutSegment.y - vecteurFinSegment.y;
@@ -47,7 +47,7 @@ export class FonctionMaths {
 
     public static DeuxPositionTropProche(position1: THREE.Vector3, position2: THREE.Vector3, distanceMin: number): boolean {
         if ((Math.abs(position1.x - position2.x) < distanceMin)
-         && (Math.abs(position1.y - position2.y) < distanceMin)) {
+            && (Math.abs(position1.y - position2.y) < distanceMin)) {
             return true;
         }
         return false;
@@ -65,5 +65,13 @@ export class FonctionMaths {
 
     public static distanceEntreDeuxPoints(x1: number, y1: number, x2: number, y2: number): number {
         return Math.pow(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2), 0.5);
+    }
+
+    public static caseAleatoireTableauPosition(): number {
+        return Math.round(Math.random() * 3);
+    }
+
+    public static emplacementAleatoireSkyBox(range: number): number {
+        return Math.floor(Math.random() * range + 1) - 1;
     }
 }

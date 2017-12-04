@@ -1,3 +1,4 @@
+import { MoteurDeJeuService } from './moteurDeJeu/moteurDeJeu.service';
 import { MondeDuJeuService } from './mondedujeu/mondedujeu.service';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
@@ -49,8 +50,7 @@ import { PlacementService } from './objetService/placementVoiture.service';
 import { AffichageTeteHauteService } from './affichageTeteHaute/affichagetetehaute.service';
 import { SortiePisteService } from './sortiePiste/sortiePiste.service';
 import { CreateurPisteService } from './createurPiste/createurPiste.service';
-import { GestionVoitureService } from './voiture/gestionvoiture.service';
-
+import { GestionnnairePartieService } from './gestionnairePartie/gestionPartie.service';
 
 
 
@@ -97,6 +97,7 @@ import { GestionVoitureService } from './voiture/gestionvoiture.service';
     TableauScoreService,
     GestionnaireDeVue,
     RatingService,
+    MoteurDeJeuService,
     SkyboxService,
     PlacementService,
     EffetSonoreService,
@@ -105,7 +106,7 @@ import { GestionVoitureService } from './voiture/gestionvoiture.service';
     SortiePisteService,
     CreateurPisteService,
     MondeDuJeuService,
-    GestionVoitureService,
+    GestionnnairePartieService,
     { provide: APP_BASE_HREF, useValue: '/' }
   ],
   bootstrap: [AppComponent]
