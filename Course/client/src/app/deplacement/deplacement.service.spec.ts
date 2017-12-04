@@ -1,5 +1,5 @@
+import { mockPistes } from './../mocks';
 import { DeplacementVoiture } from './deplacementVoiture';
-import { mockPistes } from './../piste/pistes.mock';
 import { TestBed, inject, async } from '@angular/core/testing';
 import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
 import { DeplacementService } from './deplacement.service';

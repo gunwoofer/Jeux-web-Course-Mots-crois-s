@@ -1,13 +1,13 @@
+import { DIMENSION_CHECK_POINT } from './../constant';
 import * as THREE from 'three';
 import { Piste } from './piste.model';
-
 
 export class PointDeControle {
 
     public static ajouterPointDeControleScene(piste: Piste, scene: THREE.Scene): void {
-        const checkPoint = this.creationPointDeControle(piste);
-        for (let i = 0; i < checkPoint.length; i++) {
-            scene.add(checkPoint[i]);
+        const checkPoints = this.creationPointDeControle(piste);
+        for (let checkPoint = 0; checkPoint < checkPoints.length; checkPoint++) {
+            scene.add(checkPoint[checkPoint]);
         }
     }
 
@@ -26,8 +26,8 @@ export class PointDeControle {
     }
 
     private static constructionDeCube(): THREE.Mesh {
-        const geometry = new THREE.BoxGeometry(1, 1, 1);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, visible: false });
+        const geometry = new THREE.BoxGeometry(DIMENSION_CHECK_POINT, DIMENSION_CHECK_POINT, DIMENSION_CHECK_POINT);
+        const material = new THREE.MeshBasicMaterial({ visible: false });
         const cube = new THREE.Mesh(geometry, material);
         return cube;
     }

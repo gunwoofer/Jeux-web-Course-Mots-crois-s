@@ -1,3 +1,4 @@
+import { mockPistes } from './../mocks';
 import { CollisionService } from './../voiture/collision.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { DeplacementService } from './../deplacement/deplacement.service';
@@ -13,8 +14,6 @@ import { ObjetService } from '../objetService/objet.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-
-import { mockPistes } from './pistes.mock';
 import { JeuDeCourseService } from '../jeuDeCourse/jeudecourse.service';
 import { PisteService } from './piste.service';
 import { MondeDuJeuService } from '../mondedujeu/mondedujeu.service';

@@ -33,3 +33,12 @@ const elementDepistes: ElementDePiste[] = [];
 export const pisteMock = new Piste('piste1', 'amateur', 'piste izi', listepositions, elementDepistes);
 
 export const scoreMock = new Score('Younes', '3min10s', 3);
+
+
+const elementDePistes: ElementDePiste[] = [];
+
+export const mockPistes: Piste[] = [
+    new Piste('piste1', 'amateur', 'piste1', listepositions, elementDePistes),
+    new Piste('piste2', 'amateur', 'piste2', listepositions, elementDePistes),
+    new Piste('piste3', 'professionnel', 'piste2', listepositions, elementDePistes)
+];

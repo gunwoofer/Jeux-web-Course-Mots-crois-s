@@ -154,6 +154,8 @@ export const URL_MOT_DE_PASSSE_OUBLIE = 'http://localhost:3000/motDePasseOublie'
 export const URL_MODIFIER_MOT_DE_PASSE = 'http://localhost:3000/ModifierPass';
 export const FIN_PARTIE_URL = 'http://localhost:3000/finPartie';
 export const RESULTAT_PARTIE_URL = 'http://localhost:3000/resultatPartie';
+export const CREATEUR_PISTE_URL = 'http://localhost:3000/createurPiste';
+export const LISTE_PISTE_URL = 'http://localhost:3000/listePiste';
 export const MESSAGE_ERREUR = 'Une erreur est arrivé';
 // Couleurs
 export const COMPOSANTE_R_POINT_EDITEUR = 0.55;
@@ -204,8 +206,9 @@ export const ACCELERATEUR = 'accelerateur';
 export const IMAGE_PNG = 'image/png';
 
 
-// SEGMENT MODEL 
+// SEGMENT MODEL
 export const ANISOTROPY = 4;
 export const REPETITION_TEXTURE_ZONE_DEPART = 10;
+export const DIMENSION_CHECK_POINT = 1;
 
 
