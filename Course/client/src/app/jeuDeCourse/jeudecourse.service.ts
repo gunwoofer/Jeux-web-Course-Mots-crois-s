@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { FOV, PRES, LOIN } from './../constant';
 import { MoteurDeJeuService } from './../moteurDeJeu/moteurDeJeu.service';
 import * as THREE from 'three';
+import { Partie } from '../partie/Partie';
 
 @Injectable()
 export class JeuDeCourseService {
@@ -34,10 +35,9 @@ export class JeuDeCourseService {
         this.scene.add(this.camera);
     }
 
-    // public configurerTours(nombreTours: number): void {
-    //     this.nombreTours = nombreTours;
-    //     Partie.toursAComplete = this.nombreTours;
-    // }
+    public configurerTours(nombreTours: number): void {
+        Partie.toursAComplete = nombreTours;
+    }
 
     public onResize(): void {
         this.camera.aspect = this.getAspectRatio();
