@@ -1,3 +1,4 @@
+import { FonctionMaths } from './../fonctionMathematiques';
 import { MoteurAutonome } from './moteurAutonome';
 import { Piste } from './../piste/piste.model';
 import { Guid } from './../../../../commun/Guid';
@@ -132,23 +133,13 @@ export class Voiture implements sujet.Sujet {
         this.moteurAutonome.dirigerVoiture(this.listePositions);
     }
 
-    public obtenirRoueAvantGauche(): THREE.Object3D {
-        return this.voiture3D.children[21];
-    }
-
-    public obtenirRoueAvantDroite(): THREE.Object3D {
-        return this.voiture3D.children[25];
-    }
-
     public calculerDistance(): void {
         this.xPrecedent = this.x;
         this.yPrecedemt = this.y;
         this.x = this.obtenirVoiture3D().position.x;
         this.y = this.obtenirVoiture3D().position.y;
         this.pointMilieu = this.voiture3D.position;
-
-        const distanceParcourueCourante: number = this.distanceEntreDeuxPoints(this.x, this.y, this.xPrecedent, this.yPrecedemt);
-
+        const distanceParcourueCourante: number = FonctionMaths.distanceEntreDeuxPoints(this.x, this.y, this.xPrecedent, this.yPrecedemt);
         this.distanceParcouru += distanceParcourueCourante;
         this.notifierObservateurs();
     }
@@ -163,10 +154,6 @@ export class Voiture implements sujet.Sujet {
     public obtenirCoordonneesPrecedent(): THREE.Vector2 {
         const vectPrecedant = new THREE.Vector2(this.xPrecedent, this.yPrecedemt);
         return vectPrecedant;
-    }
-
-    public distanceEntreDeuxPoints(x1: number, y1: number, x2: number, y2: number): number {
-        return Math.pow(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2), 0.5);
     }
 
     public obtenirVoiture3D(): THREE.Object3D {
