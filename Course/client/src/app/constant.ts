@@ -174,6 +174,7 @@ export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
 export const GENERATION_PISTE = '/generationpiste';
 export const RESULTAT_PARTIE = '/resultatPartie';
 export const FIN_PARTIE = '/finPartie';
+export const ACCUEIL = '/';
 
 
 export const LARGEUR_PISTE_EDITEUR = 10;

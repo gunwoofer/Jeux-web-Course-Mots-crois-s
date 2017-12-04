@@ -1,3 +1,4 @@
+import { PisteValidationComponent } from './../pisteValidator/pisteValidation.component';
 import { UtilisateurService } from './../accueil/utilisateur.service';
 import { MusiqueService } from './../musique/musique.service';
 import { Component, OnInit } from '@angular/core';
@@ -20,7 +21,7 @@ export class ListePisteComponent implements OnInit {
         private utilisateurService: UtilisateurService) { }
 
     public ngOnInit(): void {
-        if (this.utilisateurService.estAdmin) {
+        if (this.utilisateurService.estAdmin && (PisteValidationComponent.promuAdmin)) {
             this.estUnAdmin = true;
         }
         this.pisteService.retournerListePiste().then((pistes: Piste[]) => { this.listePistes = pistes; });

@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NgForm } from '@angular/forms/src/directives';
 import { Component, OnInit } from '@angular/core';
 import { LISTE_PISTE, MOT_DE_PASSE_OUBLIE, INSCRIPTION } from '../../../constant';
+import { PisteValidationComponent } from '../../../pisteValidator/pisteValidation.component';
 
 @Component({
   selector: 'app-connexion',
@@ -25,6 +26,7 @@ export class ConnexionComponent implements OnInit {
                                     if (reponse.message) {
                                         alert(reponse.message);
                                         this.utilisateurService.estAdmin = true;
+                                        PisteValidationComponent.promuAdmin = true;
                                         this.router.navigateByUrl(LISTE_PISTE);
                                     } else {
                                         alert(reponse.error.message);
