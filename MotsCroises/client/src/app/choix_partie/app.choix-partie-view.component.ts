@@ -4,7 +4,6 @@ import {TypePartie} from '../../../../commun/typePartie';
 import {Router} from '@angular/router';
 import {ChoixPartieService} from './choix-partie.service';
 
-
 @Component({
     selector: 'app-choix-partie-view-component',
     templateUrl: './choix-partie-view.component.html',
@@ -43,7 +42,7 @@ export class ChoixPartieViewComponent {
     }
 
     public demanderCreationPartie() {
-        if(this.nbJoueursPartie > 0) {
+        if (this.nbJoueursPartie > 0) {
             this.typePartie = this.typePartie + 2;
         }
         this.choixPartieService.demanderPartie(this.niveauPartie, this.typePartie, this.nbJoueursPartie);
