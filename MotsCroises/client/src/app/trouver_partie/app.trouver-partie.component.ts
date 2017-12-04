@@ -4,6 +4,7 @@ import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
 import {Niveau} from '../../../../commun/Niveau';
 import { Joueur } from '../../../../commun/Joueur';
+import {ChoixPartieService} from '../choix_partie/choix-partie.service';
 
 
 @Component({
@@ -21,12 +22,12 @@ export class TrouverPartieComponent implements OnInit {
   private joueur: Joueur;
 
 
-  constructor(private gameViewService: GameViewService) {
+  constructor(private gameViewService: GameViewService, private choixPartieService: ChoixPartieService) {
     this.joueur = this.gameViewService.joueur;
   }
 
   public ngOnInit(): void {
-    this.gameViewService.demanderListePartieEnAttente(this.listeVuePartie);
+    this.choixPartieService.demanderListePartieEnAttente(this.listeVuePartie);
   }
 
   public setPartieSelectionne(partie) {
@@ -43,7 +44,7 @@ export class TrouverPartieComponent implements OnInit {
 
   public rejoindrePartie() {
     this.joueur.changerNomJoueur(this.nomJoueur);
-    this.gameViewService.rejoindrePartieMultijoueur(this.partieSelectionne, this.joueur);
+    this.choixPartieService.rejoindrePartieMultijoueur(this.partieSelectionne, this.joueur);
   }
 
 }

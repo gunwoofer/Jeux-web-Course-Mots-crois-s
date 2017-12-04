@@ -61,7 +61,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
   private MAJTemps() {
     this.tempsRestant = this.tempsRestant - 1;
     if (this.tempsRestant < 0) {
-      this.gameViewService.partieTermineeFauteDeTemps(true);
+      this.gameViewService.partieTermineeFauteDeTemps();
     }
   }
 
@@ -72,7 +72,6 @@ export class InfosJeuViewComponent implements AfterViewInit {
   public afficherCheatMode(): void {
     this.cheatModeVisible = !this.cheatModeVisible;
   }
-
 
   private MAJTempsServer(): void {
     this.gameViewService.demanderTempsPartie();

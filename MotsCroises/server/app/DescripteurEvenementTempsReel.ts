@@ -31,11 +31,13 @@ export class DescripteurEvenementTempsReel {
 
     public creerPartieSolo(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,
                             generateurDeGrilleService: GenerateurDeGrilleService, specificationPartie: SpecificationPartie): void {
+        console.log("creation solo");
         this.preparerNouvellePartie(gestionnaireDePartieService,
             generateurDeGrilleService, SpecificationPartie.rehydrater(specificationPartie)).then((specificationPartieNouvellePartie) => {
                 gestionnaireDePartieService.obtenirPartieEnCours(specificationPartieNouvellePartie.guidPartie).demarrerPartie();
                 client.emit(requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, specificationPartieNouvellePartie);
-            });
+            console.log('retour');
+        });
     }
 
     public creerPartieMultijoueur(client: SocketIO.Socket, gestionnaireDePartieService: GestionnaireDePartieService,

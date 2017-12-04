@@ -7,6 +7,7 @@ import {GameViewService} from './game-view.service';
 import {CanvasViewComponent} from '../canvas/app.canvas-view.component';
 import {InfosJeuViewComponent} from '../infos_jeu/app.infos-jeu-view.component';
 import {IndiceViewComponent} from '../indice/app.indice-view.component';
+import {ChoixPartieService} from '../choix_partie/choix-partie.service';
 
 
 @Component({
@@ -29,7 +30,14 @@ export class GameViewComponent implements OnInit {
 
     constructor(private route: ActivatedRoute,
                 private gameViewService: GameViewService,
+                private choixPartieService: ChoixPartieService,
                 private router: Router) {
+
+        this.gameViewService.specificationPartie = this.choixPartieService.specificationPartie;
+        this.gameViewService.joueur = this.choixPartieService.joueur;
+        this.gameViewService.joueur2 = this.choixPartieService.joueur2;
+        this.gameViewService.ecouterEvenements();
+
         this.gameViewService.motTrouve$.subscribe(() => {
             this.actualiserGrille();
         });
@@ -40,6 +48,7 @@ export class GameViewComponent implements OnInit {
         this.gameViewService.modificationTemps$.subscribe(() => {
             this.indiceViewComponent.annulerSelectionIndice();
         });
+        this.gameViewService.MAJIndices();
 
         if (!this.testPartieExiste()) {
             this.retourAccueil();

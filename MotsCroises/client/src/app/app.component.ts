@@ -2,10 +2,13 @@ import {Component, OnInit} from '@angular/core';
 import {SpecificationPartie} from '../../../commun/SpecificationPartie';
 import {GameViewService} from './game_view/game-view.service';
 import {Router} from '@angular/router';
+import {ChoixPartieService} from './choix_partie/choix-partie.service';
 
 
 export const ROUTE_PARTIE_CREE = 0;
 export const  ROUTE_ATTENTE_PARTIE = 1;
+export const ATTENTE_PARTIE = '/attentePartie';
+
 
 @Component({
     selector: 'app-root',
@@ -13,39 +16,15 @@ export const  ROUTE_ATTENTE_PARTIE = 1;
     styleUrls: ['./app.component.css']
 })
 
-export class AppComponent implements OnInit {
+export class AppComponent {
 
-    constructor(private gameViewService: GameViewService, private router: Router) {
+    constructor() {
+        //this.gameViewService.initialiserConnexion();
     }
 
     public title = 'LOG2990 - Groupe 10 - Mots Croisés';
     public message: string;
     public grille = '';
     public specificationPartie: SpecificationPartie;
-    public ATTENTE_PARTIE = '/attentePartie';
-
-
-    public ngOnInit(): void {
-        this.gameViewService.initialiserConnexion();
-        this.gameViewService.changementDeRoute.subscribe(route => {
-            switch (route) {
-                case ROUTE_PARTIE_CREE:
-                    this.allerAPartieCreee();
-                    break;
-                case ROUTE_ATTENTE_PARTIE:
-                    this.allerAAttentePartie();
-                    break;
-            }
-        });
-    }
-
-    public allerAPartieCreee() {
-        this.router.navigate([this.gameViewService.obtenirRoutePartie()]);
-    }
-
-    public allerAAttentePartie() {
-        this.router.navigate([this.ATTENTE_PARTIE]);
-
-    }
 
 }

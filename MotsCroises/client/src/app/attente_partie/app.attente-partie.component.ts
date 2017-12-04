@@ -4,6 +4,7 @@ import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
 import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
 import {Niveau} from '../../../../commun/Niveau';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
+import {ChoixPartieService} from '../choix_partie/choix-partie.service';
 
 
 @Component({
@@ -19,19 +20,16 @@ export class AttentePartieComponent {
     public niveauPartie: string;
     public difficultePartie: string;
 
-    constructor(private gameViewService: GameViewService) {
-        this.nomJoueur = this.gameViewService.joueur.obtenirNomJoueur();
+    constructor(private gameViewService: GameViewService, private choixPartieService: ChoixPartieService) {
+        this.nomJoueur = this.choixPartieService.joueur.obtenirNomJoueur();
         this.recupererDonnesPartie();
-        this.gameViewService.joueurAdverseTrouve$.subscribe(() => {
-
-        });
     }
 
     private recupererDonnesPartie(): void {
-        this.specificationPartie = this.gameViewService.specificationPartie;
-        this.niveauPartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.gameViewService.specificationPartie.niveau);
+        this.specificationPartie = this.choixPartieService.specificationPartie;
+        this.niveauPartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.choixPartieService.specificationPartie.niveau);
         this.difficultePartie = EnumUtilitaires
-            .chaine_de_caractere_depuis_enum(Niveau, this.gameViewService.specificationPartie.typePartie);
+            .chaine_de_caractere_depuis_enum(Niveau, this.choixPartieService.specificationPartie.typePartie);
     }
 
     public deuxJoueursPresents() {

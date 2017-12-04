@@ -16,6 +16,7 @@ export class GenerateurDeGrilleService {
         const grille = this.genererGrilleMotSync(niveau);
         let nEmplacement = 0;
         for (const mot of grille.mots) {
+            console.log("generation mot en cours");
             const motAPI: MotComplet = await new GenerateurDeMotContrainteService().demanderMotsADatamuse(mot.lettres);
             const emplacementsTries = GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot());
             mot.indice.definitions = motAPI.indice.definitions;
@@ -31,6 +32,7 @@ export class GenerateurDeGrilleService {
         const emplacements: EmplacementMot[] = GestionnaireParametresGrilleService.trierEmplacements(grille.obtenirEmplacementsMot());
         const motsDeLaGrille: string[] = new Array();
         for (const emplacement of emplacements) {
+            console.log('remplissage mot');
             const chaineMot =  RechercheMots.rechercherMot(emplacement.obtenirGrandeur(),
                                 GestionnaireParametresGrilleService.genererTableauContraintes(grille, emplacement));
             motsDeLaGrille.push(chaineMot);
