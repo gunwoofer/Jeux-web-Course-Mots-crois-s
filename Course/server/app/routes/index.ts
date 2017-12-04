@@ -6,7 +6,7 @@ module Route {
 
     export class Index {
 
-        public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public ajouterPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
             const piste = new modelDePiste(req.body);
             piste.save((err, resultat) => {
                 if (err) {
@@ -22,7 +22,7 @@ module Route {
             });
         }
 
-        public retournerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public retournerPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
             modelDePiste.find((err, pistes) => {
                 if (err) {
                     return res.status(500).json({
@@ -37,7 +37,7 @@ module Route {
             });
         }
 
-        public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public supprimerPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
             modelDePiste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({
@@ -60,7 +60,8 @@ module Route {
 
             });
         }
-        public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+
+        public modifierPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
             modelDePiste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({
@@ -87,7 +88,7 @@ module Route {
             });
         }
 
-        public modifierTableauPiste(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public modifierTableauPiste(req: express.Request, res: express.Response, next: express.NextFunction): void {
             modelDePiste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({
@@ -112,7 +113,7 @@ module Route {
             });
         }
 
-        public modifierRating(req: express.Request, res: express.Response, next: express.NextFunction) {
+        public modifierRating(req: express.Request, res: express.Response, next: express.NextFunction): void {
             modelDePiste.findById(req.params.id, (err, piste) => {
                 if (err) {
                     return res.status(500).json({
