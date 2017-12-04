@@ -13,8 +13,10 @@ import { LigneArrivee } from './../partie/LigneArrivee';
 import { Pilote } from './../partie/Pilote';
 import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { ObjetService } from './../objetService/objet.service';
-import { TABLEAU_POSITION, EMPLACEMENT_VOITURE, NOMBRE_DE_TOURS_PARTIE_DEFAUT, DUREE_STINGER_MILISECONDES, 
-    RESULTAT_PARTIE } from './../constant';
+import {
+    TABLEAU_POSITION, EMPLACEMENT_VOITURE, NOMBRE_DE_TOURS_PARTIE_DEFAUT, DUREE_STINGER_MILISECONDES,
+    RESULTAT_PARTIE
+} from './../constant';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { Injectable } from '@angular/core';
 import { LumiereService } from '../lumiere/lumiere.service';
@@ -35,7 +37,7 @@ export class GestionPartieService implements Observateur {
 
     constructor(private objetService: ObjetService, private tableauScoreService: TableauScoreService, private routeur: Router,
         private mondeDuJeuService: MondeDuJeuService, private musiqueService: MusiqueService,
-        private affichageTeteHauteService: AffichageTeteHauteService) {}
+        private affichageTeteHauteService: AffichageTeteHauteService) { }
 
     private preparerPartie(): void {
         const pilote: Pilote = new Pilote(this.voitureDuJoueur, true);
@@ -60,14 +62,13 @@ export class GestionPartieService implements Observateur {
     public chargerVoiture(cadranX: number, cadranY: number, joueur: boolean, scene: THREE.Scene, container: HTMLDivElement): void {
         const loader = new THREE.ObjectLoader();
         loader.load(EMPLACEMENT_VOITURE, (obj) => {
-            this.objetService.manipulationObjetVoiture(this.mondeDuJeuService.segment.premierSegment[1],
-                                                        this.mondeDuJeuService.segment.premierSegment[0], obj);
+            ObjetService.manipulationObjetVoiture(this.mondeDuJeuService.segment, obj, 'red');
             this.configurationVoiturePiste(cadranX, cadranY, obj, joueur, container, scene);
             scene.add(obj);
         });
     }
 
-    public configurationVoiturePiste(cadranX: number, cadranY: number, 
+    public configurationVoiturePiste(cadranX: number, cadranY: number,
         obj: THREE.Object3D, joueur: boolean, container: HTMLDivElement, scene: THREE.Scene): void {
         let meshPrincipalVoiture: any;
         meshPrincipalVoiture = obj.getObjectByName('MainBody');

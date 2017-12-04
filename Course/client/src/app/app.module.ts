@@ -1,3 +1,4 @@
+import { MoteurDeJeuService } from './moteurDeJeu/moteurDeJeu.service';
 import { GestionPartieService } from './voiture/gestionPartie.service';
 import { MondeDuJeuService } from './mondedujeu/mondedujeu.service';
 import { FormsModule } from '@angular/forms';
@@ -25,7 +26,6 @@ import { ModificationMotDePasseComponent } from './accueil/admin/modificationMot
 import { FinDePartieComponent } from './finDepartie/finDePartie.component';
 import { ConfigurationPartieComponent } from './configurationPartie/configurationPartie.component';
 import { AffichageTeteHauteComponent } from './affichageTeteHaute/affichagetetehaute.component';
-
 
 import { MoteurEditeurPiste } from './moteurEditeurPiste/render.service';
 import { TableauScoreService } from './tableauScore/tableauScoreService.service';
@@ -96,6 +96,7 @@ import { CreateurPisteService } from './createurPiste/createurPiste.service';
     TableauScoreService,
     GestionnaireDeVue,
     RatingService,
+    MoteurDeJeuService,
     SkyboxService,
     PlacementService,
     EffetSonoreService,

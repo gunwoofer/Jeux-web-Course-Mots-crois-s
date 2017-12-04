@@ -103,7 +103,7 @@ export class EvenementService {
       this.gestionPartieService.voitureDuJoueur.vueDessusTroisieme = !this.gestionPartieService.voitureDuJoueur.vueDessusTroisieme;
     } else if (event.key === ALLUMER_PHARES) {
       LumiereService.phares = !LumiereService.phares;
-      LumiereService.alternerPhares(this.jeuDeCourseService.voitureDuJoueur);
+      LumiereService.alternerPhares(this.gestionPartieService.voitureDuJoueur);
     } else if (event.key === RETROVISEUR) {
       this.gestionnaireDeVue.changerEtatRetroviseur();
     }

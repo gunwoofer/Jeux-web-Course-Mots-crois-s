@@ -1,3 +1,4 @@
+import { Voiture } from '../voiture/Voiture';
 import { LumiereService } from './../lumiere/lumiere.service';
 import { FonctionMaths } from './../fonctionMathematiques';
 import {
@@ -8,6 +9,10 @@ import {
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Object3D } from 'three';
+import { PlacementService } from './placementVoiture.service';
+import { Segment } from '../piste/segment.model';
+
+export const MESH_PRINCIPAL_NOM = 'MainBody';
 
 @Injectable()
 export class ObjetService {
@@ -35,25 +40,32 @@ export class ObjetService {
         return groupe;
     }
 
-    public enleverObjet(object: THREE.Object3D): void {
-        for (let nom = 0; nom < NOMS_OBJET_A_ENLEVER.length; nom++) {
-            object.remove(object.getObjectByName(NOMS_OBJET_A_ENLEVER[nom]));
-        }
-    }
-
-    public vecteurAngle(vecteur: THREE.Vector3, vecteur2: THREE.Vector3): THREE.Vector2 {
-        return new THREE.Vector2((vecteur.x - vecteur2.x), (vecteur.y - vecteur2.y));
-    }
-
-    public manipulationObjetVoiture(vecteur: THREE.Vector3, vecteur2: THREE.Vector3, objet: THREE.Object3D): void {
-        const vecteurCalculAngle = this.vecteurAngle(vecteur, vecteur2);
+    public static manipulationObjetVoiture(segment: Segment, objet: THREE.Object3D, couleur: String): void {
+        const meshPrincipalVoiture = <any>objet.getObjectByName(MESH_PRINCIPAL_NOM);
+        meshPrincipalVoiture.material.color.set(couleur);
         objet.rotateX(Math.PI / 2);
-        objet.rotateY(vecteurCalculAngle.angle());
+        objet.rotateY(this.vecteurAngle(segment.premierSegment[1], segment.premierSegment[0]).angle());
         objet.name = NOM_VOITURE;
         this.enleverObjet(objet);
         LumiereService.ajouterPhares(objet);
         LumiereService.eteindreTousLesPhares(objet);
         objet.receiveShadow = true;
+    }
+
+    public static enleverObjet(object: THREE.Object3D): void {
+        for (let nom = 0; nom < NOMS_OBJET_A_ENLEVER.length; nom++) {
+            object.remove(object.getObjectByName(NOMS_OBJET_A_ENLEVER[nom]));
+        }
+    }
+
+    public static vecteurAngle(vecteur: THREE.Vector3, vecteur2: THREE.Vector3): THREE.Vector2 {
+        return new THREE.Vector2((vecteur.x - vecteur2.x), (vecteur.y - vecteur2.y));
+    }
+
+    public static calculePositionObjetVoiture(cadranX: number, cadranY: number, voiture: Voiture, segment: Segment) {
+        voiture.voiture3D.position.set(
+            PlacementService.calculPositionVoiture(cadranX, cadranY, segment.premierSegment).x,
+            PlacementService.calculPositionVoiture(cadranX, cadranY, segment.premierSegment).y, 0);
     }
 
 }
