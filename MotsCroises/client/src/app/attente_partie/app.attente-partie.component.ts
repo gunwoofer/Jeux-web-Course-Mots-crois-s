@@ -1,12 +1,11 @@
-import {Component} from '@angular/core';
-import {GameViewService} from '../game_view/game-view.service';
-import {VuePartieEnCours} from '../../../../commun/VuePartieEnCours';
-import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
-import {Niveau} from '../../../../commun/Niveau';
-import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
-import {ChoixPartieService} from '../choix_partie/choix-partie.service';
-import {TypePartie} from '../../../../commun/TypePartie';
-
+import { Component } from '@angular/core';
+import { GameViewService } from '../game_view/game-view.service';
+import { VuePartieEnCours } from '../../../../commun/VuePartieEnCours';
+import { EnumUtilitaires } from '../../../../commun/EnumUtilitaires';
+import { Niveau } from '../../../../commun/Niveau';
+import { SpecificationPartie } from '../../../../commun/SpecificationPartie';
+import { ChoixPartieService } from '../choix_partie/choix-partie.service';
+import { TypePartie  } from '../../../../commun/TypePartie';
 
 @Component({
     selector: 'app-trouver-partie-component',
@@ -35,5 +34,4 @@ export class AttentePartieComponent {
     public deuxJoueursPresents() {
         return (this.gameViewService.joueur2.obtenirNomJoueur().length === 0);
     }
-
 }

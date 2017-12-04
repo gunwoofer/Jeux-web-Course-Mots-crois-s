@@ -6,7 +6,7 @@ import * as requetes from '../../../../commun/constantes/RequetesTempsReel';
 import {Subject} from 'rxjs/Subject';
 import {RequisPourSelectionnerMot} from '../../../../commun/requis/RequisPourSelectionnerMot';
 import {EmplacementMot} from '../../../../commun/EmplacementMot';
-import {Indice} from '../../../../server/app/Indice';
+import {Indice} from '../../../../server/app/indice';
 
 const PAS_DE_DEFINITION = 'No definition';
 
