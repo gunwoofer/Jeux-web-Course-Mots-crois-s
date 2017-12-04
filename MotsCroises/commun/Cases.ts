@@ -15,10 +15,6 @@ export class Cases {
     public ajouterCase(caseAAjouter: Case, numeroLigne: number, numeroColonne: number): void {
         this.cases[numeroLigne][numeroColonne] = caseAAjouter;
     }
-    
-    public changerCases(cases: Case[][]): void {
-        this.cases = cases;
-    }
 
     public viderCases(): void {
         for (const ligneCourante of this.obtenirCases()) {
@@ -39,10 +35,6 @@ export class Cases {
         return undefined;
     }
 
-    public obtenirLigneCases(numeroLigne: number) : Case[] {
-        return this.cases[numeroLigne];
-    }
-
     public obtenirCases(): Case[][] {
         return this.cases;
     }
@@ -50,8 +42,6 @@ export class Cases {
     public remplirCase(lettre: string, numeroLigne: number, numeroColonne: number): void {
         this.cases[numeroLigne][numeroColonne].remplirCase(lettre);
     }
-
-    
 
     public obtenirCasesSelonCaseDebut(caseDebut: Case, direction: Position, grandeur: number): Case[] {
         const cases: Case[] = new Array();
@@ -76,17 +66,6 @@ export class Cases {
 
         return cases;
     }
-
-    
-    public obtenirCaseSelonPosition(position: Position, indexFixe: number, index: number): Case {
-        switch (position) {
-            case Position.Ligne:
-                return this.obtenirCase(indexFixe, index);
-
-            case Position.Colonne:
-                return this.obtenirCase(index, indexFixe);
-        }
-    }
     
     public obtenirMotDesCases(cases: Case[]): string {
         let motDansLesCases = '';
@@ -96,43 +75,6 @@ export class Cases {
         }
 
         return motDansLesCases;
-    }
-    
-
-    public calculerPointsContraintesDeLaCase(caseCourante: Case, numeroLigneCourant: number, numeroColonneCourant: number): Case {
-        // Cas une case en bas contient une lettre.
-        if (this.peutAccueillirLettre(this.obtenirCase(numeroLigneCourant + 1, numeroColonneCourant))) {
-            caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
-        }
-
-        // Cas une case à droite contient une lettre.
-        if (this.peutAccueillirLettre(this.obtenirCase(numeroLigneCourant, numeroColonneCourant + 1))) {
-            caseCourante.ajouterUnPointDeContrainte(Position.Ligne);
-        }
-
-        // Cas une case en haut contient une lettre.
-        if (this.peutAccueillirLettre(this.obtenirCase(numeroLigneCourant - 1, numeroColonneCourant))) {
-            caseCourante.ajouterUnPointDeContrainte(Position.Colonne);
-        }
-
-        // Cas une case à gauche contient une lettre.
-        if (this.peutAccueillirLettre(this.obtenirCase(numeroLigneCourant, numeroColonneCourant - 1))) {
-            caseCourante.ajouterUnPointDeContrainte(Position.Ligne);
-        }
-
-        return caseCourante;
-    }
-    
-    public calculerPointsContraintes(): void {
-        let caseCourante: Case;
-        for (let i = 0; i < DIMENSION_LIGNE_COLONNE; i++) {
-            for (let j = 0; j < DIMENSION_LIGNE_COLONNE; j++) {
-                caseCourante = this.obtenirCase(i, j);
-                caseCourante.remettrePointsContraintesAZero();
-                this.calculerPointsContraintesDeLaCase(caseCourante,
-                    caseCourante.obtenirNumeroLigne(), caseCourante.obtenirNumeroColonne());
-            }
-        }
     }
 
     public obtenirLongueurCases(): number {
@@ -148,15 +90,5 @@ export class Cases {
             nbrCasesY = casesDeLaLigne.length;
         }
         return nbrCasesY;
-    }
-
-    private peutAccueillirLettre(caseAVerifier: Case): boolean {
-        if (caseAVerifier !== null && (caseAVerifier !== undefined)) {
-            if (caseAVerifier.etat === EtatCase.vide) {
-                return true;
-            }
-        }
-
-        return false;
     }
 }

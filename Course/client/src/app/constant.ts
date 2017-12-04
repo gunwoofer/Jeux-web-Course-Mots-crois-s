@@ -37,6 +37,9 @@ export const SURFACE_HORS_PISTE_TEXTURE = '../../assets/textures/texturerock.jpg
 export const JOUR_TEXTURE = '../../assets/textures/day.jpeg';
 export const NUIT_TEXTURE = '../../assets/textures/night.jpg';
 export const EMPLACEMENT_MUSIQUE = './../assets/musiques/';
+export const DAMIER_DEPART_TEXTURE = '../../assets/textures/ligne_depart.jpg';
+export const ZONE_DEPART_TEXTURE = '../../assets/textures/asphalt.JPG';
+export const LIGNE_DEPART_COULEUR = 0XFF0000;
 
 // Temps
 export const DUREE_STINGER_MILISECONDES = 3 * Math.pow(10, 3);
@@ -96,6 +99,25 @@ export const LUMIERES = [
 export const PHARES = [
     'BrakeLightLS1', 'BrakeLightRS1', 'Lumière Avant Droite', 'Lumière Avant Gauche', 'Phare Droit', 'Phare Gauche'];
 
+export const SCALAIRE = 30;
+export const INTENSITE_LUMIERE_POINT = 0.5;
+export const DISTANCE_LUMIERE_POINT = 5;
+export const INTENSITE_LUMIERE_SPOT = 2;
+export const ANGLE_LUMIERE_SPOT = 0.5;
+export const DISTANCE_LUMIERE_SPOT = 80;
+export const INTENSITEE = 1;
+export const HEX = 0xffffff;
+export const INTENSITE = 0.6;
+
+export const HEMISPHERE_COULEUR = { h: 0.6, s: 0.75, l: 0.5 };
+export const HEMISPHERE_COULEURTERRE = { h: 0.095, s: 0.5, l: 0.5 };
+export const DIRECTION_COULEUR = { h: 0.1, s: 1, l: 0.95 };
+export const LUMIERE_HEMISPHERE_POSITION = { x: 0, y: 500, z: 0 };
+export const LUMIERE_DIRECITON_POSITION = { x: -1, y: 0.75, z: 1 };
+export const LUMIERE_POINT_POSITION = { x: 2.7, y: 1, z: 0.6 };
+export const LIMIERE_SPOT_POSITION = { x: 3, y: 1.5, z: 0.6 };
+export const LIMIERE_SPOT_TARGET_POSITION = { x: 6, y: 0.5, z: 1 };
+
 // Obstacles
 export const CHEMIN_ACCES_ACCELERATEUR = '../../assets/textures/accelerateur.png';
 export const NIVEAU_CLARETE = 4;
@@ -131,6 +153,9 @@ export const URL_ADMINISTRATION = 'http://localhost:3000/admin';
 export const URL_MOT_DE_PASSSE_OUBLIE = 'http://localhost:3000/motDePasseOublie';
 export const URL_MODIFIER_MOT_DE_PASSE = 'http://localhost:3000/ModifierPass';
 export const FIN_PARTIE_URL = 'http://localhost:3000/finPartie';
+export const RESULTAT_PARTIE_URL = 'http://localhost:3000/resultatPartie';
+export const CREATEUR_PISTE_URL = 'http://localhost:3000/createurPiste';
+export const LISTE_PISTE_URL = 'http://localhost:3000/listePiste';
 export const MESSAGE_ERREUR = 'Une erreur est arrivé';
 // Couleurs
 export const COMPOSANTE_R_POINT_EDITEUR = 0.55;
@@ -148,6 +173,7 @@ export const ADMINISTRATION = '/admin';
 export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
 export const GENERATION_PISTE = '/generationpiste';
 export const RESULTAT_PARTIE = '/resultatPartie';
+export const FIN_PARTIE = '/finPartie';
 
 
 export const LARGEUR_PISTE_EDITEUR = 10;
@@ -173,4 +199,32 @@ export const SKYBOX_NUIT = [
 export const ORIENTATIONS_SKYBOX = ['front', 'back', 'top', 'bottom', 'right', 'left'];
 export const FACE_SKYBOX = 6;
 
+export const NID_DE_POULE = 'nidDePoule';
+export const FLAQUE = 'flaque';
+export const ACCELERATEUR = 'accelerateur';
+export const LUMIERE_DIRECTIONNELLE_NOM = 'lumiereDirectionnelle';
+export const LUMIERE_HEMISPHERE_NOM = 'lumiereHemisphere';
+
+export const IMAGE_PNG = 'image/png';
+
+
+// SEGMENT MODEL
+export const ANISOTROPY = 4;
+export const REPETITION_TEXTURE_ZONE_DEPART = 10;
+export const DIMENSION_CHECK_POINT = 1;
+
+
+
+// parametre camera JEUX DE COURSE
+
+export const FOV = 75;
+export const PRES = 1;
+export const LOIN = 6000;
+
+// couleur voiture
+
+
+export const COULEUR_VOITURE_JOUEUR = 'grey';
+export const COULEUR_VOITURE_JOUEUR_VIRTUEL = 'black';
+export const MILLE = 1000;
 

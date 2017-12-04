@@ -5,6 +5,7 @@ import {EnumUtilitaires} from '../../../../commun/EnumUtilitaires';
 import {Niveau} from '../../../../commun/Niveau';
 import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
 import {ChoixPartieService} from '../choix_partie/choix-partie.service';
+import {TypePartie} from '../../../../commun/TypePartie';
 
 
 @Component({
@@ -27,16 +28,12 @@ export class AttentePartieComponent {
 
     private recupererDonnesPartie(): void {
         this.specificationPartie = this.choixPartieService.specificationPartie;
-        this.niveauPartie = EnumUtilitaires.chaine_de_caractere_depuis_enum(Niveau, this.choixPartieService.specificationPartie.niveau);
-        this.difficultePartie = EnumUtilitaires
-            .chaine_de_caractere_depuis_enum(Niveau, this.choixPartieService.specificationPartie.typePartie);
+        this.niveauPartie = Niveau[this.specificationPartie.niveau];
+        this.difficultePartie = TypePartie[this.specificationPartie.typePartie];
     }
 
     public deuxJoueursPresents() {
         return (this.gameViewService.joueur2.obtenirNomJoueur().length === 0);
-    }
-
-    public demarrerPartie2joueurs() {
     }
 
 }

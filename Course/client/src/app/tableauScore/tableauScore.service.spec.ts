@@ -42,6 +42,3 @@ describe('tableauScore service test', () => {
         });
     }));
 });
-
-
-

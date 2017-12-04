@@ -7,7 +7,7 @@ import { ListePisteComponent } from './listePiste/listePiste.component';
 import { ConnexionComponent } from './accueil/admin/connexion/connexion.component';
 import { InscriptionComponent } from './accueil/admin/inscription/inscription.component';
 import { AccueilComponent } from './accueil/accueil.component';
-import { GenerateurPisteComponent } from './generateurPiste/generateurpiste.component';
+import { JeuDeCourseComponent } from './jeuDeCourse/jeudecourse.component';
 import { MotDepasseOublieComponent } from './accueil/admin/motDepasseOublie/motDepasseOublie.component';
 import { ModificationMotDePasseComponent } from './accueil/admin/modificationMotDepasse/modificationMotDePasse.component';
 import { FinDePartieComponent } from './finDepartie/finDePartie.component';
@@ -22,7 +22,7 @@ const APP_ROUTES: Routes = [
     { path: 'ModifierPass', component: ModificationMotDePasseComponent },
     { path: 'listePiste', component: ListePisteComponent },
     { path: 'createurPiste', component: CreateurPisteComponent },
-    { path: 'generationpiste', component: GenerateurPisteComponent },
+    { path: 'generationpiste', component: JeuDeCourseComponent },
     { path: 'resultatPartie', component: RatingComponent },
     { path: 'finPartie', component: FinDePartieComponent }
 ];

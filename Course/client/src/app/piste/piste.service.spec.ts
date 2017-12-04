@@ -1,9 +1,10 @@
+import { mockPistes } from './../mocks';
+import { CollisionService } from './../voiture/collision.service';
 import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
-import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { DeplacementService } from './../deplacement/deplacement.service';
 import { GestionnaireDeVue } from './../gestionnaireDeVue/gestionnaireDeVue.service';
 import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
 import { PlacementService } from './../objetService/placementVoiture.service';
-import { LumiereService } from './../lumiere/lumiere.service';
 import { RatingService } from './../rating/rating.service';
 import { SkyboxService } from '../skybox/skybox.service';
 import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
@@ -13,20 +14,19 @@ import { ObjetService } from '../objetService/objet.service';
 import { TestBed, inject } from '@angular/core/testing';
 import { BaseRequestOptions, Response, ResponseOptions, Http, HttpModule } from '@angular/http';
 import { MockBackend, MockConnection } from '@angular/http/testing';
-
-import { mockPistes } from './pistes.mock';
-import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
+import { JeuDeCourseService } from '../jeuDeCourse/jeudecourse.service';
 import { PisteService } from './piste.service';
+import { MondeDuJeuService } from '../mondedujeu/mondedujeu.service';
 
 describe('pisteService test', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
             providers: [
                 PisteService, GestionnaireDeVue, MusiqueService, SortiePisteService,
-                GenerateurPisteService, FiltreCouleurService, AffichageTeteHauteService,
-                ObjetService, LumiereService, TableauScoreService, DeplacementService,
-                MockBackend, SkyboxService, RatingService, PlacementService,
-                BaseRequestOptions, SortiePisteService,
+                JeuDeCourseService, FiltreCouleurService, AffichageTeteHauteService,
+                ObjetService, TableauScoreService, DeplacementService,
+                MockBackend, SkyboxService, RatingService, PlacementService, CollisionService,
+                BaseRequestOptions, SortiePisteService, MondeDuJeuService,
                 {
                     provide: Http,
                     useFactory: (backend: MockBackend, defaultOptions: BaseRequestOptions) => {

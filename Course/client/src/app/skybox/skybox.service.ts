@@ -1,20 +1,19 @@
+import { FonctionMaths } from './../fonctionMathematiques';
 import { VITESSE_MIN, ROTATION, SKYBOX_JOUR, SKYBOX_NUIT, NOM_SKYBOX } from './../constant';
 import { Skybox } from './skybox.model';
 import { Voiture } from './../voiture/Voiture';
-import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { DeplacementService } from './../deplacement/deplacement.service';
 import * as THREE from 'three';
 import { Injectable } from '@angular/core';
 
 @Injectable()
 export class SkyboxService {
 
-    private skybox: Skybox;
     private listeSkyboxJour: THREE.Mesh[];
     private listeSkyboxNuit: THREE.Mesh[];
 
 
     constructor(private deplacementService: DeplacementService) {
-        this.skybox = new Skybox();
         this.listeSkyboxJour = new Array<THREE.Mesh>();
         this.listeSkyboxNuit = new Array<THREE.Mesh>();
         this.chargerLesSkybox();
@@ -30,7 +29,7 @@ export class SkyboxService {
     }
 
     public ajouterSkybox(camera: THREE.PerspectiveCamera): void {
-        camera.add(this.listeSkyboxJour[this.skybox.emplacementAleatoire(this.listeSkyboxJour.length)]);
+        camera.add(this.listeSkyboxJour[FonctionMaths.emplacementAleatoireSkyBox(this.listeSkyboxJour.length)]);
     }
 
     public chargerLesSkybox(): void {
@@ -40,13 +39,13 @@ export class SkyboxService {
 
     private genererToutesLesSkyboxJour(): void {
         for (let i = 0; i < SKYBOX_JOUR.length; i++) {
-            this.listeSkyboxJour.push(this.skybox.creerSkybox(SKYBOX_JOUR[i]));
+            this.listeSkyboxJour.push(Skybox.creerSkybox(SKYBOX_JOUR[i]));
         }
     }
 
     private genererToutesLesSkyboxNuit(): void {
         for (let i = 0; i < SKYBOX_NUIT.length; i++) {
-            this.listeSkyboxNuit.push(this.skybox.creerSkybox(SKYBOX_NUIT[i]));
+            this.listeSkyboxNuit.push(Skybox.creerSkybox(SKYBOX_NUIT[i]));
         }
     }
 
@@ -60,6 +59,6 @@ export class SkyboxService {
 
     private changerSkybox(camera: THREE.PerspectiveCamera, listeSkybox: Array<THREE.Mesh>): void {
         camera.remove(camera.getObjectByName(NOM_SKYBOX));
-        camera.add(listeSkybox[this.skybox.emplacementAleatoire(listeSkybox.length)]);
+        camera.add(listeSkybox[FonctionMaths.emplacementAleatoireSkyBox(listeSkybox.length)]);
     }
 }

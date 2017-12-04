@@ -8,6 +8,8 @@
   <div>
     <button (click)="afficherCheatMode()">Afficher Cheat Mode</button>
     <div class='titre'>Infos de jeu</div>
+      <div>{{niveauPartie}}</div>
+      <div>{{typeDePartie}}</div>
     <div>{{tempsRestant}}</div>
     <div *ngIf="cheatModeVisible">
       <button (click)="recupererMotsCheatMode()">Afficher mots</button>

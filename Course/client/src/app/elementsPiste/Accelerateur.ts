@@ -1,13 +1,12 @@
 import { NOM_BOOST, EffetSonore } from './../effetSonore/effetSonore';
 import { LARGEUR_ACCELERATEUR, LONGUEUR_ACCELERATEUR, REPETITION_TEXTURE_ACCELERATEUR } from './../constant';
-import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { CHEMIN_ACCES_ACCELERATEUR, NIVEAU_CLARETE } from '../constant';
 import { Texture } from 'three';
 import { Piste } from '../piste/piste.model';
-import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
+import { DeplacementVoiture } from '../deplacement/deplacementVoiture';
 
 export class Accelerateur extends ElementDePiste {
 

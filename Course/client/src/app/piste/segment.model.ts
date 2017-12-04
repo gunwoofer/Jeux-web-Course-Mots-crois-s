@@ -1,3 +1,7 @@
+import {
+    ZONE_DEPART_TEXTURE, LIGNE_DEPART_COULEUR, DAMIER_DEPART_TEXTURE,
+    ANISOTROPY, REPETITION_TEXTURE_ZONE_DEPART
+} from './../constant';
 import * as THREE from 'three';
 import { Piste } from './piste.model';
 
@@ -71,11 +75,11 @@ export class Segment {
 
     private chargerTexture(): THREE.Texture {
         const loader = new THREE.TextureLoader();
-        const texture = loader.load('../../assets/textures/asphalt.JPG', (txt) => {
+        const texture = loader.load(ZONE_DEPART_TEXTURE, (txt) => {
             txt.wrapS = THREE.RepeatWrapping;
             txt.wrapT = THREE.RepeatWrapping;
-            txt.anisotropy = 4;
-            txt.repeat.set(10, 10);
+            txt.anisotropy = ANISOTROPY;
+            txt.repeat.set(REPETITION_TEXTURE_ZONE_DEPART, REPETITION_TEXTURE_ZONE_DEPART);
         });
         return texture;
     }
@@ -117,7 +121,7 @@ export class Segment {
         const materielZoneDepart = new THREE.MeshStandardMaterial();
 
         geometrieZoneDepart.vertices = this.premierSegment;
-        loaderZoneDepart.load('../../assets/textures/ligne_depart.jpg', (texture) => {
+        loaderZoneDepart.load(DAMIER_DEPART_TEXTURE, (texture) => {
             materielZoneDepart.map = texture;
         });
         this.damierDeDepart = new THREE.Mesh(geometrieZoneDepart, materielZoneDepart);
@@ -125,7 +129,7 @@ export class Segment {
     }
 
     private ajoutLigneDepart(piste: Piste): THREE.Line {
-        const materialLigneDepart = new THREE.LineBasicMaterial({ color: 0XFF0000 });
+        const materialLigneDepart = new THREE.LineBasicMaterial({ color: LIGNE_DEPART_COULEUR });
         const geometryLigneDepart = new THREE.Geometry();
         geometryLigneDepart.vertices.push(
             new THREE.Vector3(this.premierSegment[1].x, this.premierSegment[1].y, HAUTEUR_LIGNE),

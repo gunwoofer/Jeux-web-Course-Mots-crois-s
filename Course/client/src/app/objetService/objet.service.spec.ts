@@ -29,14 +29,8 @@ describe('ObjetService test', () => {
         let objet = new THREE.Object3D();
         const arbrePath = '../../assets/objects/arbre/tree.json';
         const arbreTexture = '../../assets/objects/arbre/tree.jpg';
-        objet = objetService.chargerArbre(arbrePath, arbreTexture, chiffre);
+        objet = ObjetService.chargerArbre(arbrePath, arbreTexture, chiffre);
         expect(objet).toBeTruthy();
-    });
-
-    it('ajout des phares sur un objet', () => {
-        const objet = new THREE.Object3D();
-        objetService.ajouterPhares(objet);
-        expect(objet.children.length).toEqual(6);
     });
 
 });

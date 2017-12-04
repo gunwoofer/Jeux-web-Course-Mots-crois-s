@@ -1,5 +1,6 @@
+import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { FabriquantElementDePiste } from './../elementsPiste/FabriquantElementDePiste';
-import { NOMBRE_DE_TOURS_PARTIE_DEFAUT } from './../constant';
+import { NOMBRE_DE_TOURS_PARTIE_DEFAUT, CREATEUR_PISTE_URL, LISTE_PISTE_URL } from './../constant';
 import { RatingService } from './../rating/rating.service';
 import { Http, Response } from '@angular/http';
 import { Piste } from './piste.model';
@@ -7,7 +8,6 @@ import { Injectable, EventEmitter } from '@angular/core';
 import { Observable } from 'rxjs/Rx';
 import 'rxjs/Rx';
 
-import { GenerateurPisteService } from '../generateurPiste/generateurpiste.service';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
 
 @Injectable()
@@ -19,11 +19,13 @@ export class PisteService {
     public tableauMeilleurTemps = new EventEmitter<Piste>();
     public nombreDeTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
 
-    constructor(private generateurPisteService: GenerateurPisteService, private http: Http, private ratingService: RatingService) {
+    constructor(private mondeDuJeuService: MondeDuJeuService,
+                private http: Http,
+                private ratingService: RatingService) {
 
         this.pisteChoisie.subscribe(
             (piste: Piste) => {
-                this.generateurPisteService.ajouterPiste(piste);
+                this.mondeDuJeuService.ajouterPiste(piste);
                 this.ratingService.piste = piste;
             }
         );
@@ -32,14 +34,14 @@ export class PisteService {
 
     public ajouterPiste(piste: Piste): Promise<Response> {
         this.pistes.push(piste);
-        return this.http.post('http://localhost:3000/createurPiste', piste)
+        return this.http.post(CREATEUR_PISTE_URL, piste)
             .toPromise()
             .then((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));
     }
 
     public retournerListePiste(): Promise<Piste[]> {
-        return this.http.get('http://localhost:3000/listePiste')
+        return this.http.get(LISTE_PISTE_URL)
             .toPromise()
             .then(response => {
                 const pistes = response.json().obj;
@@ -67,7 +69,7 @@ export class PisteService {
     public supprimerListePiste(piste: Piste): Promise<JSON> {
         const pist = piste.id;
         this.pistes.splice(this.pistes.indexOf(piste), 1);
-        return this.http.delete('http://localhost:3000/listePiste' + pist)
+        return this.http.delete(LISTE_PISTE_URL + pist)
             .toPromise()
             .then(response => response.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));
@@ -84,7 +86,7 @@ export class PisteService {
 
 
     public mettreAjourPiste(piste: Piste): Promise<JSON> {
-        return this.http.patch('http://localhost:3000/createurPiste' + piste.id, piste)
+        return this.http.patch(CREATEUR_PISTE_URL + piste.id, piste)
             .toPromise()
             .then((reponse: Response) => reponse.json())
             .catch((erreur: Response) => Observable.throw(erreur.json()));

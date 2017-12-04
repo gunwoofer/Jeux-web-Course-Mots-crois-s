@@ -12,7 +12,7 @@ import * as cookieParser from 'cookie-parser';
 import * as bodyParser from 'body-parser';
 import * as cors from 'cors';
 
-import { ConnexionTempsReelServer } from './ConnexionTempsReelServer';
+import { ConnexionTempsReelServer } from './connexionTempsReelServer';
 
 
 export class Application {

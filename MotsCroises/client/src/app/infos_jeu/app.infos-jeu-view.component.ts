@@ -3,6 +3,8 @@ import {GameViewService} from '../game_view/game-view.service';
 import {Joueur} from '../../../../commun/Joueur';
 import {TimerService} from '../game_view/timer.service';
 import {IndiceService} from '../game_view/indice.service';
+import {TypePartie} from '../../../../commun/TypePartie';
+import {Niveau} from '../../../../commun/Niveau';
 
 
 @Component({
@@ -19,7 +21,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
   private FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS = 10000;
 
   public motEnCoursJ1: string;
-  public tempsRestant = 3000;
+  public tempsRestant = 300;
   private dureeGrille = 3000000;
   public tempsFin: number;
   private intervalFunction: any;
@@ -28,6 +30,8 @@ export class InfosJeuViewComponent implements AfterViewInit {
   public joueur2: Joueur;
   public cheatModeVisible = false;
   public tempsRestantAEnvoyer: number;
+  public typeDePartie: string;
+  public niveauPartie: string;
 
 
   constructor(private gameViewService: GameViewService,
@@ -42,6 +46,8 @@ export class InfosJeuViewComponent implements AfterViewInit {
     });
     this.joueur = this.gameViewService.joueur;
     this.joueur2 = this.gameViewService.joueur2;
+    this.typeDePartie = TypePartie[this.gameViewService.specificationPartie.typePartie];
+    this.niveauPartie = Niveau[this.gameViewService.specificationPartie.niveau];
   }
 
   public ngAfterViewInit(): void {

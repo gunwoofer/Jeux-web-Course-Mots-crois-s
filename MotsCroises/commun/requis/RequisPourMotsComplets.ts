@@ -1,4 +1,4 @@
-import { MotComplet } from './../../server/app/MotComplet';
+import { MotComplet } from './../../server/app/motComplet';
 
 
 export class RequisPourMotsComplets {

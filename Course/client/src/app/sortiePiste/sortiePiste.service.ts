@@ -1,9 +1,9 @@
-import { DeplacementService } from './../generateurPiste/deplacement.service';
+import { FonctionMaths } from './../fonctionMathematiques';
 import { ORIGINE, ORIENTATION_Z } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from './../voiture/Voiture';
-import { DeplacementVoiture } from '../generateurPiste/deplacementVoiture';
+import { DeplacementVoiture } from '../deplacement/deplacementVoiture';
 
 @Injectable()
 export class SortiePisteService {
@@ -46,15 +46,6 @@ export class SortiePisteService {
     }
 
     private trouverMilieuSegment(segment: THREE.Mesh): THREE.Vector3 {
-        return segment.localToWorld(this.calculerMilieuSegment(segment));
-    }
-
-    private calculerMilieuSegment(segment: THREE.Mesh): THREE.Vector3 {
-        segment.geometry.computeBoundingBox();
-        return new THREE.Vector3(
-            (segment.geometry.boundingBox.max.x + segment.geometry.boundingBox.min.x) / 2,
-            (segment.geometry.boundingBox.max.y + segment.geometry.boundingBox.min.y) / 2,
-            (segment.geometry.boundingBox.max.z + segment.geometry.boundingBox.min.z) / 2
-        );
+        return segment.localToWorld(FonctionMaths.calculerMilieuRectangle(segment));
     }
 }

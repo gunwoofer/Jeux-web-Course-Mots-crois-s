@@ -20,7 +20,6 @@ import {ConnexionTempsReelClientService} from './connestion_temps_reel/Connexion
 import {TimerService} from './game_view/timer.service';
 import {IndiceService} from './game_view/indice.service';
 
-
 @NgModule({
   declarations: [
     AppComponent,

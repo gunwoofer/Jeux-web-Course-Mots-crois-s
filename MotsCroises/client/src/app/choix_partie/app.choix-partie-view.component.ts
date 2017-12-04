@@ -43,6 +43,9 @@ export class ChoixPartieViewComponent {
     }
 
     public demanderCreationPartie() {
+        if(this.nbJoueursPartie > 0) {
+            this.typePartie = this.typePartie + 2;
+        }
         this.choixPartieService.demanderPartie(this.niveauPartie, this.typePartie, this.nbJoueursPartie);
         this.partieEnRecherche = true;
     }

@@ -1,6 +1,5 @@
-import { DeplacementVoiture } from './../generateurPiste/deplacementVoiture';
+import { DeplacementVoiture } from './../deplacement/deplacementVoiture';
 import { NOM_OBSTACLE, EffetSonore } from './../effetSonore/effetSonore';
-import { DeplacementService } from './../generateurPiste/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';

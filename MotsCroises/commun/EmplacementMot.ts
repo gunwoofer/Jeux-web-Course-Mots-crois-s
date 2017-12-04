@@ -1,6 +1,6 @@
 import { Case, EtatCase } from './Case';
 import { Position } from './Position';
-import { Grille } from '../server/app/Grille';
+import { Grille } from '../server/app/grille';
 import { TAILLE_GRILLE } from './constantes/GrilleConstantes';
 
 export enum EtatEmplacementMot {
@@ -112,19 +112,6 @@ export class EmplacementMot {
             return true;
         }
         return false;
-    }
-
-    public copieEmplacement(): EmplacementMot {
-        
-       let newEmplacement = new EmplacementMot(this.caseDebut.copieCase(), this.caseFin.copieCase());
-       for(let i = 0; i < this.motsImpossible.length; i++) {
-           newEmplacement.motsImpossible[i] = this.motsImpossible[i];
-       }
-       newEmplacement.grandeur = this.grandeur;
-       newEmplacement.position = this.position;
-
-       
-       return newEmplacement;
     }
 
     public obtenirPosition(): Position {

@@ -1,3 +1,4 @@
+import { FIN_PARTIE } from './../constant';
 import { Router } from '@angular/router';
 import { RatingService } from './rating.service';
 import { Component, OnInit } from '@angular/core';
@@ -46,7 +47,7 @@ export class RatingComponent implements OnInit {
     }
 
     private changementDeroutage(): void {
-        this.router.navigateByUrl('/finPartie');
+        this.router.navigateByUrl(FIN_PARTIE);
         this.tableauScoreSevice.finPartie = false;
     }
 

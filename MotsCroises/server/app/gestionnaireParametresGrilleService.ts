@@ -1,5 +1,5 @@
-import { Contrainte } from './Contrainte';
-import { Grille } from './Grille';
+import { Contrainte } from './contrainte';
+import { Grille } from './grille';
 import { EmplacementMot } from './../../commun/EmplacementMot';
 import { Position } from '../../commun/Position';
 import { Case, EtatCase } from '../../commun/Case';

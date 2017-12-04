@@ -11,11 +11,12 @@ import 'rxjs/Rx';
 export class TableauScoreService {
 
     public piste: Piste;
-    public debut = 0;
     public temps: number;
     public finPartie: boolean;
-    public tempsFinPartie: Score[];
-    public traitementDonneeTableau = new TraitementDonneTableau();
+
+    private tempsFinPartie: Score[];
+    private traitementDonneeTableau = new TraitementDonneTableau();
+    private debut = 0;
 
     constructor(private http: Http) {
         this.finPartie = false;
@@ -24,13 +25,28 @@ export class TableauScoreService {
 
     public produireTableauResultat(): Score[] {
         if (!this.temps) { return; }
+
         for (let joueur = 0; joueur < NOMBRE_JOUEURS; joueur++) {
             this.gestionTempsFinPartie(joueur, this.temps);
         }
+
         return this.tempsFinPartie;
     }
 
-    public gestionTempsFinPartie(indice: number, temps: number): void {
+    public mettreAjourTableauMeilleurTemps(score: Score): Promise<any> {
+        this.ajouterTemps(score);
+        return this.http.patch(FIN_PARTIE_URL + this.piste.id, this.piste)
+                        .toPromise()
+                        .then((reponse: Response) => reponse.json())
+                        .catch(this.gererErreur);
+    }
+
+    private gererErreur(erreur: any): Promise<any> {
+        console.error('Une erreur est arrivé', erreur);
+        return Promise.reject(erreur.message || erreur);
+    }
+
+    private gestionTempsFinPartie(indice: number, temps: number): void {
         if (indice === 0) {
             this.tempsFinPartie.push(new Score('Joueur' + indice++, Math.floor(temps).toString(), indice++));
         } else {
@@ -40,24 +56,11 @@ export class TableauScoreService {
         }
     }
 
-    public ajouterTemps(score: Score): void {
+    private ajouterTemps(score: Score): void {
         this.piste.meilleursTemps.push(score);
         const fin = this.piste.meilleursTemps.length - 1;
         this.traitementDonneeTableau.quickSort(this.piste.meilleursTemps, this.debut, fin);
         this.piste.meilleursTemps = this.traitementDonneeTableau.cinqMeilleurTemps(this.piste.meilleursTemps);
         this.temps = null;
-    }
-
-    public mettreAjourTableauMeilleurTemps(score: Score): Promise<any> {
-        this.ajouterTemps(score);
-        return this.http.patch(FIN_PARTIE_URL + this.piste.id, this.piste)
-            .toPromise()
-            .then((reponse: Response) => reponse.json())
-            .catch(this.gererErreur);
-    }
-
-    private gererErreur(erreur: any): Promise<any> {
-        console.error('Une erreur est arrivé', erreur);
-        return Promise.reject(erreur.message || erreur);
     }
 }

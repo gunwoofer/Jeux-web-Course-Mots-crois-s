@@ -21,8 +21,8 @@ export class Piste {
         const pointFin = segmentAleatoire[1];
 
         const x = (estUnAccelerateur) ? FonctionMaths.trouverXAleatoire(pointDebut.x,
-                                        FonctionMaths.obtenirMoitieEntre2points(pointDebut.x, pointFin.x))
-                                    : FonctionMaths.trouverXAleatoire(pointDebut.x, pointFin.x);
+                                                                        FonctionMaths.obtenirMoitieEntre2points(pointDebut.x, pointFin.x))
+                                      : FonctionMaths.trouverXAleatoire(pointDebut.x, pointFin.x);
 
         const pente = FonctionMaths.calculerPenteDroite(pointDebut, pointFin);
         const y = pente * x + FonctionMaths.calculerOrdonneeALOrigine(pointDebut, pente);
@@ -31,7 +31,7 @@ export class Piste {
     }
 
     private static genererSegmentAleatoire(listePoints: THREE.Vector3[]): THREE.Vector3[] {
-        const pointAleatoire = Math.round(Math.random() * (listePoints.length - 2));
+        const pointAleatoire = Math.floor(Math.random() * (listePoints.length - 2)) + 1;
         return [listePoints[pointAleatoire], listePoints[pointAleatoire + 1]];
     }
 
@@ -51,15 +51,14 @@ export class Piste {
     public gererElementDePiste(listeVoitures: Voiture[]): void {
         for (const voiture of listeVoitures) {
             for (const element of this.listeElementsDePiste) {
-                const vecteurVersLeHaut = new THREE.Vector3(0, 0, 1);
-                element.genererRayCaster(vecteurVersLeHaut);
-            if (element.raycaster.intersectObject(voiture.obtenirVoiture3D(), true).length !== 0) {
-                if (!element.antirebond) {
-                    element.effetSurObstacle(voiture);
-                    element.antirebond = true;
-                }
-            } else {
-                element.antirebond = false;
+                if (voiture.raycasterCollisionDroit.intersectObject(element.obtenirMesh(), true).length !== 0
+                    || voiture.raycasterCollisionGauche.intersectObject(element.obtenirMesh(), true).length !== 0 ) {
+                    if (!element.antirebond) {
+                        element.effetSurObstacle(voiture);
+                        element.antirebond = true;
+                    }
+                } else {
+                    element.antirebond = false;
                 }
             }
         }
