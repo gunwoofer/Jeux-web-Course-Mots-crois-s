@@ -1,3 +1,4 @@
+import { NID_DE_POULE, FLAQUE, ACCELERATEUR, IMAGE_PNG } from './../constant';
 import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { GestionElementsPiste } from './../elementsPiste/GestionElementsPiste';
 import { TypeElementPiste } from './../elementsPiste/ElementDePiste';
@@ -19,19 +20,18 @@ export class PisteValidationComponent {
     public gestionElementsPiste: GestionElementsPiste;
 
     constructor(private pisteService: PisteService,
-                private renderService: MoteurEditeurPiste,
-                private createurPisteService: CreateurPisteService) {
+        private renderService: MoteurEditeurPiste,
+        private createurPisteService: CreateurPisteService) {
         this.gestionElementsPiste = new GestionElementsPiste();
     }
 
     @Input() public pisteAmodifier: Piste;
     public display: boolean;
-    public buttonText = 'Sauvegarder circuit';
 
     public onSubmit(form: NgForm): void {
         const listepositions: THREE.Vector3[] = [];
         Object.assign(listepositions, this.createurPisteService.obtenirPositions());
-        const urlVignette = this.renderService.obtenirRenderer().domElement.toDataURL('image/png');
+        const urlVignette = this.renderService.obtenirRenderer().domElement.toDataURL(IMAGE_PNG);
         if (this.pisteAmodifier) {
             this.modification(this.pisteAmodifier, form, listepositions, urlVignette);
         } else {
@@ -59,9 +59,9 @@ export class PisteValidationComponent {
     private detecterTypeElement(typeElementHtml): TypeElementPiste {
         let type: TypeElementPiste;
         switch (typeElementHtml.target.name) {
-            case 'nidDePoule': { type = TypeElementPiste.NidDePoule; break; }
-            case 'flaque': { type = TypeElementPiste.FlaqueDEau; break; }
-            case 'accelerateur': { type = TypeElementPiste.Accelerateur; break; }
+            case NID_DE_POULE: { type = TypeElementPiste.NidDePoule; break; }
+            case FLAQUE: { type = TypeElementPiste.FlaqueDEau; break; }
+            case ACCELERATEUR: { type = TypeElementPiste.Accelerateur; break; }
         }
         return type;
     }
@@ -81,20 +81,14 @@ export class PisteValidationComponent {
             listePositions,
             this.gestionElementsPiste.obtenirListeElement());
         piste.vignette = urlVignette;
-        console.log(piste);
         this.pisteService.ajouterPiste(piste)
-            .then(
-            donnee => console.log(donnee)
-            );
+            .then(reponse => console.log(reponse));
     }
 
     private modifierPiste(piste: Piste, form: NgForm, listePositions: THREE.Vector3[]): void {
         piste.modifierAttribut(form, listePositions);
         this.pisteService.mettreAjourPiste(piste)
-            .then(
-            donnee => console.log(donnee)
-            );
+            .then(reponse => console.log(reponse));
     }
-
 
 }

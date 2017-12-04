@@ -150,6 +150,7 @@ export const URL_ADMINISTRATION = 'http://localhost:3000/admin';
 export const URL_MOT_DE_PASSSE_OUBLIE = 'http://localhost:3000/motDePasseOublie';
 export const URL_MODIFIER_MOT_DE_PASSE = 'http://localhost:3000/ModifierPass';
 export const FIN_PARTIE_URL = 'http://localhost:3000/finPartie';
+export const RESULTAT_PARTIE_URL = 'http://localhost:3000/resultatPartie';
 export const MESSAGE_ERREUR = 'Une erreur est arrivé';
 // Couleurs
 export const COMPOSANTE_R_POINT_EDITEUR = 0.55;
@@ -167,6 +168,7 @@ export const ADMINISTRATION = '/admin';
 export const MOT_DE_PASSE_OUBLIE = '/motDePasseOublie';
 export const GENERATION_PISTE = '/generationpiste';
 export const RESULTAT_PARTIE = '/resultatPartie';
+export const FIN_PARTIE = '/finPartie';
 
 
 export const LARGEUR_PISTE_EDITEUR = 10;
@@ -191,5 +193,11 @@ export const SKYBOX_NUIT = [
 
 export const ORIENTATIONS_SKYBOX = ['front', 'back', 'top', 'bottom', 'right', 'left'];
 export const FACE_SKYBOX = 6;
+
+export const NID_DE_POULE = 'nidDePoule';
+export const FLAQUE = 'flaque';
+export const ACCELERATEUR = 'accelerateur';
+
+export const IMAGE_PNG = 'image/png';
 
 
