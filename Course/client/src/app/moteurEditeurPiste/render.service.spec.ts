@@ -1,3 +1,5 @@
+import { MoteurDeJeuService } from './../moteurDeJeu/moteurDeJeu.service';
+import { Router } from '@angular/router';
 import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { CollisionService } from './../voiture/collision.service';
@@ -29,6 +31,7 @@ import { MusiqueService } from './../musique/musique.service';
 import { JeuDeCourseService } from './../jeuDeCourse/jeudecourse.service';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
 import { SortiePisteService } from '../sortiePiste/sortiePiste.service';
+import { GestionnnairePartieService } from '../gestionnairePartie/gestionPartie.service';
 describe('MoteurEditeurPiste test', () => {
 
     const messageErreurService = new MessageErreurService();
@@ -41,7 +44,8 @@ describe('MoteurEditeurPiste test', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            providers: [MoteurEditeurPiste, EvenementService, PisteService, AffichageTeteHauteService,
+            providers: [GestionnnairePartieService, MoteurDeJeuService, MoteurEditeurPiste,
+                EvenementService, PisteService, AffichageTeteHauteService,
                 JeuDeCourseService, MessageErreurService, RatingService, DeplacementService,
                 MusiqueService, ObjetService, LumiereService, SkyboxService, PlacementService, SortiePisteService,
                 FiltreCouleurService, GestionnaireDeVue, TableauScoreService, FacadeCoordonneesService,
@@ -53,7 +57,7 @@ describe('MoteurEditeurPiste test', () => {
     }));
 
     beforeEach(inject([MoteurEditeurPiste, EvenementService, CreateurPisteService], (service: MoteurEditeurPiste, souris: EvenementService,
-                                                            createurpiste: CreateurPisteService) => {
+        createurpiste: CreateurPisteService) => {
         renderService = service;
         evenementService = souris;
         createurPisteService = createurpiste;
@@ -106,7 +110,7 @@ describe('MoteurEditeurPiste test', () => {
         });
         const compteur = 0;
         evenementService.onMouseClick(fakeClickEvent);
-        const pointListe = <any> createurPisteService.obtenirPoints();
+        const pointListe = <any>createurPisteService.obtenirPoints();
         const typeObjet = pointListe[compteur].isPoints;
         expect(typeObjet).toEqual(true);
     });
@@ -235,7 +239,7 @@ describe('MoteurEditeurPiste test', () => {
             evenementService.onMouseClick(fakeClickEventArray[i]);
         }
         const angle = CalculateurNombreOngle.calculerAngle(1,
-                                                createurPisteService.obtenirPoints(), renderService.facadePointService.compteur);
+            createurPisteService.obtenirPoints(), renderService.facadePointService.compteur);
         expect(angle).toBeLessThanOrEqual(0.785398163);
         expect(createurPisteService.nbAnglesPlusPetit45).toEqual(1);
     });

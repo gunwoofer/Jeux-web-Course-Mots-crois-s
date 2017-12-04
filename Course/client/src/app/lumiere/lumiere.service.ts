@@ -1,3 +1,4 @@
+import { LUMIERE_DIRECTIONNELLE_NOM, LUMIERE_HEMISPHERE_NOM } from './../constant';
 import { Injectable } from '@angular/core';
 import { HemisphereLight, DirectionalLight, PointLight, SpotLight, ImageUtils, Scene } from 'three';
 import { Voiture } from '../voiture/Voiture';
@@ -6,11 +7,15 @@ import { NUIT_TEXTURE, JOUR_TEXTURE, PHARES, COULEUR_PHARE,
     INTENSITE_LUMIERE_SPOT, LIMIERE_SPOT_POSITION, ANGLE_LUMIERE_SPOT, LIMIERE_SPOT_TARGET_POSITION,
     DISTANCE_LUMIERE_SPOT, COULEUR_CIEL, COULEUR_TERRE, INTENSITE, HEMISPHERE_COULEURTERRE, HEMISPHERE_COULEUR,
     LUMIERE_HEMISPHERE_POSITION, HEX, INTENSITEE, DIRECTION_COULEUR, SCALAIRE, LUMIERE_DIRECITON_POSITION,
-    LUMIERES, LUMIERE_AVANT_DROITE, LUMIERE_AVANT_GAUCHE, PHARE_DROITE, PHARE_GAUCHE } from '../constant';
+    LUMIERES, LUMIERE_AVANT_DROITE, LUMIERE_AVANT_GAUCHE, PHARE_DROITE, PHARE_GAUCHE
+} from '../constant';
 
 
 @Injectable()
 export class LumiereService {
+
+    public static jour = true;
+    public static phares = false;
 
     public static ajouterPhares(objet: THREE.Object3D): void {
         const lumiereDroite = this.creerLumiereAvant(LUMIERE_AVANT_DROITE, 1);
@@ -29,6 +34,16 @@ export class LumiereService {
         phare.position.set(LUMIERE_POINT_POSITION.x, LUMIERE_POINT_POSITION.y, cote * LUMIERE_POINT_POSITION.z);
         phare.rotation.set(Math.PI, Math.PI, -Math.PI);
         return phare;
+    }
+
+    public static logiquePhares(voiture: Voiture): void {
+        if (!LumiereService.phares && LumiereService.jour) {
+            LumiereService.phares = !LumiereService.phares;
+            LumiereService.alternerPhares(voiture);
+        } else if (LumiereService.phares && !LumiereService.jour) {
+            LumiereService.phares = !LumiereService.phares;
+            LumiereService.alternerPhares(voiture);
+        }
     }
 
     public static creerLumiereAvant(nom: string, cote: number): SpotLight {
@@ -73,7 +88,7 @@ export class LumiereService {
         lumiereHemisphere.color.setHSL(HEMISPHERE_COULEUR.h, HEMISPHERE_COULEUR.s, HEMISPHERE_COULEUR.l);
         lumiereHemisphere.groundColor.setHSL(HEMISPHERE_COULEURTERRE.h, HEMISPHERE_COULEURTERRE.s, HEMISPHERE_COULEURTERRE.l);
         lumiereHemisphere.position.set(LUMIERE_HEMISPHERE_POSITION.x, LUMIERE_HEMISPHERE_POSITION.y, LUMIERE_HEMISPHERE_POSITION.z);
-        lumiereHemisphere.name = 'lumiereHemisphere';
+        lumiereHemisphere.name = LUMIERE_HEMISPHERE_NOM;
 
         return lumiereHemisphere;
     }
@@ -84,7 +99,7 @@ export class LumiereService {
         lumiereDirectionnelle.position.set(LUMIERE_DIRECITON_POSITION.x, LUMIERE_DIRECITON_POSITION.y, LUMIERE_DIRECITON_POSITION.z);
         lumiereDirectionnelle.position.multiplyScalar(SCALAIRE);
         lumiereDirectionnelle.castShadow = true;
-        lumiereDirectionnelle.name = 'lumiereDirectionnelle';
+        lumiereDirectionnelle.name = LUMIERE_DIRECTIONNELLE_NOM;
 
         return lumiereDirectionnelle;
     }

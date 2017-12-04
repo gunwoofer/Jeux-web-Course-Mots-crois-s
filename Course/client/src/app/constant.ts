@@ -202,6 +202,8 @@ export const FACE_SKYBOX = 6;
 export const NID_DE_POULE = 'nidDePoule';
 export const FLAQUE = 'flaque';
 export const ACCELERATEUR = 'accelerateur';
+export const LUMIERE_DIRECTIONNELLE_NOM = 'lumiereDirectionnelle';
+export const LUMIERE_HEMISPHERE_NOM = 'lumiereHemisphere';
 
 export const IMAGE_PNG = 'image/png';
 
@@ -211,4 +213,18 @@ export const ANISOTROPY = 4;
 export const REPETITION_TEXTURE_ZONE_DEPART = 10;
 export const DIMENSION_CHECK_POINT = 1;
 
+
+
+// parametre camera JEUX DE COURSE
+
+export const FOV = 75;
+export const PRES = 1;
+export const LOIN = 6000;
+
+// couleur voiture
+
+
+export const COULEUR_VOITURE_JOUEUR = 'grey';
+export const COULEUR_VOITURE_JOUEUR_VIRTUEL = 'black';
+export const MILLE = 1000;
 
