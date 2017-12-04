@@ -3,7 +3,6 @@ import { Observateur } from './../../../../commun/observateur/Observateur';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import { AffichageTeteHaute } from './../affichageTeteHaute/affichageTeteHaute';
 import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
-import { Router } from '@angular/router';
 import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { EtatPartie } from './../partie/EtatPartie';
 import { NotificationType } from './../../../../commun/observateur/NotificationType';
@@ -16,10 +15,10 @@ import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { ObjetService } from './../objetService/objet.service';
 import {
     TABLEAU_POSITION, EMPLACEMENT_VOITURE, NOMBRE_DE_TOURS_PARTIE_DEFAUT, DUREE_STINGER_MILISECONDES,
-    RESULTAT_PARTIE, MILLE, COULEUR_VOITURE_JOUEUR_VIRTUEL, COULEUR_VOITURE_JOUEUR
+    RESULTAT_PARTIE, MILLE, COULEUR_VOITURE_JOUEUR_VIRTUEL, COULEUR_VOITURE_JOUEUR, NOMBRE_DE_TOURS_PARTIE_MINIMAL
 } from './../constant';
 import { PlacementService } from './../objetService/placementVoiture.service';
-import { Injectable } from '@angular/core';
+import { Injectable, EventEmitter } from '@angular/core';
 import { LumiereService } from '../lumiere/lumiere.service';
 import * as THREE from 'three';
 import { Voiture } from '../voiture/Voiture';
@@ -30,13 +29,14 @@ export class GestionnnairePartieService implements Observateur {
 
 
     public voitureDuJoueur: Voiture;
+    public emetteurEvenement = new EventEmitter<boolean>();
     public voituresIA: Voiture[] = [];
     public partie: Partie;
     public retroviseur: Retroviseur;
-    public nombreTours = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
+    public nombreTours = NOMBRE_DE_TOURS_PARTIE_MINIMAL;
 
 
-    constructor(private objetService: ObjetService, private tableauScoreService: TableauScoreService, private routeur: Router,
+    constructor(private objetService: ObjetService, private tableauScoreService: TableauScoreService,
         private mondeDuJeuService: MondeDuJeuService, private musiqueService: MusiqueService,
         private affichageTeteHauteService: AffichageTeteHauteService) { }
 
@@ -95,16 +95,12 @@ export class GestionnnairePartieService implements Observateur {
         if (type === NotificationType.Non_definie) {
             if (this.partie.etatPartie === EtatPartie.Termine) {
                 setTimeout(() => {
-                    this.voirPageFinPartie();
+                    this.tableauScoreService.temps = (Pilote.tempsTotal / MILLE);
+                    this.tableauScoreService.finPartie = true;
+                    this.emetteurEvenement.emit(true);
                 }, DUREE_STINGER_MILISECONDES);
             }
         }
-    }
-
-    private voirPageFinPartie(): void {
-        this.tableauScoreService.temps = (Pilote.tempsTotal / MILLE);
-        this.tableauScoreService.finPartie = true;
-        this.routeur.navigateByUrl(RESULTAT_PARTIE);
     }
 
 }

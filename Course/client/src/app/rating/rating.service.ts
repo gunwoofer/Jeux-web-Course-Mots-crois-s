@@ -14,6 +14,8 @@ export class RatingService {
 
     public mettreAjourRating(rating: number): Promise<any> {
         this.ajouterMoyenne(rating);
+
+        this.piste.supprimerMesh();
         return this.http.patch(RESULTAT_PARTIE_URL + this.piste.id, this.piste)
             .toPromise()
             .then((reponse: Response) => reponse.json())

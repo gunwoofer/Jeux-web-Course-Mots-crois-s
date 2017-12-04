@@ -41,8 +41,8 @@ export class MondeDuJeuService {
 
     private preparerEtAjouterElementDePisteAScene(scene: THREE.Scene, element: ElementDePiste): void {
         element.genererMesh();
-        element.obtenirMesh().position.set(element.position.x, element.position.y, element.position.z);
-        scene.add(element.obtenirMesh());
+        element.mesh.position.set(element.position.x, element.position.y, element.position.z);
+        scene.add(element.mesh);
     }
 
 }
