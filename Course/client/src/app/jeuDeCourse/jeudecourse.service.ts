@@ -1,6 +1,4 @@
 import { MoteurDeJeuService } from './../moteurDeJeu/moteurDeJeu.service';
-import { GestionPartieService } from './../voiture/gestionPartie.service';
-import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { CollisionService } from './../voiture/collision.service';
 import { Rendu } from './renduObject';
 import { Injectable } from '@angular/core';
@@ -17,12 +15,7 @@ export class JeuDeCourseService {
     private scene: THREE.Scene;
     private routeur: Router;
 
-    constructor(
-        public collisionService: CollisionService,
-        public moteurDeJeuService: MoteurDeJeuService,
-        private gestionPartieService: GestionPartieService,
-        private mondeDuJeuService: MondeDuJeuService) {
-    }
+    constructor(public moteurDeJeuService: MoteurDeJeuService) {}
 
     public obtenirScene(): THREE.Scene {
         return this.scene;
@@ -35,20 +28,13 @@ export class JeuDeCourseService {
     public initialisation(container: HTMLDivElement): void {
         this.container = container;
         this.creerScene();
-        this.moteurDeJeuService.chargerJeu(this.scene, this.camera, this.container);
-        this.commencerMoteurDeJeu();
+        this.moteurDeJeuService.commencerMoteurDeJeu(this.renderer, this.camera, this.container, this.scene);
     }
 
     private creerScene(): void {
         this.scene = new THREE.Scene();
         this.camera = new THREE.PerspectiveCamera(75, this.getAspectRatio(), 1, 6000);
         this.scene.add(this.camera);
-    }
-
-    private commencerMoteurDeJeu(): void {
-        this.renderer = new THREE.WebGLRenderer();
-        this.renduObject.commencerRendu(this.renderer, this.container);
-        this.moteurDeJeuService.moteurDeJeu(this.renderer, this.camera, this.container, this.scene);
     }
 
     public ajouterRouter(routeur: Router): void {

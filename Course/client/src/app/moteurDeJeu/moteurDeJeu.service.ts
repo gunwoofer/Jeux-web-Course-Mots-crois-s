@@ -22,6 +22,14 @@ export class MoteurDeJeuService {
         this.renduObject = new Rendu();
     }
 
+    public commencerMoteurDeJeu(renderer: THREE.WebGLRenderer, camera: THREE.PerspectiveCamera,
+        container: HTMLDivElement, scene: THREE.Scene): void {
+        renderer = new THREE.WebGLRenderer();
+        this.chargerJeu(scene, camera, container);
+        this.renduObject.commencerRendu(renderer, container);
+        this.moteurDeJeu(renderer, camera, container, scene);
+    }
+
     public chargerJeu(scene: THREE.Scene, camera: THREE.PerspectiveCamera, container: HTMLDivElement): void {
         this.mondeDuJeuService.chargerMonde3D(scene, camera);
         this.gestionPartieService.chargementDesVoitures(scene, container);
@@ -53,4 +61,6 @@ export class MoteurDeJeuService {
             this.gestionnaireDeVue.changementDeVue(camera, this.gestionPartieService.voitureDuJoueur);
         }
     }
+
+
 }
