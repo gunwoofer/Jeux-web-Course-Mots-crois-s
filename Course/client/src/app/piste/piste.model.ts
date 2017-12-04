@@ -51,15 +51,14 @@ export class Piste {
     public gererElementDePiste(listeVoitures: Voiture[]): void {
         for (const voiture of listeVoitures) {
             for (const element of this.listeElementsDePiste) {
-                const vecteurVersLeHaut = new THREE.Vector3(0, 0, 1);
-                element.genererRayCaster(vecteurVersLeHaut);
-            if (element.raycaster.intersectObject(voiture.obtenirVoiture3D(), true).length !== 0) {
-                if (!element.antirebond) {
-                    element.effetSurObstacle(voiture);
-                    element.antirebond = true;
-                }
-            } else {
-                element.antirebond = false;
+                if (voiture.raycasterCollisionDroit.intersectObject(element.obtenirMesh(), true).length !== 0
+                    || voiture.raycasterCollisionGauche.intersectObject(element.obtenirMesh(), true).length !== 0 ) {
+                    if (!element.antirebond) {
+                        element.effetSurObstacle(voiture);
+                        element.antirebond = true;
+                    }
+                } else {
+                    element.antirebond = false;
                 }
             }
         }

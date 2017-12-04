@@ -14,13 +14,9 @@ export const REDUCTION_VITESSE_NID_DE_POULE = 4;
 const vecVersLeBas = new THREE.Vector3(0, 0, -1);
 
 export class Voiture implements sujet.Sujet {
+
     public voiture3D: THREE.Object3D;
     public vitesse;
-    private x: number;
-    private y: number;
-    private xPrecedent: number;
-    private yPrecedemt: number;
-    private pointMilieu: THREE.Vector3;
     public observateurs: observateur.Observateur[] = [];
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
@@ -29,12 +25,16 @@ export class Voiture implements sujet.Sujet {
     public modeAquaplannage = false;
     public vecteurVoiture: THREE.Vector3;
     public coteAleatoireAquaplannage: number;
-    private listePositions: THREE.Vector3[];
-    private moteurAutonome: MoteurAutonome;
     public raycasterCollisionDroit = new THREE.Raycaster;
     public raycasterCollisionGauche = new THREE.Raycaster;
     public guid: string;
 
+    private x: number;
+    private y: number;
+    private xPrecedent: number;
+    private yPrecedemt: number;
+    private listePositions: THREE.Vector3[];
+    private moteurAutonome: MoteurAutonome;
 
     public static vecteurVoiture(voiture: Voiture): THREE.Vector3 {
         return new THREE.Vector3(
@@ -82,16 +82,14 @@ export class Voiture implements sujet.Sujet {
         const positionAvant = new THREE.Vector3();
         switch (droitFalseGaucheTrue) {
             case false:
-            positionAvant.setFromMatrixPosition(
-                                    this.voiture3D.getObjectByName('Phare Droit').matrixWorld);
-            break;
+                positionAvant.setFromMatrixPosition(this.voiture3D.getObjectByName('Phare Droit').matrixWorld);
+                break;
             case true:
-             positionAvant.setFromMatrixPosition(
-
-            this.voiture3D.getObjectByName('Phare Gauche').matrixWorld);
-            break;
+                positionAvant.setFromMatrixPosition(this.voiture3D.getObjectByName('Phare Gauche').matrixWorld);
+                break;
         }
-        return new THREE.Vector3(positionAvant.x, positionAvant.y, positionAvant.z + 1);
+        positionAvant.z += 1;
+        return positionAvant;
     }
 
     public peutObtenirObjetVoiture(): boolean {
@@ -134,11 +132,8 @@ export class Voiture implements sujet.Sujet {
     }
 
     public calculerDistance(): void {
-        this.xPrecedent = this.x;
-        this.yPrecedemt = this.y;
-        this.x = this.obtenirVoiture3D().position.x;
-        this.y = this.obtenirVoiture3D().position.y;
-        this.pointMilieu = this.voiture3D.position;
+        this.xPrecedent = this.x; this.yPrecedemt = this.y;
+        this.x = this.obtenirVoiture3D().position.x; this.y = this.obtenirVoiture3D().position.y;
         const distanceParcourueCourante: number = FonctionMaths.distanceEntreDeuxPoints(this.x, this.y, this.xPrecedent, this.yPrecedemt);
         this.distanceParcouru += distanceParcourueCourante;
         this.notifierObservateurs();
@@ -151,18 +146,12 @@ export class Voiture implements sujet.Sujet {
         this.y = this.obtenirVoiture3D().position.y;
     }
 
-    public obtenirCoordonneesPrecedent(): THREE.Vector2 {
-        const vectPrecedant = new THREE.Vector2(this.xPrecedent, this.yPrecedemt);
-        return vectPrecedant;
-    }
-
     public obtenirVoiture3D(): THREE.Object3D {
         return this.voiture3D;
     }
 
-
-    public obtenirPointMilieu(): THREE.Vector3 {
-        return this.pointMilieu;
+    public obtenirPosition(): THREE.Vector3 {
+        return this.voiture3D.position;
     }
 
     public ajouterObservateur(observateur: observateur.Observateur): void {

@@ -6,24 +6,6 @@ import { Voiture } from '../voiture/Voiture';
 @Injectable()
 export class CollisionService {
 
-    public obtenirAutresVoitures(voitureActuelle: Voiture, voitures: Voiture[]): Voiture[] {
-        const autresVoitures: Voiture[] = [];
-        for ( let i = 0; i < voitures.length; i++) {
-        if (voitureActuelle.guid !== voitures[i].guid) {
-                autresVoitures.push(voitures[i]);
-          }
-        }
-        return autresVoitures;
-    }
-
-    public mettreAJourRaycasterSurChaqueVoiture(voitures: Voiture[]): void {
-        for (const voiture of voitures) {
-            if (voiture) {
-                voiture.actualiserPositionRayCasterCollision();
-            }
-        }
-    }
-
     public analyserCollision(voitures: Voiture[]): void  {
         if (voitures.length === 0) {
             return;
@@ -37,7 +19,7 @@ export class CollisionService {
         }
     }
 
-    public creerReactionsCollisions(autresVoitures: Voiture[], voitureQuiCauseImpact: Voiture): void {
+    private creerReactionsCollisions(autresVoitures: Voiture[], voitureQuiCauseImpact: Voiture): void {
         for (const voitureQuiRecoitImpact of autresVoitures) {
             if (voitureQuiCauseImpact.raycasterCollisionDroit
              .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0
@@ -47,6 +29,24 @@ export class CollisionService {
               voitureQuiCauseImpact.reactionVoitureQuiCauseImpact();
              }
          }
+    }
+
+    private obtenirAutresVoitures(voitureActuelle: Voiture, voitures: Voiture[]): Voiture[] {
+        const autresVoitures: Voiture[] = [];
+        for ( let i = 0; i < voitures.length; i++) {
+        if (voitureActuelle.guid !== voitures[i].guid) {
+                autresVoitures.push(voitures[i]);
+          }
+        }
+        return autresVoitures;
+    }
+
+    private mettreAJourRaycasterSurChaqueVoiture(voitures: Voiture[]): void {
+        for (const voiture of voitures) {
+            if (voiture) {
+                voiture.actualiserPositionRayCasterCollision();
+            }
+        }
     }
 
 
