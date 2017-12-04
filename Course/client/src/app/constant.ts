@@ -196,3 +196,16 @@ export const LUMIERE_DIRECTIONNELLE_NOM = 'lumiereDirectionnelle';
 export const LUMIERE_HEMISPHERE_NOM = 'lumiereHemisphere';
 
 
+// parametre camera JEUX DE COURSE
+
+export const FOV = 75;
+export const PRES = 1;
+export const LOIN = 6000;
+
+// couleur voiture
+
+
+export const COULEUR_VOITURE_JOUEUR = 'grey';
+export const COULEUR_VOITURE_JOUEUR_VIRTUEL = 'black';
+export const MILLE = 1000;
+

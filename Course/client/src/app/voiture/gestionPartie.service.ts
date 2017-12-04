@@ -1,3 +1,4 @@
+import { FonctionMaths } from './../fonctionMathematiques';
 import { Observateur } from './../../../../commun/observateur/Observateur';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
 import { AffichageTeteHaute } from './../affichageTeteHaute/affichageTeteHaute';
@@ -15,7 +16,7 @@ import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { ObjetService } from './../objetService/objet.service';
 import {
     TABLEAU_POSITION, EMPLACEMENT_VOITURE, NOMBRE_DE_TOURS_PARTIE_DEFAUT, DUREE_STINGER_MILISECONDES,
-    RESULTAT_PARTIE
+    RESULTAT_PARTIE, MILLE, COULEUR_VOITURE_JOUEUR_VIRTUEL, COULEUR_VOITURE_JOUEUR
 } from './../constant';
 import { PlacementService } from './../objetService/placementVoiture.service';
 import { Injectable } from '@angular/core';
@@ -51,46 +52,43 @@ export class GestionPartieService implements Observateur {
     }
 
     public chargementDesVoitures(scene: THREE.Scene, container: HTMLDivElement): void {
-        const nombreAleatoire = Math.round(Math.random() * 3);
-        this.chargerVoiture(TABLEAU_POSITION[nombreAleatoire][0], TABLEAU_POSITION[nombreAleatoire][1], true, scene, container);
+        const nombreAleatoire = FonctionMaths.caseAleatoireTableauPosition();
+        this.chargerVoitureJoueur(TABLEAU_POSITION[nombreAleatoire][0], TABLEAU_POSITION[nombreAleatoire][1], scene, container);
         TABLEAU_POSITION.splice(nombreAleatoire, 1);
         for (let i = 0; i < TABLEAU_POSITION.length; i++) {
-            this.chargerVoiture(TABLEAU_POSITION[i][0], TABLEAU_POSITION[i][1], false, scene, container);
+            this.chargerVoitureJoueurVirtuel(TABLEAU_POSITION[i][0], TABLEAU_POSITION[i][1], scene);
         }
     }
 
-    public chargerVoiture(cadranX: number, cadranY: number, joueur: boolean, scene: THREE.Scene, container: HTMLDivElement): void {
-        const loader = new THREE.ObjectLoader();
-        loader.load(EMPLACEMENT_VOITURE, (obj) => {
-            ObjetService.manipulationObjetVoiture(this.mondeDuJeuService.segment, obj, 'red');
-            this.configurationVoiturePiste(cadranX, cadranY, obj, joueur, container, scene);
+    public chargerVoitureJoueur(cadranX: number, cadranY: number, scene: THREE.Scene, container: HTMLDivElement): void {
+        new THREE.ObjectLoader().load(EMPLACEMENT_VOITURE, (obj: THREE.Object3D) => {
+            this.configurationVoitureJoueur(cadranX, cadranY, obj, container);
             scene.add(obj);
         });
     }
 
-    public configurationVoiturePiste(cadranX: number, cadranY: number,
-        obj: THREE.Object3D, joueur: boolean, container: HTMLDivElement, scene: THREE.Scene): void {
-        let meshPrincipalVoiture: any;
-        meshPrincipalVoiture = obj.getObjectByName('MainBody');
-        if (joueur) {
-            meshPrincipalVoiture.material.color.set('grey');
-            this.voitureDuJoueur = new Voiture(obj, this.mondeDuJeuService.piste);
-            this.calculePositionVoiture(cadranX, cadranY, this.voitureDuJoueur);
-            this.retroviseur = new Retroviseur(container, this.voitureDuJoueur);
-            this.preparerPartie();
-            this.partie.demarrerPartie();
-        } else {
-            meshPrincipalVoiture.material.color.set('black');
-            this.voituresIA.push(new Voiture(obj, this.mondeDuJeuService.piste));
-            this.voituresIA[this.voituresIA.length - 1].ajouterIndicateursVoitureScene(scene);
-            this.calculePositionVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1]);
-        }
+    public chargerVoitureJoueurVirtuel(cadranX: number, cadranY: number, scene: THREE.Scene): void {
+        new THREE.ObjectLoader().load(EMPLACEMENT_VOITURE, (obj: THREE.Object3D) => {
+            this.configurationVoitureJoueurVirtuel(cadranX, cadranY, obj, scene);
+        });
     }
 
-    public calculePositionVoiture(cadranX: number, cadranY: number, voiture: Voiture) {
-        voiture.voiture3D.position.set(
-            PlacementService.calculPositionVoiture(cadranX, cadranY, this.mondeDuJeuService.segment.premierSegment).x,
-            PlacementService.calculPositionVoiture(cadranX, cadranY, this.mondeDuJeuService.segment.premierSegment).y, 0);
+    public configurationVoitureJoueur(cadranX: number, cadranY: number, objet: THREE.Object3D, container: HTMLDivElement): void {
+        ObjetService.manipulationObjetVoiture(this.mondeDuJeuService.segment, objet, COULEUR_VOITURE_JOUEUR);
+        this.voitureDuJoueur = new Voiture(objet, this.mondeDuJeuService.piste);
+        ObjetService.calculePositionObjetVoiture(cadranX, cadranY, this.voitureDuJoueur, this.mondeDuJeuService.segment);
+        this.retroviseur = new Retroviseur(container, this.voitureDuJoueur);
+        this.preparerPartie();
+        this.partie.demarrerPartie();
+    }
+
+    public configurationVoitureJoueurVirtuel(cadranX: number, cadranY: number, objet: THREE.Object3D, scene: THREE.Scene): void {
+        ObjetService.manipulationObjetVoiture(this.mondeDuJeuService.segment, objet, COULEUR_VOITURE_JOUEUR_VIRTUEL);
+        this.voituresIA.push(new Voiture(objet, this.mondeDuJeuService.piste));
+        this.voituresIA[this.voituresIA.length - 1].ajouterIndicateursVoitureScene(scene);
+        ObjetService.calculePositionObjetVoiture(cadranX, cadranY, this.voituresIA[this.voituresIA.length - 1],
+            this.mondeDuJeuService.segment);
+        scene.add(objet);
     }
 
     public logiquePhares(voiture: Voiture): void {
@@ -114,7 +112,7 @@ export class GestionPartieService implements Observateur {
     }
 
     private voirPageFinPartie(): void {
-        this.tableauScoreService.temps = (Pilote.tempsTotal / 1000);
+        this.tableauScoreService.temps = (Pilote.tempsTotal / MILLE);
         this.tableauScoreService.finPartie = true;
         this.routeur.navigateByUrl(RESULTAT_PARTIE);
     }

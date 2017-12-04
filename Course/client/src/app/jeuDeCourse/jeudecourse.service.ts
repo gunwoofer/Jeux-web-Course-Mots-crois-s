@@ -1,9 +1,8 @@
-import { MoteurDeJeuService } from './../moteurDeJeu/moteurDeJeu.service';
-import { CollisionService } from './../voiture/collision.service';
-import { Rendu } from './renduObject';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Router } from '@angular/router';
+import { FOV, PRES, LOIN} from './../constant';
+import { MoteurDeJeuService } from './../moteurDeJeu/moteurDeJeu.service';
 
 @Injectable()
 export class JeuDeCourseService {
@@ -11,7 +10,6 @@ export class JeuDeCourseService {
     private container: HTMLDivElement;
     private camera: THREE.PerspectiveCamera;
     private renderer: THREE.WebGLRenderer;
-    private renduObject = new Rendu();
     private scene: THREE.Scene;
     private routeur: Router;
 
