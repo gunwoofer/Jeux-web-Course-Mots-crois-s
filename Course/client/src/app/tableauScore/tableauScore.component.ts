@@ -16,6 +16,7 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
     public temps: Score[];
 
     private finPartie: boolean;
+    private finCourse: boolean;
     private meilleurTemps: string;
     private resultatPartie: boolean;
     private traitementDonnee = new TraitementDonneTableau();
@@ -29,10 +30,12 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
         this.traitementDonnee.cinqMeilleurTemps(this.temps);
         if (this.finPartie) {
             this.temps = this.tableauScoreService.produireTableauResultat();
+            this.afficher = true;
         }
         if (this.tableauScoreService.temps) {
             this.meilleurTemps = Math.floor(this.tableauScoreService.temps).toString();
-            this.afficher = true;
+            this.afficher = false;
+            this.finCourse = true;
         }
     }
 

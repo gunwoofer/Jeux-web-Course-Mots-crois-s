@@ -15,7 +15,7 @@
             </tr>
         </tbody>
     </table>
-    <div *ngIf="afficher">
+    <div *ngIf="afficher && finCourse">
         <form ngNativeValidate (ngSubmit)="soummettre(f)" #f="ngForm">
             <div class="form-group">
                 <label for="nomPiste">Veuillez Entrer votre nom</label>
