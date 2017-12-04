@@ -126,8 +126,4 @@ export class GameViewService {
     public mettreAJourMotEntre(motEntre: string) {
         this.motEcrit.next(motEntre);
     }
-
-
-
-
 }
