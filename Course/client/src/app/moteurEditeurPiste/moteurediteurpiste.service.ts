@@ -1,16 +1,8 @@
 import { CreateurPisteService } from './../createurPiste/createurPiste.service';
-import { PointsFacade } from './../pointsFacade';
-import { Accelerateur } from './../elementsPiste/Accelerateur';
-import { NidDePoule } from './../elementsPiste/NidDePoule';
-import { FlaqueDEau } from './../elementsPiste/FlaqueDEau';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
-import { ContraintesCircuit } from '../contraintesCircuit/contraintesCircuit';
-import { Piste } from '../piste/piste.model';
-import { ElementDePiste } from '../elementsPiste/ElementDePiste';
-import { Points, Line } from 'three';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 @Injectable()
@@ -107,7 +99,7 @@ export class MoteurEditeurPiste {
     }
 
     public retourneEtatDessin(): boolean {
-        if (this.createurPisteService.nbAnglesPlusPetit45 + this.createurPisteService.nbSegmentsCroises + 
+        if (this.createurPisteService.nbAnglesPlusPetit45 + this.createurPisteService.nbSegmentsCroises +
                 this.createurPisteService.nbSegmentsTropProche === 0) {
             return this.createurPisteService.dessinTermine;
         } else {

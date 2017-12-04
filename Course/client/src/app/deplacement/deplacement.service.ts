@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AVANCER, GAUCHE, DROITE, VITESSE_MIN } from './../constant';
-import { Voiture, REDUCTION_VITESSE_SORTIE_PISTE, REDUCTION_VITESSE_NID_DE_POULE } from './../voiture/Voiture';
+import { Voiture } from './../voiture/Voiture';
 import { DeplacementVoiture } from './deplacementVoiture';
 
 @Injectable()

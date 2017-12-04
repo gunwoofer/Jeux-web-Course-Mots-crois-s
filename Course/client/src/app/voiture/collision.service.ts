@@ -1,4 +1,3 @@
-import * as THREE from 'three';
 import { Injectable } from '@angular/core';
 import { Voiture } from '../voiture/Voiture';
 

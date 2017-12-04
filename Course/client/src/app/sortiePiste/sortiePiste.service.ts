@@ -1,5 +1,4 @@
 import { FonctionMaths } from './../fonctionMathematiques';
-import { DeplacementService } from './../deplacement/deplacement.service';
 import { ORIGINE, ORIENTATION_Z } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';

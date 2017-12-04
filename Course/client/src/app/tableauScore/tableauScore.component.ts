@@ -12,8 +12,9 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 export class TableauScoreComponent implements OnInit, OnDestroy {
 
-    private temps: Score[];
-    private afficher: boolean;
+    public afficher: boolean;
+    public temps: Score[];
+
     private finPartie: boolean;
     private meilleurTemps: string;
     private resultatPartie: boolean;

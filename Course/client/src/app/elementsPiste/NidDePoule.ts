@@ -1,5 +1,4 @@
 import { EffetSonore, NOM_OBSTACLE } from '../effetSonore/effetSonore';
-import { DeplacementService } from './../deplacement/deplacement.service';
 import { Voiture } from './../voiture/Voiture';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
