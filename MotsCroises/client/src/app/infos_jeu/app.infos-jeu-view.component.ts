@@ -1,6 +1,8 @@
 import {AfterViewInit, Component, Input} from '@angular/core';
 import {GameViewService} from '../game_view/game-view.service';
 import {Joueur} from '../../../../commun/Joueur';
+import {TimerService} from '../game_view/timer.service';
+import {IndiceService} from '../game_view/indice.service';
 
 
 @Component({
@@ -28,14 +30,16 @@ export class InfosJeuViewComponent implements AfterViewInit {
   public tempsRestantAEnvoyer: number;
 
 
-  constructor(private gameViewService: GameViewService) {
+  constructor(private gameViewService: GameViewService,
+              private timerService: TimerService,
+              private indiceService: IndiceService
+              ) {
     this.gameViewService.motEcrit$.subscribe(nouveauMot => {
       this.motEnCoursJ1 = nouveauMot;
     });
-    this.gameViewService.modifierTempsRestant$.subscribe(nouveauTemps => {
+    this.timerService.modifierTempsRestant$.subscribe(nouveauTemps => {
       this.tempsRestant = Math.round(nouveauTemps / 1000);
     });
-
     this.joueur = this.gameViewService.joueur;
     this.joueur2 = this.gameViewService.joueur2;
   }
@@ -66,7 +70,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
   }
 
   public recupererMotsCheatMode(): void {
-    this.gameViewService.demanderMotsComplets();
+    this.indiceService.demanderMotsComplets();
   }
 
   public afficherCheatMode(): void {
@@ -74,7 +78,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
   }
 
   private MAJTempsServer(): void {
-    this.gameViewService.demanderTempsPartie();
+    this.timerService.demanderTempsPartie();
   }
 
   public stopperIntervalFonction(): void {
@@ -83,10 +87,10 @@ export class InfosJeuViewComponent implements AfterViewInit {
   }
 
   public envoyerTemps(): void {
-    this.gameViewService.modifierTempsServeur(this.tempsRestantAEnvoyer * 1000);
+    this.timerService.modifierTempsServeur(this.tempsRestantAEnvoyer * 1000);
   }
 
   public activerEcritureTempsCheatMode(): void {
-    this.gameViewService.activerModificationTempsServeur();
+    this.timerService.activerModificationTempsServeur();
   }
 }

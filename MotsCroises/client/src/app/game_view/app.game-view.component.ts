@@ -6,6 +6,8 @@ import {CanvasViewComponent} from '../canvas/app.canvas-view.component';
 import {InfosJeuViewComponent} from '../infos_jeu/app.infos-jeu-view.component';
 import {IndiceViewComponent} from '../indice/app.indice-view.component';
 import {ChoixPartieService} from '../choix_partie/choix-partie.service';
+import {TimerService} from './timer.service';
+import {IndiceService} from './indice.service';
 
 
 @Component({
@@ -29,12 +31,14 @@ export class GameViewComponent implements OnInit {
     constructor(private route: ActivatedRoute,
                 private gameViewService: GameViewService,
                 private choixPartieService: ChoixPartieService,
+                private indiceService: IndiceService,
                 private router: Router) {
 
         this.gameViewService.specificationPartie = this.choixPartieService.specificationPartie;
         this.gameViewService.joueur = this.choixPartieService.joueur;
         this.gameViewService.joueur2 = this.choixPartieService.joueur2;
-        this.gameViewService.MAJIndices();
+        this.indiceService.MAJIndices();
+        this.indiceService.ecouterChangementSelectionMotAdversaire();
         this.ecouterEvenementsServeur();
 
         if (!this.testPartieExiste()) {
@@ -51,9 +55,6 @@ export class GameViewComponent implements OnInit {
             this.infosJeuViewComponent.stopperIntervalFonction();
             this.allerAPartieTerminee();
         });
-        this.gameViewService.modificationTemps$.subscribe(() => {
-            this.indiceViewComponent.annulerSelectionIndice();
-        });
     }
 
     public ngOnInit(): void {
@@ -69,7 +70,7 @@ export class GameViewComponent implements OnInit {
     }
 
     private testPartieExiste(): boolean {
-        if (this.gameViewService.indices) {
+        if (this.indiceService.indices) {
             return true;
         }
         return false;

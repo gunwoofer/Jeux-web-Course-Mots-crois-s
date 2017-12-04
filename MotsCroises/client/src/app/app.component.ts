@@ -5,8 +5,6 @@ import {Router} from '@angular/router';
 import {ChoixPartieService} from './choix_partie/choix-partie.service';
 
 
-export const ROUTE_PARTIE_CREE = 0;
-export const  ROUTE_ATTENTE_PARTIE = 1;
 export const ATTENTE_PARTIE = '/attentePartie';
 
 

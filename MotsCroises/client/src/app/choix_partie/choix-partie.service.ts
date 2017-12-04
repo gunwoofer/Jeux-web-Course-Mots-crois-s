@@ -142,6 +142,7 @@ export class ChoixPartieService {
     public trouverJoueurAdverse(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur) {
         for (const joueurCourant of requisPourJoindrePartieMultijoueur.joueurs) {
             if (joueurCourant.obtenirGuid() !== this.joueur.obtenirGuid()) {
+                joueurCourant.changerCouleur(COULEUR_JOUEUR2);
                 this.joueur2 = joueurCourant;
             }
         }

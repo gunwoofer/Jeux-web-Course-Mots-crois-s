@@ -17,6 +17,8 @@ import {TrouverPartieComponent} from './trouver_partie/app.trouver-partie.compon
 import {AttentePartieComponent} from './attente_partie/app.attente-partie.component';
 import {ChoixPartieService} from './choix_partie/choix-partie.service';
 import {ConnexionTempsReelClientService} from './connestion_temps_reel/ConnexionTempsReelClientService';
+import {TimerService} from './game_view/timer.service';
+import {IndiceService} from './game_view/indice.service';
 
 
 @NgModule({
@@ -40,7 +42,9 @@ import {ConnexionTempsReelClientService} from './connestion_temps_reel/Connexion
   providers: [
     GameViewService,
       ChoixPartieService,
-      ConnexionTempsReelClientService
+      ConnexionTempsReelClientService,
+      TimerService,
+      IndiceService
   ],
   bootstrap: [AppComponent]
 })

@@ -2,6 +2,8 @@ import {SpecificationPartie} from '../../../../commun/SpecificationPartie';
 import {GameViewService} from '../game_view/game-view.service';
 import {IndiceMot} from '../indice/indiceMot';
 import {ElementRef} from '@angular/core';
+import {TimerService} from '../game_view/timer.service';
+import {IndiceService} from '../game_view/indice.service';
 
 export class CanvasGrille {
     private canvas: any;
@@ -23,7 +25,10 @@ export class CanvasGrille {
     public indiceAdversaire: IndiceMot;
 
 
-    constructor(private gameViewService: GameViewService, containerRef: ElementRef) {
+    constructor(private gameViewService: GameViewService,
+                containerRef: ElementRef,
+                private indiceService: IndiceService,
+                private timerService: TimerService) {
         this.obtenirCanvasJeu(containerRef);
         this.initialise();
     }
@@ -31,7 +36,7 @@ export class CanvasGrille {
     public actionToucheAppuyee(event: KeyboardEvent): void {
         const cleMot = event.key;
         const codeLettre = event.keyCode;
-        if (this.gameViewService.modificationTempsServeurEnCours) {
+        if (this.timerService.modificationTempsServeurEnCours) {
             return;
         }
         if (!this.testIndiceSelectionne()) {
@@ -90,7 +95,7 @@ export class CanvasGrille {
     }
 
     public ecrireMotsTrouves(): void {
-        for (const i of this.gameViewService.indices) {
+        for (const i of this.indiceService.indices) {
             if (i.motTrouve.length > 0) {
                 this.ecrireMotDansGrille(i.motTrouve, i.sens, i.positionI, i.positionJ, i.couleur);
             }

@@ -22,8 +22,8 @@ export class TrouverPartieComponent implements OnInit {
   private joueur: Joueur;
 
 
-  constructor(private gameViewService: GameViewService, private choixPartieService: ChoixPartieService) {
-    this.joueur = this.gameViewService.joueur;
+  constructor(private choixPartieService: ChoixPartieService) {
+    this.joueur = this.choixPartieService.joueur;
   }
 
   public ngOnInit(): void {

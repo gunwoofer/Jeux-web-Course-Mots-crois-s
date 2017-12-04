@@ -3,8 +3,6 @@ import {EmplacementMot} from './EmplacementMot';
 
 export const NOM_JOUEUR_HOTE_DEFAULT = 'joueurHote';
 
-export const COULEUR_NOIRE = "#000000";
-export const COULEUR_BLEUE = "#3333DD";
 export const COULEUR_JOUEUR2 = "#3333DD";
 export const COULEUR_JOUEUR1 = "#dd5b60";
 
@@ -51,6 +49,10 @@ export class Joueur {
 
     public obtenirCouleur(): string {
         return this.couleur;
+    }
+
+    public changerCouleur(couleur: string){
+        this.couleur = couleur;
     }
 
     public estSelectionner(emplacementMotAVerifier: EmplacementMot): boolean {
