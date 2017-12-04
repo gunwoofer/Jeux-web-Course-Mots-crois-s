@@ -1,5 +1,5 @@
+import { LumiereService } from './../lumiere/lumiere.service';
 import { FonctionMaths } from './../fonctionMathematiques';
-import { LumiereService } from '../lumiere/lumiere.service';
 import {
     LUMIERES, ARBRE_PATH, ARBRE_TEXTURE, WIDTH,
     NOM_ARBRE, NOMBRE_ARBRE_CREE, NOMS_OBJET_A_ENLEVER,
@@ -41,23 +41,6 @@ export class ObjetService {
         }
     }
 
-    public eteindreTousLesPhares(objet: THREE.Object3D): void {
-        for (let lumiere = 0; lumiere < LUMIERES.length; lumiere++) {
-            objet.getObjectByName(LUMIERES[lumiere]).visible = false;
-        }
-    }
-
-    public ajouterPhares(objet: THREE.Object3D): void {
-        const lumiereDroite = LumiereService.creerLumiereAvant(LUMIERE_AVANT_DROITE, 1);
-        objet.add(lumiereDroite);
-        objet.add(lumiereDroite.target);
-        const lumiereGauche = LumiereService.creerLumiereAvant(LUMIERE_AVANT_GAUCHE, -1);
-        objet.add(lumiereGauche);
-        objet.add(lumiereGauche.target);
-        objet.add(LumiereService.creerPhare(PHARE_DROITE, 1));
-        objet.add(LumiereService.creerPhare(PHARE_GAUCHE, -1));
-    }
-
     public vecteurAngle(vecteur: THREE.Vector3, vecteur2: THREE.Vector3): THREE.Vector2 {
         return new THREE.Vector2((vecteur.x - vecteur2.x), (vecteur.y - vecteur2.y));
     }
@@ -68,8 +51,8 @@ export class ObjetService {
         objet.rotateY(vecteurCalculAngle.angle());
         objet.name = NOM_VOITURE;
         this.enleverObjet(objet);
-        this.ajouterPhares(objet);
-        this.eteindreTousLesPhares(objet);
+        LumiereService.ajouterPhares(objet);
+        LumiereService.eteindreTousLesPhares(objet);
         objet.receiveShadow = true;
     }
 

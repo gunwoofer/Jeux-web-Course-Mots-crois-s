@@ -1,3 +1,4 @@
+import { LUMIERE_DIRECTIONNELLE_NOM, LUMIERE_HEMISPHERE_NOM } from './../constant';
 import { Injectable } from '@angular/core';
 import { HemisphereLight, DirectionalLight, PointLight, SpotLight, ImageUtils, Scene } from 'three';
 import { Voiture } from '../voiture/Voiture';
@@ -76,7 +77,7 @@ export class LumiereService {
         lumiereHemisphere.color.setHSL(HEMISPHERE_COULEUR.h, HEMISPHERE_COULEUR.s, HEMISPHERE_COULEUR.l);
         lumiereHemisphere.groundColor.setHSL(HEMISPHERE_COULEURTERRE.h, HEMISPHERE_COULEURTERRE.s, HEMISPHERE_COULEURTERRE.l);
         lumiereHemisphere.position.set(LUMIERE_HEMISPHERE_POSITION.x, LUMIERE_HEMISPHERE_POSITION.y, LUMIERE_HEMISPHERE_POSITION.z);
-        lumiereHemisphere.name = 'lumiereHemisphere';
+        lumiereHemisphere.name = LUMIERE_HEMISPHERE_NOM;
 
         return lumiereHemisphere;
     }
@@ -87,7 +88,7 @@ export class LumiereService {
         lumiereDirectionnelle.position.set(LUMIERE_DIRECITON_POSITION.x, LUMIERE_DIRECITON_POSITION.y, LUMIERE_DIRECITON_POSITION.z);
         lumiereDirectionnelle.position.multiplyScalar(SCALAIRE);
         lumiereDirectionnelle.castShadow = true;
-        lumiereDirectionnelle.name = 'lumiereDirectionnelle';
+        lumiereDirectionnelle.name = LUMIERE_DIRECTIONNELLE_NOM;
 
         return lumiereDirectionnelle;
     }

@@ -192,4 +192,7 @@ export const SKYBOX_NUIT = [
 export const ORIENTATIONS_SKYBOX = ['front', 'back', 'top', 'bottom', 'right', 'left'];
 export const FACE_SKYBOX = 6;
 
+export const LUMIERE_DIRECTIONNELLE_NOM = 'lumiereDirectionnelle';
+export const LUMIERE_HEMISPHERE_NOM = 'lumiereHemisphere';
+
 
