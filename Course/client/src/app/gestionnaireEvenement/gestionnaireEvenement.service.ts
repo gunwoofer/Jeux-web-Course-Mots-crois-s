@@ -91,7 +91,7 @@ export class EvenementService {
 
   public gestionEvenement(event): void {
     if (event.key === MODE_JOUR_NUIT) {
-      this.gestionPartieService.logiquePhares(this.gestionPartieService.voitureDuJoueur);
+      LumiereService.logiquePhares(this.gestionPartieService.voitureDuJoueur);
       LumiereService.modeJourNuit(event, this.jeuDeCourseService.obtenirScene());
       LumiereService.jour = !LumiereService.jour;
       this.skyboxService.alternerSkybox(LumiereService.jour, this.jeuDeCourseService.obtenirCamera());

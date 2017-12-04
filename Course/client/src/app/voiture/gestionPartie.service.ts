@@ -91,16 +91,6 @@ export class GestionPartieService implements Observateur {
         scene.add(objet);
     }
 
-    public logiquePhares(voiture: Voiture): void {
-        if (!LumiereService.phares && LumiereService.jour) {
-            LumiereService.phares = !LumiereService.phares;
-            LumiereService.alternerPhares(voiture);
-        } else if (LumiereService.phares && !LumiereService.jour) {
-            LumiereService.phares = !LumiereService.phares;
-            LumiereService.alternerPhares(voiture);
-        }
-    }
-
     public notifier(sujet: Sujet, type: NotificationType): void {
         if (type === NotificationType.Non_definie) {
             if (this.partie.etatPartie === EtatPartie.Termine) {

@@ -35,6 +35,16 @@ export class LumiereService {
         return phare;
     }
 
+    public static logiquePhares(voiture: Voiture): void {
+        if (!LumiereService.phares && LumiereService.jour) {
+            LumiereService.phares = !LumiereService.phares;
+            LumiereService.alternerPhares(voiture);
+        } else if (LumiereService.phares && !LumiereService.jour) {
+            LumiereService.phares = !LumiereService.phares;
+            LumiereService.alternerPhares(voiture);
+        }
+    }
+
     public static creerLumiereAvant(nom: string, cote: number): SpotLight {
         const lumiereAvant = new SpotLight(COULEUR_PHARE, INTENSITE_LUMIERE_SPOT);
         lumiereAvant.name = nom;
