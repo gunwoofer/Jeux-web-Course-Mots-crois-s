@@ -15,7 +15,7 @@ export class LigneArrivee {
     }
 
     public aFranchitLigne(voiture: Voiture): boolean {
-        if (this.estSurLaLigneArrivee(this.vecteurDebut, this.vecteurFin, voiture.obtenirPointMilieu(), voiture)) {
+        if (this.estSurLaLigneArrivee(this.vecteurDebut, this.vecteurFin, voiture.obtenirPosition(), voiture)) {
             return true;
         }
         return false;
