@@ -1,10 +1,13 @@
-import { RESULTAT_PARTIE } from '../constant';
+import { GestionnnairePartieService } from './../gestionnairePartie/gestionPartie.service';
+import { RESULTAT_PARTIE, MILLE } from '../constant';
 import { MusiqueService } from './../musique/musique.service';
 import { JeuDeCourseService } from './jeudecourse.service';
 import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
 import { Router } from '@angular/router';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
+import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
+import { Pilote } from '../partie/Pilote';
 
 @Component({
     selector: 'app-jeudecourse-component',
@@ -17,10 +20,10 @@ export class JeuDeCourseComponent implements AfterViewInit, OnInit {
     @ViewChild('container')
     private containerRef: ElementRef;
 
-    constructor(private jeuDeCourseService: JeuDeCourseService,
+    constructor(private jeuDeCourseService: JeuDeCourseService, private gestionnairePartieService: GestionnnairePartieService,
         private pisteService: PisteService, private evenementService: EvenementService,
-        private musiqueService: MusiqueService, private router: Router) {
-        jeuDeCourseService.ajouterRouter(router);
+        private musiqueService: MusiqueService, private routeur: Router) {
+
         //jeuDeCourseService.configurerTours(this.pisteService.nombreDeTours);
     }
 
@@ -30,6 +33,8 @@ export class JeuDeCourseComponent implements AfterViewInit, OnInit {
 
     public ngAfterViewInit(): void {
         this.jeuDeCourseService.initialisation(this.container);
+        this.gestionnairePartieService.emetteurEvenement.subscribe(
+            (reponse) => this.routeur.navigateByUrl(RESULTAT_PARTIE));
     }
 
     public get container(): HTMLDivElement {
@@ -54,9 +59,5 @@ export class JeuDeCourseComponent implements AfterViewInit, OnInit {
     @HostListener('document:keyup', ['$event'])
     public toucheLachee(event: KeyboardEvent): void {
         this.evenementService.toucheRelachee(event);
-    }
-
-    public allerTableauDeResultats(): void {
-        this.router.navigateByUrl(RESULTAT_PARTIE);
     }
 }

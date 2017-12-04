@@ -11,7 +11,6 @@ export class JeuDeCourseService {
     private camera: THREE.PerspectiveCamera;
     private renderer: THREE.WebGLRenderer;
     private scene: THREE.Scene;
-    private routeur: Router;
 
     constructor(public moteurDeJeuService: MoteurDeJeuService) { }
 
@@ -39,10 +38,6 @@ export class JeuDeCourseService {
     //     this.nombreTours = nombreTours;
     //     Partie.toursAComplete = this.nombreTours;
     // }
-
-    public ajouterRouter(routeur: Router): void {
-        this.routeur = routeur;
-    }
 
     public onResize(): void {
         this.camera.aspect = this.getAspectRatio();

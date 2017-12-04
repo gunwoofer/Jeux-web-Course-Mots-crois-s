@@ -56,8 +56,9 @@ describe('MoteurEditeurPiste test', () => {
             .compileComponents();
     }));
 
-    beforeEach(inject([MoteurEditeurPiste, EvenementService, CreateurPisteService], (service: MoteurEditeurPiste, souris: EvenementService,
-        createurpiste: CreateurPisteService) => {
+    beforeEach(inject([MoteurEditeurPiste, EvenementService, CreateurPisteService],
+                                (service: MoteurEditeurPiste, souris: EvenementService,
+                                    createurpiste: CreateurPisteService) => {
         renderService = service;
         evenementService = souris;
         createurPisteService = createurpiste;
