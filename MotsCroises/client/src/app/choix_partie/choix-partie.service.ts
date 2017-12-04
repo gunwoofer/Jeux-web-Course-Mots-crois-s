@@ -66,8 +66,6 @@ export class ChoixPartieService {
     public recupererPartie(specificationPartie: SpecificationPartie, self: ChoixPartieService): void {
         console.log('partie récuperee', specificationPartie);
         self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
-        // self.gameViewService.specificationPartie = self.specificationPartie;
-        // self.MAJIndices();
         self.partieCreeeRedirection();
     }
 
@@ -154,9 +152,6 @@ export class ChoixPartieService {
         self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
         self.nbJoueursPartie = 1;
         self.demarrerPartie();
-        // self.MAJIndices();
-        // self.ecouterRetourMot();
-        // self.ecouterChangementSelectionMotAdversaire();
     }
 
     public obtenirRoutePartie(): string {

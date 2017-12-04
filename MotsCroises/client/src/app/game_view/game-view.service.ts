@@ -61,7 +61,6 @@ export class GameViewService {
         return this.specificationPartie;
     }
 
-    // taken
     public MAJIndices(): void {
         const indices: IndiceMot[] = [];
         for (const emplacementMot of this.specificationPartie.specificationGrilleEnCours.emplacementMots) {
@@ -170,7 +169,7 @@ export class GameViewService {
         this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
     }
 
-    public ecouterEvenements() {
+    public ecouterRappelsServeur() {
         if (this.nbJoueursPartie > 0) {
             this.ecouterChangementSelectionMotAdversaire();
         }
