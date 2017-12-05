@@ -8,6 +8,7 @@ import { RequisPourMotAVerifier } from '../../../../commun/requis/requisPourMotA
 import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 import { EmplacementMot } from '../../../../commun/emplacementMot';
 import { VuePartieEnCours } from '../../../../commun/vuePartieEnCours';
+import { ConnexionTempsReelClientService } from '../connestion_temps_reel/connexionTempsReelClientService';
 
 const TOUS_LES_MOTS_ONT_ETE_TROUVES = 'tous les mots ont été trouvés, partie terminée';
 const TEMPS_ECOULE = 'Le temps imparti est écoulé, fin de la partie';
@@ -29,12 +30,12 @@ export class GameViewService {
     private motEcrit = new Subject<string>();
     public motEcrit$ = this.motEcrit.asObservable();
 
-    constructor() {
+    constructor(private connextionTempsReelClientService: ConnexionTempsReelClientService) {
         this.initialiserConnexion();
     }
 
     public initialiserConnexion(): void {
-        this.connexionTempsReelClient = new ConnexionTempsReelClient();
+        this.connexionTempsReelClient = this.connextionTempsReelClientService.connexionTempsReelClient;
     }
 
     public getPartie(): SpecificationPartie {
