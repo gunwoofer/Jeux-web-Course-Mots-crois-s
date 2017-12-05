@@ -1,5 +1,3 @@
-import { Position } from './position';
-
 export enum EtatCase {
     vide,
     pleine,
