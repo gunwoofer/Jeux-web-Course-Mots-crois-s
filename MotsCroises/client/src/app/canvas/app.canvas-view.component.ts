@@ -5,7 +5,6 @@ import { TimerService } from '../game_view/timer.service';
 import { IndiceService } from '../game_view/indice.service';
 import { DessinCanvasService } from './dessinCanvasService';
 
-
 @Component({
     selector: 'app-canvas-view-component',
     templateUrl: './canvas-view.component.html',
@@ -30,7 +29,11 @@ export class CanvasViewComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        this.canvasGrille = new CanvasService(this.gameViewService, this.containerRef, this.indiceService, this.timerService, this.dessinCanvasService);
+        this.canvasGrille = new CanvasService(this.gameViewService,
+                                                this.containerRef,
+                                                this.indiceService,
+                                                this.timerService,
+                                                this.dessinCanvasService);
     }
 
     public motTrouveActualiser(): void {
