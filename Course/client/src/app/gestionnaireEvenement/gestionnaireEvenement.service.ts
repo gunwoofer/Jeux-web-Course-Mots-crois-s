@@ -15,6 +15,7 @@ import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 import { GestionnnairePartieService } from '../gestionnairePartie/gestionPartie.service';
 
 const DUREE_CLIC_ANTIREBOND = 500;
+const TYPE_POINT = 'Points';
 
 @Injectable()
 export class EvenementService {
@@ -69,12 +70,11 @@ export class EvenementService {
   }
 
   public onMouseMove(event: MouseEvent): void {
-    const rayCaster = new THREE.Raycaster();
     this.facadeCoordonneesService.souris.mettreAJourVecteurSouris(event, this.renderService.obtenirRenderer());
-    let intersects;
     this.renderService.scene.updateMatrixWorld(true);
+    const rayCaster = new THREE.Raycaster();
     rayCaster.setFromCamera(this.facadeCoordonneesService.souris.vecteurSouris, this.renderService.obtenirCamera());
-    intersects = rayCaster.intersectObjects(this.renderService.scene.children);
+    const intersects = rayCaster.intersectObjects(this.renderService.scene.children);
     if (this.modeGlissement) {
       this.dragPoint(intersects[0].point);
     } else {
@@ -82,7 +82,7 @@ export class EvenementService {
         FacadePointService.actualiserCouleurPoints(this.createurPisteService.obtenirPoints());
         this.pointHover = false;
         for (const objet of intersects) {
-          if (objet.object.type === 'Points') {
+          if (objet.object.type === TYPE_POINT) {
             this.hoverPoint(objet.object);
           }
         }
