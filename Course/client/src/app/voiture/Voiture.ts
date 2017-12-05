@@ -2,7 +2,8 @@ import { FonctionMaths } from './../fonctionMathematiques';
 import { MoteurAutonome } from './moteurAutonome';
 import { Piste } from './../piste/piste.model';
 import { Guid } from './../../../../commun/Guid';
-import { VITESSE_INTIALE, VOITURE_VECTEUR_AVANT_GAUCHE, VOITURE_VECTEUR_ARRIERE_GAUCHE, PERTE_VITESSE_COLLISION, MINIMUM_VITESSE_COLLISION } from './../constant';
+import { VITESSE_INTIALE, VOITURE_VECTEUR_AVANT_GAUCHE, VOITURE_VECTEUR_ARRIERE_GAUCHE,
+    PERTE_VITESSE_COLLISION, MINIMUM_VITESSE_COLLISION } from './../constant';
 
 import * as THREE from 'three';
 import * as observateur from '../../../../commun/observateur/Observateur';
