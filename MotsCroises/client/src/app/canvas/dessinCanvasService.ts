@@ -2,22 +2,18 @@ import { Injectable } from '@angular/core';
 import { IndiceMot } from '../indice/indiceMot';
 import { SpecificationPartie } from '../../../../commun/specificationPartie';
 
-const nbCases = 11;
-const couleurNoire = '#000000';
-const policeLettres = '35px Arial';
-
+const NOMBRE_DE_CASE = 11;
+const COULEUR_NOIRE = '#000000';
+const POLICE_LETTRE = '35px Arial';
+const COULEUR_JOUEUR_1 = '#DD0000';
 
 @Injectable()
 export class DessinCanvasService {
-    public couleurJ1 = '#DD0000';
     private canvas: any;
     private ctxCanvas: any;
     private largeurCase: number;
     private margeEffacement: number;
     private hauteurCase: number;
-
-    constructor() {
-    }
 
     public setCanvas(canvas: HTMLCanvasElement) {
         this.canvas = canvas;
@@ -47,27 +43,27 @@ export class DessinCanvasService {
             for (let j = 0; j < 10; j++) {
                 this.ecrireLettreDansCase(
                     specificationPartie.specificationGrilleEnCours.cases.obtenirCase(i, j).obtenirLettre(),
-                    j + 1, i + 1, this.couleurJ1
+                    j + 1, i + 1, COULEUR_JOUEUR_1
                 );
             }
         }
     }
 
     public dessinerLignesGrille(): void {
-        this.ctxCanvas.fillStyle = '#000000';
-        for (let i = 1; i < nbCases; i++) {
-            this.ecrireLettreDansCase(i.toString(), i, 0, couleurNoire);
-            this.ecrireLettreDansCase(i.toString(), 0, i, couleurNoire);
+        this.ctxCanvas.fillStyle = COULEUR_NOIRE;
+        for (let i = 1; i < NOMBRE_DE_CASE; i++) {
+            this.ecrireLettreDansCase(i.toString(), i, 0, COULEUR_NOIRE);
+            this.ecrireLettreDansCase(i.toString(), 0, i, COULEUR_NOIRE);
             this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase, 1, this.canvas.height);
             this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * i, this.canvas.width, 1);
         }
-        this.ctxCanvas.fillRect(this.largeurCase * nbCases - 1, this.hauteurCase, 1, this.canvas.height);
-        this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * nbCases - 1, this.canvas.width, 1);
+        this.ctxCanvas.fillRect(this.largeurCase * NOMBRE_DE_CASE - 1, this.hauteurCase, 1, this.canvas.height);
+        this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * NOMBRE_DE_CASE - 1, this.canvas.width, 1);
     }
 
     public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string): void {
         this.effacerLettreDansCase(i, j);
-        this.ctxCanvas.font = policeLettres;
+        this.ctxCanvas.font = POLICE_LETTRE;
         this.ctxCanvas.fillStyle = couleur;
         this.ctxCanvas.textAlign = 'center';
         this.ctxCanvas.textBaseline = 'middle';
@@ -100,7 +96,7 @@ export class DessinCanvasService {
     }
 
     public dessinerRectangleNoir(i: number, j: number) {
-        this.ctxCanvas.fillStyle = couleurNoire;
+        this.ctxCanvas.fillStyle = COULEUR_NOIRE;
         this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.largeurCase);
     }
 
@@ -131,6 +127,4 @@ export class DessinCanvasService {
             this.ctxCanvas.stroke();
         }
     }
-
-
 }
