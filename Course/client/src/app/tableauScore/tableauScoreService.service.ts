@@ -13,6 +13,7 @@ export class TableauScoreService {
     public piste: Piste;
     public temps: number;
     public finPartie: boolean;
+    public finCourse: boolean;
 
     private tempsFinPartie: Score[];
     private traitementDonneeTableau = new TraitementDonneTableau();
@@ -28,7 +29,6 @@ export class TableauScoreService {
         for (let joueur = 0; joueur < NOMBRE_JOUEURS; joueur++) {
             this.gestionTempsFinPartie(joueur, this.temps);
         }
-
         return this.tempsFinPartie;
     }
 
