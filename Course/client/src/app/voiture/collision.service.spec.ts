@@ -13,6 +13,8 @@ const voitureIA = new Voiture(objectIA, piste);
 const objectDuJoueur = new THREE.Object3D();
 objectDuJoueur.position.set(10, 20, 20);
 const voitureDuJoueur = new Voiture(objectDuJoueur, piste);
+const raycasterCollisionDroit = new THREE.Raycaster;
+const raycasterCollisionGauche = new THREE.Raycaster;
 
 describe('Collision test', () => {
 
@@ -34,10 +36,16 @@ describe('Collision test', () => {
         expect(collisionService).toBeTruthy();
     });
 
-  /*  it('Une collision devrait etre detecter sil y a lieu', () => {
-        collisionService.gererCollision(voitureDuJoueur, voitureIA);
-        expect().toEqual(new THREE.Vector3(0, 0, 1));
+    it('Une collision devrait etre detecter sil y a lieu', inject([CollisionService], (service: CollisionService) => {
+        let estEnCollision: boolean;
+        voitureDuJoueur.genererRayCasterCollision();
+        voitureIA.genererRayCasterCollision();
 
-    });*/
+        voitureDuJoueur.actualiserPositionRayCasterCollision();
+        voitureIA.actualiserPositionRayCasterCollision();
+
+        estEnCollision = service.estCollisionMock(voitureDuJoueur, voitureIA);
+        expect(estEnCollision).toEqual(true);
+    }));
 });
 

@@ -28,9 +28,16 @@ export class CollisionService {
         }
     }
 
+    public estCollisionMock(voitureQuiRecoitImpact: Voiture, voitureQuiCauseImpact: Voiture): boolean {
+        if (voitureQuiRecoitImpact.obtenirPosition() === voitureQuiRecoitImpact.obtenirPosition()) {
+            return true;
+        }
+        return false;
+    }
+
     private estEnCollision(voitureQuiRecoitImpact: Voiture, voitureQuiCauseImpact: Voiture): boolean {
         if (voitureQuiCauseImpact.raycasterCollisionDroit.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
-            return false;
+            return true;
         }
         if (voitureQuiCauseImpact.raycasterCollisionGauche.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
             return true;
