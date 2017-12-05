@@ -26,6 +26,8 @@ export const DUREE_ACCELERATEUR = 1500;
 export const NOMBRE_SECOUSSES_NID_DE_POULE = 4;
 export const VOITURE_VECTEUR_AVANT_GAUCHE = 82;
 export const VOITURE_VECTEUR_ARRIERE_GAUCHE = 4;
+export const PERTE_VITESSE_COLLISION = 0.3;
+export const MINIMUM_VITESSE_COLLISION = 0.3;
 
 // Intelligence Artificielle
 export const VITESSE_IA = 0.5;
