@@ -1,12 +1,11 @@
 import { FonctionMaths } from './../fonctionMathematiques';
-import { Observateur } from './../../../../commun/observateur/Observateur';
+import { IObservateur } from './../../../../commun/observateur/Observateur';
 import { Retroviseur } from './../gestionnaireDeVue/retroviseur';
-import { AffichageTeteHaute } from './../affichageTeteHaute/affichageTeteHaute';
 import { AffichageTeteHauteService } from './../affichageTeteHaute/affichagetetehaute.service';
 import { TableauScoreService } from './../tableauScore/tableauScoreService.service';
 import { EtatPartie } from './../partie/EtatPartie';
 import { NotificationType } from './../../../../commun/observateur/NotificationType';
-import { Sujet } from './../../../../commun/observateur/Sujet';
+import { ISujet } from './../../../../commun/observateur/Sujet';
 import { MusiqueService } from './../musique/musique.service';
 import { Partie } from './../partie/Partie';
 import { LigneArrivee } from './../partie/LigneArrivee';
@@ -14,18 +13,15 @@ import { Pilote } from './../partie/Pilote';
 import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { ObjetService } from './../objetService/objet.service';
 import {
-    TABLEAU_POSITION, EMPLACEMENT_VOITURE, NOMBRE_DE_TOURS_PARTIE_DEFAUT, DUREE_STINGER_MILISECONDES,
-    RESULTAT_PARTIE, MILLE, COULEUR_VOITURE_JOUEUR_VIRTUEL, COULEUR_VOITURE_JOUEUR, NOMBRE_DE_TOURS_PARTIE_MINIMAL
+    TABLEAU_POSITION, EMPLACEMENT_VOITURE, DUREE_STINGER_MILISECONDES,
+    MILLE, COULEUR_VOITURE_JOUEUR_VIRTUEL, COULEUR_VOITURE_JOUEUR, NOMBRE_DE_TOURS_PARTIE_MINIMAL
 } from './../constant';
-import { PlacementService } from './../objetService/placementVoiture.service';
-import { Injectable, EventEmitter } from '@angular/core';
-import { LumiereService } from '../lumiere/lumiere.service';
 import * as THREE from 'three';
+import { Injectable, EventEmitter } from '@angular/core';
 import { Voiture } from '../voiture/Voiture';
 
 @Injectable()
-
-export class GestionnnairePartieService implements Observateur {
+export class GestionnnairePartieService implements IObservateur {
 
 
     public voitureDuJoueur: Voiture;
@@ -36,7 +32,7 @@ export class GestionnnairePartieService implements Observateur {
     public nombreTours = NOMBRE_DE_TOURS_PARTIE_MINIMAL;
 
 
-    constructor(private objetService: ObjetService, private tableauScoreService: TableauScoreService,
+    constructor(private tableauScoreService: TableauScoreService,
         private mondeDuJeuService: MondeDuJeuService, private musiqueService: MusiqueService,
         private affichageTeteHauteService: AffichageTeteHauteService) { }
 
@@ -91,7 +87,7 @@ export class GestionnnairePartieService implements Observateur {
         Partie.toursAComplete = this.nombreTours;
     }
 
-    public notifier(sujet: Sujet, type: NotificationType): void {
+    public notifier(sujet: ISujet, type: NotificationType): void {
         if (type === NotificationType.Non_definie) {
             if (this.partie.etatPartie === EtatPartie.Termine) {
                 setTimeout(() => {
@@ -102,5 +98,4 @@ export class GestionnnairePartieService implements Observateur {
             }
         }
     }
-
 }

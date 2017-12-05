@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
-import { Observateur } from '../../../../commun/observateur/Observateur';
+import { IObservateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
-import { Sujet } from '../../../../commun/observateur/Sujet';
+import { ISujet } from '../../../../commun/observateur/Sujet';
 import { AffichageTeteHaute } from './affichageTeteHaute';
 import { Pilote } from '../partie/Pilote';
 
 @Injectable()
-export class AffichageTeteHauteService implements Observateur {
+export class AffichageTeteHauteService implements IObservateur {
     private affichageTeteHaute: AffichageTeteHaute = new AffichageTeteHaute();
     private notifierVue = false;
 
@@ -16,11 +16,11 @@ export class AffichageTeteHauteService implements Observateur {
         this.affichageTeteHaute.notifierObservateurs(NotificationType.MettreAJourAffichageTeteHaute);
     }
 
-    public ajouterObservateur(observateur: Observateur): void {
+    public ajouterObservateur(observateur: IObservateur): void {
         this.affichageTeteHaute.ajouterObservateur(observateur);
     }
 
-    public notifier(sujet: Sujet, type: NotificationType): void {
+    public notifier(sujet: ISujet, type: NotificationType): void {
         if (Pilote.estUnPilote(sujet)) {
             const pilote: Pilote = <Pilote>sujet;
             this.notifierVue = true;

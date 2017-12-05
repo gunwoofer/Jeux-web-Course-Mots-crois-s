@@ -1,8 +1,8 @@
-import { Observateur } from './Observateur';
-import { NotificationType } from './NotificationType';
+import { IObservateur } from "./Observateur";
+import { NotificationType } from "./NotificationType";
 
-export interface Sujet { 
-    ajouterObservateur(observateur: Observateur): void;
-    supprimerObservateur(observateur: Observateur): void;
-    notifierObservateurs(type: NotificationType): void; 
-}   
+export interface ISujet {
+    ajouterObservateur(observateur: IObservateur): void;
+    supprimerObservateur(observateur: IObservateur): void;
+    notifierObservateurs(type: NotificationType): void;
+}

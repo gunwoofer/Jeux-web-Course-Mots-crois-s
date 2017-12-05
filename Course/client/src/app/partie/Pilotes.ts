@@ -1,6 +1,6 @@
 import { Pilote } from './Pilote';
 import { Voiture } from '../voiture/Voiture';
-import { Observateur } from '../../../../commun/observateur/Observateur';
+import { IObservateur } from '../../../../commun/observateur/Observateur';
 import { Partie } from './Partie';  // À utilisez qu'en lecture. Sinon, risque d'une dépendance circulaire.
 
 export class Pilotes {
@@ -36,13 +36,13 @@ export class Pilotes {
         }
     }
 
-    public observerVoitures(observateur: Observateur): void {
+    public observerVoitures(observateur: IObservateur): void {
         for (const piloteCourant of this.pilotes) {
             piloteCourant.observerVoiture(observateur);
         }
     }
 
-    public observerPiloteJoueur(observateur: Observateur): void {
+    public observerPiloteJoueur(observateur: IObservateur): void {
         for (const piloteCourant of this.pilotes) {
             if (piloteCourant.estJoueurPrincipal()) {
                 piloteCourant.ajouterObservateur(observateur);

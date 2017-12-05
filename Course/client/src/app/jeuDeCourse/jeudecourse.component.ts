@@ -1,13 +1,11 @@
 import { GestionnnairePartieService } from './../gestionnairePartie/gestionPartie.service';
-import { RESULTAT_PARTIE, MILLE } from '../constant';
+import { RESULTAT_PARTIE } from '../constant';
 import { MusiqueService } from './../musique/musique.service';
 import { JeuDeCourseService } from './jeudecourse.service';
 import { Component, ViewChild, HostListener, ElementRef, AfterViewInit, OnInit } from '@angular/core';
 import { PisteService } from '../piste/piste.service';
 import { Router } from '@angular/router';
 import { EvenementService } from '../gestionnaireEvenement/gestionnaireEvenement.service';
-import { TableauScoreService } from '../tableauScore/tableauScoreService.service';
-import { Pilote } from '../partie/Pilote';
 
 @Component({
     selector: 'app-jeudecourse-component',

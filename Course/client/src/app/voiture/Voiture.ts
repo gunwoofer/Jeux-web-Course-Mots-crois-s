@@ -13,11 +13,11 @@ export const REDUCTION_VITESSE_SORTIE_PISTE = 10;
 export const REDUCTION_VITESSE_NID_DE_POULE = 4;
 const vecVersLeBas = new THREE.Vector3(0, 0, -1);
 
-export class Voiture implements sujet.Sujet {
+export class Voiture implements sujet.ISujet {
 
     public voiture3D: THREE.Object3D;
     public vitesse;
-    public observateurs: observateur.Observateur[] = [];
+    public observateurs: observateur.IObservateur[] = [];
     public vueDessusTroisieme = false;
     public distanceParcouru = 0;
     public modeAccelerateur = false;
@@ -61,7 +61,7 @@ export class Voiture implements sujet.Sujet {
         return vecteurAvantGauche.y - vecteurArriereGauche.y;
     }
 
-    constructor(voiture3D: THREE.Object3D, piste: Piste, observateurs?: observateur.Observateur[]) {
+    constructor(voiture3D: THREE.Object3D, piste: Piste, observateurs?: observateur.IObservateur[]) {
         this.voiture3D = voiture3D;
         this.x = this.voiture3D.position.x;
         this.y = this.voiture3D.position.y;
@@ -154,11 +154,11 @@ export class Voiture implements sujet.Sujet {
         return this.voiture3D.position;
     }
 
-    public ajouterObservateur(observateur: observateur.Observateur): void {
+    public ajouterObservateur(observateur: observateur.IObservateur): void {
         this.observateurs.push(observateur);
     }
 
-    public supprimerObservateur(observateur: observateur.Observateur): void {
+    public supprimerObservateur(observateur: observateur.IObservateur): void {
         for (let i = 0; i < this.observateurs.length; i++) {
             if (this.observateurs[i] === observateur) {
                 this.observateurs.splice(i, 1);

@@ -2,7 +2,6 @@ import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { FacadePointService } from '../facadePoint/facadepoint.service';
-import { FacadeCoordonneesService } from '../facadeCoordonnees/facadecoordonnees.service';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 
 @Injectable()
@@ -12,7 +11,6 @@ export class MoteurEditeurPiste {
 
     private camera: THREE.PerspectiveCamera;
     private renderer: THREE.WebGLRenderer;
-    private facadeCoordonneesService = new FacadeCoordonneesService();
     private plane: THREE.Mesh;
     private container: HTMLDivElement;
 
