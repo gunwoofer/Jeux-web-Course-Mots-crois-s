@@ -114,5 +114,23 @@ export class DessinCanvasService {
         }
     }
 
+    public afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number,
+                                         j: number, couleur: string, ligneDash: boolean = false): void {
+        this.ctxCanvas.strokeStyle = couleur;
+        this.ctxCanvas.lineWidth = '5';
+        this.ctxCanvas.setLineDash([]);
+        if (ligneDash) {
+            this.ctxCanvas.setLineDash([20, 20]);
+        }
+        this.ctxCanvas.beginPath();
+        if (sens === 0) {
+            this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
+            this.ctxCanvas.stroke();
+        } else {
+            this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.hauteurCase * tailleMot);
+            this.ctxCanvas.stroke();
+        }
+    }
+
 
 }

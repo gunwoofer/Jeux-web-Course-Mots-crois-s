@@ -14,13 +14,7 @@ export class CanvasService {
     public indiceAdversaire: IndiceMot;
     private canvas: any;
     private ctxCanvas: any;
-    private largeurCase: number;
-    private hauteurCase: number;
-    private margeEffacement: number;
-    private nbCases = 11;
-    private couleurNoire = '#000000';
     private couleurJoueur = '#2baa87';
-    private policeLettres = '35px Arial';
     private ligneActuelle: number;
     private colonneActuelle: number;
     private specificationPartie: SpecificationPartie;
@@ -105,6 +99,7 @@ export class CanvasService {
         this.specificationPartie = this.gameViewService.getPartie();
         this.ctxCanvas = this.canvas.getContext('2d');
         this.dessinCanvasService.initialiserCanvas(this.specificationPartie, this.indiceService.indices);
+        this.gererAffichageSelecteurs();
     }
 
     public rafraichirCanvas(): void {
@@ -152,41 +147,23 @@ export class CanvasService {
         }
     }
 
-    private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number,
-                                          j: number, couleur: string, ligneDash: boolean = false): void {
-        this.ctxCanvas.strokeStyle = couleur;
-        this.ctxCanvas.lineWidth = '5';
-        this.ctxCanvas.setLineDash([]);
-        if (ligneDash) {
-            this.ctxCanvas.setLineDash([20, 20]);
-        }
-        this.ctxCanvas.beginPath();
-        if (sens === 0) {
-            this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
-            this.ctxCanvas.stroke();
-        } else {
-            this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.hauteurCase * tailleMot);
-            this.ctxCanvas.stroke();
-        }
-    }
-
     private afficherSelecteurAdversaireSurGrille(): void {
         if (this.indiceAdversaire) {
-            this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+            this.dessinCanvasService.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
                 this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2);
         }
     }
 
     private afficherDoubleSelecteur(): void {
-        this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+        this.dessinCanvasService.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
             this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ1);
-        this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+        this.dessinCanvasService.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
             this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2, true);
     }
 
     private gererAffichageSelecteurs(): void {
         if (this.indice) {
-            this.afficherSelecteurMotSurGrille(this.indice.tailleMot, this.indice.sens,
+            this.dessinCanvasService.afficherSelecteurMotSurGrille(this.indice.tailleMot, this.indice.sens,
                 this.indice.positionI, this.indice.positionJ, this.couleurJ1);
         }
         if (this.indiceAdversaire) {
