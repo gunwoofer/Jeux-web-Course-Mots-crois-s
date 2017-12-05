@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { GameViewService } from '../game_view/game-view.service';
-import { CanvasService } from './canvasService';
+import { CanvasService } from './gestionnaireCanvas';
 import { TimerService } from '../game_view/timer.service';
 import { IndiceService } from '../game_view/indice.service';
 import { DessinCanvasService } from './dessinCanvasService';
