@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { Niveau } from '../../../../commun/niveau';
 import { TypePartie } from '../../../../commun/typePartie';
 import { SpecificationPartie } from '../../../../commun/specificationPartie';
-import { ConnexionTempsReelClient } from '../connestion_temps_reel/connexionTempsReelClient';
 import { ATTENTE_PARTIE } from '../app.component';
 import { Subject } from 'rxjs/Subject';
 import { VuePartieEnCours } from '../../../../commun/vuePartieEnCours';
@@ -20,7 +19,6 @@ export class ChoixPartieService {
     private nbJoueursPartie: number;
     private typePartie: TypePartie;
     private niveauPartie: Niveau;
-    private connexionTempsReelClient: ConnexionTempsReelClient;
     private changementDeRouteSubject = new Subject<string>();
     public changementDeRoute = this.changementDeRouteSubject.asObservable();
     private listeVuePartie: VuePartieEnCours[];
@@ -28,7 +26,6 @@ export class ChoixPartieService {
     private requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur;
 
     constructor(private connexionTempsReelClientService: ConnexionTempsReelClientService) {
-        this.connexionTempsReelClient = connexionTempsReelClientService.connexionTempsReelClient;
         this.requisDemandeListePartieEnCours = new RequisDemandeListePartieEnAttente();
     }
 
@@ -43,12 +40,15 @@ export class ChoixPartieService {
     public demanderPartieServer(): void {
         switch (this.nbJoueursPartie) {
             case 0 :
-                this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
-                    this.specificationPartie, requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO, this.recupererPartie, this);
+                this.connexionTempsReelClientService.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(
+                                                                requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
+                                                                this.specificationPartie,
+                                                                requetes.REQUETE_CLIENT_RAPPEL_CREER_PARTIE_SOLO,
+                                                                this.recupererPartie, this);
                 break;
             case 1 :
                 if (this.demanderNomJoueur()) {
-                    this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(
+                    this.connexionTempsReelClientService.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(
                         requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR,
                         this.specificationPartie, requetes.REQUETE_SERVEUR_CREER_PARTIE_MULTIJOUEUR_RAPPEL, this.recupererPartie, this);
                     this.ecouterRetourRejoindrePartieMultijoueur();
@@ -76,7 +76,7 @@ export class ChoixPartieService {
 
     public demanderListePartieEnAttente(listeVuePartie: VuePartieEnCours[]): void {
         this.listeVuePartie = listeVuePartie;
-        this.connexionTempsReelClient.envoyerRecevoirRequete<RequisDemandeListePartieEnAttente>(
+        this.connexionTempsReelClientService.connexionTempsReelClient.envoyerRecevoirRequete<RequisDemandeListePartieEnAttente>(
             requetes.REQUETE_SERVEUR_DEMANDE_LISTE_PARTIES_EN_COURS,
             this.requisDemandeListePartieEnCours, requetes.REQUETE_CLIENT_DEMANDE_LISTE_PARTIES_EN_COURS_RAPPEL,
             this.rappelDemanderListePartieEnAttente, this);
@@ -91,14 +91,14 @@ export class ChoixPartieService {
 
     public rejoindrePartieMultijoueur(partieChoisie: VuePartieEnCours, joueurAJoindre: Joueur): void {
         this.requisPourJoindrePartieMultijoueur = new RequisPourJoindrePartieMultijoueur(partieChoisie.guidPartie, joueurAJoindre);
-        this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourJoindrePartieMultijoueur>(
+        this.connexionTempsReelClientService.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourJoindrePartieMultijoueur>(
             requetes.REQUETE_SERVEUR_JOINDRE_PARTIE,
             this.requisPourJoindrePartieMultijoueur, requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL,
             this.rappelRejoindrePartieMultijoueur, this);
     }
 
     public ecouterRetourRejoindrePartieMultijoueur(): void {
-        this.connexionTempsReelClient.ecouterRequete(
+        this.connexionTempsReelClientService.connexionTempsReelClient.ecouterRequete(
             requetes.REQUETE_SERVEUR_JOINDRE_PARTIE_RAPPEL, this.rappelRejoindrePartieMultijoueur, this
         );
     }

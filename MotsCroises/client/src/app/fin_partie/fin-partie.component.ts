@@ -9,7 +9,7 @@ import { GameViewService } from '../game_view/game-view.service';
 })
 
 export class FinPartieComponent {
-    private chargementPartie: boolean;
+    public chargementPartie: boolean;
 
     constructor(private router: Router, private gameViewService: GameViewService) {
         this.chargementPartie = false;
@@ -23,5 +23,4 @@ export class FinPartieComponent {
         this.gameViewService.recommencerPartie();
         this.chargementPartie = true;
     }
-
 }
