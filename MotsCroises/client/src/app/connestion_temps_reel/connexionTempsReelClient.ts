@@ -31,7 +31,7 @@ export class ConnexionTempsReelClient {
         });
     }
 
-    public envoyerRequete(nomRequete: string, valeurEnvoye: Object) {
+    public envoyerRequete(nomRequete: string, valeurEnvoye: Object): void {
         this.preparerRequete().then((peutPoursuivre: boolean) => {
             this.connexionSocket.emit(nomRequete, valeurEnvoye);
         });

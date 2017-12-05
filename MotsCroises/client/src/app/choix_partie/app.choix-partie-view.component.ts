@@ -1,8 +1,8 @@
-import {Component} from '@angular/core';
-import {Niveau} from '../../../../commun/niveau';
-import {TypePartie} from '../../../../commun/typePartie';
-import {Router} from '@angular/router';
-import {ChoixPartieService} from './choix-partie.service';
+import { Component } from '@angular/core';
+import { Niveau } from '../../../../commun/niveau';
+import { TypePartie } from '../../../../commun/typePartie';
+import { Router } from '@angular/router';
+import { ChoixPartieService } from './choix-partie.service';
 
 @Component({
     selector: 'app-choix-partie-view-component',
@@ -41,7 +41,7 @@ export class ChoixPartieViewComponent {
         this.nbJoueursPartie = nbJoueurs;
     }
 
-    public demanderCreationPartie() {
+    public demanderCreationPartie(): void {
         if (this.nbJoueursPartie > 0) {
             this.typePartie = this.typePartie + 2;
         }
@@ -49,7 +49,7 @@ export class ChoixPartieViewComponent {
         this.partieEnRecherche = true;
     }
 
-    public joindrePartieEnAttente() {
+    public joindrePartieEnAttente(): void {
         this.router.navigate(['trouverPartie']);
     }
 }

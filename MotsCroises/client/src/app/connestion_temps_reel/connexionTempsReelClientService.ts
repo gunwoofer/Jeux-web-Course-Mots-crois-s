@@ -1,6 +1,5 @@
-import {Injectable} from '@angular/core';
-import {ConnexionTempsReelClient} from './connexionTempsReelClient';
-
+import { Injectable } from '@angular/core';
+import { ConnexionTempsReelClient } from './connexionTempsReelClient';
 
 @Injectable()
 export class ConnexionTempsReelClientService {
