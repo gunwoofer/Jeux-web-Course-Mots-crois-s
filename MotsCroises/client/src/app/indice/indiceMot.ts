@@ -1,7 +1,6 @@
-/**
- * Classe d'indice coté client
- */
-import {EmplacementMot} from '../../../../commun/emplacementMot';
+import { EmplacementMot } from '../../../../commun/emplacementMot';
+
+export const COULEUR_NOIRE = '#000000';
 
 export class IndiceMot {
     public indexFixe: number;
@@ -12,19 +11,7 @@ export class IndiceMot {
     public positionI: number;
     public positionJ: number;
     public motTrouve: string;
-    public couleur = '#000000';
-
-    /*constructor(guidIndice: string, indexFixe: number, definition: string, tailleMot: number, sens: number,
-                positionI: number, positionJ: number, motTrouve: string = '') {
-      this.guidIndice = guidIndice;
-      this.indexFixe = indexFixe;
-      this.definition = definition;
-      this.tailleMot = tailleMot;
-      this.sens = sens;
-      this.positionI = positionI;
-      this.positionJ = positionJ;
-      this.motTrouve = motTrouve;
-    }*/
+    public couleur: string;
 
     constructor(emplacementMot: EmplacementMot, definition: string) {
         this.definition = definition;
@@ -35,6 +22,7 @@ export class IndiceMot {
         this.positionI = emplacementMot.obtenirCaseDebut().obtenirNumeroColonne() + 1;
         this.positionJ = emplacementMot.obtenirCaseDebut().obtenirNumeroLigne() + 1;
         this.motTrouve = '';
+        this.couleur = COULEUR_NOIRE;
     }
 
     public modifierCouleurMot(couleur: string) {

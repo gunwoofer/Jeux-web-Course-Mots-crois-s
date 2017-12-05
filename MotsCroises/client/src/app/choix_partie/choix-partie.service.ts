@@ -103,8 +103,8 @@ export class ChoixPartieService {
         );
     }
 
-    public rappelRejoindrePartieMultijoueur(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur
-        , self: ChoixPartieService): void {
+    public rappelRejoindrePartieMultijoueur(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur,
+                                            self: ChoixPartieService): void {
         requisPourJoindrePartieMultijoueur = RequisPourJoindrePartieMultijoueur.rehydrater(requisPourJoindrePartieMultijoueur);
         self.trouverJoueurAdverse(requisPourJoindrePartieMultijoueur);
         self.demarrerPartieMultijoueur(requisPourJoindrePartieMultijoueur.specificationPartie, self);
