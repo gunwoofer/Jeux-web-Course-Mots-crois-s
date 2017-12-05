@@ -1,4 +1,4 @@
-import { NID_DE_POULE, FLAQUE, ACCELERATEUR, IMAGE_PNG, LISTE_PISTE, ACCUEIL } from './../constant';
+import { NID_DE_POULE, FLAQUE, ACCELERATEUR, IMAGE_PNG, ACCUEIL } from './../constant';
 import { CreateurPisteService } from './../createurPiste/createurPiste.service';
 import { GestionElementsPiste } from './../elementsPiste/GestionElementsPiste';
 import { TypeElementPiste } from './../elementsPiste/ElementDePiste';

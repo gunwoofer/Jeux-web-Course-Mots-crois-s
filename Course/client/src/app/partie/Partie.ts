@@ -1,27 +1,27 @@
 import { Pilote } from './Pilote';
 import { Pilotes } from './Pilotes';
 import { LigneArrivee } from './LigneArrivee';
-import { Observateur } from '../../../../commun/observateur/Observateur';
-import { Sujet } from '../../../../commun/observateur/Sujet';
+import { IObservateur } from '../../../../commun/observateur/Observateur';
+import { ISujet } from '../../../../commun/observateur/Sujet';
 import { Voiture } from '../voiture/Voiture';
 import { NOMBRE_DE_TOURS_PARTIE_DEFAUT } from './../constant';
 import { EtatPartie } from './EtatPartie';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 
-export class Partie implements Observateur, Sujet {
+export class Partie implements IObservateur, ISujet {
 
     public static toursAComplete = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     public static tempsDepartMilisecondes = 0;
     public static aEteNotifie = false;
     public etatPartie: EtatPartie = EtatPartie.En_attente;
 
-    public observateurs: Observateur[];
+    public observateurs: IObservateur[];
 
     private pilotes: Pilotes;
     private ligneArrivee: LigneArrivee;
 
     constructor(pilotes: Pilote[], ligneArrivee: LigneArrivee, toursAComplete?: number,
-        observateurs?: Observateur[], observateursPiloteJoueur?: Observateur[]) {
+        observateurs?: IObservateur[], observateursPiloteJoueur?: IObservateur[]) {
         this.pilotes = new Pilotes(pilotes);
         Partie.toursAComplete = (toursAComplete !== undefined) ? toursAComplete : NOMBRE_DE_TOURS_PARTIE_DEFAUT;
         this.ligneArrivee = ligneArrivee;
@@ -57,7 +57,7 @@ export class Partie implements Observateur, Sujet {
         return true;
     }
 
-    public notifier(sujet: Sujet, type: NotificationType): void {
+    public notifier(sujet: ISujet, type: NotificationType): void {
         if (!Partie.aEteNotifie) {
             const voitureCourante: Voiture = <Voiture>sujet;
             this.notifierObservateurs(NotificationType.Deplacement);
@@ -84,11 +84,11 @@ export class Partie implements Observateur, Sujet {
         }
     }
 
-    public ajouterObservateur(observateur: Observateur): void {
+    public ajouterObservateur(observateur: IObservateur): void {
         this.observateurs.push(observateur);
     }
 
-    public supprimerObservateur(observateur: Observateur): void {
+    public supprimerObservateur(observateur: IObservateur): void {
         for (let i = 0; i < this.observateurs.length; i++) {
             if (this.observateurs[i] === observateur) {
                 this.observateurs.splice(i, 1);

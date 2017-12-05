@@ -65,7 +65,7 @@ export class Piste {
     }
 
     public supprimerMesh(): void {
-        for(const elementDePiste of this.listeElementsDePiste) {
+        for (const elementDePiste of this.listeElementsDePiste) {
             elementDePiste.mesh = null;
         }
     }

@@ -1,12 +1,12 @@
 import { NOMBRE_DE_TOURS_PARTIE_DEFAUT, PREMIER_TOUR } from './../constant';
 import { Voiture } from '../voiture/Voiture';
 import { Partie } from '../partie/Partie';
-import { Observateur } from '../../../../commun/observateur/Observateur';
+import { IObservateur } from '../../../../commun/observateur/Observateur';
 import { Piste } from '../piste/piste.model';
-import { Sujet } from '../../../../commun/observateur/Sujet';
+import { ISujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 const DIFFERENCE_RAISONNABLE_DE_PARCOURS_A_IGNORE = 100;
-export class Pilote implements Sujet {
+export class Pilote implements ISujet {
     public static tempsTotal = 0;
 
     private voiture: Voiture;
@@ -17,9 +17,9 @@ export class Pilote implements Sujet {
     public tourACompleter = NOMBRE_DE_TOURS_PARTIE_DEFAUT;
     public position: number;
 
-    private observateurs: Observateur[] = [];
+    private observateurs: IObservateur[] = [];
 
-    public static estUnPilote(sujet: Sujet): boolean {
+    public static estUnPilote(sujet: ISujet): boolean {
         return (sujet instanceof Pilote) ? true : false;
     }
 
@@ -88,15 +88,15 @@ export class Pilote implements Sujet {
         return false;
     }
 
-    public observerVoiture(observateur: Observateur): void {
+    public observerVoiture(observateur: IObservateur): void {
         this.voiture.ajouterObservateur(observateur);
     }
 
-    public ajouterObservateur(observateur: Observateur): void {
+    public ajouterObservateur(observateur: IObservateur): void {
         this.observateurs.push(observateur);
     }
 
-    public supprimerObservateur(observateur: Observateur): void {
+    public supprimerObservateur(observateur: IObservateur): void {
         for (let i = 0; i < this.observateurs.length; i++) {
             if (this.observateurs[i] === observateur) {
                 this.observateurs.splice(i, 1);

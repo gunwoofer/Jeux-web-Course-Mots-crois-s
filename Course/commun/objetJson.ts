@@ -1,9 +1,8 @@
-import { PromesseErreur } from "./promesseErreur";
+import { IPromesseErreur } from "./promesseErreur";
 
-export interface objetJson {
+export interface IObjetJson {
     message: string;
-    error: PromesseErreur;
+    error: IPromesseErreur;
     objet: any;
     motDePasse: string;
-    
 }

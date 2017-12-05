@@ -14,11 +14,10 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
 
     public afficher: boolean;
     public temps: Score[];
+    public finCourse: boolean;
 
     private finPartie: boolean;
-    private finCourse: boolean;
     private meilleurTemps: string;
-    private resultatPartie: boolean;
     private traitementDonnee = new TraitementDonneTableau();
 
     constructor(private tableauScoreService: TableauScoreService) {

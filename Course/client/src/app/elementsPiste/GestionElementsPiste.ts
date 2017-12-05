@@ -1,15 +1,15 @@
 import { FonctionMaths } from './../fonctionMathematiques';
 import { ElementDePisteComposite } from './ElementDePisteComposite';
 import { ElementDePiste, TypeElementPiste } from './ElementDePiste';
-import { Observateur } from '../../../../commun/observateur/Observateur';
+import { IObservateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
-import { Sujet } from '../../../../commun/observateur/Sujet';
+import { ISujet } from '../../../../commun/observateur/Sujet';
 import { FabriquantElementDePiste } from './FabriquantElementDePiste';
 import { MAXIMUM_OBSTACLES_PAR_TYPE } from '../constant';
 
 const MINIMUM_DISTANCE_OBSTACLE_DIFFERENT = 10;
 
-export class GestionElementsPiste implements Observateur {
+export class GestionElementsPiste implements IObservateur {
     public elementDePisteComposite: ElementDePisteComposite = new ElementDePisteComposite();
 
     public ajouterElementDePiste(listePosition: THREE.Vector3[], typeElement: TypeElementPiste): void {
@@ -24,7 +24,7 @@ export class GestionElementsPiste implements Observateur {
         return this.elementDePisteComposite.elementsDePiste;
     }
 
-    public notifier(sujet: Sujet, type: NotificationType): void {
+    public notifier(sujet: ISujet, type: NotificationType): void {
         if (type === NotificationType.PisteOuverte) {
             this.elementDePisteComposite.retirerTous();
         }

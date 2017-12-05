@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
 import { FOV, PRES, LOIN } from './../constant';
 import { MoteurDeJeuService } from './../moteurDeJeu/moteurDeJeu.service';
 import * as THREE from 'three';

@@ -1,3 +1,3 @@
-export interface PromesseErreur {
+export interface IPromesseErreur {
     message: string;
 }

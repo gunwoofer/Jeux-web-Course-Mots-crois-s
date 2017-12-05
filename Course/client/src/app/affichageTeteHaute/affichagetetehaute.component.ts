@@ -2,9 +2,9 @@ import { NOMBRE_ARRONDI_DECIMALE } from './../constant';
 import { Metrique } from './../../../../commun/metrique';
 import { Component, OnInit } from '@angular/core';
 import { AffichageTeteHaute } from './affichageTeteHaute';
-import { Observateur } from '../../../../commun/observateur/Observateur';
+import { IObservateur } from '../../../../commun/observateur/Observateur';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
-import { Sujet } from '../../../../commun/observateur/Sujet';
+import { ISujet } from '../../../../commun/observateur/Sujet';
 import { AffichageTeteHauteService } from './affichagetetehaute.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { AffichageTeteHauteService } from './affichagetetehaute.service';
     templateUrl: './affichagetetehaute.component.html',
     styleUrls: ['./affichagetetehaute.component.css']
 })
-export class AffichageTeteHauteComponent implements OnInit, Observateur {
+export class AffichageTeteHauteComponent implements OnInit, IObservateur {
     // Valeurs affichées a l'ecran
     public position: number;
     public nombrePilotes: number;
@@ -28,7 +28,7 @@ export class AffichageTeteHauteComponent implements OnInit, Observateur {
         this.affichageTeteHauteService.ajouterObservateur(this);
     }
 
-    public notifier(sujet: Sujet, type: NotificationType): void {
+    public notifier(sujet: ISujet, type: NotificationType): void {
         if (type === NotificationType.MettreAJourAffichageTeteHaute) {
             const affichageTeteHaute: AffichageTeteHaute = <AffichageTeteHaute> sujet;
 

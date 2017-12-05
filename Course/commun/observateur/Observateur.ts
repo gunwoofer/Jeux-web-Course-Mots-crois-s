@@ -1,6 +1,6 @@
-import { Sujet } from './Sujet';
-import { NotificationType } from './NotificationType';
+import { ISujet } from "./Sujet";
+import { NotificationType } from "./NotificationType";
 
-export interface Observateur {
-    notifier(sujet: Sujet, type: NotificationType): void;
+export interface IObservateur {
+    notifier(sujet: ISujet, type: NotificationType): void;
 }

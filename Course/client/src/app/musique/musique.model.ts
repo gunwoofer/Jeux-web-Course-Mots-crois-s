@@ -2,8 +2,8 @@ import {
     EMPLACEMENT_MUSIQUE, FORMAT_MP3, NOM_THEMATIQUE, NOM_EDITEUR, NOM_COURSE
     , NOM_STINGER, DEBUT_STINGER, DUREE_STINGER
 } from './../constant';
-import { Observateur } from '../../../../commun/observateur/Observateur';
-import { Sujet } from '../../../../commun/observateur/Sujet';
+import { IObservateur } from '../../../../commun/observateur/Observateur';
+import { ISujet } from '../../../../commun/observateur/Sujet';
 import { NotificationType } from '../../../../commun/observateur/NotificationType';
 
 export enum EtatMusique {
@@ -12,7 +12,7 @@ export enum EtatMusique {
     enCoursArrivee
 }
 
-export class Musique implements Observateur {
+export class Musique implements IObservateur {
     private musique: HTMLAudioElement;
     private enEcoute: boolean;
     private etatMusique: EtatMusique = EtatMusique.enAttente;
@@ -74,7 +74,7 @@ export class Musique implements Observateur {
         }
     }
 
-    public notifier(sujet: Sujet, type: NotificationType): void {
+    public notifier(sujet: ISujet, type: NotificationType): void {
         if (type === NotificationType.Non_definie) {
             switch (this.etatMusique) {
                 case EtatMusique.enAttente:
