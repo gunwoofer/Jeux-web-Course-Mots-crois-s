@@ -1,14 +1,11 @@
 canvas {
-  width: 50%;
-  display:block;
-  margin: auto;
-  padding: 10px;
+    width: 50%;
+    display: block;
+    margin: auto;
+    padding: 10px;
 }
 
-.container{
-  box-sizing: border-box;
-  padding: 5px;
+.container {
+    box-sizing: border-box;
+    padding: 5px;
 }
-
-
-

@@ -12,12 +12,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 export class TableauScoreComponent implements OnInit, OnDestroy {
 
-    public afficher: boolean;
-    public temps: Score[];
-    public finCourse: boolean;
 
+    public temps: Score[];
+    public afficher: boolean;
     private finPartie: boolean;
+    private finCourse: boolean;
     private meilleurTemps: string;
+    private resultatPartie: boolean;
     private traitementDonnee = new TraitementDonneTableau();
 
     constructor(private tableauScoreService: TableauScoreService) {
@@ -26,24 +27,23 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
     public ngOnInit(): void {
         this.temps = this.tableauScoreService.piste.meilleursTemps;
         this.finPartie = this.tableauScoreService.finPartie;
+        this.finCourse = this.tableauScoreService.finCourse;
         this.traitementDonnee.cinqMeilleurTemps(this.temps);
         if (this.finPartie) {
             this.temps = this.tableauScoreService.produireTableauResultat();
+        } else if (!this.finPartie && this.finCourse) {
             this.afficher = true;
-        }
-        if (this.tableauScoreService.temps) {
-            this.meilleurTemps = Math.floor(this.tableauScoreService.temps).toString();
-            this.afficher = false;
-            this.finCourse = true;
         }
     }
 
     public soummettre(f: NgForm): void {
-        this.tableauScoreService.mettreAjourTableauMeilleurTemps(new Score(f.value.nom, this.meilleurTemps))
+        this.tableauScoreService.mettreAjourTableauMeilleurTemps(new Score(f.value.nom,
+            Math.floor(this.tableauScoreService.temps).toString()))
             .then(message => console.log(message))
             .catch(erreur => console.error(erreur));
-        this.afficher = false;
         this.temps = this.tableauScoreService.piste.meilleursTemps;
+        this.afficher = false;
+        this.tableauScoreService.finCourse = false;
     }
 
     public ngOnDestroy(): void {

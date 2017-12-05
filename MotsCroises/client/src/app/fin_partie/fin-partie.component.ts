@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
-import {Router} from '@angular/router';
-import {GameViewService} from '../game_view/game-view.service';
+import { Router } from '@angular/router';
+import { GameViewService } from '../game_view/game-view.service';
 
 @Component({
     selector: 'app-finpartie-component',
@@ -9,14 +9,19 @@ import {GameViewService} from '../game_view/game-view.service';
 })
 
 export class FinPartieComponent {
-  constructor(private router: Router, private gameViewService: GameViewService) {
-  }
+    private chargementPartie: boolean;
 
-  public retourMenuPrincipal(): void {
-    this.router.navigate(['']);
-  }
+    constructor(private router: Router, private gameViewService: GameViewService) {
+        this.chargementPartie = false;
+    }
 
-  public recommencerPartie(): void {
-    this.gameViewService.recommencerPartie();
-  }
+    public retourMenuPrincipal(): void {
+        this.router.navigate(['']);
+    }
+
+    public recommencerPartie(): void {
+        this.gameViewService.recommencerPartie();
+        this.chargementPartie = true;
+    }
+
 }

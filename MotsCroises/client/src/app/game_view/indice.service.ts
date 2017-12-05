@@ -1,23 +1,23 @@
-import {Injectable} from '@angular/core';
-import {GameViewService} from './game-view.service';
-import {IndiceMot} from '../indice/indiceMot';
-import {RequisPourMotsComplets} from '../../../../commun/requis/requisPourMotsComplets';
+import { Injectable } from '@angular/core';
+import { GameViewService } from './game-view.service';
+import { IndiceMot } from '../indice/indiceMot';
+import { RequisPourMotsComplets } from '../../../../commun/requis/requisPourMotsComplets';
 import * as requetes from '../../../../commun/constantes/requetesTempsReel';
-import {Subject} from 'rxjs/Subject';
-import {RequisPourSelectionnerMot} from '../../../../commun/requis/requisPourSelectionnerMot';
-import {Indice} from '../../../../server/app/indice';
+import { Subject } from 'rxjs/Subject';
+import { RequisPourSelectionnerMot } from '../../../../commun/requis/requisPourSelectionnerMot';
+import { Indice } from '../../../../server/app/indice';
 
 const PAS_DE_DEFINITION = 'No definition';
 
 
 @Injectable()
 export class IndiceService {
+    public indices: IndiceMot[];
     private indiceSelectionne = new Subject<IndiceMot>();
     public indiceSelectionne$ = this.indiceSelectionne.asObservable();
     private indiceAdversaireSelectionne = new Subject<IndiceMot>();
     public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
     private indiceAdversaire: IndiceMot;
-    public indices: IndiceMot[];
 
     constructor(private gameViewService: GameViewService) {}
 
@@ -74,15 +74,6 @@ export class IndiceService {
         }
     }
 
-    private trouverIndiceAvecGuidEmplacementMot(guid: string): Indice {
-        for (const indiceServeur of this.gameViewService.specificationPartie.indices) {
-            if (indiceServeur.id === guid) {
-                return indiceServeur;
-            }
-        }
-        return null;
-    }
-
     public MAJIndices(): void {
         const indices: IndiceMot[] = [];
         for (const emplacementMot of this.gameViewService.specificationPartie.specificationGrilleEnCours.emplacementMots) {
@@ -97,5 +88,14 @@ export class IndiceService {
         }
         this.indices = indices;
         this.gameViewService.indices = this.indices;
+    }
+
+    private trouverIndiceAvecGuidEmplacementMot(guid: string): Indice {
+        for (const indiceServeur of this.gameViewService.specificationPartie.indices) {
+            if (indiceServeur.id === guid) {
+                return indiceServeur;
+            }
+        }
+        return null;
     }
 }

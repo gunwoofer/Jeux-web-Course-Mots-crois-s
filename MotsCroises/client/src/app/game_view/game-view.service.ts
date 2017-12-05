@@ -9,6 +9,7 @@ import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 import { EmplacementMot } from '../../../../commun/emplacementMot';
 import { VuePartieEnCours } from '../../../../commun/vuePartieEnCours';
 import { ConnexionTempsReelClientService } from '../connestion_temps_reel/connexionTempsReelClientService';
+import { ChoixPartieService } from '../choix_partie/choix-partie.service';
 
 const TOUS_LES_MOTS_ONT_ETE_TROUVES = 'tous les mots ont été trouvés, partie terminée';
 const TEMPS_ECOULE = 'Le temps imparti est écoulé, fin de la partie';
@@ -30,7 +31,7 @@ export class GameViewService {
     private motEcrit = new Subject<string>();
     public motEcrit$ = this.motEcrit.asObservable();
 
-    constructor(private connextionTempsReelClientService: ConnexionTempsReelClientService) {
+    constructor(private connextionTempsReelClientService: ConnexionTempsReelClientService, private choixPartieService: ChoixPartieService) {
         this.initialiserConnexion();
     }
 
@@ -71,7 +72,7 @@ export class GameViewService {
     }
 
     public recommencerPartie() {
-        // this.demanderPartieServer();
+        this.choixPartieService.demanderPartieServer();
     }
 
     public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
@@ -112,7 +113,7 @@ export class GameViewService {
         this.ecouterSiPartieTerminee();
     }
 
-    public messagePartieTerminee(partieTermineeBoolean: boolean, self: GameViewService, message: string = TOUS_LES_MOTS_ONT_ETE_TROUVES,) {
+    public messagePartieTerminee(partieTermineeBoolean: boolean, self: GameViewService, message: string = TOUS_LES_MOTS_ONT_ETE_TROUVES) {
         if (partieTermineeBoolean) {
             self.partieTeminee.next();
             alert(message);

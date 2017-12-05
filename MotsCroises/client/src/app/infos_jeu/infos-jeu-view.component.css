@@ -1,16 +1,16 @@
-.container{
-  display: flex;
-  justify-content: space-around;
-  box-sizing: border-box;
+.container {
+    display: flex;
+    justify-content: space-around;
+    box-sizing: border-box;
 }
 
-.player_info{
-  width:300px;
-  vertical-align: middle;
+.player_info {
+    width: 300px;
+    vertical-align: middle;
 }
 
-.titre{
-  font-size: 20px;
-  font-weight: 800;
+.titre {
+    font-size: 20px;
+    font-weight: 800;
 }
 

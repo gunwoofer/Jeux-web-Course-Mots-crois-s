@@ -1,24 +1,21 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {RequisPourModifierTempsRestant} from '../../../../commun/requis/requisPourModifierTempsRestant';
-import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/requisPourObtenirTempsRestant';
-import {GameViewService} from './game-view.service';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { RequisPourModifierTempsRestant } from '../../../../commun/requis/requisPourModifierTempsRestant';
+import { RequisPourObtenirTempsRestant } from '../../../../commun/requis/requisPourObtenirTempsRestant';
+import { GameViewService } from './game-view.service';
 import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 
 
 @Injectable()
 export class TimerService {
+    public modificationTempsServeurEnCours = false;
     private modificationTempsCheatModeSubject = new Subject<string>();
     public modificationTempsCheatMode$ = this.modificationTempsCheatModeSubject.asObservable();
-    public modificationTempsServeurEnCours = false;
     private modifierTempsRestantSubject = new Subject<number>();
     public modifierTempsRestant$ = this.modifierTempsRestantSubject.asObservable();
 
 
-    constructor(private gameViewService: GameViewService) {
-    }
-
-// ****************** Gestion temps de partie ************** //
+    constructor(private gameViewService: GameViewService) {}
 
     public activerModificationTempsServeur(): void {
         this.modificationTempsServeurEnCours = true;
@@ -30,10 +27,13 @@ export class TimerService {
     }
 
     public modifierTempsServeur(tempsVoulu: number) {
-        console.log('demande modif temps', this.gameViewService.specificationPartie, tempsVoulu);
-        const requisPourModifierTempsRestant = new RequisPourModifierTempsRestant(this.gameViewService.specificationPartie.guidPartie, tempsVoulu);
-        this.gameViewService.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourModifierTempsRestant>(requetes.REQUETE_SERVEUR_MODIFIER_TEMPS_RESTANT,
-            requisPourModifierTempsRestant, requetes.REQUETE_CLIENT_MODIFIER_TEMPS_RESTANT_RAPPEL, this.mettreAJourTempsPartie, this);
+        const requisPourModifierTempsRestant = new RequisPourModifierTempsRestant(
+                                                    this.gameViewService.specificationPartie.guidPartie, tempsVoulu);
+        this.gameViewService.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourModifierTempsRestant>(
+                                                    requetes.REQUETE_SERVEUR_MODIFIER_TEMPS_RESTANT,
+                                                    requisPourModifierTempsRestant,
+                                                    requetes.REQUETE_CLIENT_MODIFIER_TEMPS_RESTANT_RAPPEL,
+                                                    this.mettreAJourTempsPartie, this);
     }
 
     public demanderTempsPartie(): void {

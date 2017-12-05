@@ -1,7 +1,5 @@
 import { Case, EtatCase } from './case';
 import { Position } from './position';
-import { Grille } from '../server/app/grille';
-import { TAILLE_GRILLE } from './constantes/grilleConstantes';
 
 export enum EtatEmplacementMot {
     Masque,
