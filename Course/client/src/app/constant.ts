@@ -30,7 +30,7 @@ export const PERTE_VITESSE_COLLISION = 0.3;
 export const MINIMUM_VITESSE_COLLISION = 0.3;
 
 // Intelligence Artificielle
-export const VITESSE_IA = 0.5;
+export const VITESSE_IA = 0.3;
 
 // Emplacements
 export const ARBRE_PATH = '../../assets/objects/arbre/tree.json';
@@ -234,3 +234,19 @@ export const COULEUR_VOITURE_JOUEUR = 'grey';
 export const COULEUR_VOITURE_JOUEUR_VIRTUEL = 'black';
 export const MILLE = 1000;
 export const JOUEUR = 'Joueur';
+
+
+
+export const COEFFICIENT_ACTUALISATION_DIRECTION = 0.999;
+export const ANGLEROTATION = 0.01;
+export const DISTANCE_MINIMALE_DETECTION_PROFESSIONNEL = 20;
+export const DISTANCE_MINIMALE_DETECTION_AMATEUR = 35;
+export const VITESSE_MAX_PROFESSIONNEL = 0.6;
+export const VITESSE_MAX_AMATEUR = 0.4;
+export const VITESSE_MIN_PROFESSIONNEL = 0.15;
+export const VITESSE_MIN_AMATEUR = 0.25;
+export const PAS_VARIATION_VITESSE_PROFESSIONNEL = 0.005;
+export const PAS_VARIATION_VITESSE_AMATEUR = 0.0005;
+export const FACTEUR_MULTIPLICATION_ROTATION_PROFESSIONNEL = 3;
+export const FACTEUR_MULTIPLICATION_ROTATION_AMATEUR = 1;
+export const PROFESSIONNNEL = 'Professionnel';
