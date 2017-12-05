@@ -228,4 +228,4 @@ export const LOIN = 6000;
 export const COULEUR_VOITURE_JOUEUR = 'grey';
 export const COULEUR_VOITURE_JOUEUR_VIRTUEL = 'black';
 export const MILLE = 1000;
-
+export const JOUEUR = 'Joueur';
