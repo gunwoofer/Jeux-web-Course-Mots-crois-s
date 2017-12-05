@@ -38,6 +38,7 @@ export class TableauScoreService {
     public mettreAjourTableauMeilleurTemps(score: Score): Promise<any> {
         this.ajouterTemps(score);
         this.piste.supprimerMesh();
+        this.piste.nombreFoisJouee++;
         return this.http.patch(FIN_PARTIE_URL + this.piste.id, this.piste)
             .toPromise()
             .then((reponse: Response) => reponse.json())
