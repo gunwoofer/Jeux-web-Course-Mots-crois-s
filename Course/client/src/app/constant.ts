@@ -165,6 +165,9 @@ export const COULEUR_CIEL = 0xfd720f;
 export const COULEUR_TERRE = 0xffffff;
 export const COULEUR_PHARE = 0xffffff;
 export const COULEUR_ROUGE = 'red';
+export const COULEUR_FLAQUE_EAU = '#0000ff';
+export const COULEUR_NID_DE_POULE = '#000000';
+export const COULEUR_ACCELERATEUR = '#ffa500';
 
 // Routage
 export const LISTE_PISTE = '/listePiste';

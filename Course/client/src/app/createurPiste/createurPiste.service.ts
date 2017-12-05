@@ -1,3 +1,4 @@
+import { NID_DE_POULE, COULEUR_FLAQUE_EAU, COULEUR_NID_DE_POULE, COULEUR_ACCELERATEUR } from './../constant';
 import { PointsFacade } from './../pointsFacade';
 import { FacadePointService } from './../facadePoint/facadepoint.service';
 import { Injectable } from '@angular/core';
@@ -10,6 +11,9 @@ import { FlaqueDEau } from '../elementsPiste/FlaqueDEau';
 import { NidDePoule } from '../elementsPiste/NidDePoule';
 import { Accelerateur } from '../elementsPiste/Accelerateur';
 import { ElementDePiste } from '../elementsPiste/ElementDePiste';
+
+const COULEUR_NOIR = 'black';
+const PREMIER_POINT = 'premier';
 
 @Injectable()
 export class CreateurPisteService {
@@ -53,9 +57,9 @@ export class CreateurPisteService {
 
         if (!this.dessinTermine) {
             objet = this.facadeCoordonneesService.obtenirIntersection(event, scene, camera, renderer);
-            point = this.facadePointService.creerPoint(objet.point, 'black');
+            point = this.facadePointService.creerPoint(objet.point, COULEUR_NOIR);
             if (this.points.length === 0) {
-                point.material.status = 'premier';
+                point.material.status = PREMIER_POINT;
             } else {
                 try {
                     this.dessinerDernierPoint(point);
@@ -74,10 +78,10 @@ export class CreateurPisteService {
         let point;
 
         if (!this.dessinTermine) {
-            point = this.facadePointService.creerPoint(position, 'black');
+            point = this.facadePointService.creerPoint(position, COULEUR_NOIR);
 
             if (this.points.length === 0) {
-                point.material.status = 'premier';
+                point.material.status = PREMIER_POINT;
             } else {
                 try {
                     this.dessinerDernierPoint(point);
@@ -109,11 +113,11 @@ export class CreateurPisteService {
 
         for (const element of listeElement) {
             if (element instanceof FlaqueDEau) {
-                couleur = '#0000ff';
+                couleur = COULEUR_FLAQUE_EAU;
             } else if (element instanceof NidDePoule) {
-                couleur = '#000000';
+                couleur = COULEUR_NID_DE_POULE;
             } else if (element instanceof Accelerateur) {
-                couleur = '#ffa500';
+                couleur = COULEUR_ACCELERATEUR;
             }
 
             const point = this.facadePointService.creerPoint(element.position, couleur);
