@@ -22,6 +22,15 @@ export class CalculateurNombreOngle {
         return nbAnglesMoins45;
     }
 
+    public static calculerAngle(numeroPoint: number, points: PointsFacade[], compteur: number): number {
+        if (points.length > 1) {
+            return Math.acos(this.creationVecteurCourant(numeroPoint, points, compteur)
+                        .dot(this.creationVecteurPrecedent(numeroPoint, points, compteur)));
+        }
+
+        return NaN;
+    }
+
     private static estUnAngleMoins45(numeroPoint: number, points: PointsFacade[], compteur: number): boolean {
         if (points.length > 1) {
             const angle = this.calculerAngle(numeroPoint, points, compteur);
@@ -32,15 +41,6 @@ export class CalculateurNombreOngle {
         }
 
         return false;
-    }
-
-    public static calculerAngle(numeroPoint: number, points: PointsFacade[], compteur: number): number {
-        if (points.length > 1) {
-            return Math.acos(this.creationVecteurCourant(numeroPoint, points, compteur)
-                        .dot(this.creationVecteurPrecedent(numeroPoint, points, compteur)));
-        }
-
-        return NaN;
     }
 
     private static creationVecteurCourant(numeroPoint: number, points: any[], compteur?: number): THREE.Vector2 {
