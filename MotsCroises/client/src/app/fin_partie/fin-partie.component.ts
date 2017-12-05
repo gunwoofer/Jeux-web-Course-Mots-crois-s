@@ -9,9 +9,10 @@ import { GameViewService } from '../game_view/game-view.service';
 })
 
 export class FinPartieComponent {
-
+    private chargementPartie: boolean;
 
     constructor(private router: Router, private gameViewService: GameViewService) {
+        this.chargementPartie = false;
     }
 
     public retourMenuPrincipal(): void {
@@ -20,6 +21,7 @@ export class FinPartieComponent {
 
     public recommencerPartie(): void {
         this.gameViewService.recommencerPartie();
+        this.chargementPartie = true;
     }
 
 }
