@@ -18,7 +18,6 @@ export class IndiceService {
     private indiceAdversaireSelectionne = new Subject<IndiceMot>();
     public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
     private indiceAdversaire: IndiceMot;
-    public indices: IndiceMot[];
 
     constructor(private gameViewService: GameViewService) {}
 

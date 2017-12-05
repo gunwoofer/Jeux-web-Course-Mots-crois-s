@@ -42,6 +42,7 @@ export class TableauScoreComponent implements OnInit, OnDestroy {
             .then(message => console.log(message))
             .catch(erreur => console.error(erreur));
         this.temps = this.tableauScoreService.piste.meilleursTemps;
+        this.afficher = false;
         this.tableauScoreService.finCourse = false;
     }
 

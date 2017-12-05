@@ -273,6 +273,5 @@ export class CanvasService {
         if (this.indice && this.indiceAdversaire && this.indice.guidIndice === this.indiceAdversaire.guidIndice) {
             this.afficherDoubleSelecteur();
         }
-
     }
 }

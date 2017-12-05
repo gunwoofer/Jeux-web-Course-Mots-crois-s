@@ -98,6 +98,7 @@ module Route {
                     });
                 }
                 piste.meilleursTemps = req.body.meilleursTemps;
+                piste.nombreFoisJouee = req.body.nombreFoisJouee;
                 piste.save((error: any, resultat: PisteModel) => {
                     if (err) {
                         return res.status(500).json({
