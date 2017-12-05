@@ -8,7 +8,6 @@ import { IndiceViewComponent } from '../indice/app.indice-view.component';
 import { ChoixPartieService } from '../choix_partie/choix-partie.service';
 import { IndiceService } from './indice.service';
 
-
 @Component({
     selector: 'app-game-view',
     templateUrl: './game-view.component.html',
@@ -32,20 +31,18 @@ export class GameViewComponent implements OnInit {
                 private choixPartieService: ChoixPartieService,
                 private indiceService: IndiceService,
                 private router: Router) {
-
         this.gameViewService.specificationPartie = this.choixPartieService.specificationPartie;
         this.gameViewService.joueur = this.choixPartieService.joueur;
         this.gameViewService.joueur2 = this.choixPartieService.joueur2;
         this.indiceService.MAJIndices();
         this.indiceService.ecouterChangementSelectionMotAdversaire();
         this.ecouterEvenementsServeur();
-
         if (!this.testPartieExiste()) {
             this.retourAccueil();
         }
     }
 
-    public ecouterEvenementsServeur() {
+    public ecouterEvenementsServeur(): void {
         this.gameViewService.ecouterRappelsServeur();
         this.gameViewService.motTrouve$.subscribe(() => {
             this.actualiserGrille();
@@ -60,7 +57,7 @@ export class GameViewComponent implements OnInit {
         this.obtenirNombreDeJoueurs();
     }
 
-    public actualiserGrille() {
+    public actualiserGrille(): void {
         this.canvasViewComponent.motTrouveActualiser();
     }
 
@@ -79,7 +76,7 @@ export class GameViewComponent implements OnInit {
         this.router.navigate(['/']);
     }
 
-    private obtenirNombreDeJoueurs() {
+    private obtenirNombreDeJoueurs(): void {
         this.route.paramMap
             .switchMap((params: ParamMap) => this.nbJoueurs = params.get('nbJoueurs'))
             .subscribe();

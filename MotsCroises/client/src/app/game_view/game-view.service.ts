@@ -87,7 +87,9 @@ export class GameViewService {
             return;
         }
         if (requisPourMotAVerifier.estLeMot) {
-            const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice, self.indices);
+            const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(
+                                                                            requisPourMotAVerifier.emplacementMot.GuidIndice,
+                                                                            self.indices);
             if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {
                 self.joueur.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
                 indiceMotTrouve.modifierCouleurMot(self.joueur.obtenirCouleur());
@@ -102,14 +104,11 @@ export class GameViewService {
         }
     }
 
-    public ecouterSiPartieTerminee() {
+    public ecouterSiPartieTerminee(): void {
         this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
     }
 
-    public ecouterRappelsServeur() {
-        /*if (this.nbJoueursPartie > 0) {
-            this.ecouterChangementSelectionMotAdversaire();
-        }*/
+    public ecouterRappelsServeur(): void {
         this.ecouterRetourMot();
         this.ecouterSiPartieTerminee();
     }

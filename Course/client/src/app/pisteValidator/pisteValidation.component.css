@@ -1,3 +1,12 @@
 input.ng-invalid.ng-touched {
     border: 1px solid red;
 }
+
+.pisteValidatorDiv {
+    color: white;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+.pisteValidatorDiv .btnRepositionner {
+    color: black;
+}

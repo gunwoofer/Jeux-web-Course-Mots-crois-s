@@ -74,4 +74,8 @@ export class FonctionMaths {
     public static emplacementAleatoireSkyBox(range: number): number {
         return Math.floor(Math.random() * range + 1) - 1;
     }
+
+    public static simulationTemps(indice: number): number {
+        return Math.random() * (30 - indice) + 30;
+    }
 }
