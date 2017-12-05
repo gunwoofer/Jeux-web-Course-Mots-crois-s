@@ -4,7 +4,6 @@ import 'rxjs/add/operator/switchMap';
 import { GameViewService } from './game-view.service';
 import { CanvasViewComponent } from '../canvas/app.canvas-view.component';
 import { InfosJeuViewComponent } from '../infos_jeu/app.infos-jeu-view.component';
-import { IndiceViewComponent } from '../indice/app.indice-view.component';
 import { ChoixPartieService } from '../choix_partie/choix-partie.service';
 import { IndiceService } from './indice.service';
 
@@ -22,9 +21,6 @@ export class GameViewComponent implements OnInit {
 
     @ViewChild(InfosJeuViewComponent)
     private infosJeuViewComponent: InfosJeuViewComponent;
-
-    @ViewChild(IndiceViewComponent)
-    private indiceViewComponent: IndiceViewComponent;
 
     constructor(private route: ActivatedRoute,
                 private gameViewService: GameViewService,

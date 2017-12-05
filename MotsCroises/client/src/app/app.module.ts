@@ -18,7 +18,8 @@ import { AttentePartieComponent } from './attente_partie/app.attente-partie.comp
 import { ChoixPartieService } from './choix_partie/choix-partie.service';
 import { TimerService } from './game_view/timer.service';
 import { IndiceService } from './game_view/indice.service';
-import { ConnexionTempsReelClientService } from './connestion_temps_reel/connexionTempsReelClientService';
+import { ConnexionTempsReelClientService } from './connexion_temps_reel/connexionTempsReelClientService';
+import { DessinCanvasService } from './canvas/dessinCanvasService';
 
 @NgModule({
     declarations: [
@@ -43,7 +44,8 @@ import { ConnexionTempsReelClientService } from './connestion_temps_reel/connexi
         ChoixPartieService,
         ConnexionTempsReelClientService,
         TimerService,
-        IndiceService
+        IndiceService,
+        DessinCanvasService
     ],
     bootstrap: [AppComponent]
 })
