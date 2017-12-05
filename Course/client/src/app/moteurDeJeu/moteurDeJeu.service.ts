@@ -47,7 +47,7 @@ export class MoteurDeJeuService {
             }
             this.miseAJourPositionVoiture(camera);
             this.skyboxService.rotationSkybox(this.gestionnnairePartieService.voitureDuJoueur, camera);
-            this.collisionService.analyserCollision(this.gestionnnairePartieService.voitureDuJoueur,
+            this.collisionService.gererCollision(this.gestionnnairePartieService.voitureDuJoueur,
                 this.gestionnnairePartieService.voituresIA);
         }, 1000 / FPS);
     }
