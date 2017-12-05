@@ -69,6 +69,8 @@ export class MoteurDeJeuService {
 
     private gererJoueurVirtuel(joueurVirtuel: Voiture[]): void {
         for (let i = 0; i < joueurVirtuel.length; i++) {
+            this.collisionService.gererCollision(joueurVirtuel[i],
+                this.gestionnnairePartieService.voituresIA);
             this.gestionnnairePartieService.voituresIA[i].modeAutonome();
             this.mondeDuJeuService.piste.gererElementDePiste([joueurVirtuel[i]]);
             this.sortiePisteService.gererSortiePiste(joueurVirtuel[i], this.mondeDuJeuService.segment
