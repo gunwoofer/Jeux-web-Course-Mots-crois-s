@@ -40,7 +40,7 @@ export class ChoixPartieService {
         this.demanderPartieServer();
     }
 
-    public demanderPartieServer() {
+    public demanderPartieServer(): void {
         switch (this.nbJoueursPartie) {
             case 0 :
                 this.connexionTempsReelClient.envoyerRecevoirRequete<SpecificationPartie>(requetes.REQUETE_SERVEUR_CREER_PARTIE_SOLO,
@@ -66,7 +66,7 @@ export class ChoixPartieService {
         this.changementDeRouteSubject.next(this.obtenirRoutePartie());
     }
 
-    public partieCreeeRedirection() {
+    public partieCreeeRedirection(): void {
         if (this.nbJoueursPartie === 0) {
             this.demarrerPartie();
         } else {
@@ -82,7 +82,8 @@ export class ChoixPartieService {
             this.rappelDemanderListePartieEnAttente, this);
     }
 
-    public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: ChoixPartieService) {
+    public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente,
+                                            self: ChoixPartieService): void {
         for (const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
             self.listeVuePartie.push(vuePartieCourante);
         }
@@ -109,7 +110,7 @@ export class ChoixPartieService {
         self.demarrerPartieMultijoueur(requisPourJoindrePartieMultijoueur.specificationPartie, self);
     }
 
-    public trouverJoueurAdverse(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur) {
+    public trouverJoueurAdverse(requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur): void {
         for (const joueurCourant of requisPourJoindrePartieMultijoueur.joueurs) {
             if (joueurCourant.obtenirGuid() !== this.joueur.obtenirGuid()) {
                 joueurCourant.changerCouleur(COULEUR_JOUEUR2);

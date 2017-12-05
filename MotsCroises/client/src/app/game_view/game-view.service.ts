@@ -9,6 +9,7 @@ import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 import { EmplacementMot } from '../../../../commun/emplacementMot';
 import { VuePartieEnCours } from '../../../../commun/vuePartieEnCours';
 import { ConnexionTempsReelClientService } from '../connestion_temps_reel/connexionTempsReelClientService';
+import { ChoixPartieService } from '../choix_partie/choix-partie.service';
 
 const TOUS_LES_MOTS_ONT_ETE_TROUVES = 'tous les mots ont été trouvés, partie terminée';
 const TEMPS_ECOULE = 'Le temps imparti est écoulé, fin de la partie';
@@ -30,7 +31,7 @@ export class GameViewService {
     private motEcrit = new Subject<string>();
     public motEcrit$ = this.motEcrit.asObservable();
 
-    constructor(private connextionTempsReelClientService: ConnexionTempsReelClientService) {
+    constructor(private connextionTempsReelClientService: ConnexionTempsReelClientService, private choixPartieService: ChoixPartieService) {
         this.initialiserConnexion();
     }
 
@@ -71,7 +72,7 @@ export class GameViewService {
     }
 
     public recommencerPartie() {
-        // this.demanderPartieServer();
+        this.choixPartieService.demanderPartieServer();
     }
 
     public demanderVerificationMot(emplacementMot: EmplacementMot, motAtester: string): void {
@@ -86,7 +87,9 @@ export class GameViewService {
             return;
         }
         if (requisPourMotAVerifier.estLeMot) {
-            const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(requisPourMotAVerifier.emplacementMot.GuidIndice, self.indices);
+            const indiceMotTrouve: IndiceMot = self.trouverIndiceMotAvecGuid(
+                                                                            requisPourMotAVerifier.emplacementMot.GuidIndice,
+                                                                            self.indices);
             if (requisPourMotAVerifier.guidJoueur === self.joueur.obtenirGuid()) {
                 self.joueur.aTrouveMot(requisPourMotAVerifier.emplacementMot, requisPourMotAVerifier.motAVerifier);
                 indiceMotTrouve.modifierCouleurMot(self.joueur.obtenirCouleur());
@@ -101,14 +104,11 @@ export class GameViewService {
         }
     }
 
-    public ecouterSiPartieTerminee() {
+    public ecouterSiPartieTerminee(): void {
         this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
     }
 
-    public ecouterRappelsServeur() {
-        /*if (this.nbJoueursPartie > 0) {
-            this.ecouterChangementSelectionMotAdversaire();
-        }*/
+    public ecouterRappelsServeur(): void {
         this.ecouterRetourMot();
         this.ecouterSiPartieTerminee();
     }

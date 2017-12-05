@@ -3,3 +3,5 @@
     <button class="btn btn-success" (click)="recommencerPartie()">Recommencer une nouvelle partie</button>
     <button class="btn btn-danger" (click)="retourMenuPrincipal()">Retourner au menu principal</button>
 </div>
+<div class="chargement" [hidden]="!chargementPartie">Chargement partie en cours </div>
+
