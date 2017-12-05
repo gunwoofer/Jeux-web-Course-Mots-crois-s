@@ -1,27 +1,28 @@
 <div class='container'>
-  <div class='player_info'>
-    <div class='titre'>{{joueur.nomJoueur}}</div>
-    <div>{{joueur.pointage}} mots trouvés</div>
-    <div>{{motEnCoursJ1}}</div>
-  </div>
-
-  <div>
-    <button (click)="afficherCheatMode()">Afficher Cheat Mode</button>
-    <div class='titre'>Infos de jeu</div>
-      <div>{{niveauPartie}}</div>
-      <div>{{typeDePartie}}</div>
-    <div>{{tempsRestant}}</div>
-    <div *ngIf="cheatModeVisible">
-      <button (click)="recupererMotsCheatMode()">Afficher mots</button>
-      <div>
-        <input [(ngModel)]="tempsRestantAEnvoyer" (click)="activerEcritureTempsCheatMode()" ng-blur="desactiverEcritureTempsCheatMode()" type="number"/>
-        <button (click)="envoyerTemps()">Modifier</button>
-      </div>
+    <div class='player_info'>
+        <div class='titre'>{{joueur.nomJoueur}}</div>
+        <div>{{joueur.pointage}} mots trouvés</div>
+        <div>{{motEnCoursJ1}}</div>
     </div>
-  </div>
 
-  <div class='player_info' [hidden]="nbJoueurs === '0' ">
-    <div class='titre'>{{joueur2.nomJoueur}}</div>
-    <div>{{joueur2.pointage}} mots trouvés</div>
-  </div>
+    <div>
+        <button (click)="afficherCheatMode()">Afficher Cheat Mode</button>
+        <div class='titre'>Infos de jeu</div>
+        <div>{{niveauPartie}}</div>
+        <div>{{typeDePartie}}</div>
+        <div>{{tempsRestant}}</div>
+        <div *ngIf="cheatModeVisible">
+            <button (click)="recupererMotsCheatMode()">Afficher mots</button>
+            <div>
+                <input [(ngModel)]="tempsRestantAEnvoyer" (click)="activerEcritureTempsCheatMode()"
+                       ng-blur="desactiverEcritureTempsCheatMode()" type="number"/>
+                <button (click)="envoyerTemps()">Modifier</button>
+            </div>
+        </div>
+    </div>
+
+    <div class='player_info' [hidden]="nbJoueurs === '0' ">
+        <div class='titre'>{{joueur2.nomJoueur}}</div>
+        <div>{{joueur2.pointage}} mots trouvés</div>
+    </div>
 </div>

@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import {Router} from '@angular/router';
-import {GameViewService} from '../game_view/game-view.service';
+import { Router } from '@angular/router';
+import { GameViewService } from '../game_view/game-view.service';
+
 @Component({
     selector: 'app-finpartie-component',
     templateUrl: './fin-partie.component.html',
@@ -10,15 +11,15 @@ import {GameViewService} from '../game_view/game-view.service';
 export class FinPartieComponent {
 
 
-  constructor(private router: Router, private gameViewService: GameViewService) {
-  }
+    constructor(private router: Router, private gameViewService: GameViewService) {
+    }
 
-  public retourMenuPrincipal(): void {
-    this.router.navigate(['']);
-  }
+    public retourMenuPrincipal(): void {
+        this.router.navigate(['']);
+    }
 
-  public recommencerPartie(): void {
-    this.gameViewService.recommencerPartie();
-  }
+    public recommencerPartie(): void {
+        this.gameViewService.recommencerPartie();
+    }
 
 }

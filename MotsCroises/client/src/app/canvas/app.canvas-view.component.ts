@@ -1,8 +1,8 @@
-import {AfterViewInit, Component, ElementRef, HostListener, ViewChild} from '@angular/core';
-import {GameViewService} from '../game_view/game-view.service';
-import {CanvasService} from './canvasService';
-import {TimerService} from '../game_view/timer.service';
-import {IndiceService} from '../game_view/indice.service';
+import { AfterViewInit, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { GameViewService } from '../game_view/game-view.service';
+import { CanvasService } from './canvasService';
+import { TimerService } from '../game_view/timer.service';
+import { IndiceService } from '../game_view/indice.service';
 
 
 @Component({
@@ -13,15 +13,14 @@ import {IndiceService} from '../game_view/indice.service';
 
 export class CanvasViewComponent implements AfterViewInit {
     private canvasGrille: CanvasService;
+    @ViewChild('canvasjeu')
+    private containerRef: ElementRef;
 
     constructor(private gameViewService: GameViewService,
                 private timerService: TimerService,
                 private indiceService: IndiceService) {
         this.souscrireEvenementIndices();
     }
-
-    @ViewChild('canvasjeu')
-    private containerRef: ElementRef;
 
     @HostListener('document:keyup', ['$event'])
     public onKeyUp(ev: KeyboardEvent) {

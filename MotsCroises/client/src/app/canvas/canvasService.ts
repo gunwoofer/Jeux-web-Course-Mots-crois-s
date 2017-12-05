@@ -1,11 +1,16 @@
-import {SpecificationPartie} from '../../../../commun/specificationPartie';
-import {GameViewService} from '../game_view/game-view.service';
-import {IndiceMot} from '../indice/indiceMot';
-import {ElementRef} from '@angular/core';
-import {TimerService} from '../game_view/timer.service';
-import {IndiceService} from '../game_view/indice.service';
+import { SpecificationPartie } from '../../../../commun/specificationPartie';
+import { GameViewService } from '../game_view/game-view.service';
+import { IndiceMot } from '../indice/indiceMot';
+import { ElementRef } from '@angular/core';
+import { TimerService } from '../game_view/timer.service';
+import { IndiceService } from '../game_view/indice.service';
 
 export class CanvasService {
+    public couleurJ1 = '#DD0000';
+    public couleurJ2 = '#3366DD';
+    public motEcrit = '';
+    public indice: IndiceMot;
+    public indiceAdversaire: IndiceMot;
     private canvas: any;
     private ctxCanvas: any;
     private largeurCase: number;
@@ -18,12 +23,6 @@ export class CanvasService {
     private ligneActuelle: number;
     private colonneActuelle: number;
     private specificationPartie: SpecificationPartie;
-    public couleurJ1 = '#DD0000';
-    public couleurJ2 = '#3366DD';
-    public motEcrit = '';
-    public indice: IndiceMot;
-    public indiceAdversaire: IndiceMot;
-
 
     constructor(private gameViewService: GameViewService,
                 containerRef: ElementRef,
@@ -173,58 +172,9 @@ export class CanvasService {
         this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.largeurCase);
     }
 
-    private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number,
-                                          j: number, couleur: string, ligneDash: boolean = false): void {
-        this.ctxCanvas.strokeStyle = couleur;
-        this.ctxCanvas.lineWidth = '5';
-        this.ctxCanvas.setLineDash([]);
-        if (ligneDash) {
-            this.ctxCanvas.setLineDash([20, 20]);
-        }
-        this.ctxCanvas.beginPath();
-        if (sens === 0) {
-            this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
-            this.ctxCanvas.stroke();
-        } else {
-            this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.hauteurCase * tailleMot);
-            this.ctxCanvas.stroke();
-        }
-    }
-
-    private afficherSelecteurAdversaireSurGrille(): void {
-        if (this.indiceAdversaire) {
-            this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
-                this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2);
-        }
-    }
-
-    private afficherDoubleSelecteur(): void {
-        this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
-            this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ1);
-        this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
-            this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2, true);
-    }
-
-    private gererAffichageSelecteurs(): void {
-        if (this.indice) {
-            this.afficherSelecteurMotSurGrille(this.indice.tailleMot, this.indice.sens,
-                this.indice.positionI, this.indice.positionJ, this.couleurJ1);
-        }
-        if (this.indiceAdversaire) {
-            this.afficherSelecteurAdversaireSurGrille();
-        } else {
-            return;
-        }
-        if (this.indice && this.indiceAdversaire && this.indice.guidIndice === this.indiceAdversaire.guidIndice) {
-            this.afficherDoubleSelecteur();
-        }
-
-    }
-
     public ecrireLettreDansCaseActive(lettre: string, couleur: string): void {
         this.ecrireLettreDansCase(lettre, this.ligneActuelle, this.colonneActuelle, couleur);
     }
-
 
     public definirCaseActive(i: number, j: number): void {
         this.ligneActuelle = i;
@@ -276,5 +226,53 @@ export class CanvasService {
                 );
             }
         }
+    }
+
+    private afficherSelecteurMotSurGrille(tailleMot: number, sens: number, i: number,
+                                          j: number, couleur: string, ligneDash: boolean = false): void {
+        this.ctxCanvas.strokeStyle = couleur;
+        this.ctxCanvas.lineWidth = '5';
+        this.ctxCanvas.setLineDash([]);
+        if (ligneDash) {
+            this.ctxCanvas.setLineDash([20, 20]);
+        }
+        this.ctxCanvas.beginPath();
+        if (sens === 0) {
+            this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase * tailleMot, this.hauteurCase);
+            this.ctxCanvas.stroke();
+        } else {
+            this.ctxCanvas.rect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.hauteurCase * tailleMot);
+            this.ctxCanvas.stroke();
+        }
+    }
+
+    private afficherSelecteurAdversaireSurGrille(): void {
+        if (this.indiceAdversaire) {
+            this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+                this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2);
+        }
+    }
+
+    private afficherDoubleSelecteur(): void {
+        this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+            this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ1);
+        this.afficherSelecteurMotSurGrille(this.indiceAdversaire.tailleMot, this.indiceAdversaire.sens,
+            this.indiceAdversaire.positionI, this.indiceAdversaire.positionJ, this.couleurJ2, true);
+    }
+
+    private gererAffichageSelecteurs(): void {
+        if (this.indice) {
+            this.afficherSelecteurMotSurGrille(this.indice.tailleMot, this.indice.sens,
+                this.indice.positionI, this.indice.positionJ, this.couleurJ1);
+        }
+        if (this.indiceAdversaire) {
+            this.afficherSelecteurAdversaireSurGrille();
+        } else {
+            return;
+        }
+        if (this.indice && this.indiceAdversaire && this.indice.guidIndice === this.indiceAdversaire.guidIndice) {
+            this.afficherDoubleSelecteur();
+        }
+
     }
 }

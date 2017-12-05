@@ -37,22 +37,6 @@ export class ConnexionTempsReelClient {
         });
     }
 
-    private preparerRequete(): Promise<boolean> {
-        return new Promise((resolve: any, reject: any) => {
-            if (!this.estConnecte) {
-                this.demarerConnexion()
-                    .then((resultat: boolean) => {
-                        resolve(resultat);
-                    })
-                    .catch((erreur) => {
-                        resolve(false);
-                    });
-            } else {
-                resolve(true);
-            }
-        });
-    }
-
     public demarerConnexion(): Promise<boolean> {
         return new Promise((resolve: any, reject: any) => {
             const self: ConnexionTempsReelClient = this;
@@ -88,6 +72,22 @@ export class ConnexionTempsReelClient {
                         resolve(false);
                     }
                 });
+            } else {
+                resolve(true);
+            }
+        });
+    }
+
+    private preparerRequete(): Promise<boolean> {
+        return new Promise((resolve: any, reject: any) => {
+            if (!this.estConnecte) {
+                this.demarerConnexion()
+                    .then((resultat: boolean) => {
+                        resolve(resultat);
+                    })
+                    .catch((erreur) => {
+                        resolve(false);
+                    });
             } else {
                 resolve(true);
             }

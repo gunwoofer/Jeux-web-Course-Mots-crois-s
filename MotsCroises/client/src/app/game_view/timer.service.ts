@@ -1,16 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {RequisPourModifierTempsRestant} from '../../../../commun/requis/requisPourModifierTempsRestant';
-import {RequisPourObtenirTempsRestant} from '../../../../commun/requis/requisPourObtenirTempsRestant';
-import {GameViewService} from './game-view.service';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { RequisPourModifierTempsRestant } from '../../../../commun/requis/requisPourModifierTempsRestant';
+import { RequisPourObtenirTempsRestant } from '../../../../commun/requis/requisPourObtenirTempsRestant';
+import { GameViewService } from './game-view.service';
 import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 
 
 @Injectable()
 export class TimerService {
+    public modificationTempsServeurEnCours = false;
     private modificationTempsCheatModeSubject = new Subject<string>();
     public modificationTempsCheatMode$ = this.modificationTempsCheatModeSubject.asObservable();
-    public modificationTempsServeurEnCours = false;
     private modifierTempsRestantSubject = new Subject<number>();
     public modifierTempsRestant$ = this.modifierTempsRestantSubject.asObservable();
 

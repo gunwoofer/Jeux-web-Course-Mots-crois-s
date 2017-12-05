@@ -1,12 +1,12 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
-import {ActivatedRoute, ParamMap, Router} from '@angular/router';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import 'rxjs/add/operator/switchMap';
-import {GameViewService} from './game-view.service';
-import {CanvasViewComponent} from '../canvas/app.canvas-view.component';
-import {InfosJeuViewComponent} from '../infos_jeu/app.infos-jeu-view.component';
-import {IndiceViewComponent} from '../indice/app.indice-view.component';
-import {ChoixPartieService} from '../choix_partie/choix-partie.service';
-import {IndiceService} from './indice.service';
+import { GameViewService } from './game-view.service';
+import { CanvasViewComponent } from '../canvas/app.canvas-view.component';
+import { InfosJeuViewComponent } from '../infos_jeu/app.infos-jeu-view.component';
+import { IndiceViewComponent } from '../indice/app.indice-view.component';
+import { ChoixPartieService } from '../choix_partie/choix-partie.service';
+import { IndiceService } from './indice.service';
 
 
 @Component({

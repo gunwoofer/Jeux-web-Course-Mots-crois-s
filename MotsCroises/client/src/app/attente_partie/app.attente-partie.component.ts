@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { GameViewService } from '../game_view/game-view.service';
 import { Niveau } from '../../../../commun/niveau';
 import { SpecificationPartie } from '../../../../commun/specificationPartie';
 import { ChoixPartieService } from '../choix_partie/choix-partie.service';
