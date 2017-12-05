@@ -5,7 +5,6 @@ import { Niveau } from '../../../../commun/niveau';
 import { Joueur } from '../../../../commun/joueur';
 import { ChoixPartieService } from '../choix_partie/choix-partie.service';
 
-
 @Component({
     selector: 'app-trouver-partie-component',
     templateUrl: './trouver-partie.component.html',
@@ -16,10 +15,8 @@ export class TrouverPartieComponent implements OnInit {
     public listeVuePartie: VuePartieEnCours[] = [];
 
     public nomJoueur = '';
-    public test = true;
     public partieSelectionne: VuePartieEnCours;
     private joueur: Joueur;
-
 
     constructor(private choixPartieService: ChoixPartieService) {
         this.joueur = this.choixPartieService.joueur;
@@ -33,7 +30,7 @@ export class TrouverPartieComponent implements OnInit {
         this.partieSelectionne = partie;
     }
 
-    public nomJoueurValable() {
+    public nomJoueurInvalide() {
         return (this.nomJoueur.length === 0);
     }
 
@@ -45,5 +42,4 @@ export class TrouverPartieComponent implements OnInit {
         this.joueur.changerNomJoueur(this.nomJoueur);
         this.choixPartieService.rejoindrePartieMultijoueur(this.partieSelectionne, this.joueur);
     }
-
 }

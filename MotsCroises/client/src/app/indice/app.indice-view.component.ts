@@ -1,9 +1,7 @@
-import {Component, OnInit} from '@angular/core';
-import {GameViewService} from '../game_view/game-view.service';
-import {IndiceMot} from './indiceMot';
-import {TimerService} from '../game_view/timer.service';
-import {IndiceService} from '../game_view/indice.service';
-
+import { Component, OnInit } from '@angular/core';
+import { IndiceMot } from './indiceMot';
+import { TimerService } from '../game_view/timer.service';
+import { IndiceService } from '../game_view/indice.service';
 
 @Component({
     selector: 'app-indice-view-component',
@@ -14,10 +12,8 @@ export class IndiceViewComponent implements OnInit {
     public indices: IndiceMot[];
     public selectedIndice: IndiceMot;
 
-    constructor(private gameViewService: GameViewService,
-                private timerService: TimerService,
+    constructor(private timerService: TimerService,
                 private indiceService: IndiceService) {
-
         this.timerService.modificationTempsCheatMode$.subscribe(() => {
             this.annulerSelectionIndice();
         });
@@ -44,6 +40,3 @@ export class IndiceViewComponent implements OnInit {
     }
 
 }
-
-
-
