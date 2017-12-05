@@ -88,7 +88,6 @@ export class MoteurAutonome {
 
     private tournerVoiture(sens: number): void {
         let facteurMultiplication = 1;
-        console.log(this.valeurProdVectoriel);
         if (this.valeurProdVectoriel < 0.95) {
             facteurMultiplication = this.facteurMultiplicationRotation;
             this.vitesse = Math.max(this.vitesseMin, this.vitesse - this.pasVariationVitesse);

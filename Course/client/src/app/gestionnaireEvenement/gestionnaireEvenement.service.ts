@@ -106,6 +106,7 @@ export class EvenementService {
     } else if (event.key === ALLUMER_PHARES) {
       LumiereService.phares = !LumiereService.phares;
       LumiereService.alternerPhares(this.gestionnnairePartieService.voitureDuJoueur);
+      LumiereService.alternerPharesJoueurVirtuel(this.gestionnnairePartieService.voituresIA);
     } else if (event.key === RETROVISEUR) {
       this.gestionnaireDeVue.changerEtatRetroviseur();
     }

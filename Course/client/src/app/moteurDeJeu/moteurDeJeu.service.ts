@@ -61,19 +61,19 @@ export class MoteurDeJeuService {
             this.sortiePisteService.gererSortiePiste(this.gestionnnairePartieService.voitureDuJoueur,
                 this.mondeDuJeuService.segment
                     .chargerSegmentsDePiste(this.mondeDuJeuService.piste));
-            this.gererJoueurVirtuel(this.gestionnnairePartieService.voituresIA);
+            this.gererJoueurVirtuel();
             this.mondeDuJeuService.piste.gererElementDePiste([this.gestionnnairePartieService.voitureDuJoueur]);
             this.gestionnaireDeVue.changementDeVue(camera, this.gestionnnairePartieService.voitureDuJoueur);
         }
     }
 
-    private gererJoueurVirtuel(joueurVirtuel: Voiture[]): void {
-        for (let i = 0; i < joueurVirtuel.length; i++) {
-            this.collisionService.gererCollision(joueurVirtuel[i],
+    private gererJoueurVirtuel(): void {
+        for (let i = 0; i < this.gestionnnairePartieService.voituresIA.length; i++) {
+            this.collisionService.gererCollision(this.gestionnnairePartieService.voituresIA[i],
                 this.gestionnnairePartieService.voituresIA);
             this.gestionnnairePartieService.voituresIA[i].modeAutonome();
-            this.mondeDuJeuService.piste.gererElementDePiste([joueurVirtuel[i]]);
-            this.sortiePisteService.gererSortiePiste(joueurVirtuel[i], this.mondeDuJeuService.segment
+            this.mondeDuJeuService.piste.gererElementDePiste([this.gestionnnairePartieService.voituresIA[i]]);
+            this.sortiePisteService.gererSortiePiste(this.gestionnnairePartieService.voituresIA[i], this.mondeDuJeuService.segment
                 .chargerSegmentsDePiste(this.mondeDuJeuService.piste));
         }
     }
