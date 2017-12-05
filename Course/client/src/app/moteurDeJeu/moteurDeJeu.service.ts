@@ -6,7 +6,7 @@ import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { DeplacementService } from '../deplacement/deplacement.service';
 import { GestionnaireDeVue } from '../gestionnaireDeVue/gestionnaireDeVue.service';
 import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
-import { FPS } from './../constant';
+import { FPS, MILLE } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 import { Voiture } from '../voiture/Voiture';
@@ -50,7 +50,7 @@ export class MoteurDeJeuService {
             this.skyboxService.rotationSkybox(this.gestionnnairePartieService.voitureDuJoueur, camera);
             this.collisionService.gererCollision(this.gestionnnairePartieService.voitureDuJoueur,
                 this.gestionnnairePartieService.voituresIA);
-        }, 1000 / FPS);
+        }, MILLE / FPS);
     }
 
     private miseAJourPositionVoiture(camera: THREE.PerspectiveCamera): void {
