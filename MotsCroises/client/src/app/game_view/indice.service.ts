@@ -18,9 +18,9 @@ export class IndiceService {
     private indiceAdversaireSelectionne = new Subject<IndiceMot>();
     public indiceAdversaireSelectionne$ = this.indiceAdversaireSelectionne.asObservable();
     private indiceAdversaire: IndiceMot;
+    public indices: IndiceMot[];
 
-    constructor(private gameViewService: GameViewService) {
-    }
+    constructor(private gameViewService: GameViewService) {}
 
     public demanderMotsComplets() {
         const requisPourMotsComplets = new RequisPourMotsComplets(this.gameViewService.specificationPartie.guidPartie);
@@ -52,10 +52,13 @@ export class IndiceService {
         );
     }
 
-    /*public ecouterRetourMot<RequisPourMotAVerifier>(): void {
-        this.gameViewService.connexionTempsReelClient.ecouterRequete<RequisPourMotAVerifier>
-        (requetes.REQUETE_CLIENT_RAPPEL_VERIFIER_MOT, this.recupererVerificationMot, this);
-    }*/
+    private rappelChangementSelectionIndiceAdversaire(requisPourSelectionnerMot: RequisPourSelectionnerMot, self: IndiceService) {
+        requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
+        self.indiceAdversaire = self.gameViewService.trouverIndiceMotAvecGuid(
+                                                                        requisPourSelectionnerMot.emplacementMot.GuidIndice, self.indices);
+        self.mettreAJourSelectionAdversaire(self.indiceAdversaire);
+    }
+
 
     public mettreAJourSelectionAdversaire(indice: IndiceMot) {
         this.indiceAdversaireSelectionne.next(indice);
@@ -86,12 +89,6 @@ export class IndiceService {
         }
         this.indices = indices;
         this.gameViewService.indices = this.indices;
-    }
-
-    private rappelChangementSelectionIndiceAdversaire(requisPourSelectionnerMot: RequisPourSelectionnerMot, self: IndiceService) {
-        requisPourSelectionnerMot = RequisPourSelectionnerMot.rehydrater(requisPourSelectionnerMot);
-        self.indiceAdversaire = self.gameViewService.trouverIndiceMotAvecGuid(requisPourSelectionnerMot.emplacementMot.GuidIndice, self.indices);
-        self.mettreAJourSelectionAdversaire(self.indiceAdversaire);
     }
 
     private trouverIndiceAvecGuidEmplacementMot(guid: string): Indice {
