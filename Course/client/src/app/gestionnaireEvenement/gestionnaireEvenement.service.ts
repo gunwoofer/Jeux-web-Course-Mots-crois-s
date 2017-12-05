@@ -14,6 +14,7 @@ import { FacadePointService } from '../facadePoint/facadepoint.service';
 import { FacadeLigneService } from '../facadeLigne/facadeLigne.service';
 import { GestionnnairePartieService } from '../gestionnairePartie/gestionPartie.service';
 
+const DUREE_CLIC_ANTIREBOND = 500;
 
 @Injectable()
 export class EvenementService {
@@ -27,12 +28,12 @@ export class EvenementService {
     private createurPisteService: CreateurPisteService,
     public gestionnnairePartieService: GestionnnairePartieService) { }
 
-  private tempsMouseDown;
-  private tempsMouseUp;
-  private dureeClick;
-  private modeGlissement;
-  private pointHover;
-  private objetGlisse;
+    private tempsMouseDown;
+    private tempsMouseUp;
+    private dureeClick;
+    private modeGlissement;
+    private pointHover;
+    private objetGlisse;
 
   public onMouseDown(event: MouseEvent): void {
     this.tempsMouseDown = new Date().getTime();
@@ -42,7 +43,7 @@ export class EvenementService {
   }
 
   public onMouseClick(event: MouseEvent): void {
-    if (!this.modeGlissement || this.dureeClick < 500 && this.objetGlisse && this.objetGlisse.name === '0') {
+    if (!this.modeGlissement || this.dureeClick < DUREE_CLIC_ANTIREBOND && this.objetGlisse && this.objetGlisse.name === '0') {
       this.createurPisteService.dessinerPoint(event, this.renderService.scene,
         this.renderService.obtenirCamera(), this.renderService.obtenirRenderer());
       this.renderService.actualiserDonnees();
