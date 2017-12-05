@@ -1,11 +1,10 @@
+import { Voiture } from './Voiture';
 import { Injectable } from '@angular/core';
-import { Voiture } from '../voiture/Voiture';
-
 
 @Injectable()
 export class CollisionService {
 
-    public analyserCollision(voitureDuJoueur: Voiture, voituresIA: Voiture[]): void  {
+    public gererCollision(voitureDuJoueur: Voiture, voituresIA: Voiture[]): void  {
         const voitures = this.chargementVoituresPourCollision(voitureDuJoueur, voituresIA);
         if (voitures.length === 0) {
             return;
@@ -14,19 +13,39 @@ export class CollisionService {
 
         for (const voitureQuiCauseImpact of voitures) {
             const autresVoitures = this.obtenirAutresVoitures(voitureQuiCauseImpact, voitures);
-            this.creerReactionsCollisions(autresVoitures, voitureQuiCauseImpact);
+            this.parcoursDesVoituresPourDetecterCollision(autresVoitures, voitureQuiCauseImpact);
         }
     }
 
-    private creerReactionsCollisions(autresVoitures: Voiture[], voitureQuiCauseImpact: Voiture): void {
+    private parcoursDesVoituresPourDetecterCollision(autresVoitures: Voiture[], voitureQuiCauseImpact: Voiture): void {
         for (const voitureQuiRecoitImpact of autresVoitures) {
-            if (voitureQuiCauseImpact.raycasterCollisionDroit.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0
-            || voitureQuiCauseImpact.raycasterCollisionDroit
-            .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
-                voitureQuiRecoitImpact.reactionDeVoitureQuiRecoitImpact(voitureQuiCauseImpact);
-                voitureQuiCauseImpact.reactionVoitureQuiCauseImpact();
+            if (this.estEnCollision(voitureQuiRecoitImpact, voitureQuiCauseImpact)) {
+                this.reactionCollision(voitureQuiRecoitImpact, voitureQuiCauseImpact);
             }
         }
+    }
+
+    public estCollisionMock(voitureQuiRecoitImpact: Voiture, voitureQuiCauseImpact: Voiture): boolean {
+        if (voitureQuiRecoitImpact.obtenirPosition() === voitureQuiRecoitImpact.obtenirPosition()) {
+            return true;
+        }
+        return false;
+    }
+
+    private estEnCollision(voitureQuiRecoitImpact: Voiture, voitureQuiCauseImpact: Voiture): boolean {
+        if (voitureQuiCauseImpact.raycasterCollisionDroit.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
+            return true;
+        }
+        if (voitureQuiCauseImpact.raycasterCollisionGauche.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public reactionCollision(voitureQuiRecoitImpact: Voiture, voitureQuiCauseImpact: Voiture): void {
+        voitureQuiRecoitImpact.reactionDeVoitureQuiRecoitImpact(voitureQuiCauseImpact);
+        voitureQuiCauseImpact.reactionVoitureQuiCauseImpact();
     }
 
     private chargementVoituresPourCollision(voiture: Voiture, voitures: Voiture[]): Voiture[] {
