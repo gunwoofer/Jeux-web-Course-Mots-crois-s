@@ -6,6 +6,7 @@ import { IndiceService } from '../game_view/indice.service';
 import { TypePartie } from '../../../../commun/typePartie';
 import { Niveau } from '../../../../commun/niveau';
 
+export const TEMPS_RESTANT_INITIAL = 300;
 export const FREQUENCE_DECREMENTATION_TEMPS_EN_MS = 1000;
 export const FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS = 10000;
 export const DUREE_GRILLE = 3000000;
@@ -20,7 +21,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
     @Input()
     public nbJoueurs: string;
     public motEnCoursJ1: string;
-    public tempsRestant = 300;
+    public tempsRestant = TEMPS_RESTANT_INITIAL;
     public tempsFin: number;
     public joueur: Joueur;
     public joueur2: Joueur;
@@ -86,7 +87,7 @@ export class InfosJeuViewComponent implements AfterViewInit {
     }
 
     private MAJTemps() {
-        this.tempsRestant = this.tempsRestant - 1;
+        this.tempsRestant -= 1;
         if (this.tempsRestant < 0) {
             this.gameViewService.partieTermineeFauteDeTemps();
         }

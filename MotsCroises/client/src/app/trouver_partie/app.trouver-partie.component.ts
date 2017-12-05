@@ -33,7 +33,7 @@ export class TrouverPartieComponent implements OnInit {
         this.partieSelectionne = partie;
     }
 
-    public nomJoueurValable() {
+    public nomJoueurInvalide() {
         return (this.nomJoueur.length === 0);
     }
 
