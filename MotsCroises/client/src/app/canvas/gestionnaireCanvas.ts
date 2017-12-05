@@ -19,8 +19,9 @@ export class CanvasService {
     public motEcrit = '';
     public indice: IndiceMot;
     public indiceAdversaire: IndiceMot;
+    public ctxCanvas: any;
+
     private canvas: any;
-    private ctxCanvas: any;
     private ligneActuelle: number;
     private colonneActuelle: number;
     private specificationPartie: SpecificationPartie;

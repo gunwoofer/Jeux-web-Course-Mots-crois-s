@@ -13,14 +13,16 @@ import { ConnexionTempsReelClientService } from '../connexion_temps_reel/connexi
 
 @Injectable()
 export class ChoixPartieService {
+
     public specificationPartie: SpecificationPartie;
+    public typePartie: TypePartie;
+    public niveauPartie: Niveau;
     public joueur: Joueur = new Joueur(COULEUR_JOUEUR1);
     public joueur2: Joueur = new Joueur(COULEUR_JOUEUR2, '');
-    private nbJoueursPartie: number;
-    private typePartie: TypePartie;
-    private niveauPartie: Niveau;
-    private changementDeRouteSubject = new Subject<string>();
+    public changementDeRouteSubject = new Subject<string>();
     public changementDeRoute = this.changementDeRouteSubject.asObservable();
+
+    private nbJoueursPartie: number;
     private listeVuePartie: VuePartieEnCours[];
     private requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente;
     private requisPourJoindrePartieMultijoueur: RequisPourJoindrePartieMultijoueur;
