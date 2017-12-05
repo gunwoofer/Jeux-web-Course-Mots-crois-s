@@ -17,7 +17,7 @@ export class AttentePartieComponent {
     public niveauPartie: string;
     public difficultePartie: string;
 
-    constructor(private gameViewService: GameViewService, private choixPartieService: ChoixPartieService) {
+    constructor(private choixPartieService: ChoixPartieService) {
         this.nomJoueur = this.choixPartieService.joueur.obtenirNomJoueur();
         this.recupererDonnesPartie();
     }

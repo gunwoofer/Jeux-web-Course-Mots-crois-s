@@ -14,13 +14,13 @@ import { ConnexionTempsReelClientService } from '../connestion_temps_reel/connex
 
 @Injectable()
 export class ChoixPartieService {
-    private nbJoueursPartie: number;
-    private typePartie: TypePartie;
     public specificationPartie: SpecificationPartie;
-    private niveauPartie: Niveau;
-    private connexionTempsReelClient: ConnexionTempsReelClient;
     public joueur: Joueur = new Joueur(COULEUR_JOUEUR1);
     public joueur2: Joueur = new Joueur(COULEUR_JOUEUR2, '');
+    private nbJoueursPartie: number;
+    private typePartie: TypePartie;
+    private niveauPartie: Niveau;
+    private connexionTempsReelClient: ConnexionTempsReelClient;
     private changementDeRouteSubject = new Subject<string>();
     public changementDeRoute = this.changementDeRouteSubject.asObservable();
     private listeVuePartie: VuePartieEnCours[];
@@ -66,15 +66,6 @@ export class ChoixPartieService {
         this.changementDeRouteSubject.next(this.obtenirRoutePartie());
     }
 
-    private demanderNomJoueur(): boolean {
-        const playerName = prompt('Veuillez entrer votre nom: ', '');
-        if (playerName !== null && playerName !== '') {
-            this.joueur.changerNomJoueur(playerName);
-            return true;
-        }
-        return false;
-    }
-
     public partieCreeeRedirection() {
         if (this.nbJoueursPartie === 0) {
             this.demarrerPartie();
@@ -91,8 +82,7 @@ export class ChoixPartieService {
             this.rappelDemanderListePartieEnAttente, this);
     }
 
-    public rappelDemanderListePartieEnAttente(
-                requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: ChoixPartieService) {
+    public rappelDemanderListePartieEnAttente(requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: ChoixPartieService) {
         for (const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
             self.listeVuePartie.push(vuePartieCourante);
         }
@@ -136,5 +126,14 @@ export class ChoixPartieService {
 
     public obtenirRoutePartie(): string {
         return '/partie/' + this.specificationPartie.typePartie + '/' + this.specificationPartie.niveau + '/' + this.nbJoueursPartie;
+    }
+
+    private demanderNomJoueur(): boolean {
+        const playerName = prompt('Veuillez entrer votre nom: ', '');
+        if (playerName !== null && playerName !== '') {
+            this.joueur.changerNomJoueur(playerName);
+            return true;
+        }
+        return false;
     }
 }
