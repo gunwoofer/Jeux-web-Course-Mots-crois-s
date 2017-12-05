@@ -1,13 +1,10 @@
+import { Voiture } from './Voiture';
 import { Injectable } from '@angular/core';
-import { Voiture } from '../voiture/Voiture';
-
 
 @Injectable()
 export class CollisionService {
 
     public gererCollision(voitureDuJoueur: Voiture, voituresIA: Voiture[]): void  {
-        let antirebond: boolean;
-        antirebond = false;
         const voitures = this.chargementVoituresPourCollision(voitureDuJoueur, voituresIA);
         if (voitures.length === 0) {
             return;

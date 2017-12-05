@@ -1,9 +1,10 @@
-import { Voiture } from './voiture';
+import { Voiture } from './Voiture';
 import { mockPistes } from './../mocks';
 import { Object3D } from 'three';
 import { CollisionService } from './collision.service';
 import { TestBed, inject, async } from '@angular/core/testing';
 import * as THREE from 'three';
+
 
 const objectIA = new THREE.Object3D();
 objectIA.position.set(10, 20, 20);
@@ -13,8 +14,6 @@ const voitureIA = new Voiture(objectIA, piste);
 const objectDuJoueur = new THREE.Object3D();
 objectDuJoueur.position.set(10, 20, 20);
 const voitureDuJoueur = new Voiture(objectDuJoueur, piste);
-const raycasterCollisionDroit = new THREE.Raycaster;
-const raycasterCollisionGauche = new THREE.Raycaster;
 
 describe('Collision test', () => {
 
