@@ -1,13 +1,13 @@
-import {Injectable} from '@angular/core';
-import {Subject} from 'rxjs/Subject';
-import {SpecificationPartie} from '../../../../commun/specificationPartie';
-import {IndiceMot} from '../indice/indiceMot';
-import {ConnexionTempsReelClient} from '../connestion_temps_reel/connexionTempsReelClient';
-import {COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur} from '../../../../commun/joueur';
-import {RequisPourMotAVerifier} from '../../../../commun/requis/requisPourMotAVerifier';
+import { Injectable } from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { SpecificationPartie } from '../../../../commun/specificationPartie';
+import { IndiceMot } from '../indice/indiceMot';
+import { ConnexionTempsReelClient } from '../connestion_temps_reel/connexionTempsReelClient';
+import { COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur } from '../../../../commun/joueur';
+import { RequisPourMotAVerifier } from '../../../../commun/requis/requisPourMotAVerifier';
 import * as requetes from '../../../../commun/constantes/requetesTempsReel';
-import {EmplacementMot} from '../../../../commun/emplacementMot';
-import {VuePartieEnCours} from '../../../../commun/vuePartieEnCours';
+import { EmplacementMot } from '../../../../commun/emplacementMot';
+import { VuePartieEnCours } from '../../../../commun/vuePartieEnCours';
 
 const TOUS_LES_MOTS_ONT_ETE_TROUVES = 'tous les mots ont été trouvés, partie terminée';
 const TEMPS_ECOULE = 'Le temps imparti est écoulé, fin de la partie';
@@ -15,12 +15,6 @@ const MAUVAIS_MOT = 'Malheureusement, ce n\'est pas le bon mot.';
 
 @Injectable()
 export class GameViewService {
-    private motTrouve = new Subject<string>();
-    private partieTeminee = new Subject<string>();
-    private motEcrit = new Subject<string>();
-    public motTrouve$ = this.motTrouve.asObservable();
-    public partieTeminee$ = this.partieTeminee.asObservable();
-    public motEcrit$ = this.motEcrit.asObservable();
     public indices: IndiceMot[];
     public emplacementMot: EmplacementMot;
     public listeVuePartie: VuePartieEnCours[] = [];
@@ -28,6 +22,12 @@ export class GameViewService {
     public specificationPartie: SpecificationPartie;
     public joueur: Joueur = new Joueur(COULEUR_JOUEUR1);
     public joueur2: Joueur = new Joueur(COULEUR_JOUEUR2, '');
+    private motTrouve = new Subject<string>();
+    public motTrouve$ = this.motTrouve.asObservable();
+    private partieTeminee = new Subject<string>();
+    public partieTeminee$ = this.partieTeminee.asObservable();
+    private motEcrit = new Subject<string>();
+    public motEcrit$ = this.motEcrit.asObservable();
 
     constructor() {
         this.initialiserConnexion();
@@ -112,7 +112,7 @@ export class GameViewService {
         this.ecouterSiPartieTerminee();
     }
 
-    public messagePartieTerminee(partieTermineeBoolean: boolean, message: string = TOUS_LES_MOTS_ONT_ETE_TROUVES, self: GameViewService) {
+    public messagePartieTerminee(partieTermineeBoolean: boolean, self: GameViewService, message: string = TOUS_LES_MOTS_ONT_ETE_TROUVES,) {
         if (partieTermineeBoolean) {
             self.partieTeminee.next();
             alert(message);
@@ -120,7 +120,7 @@ export class GameViewService {
     }
 
     public partieTermineeFauteDeTemps() {
-        this.messagePartieTerminee(true, TEMPS_ECOULE, this);
+        this.messagePartieTerminee(true, this, TEMPS_ECOULE);
     }
 
     public mettreAJourMotEntre(motEntre: string) {
