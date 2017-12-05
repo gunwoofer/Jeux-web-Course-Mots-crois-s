@@ -1,10 +1,13 @@
-import { NOMBRE_JOUEURS, FIN_PARTIE_URL } from './../constant';
+import { FonctionMaths } from '../fonctionMathematiques';
+import { NOMBRE_JOUEURS, FIN_PARTIE_URL, MESSAGE_ERREUR, JOUEUR } from './../constant';
 import { TraitementDonneTableau } from './traitementDonneTableau';
 import { Http, Response } from '@angular/http';
 import { Score } from './score.model';
 import { Piste } from '../piste/piste.model';
 import { Injectable } from '@angular/core';
 import 'rxjs/Rx';
+
+
 
 @Injectable()
 
@@ -36,23 +39,23 @@ export class TableauScoreService {
         this.ajouterTemps(score);
         this.piste.supprimerMesh();
         return this.http.patch(FIN_PARTIE_URL + this.piste.id, this.piste)
-                        .toPromise()
-                        .then((reponse: Response) => reponse.json())
-                        .catch(this.gererErreur);
+            .toPromise()
+            .then((reponse: Response) => reponse.json())
+            .catch(this.gererErreur);
     }
 
     private gererErreur(erreur: any): Promise<any> {
-        console.error('Une erreur est arrivé', erreur);
+        console.error(MESSAGE_ERREUR, erreur);
         return Promise.reject(erreur.message || erreur);
     }
 
     private gestionTempsFinPartie(indice: number, temps: number): void {
         if (indice === 0) {
-            this.tempsFinPartie.push(new Score('Joueur' + indice++, Math.floor(temps).toString(), indice++));
+            this.tempsFinPartie.push(new Score(JOUEUR + indice++, Math.floor(temps).toString(), indice++));
         } else {
-            const number = Math.random() * (30 - indice) + 30;
+            const number = FonctionMaths.simulationTemps(indice);
             temps = temps + number;
-            this.tempsFinPartie.push(new Score('Joueur' + indice++, Math.floor(temps).toString(), indice++));
+            this.tempsFinPartie.push(new Score(JOUEUR + indice++, Math.floor(temps).toString(), indice++));
         }
     }
 
