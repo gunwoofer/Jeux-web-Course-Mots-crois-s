@@ -4,6 +4,7 @@ import { IndiceMot } from '../indice/indiceMot';
 import { ElementRef } from '@angular/core';
 import { TimerService } from '../game_view/timer.service';
 import { IndiceService } from '../game_view/indice.service';
+import { DessinCanvasService } from './dessinCanvasService';
 
 export class CanvasService {
     public couleurJ1 = '#DD0000';
@@ -27,8 +28,10 @@ export class CanvasService {
     constructor(private gameViewService: GameViewService,
                 containerRef: ElementRef,
                 private indiceService: IndiceService,
-                private timerService: TimerService) {
+                private timerService: TimerService,
+                private dessinCanvasService: DessinCanvasService) {
         this.obtenirCanvasJeu(containerRef);
+        this.dessinCanvasService.setCanvas(this.canvas);
         this.initialise();
     }
 
@@ -89,54 +92,27 @@ export class CanvasService {
     public validerMotEntre(): void {
         if (this.motEcrit.length === this.indice.tailleMot) {
             this.gameViewService.testMotEntre(this.motEcrit, this.indice);
-            this.ecrireMotsTrouves();
+            this.dessinCanvasService.ecrireMotsTrouves(this.indiceService.indices);
         }
     }
 
-    public ecrireMotsTrouves(): void {
-        for (const i of this.indiceService.indices) {
-            if (i.motTrouve.length > 0) {
-                this.ecrireMotDansGrille(i.motTrouve, i.sens, i.positionI, i.positionJ, i.couleur);
-            }
-        }
-    }
 
     public obtenirCanvasJeu(containerRef: ElementRef): void {
         this.canvas = containerRef.nativeElement;
     }
 
     public initialise(): void {
-        this.canvas.height = this.canvas.width;
-        this.largeurCase = this.canvas.width / 11;
-        this.hauteurCase = this.canvas.height / 11;
-        this.margeEffacement = Math.round(this.largeurCase / 10);
-        this.ctxCanvas = this.canvas.getContext('2d');
-        this.dessinerLignesGrille();
-        this.ecrireMotsTrouves();
         this.specificationPartie = this.gameViewService.getPartie();
-        this.dessinerCaseNoiresGrilleObtenueServeur();
-    }
-
-    public dessinerLignesGrille(): void {
-        this.ctxCanvas.fillStyle = '#000000';
-        for (let i = 1; i < this.nbCases; i++) {
-            this.ecrireLettreDansCase(i.toString(), i, 0, this.couleurNoire);
-            this.ecrireLettreDansCase(i.toString(), 0, i, this.couleurNoire);
-            this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase, 1, this.canvas.height);
-            this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * i, this.canvas.width, 1);
-        }
-        this.ctxCanvas.fillRect(this.largeurCase * this.nbCases - 1, this.hauteurCase, 1, this.canvas.height);
-        this.ctxCanvas.fillRect(this.largeurCase, this.hauteurCase * this.nbCases - 1, this.canvas.width, 1);
+        this.ctxCanvas = this.canvas.getContext('2d');
+        this.dessinCanvasService.initialiserCanvas(this.specificationPartie, this.indiceService.indices);
     }
 
     public rafraichirCanvas(): void {
-        this.ctxCanvas.clearRect(0, 0, this.canvas.width, this.canvas.height);
-        this.dessinerLignesGrille();
-        this.ecrireMotsGrilleObtenueServeur();
-        this.dessinerCaseNoiresGrilleObtenueServeur();
-        this.ecrireMotsTrouves();
+        this.dessinCanvasService.rafraichirCanvas(this.specificationPartie, this.indiceService.indices);
         if (this.indice) {
-            this.ecrireMotDansGrille(this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur);
+            this.dessinCanvasService.ecrireMotDansGrille(
+                this.motEcrit, this.indice.sens, this.indice.positionI, this.indice.positionJ, this.couleurJoueur
+            );
         }
         this.gererAffichageSelecteurs();
     }
@@ -146,34 +122,8 @@ export class CanvasService {
         this.rafraichirCanvas();
     }
 
-    public ecrireMotDansGrille(mot: string, sens: number, i: number, j: number, couleur: string): void {
-        if (sens === 0) {
-            for (let u = 0; u < mot.length; u++) {
-                this.ecrireLettreDansCase(mot.charAt(u), i + u, j, couleur);
-            }
-        } else {
-            for (let v = 0; v < mot.length; v++) {
-                this.ecrireLettreDansCase(mot.charAt(v), i, j + v, couleur);
-            }
-        }
-    }
-
-    public ecrireLettreDansCase(lettre: string, i: number, j: number, couleur: string): void {
-        this.effacerLettreDansCase(i, j);
-        this.ctxCanvas.font = this.policeLettres;
-        this.ctxCanvas.fillStyle = couleur;
-        this.ctxCanvas.textAlign = 'center';
-        this.ctxCanvas.textBaseline = 'middle';
-        this.ctxCanvas.fillText(lettre.toUpperCase(), this.largeurCase * (i + 1 / 2), this.hauteurCase * (j + 1 / 2));
-    }
-
-    public dessinerRectangleNoir(i: number, j: number) {
-        this.ctxCanvas.fillStyle = this.couleurNoire;
-        this.ctxCanvas.fillRect(this.largeurCase * i, this.hauteurCase * j, this.largeurCase, this.largeurCase);
-    }
-
     public ecrireLettreDansCaseActive(lettre: string, couleur: string): void {
-        this.ecrireLettreDansCase(lettre, this.ligneActuelle, this.colonneActuelle, couleur);
+        this.dessinCanvasService.ecrireLettreDansCase(lettre, this.ligneActuelle, this.colonneActuelle, couleur);
     }
 
     public definirCaseActive(i: number, j: number): void {
@@ -189,13 +139,8 @@ export class CanvasService {
         sens === 0 ? this.ligneActuelle-- : this.colonneActuelle--;
     }
 
-    public effacerLettreDansCase(i: number, j: number): void {
-        this.ctxCanvas.clearRect(this.largeurCase * i + this.margeEffacement, this.hauteurCase * j + this.margeEffacement,
-            this.largeurCase - 2 * this.margeEffacement, this.hauteurCase - 2 * this.margeEffacement);
-    }
-
     public effacerLettreDansCaseActive(): void {
-        this.effacerLettreDansCase(this.ligneActuelle, this.colonneActuelle);
+        this.dessinCanvasService.effacerLettreDansCase(this.ligneActuelle, this.colonneActuelle);
         this.rafraichirCanvas();
     }
 
@@ -204,27 +149,6 @@ export class CanvasService {
             return i < this.indice.positionI + this.indice.tailleMot;
         } else {
             return j < this.indice.positionJ + this.indice.tailleMot;
-        }
-    }
-
-    public dessinerCaseNoiresGrilleObtenueServeur(): void {
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-                if (this.specificationPartie.specificationGrilleEnCours.cases.obtenirCase(i, j).obtenirEtat() === 2) {
-                    this.dessinerRectangleNoir(j + 1, i + 1);
-                }
-            }
-        }
-    }
-
-    public ecrireMotsGrilleObtenueServeur(): void {
-        for (let i = 0; i < 10; i++) {
-            for (let j = 0; j < 10; j++) {
-                this.ecrireLettreDansCase(
-                    this.specificationPartie.specificationGrilleEnCours.cases.obtenirCase(i, j).obtenirLettre(),
-                    j + 1, i + 1, this.couleurJ1
-                );
-            }
         }
     }
 

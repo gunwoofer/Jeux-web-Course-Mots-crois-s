@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Niveau } from '../../../../commun/niveau';
 import { TypePartie } from '../../../../commun/typePartie';
 import { SpecificationPartie } from '../../../../commun/specificationPartie';
-import { ConnexionTempsReelClient } from '../connestion_temps_reel/connexionTempsReelClient';
+import { ConnexionTempsReelClient } from '../connexion_temps_reel/connexionTempsReelClient';
 import { ATTENTE_PARTIE } from '../app.component';
 import { Subject } from 'rxjs/Subject';
 import { VuePartieEnCours } from '../../../../commun/vuePartieEnCours';
@@ -10,7 +10,7 @@ import { RequisDemandeListePartieEnAttente } from '../../../../commun/requis/req
 import { COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur } from '../../../../commun/joueur';
 import { RequisPourJoindrePartieMultijoueur } from '../../../../commun/requis/requisPourJoindrePartieMultijoueur';
 import * as requetes from '../../../../commun/constantes/requetesTempsReel';
-import { ConnexionTempsReelClientService } from '../connestion_temps_reel/connexionTempsReelClientService';
+import { ConnexionTempsReelClientService } from '../connexion_temps_reel/connexionTempsReelClientService';
 
 @Injectable()
 export class ChoixPartieService {

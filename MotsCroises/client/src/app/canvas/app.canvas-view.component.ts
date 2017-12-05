@@ -3,6 +3,7 @@ import { GameViewService } from '../game_view/game-view.service';
 import { CanvasService } from './canvasService';
 import { TimerService } from '../game_view/timer.service';
 import { IndiceService } from '../game_view/indice.service';
+import { DessinCanvasService } from './dessinCanvasService';
 
 
 @Component({
@@ -18,7 +19,8 @@ export class CanvasViewComponent implements AfterViewInit {
 
     constructor(private gameViewService: GameViewService,
                 private timerService: TimerService,
-                private indiceService: IndiceService) {
+                private indiceService: IndiceService,
+                private dessinCanvasService: DessinCanvasService) {
         this.souscrireEvenementIndices();
     }
 
@@ -28,7 +30,7 @@ export class CanvasViewComponent implements AfterViewInit {
     }
 
     public ngAfterViewInit(): void {
-        this.canvasGrille = new CanvasService(this.gameViewService, this.containerRef, this.indiceService, this.timerService);
+        this.canvasGrille = new CanvasService(this.gameViewService, this.containerRef, this.indiceService, this.timerService, this.dessinCanvasService);
     }
 
     public motTrouveActualiser(): void {
