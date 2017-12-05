@@ -1,21 +1,16 @@
-import {Injectable} from '@angular/core';
-import {Niveau} from '../../../../commun/niveau';
-import {TypePartie} from '../../../../commun/typePartie';
-import {SpecificationPartie} from '../../../../commun/specificationPartie';
-import {ConnexionTempsReelClient} from '../connestion_temps_reel/connexionTempsReelClient';
-import {ATTENTE_PARTIE} from '../app.component';
-import {Subject} from 'rxjs/Subject';
-import {VuePartieEnCours} from '../../../../commun/vuePartieEnCours';
-import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/requisDemandeListePartieEnAttente';
-import {COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur} from '../../../../commun/joueur';
-import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/requisPourJoindrePartieMultijoueur';
+import { Injectable } from '@angular/core';
+import { Niveau } from '../../../../commun/niveau';
+import { TypePartie } from '../../../../commun/typePartie';
+import { SpecificationPartie } from '../../../../commun/specificationPartie';
+import { ConnexionTempsReelClient } from '../connestion_temps_reel/connexionTempsReelClient';
+import { ATTENTE_PARTIE } from '../app.component';
+import { Subject } from 'rxjs/Subject';
+import { VuePartieEnCours } from '../../../../commun/vuePartieEnCours';
+import { RequisDemandeListePartieEnAttente } from '../../../../commun/requis/requisDemandeListePartieEnAttente';
+import { COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur } from '../../../../commun/joueur';
+import { RequisPourJoindrePartieMultijoueur } from '../../../../commun/requis/requisPourJoindrePartieMultijoueur';
 import * as requetes from '../../../../commun/constantes/requetesTempsReel';
-import {ConnexionTempsReelClientService} from '../connestion_temps_reel/connexionTempsReelClientService';
-
-
-/**
- * Ce service sert à créer une partie avec le serveur
- */
+import { ConnexionTempsReelClientService } from '../connestion_temps_reel/connexionTempsReelClientService';
 
 @Injectable()
 export class ChoixPartieService {
@@ -26,7 +21,6 @@ export class ChoixPartieService {
     private connexionTempsReelClient: ConnexionTempsReelClient;
     public joueur: Joueur = new Joueur(COULEUR_JOUEUR1);
     public joueur2: Joueur = new Joueur(COULEUR_JOUEUR2, '');
-
     private changementDeRouteSubject = new Subject<string>();
     public changementDeRoute = this.changementDeRouteSubject.asObservable();
     private listeVuePartie: VuePartieEnCours[];
@@ -64,7 +58,6 @@ export class ChoixPartieService {
     }
 
     public recupererPartie(specificationPartie: SpecificationPartie, self: ChoixPartieService): void {
-        console.log('partie récuperee', specificationPartie);
         self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
         self.partieCreeeRedirection();
     }
@@ -74,24 +67,13 @@ export class ChoixPartieService {
     }
 
     private demanderNomJoueur(): boolean {
-        const playerName = prompt('Please enter your name:', '');
+        const playerName = prompt('Veuillez entrer votre nom: ', '');
         if (playerName !== null && playerName !== '') {
             this.joueur.changerNomJoueur(playerName);
             return true;
         }
         return false;
     }
-
-    /* public ecouterSiPartieTerminee() {
-         this.connexionTempsReelClient.ecouterRequete(requetes.REQUETE_CLIENT_PARTIE_TERMINE, this.messagePartieTerminee, this);
-     }
-
-     public messagePartieTerminee(partieTermineeBoolean: boolean, self: ChoixPartieService) {
-         if (partieTermineeBoolean) {
-             self.partieTeminee.next();
-             alert('tous les mots ont été trouvés, partie terminée');
-         }
-     }*/
 
     public partieCreeeRedirection() {
         if (this.nbJoueursPartie === 0) {
@@ -109,16 +91,14 @@ export class ChoixPartieService {
             this.rappelDemanderListePartieEnAttente, this);
     }
 
-    public rappelDemanderListePartieEnAttente
-    (requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: ChoixPartieService) {
-        console.log(requisDemandeListePartieEnCours);
+    public rappelDemanderListePartieEnAttente(
+                requisDemandeListePartieEnCours: RequisDemandeListePartieEnAttente, self: ChoixPartieService) {
         for (const vuePartieCourante of requisDemandeListePartieEnCours.listePartie) {
             self.listeVuePartie.push(vuePartieCourante);
         }
     }
 
     public rejoindrePartieMultijoueur(partieChoisie: VuePartieEnCours, joueurAJoindre: Joueur): void {
-        console.log('joueur a rejoindre', joueurAJoindre);
         this.requisPourJoindrePartieMultijoueur = new RequisPourJoindrePartieMultijoueur(partieChoisie.guidPartie, joueurAJoindre);
         this.connexionTempsReelClient.envoyerRecevoirRequete<RequisPourJoindrePartieMultijoueur>(
             requetes.REQUETE_SERVEUR_JOINDRE_PARTIE,
@@ -147,7 +127,6 @@ export class ChoixPartieService {
             }
         }
     }
-
 
     public demarrerPartieMultijoueur(specificationPartie: SpecificationPartie, self: ChoixPartieService): void {
         self.specificationPartie = SpecificationPartie.rehydrater(specificationPartie);
