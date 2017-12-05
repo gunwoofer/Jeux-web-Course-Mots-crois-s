@@ -2,9 +2,9 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
 
 export class ModificationForm {
 
-    private email: string;
-    private ancienMotDpass: string;
-    private nouveauMotDpass: string;
+    public email: string;
+    public ancienMotDpass: string;
+    public nouveauMotDpass: string;
 
     constructor(form?: NgForm) {
         if (form !== undefined) {

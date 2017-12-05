@@ -1,4 +1,4 @@
-import { NID_DE_POULE, COULEUR_FLAQUE_EAU, COULEUR_NID_DE_POULE, COULEUR_ACCELERATEUR } from './../constant';
+import { COULEUR_FLAQUE_EAU, COULEUR_NID_DE_POULE, COULEUR_ACCELERATEUR } from './../constant';
 import { PointsFacade } from './../pointsFacade';
 import { FacadePointService } from './../facadePoint/facadepoint.service';
 import { Injectable } from '@angular/core';

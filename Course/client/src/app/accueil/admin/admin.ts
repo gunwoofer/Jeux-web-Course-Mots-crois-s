@@ -2,11 +2,11 @@ import { NgForm } from '@angular/forms/src/directives/ng_form';
 
 export class Administrateur {
 
-    private email: string;
-    private motDePasse: string;
-    private nomUtilisateur?: string;
-    private nom?: string;
-    private prenom?: string;
+    public email: string;
+    public motDePasse: string;
+    public nomUtilisateur?: string;
+    public nom?: string;
+    public prenom?: string;
 
     constructor (form?: NgForm) {
         if (form !== undefined) {

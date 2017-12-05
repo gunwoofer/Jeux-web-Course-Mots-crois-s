@@ -12,13 +12,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 
 export class TableauScoreComponent implements OnInit, OnDestroy {
 
-
+    public meilleurTemps: string;
+    public resultatPartie: boolean;
     public temps: Score[];
     public afficher: boolean;
+
     private finPartie: boolean;
     private finCourse: boolean;
-    private meilleurTemps: string;
-    private resultatPartie: boolean;
     private traitementDonnee = new TraitementDonneTableau();
 
     constructor(private tableauScoreService: TableauScoreService) {
