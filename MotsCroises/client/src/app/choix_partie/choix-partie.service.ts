@@ -10,8 +10,6 @@ import {RequisDemandeListePartieEnAttente} from '../../../../commun/requis/requi
 import {COULEUR_JOUEUR1, COULEUR_JOUEUR2, Joueur} from '../../../../commun/joueur';
 import {RequisPourJoindrePartieMultijoueur} from '../../../../commun/requis/requisPourJoindrePartieMultijoueur';
 import * as requetes from '../../../../commun/constantes/requetesTempsReel';
-import {ConnexionTempsReelClientService} from '../connestion_temps_reel/connexionTempsReelClientService';
-
 
 /**
  * Ce service sert à créer une partie avec le serveur

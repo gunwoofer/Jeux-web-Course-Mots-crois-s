@@ -1,9 +1,5 @@
 import {Injectable} from '@angular/core';
 import {ConnexionTempsReelClient} from './connexionTempsReelClient';
-import {SpecificationPartie} from '../../../../commun/specificationPartie';
-import {ChoixPartieService} from '../choix_partie/choix-partie.service';
-import {GameViewService} from '../game_view/game-view.service';
-import * as requetes from '../../../../commun/constantes/requetesTempsReel';
 
 
 @Injectable()

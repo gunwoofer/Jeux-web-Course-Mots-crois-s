@@ -6,7 +6,6 @@ import {CanvasViewComponent} from '../canvas/app.canvas-view.component';
 import {InfosJeuViewComponent} from '../infos_jeu/app.infos-jeu-view.component';
 import {IndiceViewComponent} from '../indice/app.indice-view.component';
 import {ChoixPartieService} from '../choix_partie/choix-partie.service';
-import {TimerService} from './timer.service';
 import {IndiceService} from './indice.service';
 
 

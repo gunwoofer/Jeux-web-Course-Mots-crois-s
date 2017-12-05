@@ -1,5 +1,4 @@
 import {Component, OnInit} from '@angular/core';
-import {GameViewService} from '../game_view/game-view.service';
 import {VuePartieEnCours} from '../../../../commun/vuePartieEnCours';
 import {EnumUtilitaires} from '../../../../commun/enumUtilitaires';
 import {Niveau} from '../../../../commun/niveau';
