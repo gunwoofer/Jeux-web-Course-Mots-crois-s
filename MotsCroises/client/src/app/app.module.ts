@@ -18,6 +18,7 @@ import {AttentePartieComponent} from './attente_partie/app.attente-partie.compon
 import {ChoixPartieService} from './choix_partie/choix-partie.service';
 import {TimerService} from './game_view/timer.service';
 import {IndiceService} from './game_view/indice.service';
+import { ConnexionTempsReelClientService } from './connestion_temps_reel/connexionTempsReelClientService';
 
 @NgModule({
   declarations: [
