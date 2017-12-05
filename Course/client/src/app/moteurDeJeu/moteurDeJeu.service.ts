@@ -9,6 +9,7 @@ import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { FPS } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
+import { Voiture } from '../voiture/Voiture';
 
 
 @Injectable()
@@ -60,8 +61,18 @@ export class MoteurDeJeuService {
             this.sortiePisteService.gererSortiePiste(this.gestionnnairePartieService.voitureDuJoueur,
                 this.mondeDuJeuService.segment
                     .chargerSegmentsDePiste(this.mondeDuJeuService.piste));
+            this.gererJoueurVirtuel(this.gestionnnairePartieService.voituresIA);
             this.mondeDuJeuService.piste.gererElementDePiste([this.gestionnnairePartieService.voitureDuJoueur]);
             this.gestionnaireDeVue.changementDeVue(camera, this.gestionnnairePartieService.voitureDuJoueur);
+        }
+    }
+
+    private gererJoueurVirtuel(joueurVirtuel: Voiture[]): void {
+        for (let i = 0; i < joueurVirtuel.length; i++) {
+            this.gestionnnairePartieService.voituresIA[i].modeAutonome();
+            this.mondeDuJeuService.piste.gererElementDePiste([joueurVirtuel[i]]);
+            this.sortiePisteService.gererSortiePiste(joueurVirtuel[i], this.mondeDuJeuService.segment
+                .chargerSegmentsDePiste(this.mondeDuJeuService.piste));
         }
     }
 
