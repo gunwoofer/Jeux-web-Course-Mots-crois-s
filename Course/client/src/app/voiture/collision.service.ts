@@ -16,21 +16,26 @@ export class CollisionService {
 
         for (const voitureQuiCauseImpact of voitures) {
             const autresVoitures = this.obtenirAutresVoitures(voitureQuiCauseImpact, voitures);
-            this.detecterCollision(autresVoitures, voitureQuiCauseImpact);
+            this.parcoursDesVoituresPourDetecterCollision(autresVoitures, voitureQuiCauseImpact);
         }
     }
 
-    private detecterCollision(autresVoitures: Voiture[], voitureQuiCauseImpact: Voiture): void {
+    private parcoursDesVoituresPourDetecterCollision(autresVoitures: Voiture[], voitureQuiCauseImpact: Voiture): void {
         for (const voitureQuiRecoitImpact of autresVoitures) {
-            if (voitureQuiCauseImpact.raycasterCollisionDroit.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0
-            || voitureQuiCauseImpact.raycasterCollisionDroit
-            .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
+            if (this.estEnCollision(voitureQuiRecoitImpact, voitureQuiCauseImpact)) {
                 this.reactionCollision(voitureQuiRecoitImpact, voitureQuiCauseImpact);
             }
-            if (voitureQuiCauseImpact.raycasterCollisionGauche
-                .intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
-                this.reactionCollision(voitureQuiRecoitImpact, voitureQuiCauseImpact);
-            }
+        }
+    }
+
+    private estEnCollision(voitureQuiRecoitImpact: Voiture, voitureQuiCauseImpact: Voiture): boolean {
+        if (voitureQuiCauseImpact.raycasterCollisionDroit.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
+            return false;
+        }
+        if (voitureQuiCauseImpact.raycasterCollisionGauche.intersectObject(voitureQuiRecoitImpact.obtenirVoiture3D(), true).length !== 0) {
+            return true;
+        } else {
+            return false;
         }
     }
 
