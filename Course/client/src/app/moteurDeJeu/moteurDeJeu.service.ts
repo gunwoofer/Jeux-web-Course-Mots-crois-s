@@ -9,7 +9,6 @@ import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
 import { FPS, MILLE } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
-import { Voiture } from '../voiture/Voiture';
 
 
 @Injectable()
