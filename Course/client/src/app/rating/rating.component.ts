@@ -49,6 +49,7 @@ export class RatingComponent implements OnInit {
     private changementDeroutage(): void {
         this.router.navigateByUrl(FIN_PARTIE);
         this.tableauScoreSevice.finPartie = false;
+        this.tableauScoreSevice.finCourse = true;
     }
 
 }
