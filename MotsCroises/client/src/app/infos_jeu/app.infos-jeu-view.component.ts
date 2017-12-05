@@ -6,6 +6,9 @@ import { IndiceService } from '../game_view/indice.service';
 import { TypePartie } from '../../../../commun/typePartie';
 import { Niveau } from '../../../../commun/niveau';
 
+export const FREQUENCE_DECREMENTATION_TEMPS_EN_MS = 1000;
+export const FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS = 10000;
+export const DUREE_GRILLE = 3000000;
 
 @Component({
     selector: 'app-infos-jeu-view-component',
@@ -25,9 +28,6 @@ export class InfosJeuViewComponent implements AfterViewInit {
     public tempsRestantAEnvoyer: number;
     public typeDePartie: string;
     public niveauPartie: string;
-    private FREQUENCE_DECREMENTATION_TEMPS_EN_MS = 1000;
-    private FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS = 10000;
-    private dureeGrille = 3000000;
     private intervalFunction: any;
     private intervalFunctionServer: any;
 
@@ -73,16 +73,16 @@ export class InfosJeuViewComponent implements AfterViewInit {
     }
 
     private recommencerTimer() {
-        this.tempsFin = Date.now() + this.dureeGrille;
+        this.tempsFin = Date.now() + DUREE_GRILLE;
     }
 
     private demarrerFonctionIntervalTemps() {
         this.intervalFunction = setInterval(() => {
             this.MAJTemps();
-        }, this.FREQUENCE_DECREMENTATION_TEMPS_EN_MS);
+        }, FREQUENCE_DECREMENTATION_TEMPS_EN_MS);
         this.intervalFunctionServer = setInterval(() => {
             this.MAJTempsServer();
-        }, this.FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS);
+        }, FREQUENCE_INTERROGATION_SERVEUR_TEMPS_EN_MS);
     }
 
     private MAJTemps() {
