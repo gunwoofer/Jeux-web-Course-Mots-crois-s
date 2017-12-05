@@ -1,4 +1,4 @@
-/*import { TypeElementPiste } from './ElementDePiste';
+import { TypeElementPiste } from './ElementDePiste';
 import * as THREE from 'three';
 import { GestionElementsPiste } from './GestionElementsPiste';
 
@@ -26,4 +26,4 @@ describe('GestionElementsPiste', () => {
             expect(gestionElementsPiste.obtenirNombreElementsType(TypeElementPiste.FlaqueDEau)).toBe(nombreElements[i]);
         }
     });
-});*/
+});
