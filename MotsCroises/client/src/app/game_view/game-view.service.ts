@@ -113,7 +113,7 @@ export class GameViewService {
         this.ecouterSiPartieTerminee();
     }
 
-    public messagePartieTerminee(partieTermineeBoolean: boolean, self: GameViewService, message: string = TOUS_LES_MOTS_ONT_ETE_TROUVES,) {
+    public messagePartieTerminee(partieTermineeBoolean: boolean, self: GameViewService, message: string = TOUS_LES_MOTS_ONT_ETE_TROUVES) {
         if (partieTermineeBoolean) {
             self.partieTeminee.next();
             alert(message);
