@@ -1,4 +1,4 @@
-import { Niveau } from './Niveau';
+import { Niveau } from './niveau';
 
 export class VuePartieEnCours {
     public guidPartie: string;

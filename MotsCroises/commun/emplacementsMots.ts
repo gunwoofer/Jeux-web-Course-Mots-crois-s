@@ -1,10 +1,10 @@
-import { RequisPourMotAVerifier } from './requis/RequisPourMotAVerifier';
-import { EmplacementMot } from './EmplacementMot';
-import { Case, EtatCase } from './Case';
-import { Cases } from './Cases';
+import { RequisPourMotAVerifier } from './requis/requisPourMotAVerifier';
+import { EmplacementMot } from './emplacementMot';
+import { Case, EtatCase } from './case';
+import { Cases } from './cases';
 import { DIMENSION_LIGNE_COLONNE } from '../server/app/grille';
-import { Position } from './Position';
-import { grandeurMotMinimum } from './constantes/GrilleConstantes';
+import { Position } from './position';
+import { grandeurMotMinimum } from './constantes/grilleConstantes';
 
 export class EmplacementsMots {
     public emplacementMots: EmplacementMot[] = new Array();

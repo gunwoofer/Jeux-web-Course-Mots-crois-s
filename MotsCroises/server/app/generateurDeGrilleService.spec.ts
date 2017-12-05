@@ -1,8 +1,8 @@
 import { assert } from 'chai';
 import { GenerateurDeGrilleService } from './generateurDeGrilleService';
 import { Grille } from './grille';
-import { EtatCase } from '../../commun/Case';
-import { Niveau } from '../../commun/Niveau';
+import { EtatCase } from '../../commun/case';
+import { Niveau } from '../../commun/niveau';
 
 const maxDelaiGenerationGrille = 60000;
 

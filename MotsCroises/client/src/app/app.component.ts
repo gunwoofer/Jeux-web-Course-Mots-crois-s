@@ -1,24 +1,24 @@
-import {Component, OnInit} from '@angular/core';
-import {SpecificationPartie} from '../../../commun/SpecificationPartie';
-import {GameViewService} from './game_view/game-view.service';
+import { Component } from '@angular/core';
+import { SpecificationPartie } from '../../../commun/specificationPartie';
+
+
+export const ATTENTE_PARTIE = '/attentePartie';
+
 
 @Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
 
-  constructor(private gameViewService: GameViewService) {
-  }
+export class AppComponent {
 
-  public title = 'LOG2990 - Groupe 10 - Mots Croisés';
-  public message: string;
-  public grille = '';
-  public specificationPartie: SpecificationPartie;
+    public title = 'LOG2990 - Groupe 10 - Mots Croisés';
+    public message: string;
+    public grille = '';
+    public specificationPartie: SpecificationPartie;
 
-  public ngOnInit(): void {
-    this.gameViewService.initialiserConnexion();
-  }
+    constructor() {
+    }
 
 }

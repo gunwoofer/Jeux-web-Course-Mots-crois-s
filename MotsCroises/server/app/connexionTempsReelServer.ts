@@ -1,16 +1,16 @@
 import { GenerateurDeGrilleService } from './generateurDeGrilleService';
 import { GestionnaireDePartieService } from './gestionnaireDePartieService';
-import { SpecificationPartie } from '../../commun/SpecificationPartie';
-import { RequisPourMotAVerifier } from '../../commun/requis/RequisPourMotAVerifier';
-import { RequisPourSelectionnerMot } from '../../commun/requis/RequisPourSelectionnerMot';
-import { RequisPourObtenirTempsRestant } from '../../commun/requis/RequisPourObtenirTempsRestant';
+import { SpecificationPartie } from '../../commun/specificationPartie';
+import { RequisPourMotAVerifier } from '../../commun/requis/requisPourMotAVerifier';
+import { RequisPourSelectionnerMot } from '../../commun/requis/requisPourSelectionnerMot';
+import { RequisPourObtenirTempsRestant } from '../../commun/requis/requisPourObtenirTempsRestant';
 import { DescripteurEvenementTempsReel } from './descripteurEvenementTempsReel';
-import { RequisPourMotsTrouve } from '../../commun/requis/RequisPourMotsTrouve';
-import { RequisDemandeListePartieEnAttente } from '../../commun/requis/RequisDemandeListePartieEnAttente';
-import { RequisPourMotsComplets } from './../../commun/requis/RequisPourMotsComplets';
-import { RequisPourJoindrePartieMultijoueur } from '../../commun/requis/RequisPourJoindrePartieMultijoueur';
-import { RequisPourModifierTempsRestant } from '../../commun/requis/RequisPourModifierTempsRestant';
-import * as requetes from '../../commun/constantes/RequetesTempsReel';
+import { RequisPourMotsTrouve } from '../../commun/requis/requisPourMotsTrouve';
+import { RequisDemandeListePartieEnAttente } from '../../commun/requis/requisDemandeListePartieEnAttente';
+import { RequisPourMotsComplets } from '../../commun/requis/requisPourMotsComplets';
+import { RequisPourJoindrePartieMultijoueur } from '../../commun/requis/requisPourJoindrePartieMultijoueur';
+import { RequisPourModifierTempsRestant } from '../../commun/requis/requisPourModifierTempsRestant';
+import * as requetes from '../../commun/constantes/requetesTempsReel';
 import * as express from 'express';
 
 export const PORT_SOCKET_IO = 3001;

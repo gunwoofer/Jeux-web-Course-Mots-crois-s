@@ -1,5 +1,5 @@
-import { Joueur } from "../Joueur";
-import { SpecificationPartie } from "../SpecificationPartie";
+import { Joueur } from "../joueur";
+import { SpecificationPartie } from "../specificationPartie";
 
 
 

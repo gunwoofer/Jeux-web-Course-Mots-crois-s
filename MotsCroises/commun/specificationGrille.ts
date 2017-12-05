@@ -1,6 +1,6 @@
-import { EmplacementMot } from './EmplacementMot';
-import { Cases } from './Cases';
-import { Case } from './Case';
+import { EmplacementMot } from './emplacementMot';
+import { Cases } from './cases';
+import { Case } from './case';
 
 export class SpecificationGrille {
     public cases: Cases;

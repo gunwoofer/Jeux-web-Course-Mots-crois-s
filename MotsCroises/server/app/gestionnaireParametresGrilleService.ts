@@ -1,8 +1,8 @@
 import { Contrainte } from './contrainte';
 import { Grille } from './grille';
-import { EmplacementMot } from './../../commun/EmplacementMot';
-import { Position } from '../../commun/Position';
-import { Case, EtatCase } from '../../commun/Case';
+import { EmplacementMot } from '../../commun/emplacementMot';
+import { Position } from '../../commun/position';
+import { Case, EtatCase } from '../../commun/case';
 
 export class GestionnaireParametresGrilleService {
     public static trierEmplacements(emplacements: EmplacementMot[]): EmplacementMot[] {

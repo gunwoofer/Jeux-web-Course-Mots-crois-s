@@ -1,13 +1,13 @@
-import { RequisPourMotAVerifier } from './../../commun/requis/RequisPourMotAVerifier';
+import { RequisPourMotAVerifier } from '../../commun/requis/requisPourMotAVerifier';
 import { assert } from 'chai';
-import { Joueur } from '../../commun/Joueur';
+import { Joueur } from '../../commun/joueur';
 import { Grille } from './grille';
 import { GestionnaireDePartieService } from './gestionnaireDePartieService';
-import { Niveau } from '../../commun/Niveau';
-import { TypePartie } from '../../commun/TypePartie';
-import { EmplacementMot } from '../../commun/EmplacementMot';
+import { Niveau } from '../../commun/niveau';
+import { TypePartie } from '../../commun/typePartie';
+import { EmplacementMot } from '../../commun/emplacementMot';
 import { Partie } from './partie';
-import { Case } from '../../commun/Case';
+import { Case } from '../../commun/case';
 import { GenerateurDeGrilleService } from './generateurDeGrilleService';
 
 const DELAI_MAXIMUM_MILISECONDES = 5 * Math.pow(10, 3);

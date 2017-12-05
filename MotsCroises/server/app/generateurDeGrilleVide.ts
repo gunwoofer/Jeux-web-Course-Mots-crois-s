@@ -1,8 +1,8 @@
-import { Position } from './../../commun/Position';
-import { EtatCase, Case } from './../../commun/Case';
+import { Position } from '../../commun/position';
+import { EtatCase, Case } from '../../commun/case';
 import { Grille, DIMENSION_LIGNE_COLONNE } from './grille';
-import * as grilleConstantes from '../../commun/constantes/GrilleConstantes';
-import { Niveau } from '../../commun/Niveau';
+import * as grilleConstantes from '../../commun/constantes/grilleConstantes';
+import { Niveau } from '../../commun/niveau';
 
 const MAX_CONTRAINTES = 1;
 const MAX_ESSAIS = 1000;

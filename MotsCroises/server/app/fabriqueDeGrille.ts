@@ -1,8 +1,8 @@
 import { MotComplet } from './motComplet';
-import { Case } from '../../commun/Case';
-import { EmplacementMot } from '../../commun/EmplacementMot';
-import { Cases } from '../../commun/Cases';
-import { Niveau } from '../../commun/Niveau';
+import { Case } from '../../commun/case';
+import { EmplacementMot } from '../../commun/emplacementMot';
+import { Cases } from '../../commun/cases';
+import { Niveau } from '../../commun/niveau';
 import { Grille } from './grille';
 
 export class FabriqueDeGrille {

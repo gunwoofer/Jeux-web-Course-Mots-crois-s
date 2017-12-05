@@ -1,5 +1,5 @@
-import { Case, EtatCase } from './Case';
-import { Position } from './Position';
+import { Case, EtatCase } from './case';
+import { Position } from './position';
 
 export const DIMENSION_LIGNE_COLONNE = 10;
 
