@@ -2,7 +2,8 @@ import { LUMIERE_DIRECTIONNELLE_NOM, LUMIERE_HEMISPHERE_NOM } from './../constan
 import { Injectable } from '@angular/core';
 import { HemisphereLight, DirectionalLight, PointLight, SpotLight, ImageUtils, Scene } from 'three';
 import { Voiture } from '../voiture/Voiture';
-import { NUIT_TEXTURE, JOUR_TEXTURE, PHARES, COULEUR_PHARE,
+import {
+    NUIT_TEXTURE, JOUR_TEXTURE, PHARES, COULEUR_PHARE,
     INTENSITE_LUMIERE_POINT, DISTANCE_LUMIERE_POINT, LUMIERE_POINT_POSITION,
     INTENSITE_LUMIERE_SPOT, LIMIERE_SPOT_POSITION, ANGLE_LUMIERE_SPOT, LIMIERE_SPOT_TARGET_POSITION,
     DISTANCE_LUMIERE_SPOT, COULEUR_CIEL, COULEUR_TERRE, INTENSITE, HEMISPHERE_COULEURTERRE, HEMISPHERE_COULEUR,
@@ -67,6 +68,12 @@ export class LumiereService {
         lumiereDirectionnelle.visible = !lumiereDirectionnelle.visible;
         scene.background = lumiereDirectionnelle.visible ? ImageUtils.loadTexture(JOUR_TEXTURE) :
             ImageUtils.loadTexture(NUIT_TEXTURE);
+    }
+
+    public static alternerPharesJoueurVirtuel(voitures: Voiture[]): void {
+        for (let voiture = 0; voiture < voitures.length; voiture++) {
+            this.alternerPhares(voitures[voiture]);
+        }
     }
 
     public static alternerPhares(voiture: Voiture): void {

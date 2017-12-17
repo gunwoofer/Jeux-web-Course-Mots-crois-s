@@ -1,13 +1,12 @@
-import { VITESSE_IA } from './../constant';
+import {
+    COEFFICIENT_ACTUALISATION_DIRECTION, VITESSE_MAX_PROFESSIONNEL, VITESSE_MAX_AMATEUR,
+    ANGLEROTATION, DISTANCE_MINIMALE_DETECTION_PROFESSIONNEL, DISTANCE_MINIMALE_DETECTION_AMATEUR,
+    VITESSE_MIN_PROFESSIONNEL, VITESSE_MIN_AMATEUR, PAS_VARIATION_VITESSE_PROFESSIONNEL, PAS_VARIATION_VITESSE_AMATEUR,
+    FACTEUR_MULTIPLICATION_ROTATION_PROFESSIONNEL, FACTEUR_MULTIPLICATION_ROTATION_AMATEUR, PROFESSIONNNEL
+} from './../constant';
 import { IndicateurVoiture } from './indicateursVoiture';
 
 import * as THREE from 'three';
-
-const COEFFICIENT_ACTUALISATION_DIRECTION = 0.999;
-const ANGLEROTATION = 0.01;
-const DISTANCE_MINIMALE_DETECTION_PRO = 45;
-const DISTANCE_MINIMALE_DETECTION_AMA = 10;
-
 
 export class MoteurAutonome {
 
@@ -19,7 +18,13 @@ export class MoteurAutonome {
     private indiceCheckPointAAteindre: number;
     private engine: THREE.Object3D;
     private distanceMinimaleDetection: number;
+    private vitesseMax: number;
+    private vitesseMin: number;
+    private pasVariationVitesse: number;
+    private facteurMultiplicationRotation: number;
+
     private valeurProdVectoriel: number;
+    private vitesse = 2;
 
     constructor(listePositions: THREE.Vector3[], objet: THREE.Object3D, niveau: String) {
         this.indicateurVoiture = new IndicateurVoiture();
@@ -41,23 +46,34 @@ export class MoteurAutonome {
 
     public creerIndicateurDevant(scene: THREE.Scene): void {
         this.indicateurDevant = this.indicateurVoiture.creerIndicateurVoiture(new THREE.Vector3()
-                                                                              .copy(this.engine.position)
-                                                                              .add(this.directionDestination));
+            .copy(this.engine.position)
+            .add(this.directionDestination));
         scene.add(this.indicateurDevant);
     }
 
     public creerIndicateurDirection(scene: THREE.Scene, listePositions: THREE.Vector3[]): void {
         this.indicateurDirectionDestination = this.indicateurVoiture
-                                                  .creerIndicateurVoiture(new THREE.Vector3()
-                                                                          .copy(this.engine.position)
-                                                                          .add(this.directionDestination));
+            .creerIndicateurVoiture(new THREE.Vector3()
+                .copy(this.engine.position)
+                .add(this.directionDestination));
         this.miseAJourDirectionDestination(listePositions);
         scene.add(this.indicateurDirectionDestination);
     }
 
     private definirNiveau(niveau: String): void {
-        this.distanceMinimaleDetection = (niveau === 'Professionnel') ? DISTANCE_MINIMALE_DETECTION_PRO
-                                                                      : DISTANCE_MINIMALE_DETECTION_AMA;
+        if (niveau === PROFESSIONNNEL) {
+            this.distanceMinimaleDetection = DISTANCE_MINIMALE_DETECTION_PROFESSIONNEL;
+            this.vitesseMax = VITESSE_MAX_PROFESSIONNEL;
+            this.vitesseMin = VITESSE_MIN_PROFESSIONNEL;
+            this.pasVariationVitesse = PAS_VARIATION_VITESSE_PROFESSIONNEL;
+            this.facteurMultiplicationRotation = FACTEUR_MULTIPLICATION_ROTATION_PROFESSIONNEL;
+        } else {
+            this.distanceMinimaleDetection = DISTANCE_MINIMALE_DETECTION_AMATEUR;
+            this.vitesseMax = VITESSE_MAX_AMATEUR;
+            this.vitesseMin = VITESSE_MIN_AMATEUR;
+            this.pasVariationVitesse = PAS_VARIATION_VITESSE_AMATEUR;
+            this.facteurMultiplicationRotation = FACTEUR_MULTIPLICATION_ROTATION_AMATEUR;
+        }
     }
 
     private repetition(listePositions: THREE.Vector3[]): void {
@@ -71,28 +87,35 @@ export class MoteurAutonome {
     }
 
     private tournerVoiture(sens: number): void {
-        this.engine.rotateY(ANGLEROTATION * sens * Math.min(this.valeurProdVectoriel, 3));
+        let facteurMultiplication = 1;
+        if (this.valeurProdVectoriel < 0.95) {
+            facteurMultiplication = this.facteurMultiplicationRotation;
+            this.vitesse = Math.max(this.vitesseMin, this.vitesse - this.pasVariationVitesse);
+        } else {
+            this.vitesse = Math.min(this.vitesseMax, this.vitesse + this.pasVariationVitesse);
+        }
+        this.engine.rotateY(ANGLEROTATION * sens * facteurMultiplication);
     }
 
     private avancerVoiture(): void {
-        this.engine.translateX(VITESSE_IA);
+        this.engine.translateX(this.vitesse);
     }
 
     private miseAJourDirectionDestination(listePositions: THREE.Vector3[]): void {
         this.directionDestination = new THREE.Vector3()
-                                    .copy(listePositions[this.indiceCheckPointAAteindre])
-                                    .add(new THREE.Vector3()
-                                        .copy(this.engine.position)
-                                        .negate()).normalize();
+            .copy(listePositions[this.indiceCheckPointAAteindre])
+            .add(new THREE.Vector3()
+                .copy(this.engine.position)
+                .negate()).normalize();
     }
 
     private miseAJourPositionCubeDirectionDestination(): void {
         const positionIndicDirection = new THREE.Vector3().addVectors(this.engine.position,
-                                                                      new THREE.Vector3()
-                                                                          .copy(this.directionDestination)
-                                                                          .multiplyScalar(50));
+            new THREE.Vector3()
+                .copy(this.directionDestination)
+                .multiplyScalar(50));
         this.indicateurDirectionDestination.position
-                                           .set(positionIndicDirection.x, positionIndicDirection.y, positionIndicDirection.z);
+            .set(positionIndicDirection.x, positionIndicDirection.y, positionIndicDirection.z);
     }
 
     private miseAJourPositionCubeDevant(): void {
@@ -104,8 +127,8 @@ export class MoteurAutonome {
         }
 
         const positionIndicDeplacement = new THREE.Vector3()
-                                             .copy(this.engine.position)
-                                             .add(vecteurDirection.multiplyScalar(30));
+            .copy(this.engine.position)
+            .add(vecteurDirection.multiplyScalar(30));
         this.indicateurDevant.position.set(positionIndicDeplacement.x, positionIndicDeplacement.y, positionIndicDeplacement.z);
     }
 
@@ -114,7 +137,7 @@ export class MoteurAutonome {
             .copy(this.directionIndicateurDevant)
             .cross(new THREE.Vector3()
                 .copy(this.directionDestination));
-            this.valeurProdVectoriel = Math.cos(vecteurProduitVectoriel.z);
+        this.valeurProdVectoriel = Math.cos(vecteurProduitVectoriel.z);
         return Math.sign(vecteurProduitVectoriel.z);
     }
 

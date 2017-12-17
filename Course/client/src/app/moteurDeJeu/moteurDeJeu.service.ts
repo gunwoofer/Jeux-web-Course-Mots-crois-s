@@ -6,7 +6,7 @@ import { SortiePisteService } from './../sortiePiste/sortiePiste.service';
 import { DeplacementService } from '../deplacement/deplacement.service';
 import { GestionnaireDeVue } from '../gestionnaireDeVue/gestionnaireDeVue.service';
 import { MondeDuJeuService } from './../mondedujeu/mondedujeu.service';
-import { FPS } from './../constant';
+import { FPS, MILLE } from './../constant';
 import { Injectable } from '@angular/core';
 import * as THREE from 'three';
 
@@ -49,7 +49,7 @@ export class MoteurDeJeuService {
             this.skyboxService.rotationSkybox(this.gestionnnairePartieService.voitureDuJoueur, camera);
             this.collisionService.gererCollision(this.gestionnnairePartieService.voitureDuJoueur,
                 this.gestionnnairePartieService.voituresIA);
-        }, 1000 / FPS);
+        }, MILLE / FPS);
     }
 
     private miseAJourPositionVoiture(camera: THREE.PerspectiveCamera): void {
@@ -60,8 +60,20 @@ export class MoteurDeJeuService {
             this.sortiePisteService.gererSortiePiste(this.gestionnnairePartieService.voitureDuJoueur,
                 this.mondeDuJeuService.segment
                     .chargerSegmentsDePiste(this.mondeDuJeuService.piste));
+            this.gererJoueurVirtuel();
             this.mondeDuJeuService.piste.gererElementDePiste([this.gestionnnairePartieService.voitureDuJoueur]);
             this.gestionnaireDeVue.changementDeVue(camera, this.gestionnnairePartieService.voitureDuJoueur);
+        }
+    }
+
+    private gererJoueurVirtuel(): void {
+        for (let i = 0; i < this.gestionnnairePartieService.voituresIA.length; i++) {
+            this.collisionService.gererCollision(this.gestionnnairePartieService.voituresIA[i],
+                this.gestionnnairePartieService.voituresIA);
+            this.gestionnnairePartieService.voituresIA[i].modeAutonome();
+            this.mondeDuJeuService.piste.gererElementDePiste([this.gestionnnairePartieService.voituresIA[i]]);
+            this.sortiePisteService.gererSortiePiste(this.gestionnnairePartieService.voituresIA[i], this.mondeDuJeuService.segment
+                .chargerSegmentsDePiste(this.mondeDuJeuService.piste));
         }
     }
 
